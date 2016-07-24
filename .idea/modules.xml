@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libgdxplugin.iml" filepath="$PROJECT_DIR$/.idea/modules/libgdxplugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libgdxplugin_main.iml" filepath="$PROJECT_DIR$/.idea/modules/libgdxplugin_main.iml" group="libgdxplugin" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/libgdxplugin_test.iml" filepath="$PROJECT_DIR$/.idea/modules/libgdxplugin_test.iml" group="libgdxplugin" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,56 @@
+<!--
+  ~ Copyright 2016 Blue Box Ware
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<idea-plugin>
+  <id>com.gmail.blueboxware.libgdxplugin</id>
+  <name>LibGDX Inspections</name>
+  <vendor url="https://github.com/BlueBoxWare">Blue Box Ware</vendor>
+
+  <description><![CDATA[
+      This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
+
+      Currently available inspections:
+        <ul>
+            <li>Missing OpenGL declaration in AndroidManifest.xml</li>
+            <li>Using outdated versions of LibGDX and related libraries</li>
+            <li>Missing flush() after changing Preferences</li>
+            <li>Use of profiling code, like FPSLogger or GLProfiler</li>
+            <li>Setting an overly verbose log level</li>
+            <li>Causing flushing of a batch or renderer from inside a loop</li>
+            <li>Use of AdMob test ids</li>
+            <li>Use of ShapeRenderer with a release of LibGDX older than 1.9.2</li>
+            <li>Use of static resources</li>
+            <li>Use of non-reentrant iterator methods of LibGDX collection classes</li>
+            <li>Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store</li>
+        </ul>
+
+    ]]></description>
+
+  <change-notes><![CDATA[
+        Initial release
+    ]]>
+  </change-notes>
+
+  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+  <idea-version since-build="143.0" until-build="163.*"/>
+
+  <depends>org.jetbrains.kotlin</depends>
+  <depends>org.intellij.groovy</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <inspectionToolProvider implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionProvider"/>
+  </extensions>
+
+</idea-plugin>
