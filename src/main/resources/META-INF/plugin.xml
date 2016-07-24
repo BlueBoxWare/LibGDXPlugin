@@ -16,7 +16,7 @@
 <idea-plugin>
   <id>com.gmail.blueboxware.libgdxplugin</id>
   <name>LibGDX Inspections</name>
-  <vendor url="https://github.com/BlueBoxWare">Blue Box Ware</vendor>
+  <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
   <description><![CDATA[
       This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
