@@ -1,5 +1,5 @@
 # LibGDXPlugin
-This unofficial plugin adds a number of LibGDX related code inspections for IntelliJ. Java and Kotlin are supported.
+This unofficial plugin adds a number of LibGDX related code inspections for IntelliJ and Android Studio. Java and Kotlin are supported.
 
 Currently available inspections:
 
