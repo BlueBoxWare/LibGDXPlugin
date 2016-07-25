@@ -15,7 +15,9 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProject
 import com.intellij.codeHighlighting.HighlightDisplayLevel
+import com.intellij.psi.PsiElement
 import org.jetbrains.plugins.groovy.codeInspection.GroovySuppressableInspectionTool
 
 abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
@@ -27,4 +29,8 @@ abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
   override fun isEnabledByDefault() = true
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
+
+  override fun isSuppressedFor(element: PsiElement): Boolean {
+    return !isLibGDXProject(element.project) || super.isSuppressedFor(element)
+  }
 }

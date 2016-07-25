@@ -17,10 +17,7 @@ import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTablets
 import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GitHub
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.analysis.AnalysisScope
@@ -69,6 +66,10 @@ class InspectionTests : LightCodeInsightFixtureTestCase() {
         FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
       }
     }.execute()
+
+    val propertiesComponent = PropertiesComponent.getInstance()
+    propertiesComponent.setValue(projectUrlKey, myFixture.project.presentableUrl)
+    propertiesComponent.setValue(isLibGDXProjectKey, true)
 
   }
 

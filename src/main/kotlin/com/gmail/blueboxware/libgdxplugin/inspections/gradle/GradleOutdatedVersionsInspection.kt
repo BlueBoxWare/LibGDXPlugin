@@ -15,10 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GitHub
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GradleBuildFileVersionsVisitor
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.util.io.FileUtilRt

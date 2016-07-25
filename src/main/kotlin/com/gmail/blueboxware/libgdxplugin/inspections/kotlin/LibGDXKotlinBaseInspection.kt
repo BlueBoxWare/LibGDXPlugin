@@ -15,7 +15,9 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProject
 import com.intellij.codeHighlighting.HighlightDisplayLevel
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
@@ -39,6 +41,10 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
   override val suppressionKey = id
+
+  override fun isSuppressedFor(element: PsiElement): Boolean {
+      return !isLibGDXProject(element.project) || super.isSuppressedFor(element)
+  }
 
   companion object {
     fun resolveMethodCallExpression(expression: KtQualifiedExpression): Pair<DeclarationDescriptor, String>? {
@@ -68,5 +74,7 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
       return null
     }
   }
+
+
 
 }

@@ -15,11 +15,13 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.XmlSuppressableInspectionTool
+import com.intellij.psi.PsiElement
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
 
@@ -39,6 +41,10 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
+  override fun isSuppressedFor(element: PsiElement): Boolean {
+    return !isLibGDXProject(element.project) || super.isSuppressedFor(element)
+  }
+
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {
 
     override fun visitXmlTag(tag: XmlTag?) {
@@ -54,9 +60,7 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
 
     }
 
-
   }
-
 
 
 }
