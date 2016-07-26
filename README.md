@@ -14,3 +14,5 @@ Currently available inspections:
 * Use of static resources
 * Use of non-reentrant iterator methods of LibGDX collection classes
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store
+
+You can install the plugin from the Jetbrains Plugin Repository: https://plugins.jetbrains.com/plugin/8509
