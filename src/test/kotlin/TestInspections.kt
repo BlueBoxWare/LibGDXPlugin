@@ -17,7 +17,9 @@ import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTablets
 import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProjectKey
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.projectUrlKey
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.analysis.AnalysisScope
@@ -54,7 +56,7 @@ import java.util.*
  *
  */
 
-class InspectionTests : LightCodeInsightFixtureTestCase() {
+class TestInspections : LightCodeInsightFixtureTestCase() {
 
   override fun setUp() {
     super.setUp()
@@ -81,12 +83,8 @@ class InspectionTests : LightCodeInsightFixtureTestCase() {
     return path
   }
 
-  fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) = performInspectionsTest(listOf(inspection), *fileNames)
-
-  fun performInspectionsTest(inspections: List<LocalInspectionTool>, vararg fileNames: String) {
-    for (inspection in inspections) {
-      myFixture.enableInspections(inspection)
-    }
+  fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
+    myFixture.enableInspections(inspection)
     myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
   }
 
@@ -445,27 +443,6 @@ class InspectionTests : LightCodeInsightFixtureTestCase() {
 //    performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test5.kt")
     performInspectionsTest(JavaFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test5.java")
 
-  }
-
-  /*
-   * Test GitHub.getLatestVersion(). We need a project for that, so we test it here..
-   */
-  fun testFetchingLatestVersions() {
-
-    GitHub.setPropertiesComponent(PropertiesComponent.getInstance(myFixture.project))
-
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.GDX) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.BOX2DLIGHTS) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.ASHLEY) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.AI) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.OVERLAP2D) ?: "0", "0.0.9") > 0)
-
-    // caching
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.GDX, forceFromCache = true) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.BOX2DLIGHTS, forceFromCache = true) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.ASHLEY, forceFromCache = true) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.AI, forceFromCache = true) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.OVERLAP2D, forceFromCache = true) ?: "0", "0.0.9") > 0)
   }
 
 }

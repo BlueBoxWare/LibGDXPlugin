@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
+class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("static.resources.html.description")
 
@@ -35,13 +35,13 @@ class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
 
   override fun getDisplayName() = message("static.resources.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
     val disposableClass = JavaPsiFacade.getInstance(holder.project).findClass("com.badlogic.gdx.utils.Disposable", GlobalSearchScope.allScope(holder.project))
 
     override fun visitDeclaration(dcl: KtDeclaration) {
 
-      if (dcl !is KtProperty ||  disposableClass == null) return
+      if (dcl !is KtProperty || disposableClass == null) return
 
       val grandparent = dcl.parent.parent
 
@@ -58,7 +58,6 @@ class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
           }
         }
       }
-
 
     }
 

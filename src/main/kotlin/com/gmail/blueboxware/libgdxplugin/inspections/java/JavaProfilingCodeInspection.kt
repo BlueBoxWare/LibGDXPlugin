@@ -45,8 +45,6 @@ class JavaProfilingCodeInspection: LibGDXJavaBaseInspection() {
       }
     }
 
-
   }
-
 
 }

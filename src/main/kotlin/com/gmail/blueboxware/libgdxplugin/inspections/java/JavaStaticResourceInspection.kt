@@ -48,7 +48,6 @@ class JavaStaticResourceInspection: LibGDXJavaBaseInspection() {
         }
       }
 
-
     }
   }
 

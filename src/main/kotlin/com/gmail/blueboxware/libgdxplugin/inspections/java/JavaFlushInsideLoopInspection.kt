@@ -80,7 +80,7 @@ private class LoopChecker(val holder: ProblemsHolder, session: LocalInspectionTo
     val method = callExpression.resolveMethod() ?: return
 
     if (allFlushingMethods.contains(method)) {
-      holder.registerProblem(callExpression, message("flushing.inside.loop.problem.descriptor"))
+      registerProblem(callExpression)
     } else if (method is KtLightMethod) {
       val originalElement = method.kotlinOrigin ?: return
       if (originalElement is KtProperty) {
@@ -91,11 +91,11 @@ private class LoopChecker(val holder: ProblemsHolder, session: LocalInspectionTo
           accessor = originalElement.setter
         }
         if (accessor != null && allFlushingMethods.contains(accessor)) {
-          holder.registerProblem(callExpression, message("flushing.inside.loop.problem.descriptor"))
+          registerProblem(callExpression)
         }
       } else {
         if (allFlushingMethods.contains(originalElement)) {
-          holder.registerProblem(callExpression, message("flushing.inside.loop.problem.descriptor"))
+          registerProblem(callExpression)
         }
       }
     }

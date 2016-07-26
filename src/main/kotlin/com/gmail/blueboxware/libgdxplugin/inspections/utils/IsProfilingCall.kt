@@ -1,3 +1,4 @@
+package com.gmail.blueboxware.libgdxplugin.inspections.utils
 /*
  * Copyright 2016 Blue Box Ware
  *
@@ -13,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gmail.blueboxware.libgdxplugin.inspections.utils
-
 
 fun isProfilingCall(fqClassName: String, methodName: String): Boolean {
 
@@ -33,13 +32,12 @@ fun isProfilingCall(fqClassName: String, methodName: String): Boolean {
     return true
 
   } else if (
-    fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
-    || fqClassName == "com.badlogic.gdx.graphics.profiling.GL20Profiler"
-    || fqClassName == "com.badlogic.gdx.graphics.profiling.GL30Profiler"
+  fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
+          || fqClassName == "com.badlogic.gdx.graphics.profiling.GL20Profiler"
+          || fqClassName == "com.badlogic.gdx.graphics.profiling.GL30Profiler"
   ) {
 
     if (methodName == "enable") {
-
       return true
     }
 

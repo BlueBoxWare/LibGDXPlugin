@@ -85,7 +85,6 @@ private class MissingFlushInspectionMethodChecker(val preferencesSubClasses: Col
   var lastPreferenceChange: KtElement? = null
 
   override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
-    //super.visitQualifiedExpression(expression)
 
     val (receiverType, methodName) = LibGDXKotlinBaseInspection.resolveMethodCallExpression(expression) ?: return
 

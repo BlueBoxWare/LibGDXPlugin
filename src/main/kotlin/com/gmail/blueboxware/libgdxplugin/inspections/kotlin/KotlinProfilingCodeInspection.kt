@@ -45,6 +45,4 @@ class KotlinProfilingCodeInspection: LibGDXKotlinBaseInspection() {
     
   }
 
-
-
 }

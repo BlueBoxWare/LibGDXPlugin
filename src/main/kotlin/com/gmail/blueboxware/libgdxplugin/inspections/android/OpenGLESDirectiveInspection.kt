@@ -107,5 +107,4 @@ class OpenGLESDirectiveInspection : XmlSuppressableInspectionTool() {
     }
   }
 
-
 }

@@ -44,7 +44,7 @@
   </change-notes>
 
   <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="143.0" until-build="163.*"/>
+  <idea-version since-build="143.0"/>
 
   <depends>org.jetbrains.kotlin</depends>
   <depends>org.intellij.groovy</depends>

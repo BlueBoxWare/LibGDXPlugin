@@ -37,7 +37,6 @@ class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = object : KtVisitorVoid() {
 
-
     override fun visitBlockExpression(expression: KtBlockExpression) {
 
       for (statement in expression.statements) {
@@ -75,7 +74,6 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
     super.visitCallExpression(expression)
 
     if (allFlushingMethods == null) return
-
 
     val refs = expression.calleeExpression?.references ?: return
 
@@ -205,7 +203,6 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
     }
 
   }
-
 
   fun registerProblem(expression: PsiElement) {
     for (problem in holder.results) {

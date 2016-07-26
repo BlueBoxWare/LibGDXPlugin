@@ -20,7 +20,7 @@ import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.BaseJavaLocalInspectionTool
 import com.intellij.psi.*
 
-abstract class LibGDXJavaBaseInspection : BaseJavaLocalInspectionTool() {
+open class LibGDXJavaBaseInspection : BaseJavaLocalInspectionTool() {
 
   override fun getGroupPath() = arrayOf("LibGDX", "Java")
 

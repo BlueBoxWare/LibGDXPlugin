@@ -62,5 +62,4 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
 
   }
 
-
 }
