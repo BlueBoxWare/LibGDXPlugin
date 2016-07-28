@@ -23,7 +23,9 @@ private val keyPrefix = "com.gmail.blueboxware.libgdxplugin."
 val projectUrlKey = keyPrefix + "projectPath"
 val isLibGDXProjectKey = keyPrefix + "isLibGDXProject"
 
-fun isLibGDXProject(project: Project): Boolean {
+fun isLibGDXProject(project: Project?): Boolean {
+
+  if (project == null) return false
 
   val propertiesComponent = PropertiesComponent.getInstance()
 

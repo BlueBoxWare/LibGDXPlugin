@@ -14,11 +14,11 @@
   ~ limitations under the License.
   -->
 <idea-plugin>
-  <id>com.gmail.blueboxware.libgdxplugin</id>
-  <name>LibGDX Inspections</name>
-  <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
+    <id>com.gmail.blueboxware.libgdxplugin</id>
+    <name>LibGDX Inspections</name>
+    <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
 
       Currently available inspections:
@@ -38,19 +38,30 @@
 
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
         Initial release
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="143.0"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="143.0"/>
 
-  <depends>org.jetbrains.kotlin</depends>
-  <depends>org.intellij.groovy</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>org.intellij.groovy</depends>
 
-  <extensions defaultExtensionNs="com.intellij">
-    <inspectionToolProvider implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionProvider"/>
-  </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <inspectionToolProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionProvider"/>
+
+        <internalFileTemplate name="LibGDX Screen (Java)"/>
+        <internalFileTemplate name="LibGDX Screen (Kotlin)"/>
+    </extensions>
+
+    <actions>
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.CreateScreenAction" id="LibGDXPlugin.NewScreen">
+            <add-to-group group-id="NewGroup" anchor="last" />
+        </action>
+    </actions>
+
 
 </idea-plugin>
