@@ -1,10 +1,11 @@
 buildscript {
-    ext.kotlin_version = '1.0.3'
+
+    ext.kotlin_version = '1.0.4'
 
     repositories {
-        mavenCentral()
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
     }
+
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -14,20 +15,18 @@ plugins {
     id "org.jetbrains.intellij" version "0.1.10"
 }
 
-group = 'com.gmail.blueboxware'
-version = pluginVersion
-
+apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'java'
 apply plugin: 'kotlin'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+group 'com.gmail.blueboxware'
+version '1.1'
 
 intellij {
-    version ideaVersion
+    version = '2016.2.4'
     pluginName = 'LibGDX Inspections'
-    pluginVersion = pluginVersion
-    plugins = ['org.jetbrains.kotlin:1.0.3-release-IJ2016.1-103', 'Groovy', 'properties']
+    plugins = ['org.jetbrains.kotlin:1.0.4-release-IJ2016.1-112', 'Groovy', 'properties']
     updateSinceUntilBuild = false
     downloadSources =  true
 }
@@ -46,6 +45,3 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
-
-
-

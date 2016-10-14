@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProjectKey
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.projectUrlKey
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.message
@@ -30,7 +29,6 @@ import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
 import com.intellij.codeInspection.ex.InspectionManagerEx
-import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -69,9 +67,8 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
       }
     }.execute()
 
-    val propertiesComponent = PropertiesComponent.getInstance()
-    propertiesComponent.setValue(projectUrlKey, myFixture.project.presentableUrl)
-    propertiesComponent.setValue(isLibGDXProjectKey, true)
+    val projectComponent = project.getComponent(LibGDXProjectComponent::class.java)
+    projectComponent.isTesting = true
 
   }
 

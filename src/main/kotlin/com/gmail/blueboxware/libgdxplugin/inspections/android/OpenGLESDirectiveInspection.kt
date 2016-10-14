@@ -15,7 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.android
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.isLibGDXProject
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
@@ -43,7 +43,7 @@ class OpenGLESDirectiveInspection : XmlSuppressableInspectionTool() {
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !isLibGDXProject(element.project) || super.isSuppressedFor(element)
+    return !(element.project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false) || super.isSuppressedFor(element)
   }
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {

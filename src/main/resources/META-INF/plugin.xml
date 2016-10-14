@@ -16,6 +16,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
+    <version>1.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -39,12 +40,15 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        Initial release
+        <ul>
+            <li>Fixed an issue with Android Studio 2.2.x
+            <li>File template for LibGDX Screens added in File->New menu
+        </ul>
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="143.0"/>
+    <idea-version since-build="145.0"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
@@ -63,5 +67,10 @@
         </action>
     </actions>
 
+    <project-components>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent</implementation-class>
+        </component>
+    </project-components>
 
 </idea-plugin>

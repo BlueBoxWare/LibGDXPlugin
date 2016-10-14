@@ -20,7 +20,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.search.GlobalSearchScope
-import org.jetbrains.kotlin.asJava.KtLightField
+import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.asJava.toLightElements
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
 
 class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("static.resources.html.description")
+  override fun getStaticDescription() = message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
 
   override fun getID() = "LibGDXStaticResource"
 

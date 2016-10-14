@@ -15,4 +15,8 @@ Currently available inspections:
 * Use of non-reentrant iterator methods of LibGDX collection classes
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store
 
+Other:
+
+* Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen
+
 You can install the plugin from the Jetbrains Plugin Repository: https://plugins.jetbrains.com/plugin/8509

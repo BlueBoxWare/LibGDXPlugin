@@ -1,11 +1,15 @@
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.GitHub
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
+import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import junit.framework.TestCase
 import org.jetbrains.plugins.groovy.GroovyFileType
 
@@ -25,6 +29,16 @@ import org.jetbrains.plugins.groovy.GroovyFileType
  * limitations under the License.
  */
 
+
+/*
+ *
+ * RUN CONFIGURATION VM OPTIONS:
+ *
+ * -ea -Dlibgdxplugin.test.path=<TESTPATH>
+ *
+ * where <TESTPATH> is the absolute path to the libgdxplugin/src/test/testdata directory
+ *
+ */
 class TestVersionUtils: LightCodeInsightFixtureTestCase() {
 
   override fun setUp() {
@@ -36,6 +50,14 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
       }
     }.execute()
 
+  }
+
+  override fun getTestDataPath(): String? {
+    val path = System.getProperty("libgdxplugin.test.path")
+    if (path == null) {
+      throw AssertionError("Use -Dlibgdxplugin.test.path=<TESTPATH> to specify the absolute path to the testdata directory")
+    }
+    return path
   }
 
   fun testVersionStringComparison() {
@@ -77,38 +99,32 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
 
   fun testGetVersionFromGradle() {
 
-     myFixture.configureByText("build.gradle", """
-        gdxVersion = '1.9.2'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
+     myFixture.configureByFile("etc/gradle1/build.gradle")
 
-        compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"
-    """)
+    val projectComponent = myFixture.project.getComponent(LibGDXProjectComponent::class.java)
 
-    assertTrue(isLibGDXProject(myFixture.project))
+    if (projectComponent == null) {
+      TestCase.fail()
+    } else {
+      assertTrue(projectComponent.isLibGDXProject)
 
-    assert(getLibraryVersion(GDXLibrary.GDX, myFixture.project) == "1.9.2")
-    assert(getLibraryVersion(GDXLibrary.BOX2DLIGHTS, myFixture.project) == "1.4")
-    assert(getLibraryVersion(GDXLibrary.ASHLEY, myFixture.project) == "1.7.0")
-    assert(getLibraryVersion(GDXLibrary.AI, myFixture.project) == "1.8.0")
-    assert(getLibraryVersion(GDXLibrary.OVERLAP2D, myFixture.project) == "0.1.0")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.GDX) == "1.9.2")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.4")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.ASHLEY) == "1.7.0")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.AI) == "1.8.0")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.0")
 
-    myFixture.configureByText("build.gradle", """
+      (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.let {
+        it.deleteAll()
+      }
+      myFixture.configureByFile("etc/gradle2/build.gradle")
 
-      "com.badlogicgames.gdx:gdx:1.9.1"
-      "com.badlogicgames.box2dlights:box2dlights:1.3"
-      "com.badlogicgames.ashley:ashley:1.7.1"
-      "com.badlogicgames.gdx:gdx-ai:1.8.1"
-      "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.1"
-
-    """)
-
-    assert(getLibraryVersion(GDXLibrary.GDX, myFixture.project) == "1.9.1")
-    assert(getLibraryVersion(GDXLibrary.BOX2DLIGHTS, myFixture.project) == "1.3")
-    assert(getLibraryVersion(GDXLibrary.ASHLEY, myFixture.project) == "1.7.1")
-    assert(getLibraryVersion(GDXLibrary.AI, myFixture.project) == "1.8.1")
-    assert(getLibraryVersion(GDXLibrary.OVERLAP2D, myFixture.project) == "0.1.1")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.GDX) == "1.9.1")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.3")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.ASHLEY) == "1.7.1")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.AI) == "1.8.1")
+      assert(projectComponent.getLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.1")
+    }
 
   }
 
