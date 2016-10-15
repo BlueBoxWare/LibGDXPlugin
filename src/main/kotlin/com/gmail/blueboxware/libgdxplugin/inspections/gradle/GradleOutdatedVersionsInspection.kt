@@ -15,9 +15,13 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.GradleBuildFileVersionsVisitor
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElement
 import org.jetbrains.plugins.groovy.lang.psi.GroovyElementVisitor
@@ -28,16 +32,18 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
   companion object {
 
-    fun isOutdatedVersion(foundVersion: String, lib: GDXLibrary): Boolean {
+    fun isOutdatedVersion(foundVersion: String, project: Project, library: GDXLibrary): Boolean {
 
-      try {
-        val latestVersion = GitHub.getLatestVersion(lib, "com.gmail.blueboxware.libgdxplugin.GradleOutdatedVersionsInspection")
-        if (latestVersion != null && compareVersionStrings(latestVersion, foundVersion) > 0) {
-          return true
+        project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
+          val latestVersion = projectComponent.getLatestLibraryVersion(library)
+          try {
+            if (latestVersion != null && compareVersionStrings(latestVersion, foundVersion) > 0) {
+              return true
+            }
+          } catch (e: IllegalArgumentException) {
+            // just ignore
+          }
         }
-      } catch(e: IllegalArgumentException) {
-        // just ignore
-      }
 
       return false
 
@@ -59,8 +65,8 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
       file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
 
-        override fun onVersionFound(lib: GDXLibrary, version: String, element: PsiElement) {
-          if (isOutdatedVersion(version, lib)) {
+        override fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement) {
+          if (isOutdatedVersion(version, element.project, library)) {
             holder.registerProblem(element, message("outdated.versions.problem.descriptor"))
           }
         }

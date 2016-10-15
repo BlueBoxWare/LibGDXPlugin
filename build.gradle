@@ -21,7 +21,7 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 
 group 'com.gmail.blueboxware'
-version '1.1'
+version '1.2'
 
 intellij {
     version = '2016.2.4'

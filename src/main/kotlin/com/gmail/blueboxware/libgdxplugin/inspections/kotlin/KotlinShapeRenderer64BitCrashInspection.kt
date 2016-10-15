@@ -15,9 +15,9 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.getLibraryVersion
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
@@ -37,12 +37,13 @@ class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
     override fun visitCallExpression(expression: KtCallExpression) {
       if (getClassIfConstructorCall(expression)?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-         val gdxVersion = getLibraryVersion(GDXLibrary.GDX, holder.project)
+        expression.project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
+          val gdxVersion = projectComponent.getUsedLibraryVersion(GDXLibrary.GDX)
 
-        if (gdxVersion != null && compareVersionStrings(gdxVersion, "1.9.0") >= 0 && compareVersionStrings(gdxVersion, "1.9.2") < 0) {
-          holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+          if (gdxVersion != null && compareVersionStrings(gdxVersion, "1.9.0") >= 0 && compareVersionStrings(gdxVersion, "1.9.2") < 0) {
+            holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+          }
         }
-
       }
     }
 

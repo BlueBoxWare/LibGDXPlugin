@@ -23,7 +23,7 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
 
 abstract class GradleBuildFileVersionsVisitor: GroovyRecursiveElementVisitor() {
 
-  abstract fun onVersionFound(lib: GDXLibrary, version: String, element: PsiElement)
+  abstract fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement)
 
   override fun visitLiteralExpression(literal: GrLiteral?) {
     super.visitLiteralExpression(literal)

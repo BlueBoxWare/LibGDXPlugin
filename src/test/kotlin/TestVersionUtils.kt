@@ -1,9 +1,7 @@
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GitHub
 import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
-import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -81,20 +79,20 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
 
   fun testFetchingLatestVersions() {
 
-    GitHub.setPropertiesComponent(PropertiesComponent.getInstance(myFixture.project))
+    val projectComponent = myFixture.project.getComponent(LibGDXProjectComponent::class.java)
 
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.GDX) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.BOX2DLIGHTS) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.ASHLEY) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.AI) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.OVERLAP2D) ?: "0", "0.0.9") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.GDX) ?: "0", "1.9.2") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.BOX2DLIGHTS) ?: "0", "1.3") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.ASHLEY) ?: "0", "1.7.1") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.AI) ?: "0", "1.7.0") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.OVERLAP2D) ?: "0", "0.0.9") > 0)
 
     // caching
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.GDX, forceFromCache = true) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.BOX2DLIGHTS, forceFromCache = true) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.ASHLEY, forceFromCache = true) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.AI, forceFromCache = true) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(GitHub.getLatestVersion(GDXLibrary.OVERLAP2D, forceFromCache = true) ?: "0", "0.0.9") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.GDX, fromCache = true) ?: "0", "1.9.2") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.BOX2DLIGHTS, fromCache = true) ?: "0", "1.3") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.ASHLEY, fromCache = true) ?: "0", "1.7.1") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.AI, fromCache = true) ?: "0", "1.7.0") > 0)
+    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.OVERLAP2D, fromCache = true) ?: "0", "0.0.9") > 0)
   }
 
   fun testGetVersionFromGradle() {
@@ -108,22 +106,22 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
     } else {
       assertTrue(projectComponent.isLibGDXProject)
 
-      assert(projectComponent.getLibraryVersion(GDXLibrary.GDX) == "1.9.2")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.4")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.ASHLEY) == "1.7.0")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.AI) == "1.8.0")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.0")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.GDX) == "1.9.2")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.4")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.ASHLEY) == "1.7.0")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.AI) == "1.8.0")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.0")
 
       (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.let {
         it.deleteAll()
       }
       myFixture.configureByFile("etc/gradle2/build.gradle")
 
-      assert(projectComponent.getLibraryVersion(GDXLibrary.GDX) == "1.9.1")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.3")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.ASHLEY) == "1.7.1")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.AI) == "1.8.1")
-      assert(projectComponent.getLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.1")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.GDX) == "1.9.1")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.3")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.ASHLEY) == "1.7.1")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.AI) == "1.8.1")
+      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.1")
     }
 
   }

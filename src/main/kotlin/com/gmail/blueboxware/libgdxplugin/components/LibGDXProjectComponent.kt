@@ -1,10 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GradleBuildFileVersionsVisitor
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.mavenCoordMap
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.versionStringRegex
+import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
 import com.intellij.openapi.components.ProjectComponent
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.startup.StartupManager
@@ -13,6 +11,11 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
+import org.kohsuke.github.GitHub
+import org.kohsuke.github.GitHubBuilder
+import org.kohsuke.github.RateLimitHandler
+import java.io.IOException
+import java.util.*
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -32,17 +35,22 @@ import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
 
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
-  private val libraryVersions = mutableMapOf<GDXLibrary, String>()
+  private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
+
+  private val usedLibraryVersions = mutableMapOf<GDXLibrary, String>()
+  private val latestLibraryVersions = mutableMapOf<GDXLibrary, String>()
+
+  private var latestLibraryVersionLastChecked = -1
 
   val isLibGDXProject: Boolean
-    get() { return libraryVersions[GDXLibrary.GDX] != null || isTesting }
+    get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
 
   // For testing only
   var isTesting = false
 
   override fun getComponentName() = "LibGDXProjectComponent"
 
-  fun getLibraryVersion(gdxLibrary: GDXLibrary) = libraryVersions[gdxLibrary]
+  fun getUsedLibraryVersion(gdxLibrary: GDXLibrary) = usedLibraryVersions[gdxLibrary]
 
   override fun initComponent() { }
 
@@ -85,7 +93,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   private fun updateLibGDXLibraryVersions() {
 
-    libraryVersions.clear()
+    usedLibraryVersions.clear()
 
     for (lib in ProjectLibraryTable.getInstance(project).libraryIterator) {
       lib.name?.let { name ->
@@ -94,7 +102,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
           val regex = Regex("${mavenCoordMap[library]}:(${versionStringRegex})")
           val matchResult = regex.find(name)
           if (matchResult?.groupValues?.get(1) != null) {
-            libraryVersions[library] = matchResult?.groupValues?.get(1) ?: continue
+            usedLibraryVersions[library] = matchResult?.groupValues?.get(1) ?: continue
           }
         }
 
@@ -108,12 +116,77 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
     for (file in files) {
       file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
 
-        override fun onVersionFound(lib: GDXLibrary, version: String, element: PsiElement) {
-          libraryVersions[lib] = version
+        override fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement) {
+          usedLibraryVersions[library] = version
         }
       }))
 
     }
+
+  }
+
+  fun getLatestLibraryVersion(library: GDXLibrary, fromCache: Boolean = false): String? {
+
+    val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+    if (currentHour != latestLibraryVersionLastChecked) {
+      retrieveLatestVersionsFromGitHub()
+      latestLibraryVersionLastChecked = currentHour
+    }
+
+    return latestLibraryVersions[library]
+  }
+
+  private fun retrieveLatestVersionsFromGitHub() {
+
+    val gitHub: GitHub = try {
+      GitHubBuilder().withRateLimitHandler(RateLimitHandler.FAIL).build()
+    } catch (e: IOException) {
+      LOG.debug("Could not create GitHub connection", e)
+      return
+    }
+
+    for (library in GDXLibrary.values()) {
+      val version = retrieveLatestVersionFromGithub(gitHub, library)
+      if (version != null) {
+        latestLibraryVersions[library] = version
+      }
+    }
+
+  }
+
+  private fun retrieveLatestVersionFromGithub(gitHub: GitHub, library: GDXLibrary): String? {
+
+    val repository = try {
+      gitHub.getRepository(repoMap[library])
+    } catch (e: IOException) {
+      LOG.debug("Could not get repository from GitHub", e)
+      return null
+    }
+    val tags = try {
+      repository.listTags().asList()
+    } catch (e: IOException) {
+      LOG.debug("Could not get tags from GitHub", e)
+      return null
+    }
+
+    var latestVersion: String? = null
+
+    for (tag in tags) {
+      var name = tag.name
+
+      if (name.matches(Regex(".*-[0-9]+(\\.[0-9]+)*"))) {
+        name = name.substring(name.lastIndexOf("-") + 1, name.length)
+      }
+
+      if (name.matches(versionStringRegex)) {
+        if (latestVersion == null || compareVersionStrings(name, latestVersion) > 0) {
+          latestVersion = name
+        }
+      }
+    }
+
+    return latestVersion
 
   }
 
