@@ -40,7 +40,7 @@
       Also:
 
         <ul>
-            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments</li>. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.
+            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments</li>. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.
             <li>Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen</li>
         </ul>
 
