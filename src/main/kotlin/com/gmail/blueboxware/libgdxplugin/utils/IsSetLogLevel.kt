@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.inspections.utils
+package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.psi.PsiClass
 

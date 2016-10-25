@@ -15,8 +15,8 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.getAllFlushingMethods
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.getAllFlushingMethods
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project

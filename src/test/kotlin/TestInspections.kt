@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInspection.CommonProblemDescriptor
@@ -31,6 +32,7 @@ import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
 import com.intellij.codeInspection.ex.InspectionManagerEx
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.InspectionTestUtil
@@ -69,6 +71,7 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
 
     val projectComponent = project.getComponent(LibGDXProjectComponent::class.java)
     projectComponent.isTesting = true
+    ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
 
   }
 

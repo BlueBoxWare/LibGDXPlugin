@@ -15,7 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
@@ -23,7 +23,7 @@ import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.PsiType
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 
-class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
+class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
@@ -31,22 +31,18 @@ class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
 
   override fun getDisplayName() = message("testid.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 
-      if (expression == null) return
+      if (expression is PsiLiteralExpressionImpl && expression.type == PsiType.getJavaLangString(expression.manager, expression.resolveScope)) {
 
-      if (expression.type == PsiType.getJavaLangString(expression.manager, expression.resolveScope)) {
-        if (expression is PsiLiteralExpressionImpl) {
-
-          expression.innerText?.trim().let { value ->
-            if (testIdMap.containsKey(value)) {
-              holder.registerProblem(expression, message("testid.problem.descriptor") + ": " + testIdMap[value])
-            }
+        expression.innerText?.trim().let { value ->
+          if (testIdMap.containsKey(value)) {
+            holder.registerProblem(expression, message("testid.problem.descriptor") + ": " + testIdMap[value])
           }
-
         }
+
       }
 
     }

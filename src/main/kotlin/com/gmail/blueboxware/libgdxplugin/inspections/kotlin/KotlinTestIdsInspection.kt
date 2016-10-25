@@ -15,7 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry

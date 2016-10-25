@@ -1,7 +1,7 @@
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.compareVersionStrings
+import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
+import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager

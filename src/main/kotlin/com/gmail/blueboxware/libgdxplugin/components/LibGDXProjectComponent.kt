@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.*
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -99,7 +99,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       lib.name?.let { name ->
 
         for (library in GDXLibrary.values()) {
-          val regex = Regex("${mavenCoordMap[library]}:(${versionStringRegex})")
+          val regex = Regex("${mavenCoordMap[library]}:($versionStringRegex)")
           val matchResult = regex.find(name)
           if (matchResult?.groupValues?.get(1) != null) {
             usedLibraryVersions[library] = matchResult?.groupValues?.get(1) ?: continue

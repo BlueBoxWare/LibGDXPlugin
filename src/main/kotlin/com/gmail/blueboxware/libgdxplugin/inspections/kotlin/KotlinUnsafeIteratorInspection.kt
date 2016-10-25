@@ -15,7 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.iteratorsMap
+import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.idea.caches.resolve.analyze

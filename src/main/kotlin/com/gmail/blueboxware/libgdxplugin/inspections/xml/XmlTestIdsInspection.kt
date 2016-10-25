@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder

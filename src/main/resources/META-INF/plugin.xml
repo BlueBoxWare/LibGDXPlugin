@@ -37,12 +37,18 @@
             <li>Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store</li>
         </ul>
 
+      Also:
+
+        <ul>
+            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments</li>. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.
+            <li>Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen</li>
+        </ul>
+
     ]]></description>
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fixed an issue with Android Studio 2.2.x
-            <li>File template for LibGDX Screens added in File->New menu
+            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.</li>
         </ul>
     ]]>
     </change-notes>
@@ -59,6 +65,20 @@
 
         <internalFileTemplate name="LibGDX Screen (Java)"/>
         <internalFileTemplate name="LibGDX Screen (Kotlin)"/>
+
+        <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
+        <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
+
+        <projectConfigurable
+                instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
+                displayName="LibGDXPlugin"
+                id="com.gmail.blueboxware.libgdxplugin.libgdxpluginconfigurable"
+                groupId="editor"
+                />
+        <projectService
+                serviceInterface="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
+                serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
+                />
     </extensions>
 
     <actions>

@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.inspections.utils.isSetLogLevel
+import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor

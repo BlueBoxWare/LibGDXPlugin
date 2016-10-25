@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gmail.blueboxware.libgdxplugin.inspections.utils
+package com.gmail.blueboxware.libgdxplugin.utils
 
 enum class GDXLibrary  { GDX, BOX2DLIGHTS, ASHLEY, AI, OVERLAP2D  }
 
