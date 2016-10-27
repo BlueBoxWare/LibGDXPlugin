@@ -21,7 +21,9 @@
 
     <description><![CDATA[
       This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
-
+        <br/><br/>
+      This plugin needs a recent version of the official Kotlin plugin to be installed (even if you only use Java), so install and/or enable that plugin first.
+        <br/><br/>
       Currently available inspections:
         <ul>
             <li>Missing OpenGL declaration in AndroidManifest.xml</li>
@@ -40,7 +42,7 @@
       Also:
 
         <ul>
-            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments</li>. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.
+            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.</li>
             <li>Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen</li>
         </ul>
 

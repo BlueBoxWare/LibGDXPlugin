@@ -4,13 +4,11 @@ import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
+import com.intellij.openapi.roots.libraries.Library
+import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.startup.StartupManager
-import com.intellij.openapi.vfs.*
-import com.intellij.psi.PsiElement
-import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
-import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 import org.kohsuke.github.RateLimitHandler
@@ -57,35 +55,27 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
   override fun projectClosed() { }
 
   override fun projectOpened() {
-    VirtualFileManager.getInstance().addVirtualFileListener(object: VirtualFileAdapter() {
-
-      private fun handleEvent(event: VirtualFileEvent) {
-        if (event.file.name == "build.gradle") {
-          updateLibGDXLibraryVersions()
-        }
-      }
-
-      override fun fileCreated(event: VirtualFileEvent) {
-        handleEvent(event)
-      }
-
-      override fun contentsChanged(event: VirtualFileEvent) {
-        handleEvent(event)
-      }
-
-      override fun fileDeleted(event: VirtualFileEvent) {
-        handleEvent(event)
-      }
-
-      override fun propertyChanged(event: VirtualFilePropertyEvent) {
-        if (event.propertyName == VirtualFile.PROP_NAME && event.newValue == "build.gradle") {
-          updateLibGDXLibraryVersions()
-        }
-      }
-    })
 
     StartupManager.getInstance(project).registerPostStartupActivity {
       updateLibGDXLibraryVersions()
+
+      ProjectLibraryTable.getInstance(project).addListener(object: LibraryTable.Listener {
+        override fun beforeLibraryRemoved(library: Library?) {
+          updateLibGDXLibraryVersions()
+        }
+
+        override fun afterLibraryRenamed(library: Library?) {
+          updateLibGDXLibraryVersions()
+        }
+
+        override fun afterLibraryAdded(newLibrary: Library?) {
+          updateLibGDXLibraryVersions()
+        }
+
+        override fun afterLibraryRemoved(library: Library?) {
+          updateLibGDXLibraryVersions()
+        }
+      })
     }
   }
 
@@ -96,31 +86,16 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
     usedLibraryVersions.clear()
 
     for (lib in ProjectLibraryTable.getInstance(project).libraryIterator) {
-      lib.name?.let { name ->
-
-        for (library in GDXLibrary.values()) {
-          val regex = Regex("${mavenCoordMap[library]}:($versionStringRegex)")
-          val matchResult = regex.find(name)
+      val urls = lib.getUrls(OrderRootType.CLASSES)
+      for (url in urls) {
+        for ((gdxLib, mavenCoord) in mavenCoordMap.entries) {
+          val regex = Regex("${mavenCoord.first}/${mavenCoord.second}/($versionStringRegex)")
+          val matchResult = regex.find(url)
           if (matchResult?.groupValues?.get(1) != null) {
-            usedLibraryVersions[library] = matchResult?.groupValues?.get(1) ?: continue
+            usedLibraryVersions[gdxLib] = matchResult?.groupValues?.get(1) ?: continue
           }
         }
-
       }
-    }
-
-    // not found in project library table, check build.gradle files manually
-
-    val files = FilenameIndex.getFilesByName(project, "build.gradle", GlobalSearchScope.allScope(project))
-
-    for (file in files) {
-      file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
-
-        override fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement) {
-          usedLibraryVersions[library] = version
-        }
-      }))
-
     }
 
   }

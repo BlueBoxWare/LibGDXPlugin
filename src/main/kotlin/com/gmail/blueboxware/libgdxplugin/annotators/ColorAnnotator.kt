@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.intellij.lang.annotation.AnnotationHolder
-import com.intellij.lang.annotation.AnnotationSession
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
@@ -14,6 +14,7 @@ import com.intellij.psi.impl.compiled.ClsFieldImpl
 import com.intellij.psi.impl.compiled.ClsMethodImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.util.ui.ColorIcon
+import org.apache.log4j.Level
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
@@ -57,34 +58,31 @@ class ColorAnnotator : Annotator {
 
   companion object {
 
-    val LOGGER: Logger = Logger.getInstance("com.gmail.blueboxware.libgdxplugin.ColorAnnotator")
+    private val LOGGER: Logger = Logger.getInstance("com.gmail.blueboxware.libgdxplugin.ColorAnnotator").apply { setLevel(Level.DEBUG) }
 
-    val annotationsKey = Key<MutableList<Pair<Int, Color>>>("annotations")
-    val isEnabledKey = Key<Boolean>("isEnabled")
+    private val annotationsKey = Key<MutableList<Pair<Int, Color>>>("annotations")
+    private val cacheKey = Key<ColorAnnotatorCache>("cache")
 
     val colorRegex = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
-
 
   }
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (!isEnabled(holder.currentAnnotationSession, element.project)) return
-
-    getColor(element)?.let { color ->
-      annotateWithColor(color, element, holder)
-    }
-  }
-
-  private fun isEnabled(session: AnnotationSession, project: Project): Boolean {
-    session.getUserData(isEnabledKey)?.let {
-      return it
+    if (holder.currentAnnotationSession.getUserData(cacheKey) == null) {
+      holder.currentAnnotationSession.putUserData(cacheKey, ColorAnnotatorCache(element.project))
     }
 
-    val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java)
-    session.putUserData(isEnabledKey, settings.enableColorAnnotations)
+    holder.currentAnnotationSession.getUserData(cacheKey)?.let { cache ->
 
-    return settings.enableColorAnnotations
+      if (cache.colorAnnotationsEnabled) {
+        getColor(cache, element)?.let { color ->
+          annotateWithColor(color, element, holder)
+        }
+      }
+
+    }
+
   }
 
   private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder) {
@@ -110,9 +108,9 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun getColor(element: PsiElement, ignoreContext: Boolean = false): Color? {
+  private fun getColor(cache: ColorAnnotatorCache, element: PsiElement, ignoreContext: Boolean = false): Color? {
 
-    val isSpecialColorMethod =  if (element is KtCallExpression || element is PsiMethodCallExpression) isSpecialColorMethod(element) else false
+    val isSpecialColorMethod =  if (element is KtCallExpression || element is PsiMethodCallExpression) isSpecialColorMethod(cache, element) else false
 
     if (!ignoreContext) {
       if (element.context is PsiMethodCallExpression
@@ -126,6 +124,19 @@ class ColorAnnotator : Annotator {
         }
       }
     }
+
+    if (cache.colorCache.containsKey(element)) {
+      return cache.colorCache[element]
+    }
+
+    val color = findColor(cache, element, isSpecialColorMethod)
+
+    cache.colorCache[element] = color
+
+    return color
+  }
+
+  private fun findColor(cache: ColorAnnotatorCache, element: PsiElement, isSpecialColorMethod: Boolean): Color? {
 
     val type = if (element is KtExpression) {
      element.getType(element.analyzeFully())?.getJetTypeFqName(false)
@@ -143,7 +154,7 @@ class ColorAnnotator : Annotator {
       return null
     }
 
-    val initialValue = findRoot(element)
+    val initialValue = getRoot(cache, element)
 
     if (initialValue is KtStringTemplateExpression) {
 
@@ -170,7 +181,7 @@ class ColorAnnotator : Annotator {
         val references = initialValue.calleeExpression?.references ?: return null
 
         for (reference in references) {
-          val targetName = (reference.resolve() as? ClsMethodImpl)?.getKotlinFqName()?.asString() ?: continue
+          val targetName = (resolve(cache, reference) as? ClsMethodImpl)?.getKotlinFqName()?.asString() ?: continue
           if (targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf") {
             isColorCall = true
           }
@@ -185,7 +196,7 @@ class ColorAnnotator : Annotator {
       if (arguments.size == 1 && KotlinBuiltIns.isInt(argument1type)) {
         // Color(int)
         arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
-          val arg = findRoot(expr)
+          val arg = getRoot(cache, expr)
           ktInt(arg)?.let { int ->
             return rgbaToColor(int.toLong())
           }
@@ -193,7 +204,7 @@ class ColorAnnotator : Annotator {
       } else if (arguments.size == 1 && KotlinBuiltIns.isString(argument1type)) {
         // Color.valueOf(string)
         arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
-          val arg = findRoot(expr)
+          val arg = getRoot(cache, expr)
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
             return stringToColor(arg.text)
           }
@@ -201,8 +212,8 @@ class ColorAnnotator : Annotator {
       } else if (arguments.size == 1) {
         // Color(Color)
         arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
-          val arg = findRoot(expr)
-          return getColor(arg)
+          val arg = getRoot(cache, expr)
+          return getColor(cache, arg)
         }
       } else if (arguments.size == 4) {
         // Color(float, float, float, float)
@@ -212,8 +223,8 @@ class ColorAnnotator : Annotator {
           arguments.getOrNull(i)?.getArgumentExpression()?.let { expr ->
             val argType = expr.getType(context)
             if (argType == null || !KotlinBuiltIns.isFloat(argType)) return null
-            val root = findRoot(expr)
-            val float = psiFloat(root) ?: return null
+            val root = getRoot(cache, expr)
+            val float = psiFloat(cache, root) ?: return null
             floats[i] = float
           }
         }
@@ -229,7 +240,7 @@ class ColorAnnotator : Annotator {
       if (arguments.size == 1 && argument1type == PsiType.INT) {
         // new Color(int)
         arguments.firstOrNull()?.let { expr ->
-          val arg = findRoot(expr)
+          val arg = getRoot(cache, expr)
           javaInt(arg)?.let { int ->
             return rgbaToColor(int)
           }
@@ -237,7 +248,7 @@ class ColorAnnotator : Annotator {
       } else if (arguments.size == 1 && argument1type == PsiType.getJavaLangString(element.manager, element.resolveScope)) {
         // Color.valueOf(String)
         arguments.firstOrNull()?.let { expr ->
-          val arg = findRoot(expr)
+          val arg = getRoot(cache, expr)
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
             return stringToColor(arg.text)
           }
@@ -245,8 +256,8 @@ class ColorAnnotator : Annotator {
       } else if (arguments.size == 1) {
         // new Color(Color)
         arguments.firstOrNull()?.let { expr ->
-          val arg = findRoot(expr)
-          return getColor(arg)
+          val arg = getRoot(cache, expr)
+          return getColor(cache, arg)
         }
       } else if (arguments.size == 4) {
         // new Color(float, float, float, float)
@@ -254,11 +265,11 @@ class ColorAnnotator : Annotator {
         for (i in 0 .. 3) {
           arguments[i]?.let { expr ->
             if (expr.type == PsiType.FLOAT) {
-              val root = findRoot(expr)
-              val float = psiFloat(root) ?: return null
+              val root = getRoot(cache, expr)
+              val float = psiFloat(cache, root) ?: return null
               floats[i] = float
             } else if (expr.type == PsiType.INT) {
-              val arg = findRoot(expr)
+              val arg = getRoot(cache, expr)
               val int = javaInt(arg) ?: return null
               floats[i] = int.toFloat()
             } else {
@@ -274,7 +285,7 @@ class ColorAnnotator : Annotator {
     return null
   }
 
-  private fun isSpecialColorMethod(element: PsiElement): Boolean {
+  private fun isSpecialColorMethod(cache: ColorAnnotatorCache, element: PsiElement): Boolean {
 
     val colorMethods = listOf(
             "com.badlogic.gdx.graphics.GL20.glClearColor",
@@ -339,7 +350,7 @@ class ColorAnnotator : Annotator {
 
       element.calleeExpression?.references?.let { references ->
         for (reference in references) {
-          reference.resolve()?.getKotlinFqName()?.asString()?.let { fqName ->
+          resolve(cache, reference)?.getKotlinFqName()?.asString()?.let { fqName ->
             if (fqName in colorMethods) {
               return true
             }
@@ -361,12 +372,26 @@ class ColorAnnotator : Annotator {
 
   }
 
+  private fun getRoot(cache: ColorAnnotatorCache, element: PsiElement): PsiElement {
+
+    if (cache.rootCache.containsKey(element)) {
+      cache.rootCache[element]?.let { return it }
+    }
+
+    val root = findRoot(cache, element)
+
+    cache.rootCache[element] = root
+
+    return root
+
+  }
+
   /*
    *
    * Finds the root in a chain of references
    *
    */
-  private fun findRoot(element: PsiElement): PsiElement {
+  private fun findRoot(cache: ColorAnnotatorCache, element: PsiElement): PsiElement {
 
     if (element is KtNameReferenceExpression || element is PsiReferenceExpression) {
 
@@ -374,11 +399,11 @@ class ColorAnnotator : Annotator {
 
         if (reference is KtSimpleNameReference || reference is PsiReferenceExpression) {
 
-          val origin = if (reference is KtSimpleNameReference) resolveKotlin(reference) else reference.resolve()
+          val origin = if (reference is KtSimpleNameReference) resolve(cache, reference) else resolve(cache, reference)
 
           origin?.let { origin ->
-            getInitializer(origin)?.let { initializer ->
-              return findRoot(initializer)
+            getInitializer(cache, origin)?.let { initializer ->
+              return getRoot(cache, initializer)
             }
           }
 
@@ -389,20 +414,20 @@ class ColorAnnotator : Annotator {
     } else if (element is KtDotQualifiedExpression) {
 
       element.selectorExpression?.let { selector ->
-        return findRoot(selector)
+        return getRoot(cache, selector)
       }
 
     } else if (element is KtQualifiedExpression) {
 
       element.callExpression?.let { callExpression ->
-        return findRoot(callExpression)
+        return getRoot(cache, callExpression)
       }
 
     } else if (element is PsiMethodCallExpression) {
 
       element.resolveMethod()?.let { resolved ->
         if (resolved is KtLightMethod) {
-          getInitializer(resolved)?.let {
+          getInitializer(cache, resolved)?.let {
             return it
           }
         }
@@ -414,7 +439,7 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun getInitializer(element: PsiElement): PsiElement? {
+  private fun getInitializer(cache: ColorAnnotatorCache, element: PsiElement): PsiElement? {
 
     var origin = element
 
@@ -425,18 +450,18 @@ class ColorAnnotator : Annotator {
     if (origin is ClsFieldImpl) {
       if (origin.modifierList?.hasModifierProperty(PsiModifier.FINAL) == true) {
         (origin.navigationElement as? PsiField)?.initializer?.let { initializer ->
-          return findRoot(initializer)
+          return getRoot(cache, initializer)
         }
       }
     } else if (origin is PsiVariable) {
       if (origin.modifierList?.hasModifierProperty(PsiModifier.FINAL) == true) {
         origin.initializer?.let { initializer ->
-          return findRoot(initializer)
+          return getRoot(cache, initializer)
         }
       }
     } else if (origin is KtProperty && !origin.isVar) {
       origin.initializer?.let { initializer ->
-        return findRoot(initializer)
+        return getRoot(cache, initializer)
       }
     }
 
@@ -488,13 +513,13 @@ class ColorAnnotator : Annotator {
   }
 
 
-  private fun psiFloat(expr: PsiElement): Float? {
+  private fun psiFloat(cache: ColorAnnotatorCache, expr: PsiElement): Float? {
 
     val context = expr.context
 
     if (context is KtDotQualifiedExpression) {
       if (context.receiverExpression.getType(context.analyzeFully())?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.Color") {
-        getColor(context.receiverExpression, ignoreContext = true)?.let { color ->
+        getColor(cache, context.receiverExpression, ignoreContext = true)?.let { color ->
           return when(context.selectorExpression?.text) {
             "r" -> color.red /  255f
             "g" -> color.green / 255f
@@ -508,7 +533,7 @@ class ColorAnnotator : Annotator {
     } else if (context is PsiReferenceExpression) {
       if ((context.qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == "com.badlogic.gdx.graphics.Color") {
         context.qualifierExpression?.let { qualifierExpr ->
-          getColor(qualifierExpr, ignoreContext = true)?.let { color ->
+          getColor(cache, qualifierExpr, ignoreContext = true)?.let { color ->
             return when(context.referenceName) {
               "r" -> color.red /  255f
               "g" -> color.green / 255f
@@ -521,7 +546,7 @@ class ColorAnnotator : Annotator {
       }
     }
 
-    val arg = findRoot(expr)
+    val arg = getRoot(cache, expr)
 
     if (arg is PsiLiteralExpression || arg is KtConstantExpression) {
 
@@ -537,20 +562,40 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun resolveKotlin(reference: AbstractKtReference<*>): PsiElement? {
+  private fun resolve(cache: ColorAnnotatorCache, reference: PsiReference): PsiElement? {
 
-    val results = reference.multiResolve(false)
+    if (cache.resolveCache.containsKey(reference)) {
+      return cache.resolveCache[reference]
+    }
 
-    for (result in results) {
+    var origin: PsiElement? = null
 
-      val file = result.element?.containingFile
-      if (file is KtFile && !file.isCompiled) {
-        return result.element
+    if (reference is AbstractKtReference<*>) {
+
+      val results = reference.multiResolve(false)
+
+      for (result in results) {
+
+        val file = result.element?.containingFile
+        if (file is KtFile && !file.isCompiled) {
+          origin = result.element
+        }
+
       }
+
+      if (origin == null) {
+        origin = results.firstOrNull()?.element
+      }
+
+    } else {
+
+      origin = reference.resolve()
 
     }
 
-    return results.firstOrNull()?.element
+    cache.resolveCache[reference] = origin
+
+    return origin
 
   }
 
@@ -585,5 +630,16 @@ class ColorAnnotator : Annotator {
       return null
     }
   }
+
+}
+
+private class ColorAnnotatorCache(project: Project) {
+
+  val colorCache = mutableMapOf<PsiElement, Color?>()
+  val rootCache = mutableMapOf<PsiElement, PsiElement?>()
+  val resolveCache = mutableMapOf<PsiReference, PsiElement?>()
+
+  val colorAnnotationsEnabled = (project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false)
+          && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
 
 }

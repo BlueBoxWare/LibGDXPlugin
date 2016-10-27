@@ -32,12 +32,12 @@ val gradleExtNameMap: Map<String, GDXLibrary> = mapOf(
     "aiVersion" to GDXLibrary.AI
 )
 
-val mavenCoordMap: Map<GDXLibrary, String> = mapOf(
-    GDXLibrary.GDX to "com.badlogicgames.gdx:gdx",
-    GDXLibrary.BOX2DLIGHTS to "com.badlogicgames.box2dlights:box2dlights",
-    GDXLibrary.ASHLEY to "com.badlogicgames.ashley:ashley",
-    GDXLibrary.AI to "com.badlogicgames.gdx:gdx-ai",
-    GDXLibrary.OVERLAP2D to "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx"
+val mavenCoordMap: Map<GDXLibrary, Pair<String, String>> = mapOf(
+    GDXLibrary.GDX to ("com.badlogicgames.gdx" to "gdx"),
+    GDXLibrary.BOX2DLIGHTS to ("com.badlogicgames.box2dlights" to "box2dlights"),
+    GDXLibrary.ASHLEY to ("com.badlogicgames.ashley" to "ashley"),
+    GDXLibrary.AI to ("com.badlogicgames.gdx" to "gdx-ai"),
+    GDXLibrary.OVERLAP2D to ("com.underwaterapps.overlap2druntime" to "overlap2d-runtime-libgdx")
 )
 
 val versionStringRegex = Regex("[0-9]+(\\.[0-9]+)*")
@@ -66,11 +66,13 @@ fun compareVersionStrings(string1: String, string2: String): Int {
 fun extractInfoFromMavenCoord(coord: String): Pair<GDXLibrary, String>? {
 
   for (gdxLib in GDXLibrary.values()) {
-      val regex = Regex("${mavenCoordMap[gdxLib]}:($versionStringRegex)")
+    mavenCoordMap[gdxLib]?.let { mavenCoord ->
+      val regex = Regex("${mavenCoord.first}:${mavenCoord.second}:($versionStringRegex)")
       val matchResult = regex.find(coord)
       matchResult?.let { result ->
         return Pair(gdxLib, matchResult.groupValues[1])
       }
+    }
   }
 
   return null
