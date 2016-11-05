@@ -530,11 +530,11 @@ class ColorAnnotator : Annotator {
         }
       }
 
-    } else if (context is PsiReferenceExpression) {
-      if ((context.qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == "com.badlogic.gdx.graphics.Color") {
-        context.qualifierExpression?.let { qualifierExpr ->
+    } else if (expr is PsiReferenceExpression) {
+      if ((expr.qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == "com.badlogic.gdx.graphics.Color") {
+        expr.qualifierExpression?.let { qualifierExpr ->
           getColor(cache, qualifierExpr, ignoreContext = true)?.let { color ->
-            return when(context.referenceName) {
+            return when(expr.referenceName) {
               "r" -> color.red /  255f
               "g" -> color.green / 255f
               "b" -> color.blue / 255f

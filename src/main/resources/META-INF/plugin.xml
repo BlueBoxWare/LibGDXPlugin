@@ -16,7 +16,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -50,7 +50,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.</li>
+            <li>Fix in ColorAnnotator</li>
         </ul>
     ]]>
     </change-notes>
