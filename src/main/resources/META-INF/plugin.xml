@@ -51,6 +51,7 @@
     <change-notes><![CDATA[
         <ul>
             <li>Fix in ColorAnnotator</li>
+            <li>Fix an issue with Android Studio 2.2.2.x</li>
         </ul>
     ]]>
     </change-notes>

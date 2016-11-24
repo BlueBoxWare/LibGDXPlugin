@@ -20,8 +20,8 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.asJava.LightClassUtil
 import org.jetbrains.kotlin.asJava.elements.KtLightField
-import org.jetbrains.kotlin.asJava.toLightElements
 import org.jetbrains.kotlin.psi.KtDeclaration
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
@@ -47,17 +47,18 @@ class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
       if (!dcl.isTopLevel && grandparent !is KtObjectDeclaration) return
 
-      for (lightField in dcl.toLightElements()) {
-        if (lightField is KtLightField) {
-          val type = lightField.type
-          if (type is PsiClassReferenceType) {
-            val theClass = type.resolve()
-            if (theClass != null && theClass.isInheritor(disposableClass, true)) {
-              holder.registerProblem(dcl, message("static.resources.problem.descriptor"))
+      LightClassUtil.getLightClassBackingField(dcl)?.let { backingField ->
+        (backingField as? KtLightField)?.let { field ->
+          (field.type as? PsiClassReferenceType)?.let { type ->
+            type.resolve()?.let { clazz ->
+              if (clazz.isInheritor(disposableClass, true)) {
+                holder.registerProblem(dcl, message("static.resources.problem.descriptor"))
+              }
             }
           }
         }
       }
+
 
     }
 
