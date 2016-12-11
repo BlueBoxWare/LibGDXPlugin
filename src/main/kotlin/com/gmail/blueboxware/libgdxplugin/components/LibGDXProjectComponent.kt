@@ -1,14 +1,27 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.intellij.json.JsonFileType
 import com.intellij.openapi.components.ProjectComponent
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.ProjectManager
+import com.intellij.openapi.project.ProjectManagerAdapter
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.startup.StartupManager
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileAdapter
+import com.intellij.openapi.vfs.VirtualFileEvent
+import com.intellij.openapi.vfs.VirtualFileManager
+import com.intellij.psi.search.FileTypeIndex
+import com.intellij.psi.search.GlobalSearchScope
+import com.jetbrains.jsonSchema.JsonSchemaFileType
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 import org.kohsuke.github.RateLimitHandler
@@ -35,13 +48,37 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
 
+  private val SKIN_FILE_REGEX = Regex("""com\.badlogic\.gdx[a-zA-Z.]+\s*:\s*\{""")
+
   private val usedLibraryVersions = mutableMapOf<GDXLibrary, String>()
   private val latestLibraryVersions = mutableMapOf<GDXLibrary, String>()
 
   private var latestLibraryVersionLastChecked = -1
 
+  private val temporaryMarkedAsPlainText = mutableListOf<VirtualFile>()
+
+  private val myFileChangeListener = object : VirtualFileAdapter() {
+    override fun contentsChanged(event: VirtualFileEvent) {
+      if (isJSON(event.file)) {
+        makePlainTextIfSkin(event.file)
+      } else if (temporaryMarkedAsPlainText.contains(event.file)) {
+        if (!looksLikeSkinFile(event.file)) {
+          EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, event.file)
+        }
+      }
+    }
+
+    override fun fileCreated(event: VirtualFileEvent) {
+      if (isJSON(event.file)) {
+        makePlainTextIfSkin(event.file)
+      }
+    }
+
+  }
+
   val isLibGDXProject: Boolean
     get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
+
 
   // For testing only
   var isTesting = false
@@ -52,7 +89,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   override fun initComponent() { }
 
-  override fun projectClosed() { }
+  override fun projectClosed() {  }
 
   override fun projectOpened() {
 
@@ -60,10 +97,6 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       updateLibGDXLibraryVersions()
 
       ProjectLibraryTable.getInstance(project).addListener(object: LibraryTable.Listener {
-        override fun beforeLibraryRemoved(library: Library?) {
-          updateLibGDXLibraryVersions()
-        }
-
         override fun afterLibraryRenamed(library: Library?) {
           updateLibGDXLibraryVersions()
         }
@@ -75,15 +108,97 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
         override fun afterLibraryRemoved(library: Library?) {
           updateLibGDXLibraryVersions()
         }
+
+        override fun beforeLibraryRemoved(library: Library?) {
+        }
       })
+
     }
   }
 
   override fun disposeComponent() { }
 
+  private fun installSkinFileSupport() {
+
+    ProjectManager.getInstance().addProjectManagerListener(project, object : ProjectManagerAdapter() {
+      override fun projectClosing(project: Project?) {
+        removeSkinFileSupport()
+        project?.save()
+      }
+    })
+
+    if (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.disableJsonDiagnosticsForSkins == true) {
+      val jsonFiles = mutableListOf<VirtualFile>()
+      try {
+        jsonFiles.addAll(FileTypeIndex.getFiles(JsonSchemaFileType.INSTANCE, GlobalSearchScope.projectScope(project)))
+      } catch (e: NoClassDefFoundError) {
+        // Do nothing
+      }
+      try {
+        jsonFiles.addAll(FileTypeIndex.getFiles(JsonFileType.INSTANCE, GlobalSearchScope.projectScope(project)))
+      } catch (e: NoClassDefFoundError) {
+        // Do nothing
+      }
+
+      for (jsonFile in jsonFiles) {
+        makePlainTextIfSkin(jsonFile)
+      }
+
+      VirtualFileManager.getInstance().addVirtualFileListener(myFileChangeListener)
+    }
+
+  }
+
+  private fun removeSkinFileSupport() {
+    EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, *temporaryMarkedAsPlainText.toTypedArray())
+    VirtualFileManager.getInstance().removeVirtualFileListener(myFileChangeListener)
+  }
+
+  private fun makePlainTextIfSkin(file: VirtualFile) {
+    if (looksLikeSkinFile(file)) {
+      EnforcedPlainTextFileTypeManager.getInstance().markAsPlainText(project, file)
+      temporaryMarkedAsPlainText.add(file)
+    }
+  }
+
+  private fun isJSON(file: VirtualFile): Boolean {
+    try {
+      if (file.fileType == JsonSchemaFileType.INSTANCE) {
+        return true
+      }
+    } catch (e: NoClassDefFoundError) {
+      // Do nothing
+    }
+
+    try {
+      if (file.fileType == JsonFileType.INSTANCE) {
+        return true
+      }
+    } catch (e: NoClassDefFoundError) {
+      // Do nothing
+    }
+
+    return false
+  }
+
+  private fun looksLikeSkinFile(file: VirtualFile): Boolean {
+
+   try {
+      if (file.inputStream.reader().readText().contains(SKIN_FILE_REGEX)) {
+        return true
+      }
+    } catch (e: IOException) {
+      // Do nothing
+    }
+
+    return false
+  }
+
   private fun updateLibGDXLibraryVersions() {
 
     usedLibraryVersions.clear()
+
+    val wasLibGDXProject = isLibGDXProject
 
     for (lib in ProjectLibraryTable.getInstance(project).libraryIterator) {
       val urls = lib.getUrls(OrderRootType.CLASSES)
@@ -96,6 +211,12 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
           }
         }
       }
+    }
+
+    if (!wasLibGDXProject && isLibGDXProject) {
+      installSkinFileSupport()
+    } else if (wasLibGDXProject && !isLibGDXProject) {
+      removeSkinFileSupport()
     }
 
   }
@@ -166,5 +287,4 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
   }
 
 }
-
 
