@@ -25,10 +25,10 @@ abstract class GradleBuildFileVersionsVisitor: GroovyRecursiveElementVisitor() {
 
   abstract fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement)
 
-  override fun visitLiteralExpression(literal: GrLiteral?) {
+  override fun visitLiteralExpression(literal: GrLiteral) {
     super.visitLiteralExpression(literal)
 
-    if (literal == null || literal !is GrLiteralImpl || !literal.isStringLiteral) return
+    if (literal !is GrLiteralImpl || !literal.isStringLiteral) return
 
     val (lib, version) = extractInfoFromMavenCoord(literal.text) ?: return
 
@@ -36,10 +36,9 @@ abstract class GradleBuildFileVersionsVisitor: GroovyRecursiveElementVisitor() {
 
   }
 
-  override fun visitAssignmentExpression(expression: GrAssignmentExpression?) {
+  override fun visitAssignmentExpression(expression: GrAssignmentExpression) {
     super.visitAssignmentExpression(expression)
 
-    if (expression == null) return
     expression.rValue?.let { rValue ->
 
       val key = expression.lValue.text

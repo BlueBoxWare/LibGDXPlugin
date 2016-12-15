@@ -19,7 +19,6 @@ import javax.swing.*;
 public class LibGDXPluginSettingsPane {
     private JCheckBox showPreviewsOfColorCheckBox;
     private JPanel root;
-    private JCheckBox disableIntelliJJSONWarningsCheckBox;
 
     private LibGDXPluginSettings settings;
 
@@ -34,9 +33,6 @@ public class LibGDXPluginSettingsPane {
             if (showPreviewsOfColorCheckBox != null) {
                 settings.setEnableColorAnnotations(showPreviewsOfColorCheckBox.isSelected());
             }
-            if (disableIntelliJJSONWarningsCheckBox != null) {
-                settings.setDisableJsonDiagnosticsForSkins(disableIntelliJJSONWarningsCheckBox.isSelected());
-            }
         }
     }
 
@@ -45,9 +41,6 @@ public class LibGDXPluginSettingsPane {
             if (showPreviewsOfColorCheckBox != null) {
                 showPreviewsOfColorCheckBox.setSelected(settings.getEnableColorAnnotations());
             }
-            if (disableIntelliJJSONWarningsCheckBox != null) {
-                disableIntelliJJSONWarningsCheckBox.setSelected(settings.getDisableJsonDiagnosticsForSkins());
-            }
         }
     }
 
@@ -55,11 +48,6 @@ public class LibGDXPluginSettingsPane {
         if (settings != null) {
             if (showPreviewsOfColorCheckBox != null) {
                 if (showPreviewsOfColorCheckBox.isSelected() != settings.getEnableColorAnnotations()) {
-                    return true;
-                }
-            }
-            if (disableIntelliJJSONWarningsCheckBox != null) {
-                if (disableIntelliJJSONWarningsCheckBox.isSelected() != settings.getDisableJsonDiagnosticsForSkins()) {
                     return true;
                 }
             }

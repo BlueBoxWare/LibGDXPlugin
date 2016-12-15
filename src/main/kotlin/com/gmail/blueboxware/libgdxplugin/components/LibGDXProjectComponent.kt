@@ -1,27 +1,24 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
-import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.json.JsonFileType
 import com.intellij.openapi.components.ProjectComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.editor.EditorFactory
+import com.intellij.openapi.editor.event.DocumentAdapter
+import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
+import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.fileTypes.FileTypeEvent
+import com.intellij.openapi.fileTypes.FileTypeListener
+import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManager
-import com.intellij.openapi.project.ProjectManagerAdapter
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.startup.StartupManager
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileAdapter
-import com.intellij.openapi.vfs.VirtualFileEvent
-import com.intellij.openapi.vfs.VirtualFileManager
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
-import com.jetbrains.jsonSchema.JsonSchemaFileType
+import com.intellij.ui.EditorNotifications
+import com.intellij.util.messages.MessageBusConnection
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 import org.kohsuke.github.RateLimitHandler
@@ -43,38 +40,16 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
-
-  private val SKIN_FILE_REGEX = Regex("""com\.badlogic\.gdx[a-zA-Z.]+\s*:\s*\{""")
 
   private val usedLibraryVersions = mutableMapOf<GDXLibrary, String>()
   private val latestLibraryVersions = mutableMapOf<GDXLibrary, String>()
 
   private var latestLibraryVersionLastChecked = -1
 
-  private val temporaryMarkedAsPlainText = mutableListOf<VirtualFile>()
-
-  private val myFileChangeListener = object : VirtualFileAdapter() {
-    override fun contentsChanged(event: VirtualFileEvent) {
-      if (isJSON(event.file)) {
-        makePlainTextIfSkin(event.file)
-      } else if (temporaryMarkedAsPlainText.contains(event.file)) {
-        if (!looksLikeSkinFile(event.file)) {
-          EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, event.file)
-        }
-      }
-    }
-
-    override fun fileCreated(event: VirtualFileEvent) {
-      if (isJSON(event.file)) {
-        makePlainTextIfSkin(event.file)
-      }
-    }
-
-  }
+  private var messageBusConnection: MessageBusConnection? = null
 
   val isLibGDXProject: Boolean
     get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
@@ -87,9 +62,11 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   fun getUsedLibraryVersion(gdxLibrary: GDXLibrary) = usedLibraryVersions[gdxLibrary]
 
-  override fun initComponent() { }
+  override fun initComponent() {
+    messageBusConnection = project.messageBus.connect()
+  }
 
-  override fun projectClosed() {  }
+  override fun projectClosed() { }
 
   override fun projectOpened() {
 
@@ -114,91 +91,28 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       })
 
     }
-  }
 
-  override fun disposeComponent() { }
+    messageBusConnection?.subscribe(FileTypeManager.TOPIC, fileTypeListener)
 
-  private fun installSkinFileSupport() {
+    if (project.getComponent(LibGDXProjectSettings::class.java)?.neverAskAboutSkinFiles != true) {
 
-    ProjectManager.getInstance().addProjectManagerListener(project, object : ProjectManagerAdapter() {
-      override fun projectClosing(project: Project?) {
-        removeSkinFileSupport()
-        project?.save()
-      }
-    })
+      EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener)
 
-    if (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.disableJsonDiagnosticsForSkins == true) {
-      val jsonFiles = mutableListOf<VirtualFile>()
-      try {
-        jsonFiles.addAll(FileTypeIndex.getFiles(JsonSchemaFileType.INSTANCE, GlobalSearchScope.projectScope(project)))
-      } catch (e: NoClassDefFoundError) {
-        // Do nothing
-      }
-      try {
-        jsonFiles.addAll(FileTypeIndex.getFiles(JsonFileType.INSTANCE, GlobalSearchScope.projectScope(project)))
-      } catch (e: NoClassDefFoundError) {
-        // Do nothing
-      }
-
-      for (jsonFile in jsonFiles) {
-        makePlainTextIfSkin(jsonFile)
-      }
-
-      VirtualFileManager.getInstance().addVirtualFileListener(myFileChangeListener)
-    }
-
-  }
-
-  private fun removeSkinFileSupport() {
-    EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, *temporaryMarkedAsPlainText.toTypedArray())
-    VirtualFileManager.getInstance().removeVirtualFileListener(myFileChangeListener)
-  }
-
-  private fun makePlainTextIfSkin(file: VirtualFile) {
-    if (looksLikeSkinFile(file)) {
-      EnforcedPlainTextFileTypeManager.getInstance().markAsPlainText(project, file)
-      temporaryMarkedAsPlainText.add(file)
     }
   }
 
-  private fun isJSON(file: VirtualFile): Boolean {
-    try {
-      if (file.fileType == JsonSchemaFileType.INSTANCE) {
-        return true
-      }
-    } catch (e: NoClassDefFoundError) {
-      // Do nothing
-    }
+  override fun disposeComponent() {
 
-    try {
-      if (file.fileType == JsonFileType.INSTANCE) {
-        return true
-      }
-    } catch (e: NoClassDefFoundError) {
-      // Do nothing
-    }
+    messageBusConnection?.disconnect()
+    messageBusConnection?.dispose()
 
-    return false
-  }
+    EditorFactory.getInstance().eventMulticaster.removeDocumentListener(documentListener)
 
-  private fun looksLikeSkinFile(file: VirtualFile): Boolean {
-
-   try {
-      if (file.inputStream.reader().readText().contains(SKIN_FILE_REGEX)) {
-        return true
-      }
-    } catch (e: IOException) {
-      // Do nothing
-    }
-
-    return false
   }
 
   private fun updateLibGDXLibraryVersions() {
 
     usedLibraryVersions.clear()
-
-    val wasLibGDXProject = isLibGDXProject
 
     for (lib in ProjectLibraryTable.getInstance(project).libraryIterator) {
       val urls = lib.getUrls(OrderRootType.CLASSES)
@@ -211,12 +125,6 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
           }
         }
       }
-    }
-
-    if (!wasLibGDXProject && isLibGDXProject) {
-      installSkinFileSupport()
-    } else if (wasLibGDXProject && !isLibGDXProject) {
-      removeSkinFileSupport()
     }
 
   }
@@ -284,6 +192,45 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
     return latestVersion
 
+  }
+
+  private val documentListener = object : DocumentAdapter() {
+
+    override fun documentChanged(event: DocumentEvent?) {
+
+      if (project.isDisposed) return
+
+      val document = event?.document ?: return
+      val virtualFile = FileDocumentManager.getInstance().getFile(document) ?: return
+      val settings = project.getComponent(LibGDXProjectSettings::class.java) ?: return
+      val skins = project.getComponent(LibGDXProjectSkinFiles::class.java)?.files ?: return
+      val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)?.files ?: return
+
+      if (!skins.contains(virtualFile)
+              && !nonSkinFiles.contains(virtualFile)
+              && !settings.neverAskAboutSkinFiles
+      ) {
+        EditorNotifications.getInstance(project).updateNotifications(virtualFile)
+      }
+    }
+
+  }
+
+  private val fileTypeListener = object : FileTypeListener.Adapter() {
+    override fun fileTypesChanged(event: FileTypeEvent) {
+
+      val typeManager = EnforcedPlainTextFileTypeManager.getInstance()
+
+      val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java)?.files?.toList() ?: listOf()
+      for (file in skinFiles) {
+        if (typeManager.isMarkedAsPlainText(file) != true) {
+          project.getComponent(LibGDXProjectSkinFiles::class.java)?.remove(file)
+        }
+      }
+
+      EditorNotifications.getInstance(project).updateAllNotifications()
+
+    }
   }
 
 }

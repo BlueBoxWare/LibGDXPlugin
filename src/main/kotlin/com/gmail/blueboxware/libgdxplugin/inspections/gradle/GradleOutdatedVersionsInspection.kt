@@ -16,10 +16,10 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
 import com.gmail.blueboxware.libgdxplugin.utils.GradleBuildFileVersionsVisitor
 import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
-import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
@@ -59,9 +59,9 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = GroovyPsiElementVisitor(object : GroovyElementVisitor() {
 
-    override fun visitFile(file: GroovyFileBase?) {
+    override fun visitFile(file: GroovyFileBase) {
 
-      if (file == null || !FileUtilRt.extensionEquals(file.name, "gradle")) return
+      if (!FileUtilRt.extensionEquals(file.name, "gradle")) return
 
       file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
 

@@ -71,6 +71,7 @@
 
         <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
+        <annotator language="TEXT" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinHighlighter" />
 
         <projectConfigurable
                 instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
@@ -82,17 +83,33 @@
                 serviceInterface="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
                 serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
                 />
+
+        <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.SkinEditorNotificationProvider" />
+
+        <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider" />
     </extensions>
 
     <actions>
         <action class="com.gmail.blueboxware.libgdxplugin.actions.CreateScreenAction" id="LibGDXPlugin.NewScreen">
             <add-to-group group-id="NewGroup" anchor="last" />
         </action>
-    </actions>
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX skin">
+            <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
+        </action>
+      </actions>
 
     <project-components>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSettings</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectNonSkinFiles</implementation-class>
         </component>
     </project-components>
 

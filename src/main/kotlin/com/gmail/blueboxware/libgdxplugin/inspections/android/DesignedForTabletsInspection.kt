@@ -189,7 +189,7 @@ private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<Psi
 
   }
 
-  override fun visitFile(file: GroovyFileBase?) {
+  override fun visitFile(file: GroovyFileBase) {
     super.visitFile(file)
 
     if (foundElementMap[SdkVersionType.TARGET] != null || foundElementMap[SdkVersionType.MIN] != null) {
@@ -200,19 +200,17 @@ private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<Psi
     }
   }
 
-  override fun visitCallExpression(callExpression: GrCallExpression?) {
+  override fun visitCallExpression(callExpression: GrCallExpression) {
     super.visitCallExpression(callExpression)
 
-    if (callExpression != null && callExpression is GrMethodCall) {
+    if (callExpression is GrMethodCall) {
       updateVersionMap(callExpression)
     }
 
   }
 
-  override fun visitApplicationStatement(applicationStatement: GrApplicationStatement?) {
+  override fun visitApplicationStatement(applicationStatement: GrApplicationStatement) {
     super.visitApplicationStatement(applicationStatement)
-
-    if (applicationStatement == null) return
 
     updateVersionMap(applicationStatement)
 

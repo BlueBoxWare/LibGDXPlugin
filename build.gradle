@@ -15,7 +15,6 @@ plugins {
     id "org.jetbrains.intellij" version "0.1.10"
 }
 
-apply plugin: 'idea'
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
 apply plugin: 'kotlin'
@@ -24,9 +23,9 @@ group 'com.gmail.blueboxware'
 version '1.3'
 
 intellij {
-    version = '2016.2.4'
+    version = '2016.3'
     pluginName = 'LibGDX Inspections'
-    plugins = ['org.jetbrains.kotlin:1.0.4-release-IJ2016.1-112', 'Groovy', 'properties']
+    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.3-2', 'Groovy', 'properties']
     updateSinceUntilBuild = false
     downloadSources =  true
 }
@@ -35,6 +34,12 @@ repositories {
     mavenCentral()
     maven {
         url "http://repo.jenkins-ci.org/releases"
+    }
+}
+
+sourceSets {
+    main {
+        resources.srcDir 'resources'
     }
 }
 
