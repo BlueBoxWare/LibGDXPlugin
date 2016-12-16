@@ -22,7 +22,7 @@
     <description><![CDATA[
       This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
         <br/><br/>
-      This plugin needs a recent version of the official Kotlin plugin to be installed (even if you only use Java), so install and/or enable that plugin first.
+      This plugin needs a recent version of the official Kotlin plugin to be installed (even if don't use Kotlin), so install and/or enable that plugin first.
         <br/><br/>
       Currently available inspections:
         <ul>
@@ -42,16 +42,16 @@
       Also:
 
         <ul>
-            <li>Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments. Can be enabled/disabled by going to Settings->Editor->LibGDXPlugin.</li>
+            <li>Adds color previews to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments.</li>
             <li>Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen</li>
+            <li>Basic Skin file support</li>
         </ul>
 
     ]]></description>
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix in ColorAnnotator</li>
-            <li>Fix an issue with Android Studio 2.2.2.x</li>
+            <li>Added basic Skin file support</li>
         </ul>
     ]]>
     </change-notes>
@@ -72,6 +72,7 @@
         <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="TEXT" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinHighlighter" />
+        <codeInsight.lineMarkerProvider language="TEXT" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinColorPreviewLineMarkerProvider" />
 
         <projectConfigurable
                 instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"

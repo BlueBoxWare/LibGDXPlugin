@@ -2,18 +2,17 @@ package com.gmail.blueboxware.libgdxplugin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
+import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
-import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.psi.*
 import com.intellij.psi.impl.compiled.ClsFieldImpl
 import com.intellij.psi.impl.compiled.ClsMethodImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
-import com.intellij.util.ui.ColorIcon
 import org.apache.log4j.Level
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
@@ -27,7 +26,6 @@ import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import java.awt.Color
-import javax.swing.Icon
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -46,15 +44,6 @@ import javax.swing.Icon
  */
 class ColorAnnotator : Annotator {
 
-  private class GutterColorRenderer(val color: Color): GutterIconRenderer() {
-
-    override fun getIcon(): Icon = ColorIcon(10, color, true)
-
-    override fun equals(other: Any?) = other is GutterColorRenderer && color == other.color
-
-    override fun hashCode() = color.hashCode()
-
-  }
 
   companion object {
 

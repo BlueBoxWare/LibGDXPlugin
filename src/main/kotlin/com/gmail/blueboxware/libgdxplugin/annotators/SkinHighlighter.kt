@@ -5,6 +5,7 @@ import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
+import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiPlainText
@@ -58,7 +59,9 @@ class SkinHighlighter : Annotator {
     if (element !is PsiPlainText) return
 
     element.containingFile?.virtualFile?.let { virtualFile ->
-      if (element.project.getComponent(LibGDXProjectSkinFiles::class.java)?.contains(virtualFile) != true) {
+      if (element.project.getComponent(LibGDXProjectSkinFiles::class.java)?.contains(virtualFile) != true
+        || !EnforcedPlainTextFileTypeManager.getInstance().isMarkedAsPlainText(virtualFile)
+      ) {
         return
       }
     }

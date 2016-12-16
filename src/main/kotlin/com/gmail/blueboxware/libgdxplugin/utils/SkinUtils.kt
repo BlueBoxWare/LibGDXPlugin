@@ -2,13 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
-import com.intellij.json.JsonFileType
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.indexing.FileBasedIndex
-import com.jetbrains.jsonSchema.JsonSchemaFileType
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -52,25 +50,5 @@ fun markFileAsSkin(project: Project, file: VirtualFile, isSkin: Boolean) {
 
 }
 
-fun isJsonFile(file: VirtualFile): Boolean {
 
-  try {
-    if (file.fileType == JsonSchemaFileType.INSTANCE) {
-      return true
-    }
-  } catch (e: NoClassDefFoundError) {
-    // Do nothing
-  }
-
-  try {
-    if (file.fileType == JsonFileType.INSTANCE) {
-      return true
-    }
-  } catch (e: NoClassDefFoundError) {
-    // Do nothing
-  }
-
-  return false
-
-}
 
