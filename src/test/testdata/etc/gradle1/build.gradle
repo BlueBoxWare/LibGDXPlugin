@@ -1,6 +1,6 @@
-gdxVersion = '1.9.2'
+<warning>gdxVersion = '1.9.2'</warning>
 box2DLightsVersion = '1.4'
-ashleyVersion = '1.7.0'
+<warning>ashleyVersion = '1.7.0'</warning>
 aiVersion = '1.8.0'
 
-compile "com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"
+compile <warning>"com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.0.9"</warning>

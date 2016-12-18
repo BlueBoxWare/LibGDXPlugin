@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
@@ -405,6 +406,14 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
   /*
    * Other inspections
    */
+
+  fun testOutdatedVersionsInspection() {
+
+    performInspectionsTest(GradleOutdatedVersionsInspection(), "etc/gradle1/build.gradle")
+    performInspectionsTest(GradleOutdatedVersionsInspection(), "etc/gradle2/build.gradle")
+
+  }
+
   fun testStaticResourceInspection() {
 
     performInspectionsTest(JavaStaticResourceInspection(), "inspections/staticResources/Test1.java")
@@ -440,7 +449,6 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
     performInspectionsTest(JavaFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test2.kt", "inspections/flushInsideLoop/Test2.java")
     performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test3.java", "inspections/flushInsideLoop/Test3.kt")
     performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test4.kt")
-//    performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test5.kt")
     performInspectionsTest(JavaFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test5.java")
 
   }

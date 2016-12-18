@@ -1,0 +1,141 @@
+{
+  parserClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParser'
+  parserUtilClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserUtil"
+  psiPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi'
+  psiImplPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl'
+
+  elementTypeHolderClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes'
+  elementTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementType'
+  psiClassPrefix = "Skin"
+  psiVisitorName = "SkinElementVisitor"
+
+  psiImplUtilClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinPsiImplUtils'
+  tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinTokenType'
+
+  implements("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement"
+  extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
+
+  extends("container|literal|reference_expression")=value
+  extends("array|object")=container
+  extends("string_literal|number_literal|boolean_literal|null_literal")=literal
+  implements("property")=[
+    "com.intellij.json.psi.JsonElement"
+    "com.intellij.psi.PsiNamedElement"
+  ]
+
+    tokens = [
+        L_CURLY='{'
+        R_CURLY='}'
+        L_BRACKET='['
+        R_BRACKET=']'
+
+        COMMA=','
+        COLON=':'
+        LINE_COMMENT='regexp://.*'
+        // "/*" ([^*]|\*+[^*/])* (\*+"/")?
+        BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
+        // else /\*(?:[^*]|\*[^/])*\*+/
+
+        // unclosed string literal matches till the line's end
+        // any escape sequences included, illegal escapes are indicated by SyntaxHighlighter
+        // and JsonStringLiteralAnnotator
+        DOUBLE_QUOTED_STRING="regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
+        SINGLE_QUOTED_STRING="regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
+    //        STRING='regexp:"([^\\"\r\n]|\\([\\"/bfnrt]|u[a-fA-F0-9]{4}))*"?'
+
+        NUMBER='regexp:-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d*)?'
+        TRUE='true'
+        FALSE='false'
+        NULL='null'
+        // Actually not defined in RFC 4627, but may be used for JSON5 and helps with
+        // auto completion of keywords.
+        IDENTIFIER='regexp:[:jletter:] [:jletterdigit:]*'
+    ]
+
+
+}
+
+// For compatibility we allow any value at root level (see JsonStandardComplianceAnnotator)
+json ::= value+
+
+object ::= '{' object_element* '}' {
+  pin=1
+  methods=[
+    findProperty
+    getPresentation
+  ]
+  mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
+}
+
+// Hackity-hack to parse array elements and properties even if separating commas are missing,
+private object_element ::= property (','|&'}') {
+  recoverWhile = not_brace_or_next_value
+  pin = 1
+}
+
+property ::= property_name (':' value) {
+  methods=[
+    getName
+    getNameElement
+    getValue
+    // suppress getValueList() accessor
+    value=""
+    getPresentation
+  ]
+  mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyMixin"
+  pin(".*")=1
+}
+
+private property_name ::= literal | reference_expression
+
+array ::= '[' array_element* ']' {
+  methods=[
+    getPresentation
+  ]
+  pin=1
+}
+
+private array_element ::= value (','|&']') {
+  recoverWhile = not_bracket_or_next_value
+  pin=1
+}
+
+string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING {
+  methods=[
+    getTextFragments
+    getValue
+    toJsonStringLiteral
+    SINGLE_QUOTED_STRING=""
+    DOUBLE_QUOTED_STRING=""
+  ]
+  mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinStringLiteralMixin"
+}
+number_literal ::= NUMBER {
+  methods=[
+    NUMBER=""
+    getValue
+  ]
+}
+boolean_literal ::= TRUE | FALSE {
+  methods=[
+    getValue
+  ]
+}
+null_literal ::= NULL
+
+literal ::= string_literal | number_literal | boolean_literal | null_literal {
+  methods=[
+    isQuotedString
+  ]
+  mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinLiteralMixin"
+}
+
+fake container ::=
+
+reference_expression ::= IDENTIFIER
+
+value ::= object | array | literal | reference_expression
+
+// Recoveries
+private not_bracket_or_next_value ::= !(']'|value)
+private not_brace_or_next_value ::= !('}'|value)

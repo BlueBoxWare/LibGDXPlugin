@@ -7,7 +7,6 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import junit.framework.TestCase
 import org.jetbrains.plugins.groovy.GroovyFileType
 
@@ -93,36 +92,6 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
     assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.ASHLEY, fromCache = true) ?: "0", "1.7.1") > 0)
     assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.AI, fromCache = true) ?: "0", "1.7.0") > 0)
     assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.OVERLAP2D, fromCache = true) ?: "0", "0.0.9") > 0)
-  }
-
-  fun testGetVersionFromGradle() {
-
-     myFixture.configureByFile("etc/gradle1/build.gradle")
-
-    val projectComponent = myFixture.project.getComponent(LibGDXProjectComponent::class.java)
-
-    if (projectComponent == null) {
-      TestCase.fail()
-    } else {
-      assertTrue(projectComponent.isLibGDXProject)
-
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.GDX) == "1.9.2")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.4")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.ASHLEY) == "1.7.0")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.AI) == "1.8.0")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.0")
-
-      (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.let {
-        it.deleteAll()
-      }
-      myFixture.configureByFile("etc/gradle2/build.gradle")
-
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.GDX) == "1.9.1")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.BOX2DLIGHTS) == "1.3")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.ASHLEY) == "1.7.1")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.AI) == "1.8.1")
-      assert(projectComponent.getUsedLibraryVersion(GDXLibrary.OVERLAP2D) == "0.1.1")
-    }
 
   }
 

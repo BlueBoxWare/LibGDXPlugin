@@ -16,7 +16,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.3</version>
+    <version>1.4</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -50,9 +50,6 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <ul>
-            <li>Added basic Skin file support</li>
-        </ul>
     ]]>
     </change-notes>
 
@@ -88,6 +85,11 @@
         <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.SkinEditorNotificationProvider" />
 
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider" />
+
+        <fileTypeFactory  implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" />
+        <lang.parserDefinition language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition" />
+        <lang.syntaxHighlighterFactory language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory" />
+        <colorSettingsPage implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.LibGDXSkinColorsPage" />
     </extensions>
 
     <actions>
