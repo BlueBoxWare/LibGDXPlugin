@@ -8,9 +8,6 @@ import com.intellij.openapi.editor.event.DocumentAdapter
 import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.openapi.fileTypes.FileTypeEvent
-import com.intellij.openapi.fileTypes.FileTypeListener
-import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
@@ -18,7 +15,6 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.startup.StartupManager
 import com.intellij.ui.EditorNotifications
-import com.intellij.util.messages.MessageBusConnection
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.GitHubBuilder
 import org.kohsuke.github.RateLimitHandler
@@ -49,8 +45,6 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   private var latestLibraryVersionLastChecked = -1
 
-  private var messageBusConnection: MessageBusConnection? = null
-
   val isLibGDXProject: Boolean
     get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
 
@@ -62,9 +56,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   fun getUsedLibraryVersion(gdxLibrary: GDXLibrary) = usedLibraryVersions[gdxLibrary]
 
-  override fun initComponent() {
-    messageBusConnection = project.messageBus.connect()
-  }
+  override fun initComponent() { }
 
   override fun projectClosed() { }
 
@@ -92,19 +84,20 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
     }
 
-    messageBusConnection?.subscribe(FileTypeManager.TOPIC, fileTypeListener)
-
     if (project.getComponent(LibGDXProjectSettings::class.java)?.neverAskAboutSkinFiles != true) {
 
       EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener)
 
     }
+
+    project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
+      for (skinFile in skins.files) {
+        EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, skinFile)
+      }
+    }
   }
 
   override fun disposeComponent() {
-
-    messageBusConnection?.disconnect()
-    messageBusConnection?.dispose()
 
     EditorFactory.getInstance().eventMulticaster.removeDocumentListener(documentListener)
 
@@ -203,34 +196,14 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       val document = event?.document ?: return
       val virtualFile = FileDocumentManager.getInstance().getFile(document) ?: return
       val settings = project.getComponent(LibGDXProjectSettings::class.java) ?: return
-      val skins = project.getComponent(LibGDXProjectSkinFiles::class.java)?.files ?: return
       val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)?.files ?: return
 
-      if (!skins.contains(virtualFile)
-              && !nonSkinFiles.contains(virtualFile)
-              && !settings.neverAskAboutSkinFiles
+      if (!nonSkinFiles.contains(virtualFile) && !settings.neverAskAboutSkinFiles
       ) {
         EditorNotifications.getInstance(project).updateNotifications(virtualFile)
       }
     }
 
-  }
-
-  private val fileTypeListener = object : FileTypeListener.Adapter() {
-    override fun fileTypesChanged(event: FileTypeEvent) {
-
-      val typeManager = EnforcedPlainTextFileTypeManager.getInstance()
-
-      val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java)?.files?.toList() ?: listOf()
-      for (file in skinFiles) {
-        if (typeManager.isMarkedAsPlainText(file) != true) {
-          project.getComponent(LibGDXProjectSkinFiles::class.java)?.remove(file)
-        }
-      }
-
-      EditorNotifications.getInstance(project).updateAllNotifications()
-
-    }
   }
 
 }

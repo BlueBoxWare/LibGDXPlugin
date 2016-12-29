@@ -1,31 +1,20 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinContainerImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
+import com.intellij.navigation.ItemPresentation
+import javax.swing.Icon
 
-abstract class SkinObjectMixin(node: ASTNode) : SkinContainerImpl(node), SkinObject {
+abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) {
 
-  private val propertyCache = object: CachedValueProvider<Map<String, SkinProperty>> {
+  override fun getPresentation() = object : ItemPresentation {
+    override fun getPresentableText(): String? = "object"
 
-    override fun compute(): CachedValueProvider.Result<Map<String, SkinProperty>>? {
-      val cache = mutableMapOf<String, SkinProperty>()
+    override fun getLocationString(): String? = null
 
-      for (property in propertyList) {
-        property.name?.let { name ->
-          if (!cache.containsKey(name)) {
-            cache.put(name, property)
-          }
-        }
-      }
-
-      return com.intellij.psi.util.CachedValueProvider.Result.createSingleDependency(cache, this)
-    }
+    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Object
   }
-
-  override fun findProperty(name: String): SkinProperty? = CachedValuesManager.getCachedValue(this, propertyCache).get(name)
 
 }

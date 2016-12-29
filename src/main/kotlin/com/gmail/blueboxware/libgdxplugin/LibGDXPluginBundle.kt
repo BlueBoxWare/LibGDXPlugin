@@ -21,10 +21,10 @@ fun message(@NotNull @PropertyKey(resourceBundle = BUNDLE)key: String, @NotNull 
 
   bundle?.let { bundle ->
     if (default == null) {
-      return CommonBundle.message(bundle, key, params)
+      return CommonBundle.message(bundle, key, *params)
     }
     else {
-      return CommonBundle.messageOrDefault(bundle, key, default, params)
+      return CommonBundle.messageOrDefault(bundle, key, default, *params)
     }
   }
 

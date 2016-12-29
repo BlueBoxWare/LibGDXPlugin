@@ -27,5 +27,5 @@ class LibGDXSkinLanguage private constructor(): Language("LibGDXSkin") {
 
   override fun getDisplayName() = "LibGDX Skin"
 
-
+  override fun getID(): String  = "LibGDXSkin"
 }

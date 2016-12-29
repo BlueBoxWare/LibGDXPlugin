@@ -1,7 +1,9 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiClass
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -18,13 +20,9 @@ import com.intellij.openapi.fileTypes.FileTypeFactory
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileTypeFactory : FileTypeFactory() {
+abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecification, SkinElementImpl(node) {
 
-  override fun createFileTypes(consumer: FileTypeConsumer) {
+  override fun getClassNameAsString(): String = className.value
 
-    consumer.consume(LibGDXSkinFileType.INSTANCE)
-
-  }
-
-
+  override fun resolveClass(): PsiClass? = className.resolve()
 }

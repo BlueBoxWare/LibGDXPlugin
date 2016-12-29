@@ -50,6 +50,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <ul>
+            <li>Fixes in handling of Skin files</li>
+            <li>Code folding for Skin files</li>
     ]]>
     </change-notes>
 
@@ -68,8 +71,8 @@
 
         <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
-        <annotator language="TEXT" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinHighlighter" />
-        <codeInsight.lineMarkerProvider language="TEXT" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinColorPreviewLineMarkerProvider" />
+        <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinAdditionalHighlighter" />
+        <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator" />
 
         <projectConfigurable
                 instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
@@ -86,10 +89,15 @@
 
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider" />
 
-        <fileTypeFactory  implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" />
+        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" id="LibGDXSkin" />
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="JSON"/>
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="TEXT"/>
         <lang.parserDefinition language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition" />
         <lang.syntaxHighlighterFactory language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory" />
         <colorSettingsPage implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.LibGDXSkinColorsPage" />
+        <lang.foldingBuilder language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFoldingBuilder" />
+        <completion.contributor language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinCompletionContributor" />
+        <lang.commenter language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinCommenter" />
     </extensions>
 
     <actions>

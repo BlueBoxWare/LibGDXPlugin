@@ -1,6 +1,15 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory
+import com.intellij.openapi.editor.colors.EditorColorsScheme
+import com.intellij.openapi.editor.ex.util.LayeredLexerEditorHighlighter
+import com.intellij.openapi.editor.highlighter.EditorHighlighter
+import com.intellij.openapi.fileTypes.EditorHighlighterProvider
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders
 import com.intellij.openapi.fileTypes.LanguageFileType
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
 import icons.Icons
 
 /*
@@ -24,6 +33,14 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
     val INSTANCE = LibGDXSkinFileType()
   }
 
+  init {
+    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, object: EditorHighlighterProvider {
+      override fun getEditorHighlighter(project: Project?, fileType: FileType, virtualFile: VirtualFile?, colors: EditorColorsScheme): EditorHighlighter {
+        return LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
+      }
+    })
+  }
+
   override fun getIcon() = Icons.LIBGDX_ICON
 
   override fun getName() = "LibGDX Skin"
@@ -31,6 +48,7 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
   override fun getDescription() = "LibGDX Skin file"
 
   override fun getDefaultExtension() = "skin"
+
 
 
 }

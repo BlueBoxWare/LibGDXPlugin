@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.annotators
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
+import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.components.ServiceManager
@@ -594,30 +595,6 @@ class ColorAnnotator : Annotator {
     val b = (value and 0x0000ff00).ushr(8) / 255f
     val a = (value and 0x000000ff) / 255f
     return Color(r, g, b, a)
-  }
-
-  private fun stringToColor(string: String): Color? {
-
-    if (string.length < 6) return null
-
-    var str = if (string[0] == '"') string.substring(1, string.length - 1) else string
-
-    if (!colorRegex.matches(str)) return null
-
-    if (str[0] == '#') {
-      str = str.substring(1)
-    }
-
-    try {
-      val r = Integer.valueOf(str.substring(0, 2), 16)
-      val g = Integer.valueOf(str.substring(2, 4), 16)
-      val b = Integer.valueOf(str.substring(4, 6), 16)
-      val a = if (str.length == 8) Integer.valueOf(str.substring(6, 8), 16) else 255
-
-      return Color(r / 255f, g / 255f, b / 255f, a / 255f)
-    } catch (e: NumberFormatException) {
-      return null
-    }
   }
 
 }

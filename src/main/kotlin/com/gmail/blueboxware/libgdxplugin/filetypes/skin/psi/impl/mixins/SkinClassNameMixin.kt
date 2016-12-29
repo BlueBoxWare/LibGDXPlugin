@@ -1,9 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinLiteral
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinStringLiteralImpl
 import com.intellij.lang.ASTNode
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiClass
+import com.intellij.psi.search.GlobalSearchScope
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -20,8 +22,10 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinLiteralMixin(node: ASTNode) : SkinLiteral, SkinValueImpl(node) {
+abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinStringLiteralImpl(node) {
 
-  fun isQuotedString() = node.findChildByType(SkinParserDefinition.STRING_LITERALS)
+  override fun resolve(): PsiClass? = name?.let { name ->
+    JavaPsiFacade.getInstance(project).findClass(name, GlobalSearchScope.allScope(project))
+  }
 
 }

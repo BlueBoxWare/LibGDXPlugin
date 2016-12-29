@@ -1,11 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
-import com.intellij.json.psi.impl.JSStringLiteralEscaper
 import com.intellij.json.psi.impl.JsonStringLiteralImpl
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiLanguageInjectionHost
-import com.intellij.psi.impl.source.tree.LeafElement
+import com.intellij.openapi.util.text.StringUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -22,22 +22,10 @@ import com.intellij.psi.impl.source.tree.LeafElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-open class SkinStringLiteralMixin(node: ASTNode) : SkinLiteralImpl(node), PsiLanguageInjectionHost {
+abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLiteralImpl(node) {
 
-  override fun updateText(text: String): PsiLanguageInjectionHost {
-    val valueNode = node.firstChildNode as? LeafElement ?: throw AssertionError()
-
-    valueNode.replaceWithText(text)
-
-    return this
-
-  }
-
-  override fun createLiteralTextEscaper() = object : JSStringLiteralEscaper<PsiLanguageInjectionHost>(this) {
-    override fun isRegExpLiteral() = false
-  }
-
-  override fun isValidHost() = true
+  override fun getValue(): String = StringUtil.unescapeStringCharacters(SkinPsiUtil.stripQuotes(text))
 
   fun toJsonStringLiteral() = JsonStringLiteralImpl(node)
+
 }

@@ -1,10 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.ide.IconProvider
-import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
+import com.intellij.lang.LanguageUtil
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiPlainTextFile
 import icons.Icons
 import javax.swing.Icon
 
@@ -28,10 +28,7 @@ class LibGDXIconProvider : IconProvider() {
   override fun getIcon(element: PsiElement, flags: Int): Icon? {
 
     element.containingFile?.virtualFile?.let { virtualFile ->
-      if (element is PsiPlainTextFile
-              && element.project.getComponent(LibGDXProjectSkinFiles::class.java)?.contains(element.virtualFile) == true
-              && EnforcedPlainTextFileTypeManager.getInstance().isMarkedAsPlainText(virtualFile)
-      ) {
+      if (LanguageUtil.getLanguageForPsi(element.project, virtualFile) == LibGDXSkinLanguage.INSTANCE) {
         return Icons.LIBGDX_ICON
       }
     }

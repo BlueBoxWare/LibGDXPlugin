@@ -23,9 +23,11 @@ group 'com.gmail.blueboxware'
 version '1.4'
 
 intellij {
+//    version = '2016.1'
+//    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.1-1', 'Groovy', 'properties']
     version = '2016.3'
+    plugins = ['Kotlin', 'Groovy', 'properties']
     pluginName = 'LibGDX Inspections'
-    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.3-2', 'Groovy', 'properties']
     updateSinceUntilBuild = false
     downloadSources =  true
 }

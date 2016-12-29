@@ -1,9 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin.utils
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
-import com.intellij.openapi.editor.markup.GutterIconRenderer
-import com.intellij.util.ui.ColorIcon
-import java.awt.Color
-import javax.swing.Icon
+import com.intellij.lang.Commenter
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -20,13 +17,15 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+class SkinCommenter : Commenter {
 
-class GutterColorRenderer(val color: Color): GutterIconRenderer() {
+  override fun getLineCommentPrefix(): String? = "//"
 
-  override fun getIcon(): Icon = ColorIcon(10, color, true)
+  override fun getCommentedBlockCommentPrefix(): String?  = null
 
-  override fun equals(other: Any?) = other is GutterColorRenderer && color == other.color
+  override fun getCommentedBlockCommentSuffix(): String?  = null
 
-  override fun hashCode() = color.hashCode()
+  override fun getBlockCommentPrefix(): String?  = "/*"
 
+  override fun getBlockCommentSuffix(): String?  = "*/"
 }

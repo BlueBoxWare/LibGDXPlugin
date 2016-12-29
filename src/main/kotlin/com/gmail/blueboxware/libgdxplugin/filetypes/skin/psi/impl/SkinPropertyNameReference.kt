@@ -46,9 +46,9 @@ class SkinPropertyNameReference(val property: SkinProperty) : PsiReference {
 
   override fun getVariants() = ArrayUtil.EMPTY_OBJECT_ARRAY
 
-  override fun getCanonicalText() = property.name
+  override fun getCanonicalText(): String = property.name
 
-  override fun handleElementRename(newElementName: String) = property.setName(newElementName)
+  override fun handleElementRename(newElementName: String) = throw NotImplementedError()
 
   override fun isSoft() = true
 }

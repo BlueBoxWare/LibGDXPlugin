@@ -1,6 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
 import com.intellij.json.psi.JsonPsiUtil
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
+import com.intellij.psi.TokenType
+import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -19,18 +25,41 @@ import com.intellij.json.psi.JsonPsiUtil
  */
 object SkinPsiUtil {
 
-  /**
-   * Returns content of the string literal (without escaping) striving to preserve as much of user data as possible.
-   * <ul>
-   * <li>If literal length is greater than one and it starts and ends with the same quote and the last quote is not escaped, returns
-   * text without first and last characters.</li>
-   * <li>Otherwise if literal still begins with a quote, returns text without first character only.</li>
-   * <li>Returns unmodified text in all other cases.</li>
-   * </ul>
-   *
-   * @param text presumably result of {@link JsonStringLiteral#getText()}
-   * @return
-   */
   fun stripQuotes(text: String) = JsonPsiUtil.stripQuotes(text)
+
+  fun findFurthestSiblingOfSameType(anchor: PsiElement, after: Boolean): PsiElement {
+
+    var node = anchor.node
+    val expectedType = node.elementType
+    var lastSeen = node
+
+    while (node != null) {
+      val elementType = node.elementType
+      if (elementType == expectedType) {
+        lastSeen = node
+      } else if (elementType == TokenType.WHITE_SPACE) {
+        if (expectedType == SkinElementTypes.LINE_COMMENT && node.text.indexOf('\n', 1) != -1) {
+          break
+        }
+      } else if (!SKIN_COMMENTARIES.contains(elementType) || SKIN_COMMENTARIES.contains(expectedType)) {
+        break
+      }
+      node = if (after) node.treeNext else node.treePrev
+    }
+
+    return lastSeen.psi
+  }
+
+  fun findResource(file: PsiFile, name: String): SkinResource? {
+
+    for (resource in PsiTreeUtil.findChildrenOfType(file, SkinResource::class.java)) {
+      if (resource.name == name) {
+        return resource
+      }
+    }
+
+    return null
+
+  }
 
 }

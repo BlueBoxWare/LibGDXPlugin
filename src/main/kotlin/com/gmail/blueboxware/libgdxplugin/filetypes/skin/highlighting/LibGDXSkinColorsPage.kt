@@ -4,13 +4,16 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BLOCK_COMMENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BRACES
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BRACKETS
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASSNAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_COLON
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_COMMA
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_INVALID_ESCAPE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_KEYWORD
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_LINE_COMMENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_NUMBER
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_KEY
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_STRING
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_VALID_ESCAPE
 import com.intellij.application.options.colors.InspectionColorSettingsPage
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
@@ -42,10 +45,13 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
 
   companion object {
 
-    private val additionalHighlighting = mapOf("propertyKey" to SKIN_PROPERTY_KEY)
+    private val additionalHighlighting = mapOf(
+            "resourceName" to SKIN_RESOURCE_NAME,
+            "propertyName" to SKIN_PROPERTY_NAME
+    )
 
     private val myAttributeDescriptors = arrayOf(
-            AttributesDescriptor("Property key", SKIN_PROPERTY_KEY),
+            AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
             AttributesDescriptor("Braces", SKIN_BRACES),
             AttributesDescriptor("Brackets", SKIN_BRACKETS),
 
@@ -60,7 +66,12 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
             AttributesDescriptor("Block comment", SKIN_BLOCK_COMMENT),
 
             AttributesDescriptor("Valid escape sequence", SKIN_VALID_ESCAPE),
-            AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE)
+            AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE),
+
+            AttributesDescriptor("String", SKIN_STRING),
+
+            AttributesDescriptor("Class name", SKIN_CLASSNAME),
+            AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)
     )
 
   }
@@ -74,20 +85,20 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
     // Line comment
     /* Block comment */
     com.badlogic.gdx.graphics.Color: {
-        red: { r: 1, g: 0, b: 0, a: 1 },
-        yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+        <resourceName>red</resourceName>: { <propertyName>r</propertyName>: 1, <propertyName>g</propertyName>: 0, <propertyName>b</propertyName>: 0, <propertyName>a</propertyName>: 1 },
+        <resourceName>yellow</resourceName>: { <propertyName>r</propertyName>: 0.5, <propertyName>g</propertyName>: 0.5, <propertyName>b</propertyName>: 0, <propertyName>a</propertyName>: 1 }
     },
     com.badlogic.gdx.graphics.g2d.BitmapFont: {
-        medium: { file: medium.fnt, keyword: true }
+        <resourceName>medium</resourceName>: { <propertyName>file</propertyName>: medium.fnt, <propertyName>keyword</propertyName>: true }
     },
     com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
-        default: {
-            down: "round-down", up: round,
-            font: 'medium', fontColor: white
+        <resourceName>default</resourceName>: {
+            <propertyName>down</propertyName>: "round-down", <propertyName>up</propertyName>: round,
+            <propertyName>font</propertyName>: 'medium', <propertyName>fontColor</propertyName>: white
         },
-        toggle: {
-            down: round-down, up: round, checked: round-down,
-            font: medium, fontColor: white, checkedFontColor: red
+        <resourceName>toggle</resourceName>: {
+            <propertyName>down</propertyName>: round-down, <propertyName>up</propertyName>: round, <propertyName>checked</propertyName>: round-down,
+            <propertyName>font</propertyName>: medium, <propertyName>fontColor</propertyName>: white, <propertyName>checkedFontColor</propertyName>: red
         },
     }
 }

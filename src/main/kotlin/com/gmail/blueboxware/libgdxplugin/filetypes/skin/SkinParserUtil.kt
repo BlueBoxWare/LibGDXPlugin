@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
+import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
 
 /*
@@ -17,4 +18,44 @@ import com.intellij.lang.parser.GeneratedParserUtilBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinParserUtil : GeneratedParserUtilBase()
+object SkinParserUtil : GeneratedParserUtilBase() {
+
+  @JvmStatic
+  fun parseSeparator(builder: PsiBuilder, level: Int): Boolean {
+
+    var i = builder.currentOffset
+
+    while (i > 0 && builder.originalText[i - 1] in listOf(' ', '\t', '\r', '\n')) {
+      i--
+    }
+
+    var separatorFound = false
+
+    while (i < builder.originalText.length && builder.originalText[i] in listOf(' ', '\t', '\r', '\n', ',') ) {
+      if (builder.originalText[i] == '\r' || builder.originalText[i] == '\n' || builder.originalText[i] == ',') {
+        separatorFound = true
+        break
+      }
+      i++
+    }
+
+    while (builder.tokenType == SkinElementTypes.COMMA) {
+      builder.advanceLexer()
+    }
+
+    return separatorFound
+
+  }
+
+  @JvmStatic
+  fun parseOtionalComma(builder: PsiBuilder, level: Int): Boolean {
+
+    while (builder.tokenType == SkinElementTypes.COMMA) {
+      builder.advanceLexer()
+    }
+
+    return true
+
+  }
+
+}

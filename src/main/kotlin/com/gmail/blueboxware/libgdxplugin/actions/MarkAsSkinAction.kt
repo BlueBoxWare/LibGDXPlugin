@@ -1,12 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.actions
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
+import com.intellij.json.JsonLanguage
+import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
+import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.vfs.VirtualFile
 import icons.Icons
@@ -30,30 +34,36 @@ class MarkAsSkinAction : AnAction() {
 
   override fun update(event: AnActionEvent?) {
 
-    // T getData(@NotNull DataKey<T> key) was added in 162.426: not yet available in Android Studio
-    val file = event?.dataContext?.getData(PlatformDataKeys.VIRTUAL_FILE.name)
+    if (event == null) return
 
-    val presentation = event?.presentation
+    // T getData(@NotNull DataKey<T> key) was added in 162.426: not yet available in Android Studio
+    val file = event.dataContext.getData(PlatformDataKeys.VIRTUAL_FILE.name) ?: return
+
+    val presentation = event.presentation
+
+    presentation.isEnabled = false
 
     if (file is VirtualFile && !file.isDirectory) {
 
-      presentation?.isEnabled = true
+      event.project?.let { project ->
+        val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
+        val nonSkinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
 
-      if (event?.project?.getComponent(LibGDXProjectSkinFiles::class.java)?.contains(file) == true && EnforcedPlainTextFileTypeManager.getInstance().isMarkedAsPlainText(file)) {
+        if (currentLanguage == PlainTextLanguage.INSTANCE || currentLanguage == JsonLanguage.INSTANCE) {
 
-        presentation?.text = message("context.menu.mark.as.non.skin")
-        presentation?.icon = IconLoader.getDisabledIcon(Icons.LIBGDX_ICON)
+          presentation.text = message("context.menu.mark.as.skin")
+          presentation.icon = Icons.LIBGDX_ICON
+          presentation.isEnabled = true
 
-      } else {
+        } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE){
 
-        presentation?.text = message("context.menu.mark.as.skin")
-        presentation?.icon = Icons.LIBGDX_ICON
+          presentation.text = message("context.menu.mark.as.non.skin")
+          presentation.icon = IconLoader.getDisabledIcon(Icons.LIBGDX_ICON)
+          presentation.isEnabled = true
+
+        }
 
       }
-
-    } else {
-
-      presentation?.isEnabled = false
 
     }
 
@@ -71,11 +81,11 @@ class MarkAsSkinAction : AnAction() {
 
     if (text == message("context.menu.mark.as.skin")) {
 
-      markFileAsSkin(project, file, true)
+      markFileAsSkin(project, file)
 
     } else {
 
-      markFileAsSkin(project, file, false)
+      markFileAsNonSkin(project, file)
 
     }
 

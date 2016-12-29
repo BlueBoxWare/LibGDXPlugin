@@ -44,9 +44,10 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     val SKIN_LINE_COMMENT = TextAttributesKey.createTextAttributesKey("SKIN.LINE_COMMENT", JSON_LINE_COMMENT)
     val SKIN_BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("SKIN.BLOCK_COMMENT", JSON_BLOCK_COMMENT)
 
-    val SKIN_IDENTIFIER = TextAttributesKey.createTextAttributesKey("SKIN.IDENTIFIER", JSON_IDENTIFIER)
+    val SKIN_CLASSNAME = TextAttributesKey.createTextAttributesKey("SKIN.CLASSNAME", JSON_KEYWORD)
+    val SKIN_RESOURCE_NAME = TextAttributesKey.createTextAttributesKey("SKIN.RESOURCENAME", JSON_IDENTIFIER)
 
-    val SKIN_PROPERTY_KEY = TextAttributesKey.createTextAttributesKey("SKIN.PROPERTY_KEY", JSON_PROPERTY_KEY)
+    val SKIN_PROPERTY_NAME = TextAttributesKey.createTextAttributesKey("SKIN.PROPERTY_NAME", JSON_PROPERTY_KEY)
 
     val SKIN_VALID_ESCAPE = TextAttributesKey.createTextAttributesKey("SKIN.VALID_ESCAPE", JSON_VALID_ESCAPE)
     val SKIN_INVALID_ESCAPE = TextAttributesKey.createTextAttributesKey("SKIN.INVALID_ESCAPE", JSON_INVALID_ESCAPE)
@@ -70,6 +71,7 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
               SkinElementTypes.SINGLE_QUOTED_STRING to SKIN_STRING,
               SkinElementTypes.DOUBLE_QUOTED_STRING to SKIN_STRING,
+              SkinElementTypes.UNQUOTED_STRING to SKIN_STRING,
 
               SkinElementTypes.NUMBER to SKIN_NUMBER,
 
@@ -80,7 +82,10 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
               SkinElementTypes.LINE_COMMENT to SKIN_LINE_COMMENT,
               SkinElementTypes.BLOCK_COMMENT to SKIN_BLOCK_COMMENT,
 
-              SkinElementTypes.IDENTIFIER to SKIN_IDENTIFIER,
+              SkinElementTypes.CLASSNAME_STRING to SKIN_CLASSNAME,
+              SkinElementTypes.PROPERTY_NAME to SKIN_PROPERTY_NAME,
+              SkinElementTypes.RESOURCE_NAME to SKIN_RESOURCE_NAME,
+
               TokenType.BAD_CHARACTER to HighlighterColors.BAD_CHARACTER,
 
               StringEscapesTokenTypes.VALID_STRING_ESCAPE_TOKEN to SKIN_VALID_ESCAPE,
@@ -89,7 +94,9 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
       )
     }
 
-    override fun getTokenHighlights(tokenType: IElementType?) = pack(attributes[tokenType])
+    override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
+        return pack(attributes[tokenType])
+    }
 
     override fun getHighlightingLexer(): Lexer {
       val layeredLexer = LayeredLexer(SkinLexer())

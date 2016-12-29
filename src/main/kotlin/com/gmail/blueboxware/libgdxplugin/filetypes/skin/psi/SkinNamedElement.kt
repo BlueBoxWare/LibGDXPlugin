@@ -1,7 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
+import com.intellij.psi.PsiNameIdentifierOwner
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -18,13 +17,4 @@ import com.intellij.openapi.fileTypes.FileTypeFactory
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileTypeFactory : FileTypeFactory() {
-
-  override fun createFileTypes(consumer: FileTypeConsumer) {
-
-    consumer.consume(LibGDXSkinFileType.INSTANCE)
-
-  }
-
-
-}
+interface SkinNamedElement : PsiNameIdentifierOwner

@@ -1,7 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNumberLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
+import com.intellij.lang.ASTNode
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -18,13 +19,11 @@ import com.intellij.openapi.fileTypes.FileTypeFactory
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileTypeFactory : FileTypeFactory() {
+abstract class SkinNumberLiteralMixin(node: ASTNode) : SkinNumberLiteral, SkinLiteralImpl(node) {
 
-  override fun createFileTypes(consumer: FileTypeConsumer) {
-
-    consumer.consume(LibGDXSkinFileType.INSTANCE)
-
+  override fun getValue(): Double = try {
+    text.toDouble()
+  } catch (e: NumberFormatException) {
+    0.0
   }
-
-
 }

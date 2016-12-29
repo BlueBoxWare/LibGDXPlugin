@@ -1,7 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
+import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.intellij.lang.Language
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.LanguageSubstitutor
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -18,12 +21,17 @@ import com.intellij.openapi.fileTypes.FileTypeFactory
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileTypeFactory : FileTypeFactory() {
+class LibGDXSkinFileSubstitutor : LanguageSubstitutor() {
 
-  override fun createFileTypes(consumer: FileTypeConsumer) {
+  override fun getLanguage(file: VirtualFile, project: Project): Language? {
 
-    consumer.consume(LibGDXSkinFileType.INSTANCE)
+    val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return null
 
+    if (skinFiles.contains(file)) {
+      return LibGDXSkinLanguage.INSTANCE
+    }
+
+    return null
   }
 
 

@@ -1,9 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.util.PsiTreeUtil
+import javax.swing.Icon
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -20,8 +24,16 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinLiteralMixin(node: ASTNode) : SkinLiteral, SkinValueImpl(node) {
+abstract class SkinArrayMixin(node: ASTNode) : SkinArray, SkinValueImpl(node) {
 
-  fun isQuotedString() = node.findChildByType(SkinParserDefinition.STRING_LITERALS)
+  override fun getValueList(): List<SkinValue> = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinValue::class.java)
+
+  override fun getPresentation(): ItemPresentation = object : ItemPresentation {
+    override fun getPresentableText() = "array"
+
+    override fun getLocationString(): String? = null
+
+    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Array
+  }
 
 }

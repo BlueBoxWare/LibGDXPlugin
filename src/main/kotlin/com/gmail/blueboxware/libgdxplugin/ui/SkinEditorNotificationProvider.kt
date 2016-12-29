@@ -1,13 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
-import com.gmail.blueboxware.libgdxplugin.annotators.SkinHighlighter
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSettings
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.SKIN_SIGNATURE
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
+import com.intellij.json.JsonLanguage
+import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.TextEditor
+import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
@@ -39,35 +42,31 @@ class SkinEditorNotificationProvider(val project: Project, val notifications: Ed
 
     if (fileEditor !is TextEditor) return null
 
-    file.extension?.let { extension ->
-      if (extension !in listOf("json", "skin", "txt", "" )) {
-        return null
-      }
-    }
+    val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
+
+    if (currentLanguage == LibGDXSkinLanguage.INSTANCE) return null
+
+    if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) return null
 
     val settings = project.getComponent(LibGDXProjectSettings::class.java) ?: return null
-    val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return null
     val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java) ?: return null
 
-    if (settings.neverAskAboutSkinFiles == true
-            || skinFiles.contains(file)
-            || nonSkinFiles.contains(file)
-            || !fileEditor.editor.document.text.contains(SkinHighlighter.SKIN_SIGNATURE)
+    if (settings.neverAskAboutSkinFiles || nonSkinFiles.contains(file) || !fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
     ) {
       return null
     }
 
     val editorNotificationPanel = EditorNotificationPanel()
 
-    editorNotificationPanel.setText(message("skin.file.detected"))
+    editorNotificationPanel.setText(message("skin.file.detected", params = file.fileType.description))
 
     editorNotificationPanel.createActionLabel(message("skin.file.yes"), {
-      markFileAsSkin(project, file, true)
+      markFileAsSkin(project, file)
       notifications.updateAllNotifications()
     })
 
     editorNotificationPanel.createActionLabel(message("skin.file.no"), {
-      markFileAsSkin(project, file, false)
+      markFileAsSkin(project, file)
       notifications.updateAllNotifications()
     })
 
