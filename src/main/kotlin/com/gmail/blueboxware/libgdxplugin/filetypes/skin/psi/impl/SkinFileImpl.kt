@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
@@ -27,9 +27,9 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun getFileType(): FileType = viewProvider.fileType
 
-  override fun getTopLevelValue() = PsiTreeUtil.getChildOfType(this, SkinValue::class.java)
+  override fun getTopLevelValue() = PsiTreeUtil.getChildOfType(this, SkinClassSpecification::class.java)
 
-  override fun getAllTopLevelValues() = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinValue::class.java)
+  override fun getAllTopLevelValues() = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinClassSpecification::class.java)
 
   override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 

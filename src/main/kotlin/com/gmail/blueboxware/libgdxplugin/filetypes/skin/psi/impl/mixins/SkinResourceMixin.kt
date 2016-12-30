@@ -1,13 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinPropertyImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.util.ui.ColorIcon
+import com.intellij.util.ui.UIUtil
 import javax.swing.Icon
 
 /*
@@ -25,7 +28,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinPropertyImpl(node) {
+abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(node) {
 
   override fun getName() = resourceName.stringLiteral.value
 
@@ -43,9 +46,9 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinPropertyImpl
   }
 
   override fun getPresentation(): ItemPresentation  = object : ItemPresentation {
-    override fun getLocationString(): String? = containingFile.name
+    override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon?  = AllIcons.General.EditColors
+    override fun getIcon(unused: Boolean): Icon?  = (value as? SkinObject)?.asColor()?.let { ColorIcon(if (UIUtil.isRetina()) 26 else 13, it, true) } ?: AllIcons.FileTypes.Properties
 
     override fun getPresentableText(): String?  = name
   }

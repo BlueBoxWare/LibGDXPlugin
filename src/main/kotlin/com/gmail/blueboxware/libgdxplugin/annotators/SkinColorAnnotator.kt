@@ -1,15 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNumberLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
-import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import java.awt.Color
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -30,55 +25,10 @@ class SkinColorAnnotator : Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (element is SkinProperty) {
-
-      if (element.name.toLowerCase() == "hex") {
-
-        (element.propertyValue.value as? SkinStringLiteral)?.value?.let { string ->
-
-          stringToColor(string)?.let { color ->
-            val annotation = holder.createInfoAnnotation(element, null)
-            annotation.gutterIconRenderer = GutterColorRenderer(color)
-          }
-
-        }
-
-      } else  {
-
-        (element.value as? SkinObject)?.let { obj ->
-
-          var r: Float? = null
-          var g: Float? = null
-          var b: Float? = null
-          var a: Float = 1.0f
-
-          for (property in obj.propertyList) {
-
-            (property.value as? SkinNumberLiteral)?.value?.toFloat()?.let { d ->
-
-              when (property.name) {
-                "r" -> r = d
-                "g" -> g = d
-                "b" -> b = d
-                "a" -> a = d
-              }
-
-            }
-          }
-
-          if (r != null && g != null && b != null) {
-
-            try {
-              val color = Color(r ?: 0f, g ?: 0f, b ?: 0f, a)
-              val annotation = holder.createInfoAnnotation(element, null)
-              annotation.gutterIconRenderer = GutterColorRenderer(color)
-            } catch (e: IllegalArgumentException) {
-              // Do nothing
-            }
-
-          }
-        }
-
+    if (element is SkinObject) {
+      element.asColor()?.let { color ->
+        val annotation = holder.createInfoAnnotation(element, null)
+        annotation.gutterIconRenderer = GutterColorRenderer(color)
       }
 
     }

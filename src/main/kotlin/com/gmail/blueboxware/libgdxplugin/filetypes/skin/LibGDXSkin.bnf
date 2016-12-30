@@ -14,14 +14,13 @@
   implements("value|property_name|resource_name|property_value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement"
   extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
 
-  implements("resource|property") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
+  implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
 
   extends("literal|array|object")=value
 
   extends("class_specification")="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
   extends("class_name")=string_literal
   extends("boolean_literal|number_literal|string_literal|null_literal")=literal
-  extends("resource")=property
 
     tokens = [
         L_CURLY='{'
@@ -61,6 +60,7 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
     methods=[
         resolveClass
         getClassNameAsString
+        getResourcesAsList
         value=""
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin"
@@ -77,7 +77,7 @@ resources ::= resource? (separator resource)* {
     pin = 1
 }
 
-resource ::= resource_name ':' /* (color | */ object /* ) */ {
+resource ::= resource_name ':' object {
     methods = [
         getName
         getValue
@@ -88,6 +88,9 @@ resource ::= resource_name ':' /* (color | */ object /* ) */ {
 resource_name ::= string_literal
 
 object ::= '{' property? (separator property)* optionalComma '}' {
+    methods = [
+        asColor
+    ]
     pin = 2
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
 }

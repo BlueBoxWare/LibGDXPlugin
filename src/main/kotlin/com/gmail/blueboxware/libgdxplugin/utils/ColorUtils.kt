@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.util.ui.ColorIcon
+import com.intellij.util.ui.UIUtil
 import java.awt.Color
 import javax.swing.Icon
 
@@ -47,7 +48,7 @@ fun stringToColor(string: String): Color? {
 
 class GutterColorRenderer(val color: Color): GutterIconRenderer() {
 
-  override fun getIcon(): Icon = ColorIcon(10, color, true)
+  override fun getIcon(): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12 , color, true)
 
   override fun equals(other: Any?) = other is GutterColorRenderer && color == other.color
 

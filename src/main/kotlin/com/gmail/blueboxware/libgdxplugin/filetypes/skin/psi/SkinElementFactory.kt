@@ -40,6 +40,11 @@ object SkinElementFactory {
     return createElement(project, content, SkinResourceName::class.java)
   }
 
+  fun createClassName(project : Project, name : String): SkinClassName? {
+    val content = dummyContent.replace("fq.class.Name", name)
+    return createElement(project, content, SkinClassName::class.java)
+  }
+
   private fun <T: SkinElement> createElement(project: Project, content: String, type: Class<T>): T? {
     val file = createFile(project, content)
     return PsiTreeUtil.findChildOfType(file, type)

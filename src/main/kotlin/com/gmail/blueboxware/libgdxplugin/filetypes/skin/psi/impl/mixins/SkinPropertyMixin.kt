@@ -11,6 +11,8 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry
 import com.intellij.util.ArrayUtil
 import com.intellij.util.PlatformIcons
+import com.intellij.util.ui.ColorIcon
+import com.intellij.util.ui.UIUtil
 import org.jetbrains.annotations.NonNls
 import javax.swing.Icon
 
@@ -47,10 +49,15 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
     override fun getLocationString() = null
 
     override fun getIcon(unused: Boolean): Icon {
-      if (propertyValue is SkinArray) {
+
+      (value as? SkinObject)?.asColor()?.let { color ->
+        return ColorIcon(if (UIUtil.isRetina()) 26 else 13, color, true)
+      }
+
+      if (value is SkinArray) {
         return AllIcons.Json.Property_brackets
       }
-      if (propertyValue is SkinObject) {
+      if (value is SkinObject) {
         return AllIcons.Json.Property_braces
       }
       return PlatformIcons.PROPERTY_ICON
@@ -58,4 +65,5 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     override fun getPresentableText() = name
   }
+
 }
