@@ -1,5 +1,8 @@
+package skin
+
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.intellij.testFramework.ParsingTestCase
+import getTestDataPathFromProperty
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -42,13 +45,7 @@ class TestSkinParsing : ParsingTestCase("", "json", SkinParserDefinition()) {
     doTest()
   }
 
-  override fun getTestDataPath(): String {
-    val path = System.getProperty("libgdxplugin.test.path")
-    if (path == null) {
-      throw AssertionError("Use -Dlibgdxplugin.test.path=<TESTPATH> to specify the absolute path to the testdata directory")
-    }
-    return path + "/filetypes/skin/psi"
-  }
+  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/psi"
 
   override fun skipSpaces() = true
 

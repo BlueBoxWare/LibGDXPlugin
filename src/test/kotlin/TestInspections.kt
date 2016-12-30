@@ -76,13 +76,7 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
 
   }
 
-  override fun getTestDataPath(): String? {
-    val path = System.getProperty("libgdxplugin.test.path")
-    if (path == null) {
-      throw AssertionError("Use -Dlibgdxplugin.test.path=<TESTPATH> to specify the absolute path to the testdata directory")
-    }
-    return path
-  }
+  override fun getTestDataPath() = getTestDataPathFromProperty()
 
   fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
     myFixture.enableInspections(inspection)

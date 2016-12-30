@@ -1,9 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASSNAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.intellij.lang.annotation.AnnotationHolder
@@ -32,8 +30,6 @@ class SkinAdditionalHighlighter : Annotator {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_PROPERTY_NAME }
     } else if (element is SkinResourceName) {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_RESOURCE_NAME }
-    } else if (element is SkinClassName) {
-      holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_CLASSNAME }
     }
   }
 }
