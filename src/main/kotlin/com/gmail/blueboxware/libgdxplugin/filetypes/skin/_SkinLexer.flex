@@ -32,8 +32,7 @@ CLASSNAME_STRING=[\"']?[a-z][a-zA-Z0-9]*(\.[a-zA-Z][a-zA-Z0-9]*)*\.[A-Z][a-zA-Z0
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
 NUMBER=-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?|-?\.[0-9]+
-UNQUOTED_STRING=[a-zA-Z0-9\-_\.#]+
-SPACE=[ \t\n\x0B\f\r]+
+UNQUOTED_STRING=[^ \t\n\r\{\}\[\]\"':,]+
 
 %%
 <YYINITIAL> {
@@ -56,7 +55,6 @@ SPACE=[ \t\n\x0B\f\r]+
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
   {NUMBER}                    { return NUMBER; }
   {UNQUOTED_STRING}           { return UNQUOTED_STRING; }
-  {SPACE}                     { return SPACE; }
 
 }
 

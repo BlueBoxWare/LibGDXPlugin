@@ -40,13 +40,11 @@
 
         NUMBER='regexp:-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d*)?|-?\.\d+'
 
-        UNQUOTED_STRING="regexp:[a-zA-Z0-9\-_\.#]+"
+        UNQUOTED_STRING="regexp:[^ \t\n\r\{\}\[\]\"':,]+"
 
         TRUE='true'
         FALSE='false'
         NULL='null'
-
-        space='regexp:\s+'
     ]
 
 

@@ -3,9 +3,17 @@
   white: { r: 1, g: 1, b: 1, a: 1 },
   red: { r: 1, g: 0, b: 0, a: 1 },
   yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+  h: { hex: 00ffff11 }
+  h2: { hex: #00ffffff }
+  h3: { hex: "ffff00" }
+  h4: { hex
+  :
+  "#ffff0011"
+  }
 },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
-  medium: { file: medium.fnt }
+  medium: { file: test/test\medium.fnt }
+  test: { str: "\"'\n\f", str2: '"\'' }
 },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
   default: {
