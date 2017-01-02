@@ -15,6 +15,7 @@
   extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
 
   implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
+  implements("class_name") = "PsiReference"
 
   extends("literal|array|object")=value
 

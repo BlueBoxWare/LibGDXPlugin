@@ -1,12 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiModifier
 import com.intellij.util.ProcessingContext
 
 /*
@@ -27,18 +26,47 @@ import com.intellij.util.ProcessingContext
 class SkinCompletionContributor : CompletionContributor() {
 
   init {
-    extend(
-            CompletionType.BASIC,
-            PlatformPatterns.psiElement().withParent(SkinStringLiteral::class.java).inside(SkinPropertyValue::class.java),
-            object : CompletionProvider<CompletionParameters>() {
-
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
-                for (resource in PsiTreeUtil.findChildrenOfType(parameters.originalFile, SkinResource::class.java)) {
-                  result.addElement(LookupElementBuilder.create(resource.name))
-                }
-              }
-            }
-    )
+    extend(CompletionType.BASIC, PlatformPatterns.psiElement(SkinElementTypes.CLASSNAME_STRING), object: CompletionProvider<CompletionParameters>() {
+      override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+        classNameCompletion(parameters, result)
+      }
+    })
   }
 
+  override fun beforeCompletion(context: CompletionInitializationContext) {
+    context.dummyIdentifier = "com.example.Class"
+  }
+
+  private fun classNameCompletion(parameters: CompletionParameters, result : CompletionResultSet) {
+    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }
+
+    val project = parameters.position.project
+    val psiFacade = JavaPsiFacade.getInstance(project)
+    val rootPackage = psiFacade.findPackage(prefix) ?: return
+
+    for (subpackage in rootPackage.subPackages) {
+      result.addElement(LookupElementBuilder.create(subpackage, subpackage.qualifiedName))
+    }
+
+    val currentPackage = psiFacade.findPackage(prefix) ?: return
+
+    for (clazz in currentPackage.classes) {
+      if (!clazz.isAnnotationType && !clazz.isInterface && !clazz.hasModifierProperty(PsiModifier.ABSTRACT))
+      result.addElement(JavaClassNameCompletionContributor.createClassLookupItem(clazz, false).apply {
+        forcedPresentableName = clazz.qualifiedName
+        setInsertHandler(BasicInsertHandler())
+      })
+
+      for (innerClass in clazz.innerClasses) {
+        val fqName = clazz.qualifiedName + "$" + innerClass.name
+        if (innerClass.hasModifierProperty(PsiModifier.PUBLIC)) {
+          result.addElement(JavaClassNameCompletionContributor.createClassLookupItem(innerClass, false).apply {
+            forcedPresentableName = fqName
+            setInsertHandler(BasicInsertHandler())
+          })
+        }
+      }
+    }
+
+  }
 }
