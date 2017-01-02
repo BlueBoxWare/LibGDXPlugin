@@ -15,7 +15,7 @@
   extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
 
   implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
-  implements("class_name") = "PsiReference"
+//  implements("class_name") = "com.intellij.psi.PsiReference"
 
   extends("literal|array|object")=value
 
@@ -118,7 +118,7 @@ literal ::= string_literal | number_literal | boolean_literal | null_literal {
       mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinLiteralMixin"
 }
 
-string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
+string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING | CLASSNAME_STRING {
       methods=[
         getValue
         SINGLE_QUOTED_STRING=""

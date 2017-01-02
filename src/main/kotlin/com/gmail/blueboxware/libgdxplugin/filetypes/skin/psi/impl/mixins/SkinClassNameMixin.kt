@@ -28,4 +28,6 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinStringLite
     JavaPsiFacade.getInstance(project).findClass(name, GlobalSearchScope.allScope(project))
   }
 
+
+
 }
