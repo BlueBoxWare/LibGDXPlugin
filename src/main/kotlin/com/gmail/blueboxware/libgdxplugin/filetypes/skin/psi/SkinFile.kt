@@ -23,4 +23,5 @@ interface SkinFile : SkinElement, PsiFile {
 
   fun getAllTopLevelValues(): List<SkinElement>
 
+  fun getClassSpecifications(): Collection<SkinClassSpecification>
 }

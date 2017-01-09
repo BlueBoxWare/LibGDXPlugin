@@ -44,7 +44,7 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     val SKIN_LINE_COMMENT = TextAttributesKey.createTextAttributesKey("SKIN.LINE_COMMENT", JSON_LINE_COMMENT)
     val SKIN_BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("SKIN.BLOCK_COMMENT", JSON_BLOCK_COMMENT)
 
-    val SKIN_CLASSNAME = TextAttributesKey.createTextAttributesKey("SKIN.CLASSNAME", JSON_KEYWORD)
+    val SKIN_CLASS_NAME = TextAttributesKey.createTextAttributesKey("SKIN.CLASSNAME", JSON_KEYWORD)
     val SKIN_RESOURCE_NAME = TextAttributesKey.createTextAttributesKey("SKIN.RESOURCENAME", JSON_IDENTIFIER)
 
     val SKIN_PROPERTY_NAME = TextAttributesKey.createTextAttributesKey("SKIN.PROPERTY_NAME", JSON_PROPERTY_KEY)
@@ -82,7 +82,6 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
               SkinElementTypes.LINE_COMMENT to SKIN_LINE_COMMENT,
               SkinElementTypes.BLOCK_COMMENT to SKIN_BLOCK_COMMENT,
 
-              SkinElementTypes.CLASSNAME_STRING to SKIN_CLASSNAME,
               SkinElementTypes.PROPERTY_NAME to SKIN_PROPERTY_NAME,
               SkinElementTypes.RESOURCE_NAME to SKIN_RESOURCE_NAME,
 

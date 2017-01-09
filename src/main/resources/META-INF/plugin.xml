@@ -111,6 +111,8 @@
         <lang.psiStructureViewFactory language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinStructureViewFactory" />
 
         <lang.braceMatcher language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher" />
+
+        <lang.smartEnterProcessor language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSmartEnterProcessor" />
     </extensions>
 
     <actions>

@@ -1,15 +1,19 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.text.StringUtil
+import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiField
+import com.intellij.psi.search.GlobalSearchScope
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -28,14 +32,16 @@ import com.intellij.psi.PsiElement
  */
 abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecification, SkinElementImpl(node) {
 
-  override fun getNameIdentifier(): SkinClassName?  = className
+  override fun getNameIdentifier(): SkinStringLiteral = className
 
   override fun getClassNameAsString(): String = className.value
 
-  override fun resolveClass(): PsiClass? = className.resolve()
+  override fun resolveClass(): PsiClass? = JavaPsiFacade.getInstance(project).findClass(removeDollarFromClassName(name), GlobalSearchScope.allScope(project))
+
+  override fun resolveProperty(property: SkinProperty): PsiField? = resolveClass()?.findFieldByName(property.name, true)
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createClassName(project, name)?.let { newClassName ->
+    SkinElementFactory.createStringLiteral(project, name)?.let { newClassName ->
       newClassName.replace(newClassName)
       return newClassName
     }
@@ -43,15 +49,22 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
     return null
   }
 
-  override fun getResourcesAsList() = resources.resourceList
+  override fun getResourcesAsList() = resources?.resourceList ?: listOf()
 
-  override fun getName() = nameIdentifier?.value
+  override fun getName() = nameIdentifier.value
 
   override fun getPresentation() = object: ItemPresentation {
     override fun getLocationString() = null
 
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-    override fun getPresentableText() = name?.let { StringUtil.getShortName(it) }
+    override fun getPresentableText() = name.let { StringUtil.getShortName(it) }
   }
+
+  companion object {
+    fun removeDollarFromClassName(name: String) = name.split(".", "$").joinToString(".")
+
+    fun putDollarInInnerClassName(clazz: PsiClass) = clazz.containingClass?.let { it.qualifiedName + "$" + clazz.name } ?: clazz.qualifiedName
+  }
+
 }

@@ -1,14 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinStringLiteralImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.lang.ASTNode
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiClass
-import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.PsiTreeUtil
 
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2017 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +21,8 @@ import com.intellij.psi.search.GlobalSearchScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinStringLiteralImpl(node) {
+abstract class SkinPropertyNameMixin(node: ASTNode) : SkinPropertyName, SkinElementImpl(node) {
 
-  override fun resolve(): PsiClass? = name?.let { name ->
-    JavaPsiFacade.getInstance(project).findClass(name, GlobalSearchScope.allScope(project))
-  }
-
-
+  override fun getProperty(): SkinProperty? = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
 }

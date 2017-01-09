@@ -7,7 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.5"
     }
 }
 
@@ -23,10 +23,8 @@ group 'com.gmail.blueboxware'
 version '1.5'
 
 intellij {
-//    version = '2016.1'
-//    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.1-1', 'Groovy', 'properties']
-    version = '2016.3'
-    plugins = ['Kotlin', 'Groovy', 'properties']
+    version = '2016.3.2'
+    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.3-1', 'Groovy', 'properties']
     pluginName = 'LibGDX Inspections'
     updateSinceUntilBuild = false
     downloadSources =  true
@@ -44,6 +42,11 @@ sourceSets {
         resources.srcDir 'resources'
         java.srcDir 'gen'
     }
+}
+
+test {
+    systemProperty 'idea.home.path', System.getenv("LIBGDXPLUGIN_IDEA")
+    systemProperty 'libgdxplugin.test.path', System.getenv("LIBGDXPLUGIN_TEST")
 }
 
 dependencies {

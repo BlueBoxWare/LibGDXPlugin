@@ -28,7 +28,6 @@ WHITE_SPACE=\s+
 
 LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
-CLASSNAME_STRING=[\"']?[a-z][a-zA-Z0-9]*(\.[a-zA-Z][a-zA-Z0-9]*)*\.[A-Z][a-zA-Z0-9$]*[\"']?
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
 NUMBER=-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?|-?\.[0-9]+
@@ -50,7 +49,6 @@ UNQUOTED_STRING=[^ \t\n\r\{\}\[\]\"':,]+
 
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
-  {CLASSNAME_STRING}          { return CLASSNAME_STRING; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
   {NUMBER}                    { return NUMBER; }

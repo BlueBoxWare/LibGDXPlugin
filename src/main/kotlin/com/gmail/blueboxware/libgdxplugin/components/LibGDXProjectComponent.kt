@@ -38,16 +38,15 @@ import java.util.*
  */
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
+  val isLibGDXProject: Boolean
+    get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
+
   private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
 
   private val usedLibraryVersions = mutableMapOf<GDXLibrary, String>()
   private val latestLibraryVersions = mutableMapOf<GDXLibrary, String>()
 
   private var latestLibraryVersionLastChecked = -1
-
-  val isLibGDXProject: Boolean
-    get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
-
 
   // For testing only
   var isTesting = false
@@ -194,6 +193,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       if (project.isDisposed) return
 
       val document = event?.document ?: return
+
       val virtualFile = FileDocumentManager.getInstance().getFile(document) ?: return
       val settings = project.getComponent(LibGDXProjectSettings::class.java) ?: return
       val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)?.files ?: return
@@ -205,6 +205,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
     }
 
   }
+
 
 }
 

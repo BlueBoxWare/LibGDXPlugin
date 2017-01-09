@@ -24,8 +24,10 @@ object SkinElementFactory {
 
   val dummyContent = """
 {
-    fq.class.Name: {
-        resourceName: { propertyName: propertyValue }
+    "string_literal: {
+        resourceName: {
+            propertyName: propertyValue
+        }
     }
 }
   """
@@ -40,9 +42,9 @@ object SkinElementFactory {
     return createElement(project, content, SkinResourceName::class.java)
   }
 
-  fun createClassName(project : Project, name : String): SkinClassName? {
-    val content = dummyContent.replace("fq.class.Name", name)
-    return createElement(project, content, SkinClassName::class.java)
+  fun createStringLiteral(project : Project, value : String): SkinStringLiteral? {
+    val content = dummyContent.replace("string_literal", value)
+    return createElement(project, content, SkinStringLiteral::class.java)
   }
 
   private fun <T: SkinElement> createElement(project: Project, content: String, type: Class<T>): T? {

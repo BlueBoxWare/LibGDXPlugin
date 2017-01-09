@@ -7,8 +7,11 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiField
 import com.intellij.psi.PsiReference
+import com.intellij.psi.PsiType
 import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ArrayUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ui.ColorIcon
@@ -25,9 +28,19 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun getName(): String = propertyName.stringLiteral.value
 
-  override fun getValue(): SkinValue = propertyValue.value
+  override fun getValue(): SkinValue? = propertyValue?.value
 
   override fun getNameIdentifier(): PsiElement = propertyName
+
+  override fun getContainingClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification}) as? SkinClassSpecification
+
+  override fun getContainingObject(): SkinObject? = PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject
+
+  override fun resolveToField(): PsiField? = getContainingClassSpecification()?.resolveProperty(this)
+
+  override fun resolveToType(): PsiType? = resolveToField()?.type
+
+  override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
   override fun setName(@NonNls name: String): PsiElement? {
     SkinElementFactory.createPropertyName(project, name)?.let { newPropertyName ->
@@ -50,7 +63,9 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     override fun getIcon(unused: Boolean): Icon {
 
-      (value as? SkinObject)?.asColor()?.let { color ->
+      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
+
+      (value as? SkinObject)?.asColor(force)?.let { color ->
         return ColorIcon(if (UIUtil.isRetina()) 26 else 13, color, true)
       }
 

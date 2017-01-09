@@ -33,5 +33,5 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 
-
+  override fun getClassSpecifications(): Collection<SkinClassSpecification> = PsiTreeUtil.findChildrenOfType(this, SkinClassSpecification::class.java)
 }

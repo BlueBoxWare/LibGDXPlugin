@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNumberLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
@@ -13,6 +14,10 @@ import javax.swing.Icon
 
 abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) {
 
+  override fun getPropertyNames() = propertyList.mapNotNull { it.name }
+
+  override fun asResource(): SkinResource? = parent as? SkinResource
+
   override fun getPresentation() = object : ItemPresentation {
     override fun getPresentableText(): String? = "object"
 
@@ -21,7 +26,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
     override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Object
   }
 
-  override fun asColor(): Color? {
+  override fun asColor(force: Boolean): Color? {
 
     var color: Color? = null
 
@@ -31,7 +36,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
         color = stringToColor(string)
       }
 
-    } else if (propertyList.size == 3 || propertyList.size == 4) {
+    } else if (propertyList.size == 3 || propertyList.size == 4 || force) {
 
       var r: Float? = null
       var g: Float? = null
@@ -52,10 +57,10 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
         }
       }
 
-      if (r != null && g != null && b != null) {
+      if (force || (r != null && g != null && b != null)) {
 
         try {
-          color = Color(r ?: 0f, g ?: 0f, b ?: 0f, a)
+          color = Color(r ?: 1f, g ?: 1f, b ?: 1f, a)
         } catch (e: IllegalArgumentException) {
           // Do nothing
         }

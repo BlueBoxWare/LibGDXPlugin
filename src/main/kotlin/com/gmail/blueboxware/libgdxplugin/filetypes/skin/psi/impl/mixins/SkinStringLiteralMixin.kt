@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
-import com.intellij.json.psi.impl.JsonStringLiteralImpl
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
 
@@ -26,6 +26,5 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
 
   override fun getValue(): String = StringUtil.unescapeStringCharacters(SkinPsiUtil.stripQuotes(text))
 
-  fun toJsonStringLiteral() = JsonStringLiteralImpl(node)
-
+  override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 }

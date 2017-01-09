@@ -1,14 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
 import javax.swing.Icon
@@ -34,7 +32,9 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   override fun getNameIdentifier() = resourceName
 
-  override fun getValue(): SkinValue  = getObject()
+  override fun getValue(): SkinValue?  = getObject()
+
+  override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
 
   override fun setName(name: String): PsiElement? {
     SkinElementFactory.createResourceName(project, name)?.let { newResourceName ->
@@ -48,7 +48,10 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   override fun getPresentation(): ItemPresentation  = object : ItemPresentation {
     override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon?  = (value as? SkinObject)?.asColor()?.let { ColorIcon(if (UIUtil.isRetina()) 26 else 13, it, true) } ?: AllIcons.FileTypes.Properties
+    override fun getIcon(unused: Boolean): Icon? {
+      val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
+      return (value as? SkinObject)?.asColor(force)?.let { ColorIcon(if (UIUtil.isRetina()) 26 else 13, it, true) } ?: AllIcons.FileTypes.Properties
+    }
 
     override fun getPresentableText(): String?  = name
   }
