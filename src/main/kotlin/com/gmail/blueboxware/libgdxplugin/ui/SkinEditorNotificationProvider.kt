@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.SKIN_SIGNATURE
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.json.JsonLanguage
 import com.intellij.lang.LanguageUtil
@@ -66,7 +67,7 @@ class SkinEditorNotificationProvider(val project: Project, val notifications: Ed
     })
 
     editorNotificationPanel.createActionLabel(message("skin.file.no"), {
-      markFileAsSkin(project, file)
+      markFileAsNonSkin(project, file)
       notifications.updateAllNotifications()
     })
 
