@@ -34,6 +34,8 @@ class SkinParserDefinition : ParserDefinition {
 
     val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
     val SKIN_COMMENTARIES = TokenSet.create(BLOCK_COMMENT, LINE_COMMENT)
+
+    val SKIN_CONTAINERS = TokenSet.create(OBJECT, ARRAY, RESOURCES)
   }
 
   override fun createParser(project: Project?) = SkinParser()

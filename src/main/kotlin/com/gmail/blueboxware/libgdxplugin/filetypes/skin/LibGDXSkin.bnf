@@ -80,7 +80,12 @@ resource ::= resource_name ':' object {
     pin(".*") = 1
 }
 
-resource_name ::= string_literal
+resource_name ::= string_literal {
+    methods = [
+        getResource
+    ]
+    mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceNameMixin"
+}
 
 object ::= '{' property? (separator property)* optionalComma '}' {
     methods = [

@@ -50,6 +50,19 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.5</b>
+        <ul>
+        <li>For Skin files:
+            <ul>
+                <li>Code completion (classnames, resource names, property names, etc)</li>
+                <li>Structure view</li>
+                <li>Configure the code style and formatting for Skin files with <i>Settings -> Editor -> Code Style -> LibGDX</i> and apply it to existing code with <i>Code -> Reformat Code</i></li>
+                <li>Brace matching</li>
+            </ul>
+        </li>
+        </ul>
+
+        <b>1.4</b>
         <ul>
             <li>Fixed several issues with Skin files</li>
             <li>Code folding for Skin files</li>
@@ -113,6 +126,11 @@
         <lang.braceMatcher language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher" />
 
         <lang.smartEnterProcessor language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSmartEnterProcessor" />
+
+        <lang.formatter language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinFormattingBuilderModel" />
+
+        <codeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettingsProvider" />
+        <langCodeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider" />
     </extensions>
 
     <actions>

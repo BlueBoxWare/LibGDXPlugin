@@ -1,0 +1,5 @@
+{
+    com.example.Class<caret> {
+      default: {}
+    }
+}

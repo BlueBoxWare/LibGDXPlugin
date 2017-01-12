@@ -35,7 +35,6 @@ import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
-import com.intellij.openapi.project.Project
 import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.UsefulTestCase
@@ -64,8 +63,8 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
 
     PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/gdx.jar")
     PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/kotlin-runtime.jar")
-    object: WriteCommandAction<Project>(project) {
-      override fun run(result: Result<Project>) {
+    object: WriteCommandAction<Unit>(project) {
+      override fun run(result: Result<Unit>) {
         FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
       }
     }.execute()

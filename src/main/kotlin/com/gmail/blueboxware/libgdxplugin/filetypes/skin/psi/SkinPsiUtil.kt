@@ -3,10 +3,11 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
 import com.intellij.json.psi.JsonPsiUtil
+import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
-import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -50,16 +51,8 @@ object SkinPsiUtil {
     return lastSeen.psi
   }
 
-  fun findResource(file: PsiFile, name: String): SkinResource? {
+  fun hasElementType(node: ASTNode, set: TokenSet) = set.contains(node.elementType)
 
-    for (resource in PsiTreeUtil.findChildrenOfType(file, SkinResource::class.java)) {
-      if (resource.name == name) {
-        return resource
-      }
-    }
-
-    return null
-
-  }
+  fun hasElementType(node: ASTNode, vararg types: IElementType) = hasElementType(node, TokenSet.create(*types))
 
 }

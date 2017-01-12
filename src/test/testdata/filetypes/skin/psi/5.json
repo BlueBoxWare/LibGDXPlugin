@@ -91,5 +91,12 @@
   default: {label: {font: default-font, fontColor: default}, background: tooltip, wrapWidth: 150
   }
 }
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+  medium: { file: test/test\medium.fnt }
+  test: { str: "\"'\n\f", str2: '"\'' }
+  classNamesInProperties: { com.badlogic.gdx.graphics.g2d.BitmapFont: "com.badlogic.gdx.graphics.g2d.BitmapFont"
+    str: com.badlogic.gdx.graphics.g2d.BitmapFont
+  }
 
+}
 }
