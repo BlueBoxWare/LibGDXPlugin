@@ -1,14 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.ElementManipulators
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReferenceBase
-import com.intellij.psi.util.PsiTreeUtil
-import icons.Icons
+import com.intellij.psi.*
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -25,31 +21,42 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinResource, range: TextRange) : PsiReferenceBase<SkinResource>(element, range) {
+class SkinResourceReference(element: SkinPropertyValue, range: TextRange) : PsiReferenceBase<SkinPropertyValue>(element, range), PsiPolyVariantReference {
 
-  override fun resolve(): SkinResource {
+  override fun getVariants(): Array<out Any> = arrayOf()
+
+  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+
+  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+
+    val result = mutableListOf<PsiElementResolveResult>()
+
+    (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
+
+      element.property?.resolveToTypeString()?.let { valueType ->
+        (element.value as? SkinStringLiteral)?.let { stringLiteral ->
+
+          for (classSpec in classSpecifications) {
+            if (classSpec.classNameAsString == valueType) {
+              for (resource in classSpec.resourcesAsList) {
+                if (resource.name == stringLiteral.value) {
+                  result.add(PsiElementResolveResult(resource))
+                }
+              }
+            }
+          }
+
+        }
+      }
+    }
+
+    return result.toTypedArray()
+  }
+
+  override fun resolve() = multiResolve(false).firstOrNull()?.element
+
+  override fun handleElementRename(newElementName: String?): PsiElement {
+    element.setValueAsString(newElementName, (element.value as? SkinStringLiteral)?.quotationChar)
     return element
-  }
-
-  override fun getVariants(): Array<out Any> {
-    val variants = mutableListOf<LookupElement>()
-
-    for (resource in PsiTreeUtil.findChildrenOfType(element.containingFile, SkinResource::class.java)) {
-      variants.add(LookupElementBuilder.create(resource).withIcon(Icons.LIBGDX_ICON).withTypeText(resource.name))
-    }
-
-    return variants.toTypedArray()
-  }
-
-  override fun isReferenceTo(element: PsiElement?): Boolean {
-    return super.isReferenceTo(element)
-  }
-
-  override fun getRangeInElement(): TextRange? {
-    element.nameIdentifier?.let { nameIdentifier ->
-      return ElementManipulators.getValueTextRange(nameIdentifier)
-    }
-
-    return null
   }
 }

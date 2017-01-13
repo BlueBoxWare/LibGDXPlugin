@@ -9,11 +9,9 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
-import com.intellij.psi.search.GlobalSearchScope
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -32,16 +30,16 @@ import com.intellij.psi.search.GlobalSearchScope
  */
 abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecification, SkinElementImpl(node) {
 
-  override fun getNameIdentifier(): SkinStringLiteral = className
+  override fun getNameIdentifier(): SkinStringLiteral = className.stringLiteral
 
   override fun getClassNameAsString(): String = className.value
 
-  override fun resolveClass(): PsiClass? = JavaPsiFacade.getInstance(project).findClass(removeDollarFromClassName(name), GlobalSearchScope.allScope(project))
+  override fun resolveClass(): PsiClass? = className.resolve() as? PsiClass
 
   override fun resolveProperty(property: SkinProperty): PsiField? = resolveClass()?.findFieldByName(property.name, true)
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createStringLiteral(project, name)?.let { newClassName ->
+    SkinElementFactory.createStringLiteral(project, name, nameIdentifier.quotationChar)?.let { newClassName ->
       newClassName.replace(newClassName)
       return newClassName
     }

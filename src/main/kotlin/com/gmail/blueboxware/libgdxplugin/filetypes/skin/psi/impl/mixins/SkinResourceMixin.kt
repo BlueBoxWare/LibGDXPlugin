@@ -37,7 +37,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createResourceName(project, name)?.let { newResourceName ->
+    SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.quotationChar)?.let { newResourceName ->
       resourceName.replace(newResourceName)
       return newResourceName
     }

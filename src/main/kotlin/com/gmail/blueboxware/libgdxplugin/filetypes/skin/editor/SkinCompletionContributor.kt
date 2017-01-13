@@ -38,7 +38,7 @@ class SkinCompletionContributor : CompletionContributor() {
     extend(CompletionType.BASIC,
             PlatformPatterns.psiElement()
                     .withParent(SkinStringLiteral::class.java)
-                    .withSuperParent(2, SkinClassSpecification::class.java),
+                    .withSuperParent(2, SkinClassName::class.java),
             object : CompletionProvider<CompletionParameters>() {
               override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
                 classNameCompletion(parameters, result)

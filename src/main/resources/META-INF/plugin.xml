@@ -16,7 +16,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.5</version>
+    <version>1.6</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -131,6 +131,7 @@
 
         <codeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettingsProvider" />
         <langCodeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider" />
+
     </extensions>
 
     <actions>

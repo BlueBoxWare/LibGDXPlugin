@@ -204,7 +204,42 @@ class TestCompletion : LightCodeInsightFixtureTestCase() {
                     }
                 }
             }
-          """ to (listOf<String>() to listOf("r", "g", "b", "a", "hex"))
+          """ to (listOf<String>() to listOf("r", "g", "b", "a", "hex")),
+
+          """
+            {
+              com.example.MyTestClass: {
+                testClass: { }
+              }
+              com.example.MyOtherClass: {
+                otherClass: { }
+              }
+              com.example.AThirdClass: {
+                aThirdClass: {
+                  myTestClass: <caret>
+                }
+              }
+            }
+
+          """ to (listOf("testClass") to listOf("otherClass")),
+
+          """
+            {
+              com.example.MyTestClass: {
+                testClass: { }
+              }
+              com.example.MyOtherClass: {
+                otherClass: { }
+              }
+              com.example.AThirdClass: {
+                aThirdClass: {
+                  myTestClass: testClass,
+                  myOtherClass: <caret>
+                }
+              }
+            }
+
+          """ to (listOf("otherClass") to listOf("testClass"))
   )
 
   fun testCompletions() {
@@ -220,6 +255,7 @@ class TestCompletion : LightCodeInsightFixtureTestCase() {
 
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
     myFixture.copyFileToProject("ui.atlas")
     myFixture.copyFileToProject("font1.fnt")
     myFixture.copyDirectoryToProject("assets", "assets")

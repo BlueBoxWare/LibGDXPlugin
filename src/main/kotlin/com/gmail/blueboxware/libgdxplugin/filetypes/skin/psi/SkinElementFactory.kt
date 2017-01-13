@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
 
@@ -24,7 +25,7 @@ object SkinElementFactory {
 
   val dummyContent = """
 {
-    "string_literal: {
+    className: {
         resourceName: {
             propertyName: propertyValue
         }
@@ -32,22 +33,22 @@ object SkinElementFactory {
 }
   """
 
-  fun createPropertyName(project: Project, name: String): SkinPropertyName? {
-    val content = dummyContent.replace("propertyName", name)
-    return createElement(project, content, SkinPropertyName::class.java)
+  fun createPropertyName(project: Project, name: String, quotationChar: Char?): SkinPropertyName? {
+    return createElement(project, "propertyName", name, SkinPropertyName::class.java, quotationChar)
   }
 
-  fun createResourceName(project: Project, name: String): SkinResourceName? {
-    val content = dummyContent.replace("resourceName", name)
-    return createElement(project, content, SkinResourceName::class.java)
+  fun createResourceName(project: Project, name: String, quotationChar: Char?): SkinResourceName? {
+    return createElement(project, "resourceName", name, SkinResourceName::class.java, quotationChar)
   }
 
-  fun createStringLiteral(project : Project, value : String): SkinStringLiteral? {
-    val content = dummyContent.replace("string_literal", value)
-    return createElement(project, content, SkinStringLiteral::class.java)
+  fun createStringLiteral(project : Project, value : String, quotationChar: Char?): SkinStringLiteral? {
+    val propertyValue = createElement(project, "propertyValue", value, SkinPropertyValue::class.java, quotationChar)
+    return propertyValue?.value as? SkinStringLiteral
   }
 
-  private fun <T: SkinElement> createElement(project: Project, content: String, type: Class<T>): T? {
+  private fun <T: SkinElement> createElement(project: Project, replace: String, with: String, type: Class<T>, quotationChar: Char?): T? {
+    val quote = quotationChar?.toString() ?: ""
+    val content = dummyContent.replace(replace, quote + StringUtil.escapeStringCharacters(with) + quote)
     val file = createFile(project, content)
     return PsiTreeUtil.findChildOfType(file, type)
   }

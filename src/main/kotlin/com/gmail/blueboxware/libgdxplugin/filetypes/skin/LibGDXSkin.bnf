@@ -11,16 +11,14 @@
 
   tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinTokenType'
 
-  implements("value|property_name|resource_name|property_value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement"
+  implements("value|property_name|resource_name|property_value|class_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement"
   extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
 
   implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
-//  implements("class_name") = "com.intellij.psi.PsiReference"
 
   extends("literal|array|object")=value
 
   extends("class_specification")="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
-  extends("class_name")=string_literal
   extends("boolean_literal|number_literal|string_literal|null_literal")=literal
 
   tokens = [
@@ -53,7 +51,7 @@ skin ::= '{'  class_specification? (separator class_specification)* optionalComm
     pin = 2
 }
 
-class_specification ::= string_literal ':' '{' resources optionalComma '}' {
+class_specification ::= class_name ':' '{' resources optionalComma '}' {
     methods=[
         resolveClass
         resolveProperty
@@ -64,6 +62,15 @@ class_specification ::= string_literal ':' '{' resources optionalComma '}' {
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin"
     pin(".*") = 1
+}
+
+
+class_name ::= string_literal {
+    methods=[
+        getValue
+        resolve
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin"
 }
 
 resources ::= resource? (separator resource)* {
@@ -122,6 +129,7 @@ property_name ::= string_literal {
 property_value ::= value {
     methods = [
         getProperty
+        setValueAsString
     ]
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin"
 }
@@ -141,6 +149,7 @@ string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING
       methods=[
         getValue
         asPropertyName
+        getQuotationChar
         SINGLE_QUOTED_STRING=""
         DOUBLE_QUOTED_STRING=""
         UNQUOTED_STRING=""

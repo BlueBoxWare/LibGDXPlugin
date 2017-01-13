@@ -30,7 +30,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun getValue(): SkinValue? = propertyValue?.value
 
-  override fun getNameIdentifier(): PsiElement = propertyName
+  override fun getNameIdentifier(): SkinPropertyName = propertyName
 
   override fun getContainingClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification}) as? SkinClassSpecification
 
@@ -43,7 +43,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
   override fun setName(@NonNls name: String): PsiElement? {
-    SkinElementFactory.createPropertyName(project, name)?.let { newPropertyName ->
+    SkinElementFactory.createPropertyName(project, name, nameIdentifier.stringLiteral.quotationChar)?.let { newPropertyName ->
       propertyName.replace(newPropertyName)
       return newPropertyName
     }

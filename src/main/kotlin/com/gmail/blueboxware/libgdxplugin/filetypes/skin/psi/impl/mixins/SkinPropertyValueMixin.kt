@@ -1,10 +1,15 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.idea.conversion.copy.range
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -25,23 +30,18 @@ abstract class SkinPropertyValueMixin(node: ASTNode) : SkinPropertyValue, SkinEl
 
   override fun getProperty(): SkinProperty? = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
-//  override fun getReference(): PsiReference? {
-//    (value as? SkinStringLiteral)?.value?.let { resourceName ->
-//      SkinPsiUtil.findResource(containingFile, resourceName)?.let { resource ->
-//        return SkinResourceReference(resource, TextRange(resource.startOffset, resource.endOffset))
-//      }
-//    }
-//
-//    return null
-//  }
-//
-//  override fun getReferences(): Array<out PsiReference> {
-//    return super.getReferences()
-//  }
-//
-//  override fun isEquivalentTo(another: PsiElement?): Boolean {
-//    return super.isEquivalentTo(another)
-//  }
+  override fun getReference(): PsiReference? {
+    if (value is SkinStringLiteral) {
+      return SkinResourceReference(this, range)
+    }
 
+    return null
+  }
+
+  override fun setValueAsString(string: String, quotationChar: Char?) {
+      SkinElementFactory.createStringLiteral(project, string, quotationChar)?.let {
+        value.replace(it)
+      }
+  }
 
 }

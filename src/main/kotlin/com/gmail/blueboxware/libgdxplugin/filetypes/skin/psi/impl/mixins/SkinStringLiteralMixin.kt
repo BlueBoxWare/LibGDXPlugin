@@ -27,4 +27,6 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
   override fun getValue(): String = StringUtil.unescapeStringCharacters(SkinPsiUtil.stripQuotes(text))
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
+
+  override fun getQuotationChar(): Char? = text.firstOrNull()?.let { if (it == '"' || it == '\'')  it else null }
 }
