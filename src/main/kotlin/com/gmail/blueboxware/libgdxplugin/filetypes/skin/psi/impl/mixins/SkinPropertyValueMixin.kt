@@ -9,7 +9,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResource
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.idea.conversion.copy.range
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -32,7 +31,7 @@ abstract class SkinPropertyValueMixin(node: ASTNode) : SkinPropertyValue, SkinEl
 
   override fun getReference(): PsiReference? {
     if (value is SkinStringLiteral) {
-      return SkinResourceReference(this, range)
+      return SkinResourceReference(this)
     }
 
     return null

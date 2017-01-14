@@ -70,6 +70,7 @@ class_name ::= string_literal {
     methods=[
         getValue
         resolve
+        multiResolve
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin"
 }

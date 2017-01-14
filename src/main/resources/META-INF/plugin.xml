@@ -16,7 +16,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.6</version>
+    <version>1.7</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -50,6 +50,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.7</b>
+        <ul>
+        </ul>
+
         <b>1.6</b>
         <ul>
             <li>Skin files:
@@ -57,7 +61,7 @@
                     <li>Fix auto indentation</li>
                     <li>Goto Definition/Find Usages for resource names in Skin files</li>
                     <li>Refactoring: support for renaming resources</li>
-                </il>
+                </li>
             </li>
         </ul>
 
@@ -144,6 +148,8 @@
         <langCodeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider" />
 
         <lang.refactoringSupport language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider" />
+
+        <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
 
     </extensions>
 

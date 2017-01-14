@@ -19,6 +19,7 @@ Currently available inspections:
 
 Other:
 
+* Skin file support
 * Adds preview colors to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of the LibGDX Color class with constants as arguments. 
 * Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen
 

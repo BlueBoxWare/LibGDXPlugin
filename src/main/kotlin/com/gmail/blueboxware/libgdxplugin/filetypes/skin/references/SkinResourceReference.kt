@@ -21,7 +21,7 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinPropertyValue, range: TextRange) : PsiReferenceBase<SkinPropertyValue>(element, range), PsiPolyVariantReference {
+class SkinResourceReference(element: SkinPropertyValue) : PsiReferenceBase<SkinPropertyValue>(element, element.textRange), PsiPolyVariantReference {
 
   override fun getVariants(): Array<out Any> = arrayOf()
 

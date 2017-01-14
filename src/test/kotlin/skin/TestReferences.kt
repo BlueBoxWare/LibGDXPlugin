@@ -1,6 +1,9 @@
 package skin
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.intellij.psi.PsiClass
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import getTestDataPathFromProperty
@@ -37,12 +40,31 @@ class TestReferences : LightCodeInsightFixtureTestCase() {
     doTestResourceReference("blue", "com.example.MyTestClass")
   }
 
+  fun testJavaClassReference1() {
+    doTestJavaClassReference("com.example.MyTestClass")
+  }
+
+  fun testJavaClassReference2() {
+    doTestJavaClassReference("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
+  }
+
   fun doTestResourceReference(resourceName: String, resourceType: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent
+    assertNotNull(element)
     val resource = element?.reference?.resolve() as? SkinResource
+    assertNotNull(resource)
     assertEquals(resourceName, resource?.name)
     assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
+  }
+
+  fun doTestJavaClassReference(className: String) {
+    myFixture.configureByFile(getTestName(true) + ".skin")
+    val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
+    assertNotNull(element)
+    val clazz = (element?.reference as? SkinJavaClassReference)?.multiResolve(false)?.firstOrNull()?.element as? PsiClass
+    assertNotNull(clazz)
+    assertEquals(className, clazz?.qualifiedName)
   }
 
   override fun setUp() {
