@@ -51,6 +51,18 @@ object SkinPsiUtil {
     return lastSeen.psi
   }
 
+  fun findPreviousSibling(psiElement: PsiElement, matching: (PsiElement) -> Boolean): PsiElement? {
+    var sibling = psiElement.prevSibling
+    while (sibling != null) {
+      if (matching(sibling)) {
+        return sibling
+      }
+      sibling = sibling.prevSibling
+    }
+
+    return null
+  }
+
   fun hasElementType(node: ASTNode, set: TokenSet) = set.contains(node.elementType)
 
   fun hasElementType(node: ASTNode, vararg types: IElementType) = hasElementType(node, TokenSet.create(*types))

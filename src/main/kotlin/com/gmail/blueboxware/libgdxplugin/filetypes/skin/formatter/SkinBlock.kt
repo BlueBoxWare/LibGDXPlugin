@@ -6,19 +6,17 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_COLON
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_VALUE
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil.hasElementType
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.TokenType
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.impl.source.tree.FileElement
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.TokenSet
 
 /*
@@ -85,10 +83,14 @@ class SkinBlock(
     return subBlocks?.toMutableList() ?: listOf()
   }
 
-  override fun getChildAttributes(newChildIndex: Int) = if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)) {
+  override fun getChildAttributes(newChildIndex: Int) = if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS) || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION) {
     ChildAttributes(Indent.getNormalIndent(), null)
   } else if (myNode.psi is PsiFile) {
-    ChildAttributes(Indent.getNoneIndent(), null)
+    if (isInsideBraces(newChildIndex)) {
+      ChildAttributes(Indent.getNormalIndent(), null)
+    } else {
+      ChildAttributes(Indent.getNoneIndent(), null)
+    }
   } else {
     ChildAttributes(null, null)
   }
@@ -120,8 +122,8 @@ class SkinBlock(
     var alignment: Alignment? = null
 
     if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-            || (myNode is FileElement && childNode !is PsiComment)
-            || (myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION && childNode is PsiComment)
+            || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES) && myNode.psi is SkinClassSpecification)
+            || (myNode is FileElement && isInsideBraces(childNode.psi))
     ) {
       if (hasElementType(childNode, COMMA)) {
         wrap = Wrap.createWrap(WrapType.NONE, true)
@@ -144,5 +146,32 @@ class SkinBlock(
     }
 
     return SkinBlock(this, childNode, settings, alignment, indent, wrap)
+  }
+
+  private fun isInsideBraces(elementIndex: Int): Boolean {
+    val subBlocks = getSubBlocks()
+
+    for (index in elementIndex - 1 downTo 0) {
+      (subBlocks.getOrNull(index) as? SkinBlock)?.let { block ->
+        val elementType = block.node.elementType
+        if (elementType == SkinElementTypes.L_CURLY) {
+          return true
+        } else if (elementType == SkinElementTypes.R_CURLY) {
+          return false
+        }
+      }
+    }
+
+    return false
+  }
+
+  private fun isInsideBraces(psiElement: PsiElement): Boolean {
+
+    var prevBrace = SkinPsiUtil.findPreviousSibling(psiElement, { sibling ->
+      (sibling is LeafPsiElement && (sibling.text == "{" || sibling.text == "}"))
+    })
+
+    return prevBrace?.text == "{"
+
   }
 }

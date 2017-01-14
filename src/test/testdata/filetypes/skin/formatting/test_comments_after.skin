@@ -1,0 +1,19 @@
+// comment
+{
+  //comment
+  com.badlogic.gdx.graphics.Color: {
+    /* comment */
+    default: {
+      // comment
+      hex: "ff0000"
+      /* comment */
+    }
+    /* comment */
+    // comment
+  }
+  /* comment */
+  // comment
+}
+/*
+* comment
+*/

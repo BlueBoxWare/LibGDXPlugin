@@ -45,6 +45,10 @@ class TestFormatting : LightCodeInsightFixtureTestCase() {
     doTest("test2.skin", "test2_wrap_colors_after.skin")
   }
 
+  fun testComments() {
+    doTest("test_comments.skin", "test_comments_after.skin")
+  }
+
   fun doTest(before: String, after: String) {
     myFixture.configureByFile(before)
     WriteCommandAction.runWriteCommandAction(null, {

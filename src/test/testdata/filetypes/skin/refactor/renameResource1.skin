@@ -6,15 +6,24 @@
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     default: {
-      fontColor: blue
+      fontColor: blue,
+      checked: blue,
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
     bla: {
+      background: blue
       fontColor: "blue"
     },
     something: {
+      background: 'blue'
       fontColor: 'blue'
+    }
+  }
+  com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+    default: {
+      disabledFontColor: 'blue',
+      backgroundOpen: blue
     }
   }
 }

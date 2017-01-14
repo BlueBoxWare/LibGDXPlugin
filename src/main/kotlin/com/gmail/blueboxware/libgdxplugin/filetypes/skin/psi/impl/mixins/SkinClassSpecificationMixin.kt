@@ -49,6 +49,8 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
   override fun getResourcesAsList() = resources?.resourceList ?: listOf()
 
+  override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
+
   override fun getName() = nameIdentifier.value
 
   override fun getPresentation() = object: ItemPresentation {

@@ -57,6 +57,7 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
         resolveProperty
         getClassNameAsString
         getResourcesAsList
+        getResourceNames
         value=""
         className="string_literal"
     ]

@@ -239,7 +239,33 @@ class TestCompletion : LightCodeInsightFixtureTestCase() {
               }
             }
 
-          """ to (listOf("otherClass") to listOf("testClass"))
+          """ to (listOf("otherClass") to listOf("testClass")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                <caret>
+              }
+            }
+          """ to (listOf("default") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                red: { }
+                <caret>
+              }
+            }
+          """ to (listOf("default") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                default: { }
+                <caret>
+              }
+            }
+          """ to (listOf<String>() to listOf("default"))
   )
 
   fun testCompletions() {

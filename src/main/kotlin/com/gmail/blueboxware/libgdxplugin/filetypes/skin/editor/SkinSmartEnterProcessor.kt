@@ -1,10 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
@@ -57,9 +54,9 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
       } else if (parent is SkinPropertyValue) {
         key = parent.property?.propertyName
         value = parent
-      } else if (parent is SkinClassSpecification) {
-        key = parent.className
-        value = parent.resources
+      } else if (parent is SkinClassName) {
+        key = parent
+        value = (parent.parent as? SkinClassSpecification)?.resources
       } else if (parent is SkinResourceName) {
         key = parent
         value = parent.resource?.`object`

@@ -50,9 +50,20 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.6</b>
+        <ul>
+            <li>Skin files:
+                <ul>
+                    <li>Fix auto indentation</li>
+                    <li>Goto Definition/Find Usages for resource names in Skin files</li>
+                    <li>Refactoring: support for renaming resources</li>
+                </il>
+            </li>
+        </ul>
+
         <b>1.5</b>
         <ul>
-        <li>For Skin files:
+        <li>Skin files:
             <ul>
                 <li>Code completion (classnames, resource names, property names, etc)</li>
                 <li>Structure view</li>
@@ -131,6 +142,8 @@
 
         <codeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettingsProvider" />
         <langCodeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider" />
+
+        <lang.refactoringSupport language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider" />
 
     </extensions>
 
