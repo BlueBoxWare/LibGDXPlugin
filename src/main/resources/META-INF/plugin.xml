@@ -52,6 +52,12 @@
     <change-notes><![CDATA[
         <b>1.7</b>
         <ul>
+            <li>Skin files:
+                <ul>
+                    <li>Fix find usages for resource names</li>
+                    <li>Ctrl-B on class name: jump to class</li>
+                </li>
+            </li>
         </ul>
 
         <b>1.6</b>
