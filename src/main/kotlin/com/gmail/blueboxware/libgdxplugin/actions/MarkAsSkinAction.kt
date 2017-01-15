@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.actions
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
@@ -47,15 +46,18 @@ class MarkAsSkinAction : AnAction() {
 
       event.project?.let { project ->
         val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
-        val nonSkinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
 
-        if (currentLanguage == PlainTextLanguage.INSTANCE || currentLanguage == JsonLanguage.INSTANCE) {
+        if (file.extension == "skin") {
+
+          presentation.isVisible = false
+
+        } else if (currentLanguage == PlainTextLanguage.INSTANCE || currentLanguage == JsonLanguage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.skin")
           presentation.icon = Icons.LIBGDX_ICON
           presentation.isEnabled = true
 
-        } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE){
+        } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.non.skin")
           presentation.icon = IconLoader.getDisabledIcon(Icons.LIBGDX_ICON)
