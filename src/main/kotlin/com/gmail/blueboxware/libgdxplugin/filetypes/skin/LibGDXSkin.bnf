@@ -123,6 +123,7 @@ property ::= property_name ':' property_value {
 property_name ::= string_literal {
         methods=[
             getProperty
+            getValue
         ]
         mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyNameMixin"
 }

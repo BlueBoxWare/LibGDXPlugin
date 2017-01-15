@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiReference
@@ -30,7 +31,12 @@ abstract class SkinPropertyValueMixin(node: ASTNode) : SkinPropertyValue, SkinEl
   override fun getProperty(): SkinProperty? = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
   override fun getReference(): PsiReference? {
-    if (value is SkinStringLiteral) {
+
+    if (property?.containingClassSpecification?.classNameAsString == "com.badlogic.gdx.graphics.g2d.BitmapFont"
+      && property?.name == "file"
+    ) {
+      return SkinFileReference(this, containingFile)
+    } else if (value is SkinStringLiteral) {
       return SkinResourceReference(this)
     }
 

@@ -1,9 +1,12 @@
 package skin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiFile
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import getTestDataPathFromProperty
@@ -46,6 +49,21 @@ class TestReferences : LightCodeInsightFixtureTestCase() {
 
   fun testJavaClassReference2() {
     doTestJavaClassReference("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
+  }
+
+  fun testBitmapFontReference() {
+    myFixture.copyFileToProject("bitmap.fnt")
+    doTestFileReference(SkinPropertyValue::class.java, "bitmap.fnt")
+  }
+
+  fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
+    myFixture.configureByFile(getTestName(true) + ".skin")
+    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    val sourceElement = PsiTreeUtil.findFirstParent(elementAtCaret, { sourceElementClass.isInstance(it) })
+    assertNotNull(sourceElement)
+    val file = sourceElement?.reference?.resolve() as? PsiFile
+    assertNotNull(file)
+    assertEquals(expectedFileName, file?.name)
   }
 
   fun doTestResourceReference(resourceName: String, resourceType: String) {

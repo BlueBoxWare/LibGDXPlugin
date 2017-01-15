@@ -25,4 +25,6 @@ abstract class SkinPropertyNameMixin(node: ASTNode) : SkinPropertyName, SkinElem
 
   override fun getProperty(): SkinProperty? = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
+  override fun getValue() = stringLiteral.value
+
 }
