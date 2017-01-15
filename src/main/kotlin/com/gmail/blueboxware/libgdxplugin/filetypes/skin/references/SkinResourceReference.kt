@@ -3,8 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.ResolveResult
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -21,11 +22,7 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinPropertyValue) : PsiReferenceBase<SkinPropertyValue>(element, element.textRange), PsiPolyVariantReference {
-
-  override fun getVariants(): Array<out Any> = arrayOf()
-
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+class SkinResourceReference(element: SkinPropertyValue) : SkinReference<SkinPropertyValue>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 
@@ -52,8 +49,6 @@ class SkinResourceReference(element: SkinPropertyValue) : PsiReferenceBase<SkinP
 
     return result.toTypedArray()
   }
-
-  override fun resolve() = multiResolve(false).firstOrNull()?.element
 
   override fun handleElementRename(newElementName: String?): PsiElement {
     element.setValueAsString(newElementName, (element.value as? SkinStringLiteral)?.quotationChar)

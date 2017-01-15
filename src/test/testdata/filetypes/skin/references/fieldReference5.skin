@@ -1,0 +1,8 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle: {
+    blue: {
+      ch<caret>ecked: something
+    }
+  }
+
+}

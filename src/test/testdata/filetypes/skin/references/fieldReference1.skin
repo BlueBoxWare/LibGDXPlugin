@@ -1,0 +1,6 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    green: {r: 0, <caret>g: 1, b: 0, a: 1},
+
+  },
+}

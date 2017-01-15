@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.intellij.openapi.util.TextRange
-import com.intellij.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
+import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.ResolveResult
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -19,8 +19,13 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassName>(element) {
+class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinPropertyName>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean) = element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
+  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+    element.property?.resolveToField()?.let { field ->
+      return arrayOf(PsiElementResolveResult(field))
+    }
 
+    return ResolveResult.EMPTY_ARRAY
+  }
 }

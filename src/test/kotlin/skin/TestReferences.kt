@@ -1,10 +1,13 @@
 package skin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.PsiTestUtil
@@ -54,6 +57,37 @@ class TestReferences : LightCodeInsightFixtureTestCase() {
   fun testBitmapFontReference() {
     myFixture.copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinPropertyValue::class.java, "bitmap.fnt")
+  }
+
+  fun testFieldReference1() {
+    doTestFieldReference()
+  }
+
+  fun testFieldReference2() {
+    doTestFieldReference()
+  }
+
+  fun testFieldReference3() {
+    doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle::disabledFontColor")
+  }
+
+  fun testFieldReference4() {
+    doTestFieldReference()
+  }
+
+  fun testFieldReference5() {
+    doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checked")
+  }
+
+  fun doTestFieldReference(expectedFieldName: String? = null) {
+    myFixture.configureByFile(getTestName(true) + ".skin")
+    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    val sourceElement = PsiTreeUtil.findFirstParent(elementAtCaret, { it is SkinPropertyName }) as? SkinPropertyName
+    assertNotNull(sourceElement)
+    val field = sourceElement?.reference?.resolve() as? PsiField
+    assertNotNull(field)
+    val expectedName = expectedFieldName ?: SkinClassSpecificationMixin.removeDollarFromClassName(sourceElement?.property?.containingClassSpecification?.classNameAsString!!) + "::" + field?.name
+    assertEquals(expectedName, field!!.getContainingClass()?.qualifiedName + "::" + field.name)
   }
 
   fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {

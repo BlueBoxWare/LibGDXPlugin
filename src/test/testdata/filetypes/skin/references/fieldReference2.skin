@@ -1,0 +1,9 @@
+{
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    something: {
+      fo<caret>nt: blue
+      over: blue
+    }
+  }
+}

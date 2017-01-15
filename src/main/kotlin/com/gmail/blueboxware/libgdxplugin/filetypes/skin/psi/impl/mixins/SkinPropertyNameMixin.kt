@@ -3,7 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaFieldReference
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiReference
 import com.intellij.psi.util.PsiTreeUtil
 
 /*
@@ -27,4 +29,5 @@ abstract class SkinPropertyNameMixin(node: ASTNode) : SkinPropertyName, SkinElem
 
   override fun getValue() = stringLiteral.value
 
+  override fun getReference(): PsiReference? = SkinJavaFieldReference(this)
 }

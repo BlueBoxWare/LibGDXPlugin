@@ -22,13 +22,9 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile) : PsiReferenceBase<SkinPropertyValue>(element, element.textRange), PsiPolyVariantReference {
+class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile) : SkinReference<SkinPropertyValue>(element) {
 
   constructor(element: SkinPropertyValue, baseFile: PsiFile): this(element, baseFile.virtualFile)
-
-  override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.element
-
-  override fun getVariants(): Array<out Any> = arrayOf()
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
     (element.value as? SkinStringLiteral)?.value?.let { fileName ->
@@ -42,5 +38,4 @@ class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile) :
     return ResolveResult.EMPTY_ARRAY
   }
 
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
 }

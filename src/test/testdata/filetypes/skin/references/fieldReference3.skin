@@ -1,0 +1,9 @@
+{
+
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    default: {
+      disabledFo<caret>ntColor: blue
+      font: blue
+    }
+  }
+}
