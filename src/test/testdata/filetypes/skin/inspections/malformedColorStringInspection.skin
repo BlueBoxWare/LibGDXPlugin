@@ -1,0 +1,24 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    x: { hex: #ffffff }
+    x: { hex: #ffff00 }
+    x: { hex: ffff12 }
+    x: { hex: '#ffffff' }
+    x: { hex: "ffFA1f" }
+    x: { hex: '#ffffff00' }
+    x: { hex: "12fffFff" }
+
+    x: { hex: <error>#fffff</error> }
+    x: { hex: <error>#ffffg0</error> }
+    x: { hex: <error>ffff12fff</error> }
+    x: { hex: <error>'#fffff'</error> }
+x: { hex: <error>"ffFG1f"</error> }
+x: { hex: <error>'#0ffffff00'</error> }
+x: { hex: <error>"12Fff"</error> }
+x: { hex: <error>"1234 56"</error> }
+x: { a: 1 }
+},
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+x: { hex: medium.fnt }
+},
+}

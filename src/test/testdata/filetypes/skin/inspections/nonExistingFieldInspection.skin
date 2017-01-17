@@ -1,0 +1,49 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    blue: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white,
+      <error>blue</error>: "no"
+    }
+  }
+  com.badlogic.gdx.graphics.Color: {
+    white: {r: 1, g: 1, b: 1, a: 1, <error>z</error>: 1},
+    blue: {
+      hex: "ff"
+    }
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    blue: {
+      file: medium.fnt
+    },
+    medium: {
+      file: medium.fnt,
+      scaledSize: -1,
+      markupEnabled: false,
+      <error>markupenabled</error>: false,
+      flip : false
+      <error>flipped</error>: true
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    default: {
+      <error>enabledFontColor</error>: blue
+      <error>"enabledFontColor"</error>: blue
+disabledFontColor: blue
+font: blue
+}
+}
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+  something: {
+  font: blue
+  over: blue
+<error>'checkered'</error>: true
+}
+}
+"com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
+round-green: { name: round, color: green }
+round-blue: { <error>title</error>: round, color: green }
+}
+}
