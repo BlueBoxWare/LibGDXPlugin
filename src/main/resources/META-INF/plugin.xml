@@ -56,7 +56,7 @@
                 <ul>
                     <li>Fix find usages for resource names</li>
                     <li>Ctrl-B on class name: jump to class</li>
-                    <li>Warnings for non existing classes and fields and malformed color strings</li>
+                    <li>Inspections for Skin files:
                 </li>
             </li>
         </ul>

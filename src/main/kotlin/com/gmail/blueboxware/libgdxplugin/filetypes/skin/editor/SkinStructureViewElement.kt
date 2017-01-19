@@ -59,7 +59,7 @@ class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElemen
 
     if (element is SkinFile) {
       return ContainerUtil.map2Array(
-              element.getAllTopLevelValues(),
+              element.getClassSpecifications(),
               TreeElement::class.java,
               Function(::SkinStructureViewElement)
       )

@@ -27,11 +27,16 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun getFileType(): FileType = viewProvider.fileType
 
-  override fun getTopLevelValue() = PsiTreeUtil.getChildOfType(this, SkinClassSpecification::class.java)
-
-  override fun getAllTopLevelValues() = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinClassSpecification::class.java)
-
   override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 
-  override fun getClassSpecifications(): Collection<SkinClassSpecification> = PsiTreeUtil.findChildrenOfType(this, SkinClassSpecification::class.java)
+  override fun getClassSpecifications(className: String?): Collection<SkinClassSpecification> {
+    val classSpecs = PsiTreeUtil.findChildrenOfType(this, SkinClassSpecification::class.java)
+
+    if (className != null) {
+      return classSpecs.filter { it.classNameAsString == className }
+    }
+
+    return classSpecs
+  }
+
 }

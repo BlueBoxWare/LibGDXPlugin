@@ -19,9 +19,6 @@ import com.intellij.psi.PsiFile
  */
 interface SkinFile : SkinElement, PsiFile {
 
-  fun getTopLevelValue(): SkinElement?
+  fun getClassSpecifications(className: String? = null): Collection<SkinClassSpecification>
 
-  fun getAllTopLevelValues(): List<SkinElement>
-
-  fun getClassSpecifications(): Collection<SkinClassSpecification>
 }

@@ -46,7 +46,7 @@ fun stringToColor(string: String): Color? {
   }
 }
 
-class GutterColorRenderer(val color: Color): GutterIconRenderer() {
+open class GutterColorRenderer(val color: Color): GutterIconRenderer() {
 
   override fun getIcon(): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12 , color, true)
 

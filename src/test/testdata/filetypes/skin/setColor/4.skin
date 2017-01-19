@@ -1,0 +1,11 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    color: {
+      hex: '#123456ff',
+      a: .9
+    }
+  },
+  newColor: {
+    color: { hex: ffffff }
+  }
+}

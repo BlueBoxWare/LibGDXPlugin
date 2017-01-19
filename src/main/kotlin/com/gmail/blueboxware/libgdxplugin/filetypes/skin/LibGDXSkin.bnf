@@ -58,6 +58,7 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
         getClassNameAsString
         getResourcesAsList
         getResourceNames
+        getResource
         value=""
         className="string_literal"
     ]
@@ -101,6 +102,9 @@ object ::= '{' property? (separator property)* optionalComma '}' {
         asColor
         asResource
         getPropertyNames
+        setColor
+        addProperty
+        getProperty
     ]
     pin = 2
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
@@ -145,6 +149,11 @@ array ::= '[' value? (separator value)* optionalComma ']' {
 }
 
 literal ::= string_literal | number_literal | boolean_literal | null_literal {
+      methods=[
+        asFloat
+        asString
+        getQuotationChar
+      ]
       mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinLiteralMixin"
 }
 
@@ -152,7 +161,6 @@ string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING
       methods=[
         getValue
         asPropertyName
-        getQuotationChar
         SINGLE_QUOTED_STRING=""
         DOUBLE_QUOTED_STRING=""
         UNQUOTED_STRING=""

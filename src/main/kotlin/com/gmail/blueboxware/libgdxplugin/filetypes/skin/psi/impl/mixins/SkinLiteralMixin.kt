@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.intellij.lang.ASTNode
 
@@ -23,5 +24,15 @@ import com.intellij.lang.ASTNode
 abstract class SkinLiteralMixin(node: ASTNode) : SkinLiteral, SkinValueImpl(node) {
 
   fun isQuotedString() = node.findChildByType(SkinParserDefinition.STRING_LITERALS)
+
+  override fun asString(): String = SkinPsiUtil.stripQuotes(text)
+
+  override fun asFloat(): Float? = try {
+    asString().toFloat()
+  } catch (e: NumberFormatException) {
+    null
+  }
+
+  override fun getQuotationChar(): Char? = text.firstOrNull()?.let { if (it == '"' || it == '\'')  it else null }
 
 }

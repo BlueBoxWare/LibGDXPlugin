@@ -5,8 +5,13 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.PsiUtilBase
+import com.intellij.ui.ColorChooser
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -31,7 +36,25 @@ class SkinColorAnnotator : Annotator {
       val force = (PsiTreeUtil.findFirstParent(element, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
       element.asColor(force)?.let { color ->
         val annotation = holder.createInfoAnnotation(element, null)
-        annotation.gutterIconRenderer = GutterColorRenderer(color)
+        annotation.gutterIconRenderer = object: GutterColorRenderer(color) {
+          override fun getClickAction() = object : AnAction() {
+            override fun actionPerformed(e: AnActionEvent?) {
+              if (!element.isWritable) return
+
+              val editor = PsiUtilBase.findEditor(element) ?: return
+
+              val newColor = ColorChooser.chooseColor(editor.component, "Choose Color", color, true, true)
+
+              if (newColor != null) {
+                ApplicationManager.getApplication().runWriteAction {
+                  element.setColor(newColor)?.let {
+                    element.replace(it)
+                  }
+                }
+              }
+            }
+          }
+        }
       }
 
     }

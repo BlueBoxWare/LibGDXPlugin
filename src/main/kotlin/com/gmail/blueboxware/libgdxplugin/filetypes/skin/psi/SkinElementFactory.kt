@@ -3,8 +3,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -33,6 +35,38 @@ object SkinElementFactory {
 }
   """
 
+  fun createProperty(project: Project, name: String, value: String): SkinProperty? {
+    val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, """
+    {
+      class: {
+        resource: {
+          $name: $value
+        }
+      }
+    }
+    """) as SkinFile
+    return PsiTreeUtil.findChildOfType(file, SkinProperty::class.java)
+  }
+
+  fun createComma(project: Project): PsiElement? {
+    val content = """
+    {
+      class: {
+        resource: {
+          a: a, b: b
+        }
+      }
+    }
+    """
+    val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+
+    return file.findElementAt(content.indexOf(','))
+  }
+
+  fun createObject(project: Project): SkinObject? {
+    return createElement(project, "propertyName: propertyValue", "", SkinObject::class.java, null)
+  }
+
   fun createPropertyName(project: Project, name: String, quotationChar: Char?): SkinPropertyName? {
     return createElement(project, "propertyName", name, SkinPropertyName::class.java, quotationChar)
   }
@@ -53,6 +87,6 @@ object SkinElementFactory {
     return PsiTreeUtil.findChildOfType(file, type)
   }
 
-  private fun createFile(project: Project, content: String) = PsiFileFactory.getInstance(project).createFileFromText("dummy.json", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+  private fun createFile(project: Project, content: String) = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
 
 }

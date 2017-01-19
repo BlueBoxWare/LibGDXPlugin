@@ -2,10 +2,12 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.*
+import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiManager
+import com.intellij.psi.ResolveResult
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -22,15 +24,17 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile) : SkinReference<SkinPropertyValue>(element) {
+class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile?) : SkinReference<SkinPropertyValue>(element) {
 
   constructor(element: SkinPropertyValue, baseFile: PsiFile): this(element, baseFile.virtualFile)
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-    (element.value as? SkinStringLiteral)?.value?.let { fileName ->
-      VfsUtil.findRelativeFile(baseFile.parent, fileName)?.let { virtualFile ->
-        PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
-          return arrayOf(PsiElementResolveResult(psiFile))
+    baseFile?.let { baseFile ->
+      (element.value as? SkinStringLiteral)?.value?.let { fileName ->
+        VfsUtil.findRelativeFile(baseFile.parent, fileName)?.let { virtualFile ->
+          PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
+            return arrayOf(PsiElementResolveResult(psiFile))
+          }
         }
       }
     }
