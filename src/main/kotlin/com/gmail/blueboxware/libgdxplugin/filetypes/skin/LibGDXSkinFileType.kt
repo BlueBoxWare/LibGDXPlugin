@@ -27,7 +27,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLanguage.INSTANCE){
+class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLanguage.INSTANCE) {
 
   companion object {
     val INSTANCE = LibGDXSkinFileType()

@@ -1,9 +1,7 @@
-package icons
-
-import com.intellij.openapi.util.IconLoader
+package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
 
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2017 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +15,6 @@ import com.intellij.openapi.util.IconLoader
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object Icons {
+interface AtlasValueElement : AtlasElement
 
-  val LIBGDX_ICON = IconLoader.getIcon("/icons/LibGDX.png")
-  val SKIN = IconLoader.getIcon("/icons/LibGDXSkin.png")
-  val ATLAS = IconLoader.getIcon("/icons/LibGDXAtlas.png")
-
-}
+fun AtlasValueElement.getValue() = text

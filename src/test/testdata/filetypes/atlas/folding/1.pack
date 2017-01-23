@@ -1,0 +1,86 @@
+
+<fold text='Page: test.png ...'>test.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+<fold text='Texture: abstractClass ...'>abstractClass
+  rotate: false
+  xy: 1, 37
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: copyOfFolder ...'>copyOfFolder
+  rotate: false
+  xy: 1, 19
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: classInitializer ...'>classInitializer
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: collapseNode ...'>collapseNode
+  rotate: false
+  xy: 19, 44
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1</fold>
+</fold>
+<fold text='Page: test2.png ...'>test2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+<fold text='Texture: advice ...'>advice
+  rotate: false
+  xy: 1, 37
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: annotationtype ...'>annotationtype
+  rotate: false
+  xy: 1, 19
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: artifact ...'>artifact
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+</fold>
+<fold text='Page: test3.png ...'>test3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+<fold text='Texture: compiledClassesFolder ...'>compiledClassesFolder
+  rotate: false
+  xy: 1, 35
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: class ...'>class
+  rotate: false
+  xy: 1, 17
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: aspect ...'>aspect
+  rotate: false
+  xy: 1, 1
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1</fold>
+</fold>

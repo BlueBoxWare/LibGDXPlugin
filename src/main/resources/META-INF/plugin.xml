@@ -158,6 +158,19 @@
 
         <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
 
+        /* Atlas files */
+        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />
+
+        <lang.parserDefinition language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition" />
+
+        <lang.syntaxHighlighterFactory language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasSyntaxHighlighterFactory" />
+        <colorSettingsPage implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasColorSettingsPage" />
+        <annotator language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.AtlasAdditionalHighlighter" />
+
+        <lang.psiStructureViewFactory language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory" />
+
+        <lang.foldingBuilder language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFoldingBuilder" />
+
     </extensions>
 
     <actions>

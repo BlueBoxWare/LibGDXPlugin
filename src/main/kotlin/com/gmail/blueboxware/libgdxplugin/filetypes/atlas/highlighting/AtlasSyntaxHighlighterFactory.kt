@@ -1,9 +1,11 @@
-package icons
+package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting
 
-import com.intellij.openapi.util.IconLoader
+import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
 
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2017 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +19,8 @@ import com.intellij.openapi.util.IconLoader
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object Icons {
+class AtlasSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
-  val LIBGDX_ICON = IconLoader.getIcon("/icons/LibGDX.png")
-  val SKIN = IconLoader.getIcon("/icons/LibGDXSkin.png")
-  val ATLAS = IconLoader.getIcon("/icons/LibGDXAtlas.png")
+  override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = AtlasSyntaxHighlighter()
 
 }

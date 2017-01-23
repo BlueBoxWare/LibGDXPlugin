@@ -1,11 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.StructureViewTreeElement.EMPTY_ARRAY
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
-import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
@@ -31,15 +31,7 @@ import com.intellij.util.containers.ContainerUtil
  */
 class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElement, SortableTreeElement {
 
-  override fun getPresentation(): ItemPresentation {
-    val presentation = (element as? NavigationItem)?.presentation
-
-    if (presentation == null) {
-      throw AssertionError()
-    }
-
-    return presentation
-  }
+  override fun getPresentation() = (element as? NavigationItem)?.presentation ?: DummyItemPresentation()
 
   override fun canNavigate() = element is NavigationItem && element.canNavigate()
 

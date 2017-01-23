@@ -48,7 +48,7 @@
 }
 
 skin ::= '{'  class_specification? (separator class_specification)* optionalComma '}' {
-    pin = 2
+    pin = 1
 }
 
 class_specification ::= class_name ':' '{' resources optionalComma '}' {

@@ -4,8 +4,6 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.CommonBundle
-import org.jetbrains.annotations.NotNull
-import org.jetbrains.annotations.Nullable
 import org.jetbrains.annotations.PropertyKey
 import java.lang.ref.Reference
 import java.lang.ref.SoftReference
@@ -15,7 +13,7 @@ private var ourBundle: Reference<ResourceBundle>? = null
 
 private const val BUNDLE = "libgdxplugin"
 
-fun message(@NotNull @PropertyKey(resourceBundle = BUNDLE)key: String, @NotNull vararg params: Any, @Nullable default: String? = null): String {
+fun message(@PropertyKey(resourceBundle = BUNDLE)key: String, vararg params: Any, default: String? = null): String {
 
   val bundle = getBundle()
 
@@ -31,7 +29,6 @@ fun message(@NotNull @PropertyKey(resourceBundle = BUNDLE)key: String, @NotNull 
   return ""
 }
 
-@Nullable
 fun getBundle(): ResourceBundle? {
   var bundle = com.intellij.reference.SoftReference.dereference(ourBundle)
 
