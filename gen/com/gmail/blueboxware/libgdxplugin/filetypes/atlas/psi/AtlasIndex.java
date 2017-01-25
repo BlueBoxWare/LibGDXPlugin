@@ -8,7 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement;
 
 public interface AtlasIndex extends AtlasElement {
 
-  @NotNull
+  @Nullable
   AtlasValue getValue();
 
 }

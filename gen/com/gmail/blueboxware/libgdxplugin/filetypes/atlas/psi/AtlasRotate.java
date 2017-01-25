@@ -8,7 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement;
 
 public interface AtlasRotate extends AtlasElement {
 
-  @NotNull
+  @Nullable
   AtlasRotateValue getRotateValue();
 
 }

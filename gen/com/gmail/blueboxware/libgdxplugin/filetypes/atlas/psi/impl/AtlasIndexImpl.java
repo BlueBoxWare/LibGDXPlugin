@@ -27,9 +27,9 @@ public class AtlasIndexImpl extends AtlasProperty implements AtlasIndex {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AtlasValue getValue() {
-    return findNotNullChildByClass(AtlasValue.class);
+    return findChildByClass(AtlasValue.class);
   }
 
 }

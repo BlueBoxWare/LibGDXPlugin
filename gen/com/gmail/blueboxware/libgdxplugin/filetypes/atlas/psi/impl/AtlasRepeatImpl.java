@@ -27,9 +27,9 @@ public class AtlasRepeatImpl extends AtlasProperty implements AtlasRepeat {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AtlasRepeatValue getRepeatValue() {
-    return findNotNullChildByClass(AtlasRepeatValue.class);
+    return findChildByClass(AtlasRepeatValue.class);
   }
 
 }

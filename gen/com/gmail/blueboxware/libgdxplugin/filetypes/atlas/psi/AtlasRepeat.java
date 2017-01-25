@@ -8,7 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement;
 
 public interface AtlasRepeat extends AtlasElement {
 
-  @NotNull
+  @Nullable
   AtlasRepeatValue getRepeatValue();
 
 }

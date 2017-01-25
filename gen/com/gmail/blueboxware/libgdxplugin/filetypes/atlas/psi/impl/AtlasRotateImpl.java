@@ -27,9 +27,9 @@ public class AtlasRotateImpl extends AtlasProperty implements AtlasRotate {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AtlasRotateValue getRotateValue() {
-    return findNotNullChildByClass(AtlasRotateValue.class);
+    return findChildByClass(AtlasRotateValue.class);
   }
 
 }

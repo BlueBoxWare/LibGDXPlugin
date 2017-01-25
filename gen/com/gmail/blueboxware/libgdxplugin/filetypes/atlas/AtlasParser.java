@@ -149,15 +149,16 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'filter' ':' filter_value ',' filter_value
   public static boolean filter(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "filter")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FILTER, "<filter>");
     r = consumeToken(b, "filter");
-    r = r && consumeToken(b, COLON);
-    r = r && filter_value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && filter_value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, filter_value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && filter_value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -181,13 +182,14 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'format' ':' format_value
   public static boolean format(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "format")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, FORMAT, "<format>");
     r = consumeToken(b, "format");
-    r = r && consumeToken(b, COLON);
-    r = r && format_value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && format_value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -211,62 +213,66 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'index' ':' value
   public static boolean index(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "index")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, INDEX, "<index>");
     r = consumeToken(b, "index");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
   // 'offset' ':' value ',' value
   public static boolean offset(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "offset")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, OFFSET, "<offset>");
     r = consumeToken(b, "offset");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
   // 'orig' ':' value ',' value
   public static boolean orig(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "orig")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, ORIG, "<orig>");
     r = consumeToken(b, "orig");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
   // 'pad' ':' value ',' value ',' value ',' value
   public static boolean pad(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pad")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, PAD, "<pad>");
     r = consumeToken(b, "pad");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -318,6 +324,17 @@ public class AtlasParser implements PsiParser, LightPsiParser {
       c = current_position_(b);
     }
     return true;
+  }
+
+  /* ********************************************************** */
+  // !EOL
+  static boolean recover(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, EOL);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -394,13 +411,14 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'repeat' ':' repeat_value
   public static boolean repeat(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "repeat")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, REPEAT, "<repeat>");
     r = consumeToken(b, "repeat");
-    r = r && consumeToken(b, COLON);
-    r = r && repeat_value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && repeat_value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -421,13 +439,14 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'rotate' ':' rotate_value
   public static boolean rotate(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "rotate")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, ROTATE, "<rotate>");
     r = consumeToken(b, "rotate");
-    r = r && consumeToken(b, COLON);
-    r = r && rotate_value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && rotate_value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -446,34 +465,36 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'size' ':' value ',' value
   public static boolean size(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "size")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, SIZE, "<size>");
     r = consumeToken(b, "size");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
   // 'split' ':' value ',' value ',' value ',' value
   public static boolean split(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "split")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, SPLIT, "<split>");
     r = consumeToken(b, "split");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -492,15 +513,21 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // 'xy' ':' value ',' value
   public static boolean xy(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "xy")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, XY, "<xy>");
     r = consumeToken(b, "xy");
-    r = r && consumeToken(b, COLON);
-    r = r && value(b, l + 1);
-    r = r && consumeToken(b, COMMA);
-    r = r && value(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 1
+    r = r && report_error_(b, consumeToken(b, COLON));
+    r = p && report_error_(b, value(b, l + 1)) && r;
+    r = p && report_error_(b, consumeToken(b, COMMA)) && r;
+    r = p && value(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_parser_);
+    return r || p;
   }
 
+  final static Parser recover_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover(b, l + 1);
+    }
+  };
 }

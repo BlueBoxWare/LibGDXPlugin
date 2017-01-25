@@ -39,6 +39,8 @@ page ::= value EOL (size EOL)? format EOL filter EOL repeat EOL region* {
 }
 
 format ::= 'format' ':' format_value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
@@ -49,6 +51,8 @@ format_value ::= 'Alpha' | 'Intensity' | 'LuminanceAlpha' | 'RGB565' | 'RGBA4444
 }
 
 filter ::= 'filter' ':' filter_value ',' filter_value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
@@ -59,6 +63,8 @@ filter_value ::= 'Nearest' | 'Linear' | 'MipMap' | 'MipMapNearestNearest' | 'Mip
 }
 
 repeat ::= 'repeat' ':' repeat_value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
@@ -77,6 +83,8 @@ region ::= value EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL
 }
 
 rotate ::= 'rotate' ':' rotate_value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
@@ -87,36 +95,50 @@ rotate_value ::= 'true' | 'false' {
 }
 
 xy ::= 'xy' ':' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 size ::= 'size' ':' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 split ::= 'split' ':' value ',' value ',' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 pad ::= 'pad' ':' value ',' value ',' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 orig ::= 'orig' ':' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 offset ::= 'offset' ':' value ',' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
 
 index ::= 'index' ':' value {
+    pin=1
+    recoverWhile=recover
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     extends="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty"
 }
@@ -125,4 +147,4 @@ value ::= STRING {
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasValueElement"
 }
 
-
+private recover ::= !EOL

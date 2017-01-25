@@ -27,9 +27,9 @@ public class AtlasFormatImpl extends AtlasProperty implements AtlasFormat {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public AtlasFormatValue getFormatValue() {
-    return findNotNullChildByClass(AtlasFormatValue.class);
+    return findChildByClass(AtlasFormatValue.class);
   }
 
 }
