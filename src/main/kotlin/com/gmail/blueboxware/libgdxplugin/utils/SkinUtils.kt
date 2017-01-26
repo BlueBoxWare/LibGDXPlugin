@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectNonSkinFiles
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.editor.EditorFactory

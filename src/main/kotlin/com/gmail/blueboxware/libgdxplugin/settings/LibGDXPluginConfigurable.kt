@@ -5,6 +5,7 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
+import com.intellij.ui.EditorNotifications
 import javax.swing.JComponent
 
 /*
@@ -28,7 +29,7 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
   private var form: LibGDXPluginSettingsPane? = null
 
-  override fun isModified() = getForm()?.isModified ?: false
+  override fun isModified() = getForm()?.isModified() ?: false
 
   override fun disposeUIResources() {
     form = null
@@ -38,6 +39,7 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
   override fun apply() {
     getForm()?.apply()
+    EditorNotifications.getInstance(project).updateAllNotifications()
   }
 
   override fun createComponent(): JComponent? {
@@ -63,9 +65,11 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 @State(name = "LibGDXPluginSettings")
 class LibGDXPluginSettings: PersistentStateComponent<LibGDXPluginSettings> {
   var enableColorAnnotations: Boolean = true
+  var neverAskAboutSkinFiles: Boolean = false
 
   override fun loadState(state: LibGDXPluginSettings?) {
     enableColorAnnotations = state?.enableColorAnnotations ?: true
+    neverAskAboutSkinFiles = state?.neverAskAboutSkinFiles ?: false
   }
 
   override fun getState() = this

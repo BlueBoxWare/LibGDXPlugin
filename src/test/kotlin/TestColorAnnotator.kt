@@ -41,7 +41,6 @@ class TestColorAnnotator : LightCodeInsightFixtureTestCase() {
 
   fun doTest(vararg files: String) {
     myFixture.configureByFiles(*(files.map { "annotations/colorAnnotator/" + it }.toTypedArray()))
-    val d = myFixture.doHighlighting()
     myFixture.checkHighlighting(false, false, true)
   }
 

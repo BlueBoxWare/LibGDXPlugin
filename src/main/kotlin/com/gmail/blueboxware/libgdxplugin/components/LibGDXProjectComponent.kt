@@ -1,7 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.openapi.components.ProjectComponent
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.event.DocumentAdapter
@@ -83,11 +87,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
     }
 
-    if (project.getComponent(LibGDXProjectSettings::class.java)?.neverAskAboutSkinFiles != true) {
-
-      EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener)
-
-    }
+    EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener)
 
     project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
       for (skinFile in skins.files) {
@@ -195,7 +195,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       val document = event?.document ?: return
 
       val virtualFile = FileDocumentManager.getInstance().getFile(document) ?: return
-      val settings = project.getComponent(LibGDXProjectSettings::class.java) ?: return
+      val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return
       val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)?.files ?: return
 
       if (!nonSkinFiles.contains(virtualFile) && !settings.neverAskAboutSkinFiles

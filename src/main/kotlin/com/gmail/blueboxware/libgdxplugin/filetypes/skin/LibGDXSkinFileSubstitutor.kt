@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile

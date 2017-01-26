@@ -100,7 +100,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <inspectionToolProvider
-                implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionProvider"/>
+                implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionToolProvider" />
 
         <internalFileTemplate name="LibGDX Screen (Java)"/>
         <internalFileTemplate name="LibGDX Screen (Kotlin)"/>
@@ -187,13 +187,10 @@
             <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent</implementation-class>
         </component>
         <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSettings</implementation-class>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles</implementation-class>
         </component>
         <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectSkinFiles</implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectNonSkinFiles</implementation-class>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles</implementation-class>
         </component>
     </project-components>
 

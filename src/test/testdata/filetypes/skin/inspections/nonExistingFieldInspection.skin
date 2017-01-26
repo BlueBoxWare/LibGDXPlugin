@@ -41,6 +41,10 @@ font: blue
   over: blue
 <error>'checkered'</error>: true
 }
+green: {
+down: round-down, up: round,
+font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+}
 }
 "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
 round-green: { name: round, color: green }

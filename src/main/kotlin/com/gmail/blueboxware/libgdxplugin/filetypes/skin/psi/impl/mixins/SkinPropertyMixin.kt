@@ -32,11 +32,11 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun getNameIdentifier(): SkinPropertyName = propertyName
 
-  override fun getContainingClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification}) as? SkinClassSpecification
+  override fun getContainingClassSpecification(): SkinClassSpecification? = (PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject)?.asResource()?.classSpecification
 
   override fun getContainingObject(): SkinObject? = PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject
 
-  override fun resolveToField(): PsiField? = getContainingClassSpecification()?.resolveProperty(this)
+  override fun resolveToField(): PsiField? = containingClassSpecification?.resolveProperty(this)
 
   override fun resolveToType(): PsiType? = resolveToField()?.type
 

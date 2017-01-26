@@ -392,9 +392,7 @@ class ColorAnnotator : Annotator {
 
         if (reference is KtSimpleNameReference || reference is PsiReferenceExpression) {
 
-          val origin = if (reference is KtSimpleNameReference) resolve(cache, reference) else resolve(cache, reference)
-
-          origin?.let { origin ->
+          resolve(cache, reference)?.let { origin ->
             getInitializer(cache, origin)?.let { initializer ->
               return getRoot(cache, initializer)
             }
