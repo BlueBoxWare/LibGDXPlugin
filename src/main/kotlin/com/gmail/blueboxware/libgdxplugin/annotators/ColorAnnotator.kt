@@ -11,8 +11,6 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.psi.*
-import com.intellij.psi.impl.compiled.ClsFieldImpl
-import com.intellij.psi.impl.compiled.ClsMethodImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import org.apache.log4j.Level
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
@@ -67,7 +65,7 @@ class ColorAnnotator : Annotator {
 
       if (cache.colorAnnotationsEnabled) {
         getColor(cache, element)?.let { color ->
-          annotateWithColor(color, element, holder)
+          annotateWithColor(color, element, holder, cache.isTesting)
         }
       }
 
@@ -75,7 +73,7 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder) {
+  private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder, isTesting: Boolean) {
 
     val annotationSessions = holder.currentAnnotationSession
 
@@ -93,8 +91,13 @@ class ColorAnnotator : Annotator {
       currentAnnotations.add(element.getLineNumber() to color)
     }
 
-    val annotation = holder.createInfoAnnotation(element, null)
-    annotation.gutterIconRenderer = GutterColorRenderer(color)
+    if (isTesting) {
+      val msg = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
+      holder.createWeakWarningAnnotation(element, msg)
+    } else {
+      val annotation = holder.createInfoAnnotation(element, null)
+      annotation.gutterIconRenderer = GutterColorRenderer(color)
+    }
 
   }
 
@@ -171,7 +174,7 @@ class ColorAnnotator : Annotator {
         val references = initialValue.calleeExpression?.references ?: return null
 
         for (reference in references) {
-          val targetName = (resolve(cache, reference) as? ClsMethodImpl)?.getKotlinFqName()?.asString() ?: continue
+          val targetName = (resolve(cache, reference) as? PsiMethod)?.getKotlinFqName()?.asString() ?: continue
           if (targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf") {
             isColorCall = true
           }
@@ -437,7 +440,7 @@ class ColorAnnotator : Annotator {
       origin = origin.navigationElement
     }
 
-    if (origin is ClsFieldImpl) {
+    if (origin is PsiField) {
       if (origin.modifierList?.hasModifierProperty(PsiModifier.FINAL) == true) {
         (origin.navigationElement as? PsiField)?.initializer?.let { initializer ->
           return getRoot(cache, initializer)
@@ -608,4 +611,5 @@ private class ColorAnnotatorCache(project: Project) {
   val colorAnnotationsEnabled = (project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false)
           && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
 
+  val isTesting = project.getComponent(LibGDXProjectComponent::class.java)?.isTesting ?: false
 }
