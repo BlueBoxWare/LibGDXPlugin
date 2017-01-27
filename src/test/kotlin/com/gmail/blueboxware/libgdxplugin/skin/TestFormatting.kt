@@ -1,11 +1,10 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -22,7 +21,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFormatting : LightCodeInsightFixtureTestCase() {
+class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
   fun testDefaultStyle() {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
@@ -57,5 +56,5 @@ class TestFormatting : LightCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile(after)
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/formatting/"
+  override fun getBasePath() = "/filetypes/skin/formatting/"
 }

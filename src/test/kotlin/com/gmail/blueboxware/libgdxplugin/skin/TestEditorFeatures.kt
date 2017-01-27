@@ -1,9 +1,8 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -20,7 +19,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestEditorFeatures : LightCodeInsightFixtureTestCase() {
+class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFolding() {
     myFixture.testFolding(testDataPath + "folding.skin")
@@ -44,5 +43,5 @@ class TestEditorFeatures : LightCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("noComment.txt")
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/editor/"
+  override fun getBasePath() = "/filetypes/skin/editor/"
 }

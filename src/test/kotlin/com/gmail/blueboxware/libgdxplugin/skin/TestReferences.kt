@@ -1,5 +1,6 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
@@ -11,8 +12,6 @@ import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -29,7 +28,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences : LightCodeInsightFixtureTestCase() {
+class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testResourceReference1() {
     doTestResourceReference("white", "com.badlogic.gdx.graphics.Color")
@@ -122,10 +121,10 @@ class TestReferences : LightCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataPathFromProperty() + "/lib/gdx.jar")
+    addLibGDX()
 
     myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/references/"
+  override fun getBasePath() = "/filetypes/skin/references/"
 }

@@ -1,8 +1,6 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
-import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -19,7 +17,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestRefactor : LightCodeInsightFixtureTestCase() {
+class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameResource1() {
     doRenameTest("green")
@@ -34,9 +32,9 @@ class TestRefactor : LightCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataPathFromProperty() + "/lib/gdx.jar")
+    addLibGDX()
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/refactor/"
+  override fun getBasePath() = "/filetypes/skin/refactor/"
 
 }

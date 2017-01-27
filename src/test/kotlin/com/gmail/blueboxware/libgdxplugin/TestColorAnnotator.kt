@@ -1,9 +1,8 @@
-
+package com.gmail.blueboxware.libgdxplugin
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.testFramework.FileTreeAccessFilter
 import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
 
 /*
@@ -21,7 +20,7 @@ import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator : LightCodeInsightFixtureTestCase() {
+class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
   fun testJava() {
     doTest("Java1.java")
@@ -61,7 +60,5 @@ class TestColorAnnotator : LightCodeInsightFixtureTestCase() {
     projectComponent.isTesting = true
 
   }
-
-  override fun getTestDataPath() = getTestDataPathFromProperty()
 
 }

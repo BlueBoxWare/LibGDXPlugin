@@ -1,9 +1,8 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 import junit.framework.Assert
 
 /*
@@ -21,7 +20,7 @@ import junit.framework.Assert
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCompletion : LightCodeInsightFixtureTestCase() {
+class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
   val tests = listOf(
           "{ <caret> }" to (listOf("com", "java") to listOf()),
@@ -277,7 +276,7 @@ class TestCompletion : LightCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataPathFromProperty() + "/lib/gdx.jar")
+    PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/gdx.jar")
 
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
@@ -311,5 +310,4 @@ class TestCompletion : LightCodeInsightFixtureTestCase() {
     }
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty()
 }

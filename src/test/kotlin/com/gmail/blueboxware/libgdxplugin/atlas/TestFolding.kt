@@ -1,7 +1,6 @@
-package atlas
+package com.gmail.blueboxware.libgdxplugin.atlas
 
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -18,12 +17,10 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFolding : LightCodeInsightFixtureTestCase() {
+class TestFolding : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFolding() {
-    myFixture.testFolding(testDataPath + "1.pack")
+    myFixture.testFolding(testDataPath + "filetypes/atlas/folding/1.pack")
   }
-
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/atlas/folding/"
 
 }

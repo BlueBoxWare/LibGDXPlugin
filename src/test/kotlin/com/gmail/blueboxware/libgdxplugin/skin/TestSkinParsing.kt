@@ -1,8 +1,8 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
+import com.intellij.openapi.util.io.FileUtil
 import com.intellij.testFramework.ParsingTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -45,7 +45,7 @@ class TestSkinParsing : ParsingTestCase("", "json", SkinParserDefinition()) {
     doTest()
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/psi"
+  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/skin/psi")
 
   override fun skipSpaces() = true
 

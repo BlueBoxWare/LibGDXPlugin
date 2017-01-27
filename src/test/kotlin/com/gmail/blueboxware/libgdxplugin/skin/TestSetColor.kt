@@ -1,12 +1,10 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
-import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -23,7 +21,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSetColor : LightCodeInsightFixtureTestCase() {
+class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
 
   fun test1() {
     keepColorOnOneLine(true)
@@ -94,9 +92,9 @@ class TestSetColor : LightCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataPathFromProperty() + "/lib/gdx.jar")
+    addLibGDX()
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/setColor/"
+  override fun getBasePath() = "/filetypes/skin/setColor/"
 
 }

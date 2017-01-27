@@ -1,12 +1,10 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalformedColorStringInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection
 import com.intellij.codeInspection.LocalInspectionTool
-import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -23,7 +21,7 @@ import getTestDataPathFromProperty
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestInspections : LightCodeInsightFixtureTestCase() {
+class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   fun testNonExistingClassInspection() {
     doTest(SkinNonExistingClassInspection())
@@ -45,8 +43,8 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataPathFromProperty() + "/lib/gdx.jar")
+    addLibGDX()
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/inspections/"
+  override fun getBasePath() = "/filetypes/skin/inspections/"
 }

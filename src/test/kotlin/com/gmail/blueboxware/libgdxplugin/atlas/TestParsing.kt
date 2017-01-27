@@ -1,9 +1,9 @@
-package atlas
+package com.gmail.blueboxware.libgdxplugin.atlas
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition
 import com.intellij.testFramework.ParsingTestCase
-import getTestDataPathFromProperty
+import com.intellij.openapi.util.io.FileUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -43,7 +43,7 @@ class TestParsing : ParsingTestCase("", "atlas", AtlasParserDefinition()) {
     }
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/atlas/psi"
+  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/atlas/psi")
 
   override fun skipSpaces() = true
 

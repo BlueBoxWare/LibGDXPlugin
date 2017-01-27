@@ -1,13 +1,12 @@
-package skin
+package com.gmail.blueboxware.libgdxplugin.skin
 
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessors
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import getTestDataPathFromProperty
 
-class TestSmartEnter : LightCodeInsightFixtureTestCase() {
+class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
 
   fun testColonInsertedAfterClassname() {
     doTest()
@@ -42,5 +41,5 @@ class TestSmartEnter : LightCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile(getTestName(true) + "_after.skin", true)
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty() + "/filetypes/skin/smartEnter/"
+  override fun getBasePath() = "/filetypes/skin/smartEnter/"
 }

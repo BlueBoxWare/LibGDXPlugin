@@ -1,4 +1,4 @@
-/*
+package com.gmail.blueboxware.libgdxplugin/*
  * Copyright 2016 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersi
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
-import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
 import com.intellij.analysis.AnalysisScope
@@ -36,33 +35,21 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.testFramework.InspectionTestUtil
-import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.UsefulTestCase
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import org.jetbrains.plugins.groovy.GroovyFileType
 import java.io.File
 import java.util.*
 
-/*
- *
- * RUN CONFIGURATION VM OPTIONS:
- *
- * -ea -Didea.home.path=<IDEASRC>/ -Didea.test.group=ALL_EXCLUDE_DEFINED -Dlibgdxplugin.test.path=<TESTPATH>
- *
- * where <IDEASRC> should be the absolute path to the source of Idea CE
- * and <TESTPATH> the absolute path to the libgdxplugin/src/test/testdata directory
- *
- */
-
-class TestInspections : LightCodeInsightFixtureTestCase() {
+class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/gdx.jar")
-    PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/kotlin-runtime.jar")
+    addLibGDX()
+    addKotlin()
+
     object: WriteCommandAction<Unit>(project) {
       override fun run(result: Result<Unit>) {
         FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
@@ -74,8 +61,6 @@ class TestInspections : LightCodeInsightFixtureTestCase() {
     ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
 
   }
-
-  override fun getTestDataPath() = getTestDataPathFromProperty()
 
   fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
     myFixture.enableInspections(inspection)

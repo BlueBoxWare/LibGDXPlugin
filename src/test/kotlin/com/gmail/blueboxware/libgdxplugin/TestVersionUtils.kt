@@ -1,4 +1,4 @@
-
+package com.gmail.blueboxware.libgdxplugin
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
 import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
@@ -6,7 +6,6 @@ import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.openapi.project.Project
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import junit.framework.TestCase
 import org.jetbrains.plugins.groovy.GroovyFileType
 
@@ -25,18 +24,7 @@ import org.jetbrains.plugins.groovy.GroovyFileType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-/*
- *
- * RUN CONFIGURATION VM OPTIONS:
- *
- * -ea -Dlibgdxplugin.test.path=<TESTPATH>
- *
- * where <TESTPATH> is the absolute path to the libgdxplugin/src/test/testdata directory
- *
- */
-class TestVersionUtils: LightCodeInsightFixtureTestCase() {
+class TestVersionUtils: LibGDXCodeInsightFixtureTestCase() {
 
   override fun setUp() {
     super.setUp()
@@ -48,8 +36,6 @@ class TestVersionUtils: LightCodeInsightFixtureTestCase() {
     }.execute()
 
   }
-
-  override fun getTestDataPath() = getTestDataPathFromProperty()
 
   fun testVersionStringComparison() {
 

@@ -46,7 +46,6 @@ sourceSets {
 
 test {
     systemProperty 'idea.home.path', System.getenv("LIBGDXPLUGIN_IDEA")
-    systemProperty 'libgdxplugin.test.path', System.getenv("LIBGDXPLUGIN_TEST")
 }
 
 dependencies {

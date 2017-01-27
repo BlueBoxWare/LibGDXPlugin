@@ -1,9 +1,8 @@
-
+package com.gmail.blueboxware.libgdxplugin
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -20,7 +19,7 @@ import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestAssetUtils : LightCodeInsightFixtureTestCase() {
+class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
 
   var skinFile: VirtualFile? = null
   var atlasFile: VirtualFile? = null
@@ -82,5 +81,4 @@ class TestAssetUtils : LightCodeInsightFixtureTestCase() {
     )))
   }
 
-  override fun getTestDataPath() = getTestDataPathFromProperty()
 }
