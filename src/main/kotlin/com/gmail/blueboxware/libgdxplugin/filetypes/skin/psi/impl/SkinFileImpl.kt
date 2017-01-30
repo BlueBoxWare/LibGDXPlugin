@@ -55,7 +55,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
       return ""
     }
 
-    override fun getIcon(unused: Boolean) = Icons.LIBGDX_ICON
+    override fun getIcon(unused: Boolean) = Icons.SKIN_FILETYPE
 
     override fun getPresentableText() = name
   }

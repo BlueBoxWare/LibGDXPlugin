@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
+import icons.Icons
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -29,7 +30,7 @@ class AtlasColorSettingsPage : ColorSettingsPage {
           "value" to AtlasSyntaxHighlighter.VALUE
   )
 
-  override fun getIcon() = null
+  override fun getIcon() = Icons.ATLAS_FILETYPE
 
   override fun getAttributeDescriptors() = arrayOf(
           AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),

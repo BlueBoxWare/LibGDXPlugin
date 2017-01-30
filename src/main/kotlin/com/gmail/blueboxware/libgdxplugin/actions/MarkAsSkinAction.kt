@@ -54,13 +54,13 @@ class MarkAsSkinAction : AnAction() {
         } else if (currentLanguage == PlainTextLanguage.INSTANCE || currentLanguage == JsonLanguage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.skin")
-          presentation.icon = Icons.LIBGDX_ICON
+          presentation.icon = Icons.SKIN_FILETYPE
           presentation.isEnabled = true
 
         } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.non.skin")
-          presentation.icon = IconLoader.getDisabledIcon(Icons.LIBGDX_ICON)
+          presentation.icon = IconLoader.getDisabledIcon(Icons.SKIN_FILETYPE)
           presentation.isEnabled = true
 
         }

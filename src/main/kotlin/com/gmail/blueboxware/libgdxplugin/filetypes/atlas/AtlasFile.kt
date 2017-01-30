@@ -43,7 +43,7 @@ class AtlasFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvid
       return ""
     }
 
-    override fun getIcon(unused: Boolean) = Icons.LIBGDX_ICON
+    override fun getIcon(unused: Boolean) = Icons.ATLAS_FILETYPE
 
     override fun getPresentableText() = name
   }

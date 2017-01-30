@@ -41,7 +41,7 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
     })
   }
 
-  override fun getIcon() = Icons.LIBGDX_ICON
+  override fun getIcon() = Icons.SKIN_FILETYPE
 
   override fun getName() = "LibGDX Skin"
 
