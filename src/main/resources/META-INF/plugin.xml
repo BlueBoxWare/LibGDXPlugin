@@ -54,11 +54,16 @@
         <ul>
             <li>Skin files:
                 <ul>
-                    <li>Fix find usages for resource names</li>
-                    <li>Ctrl-B on class name: jump to class</li>
-                    <li>Inspections for Skin files:
+                    <li>Fix Find Usages for resource names</li>
+                    <li>Ctrl-B on a class name: jump to class source</li>
+                    <li>Ctrl-B on a property name: jump to field source</li>
+                    <li>Ctrl-B on a bitmap font name: jump to font file</li>
+                    <li>Renaming a resource with Shift-F6 also renames usages of that resource in the Skin file</li>
+                    <li>Click on a color preview to open a color selection dialog</li>
+                    <li>Inspections for Skin files: warnings about using classes or fields which do not exist and about malformed color strings</li>
                 </li>
             </li>
+            <li>Syntax Highlighting, Structure View and Folding for .atlas/.pack files</li>
         </ul>
 
         <b>1.6</b>

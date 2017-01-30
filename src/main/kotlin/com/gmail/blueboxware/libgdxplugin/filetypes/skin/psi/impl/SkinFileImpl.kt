@@ -4,9 +4,13 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.intellij.extapi.psi.PsiFileBase
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.util.PsiTreeUtil
+import icons.Icons
+import java.io.File
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -39,4 +43,20 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
     return classSpecs
   }
 
+  override fun getPresentation() = object: ItemPresentation {
+
+    override fun getLocationString(): String {
+      project.baseDir?.let { baseDir ->
+        virtualFile?.let { virtualFile ->
+          return VfsUtil.getPath(baseDir, virtualFile, File.separatorChar) ?: ""
+        }
+      }
+
+      return ""
+    }
+
+    override fun getIcon(unused: Boolean) = Icons.LIBGDX_ICON
+
+    override fun getPresentableText() = name
+  }
 }

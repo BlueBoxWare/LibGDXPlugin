@@ -37,7 +37,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTest(inspection: LocalInspectionTool) {
     myFixture.enableInspections(inspection)
-    myFixture.testHighlighting(getTestName(true) + ".skin")
+    myFixture.testHighlighting(false, false, false, getTestName(true) + ".skin")
   }
 
   override fun setUp() {
