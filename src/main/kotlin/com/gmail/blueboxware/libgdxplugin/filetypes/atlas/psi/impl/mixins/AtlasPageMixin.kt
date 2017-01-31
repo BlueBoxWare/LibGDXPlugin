@@ -33,7 +33,10 @@ abstract class AtlasPageMixin(node: ASTNode) : AtlasPage, AtlasElementImpl(node)
 
     override fun getIcon(unused: Boolean) = AllIcons.FileTypes.Any_type
 
-    override fun getPresentableText() = "Page " + (index ?: "") + " (" + pageName.getValue() + ")"
+    override fun getPresentableText(): String {
+      val index = (index ?: 0) + 1
+      return "Page " + index + " (" + pageName.getValue() + ")"
+    }
 
   }
 
