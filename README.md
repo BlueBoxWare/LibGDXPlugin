@@ -37,7 +37,7 @@ To disable color previews, go to *Settings* -> *Editor* -> *LibGDXPlugin*.
 Files with the extension `.skin` are treated as Skin JSON files. For files with the extension `.json` which look like Skin files, you are asked
 whether they should be treated as Skin files (can be turned of in the settings). You can also mark and unmark files as Skin files using the context menu of a file.
 
-<img align="right" src="/images/skinCompletion.gif" width="300">
+<img align="right" src="/images/skinCompletion.gif" width="400">
 
 Skin file support includes:
 * Syntax highlighting (can be configured using *Settings* -> *Editor* -> *Colors & Fonts* -> *LibGDX Skin*)
