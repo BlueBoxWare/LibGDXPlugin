@@ -98,9 +98,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
 
-    (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.let {
-      it.deleteAll()
-    }
+    (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.deleteAll()
 
     return globalContext.getPresentation(toolWrapper).problemDescriptors
   }

@@ -162,7 +162,7 @@ private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<Psi
 
     if (invokedText != "minSdkVersion" && invokedText != "maxSdkVersion" && invokedText != "targetSdkVersion") return
 
-    if (call.argumentList.allArguments.size == 0) return
+    if (call.argumentList.allArguments.isEmpty()) return
 
     val argument = call.argumentList.allArguments[0]
 

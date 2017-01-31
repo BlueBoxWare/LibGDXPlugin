@@ -36,7 +36,7 @@ class AtlasSyntaxHighlighter : SyntaxHighlighterBase() {
     val VALUE = createTextAttributesKey("ATLAS.VALUE", DefaultLanguageHighlighterColors.STRING)
   }
 
-  override fun getTokenHighlights(tokenType: IElementType?) = arrayOf<TextAttributesKey>(
+  override fun getTokenHighlights(tokenType: IElementType?) = arrayOf(
           when(tokenType) {
             AtlasElementTypes.COMMA -> COMMA
             AtlasElementTypes.COLON -> COLON

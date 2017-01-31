@@ -15,8 +15,8 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
@@ -37,9 +37,7 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
 
       if (qualifierExpression is PsiNewExpression) return
 
-      val receiverType = qualifierExpression.type
-
-      if (receiverType !is PsiClassType) return
+      val receiverType = qualifierExpression.type as? PsiClassType ?: return
 
       val receiverClass = receiverType.resolve() ?: return
       val receiverFqClassName = receiverClass.qualifiedName ?: return
@@ -59,9 +57,7 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
     override fun visitForeachStatement(statement: PsiForeachStatement?) {
       super.visitForeachStatement(statement)
 
-      val receiverType = statement?.iteratedValue?.type ?: return
-
-      if (receiverType !is PsiClassType) return
+      val receiverType = (statement?.iteratedValue?.type ?: return) as? PsiClassType ?: return
 
       val receiverClass = receiverType.resolve() ?: return
       val receiverFqClassName = receiverClass.qualifiedName

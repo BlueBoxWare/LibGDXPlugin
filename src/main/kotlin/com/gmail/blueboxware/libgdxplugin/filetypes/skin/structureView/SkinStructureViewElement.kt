@@ -1,7 +1,18 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation
+import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.StructureViewTreeElement.EMPTY_ARRAY
+import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
+import com.intellij.ide.util.treeView.smartTree.TreeElement
+import com.intellij.navigation.NavigationItem
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.ArrayUtil
+import com.intellij.util.Function
+import com.intellij.util.containers.ContainerUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -18,60 +29,60 @@ import com.intellij.ide.structureView.StructureViewTreeElement.EMPTY_ARRAY
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinStructureViewElement(val element: com.intellij.psi.PsiElement): com.intellij.ide.structureView.StructureViewTreeElement, com.intellij.ide.util.treeView.smartTree.SortableTreeElement {
+class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElement, SortableTreeElement {
 
-  override fun getPresentation() = (element as? com.intellij.navigation.NavigationItem)?.presentation ?: com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation()
+  override fun getPresentation() = (element as? NavigationItem)?.presentation ?: DummyItemPresentation()
 
-  override fun canNavigate() = element is com.intellij.navigation.NavigationItem && element.canNavigate()
+  override fun canNavigate() = element is NavigationItem && element.canNavigate()
 
-  override fun canNavigateToSource() = element is com.intellij.navigation.NavigationItem && element.canNavigateToSource()
+  override fun canNavigateToSource() = element is NavigationItem && element.canNavigateToSource()
 
-  override fun navigate(requestFocus: Boolean) = (element as? com.intellij.navigation.NavigationItem)?.navigate(requestFocus) ?: Unit
+  override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
 
   override fun getValue() = element
 
-  override fun getAlphaSortKey() = (element as? com.intellij.psi.PsiNamedElement)?.name ?: ""
+  override fun getAlphaSortKey() = (element as? PsiNamedElement)?.name ?: ""
 
   //
   // Adapted from https://github.com/JetBrains/intellij-community/blob/ab08c979a5826bf293ae03cd67463941b0066eb8/json/src/com/intellij/json/structureView/JsonStructureViewElement.java
   //
-  override fun getChildren(): Array<out com.intellij.ide.util.treeView.smartTree.TreeElement> {
+  override fun getChildren(): Array<out TreeElement> {
     var value: Any? = null
 
-    if (element is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile) {
-      return com.intellij.util.containers.ContainerUtil.map2Array(
+    if (element is SkinFile) {
+      return ContainerUtil.map2Array(
               element.getClassSpecifications(),
-              com.intellij.ide.util.treeView.smartTree.TreeElement::class.java,
-              com.intellij.util.Function(::SkinStructureViewElement)
+              TreeElement::class.java,
+              Function(::SkinStructureViewElement)
       )
-    } else if (element is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty) {
+    } else if (element is SkinProperty) {
       value = element.value
-    } else if (element is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement && com.intellij.psi.util.PsiTreeUtil.instanceOf(element, com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject::class.java, com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray::class.java)) {
+    } else if (element is SkinElement && PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)) {
       value = element
-    } else if (element is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification) {
+    } else if (element is SkinClassSpecification) {
       value = element.resourcesAsList
-    } else if (element is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource) {
+    } else if (element is SkinResource) {
       value = element.`object`
     }
 
-    if (value is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject) {
-      return com.intellij.util.containers.ContainerUtil.map2Array(
+    if (value is SkinObject) {
+      return ContainerUtil.map2Array(
               value.propertyList,
-              com.intellij.ide.util.treeView.smartTree.TreeElement::class.java,
-              com.intellij.util.Function(::SkinStructureViewElement)
+              TreeElement::class.java,
+              Function(::SkinStructureViewElement)
       )
-    } else if (value is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray) {
-      val childObjects: List<com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewElement?> = com.intellij.util.containers.ContainerUtil.mapNotNull(value.valueList,  { value1 ->
-        if (value1 is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject && !value1.propertyList.isEmpty()) {
-          com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewElement(value1)
-        } else if (value1 is com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray && com.intellij.psi.util.PsiTreeUtil.findChildOfType(value1, com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty::class.java) != null) {
-          com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewElement(value1)
+    } else if (value is SkinArray) {
+      val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList,  { value1 ->
+        if (value1 is SkinObject && !value1.propertyList.isEmpty()) {
+          SkinStructureViewElement(value1)
+        } else if (value1 is SkinArray && PsiTreeUtil.findChildOfType(value1, SkinProperty::class.java) != null) {
+          SkinStructureViewElement(value1)
         } else {
           null
         }
       })
 
-      return com.intellij.util.ArrayUtil.toObjectArray(childObjects, com.intellij.ide.util.treeView.smartTree.TreeElement::class.java)
+      return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
     } else if (value is List<*>) {
       return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
     }

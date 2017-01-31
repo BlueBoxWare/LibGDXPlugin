@@ -6,7 +6,6 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.psi.psiUtil.allChildren
 
 /*
  * Copyright 2016 Blue Box Ware

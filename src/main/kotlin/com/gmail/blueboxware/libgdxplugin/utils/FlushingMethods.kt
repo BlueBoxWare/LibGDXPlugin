@@ -61,10 +61,6 @@ val flushingMethodsMap: Map<String, List<String>> by lazy {
   )
 }
 
-val flushingMethodsMapDebug: Map<String, List<String>> = mapOf(
-    "com.badlogic.gdx.graphics.g2d.SpriteBatch" to listOf("setTransformMatrix")
-)
-
 private fun getFlushingMethods(project: Project): Set<PsiMethod> {
 
   val result = mutableSetOf<PsiMethod>()

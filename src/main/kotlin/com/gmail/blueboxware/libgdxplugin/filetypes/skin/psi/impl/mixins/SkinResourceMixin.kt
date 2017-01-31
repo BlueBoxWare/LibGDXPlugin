@@ -32,7 +32,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   override fun getNameIdentifier() = resourceName
 
-  override fun getValue(): SkinValue?  = getObject()
+  override fun getValue(): SkinValue?  = `object`
 
   override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
 

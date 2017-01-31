@@ -7,12 +7,10 @@ import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
-import org.apache.log4j.Level
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
@@ -45,8 +43,6 @@ class ColorAnnotator : Annotator {
 
 
   companion object {
-
-    private val LOGGER: Logger = Logger.getInstance("com.gmail.blueboxware.libgdxplugin.ColorAnnotator").apply { setLevel(Level.DEBUG) }
 
     private val annotationsKey = Key<MutableList<Pair<Int, Color>>>("annotations")
     private val cacheKey = Key<ColorAnnotatorCache>("cache")

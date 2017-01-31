@@ -1,15 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory
-import com.intellij.openapi.editor.colors.EditorColorsScheme
 import com.intellij.openapi.editor.ex.util.LayeredLexerEditorHighlighter
-import com.intellij.openapi.editor.highlighter.EditorHighlighter
-import com.intellij.openapi.fileTypes.EditorHighlighterProvider
-import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders
 import com.intellij.openapi.fileTypes.LanguageFileType
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFile
 import icons.Icons
 
 /*
@@ -34,11 +28,9 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
   }
 
   init {
-    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this, object: EditorHighlighterProvider {
-      override fun getEditorHighlighter(project: Project?, fileType: FileType, virtualFile: VirtualFile?, colors: EditorColorsScheme): EditorHighlighter {
-        return LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
-      }
-    })
+    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { project, fileType, virtualFile, colors ->
+      LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
+    }
   }
 
   override fun getIcon() = Icons.SKIN_FILETYPE

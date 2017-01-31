@@ -11,7 +11,6 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.testFramework.PsiTestUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -86,7 +85,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
     val expectedName = expectedFieldName ?: SkinClassSpecificationMixin.removeDollarFromClassName(sourceElement?.property?.containingClassSpecification?.classNameAsString!!) + "::" + field?.name
-    assertEquals(expectedName, field!!.getContainingClass()?.qualifiedName + "::" + field.name)
+    assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 
   fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
