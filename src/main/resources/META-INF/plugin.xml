@@ -20,32 +20,11 @@
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
-      This unofficial plugin adds a number of LibGDX related code inspections for Java and Kotlin.
+      This unofficial plugin adds a number of LibGDX related inspections and features to IntelliJ and Android Studio.
         <br/><br/>
-      This plugin needs a recent version of the official Kotlin plugin to be installed (even if don't use Kotlin), so install and/or enable that plugin first.
+      This plugin needs a recent version of the official Kotlin plugin to be installed (even if you don't use Kotlin), so install and/or enable that plugin first.
         <br/><br/>
-      Currently available inspections:
-        <ul>
-            <li>Missing OpenGL declaration in AndroidManifest.xml</li>
-            <li>Using outdated versions of LibGDX and related libraries</li>
-            <li>Missing flush() after changing Preferences</li>
-            <li>Use of profiling code, like FPSLogger or GLProfiler</li>
-            <li>Setting an overly verbose log level</li>
-            <li>Causing flushing of a batch or renderer from inside a loop</li>
-            <li>Use of AdMob test ids</li>
-            <li>Use of ShapeRenderer with a release of LibGDX older than 1.9.2</li>
-            <li>Use of static resources</li>
-            <li>Use of non-reentrant iterator methods of LibGDX collection classes</li>
-            <li>Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store</li>
-        </ul>
-
-      Also:
-
-        <ul>
-            <li>Adds color previews to the left gutter of the editor for lines which contain a color string (e.g. "#ff00ff") or a call to a constructor of LibGDX Color class with constants as arguments.</li>
-            <li>Adds a file-template to the File->New menu to create a com.badlogic.gdx.Screen</li>
-            <li>Basic Skin file support</li>
-        </ul>
+      See <b><a href="https://github.com/BlueBoxWare/LibGDXPlugin">github.com/BlueBoxWare/LibGDXPlugin</a></b> for more information.
 
     ]]></description>
 
@@ -61,9 +40,9 @@
                     <li>Renaming a resource with Shift-F6 also renames usages of that resource in the Skin file</li>
                     <li>Click on a color preview to open a color selection dialog</li>
                     <li>Inspections for Skin files: warnings about using classes or fields which do not exist and about malformed color strings</li>
-                </li>
+                </ul>
             </li>
-            <li>Syntax Highlighting, Structure View and Folding for .atlas/.pack files</li>
+            <li>Syntax Highlighting, Structure View and Folding for <i>.atlas/.pack</i> files</li>
         </ul>
 
         <b>1.6</b>
@@ -73,7 +52,7 @@
                     <li>Fix auto indentation</li>
                     <li>Goto Definition/Find Usages for resource names in Skin files</li>
                     <li>Refactoring: support for renaming resources</li>
-                </li>
+                </ul>
             </li>
         </ul>
 
