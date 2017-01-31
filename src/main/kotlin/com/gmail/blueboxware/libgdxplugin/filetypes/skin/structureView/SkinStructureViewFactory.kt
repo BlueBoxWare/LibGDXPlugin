@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView
 
 import com.intellij.ide.structureView.StructureViewBuilder
 import com.intellij.ide.structureView.StructureViewModel
@@ -26,6 +26,6 @@ class SkinStructureViewFactory: PsiStructureViewFactory {
 
   override fun getStructureViewBuilder(psiFile: PsiFile?): StructureViewBuilder?  = object: TreeBasedStructureViewBuilder() {
 
-    override fun createStructureViewModel(editor: Editor?): StructureViewModel  = SkinStructureViewModel(psiFile ?: throw AssertionError())
+    override fun createStructureViewModel(editor: Editor?): StructureViewModel = SkinStructureViewModel(psiFile ?: throw AssertionError())
   }
 }

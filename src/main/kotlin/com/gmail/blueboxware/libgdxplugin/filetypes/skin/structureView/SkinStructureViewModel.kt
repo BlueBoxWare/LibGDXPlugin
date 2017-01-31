@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.intellij.ide.structureView.StructureViewModel
