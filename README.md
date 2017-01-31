@@ -37,7 +37,7 @@ To disable color previews, go to *Settings* -> *Editor* -> *LibGDXPlugin*.
 Files with the extension `.skin` are treated as Skin JSON files. For files with the extension `.json` which look like Skin files, you are asked
 whether they should be treated as Skin files (can be turned of in the settings). You can also mark and unmark files as Skin files using the context menu of a file.
 
-<img align="right" src="/images/skinCompletion.gif">
+<img align="right" src="/images/skinCompletion.gif" width="300">
 
 Skin file support includes:
 * Syntax highlighting (can be configured using *Settings* -> *Editor* -> *Colors & Fonts* -> *LibGDX Skin*)
@@ -50,9 +50,8 @@ exists, drawable/texture names
 * Warnings when using classes which don't exist, using properties which don't correspond to a field in a given class or using malformed color strings
 * Find usages of a defined resources within the Skin file \[1]
 * *Crtl-B*: Jump from the usage of a resource to it's definition \[1]
-* *Ctrl-B* with the caret on a class name jumps to the source of the class and ctrl-b with the caret on a property name jumps to the corresponding field
+* *Ctrl-B* with the caret on a class name jumps to the source of the class and *Ctrl-B* with the caret on a property name jumps to the corresponding field
 * *Ctrl-B* on a bitmap font name jumps to the corresponding bitmap font file
-in the source of the appropiate class
 * Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[2]
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
