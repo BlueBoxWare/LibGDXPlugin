@@ -1,9 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.annotators
+package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasValueElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasSyntaxHighlighter
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasPage
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.intellij.lang.annotation.AnnotationHolder
@@ -37,7 +36,7 @@ class AtlasAdditionalHighlighter : Annotator {
 
     if (element.parent is AtlasValueElement && element.parent.parent is AtlasPage) {
       attributes = AtlasSyntaxHighlighter.FILE_NAME
-    } else if (element.parent is  AtlasValueElement && element.parent.parent is AtlasRegion) {
+    } else if (element.parent is AtlasValueElement && element.parent.parent is AtlasRegion) {
       attributes = AtlasSyntaxHighlighter.TEXTURE_NAME
     } else if (element.parent is AtlasProperty) {
       attributes = AtlasSyntaxHighlighter.KEY

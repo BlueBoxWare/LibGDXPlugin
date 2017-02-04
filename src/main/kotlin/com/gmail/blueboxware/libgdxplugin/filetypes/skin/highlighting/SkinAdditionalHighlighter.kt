@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.annotators
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
