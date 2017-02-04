@@ -1,0 +1,92 @@
+{
+
+    parserClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontParser'
+
+    psiPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi'
+    psiImplPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl'
+
+    elementTypeHolderClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontElementTypes'
+    elementTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontElementType'
+
+    psiClassPrefix = 'BitmapFont'
+
+    psiVisitorName = 'BitmapFontElementVisitor'
+
+    tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontTokenType'
+
+    tokens = [
+        EQUALS="="
+        COMMA=","
+
+        EOL = 'regexp:\R'
+        WHITE_SPACE = 'regexp:[ \t]+'
+
+        DOUBLE_QUOTED_STRING="regexp:\"([^\\\"\r\n]|\\[^\r\n])*\""
+        SINGLE_QUOTED_STRING="regexp:'([^\\\'\r\n]|\\[^\r\n])*'"
+
+        UNQUOTED_STRING="regexp:[^\s\n=]+"
+    ]
+
+    implements("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontElement"
+    implements("info|common|page_definition|chars|font_char|kernings|kerning") = "com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.PropertyContainer"
+    extends("info|common|page_definition|chars|kernings|kerning") = "com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.PropertyContainerImpl"
+
+}
+
+bitmapFont ::= info common page_definition* chars? font_char* kernings? kerning*
+
+info ::= 'info' property* endofline {
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontInfoMixin"
+}
+
+common ::= 'common' property* endofline {
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontCommonMixin"
+}
+
+page_definition ::= 'page' property* endofline {
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontPageDefinitionMixin"
+}
+
+chars ::= 'chars' property* endofline
+
+font_char ::= 'char' property* endofline {
+    methods=[
+        getCharacter
+        getLetter
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontFontCharMixin"
+}
+
+kernings ::= 'kernings' property* endofline
+
+kerning ::= 'kerning' property* endofline {
+    methods=[
+        getFirstCharacter
+        getSecondCharacter
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontKerningMixin"
+}
+
+property ::= key '=' (value !'=' )? {
+    methods=[
+        getKey
+        getValue
+        keyElement="key"
+        valueElement="value"
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontPropertyMixin"
+}
+
+key ::= UNQUOTED_STRING
+
+value ::= UNQUOTED_STRING | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING {
+    methods=[
+        getValue
+        SINGLE_QUOTED_STRING=""
+        DOUBLE_QUOTED_STRING=""
+        UNQUOTED_STRING=""
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontValueMixin"
+}
+
+private endofline ::= EOL+ | EOL* <<eof>>

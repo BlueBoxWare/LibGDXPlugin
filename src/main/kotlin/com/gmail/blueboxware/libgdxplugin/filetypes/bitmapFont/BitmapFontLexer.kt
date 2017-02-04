@@ -1,8 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
+package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont
 
-import com.intellij.openapi.fileTypes.LanguageFileType
-import icons.Icons
-import javax.swing.Icon
+import com.intellij.lexer.FlexAdapter
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -19,18 +17,4 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXAtlasFileType private constructor() : LanguageFileType(LibGDXAtlasLanguage.INSTANCE) {
-
-  companion object {
-    val INSTANCE = LibGDXAtlasFileType()
-  }
-
-  override fun getIcon(): Icon?  = Icons.ATLAS_FILETYPE
-
-  override fun getName(): String  = "LibGDX Atlas"
-
-  override fun getDefaultExtension() = "atlas"
-
-  override fun getDescription() = "LibGDX Texture Atlas file"
-
-}
+class BitmapFontLexer : FlexAdapter(_BitmapFontLexer())

@@ -13,6 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+<!--suppress XmlUnboundNsPrefix -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
@@ -111,7 +112,7 @@
 
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider" />
 
-        /* Skin files */
+        <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator" />
 
@@ -146,7 +147,7 @@
 
         <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
 
-        /* Atlas files */
+        <!--Atlas files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />
 
         <lang.parserDefinition language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition" />
@@ -158,6 +159,16 @@
         <lang.psiStructureViewFactory language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory" />
 
         <lang.foldingBuilder language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFoldingBuilder" />
+
+        <!--Font files-->
+        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileTypeFactory" id="LibGDXBitmapFont" />
+
+        <lang.parserDefinition language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontParserDefinition" />
+
+        <colorSettingsPage implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.highlighting.BitmapFontColorSettingsPage" />
+        <annotator language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.highlighting.BitmapFontHighlighter" />
+
+        <lang.psiStructureViewFactory language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontStructureViewFactory" />
 
     </extensions>
 

@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasLexer
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
-import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.tree.IElementType
