@@ -60,7 +60,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
               presentableText = "Kernings",
               sortKey = "5",
               icon = AllIcons.Nodes.Tag,
-              myChildren = element.getKernings().map(::BitmapFontStructureViewElement)
+              myChildren = element.kernings.map(::BitmapFontStructureViewElement)
       ))
 
     } else if (element is PropertyContainer) {

@@ -66,7 +66,7 @@ class BitmapFontFoldingBuilder : FoldingBuilder, DumbAware {
       ))
     }
 
-    val kernings = fontFile.getKernings()
+    val kernings = fontFile.kernings
 
     val firstKerning = kernings.firstOrNull()
     val lastKerning = kernings.lastOrNull()

@@ -1,13 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinLexer
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
-import com.intellij.psi.tree.TokenSet
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -45,10 +40,5 @@ class SkinFindUsagesProvider : FindUsagesProvider {
 
   override fun canFindUsagesFor(psiElement: PsiElement) = psiElement is SkinResource
 
-  override fun getWordsScanner() = DefaultWordsScanner(
-          SkinLexer(),
-          TokenSet.create(SkinElementTypes.UNQUOTED_STRING),
-          SkinParserDefinition.SKIN_COMMENTARIES,
-          TokenSet.create(SkinElementTypes.UNQUOTED_STRING)
-  ).apply { setMayHaveFileRefsInLiterals(true) }
+  override fun getWordsScanner() = null
 }

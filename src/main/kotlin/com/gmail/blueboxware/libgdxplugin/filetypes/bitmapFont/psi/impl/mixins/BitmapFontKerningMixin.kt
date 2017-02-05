@@ -4,11 +4,13 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontKerning
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontFontCharImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.PropertyContainerImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.references.BitmapFontCharReference
 import com.gmail.blueboxware.libgdxplugin.utils.toIntOrNull
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.IconLoader
+import com.intellij.psi.PsiReference
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -41,4 +43,5 @@ abstract class BitmapFontKerningMixin(node: ASTNode) : BitmapFontKerning, Proper
 
   }
 
+  override fun getReference(): PsiReference? = BitmapFontCharReference(this)
 }

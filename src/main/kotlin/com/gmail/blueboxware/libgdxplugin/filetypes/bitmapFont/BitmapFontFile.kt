@@ -22,6 +22,26 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
 
+  val characterMap: Map<Int, BitmapFontFontChar> by lazy {
+
+    val map = mutableMapOf<Int, BitmapFontFontChar>()
+
+    PsiTreeUtil.findChildrenOfType(this, BitmapFontFontChar::class.java).forEach { fontChar ->
+      fontChar.character?.let { id ->
+        map.put(id, fontChar)
+      }
+    }
+
+    map
+
+  }
+
+  val kernings: Collection<BitmapFontKerning> by lazy {
+
+    PsiTreeUtil.findChildrenOfType(this, BitmapFontKerning::class.java)
+
+  }
+
   override fun getFileType() = viewProvider.fileType
 
   fun getInfoElement() = PsiTreeUtil.findChildOfType(this, BitmapFontInfo::class.java)
@@ -34,10 +54,8 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
 
   fun getPages() = PsiTreeUtil.findChildrenOfType(this, BitmapFontPageDefinition::class.java)
 
-  fun getCharacters() = PsiTreeUtil.findChildrenOfType(this, BitmapFontFontChar::class.java)
+  fun getCharacters() = characterMap.values
 
-  fun getKernings() = PsiTreeUtil.findChildrenOfType(this, BitmapFontKerning::class.java)
-
-  fun getCharacter(id: Int): BitmapFontFontChar? = getCharacters().find { it.getValue("id") == id.toString() }
+  fun getCharacter(id: Int): BitmapFontFontChar? = characterMap.get(id)
 
 }
