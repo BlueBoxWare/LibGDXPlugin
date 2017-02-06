@@ -14,11 +14,11 @@ package com.gmail.blueboxware.libgdxplugin/*
  * limitations under the License.
  */
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.inspections.android.DesignedForTabletsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.android.OpenGLESDirectiveInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
+import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
@@ -40,7 +40,6 @@ import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import org.jetbrains.plugins.groovy.GroovyFileType
 import java.io.File
-import java.util.*
 
 class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
@@ -149,10 +148,26 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testUnsafeIteratorInspection() {
-    val tokenizer = StringTokenizer(message("collection.classes"), ";")
-
-    while (tokenizer.hasMoreTokens()) {
-      performUnsafeIteratorInspectionTest(tokenizer.nextToken())
+    for (clazz in listOf(
+            "Array",
+            "ArrayMap",
+            "IdentityMap",
+            "IntFloatMap",
+            "IntIntMap",
+            "IntMap",
+            "IntSet",
+            "LongMap",
+            "ObjectFloatMap",
+            "ObjectIntMap",
+            "ObjectMap",
+            "ObjectSet",
+            "OrderedMap",
+            "OrderedSet",
+            "Predicate.PredicateIterable",
+            "Queue",
+            "SortedIntList"
+    )) {
+      performUnsafeIteratorInspectionTest(clazz)
     }
   }
 

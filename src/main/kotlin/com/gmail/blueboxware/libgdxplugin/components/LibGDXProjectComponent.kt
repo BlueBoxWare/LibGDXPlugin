@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.components
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
-import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
@@ -43,12 +43,12 @@ import java.util.*
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   val isLibGDXProject: Boolean
-    get() { return usedLibraryVersions[GDXLibrary.GDX] != null || isTesting }
+    get() { return usedLibraryVersions[VersionUtils.GDXLibrary.GDX] != null || isTesting }
 
   private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
 
-  private val usedLibraryVersions = mutableMapOf<GDXLibrary, String>()
-  private val latestLibraryVersions = mutableMapOf<GDXLibrary, String>()
+  private val usedLibraryVersions = mutableMapOf<VersionUtils.GDXLibrary, String>()
+  private val latestLibraryVersions = mutableMapOf<VersionUtils.GDXLibrary, String>()
 
   private var latestLibraryVersionLastChecked = -1
 
@@ -57,7 +57,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   override fun getComponentName() = "LibGDXProjectComponent"
 
-  fun getUsedLibraryVersion(gdxLibrary: GDXLibrary) = usedLibraryVersions[gdxLibrary]
+  fun getUsedLibraryVersion(gdxLibrary: VersionUtils.GDXLibrary) = usedLibraryVersions[gdxLibrary]
 
   override fun initComponent() { }
 
@@ -109,8 +109,8 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
     for (lib in ProjectLibraryTable.getInstance(project).libraryIterator) {
       val urls = lib.getUrls(OrderRootType.CLASSES)
       for (url in urls) {
-        for ((gdxLib, mavenCoord) in mavenCoordMap.entries) {
-          val regex = Regex("${mavenCoord.first}/${mavenCoord.second}/($versionStringRegex)")
+        for ((gdxLib, mavenCoord) in VersionUtils.mavenCoordMap.entries) {
+          val regex = Regex("${mavenCoord.first}/${mavenCoord.second}/(${VersionUtils.versionStringRegex})")
           val matchResult = regex.find(url)
           if (matchResult?.groupValues?.get(1) != null) {
             usedLibraryVersions[gdxLib] = matchResult?.groupValues?.get(1) ?: continue
@@ -121,7 +121,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   }
 
-  fun getLatestLibraryVersion(library: GDXLibrary, fromCache: Boolean = false): String? {
+  fun getLatestLibraryVersion(library: VersionUtils.GDXLibrary, fromCache: Boolean = false): String? {
 
     val currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
@@ -142,7 +142,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       return
     }
 
-    for (library in GDXLibrary.values()) {
+    for (library in VersionUtils.GDXLibrary.values()) {
       val version = retrieveLatestVersionFromGithub(gitHub, library)
       if (version != null) {
         latestLibraryVersions[library] = version
@@ -151,10 +151,10 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   }
 
-  private fun retrieveLatestVersionFromGithub(gitHub: GitHub, library: GDXLibrary): String? {
+  private fun retrieveLatestVersionFromGithub(gitHub: GitHub, library: VersionUtils.GDXLibrary): String? {
 
     val repository = try {
-      gitHub.getRepository(repoMap[library])
+      gitHub.getRepository(VersionUtils.repoMap[library])
     } catch (e: IOException) {
       LOG.debug("Could not get repository from GitHub", e)
       return null
@@ -175,8 +175,8 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
         name = name.substring(name.lastIndexOf("-") + 1, name.length)
       }
 
-      if (name.matches(versionStringRegex)) {
-        if (latestVersion == null || compareVersionStrings(name, latestVersion) > 0) {
+      if (name.matches(VersionUtils.versionStringRegex)) {
+        if (latestVersion == null || VersionUtils.compareVersionStrings(name, latestVersion) > 0) {
           latestVersion = name
         }
       }

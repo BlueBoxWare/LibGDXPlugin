@@ -29,51 +29,55 @@ import com.intellij.util.indexing.FileBasedIndex
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-private val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
-private val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
-private val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
+object SkinUtils {
 
-val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
+  private val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
+  private val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
+  private val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
 
-fun markFileAsSkin(project: Project, file: VirtualFile) {
+  val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
+
+  fun markFileAsSkin(project: Project, file: VirtualFile) {
 
 
-  if (project.isDisposed) return
+    if (project.isDisposed) return
 
-  val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
-  val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java) ?: return
+    val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
+    val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java) ?: return
 
-  skinFiles.add(file)
-  nonSkinFiles.remove(file)
+    skinFiles.add(file)
+    nonSkinFiles.remove(file)
 
-  val currentLanguage = LanguageUtil.getFileLanguage(file) ?: return
-  LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, project)
+    val currentLanguage = LanguageUtil.getFileLanguage(file) ?: return
+    LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, project)
 
-  DaemonCodeAnalyzer.getInstance(project).restart()
-  FileBasedIndex.getInstance().requestReindex(file)
-  FileContentUtilCore.reparseFiles(file)
-  FileDocumentManager.getInstance().getDocument(file)?.let { document ->
-    for (editor in EditorFactory.getInstance().getEditors(document)) {
-      (editor.foldingModel as? FoldingModelImpl)?.rebuild()
+    DaemonCodeAnalyzer.getInstance(project).restart()
+    FileBasedIndex.getInstance().requestReindex(file)
+    FileContentUtilCore.reparseFiles(file)
+    FileDocumentManager.getInstance().getDocument(file)?.let { document ->
+      for (editor in EditorFactory.getInstance().getEditors(document)) {
+        (editor.foldingModel as? FoldingModelImpl)?.rebuild()
+      }
     }
+    EditorNotifications.getInstance(project).updateNotifications(file)
+
   }
-  EditorNotifications.getInstance(project).updateNotifications(file)
 
-}
+  fun markFileAsNonSkin(project: Project, file: VirtualFile) {
 
-fun markFileAsNonSkin(project: Project, file: VirtualFile) {
+    if (project.isDisposed) return
 
-  if (project.isDisposed) return
+    val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
+    val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java) ?: return
 
-  val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return
-  val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java) ?: return
+    skinFiles.remove(file)
+    nonSkinFiles.add(file)
 
-  skinFiles.remove(file)
-  nonSkinFiles.add(file)
+    FileBasedIndex.getInstance().requestReindex(file)
+    FileContentUtilCore.reparseFiles(file)
+    EditorNotifications.getInstance(project).updateNotifications(file)
 
-  FileBasedIndex.getInstance().requestReindex(file)
-  FileContentUtilCore.reparseFiles(file)
-  EditorNotifications.getInstance(project).updateNotifications(file)
+  }
 
 }
 

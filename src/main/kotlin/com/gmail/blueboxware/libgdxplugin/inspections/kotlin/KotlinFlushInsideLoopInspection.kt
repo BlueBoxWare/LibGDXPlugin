@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.getAllFlushingMethods
+import com.gmail.blueboxware.libgdxplugin.utils.FlushingMethodsUtils
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
@@ -59,7 +59,7 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
     fun getFlushingMethods(project: Project, session: LocalInspectionToolSession): Set<PsiElement>? {
 
       if (session.getUserData(keyMethods) == null || session.getUserData(keyPreviousProject) != project) {
-        val methods = getAllFlushingMethods(project)
+        val methods = FlushingMethodsUtils.getAllFlushingMethods(project)
         session.putUserData(keyMethods, methods)
         session.putUserData(keyPreviousProject, project)
       }

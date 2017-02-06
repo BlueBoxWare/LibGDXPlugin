@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.inspections.android
+package com.gmail.blueboxware.libgdxplugin.inspections.global
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.analysis.AnalysisScope

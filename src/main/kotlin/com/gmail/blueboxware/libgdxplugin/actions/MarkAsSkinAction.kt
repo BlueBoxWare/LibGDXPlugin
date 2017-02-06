@@ -2,8 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.actions
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
-import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
+import com.gmail.blueboxware.libgdxplugin.utils.SkinUtils
 import com.intellij.json.JsonLanguage
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.AnAction
@@ -83,11 +82,11 @@ class MarkAsSkinAction : AnAction() {
 
     if (text == message("context.menu.mark.as.skin")) {
 
-      markFileAsSkin(project, file)
+      SkinUtils.markFileAsSkin(project, file)
 
     } else {
 
-      markFileAsNonSkin(project, file)
+      SkinUtils.markFileAsNonSkin(project, file)
 
     }
 

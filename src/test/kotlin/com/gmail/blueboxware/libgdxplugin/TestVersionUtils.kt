@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
+import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -48,30 +47,30 @@ class TestVersionUtils: LibGDXCodeInsightFixtureTestCase() {
     )
 
     for (pair in tests.iterator()) {
-      TestCase.assertEquals("${pair.first} <=> ${pair.second}", 1, compareVersionStrings(pair.first, pair.second))
-      TestCase.assertEquals("${pair.second} <=> ${pair.first}", -1, compareVersionStrings(pair.second, pair.first))
+      TestCase.assertEquals("${pair.first} <=> ${pair.second}", 1, VersionUtils.compareVersionStrings(pair.first, pair.second))
+      TestCase.assertEquals("${pair.second} <=> ${pair.first}", -1, VersionUtils.compareVersionStrings(pair.second, pair.first))
     }
 
-    TestCase.assertEquals(0, compareVersionStrings("1.1.9", "1.1.9"))
-    TestCase.assertEquals(0, compareVersionStrings("0.99", "0.99"))
+    TestCase.assertEquals(0, VersionUtils.compareVersionStrings("1.1.9", "1.1.9"))
+    TestCase.assertEquals(0, VersionUtils.compareVersionStrings("0.99", "0.99"))
   }
 
   fun testFetchingLatestVersions() {
 
     val projectComponent = myFixture.project.getComponent(LibGDXProjectComponent::class.java)
 
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.GDX) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.BOX2DLIGHTS) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.ASHLEY) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.AI) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.OVERLAP2D) ?: "0", "0.0.9") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.GDX) ?: "0", "1.9.2") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.BOX2DLIGHTS) ?: "0", "1.3") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.ASHLEY) ?: "0", "1.7.1") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.AI) ?: "0", "1.7.0") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.OVERLAP2D) ?: "0", "0.0.9") > 0)
 
     // caching
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.GDX, fromCache = true) ?: "0", "1.9.2") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.BOX2DLIGHTS, fromCache = true) ?: "0", "1.3") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.ASHLEY, fromCache = true) ?: "0", "1.7.1") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.AI, fromCache = true) ?: "0", "1.7.0") > 0)
-    assert(compareVersionStrings(projectComponent.getLatestLibraryVersion(GDXLibrary.OVERLAP2D, fromCache = true) ?: "0", "0.0.9") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.GDX, fromCache = true) ?: "0", "1.9.2") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.BOX2DLIGHTS, fromCache = true) ?: "0", "1.3") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.ASHLEY, fromCache = true) ?: "0", "1.7.1") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.AI, fromCache = true) ?: "0", "1.7.0") > 0)
+    assert(VersionUtils.compareVersionStrings(projectComponent.getLatestLibraryVersion(VersionUtils.GDXLibrary.OVERLAP2D, fromCache = true) ?: "0", "0.0.9") > 0)
 
   }
 

@@ -23,14 +23,14 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
 
 abstract class GradleBuildFileVersionsVisitor: GroovyRecursiveElementVisitor() {
 
-  abstract fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement)
+  abstract fun onVersionFound(library: VersionUtils.GDXLibrary, version: String, element: PsiElement)
 
   override fun visitLiteralExpression(literal: GrLiteral) {
     super.visitLiteralExpression(literal)
 
     if (literal !is GrLiteralImpl || !literal.isStringLiteral) return
 
-    val (lib, version) = extractInfoFromMavenCoord(literal.text) ?: return
+    val (lib, version) = VersionUtils.extractInfoFromMavenCoord(literal.text) ?: return
 
     onVersionFound(lib, version, literal)
 
@@ -44,7 +44,7 @@ abstract class GradleBuildFileVersionsVisitor: GroovyRecursiveElementVisitor() {
       val key = expression.lValue.text
       val value = if (rValue is GrLiteral) rValue.value else return
 
-      val lib = gradleExtNameMap[key] ?: return
+      val lib = VersionUtils.gradleExtNameMap[key] ?: return
 
       onVersionFound(lib, value.toString(), expression)
     }

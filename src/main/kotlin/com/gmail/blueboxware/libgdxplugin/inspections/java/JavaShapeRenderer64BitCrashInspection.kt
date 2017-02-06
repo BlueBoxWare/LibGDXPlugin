@@ -16,9 +16,8 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
-import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiNewExpression
@@ -41,9 +40,9 @@ class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
       if (expression.classReference?.qualifiedName == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
         expression.project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
-          val gdxVersion = projectComponent.getUsedLibraryVersion(GDXLibrary.GDX)
+          val gdxVersion = projectComponent.getUsedLibraryVersion(VersionUtils.GDXLibrary.GDX)
 
-          if (gdxVersion != null && compareVersionStrings(gdxVersion, "1.9.0") >= 0 && compareVersionStrings(gdxVersion, "1.9.2") < 0) {
+          if (gdxVersion != null && VersionUtils.compareVersionStrings(gdxVersion, "1.9.0") >= 0 && VersionUtils.compareVersionStrings(gdxVersion, "1.9.2") < 0) {
             holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
           }
         }

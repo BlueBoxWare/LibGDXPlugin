@@ -15,68 +15,70 @@
  */
 package com.gmail.blueboxware.libgdxplugin.utils
 
-enum class GDXLibrary  { GDX, BOX2DLIGHTS, ASHLEY, AI, OVERLAP2D  }
+object VersionUtils {
 
-val repoMap: Map<GDXLibrary, String> = mapOf(
-    GDXLibrary.GDX to "libgdx/libgdx",
-    GDXLibrary.BOX2DLIGHTS to "libgdx/box2dlights",
-    GDXLibrary.ASHLEY to "libgdx/ashley",
-    GDXLibrary.AI to "libgdx/gdx-ai",
-    GDXLibrary.OVERLAP2D to "UnderwaterApps/overlap2d-runtime-libgdx"
-)
+  enum class GDXLibrary { GDX, BOX2DLIGHTS, ASHLEY, AI, OVERLAP2D }
 
-val gradleExtNameMap: Map<String, GDXLibrary> = mapOf(
-    "gdxVersion" to GDXLibrary.GDX,
-    "box2DLightsVersion" to GDXLibrary.BOX2DLIGHTS,
-    "ashleyVersion" to GDXLibrary.ASHLEY,
-    "aiVersion" to GDXLibrary.AI
-)
+  val repoMap: Map<GDXLibrary, String> = mapOf(
+          GDXLibrary.GDX to "libgdx/libgdx",
+          GDXLibrary.BOX2DLIGHTS to "libgdx/box2dlights",
+          GDXLibrary.ASHLEY to "libgdx/ashley",
+          GDXLibrary.AI to "libgdx/gdx-ai",
+          GDXLibrary.OVERLAP2D to "UnderwaterApps/overlap2d-runtime-libgdx"
+  )
 
-val mavenCoordMap: Map<GDXLibrary, Pair<String, String>> = mapOf(
-    GDXLibrary.GDX to ("com.badlogicgames.gdx" to "gdx"),
-    GDXLibrary.BOX2DLIGHTS to ("com.badlogicgames.box2dlights" to "box2dlights"),
-    GDXLibrary.ASHLEY to ("com.badlogicgames.ashley" to "ashley"),
-    GDXLibrary.AI to ("com.badlogicgames.gdx" to "gdx-ai"),
-    GDXLibrary.OVERLAP2D to ("com.underwaterapps.overlap2druntime" to "overlap2d-runtime-libgdx")
-)
+  val gradleExtNameMap: Map<String, GDXLibrary> = mapOf(
+          "gdxVersion" to GDXLibrary.GDX,
+          "box2DLightsVersion" to GDXLibrary.BOX2DLIGHTS,
+          "ashleyVersion" to GDXLibrary.ASHLEY,
+          "aiVersion" to GDXLibrary.AI
+  )
 
-val versionStringRegex = Regex("[0-9]+(\\.[0-9]+)*")
+  val mavenCoordMap: Map<GDXLibrary, Pair<String, String>> = mapOf(
+          GDXLibrary.GDX to ("com.badlogicgames.gdx" to "gdx"),
+          GDXLibrary.BOX2DLIGHTS to ("com.badlogicgames.box2dlights" to "box2dlights"),
+          GDXLibrary.ASHLEY to ("com.badlogicgames.ashley" to "ashley"),
+          GDXLibrary.AI to ("com.badlogicgames.gdx" to "gdx-ai"),
+          GDXLibrary.OVERLAP2D to ("com.underwaterapps.overlap2druntime" to "overlap2d-runtime-libgdx")
+  )
 
-fun compareVersionStrings(string1: String, string2: String): Int {
+  val versionStringRegex = Regex("[0-9]+(\\.[0-9]+)*")
 
-  if (!string1.matches(versionStringRegex) || !string2.matches(versionStringRegex)) throw  IllegalArgumentException("Invalid version string format")
+  fun compareVersionStrings(string1: String, string2: String): Int {
 
-  val parts1 = string1.split(".")
-  val parts2 = string2.split(".")
+    if (!string1.matches(versionStringRegex) || !string2.matches(versionStringRegex)) throw  IllegalArgumentException("Invalid version string format")
 
-  val length = Math.max(parts1.size, parts2.size)
+    val parts1 = string1.split(".")
+    val parts2 = string2.split(".")
 
-  for (i in 0..length - 1) {
-    val part1 = if (i < parts1.size) Integer.parseInt(parts1[i]) else 0
-    val part2 = if (i < parts2.size) Integer.parseInt(parts2[i]) else 0
+    val length = Math.max(parts1.size, parts2.size)
 
-    if (part1 < part2) return -1
-    if (part1 > part2) return 1
+    for (i in 0..length - 1) {
+      val part1 = if (i < parts1.size) Integer.parseInt(parts1[i]) else 0
+      val part2 = if (i < parts2.size) Integer.parseInt(parts2[i]) else 0
+
+      if (part1 < part2) return -1
+      if (part1 > part2) return 1
+    }
+
+    return 0
+
   }
 
-  return 0
+  fun extractInfoFromMavenCoord(coord: String): Pair<GDXLibrary, String>? {
 
-}
-
-fun extractInfoFromMavenCoord(coord: String): Pair<GDXLibrary, String>? {
-
-  for (gdxLib in GDXLibrary.values()) {
-    mavenCoordMap[gdxLib]?.let { mavenCoord ->
-      val regex = Regex("${mavenCoord.first}:${mavenCoord.second}:($versionStringRegex)")
-      val matchResult = regex.find(coord)
-      matchResult?.let { result ->
-        return Pair(gdxLib, matchResult.groupValues[1])
+    for (gdxLib in GDXLibrary.values()) {
+      mavenCoordMap[gdxLib]?.let { mavenCoord ->
+        val regex = Regex("${mavenCoord.first}:${mavenCoord.second}:($versionStringRegex)")
+        val matchResult = regex.find(coord)
+        matchResult?.let { result ->
+          return Pair(gdxLib, matchResult.groupValues[1])
+        }
       }
     }
+
+    return null
+
   }
 
-  return null
-
 }
-
-

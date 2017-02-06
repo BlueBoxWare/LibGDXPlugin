@@ -17,9 +17,8 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.GDXLibrary
 import com.gmail.blueboxware.libgdxplugin.utils.GradleBuildFileVersionsVisitor
-import com.gmail.blueboxware.libgdxplugin.utils.compareVersionStrings
+import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
@@ -32,12 +31,12 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
   companion object {
 
-    fun isOutdatedVersion(foundVersion: String, project: Project, library: GDXLibrary): Boolean {
+    fun isOutdatedVersion(foundVersion: String, project: Project, library: VersionUtils.GDXLibrary): Boolean {
 
         project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
           val latestVersion = projectComponent.getLatestLibraryVersion(library)
           try {
-            if (latestVersion != null && compareVersionStrings(latestVersion, foundVersion) > 0) {
+            if (latestVersion != null && VersionUtils.compareVersionStrings(latestVersion, foundVersion) > 0) {
               return true
             }
           } catch (e: IllegalArgumentException) {
@@ -65,7 +64,7 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
       file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
 
-        override fun onVersionFound(library: GDXLibrary, version: String, element: PsiElement) {
+        override fun onVersionFound(library: VersionUtils.GDXLibrary, version: String, element: PsiElement) {
           if (isOutdatedVersion(version, element.project, library)) {
             holder.registerProblem(element, message("outdated.versions.problem.descriptor"))
           }

@@ -15,25 +15,27 @@
  */
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.message
-import java.util.*
-
 val iteratorsMap: Map<String, List<String>> by lazy {
-  val iteratorMap = mutableMapOf<String, List<String>>()
-  val classNamesTokenizer = StringTokenizer(message("collection.classes"), ";")
 
-  while (classNamesTokenizer.hasMoreTokens()) {
-    val className = "com.badlogic.gdx.utils." + classNamesTokenizer.nextToken()
-    val methodNamesTokenizer = StringTokenizer(message(className + ".iterators"), ";")
-    val methodNames = mutableListOf<String>()
-
-    while (methodNamesTokenizer.hasMoreTokens()) {
-      methodNames.add(methodNamesTokenizer.nextToken())
-    }
-
-    iteratorMap.put(className, methodNames)
-  }
-
-  return@lazy iteratorMap
+  mapOf(
+          "com.badlogic.gdx.utils.Array" to listOf("iterator", "select"),
+          "com.badlogic.gdx.utils.ArrayMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.IdentityMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.IntFloatMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.IntIntMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.IntMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.IntSet" to listOf("iterator"),
+          "com.badlogic.gdx.utils.LongMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.ObjectFloatMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.ObjectIntMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.ObjectMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.ObjectSet" to listOf("iterator"),
+          "com.badlogic.gdx.utils.OrderedMap" to listOf("entries", "iterator", "keys", "values"),
+          "com.badlogic.gdx.utils.OrderedSet" to listOf("iterator"),
+          "com.badlogic.gdx.utils.Predicate.PredicateIterable" to listOf("iterator"),
+          "com.badlogic.gdx.utils.Queue" to listOf("iterator"),
+          "com.badlogic.gdx.utils.SortedIntList" to listOf("iterator")
+  )
+  
 }
 
