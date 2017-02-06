@@ -52,7 +52,7 @@ abstract class BitmapFontFontCharMixin(node: ASTNode) : BitmapFontFontChar, Prop
 
   override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString() = null
+    override fun getLocationString() = ""
 
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 

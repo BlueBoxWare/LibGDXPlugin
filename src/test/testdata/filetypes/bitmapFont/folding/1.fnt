@@ -2,7 +2,7 @@ info face=f size= bold=0 italic=0 charset="" unicode=0 stretchH=100 smooth=1 aa=
 common lineHeight=22 base=22 scaleW=142 scaleH=144 pages=1 packed=0 alphaChnl=1 redChnl=0 greenChnl=0 blueChnl=0
 page id=0 file="font-over-export.png"
 chars count=98
-<fold text='Characters ...'>char id=33 x=133 y=101 width=7 height=16 xoffset=0 yoffset=6 xadvance=7 page=0 chnl=0 letter="!"
+<fold text=' Characters ...'>char id=33 x=133 y=101 width=7 height=16 xoffset=0 yoffset=6 xadvance=7 page=0 chnl=0 letter="!"
 char id=34 x=123 y=132 width=9 height=10 xoffset=0 yoffset=6 xadvance=9 page=0 chnl=0 letter="""
 char id=35 x=16 y=68 width=14 height=16 xoffset=0 yoffset=6 xadvance=14 page=0 chnl=0 letter="#"
 char id=36 x=74 y=98 width=12 height=18 xoffset=0 yoffset=5 xadvance=12 page=0 chnl=0 letter="$"
@@ -102,7 +102,7 @@ char id=32 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=8 page=0 chnl=0
 char id=9 x=0 y=0 width=0 height=0 xoffset=0 yoffset=0 xadvance=64 page=0 chnl=0 letter="	"</fold>
 
 kernings count=606
-<fold text='Kernings ...'>kerning first=65  second=39  amount=-3
+<fold text=' Kernings ...'>kerning first=65  second=39  amount=-3
 kerning first=65  second=67  amount=-1
 kerning first=65  second=71  amount=-2
 kerning first=65  second=79  amount=-1
