@@ -4,14 +4,17 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
@@ -203,91 +206,48 @@ class SkinCompletionContributor : CompletionContributor() {
     }
   }
 
+  private fun putDollarsInClassName(psiClass: PsiClass): String? {
+    psiClass.containingClass.let { containingClass ->
+      if (containingClass == null) {
+        return psiClass.qualifiedName
+      } else {
+        return putDollarsInClassName(containingClass) + "$" + psiClass.name
+      }
+    }
+  }
+
+  private fun createLookupElement(psiClass: PsiClass): LookupElement? {
+    putDollarsInClassName(psiClass)?.let { fqName ->
+      return LookupElementBuilder.create(psiClass, fqName).withIcon(ICON_CLASS).withLookupString(psiClass.name ?: "")
+    }
+
+    return null
+  }
+
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {
-    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }
+
     val project = parameters.position.project
     val psiFacade = JavaPsiFacade.getInstance(project)
-    val rootPackage = psiFacade.findPackage(prefix) ?: return
+    val scene2duiPackage = psiFacade.findPackage("com.badlogic.gdx.scenes.scene2d.ui") ?: return
+    val searchScope = GlobalSearchScope.allScope(project)
 
-    for (subpackage in rootPackage.subPackages) {
-      val priority = packagePriority(subpackage.qualifiedName)
-      result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(subpackage, subpackage.qualifiedName)
-              .withIcon(ICON_PACKAGE)
-              .withBoldness(priority > 0.0),
-              priority
-              ))
-    }
-
-    val currentPackage = psiFacade.findPackage(prefix)
-    if (currentPackage == null || currentPackage.name == null) {
-        AllClassesGetter.processJavaClasses(result.prefixMatcher, project, GlobalSearchScope.allScope(project), { psiClass ->
-          SkinClassSpecificationMixin.putDollarInInnerClassName(psiClass)?.let { name ->
-            val priority = classPriority(name)
-            result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, name)
-                    .withPresentableText(name)
-                    .withLookupString(psiClass.name ?: "")
-                    .withIcon(ICON_CLASS)
-                    .withBoldness(priority > 0.0),
-                    priority
-            ))
-          }
-          true
-        })
-
-      return
-    }
-
-    for (clazz in currentPackage.classes) {
-      if (!clazz.isAnnotationType && !clazz.isInterface && !clazz.hasModifierProperty(PsiModifier.ABSTRACT) && clazz.containingClass == null) {
-        clazz.qualifiedName?.let { fqName ->
-          val priority = classPriority(fqName)
-          result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(clazz, fqName)
-                  .withIcon(ICON_CLASS)
-                  .withBoldness(priority > 0.0)
-                  , priority))
+    for (psiClass in scene2duiPackage.classes) {
+      for (innerClass in psiClass.innerClasses) {
+        if (innerClass.qualifiedName?.endsWith("Style") != true) continue
+        createLookupElement(innerClass)?.let { result.addElement(it) }
+        for (subClass in ClassInheritorsSearch.search(innerClass, searchScope, true, true, false)) {
+          createLookupElement(subClass)?.let { result.addElement(it) }
         }
       }
-
-      for (innerClass in clazz.innerClasses) {
-        val fqName = clazz.qualifiedName + "$" + innerClass.name
-        val priority = classPriority(fqName)
-        if (innerClass.hasModifierProperty(PsiModifier.PUBLIC)) {
-          result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(innerClass, fqName)
-                  .withBoldness(priority > 0.0)
-                  .withIcon(ICON_CLASS)
-                  , priority))
-        }
-      }
-
     }
 
-  }
-
-  private fun packagePriority(packageName: String): Double {
-    if ("com.badlogic.gdx.scenes.scene2d.ui".contains(packageName) || "com.badlogic.gdx.graphics".contains(packageName)) {
-      return 1.0
-    }
-    return 0.0
-  }
-
-  private fun classPriority(className: String): Double {
-    if (prioritizedClasses.contains(className)) {
-      return 1.0
-    } else if (className.contains("com.badlogic.gdx.scenes.scene2d.ui") && className.endsWith("Style")) {
-      return 1.0
-    }
-    return 0.0
+    result.addElement(LookupElementBuilder.create("com.badlogic.gdx.graphics.Color").withIcon(ICON_CLASS).withLookupString("Color"))
+    result.addElement(LookupElementBuilder.create("com.badlogic.gdx.graphics.g2d.BitmapFont").withIcon(ICON_CLASS).withLookupString("BitmapFont"))
+    result.addElement(LookupElementBuilder.create("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable").withIcon(ICON_CLASS).withLookupString("TintedDrawable"))
   }
 
   companion object {
-    val prioritizedClasses = listOf(
-            "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
-            "com.badlogic.gdx.graphics.Color",
-            "com.badlogic.gdx.graphics.g2d.BitmapFont"
-    )
-
     val ICON_CLASS = PlatformIcons.CLASS_ICON
-    val ICON_PACKAGE = PlatformIcons.PACKAGE_ICON
     val ICON_RESOURCE = AllIcons.Nodes.KeymapOther
     val ICON_ATLAS = AllIcons.Nodes.ModuleGroup
     val ICON_BITMAP_FONT = AllIcons.Nodes.ExtractedFolder

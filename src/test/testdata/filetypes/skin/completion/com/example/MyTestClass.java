@@ -1,5 +1,7 @@
 package com.example;
 
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+
 class MyTestClass {
 
     int number;
@@ -7,6 +9,12 @@ class MyTestClass {
 
     public class Inner {
         int innerField;
+    }
+
+    public class InnerClass {
+        public static class MyInnerStyle extends List.ListStyle {
+
+        }
     }
 
 }

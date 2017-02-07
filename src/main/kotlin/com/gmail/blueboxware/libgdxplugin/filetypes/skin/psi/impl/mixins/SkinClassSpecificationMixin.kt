@@ -65,8 +65,6 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
   companion object {
     fun removeDollarFromClassName(name: String) = name.split(".", "$").joinToString(".")
-
-    fun putDollarInInnerClassName(clazz: PsiClass) = clazz.containingClass?.let { it.qualifiedName + "$" + clazz.name } ?: clazz.qualifiedName
   }
 
 }
