@@ -1,6 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin
 
+import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.application.PathManager
+import com.intellij.openapi.application.Result
+import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.roots.OrderRootType
+import com.intellij.openapi.roots.impl.libraries.LibraryImpl
+import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
@@ -43,7 +50,41 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   override fun setUp() {
     assertIdeaHomePath()
+    VersionManager.BASE_URL = "http://127.0.0.1/maven/"
 
     super.setUp()
+
+    addDummyLibrary(Libraries.LIBGDX, "1.9.3")
+    project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
+
+
+  fun addDummyLibrary(library: Libraries, version: String) {
+
+    object : WriteCommandAction<Unit>(project) {
+
+      override fun run(result: Result<Unit>) {
+
+        val projectModel = ProjectLibraryTable.getInstance(project).modifiableModel
+
+        for (lib in projectModel.libraries) {
+          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { result ->
+            if (result.first == library) {
+              projectModel.removeLibrary(lib)
+            }
+          }
+        }
+
+        val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryImpl).modifiableModel
+
+        libraryModel.addRoot("/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/", OrderRootType.CLASSES)
+
+        libraryModel.commit()
+        projectModel.commit()
+      }
+
+    }.execute()
+
+  }
+
 }

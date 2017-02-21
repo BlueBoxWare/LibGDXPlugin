@@ -1,5 +1,4 @@
 package com.gmail.blueboxware.libgdxplugin
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.testFramework.FileTreeAccessFilter
 import com.intellij.testFramework.PsiTestUtil
@@ -55,9 +54,6 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
     })
 
     myFixture.copyFileToProject("lib/Color.java", "com/badlogic/gdx/graphics/Color.java")
-
-    val projectComponent = project.getComponent(LibGDXProjectComponent::class.java)
-    projectComponent.isTesting = true
 
   }
 

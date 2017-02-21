@@ -15,61 +15,79 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.GradleBuildFileVersionsVisitor
-import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.io.FileUtilRt
-import com.intellij.psi.PsiElement
 import org.jetbrains.plugins.groovy.lang.psi.GroovyElementVisitor
-import org.jetbrains.plugins.groovy.lang.psi.GroovyFileBase
+import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElement
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 
 class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
-  companion object {
+  override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
-    fun isOutdatedVersion(foundVersion: String, project: Project, library: VersionUtils.GDXLibrary): Boolean {
+  override fun getID() = "LibGDXOutdatedVersionGradle"
 
-        project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
-          val latestVersion = projectComponent.getLatestLibraryVersion(library)
-          try {
-            if (latestVersion != null && VersionUtils.compareVersionStrings(latestVersion, foundVersion) > 0) {
-              return true
-            }
-          } catch (e: IllegalArgumentException) {
-            // just ignore
-          }
-        }
-
-      return false
-
-    }
-
-  }
-
-  override fun getStaticDescription() = message("outdated.versions.html.description")
-
-  override fun getID() = "LibGDXOutdatedVersion"
-
-  override fun getDisplayName() = message("outdated.versions.inspection.name")
+  override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = GroovyPsiElementVisitor(object : GroovyElementVisitor() {
 
-    override fun visitFile(file: GroovyFileBase) {
+    val versionManager = holder.project.getComponent(VersionManager::class.java)
 
-      if (!FileUtilRt.extensionEquals(file.name, "gradle")) return
+    override fun visitLiteralExpression(literal: GrLiteral) {
+      process(literal)
+    }
 
-      file.accept(GroovyPsiElementVisitor(object: GradleBuildFileVersionsVisitor() {
+    override fun visitCommandArguments(argumentList: GrCommandArgumentList) {
+      process(argumentList)
+    }
 
-        override fun onVersionFound(library: VersionUtils.GDXLibrary, version: String, element: PsiElement) {
-          if (isOutdatedVersion(version, element.project, library)) {
-            holder.registerProblem(element, message("outdated.versions.problem.descriptor"))
+    override fun visitAssignmentExpression(expression: GrAssignmentExpression) {
+      process(expression)
+    }
+
+    private fun process(element: GroovyPsiElement) {
+
+      if (versionManager == null || !FileUtilRt.extensionEquals(element.containingFile.name, "gradle")) return
+
+      Libraries.extractLibraryInfoFromGroovyConstruct(element)?.let { result ->
+        val lib = result.first
+        val usedVersion = result.second
+        val latestVersion = versionManager.getLatestVersion(lib) ?: return
+
+        if (usedVersion < latestVersion) {
+          holder.registerProblem(
+                  element,
+                  message("outdated.version.inspection.msg", lib.library.name, latestVersion)
+          )
+        }
+
+        return
+      }
+
+      if (element is GrLiteral) {
+
+        Libraries.fromGroovyLiteral(element)?.let { lib ->
+          element.project.getComponent(VersionManager::class.java)?.let { versionManager ->
+            val usedVersion = versionManager.getUsedVersion(lib)
+            val latestVersion = versionManager.getLatestVersion(lib)
+            if (usedVersion != null && latestVersion != null && usedVersion < latestVersion) {
+              holder.registerProblem(
+                      element,
+                      message("outdated.version.inspection.msg", lib.library.name, latestVersion)
+              )
+            }
           }
         }
-      }))
+
+      }
+
     }
+
   })
 }

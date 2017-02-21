@@ -4,9 +4,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalform
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.intellij.codeInspection.InspectionToolProvider
@@ -50,7 +52,9 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           OpenGLESDirectiveInspection::class.java,
           DesignedForTabletsInspection::class.java,
 
+          OutdatedVersionsInspection::class.java,
           GradleOutdatedVersionsInspection::class.java,
+          GradlePropertiesOutdatedVersionsInspection::class.java,
 
           XmlTestIdsInspection::class.java,
 

@@ -1,7 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.skin
+package com.gmail.blueboxware.libgdxplugin.annotators
 
-import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.Annotator
+import com.intellij.psi.PsiElement
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -18,18 +19,11 @@ import com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
+class TestAnnotator : Annotator {
 
-  fun testHighlighting() {
-    myFixture.configureByFile("1.skin")
-    myFixture.checkHighlighting(false, false, true)
+  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    if (element.text.contains("guice")) {
+      val d = 1
+    }
   }
-
-  override fun setUp() {
-    super.setUp()
-
-    SkinColorAnnotator.isTesting = true
-  }
-
-  override fun getBasePath() = "filetypes/skin/colorAnnotator/"
 }

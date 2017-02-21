@@ -32,9 +32,6 @@ intellij {
 
 repositories {
     mavenCentral()
-    maven {
-        url "http://repo.jenkins-ci.org/releases"
-    }
 }
 
 sourceSets {
@@ -49,9 +46,9 @@ test {
 }
 
 dependencies {
-    compile 'org.kohsuke:github-api:1.76'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

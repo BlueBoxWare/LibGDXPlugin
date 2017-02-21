@@ -88,6 +88,8 @@
     <depends>org.intellij.groovy</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+        <annotator language="Groovy" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.TestAnnotator" />
+
         <inspectionToolProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionToolProvider" />
 
@@ -186,6 +188,9 @@
     <project-components>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.VersionManager</implementation-class>
         </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles</implementation-class>

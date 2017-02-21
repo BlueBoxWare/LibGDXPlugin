@@ -15,15 +15,12 @@
  */
 package com.gmail.blueboxware.libgdxplugin.utils
 
-val testIdMap: Map<String, String> by lazy {
+val testIdMap = mapOf(
+        "ca-app-pub-3940256099942544/1033173712" to "AdMob interstitial test ad (Android)",
+        "ca-app-pub-3940256099942544/6300978111" to "AdMob banner test ad (Android)",
+        "ca-app-pub-3940256099942544/2247696110" to "AdMob native test ad (Android)",
+        "ca-app-pub-3940256099942544/4411468910" to "AdMob interstitial test ad (iOS)",
+        "ca-app-pub-3940256099942544/2934735716" to "AdMob banner test ad (iOS)",
+        "ca-app-pub-3940256099942544/3986624511" to "AdMob native test ad (iOS)"
+)
 
-  mapOf(
-      "ca-app-pub-3940256099942544/1033173712" to "AdMob interstitial test ad (Android)",
-      "ca-app-pub-3940256099942544/6300978111" to "AdMob banner test ad (Android)",
-      "ca-app-pub-3940256099942544/2247696110" to "AdMob native test ad (Android)",
-      "ca-app-pub-3940256099942544/4411468910" to "AdMob interstitial test ad (iOS)",
-      "ca-app-pub-3940256099942544/2934735716" to "AdMob banner test ad (iOS)",
-      "ca-app-pub-3940256099942544/3986624511" to "AdMob native test ad (iOS)"
-  )
-
-}

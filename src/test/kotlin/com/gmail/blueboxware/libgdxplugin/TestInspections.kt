@@ -13,9 +13,7 @@ package com.gmail.blueboxware.libgdxplugin/*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
@@ -55,8 +53,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       }
     }.execute()
 
-    val projectComponent = project.getComponent(LibGDXProjectComponent::class.java)
-    projectComponent.isTesting = true
     ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
 
   }
@@ -397,13 +393,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   /*
    * Other inspections
    */
-
-  fun testOutdatedVersionsInspection() {
-
-    performInspectionsTest(GradleOutdatedVersionsInspection(), "etc/gradle1/build.gradle")
-    performInspectionsTest(GradleOutdatedVersionsInspection(), "etc/gradle2/build.gradle")
-
-  }
 
   fun testStaticResourceInspection() {
 

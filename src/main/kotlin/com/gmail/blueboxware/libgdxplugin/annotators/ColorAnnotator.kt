@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
@@ -61,7 +62,7 @@ class ColorAnnotator : Annotator {
 
       if (cache.colorAnnotationsEnabled) {
         getColor(cache, element)?.let { color ->
-          annotateWithColor(color, element, holder, cache.isTesting)
+          annotateWithColor(color, element, holder)
         }
       }
 
@@ -69,7 +70,7 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder, isTesting: Boolean) {
+  private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder) {
 
     val annotationSessions = holder.currentAnnotationSession
 
@@ -87,7 +88,7 @@ class ColorAnnotator : Annotator {
       currentAnnotations.add(element.getLineNumber() to color)
     }
 
-    if (isTesting) {
+    if ( ApplicationManager.getApplication()?.isUnitTestMode ?: false) {
       val msg = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
       holder.createWeakWarningAnnotation(element, msg)
     } else {
@@ -605,5 +606,4 @@ private class ColorAnnotatorCache(project: Project) {
   val colorAnnotationsEnabled = (project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false)
           && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
 
-  val isTesting = project.getComponent(LibGDXProjectComponent::class.java)?.isTesting ?: false
 }

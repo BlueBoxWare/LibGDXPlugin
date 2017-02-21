@@ -15,12 +15,13 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiNewExpression
+import org.jetbrains.kotlin.config.MavenComparableVersion
 
 class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
@@ -30,7 +31,7 @@ class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
   override fun getDisplayName() = message("shaperenderer.64bit.crash.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
     override fun visitNewExpression(expression: PsiNewExpression?) {
       super.visitNewExpression(expression)
@@ -39,10 +40,10 @@ class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
       if (expression.classReference?.qualifiedName == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-        expression.project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
-          val gdxVersion = projectComponent.getUsedLibraryVersion(VersionUtils.GDXLibrary.GDX)
+        expression.project.getComponent(VersionManager::class.java)?.let { versionManager ->
+          val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return
 
-          if (gdxVersion != null && VersionUtils.compareVersionStrings(gdxVersion, "1.9.0") >= 0 && VersionUtils.compareVersionStrings(gdxVersion, "1.9.2") < 0) {
+          if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
             holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
           }
         }

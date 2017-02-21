@@ -15,27 +15,25 @@
  */
 package com.gmail.blueboxware.libgdxplugin.utils
 
-val iteratorsMap: Map<String, List<String>> by lazy {
-
-  mapOf(
-          "com.badlogic.gdx.utils.Array" to listOf("iterator", "select"),
-          "com.badlogic.gdx.utils.ArrayMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.IdentityMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.IntFloatMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.IntIntMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.IntMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.IntSet" to listOf("iterator"),
-          "com.badlogic.gdx.utils.LongMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.ObjectFloatMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.ObjectIntMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.ObjectMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.ObjectSet" to listOf("iterator"),
-          "com.badlogic.gdx.utils.OrderedMap" to listOf("entries", "iterator", "keys", "values"),
-          "com.badlogic.gdx.utils.OrderedSet" to listOf("iterator"),
-          "com.badlogic.gdx.utils.Predicate.PredicateIterable" to listOf("iterator"),
-          "com.badlogic.gdx.utils.Queue" to listOf("iterator"),
-          "com.badlogic.gdx.utils.SortedIntList" to listOf("iterator")
-  )
+val iteratorsMap = mapOf(
+        "com.badlogic.gdx.utils.Array" to listOf("iterator", "select"),
+        "com.badlogic.gdx.utils.ArrayMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.IdentityMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.IntFloatMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.IntIntMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.IntMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.IntSet" to listOf("iterator"),
+        "com.badlogic.gdx.utils.LongMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.ObjectFloatMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.ObjectIntMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.ObjectMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.ObjectSet" to listOf("iterator"),
+        "com.badlogic.gdx.utils.OrderedMap" to listOf("entries", "iterator", "keys", "values"),
+        "com.badlogic.gdx.utils.OrderedSet" to listOf("iterator"),
+        "com.badlogic.gdx.utils.Predicate.PredicateIterable" to listOf("iterator"),
+        "com.badlogic.gdx.utils.Queue" to listOf("iterator"),
+        "com.badlogic.gdx.utils.SortedIntList" to listOf("iterator")
+)
   
-}
+
 

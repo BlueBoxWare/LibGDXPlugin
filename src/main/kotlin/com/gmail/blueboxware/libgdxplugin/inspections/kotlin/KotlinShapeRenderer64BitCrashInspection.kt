@@ -15,10 +15,11 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.VersionUtils
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
+import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
@@ -36,13 +37,14 @@ class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
     override fun visitCallExpression(expression: KtCallExpression) {
       if (getClassIfConstructorCall(expression)?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-        expression.project.getComponent(LibGDXProjectComponent::class.java)?.let { projectComponent ->
-          val gdxVersion = projectComponent.getUsedLibraryVersion(VersionUtils.GDXLibrary.GDX)
+        expression.project.getComponent(VersionManager::class.java)?.let { versionManager ->
+          val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return
 
-          if (gdxVersion != null && VersionUtils.compareVersionStrings(gdxVersion, "1.9.0") >= 0 && VersionUtils.compareVersionStrings(gdxVersion, "1.9.2") < 0) {
+          if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
             holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
           }
         }
+
       }
     }
 

@@ -16,8 +16,15 @@ package com.gmail.blueboxware.libgdxplugin.utils
  * limitations under the License.
  */
 fun String.toIntOrNull(): Int? =
-  try {
-    toInt()
-  } catch (e: NumberFormatException) {
-    null
-  }
+        try {
+          toInt()
+        } catch (e: NumberFormatException) {
+          null
+        }
+
+fun String.toLongOrNull(): Long? =
+        try {
+          toLong()
+        } catch (e: NumberFormatException) {
+          null
+        }

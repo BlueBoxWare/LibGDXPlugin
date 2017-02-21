@@ -26,7 +26,7 @@ The following inspections are included:
 * Using outdated versions of LibGDX and related libraries \[1]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
 
-\[1]: These inspections assume the project uses a fairly standard setup, as created by `gdx-setup`. 
+\[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-setup`](https://github.com/czyzby/gdx-setup). 
 
 ### Color previews
 When using a LibGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.

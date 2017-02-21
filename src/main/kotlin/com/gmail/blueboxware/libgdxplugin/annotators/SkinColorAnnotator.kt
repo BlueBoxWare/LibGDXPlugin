@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
@@ -31,13 +30,16 @@ import com.intellij.ui.ColorChooser
  */
 class SkinColorAnnotator : Annotator {
 
+  companion object {
+    var isTesting = false
+  }
+
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
     if (element is SkinObject) {
       val force = (PsiTreeUtil.findFirstParent(element, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
       element.asColor(force)?.let { color ->
 
-        val isTesting = element.project.getComponent(LibGDXProjectComponent::class.java)?.isTesting ?: false
         if (isTesting) {
           holder.createWeakWarningAnnotation(element, String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha))
           return
