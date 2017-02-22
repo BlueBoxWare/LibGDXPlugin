@@ -2,10 +2,13 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceAliasReference
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
+import com.intellij.psi.PsiReference
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -28,4 +31,11 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 
+  override fun getReference(): PsiReference? {
+    if (context is SkinResource) {
+      return SkinResourceAliasReference(this)
+    }
+
+    return null
+  }
 }

@@ -1,10 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.intellij.psi.PsiClass
@@ -77,6 +74,14 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checked")
   }
 
+  fun testResourceAliasReference1() {
+    doTestResourceAliasReference()
+  }
+
+  fun testResourceAliasReference2() {
+    doTestResourceAliasReference()
+  }
+
   fun doTestFieldReference(expectedFieldName: String? = null) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
@@ -106,6 +111,16 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(resource)
     assertEquals(resourceName, resource?.name)
     assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
+  }
+
+  fun doTestResourceAliasReference() {
+    myFixture.configureByFile(getTestName(true) + ".skin")
+    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent as? SkinStringLiteral
+    assertNotNull(element)
+    val resource = element?.reference?.resolve() as? SkinResource
+    assertNotNull(resource)
+    assertEquals(element!!.value, resource!!.name)
+    assertEquals(PsiTreeUtil.findFirstParent(element, { it is SkinClassSpecification} ), resource.classSpecification)
   }
 
   fun doTestJavaClassReference(className: String) {

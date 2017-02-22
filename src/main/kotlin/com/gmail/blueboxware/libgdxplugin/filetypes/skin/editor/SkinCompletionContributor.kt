@@ -41,6 +41,17 @@ class SkinCompletionContributor : CompletionContributor() {
     extend(CompletionType.BASIC,
             PlatformPatterns.psiElement()
                     .withParent(SkinStringLiteral::class.java)
+                    .withSuperParent(2, SkinResource::class.java),
+            object: CompletionProvider<CompletionParameters>() {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+                resourceAliasNameCompletion(parameters, result)
+              }
+            }
+    )
+
+    extend(CompletionType.BASIC,
+            PlatformPatterns.psiElement()
+                    .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinResourceName::class.java),
             object : CompletionProvider<CompletionParameters>() {
               override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
@@ -81,6 +92,18 @@ class SkinCompletionContributor : CompletionContributor() {
               }
             }
     )
+
+  }
+
+  private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
+
+    val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
+    val classSpec = resource.classSpecification ?: return
+
+    classSpec.resourceNames.forEach { name ->
+      if (name != resource.name)
+      result.addElement(LookupElementBuilder.create(name))
+    }
 
   }
 

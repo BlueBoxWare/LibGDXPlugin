@@ -2,7 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -33,17 +35,25 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     doTest(2)
   }
 
+  fun testFindUsages4() {
+    doTest(4)
+  }
+
   fun doTest(nrOfUsages: Int) {
     val usagesInfos = myFixture.testFindUsages(getTestName(true) + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)
     val classType = (myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
     assertNotNull(classType)
     for (usageInfo in usagesInfos) {
-      assertTrue(usageInfo.element is SkinPropertyValue)
+      assertTrue(usageInfo.element is SkinPropertyValue || (usageInfo.element is SkinStringLiteral && usageInfo.element?.parent is SkinResource))
       (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
         val type = propertyValue.property?.resolveToTypeString()
         assertNotNull(type)
         assertEquals(classType, type)
+      }
+      (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
+        assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)
+        assertEquals((stringLiteral.reference?.resolve() as? SkinResource)?.name, (usageInfo.element as? SkinStringLiteral)?.value)
       }
     }
   }

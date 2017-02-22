@@ -1,0 +1,14 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    default: red
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
+    alias: yel<caret>low
+    alias2: red,
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+    yellow: { cursor: fe }
+    default: yel<caret>low
+  }
+}

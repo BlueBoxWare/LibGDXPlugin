@@ -27,15 +27,15 @@ public class SkinResourceImpl extends SkinResourceMixin implements SkinResource 
   }
 
   @Override
-  @Nullable
-  public SkinObject getObject() {
-    return findChildByClass(SkinObject.class);
-  }
-
-  @Override
   @NotNull
   public SkinResourceName getResourceName() {
     return findNotNullChildByClass(SkinResourceName.class);
+  }
+
+  @Override
+  @Nullable
+  public SkinValue getValue() {
+    return findChildByClass(SkinValue.class);
   }
 
 }

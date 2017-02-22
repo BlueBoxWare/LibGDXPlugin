@@ -80,11 +80,12 @@ resources ::= resource? (separator resource)* {
     pin = 1
 }
 
-resource ::= resource_name ':' object {
+resource ::= resource_name ':' (object | string_literal) {
     methods = [
         getName
-        getValue
         getClassSpecification
+        getObject
+        getString
     ]
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin"
     pin(".*") = 1

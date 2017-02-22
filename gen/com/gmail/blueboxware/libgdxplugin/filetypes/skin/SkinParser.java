@@ -295,7 +295,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // resource_name ':' object
+  // resource_name ':' (object | string_literal)
   public static boolean resource(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resource")) return false;
     boolean r, p;
@@ -303,9 +303,20 @@ public class SkinParser implements PsiParser, LightPsiParser {
     r = resource_name(b, l + 1);
     p = r; // pin = 1
     r = r && report_error_(b, consumeToken(b, COLON));
-    r = p && object(b, l + 1) && r;
+    r = p && resource_2(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  // object | string_literal
+  private static boolean resource_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "resource_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = object(b, l + 1);
+    if (!r) r = string_literal(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
   }
 
   /* ********************************************************** */

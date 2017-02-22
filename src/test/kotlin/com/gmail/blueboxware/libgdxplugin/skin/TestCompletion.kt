@@ -290,7 +290,39 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 <caret>
               }
             }
-          """ to (listOf<String>() to listOf("default"))
+          """ to (listOf<String>() to listOf("default")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                color: { r: 1, g: 1, b: 1, a: 1 },
+                name: <caret>
+              }
+            }
+          """ to (listOf("color") to listOf("name")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                color: { r: 1, g: 1, b: 1, a: 1 },
+                "name1": color
+                'name2': bla
+                test: <caret>
+              }
+            }
+          """ to (listOf("color", "name1", "name2") to listOf("test")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                tbs: { checked: test }
+              },
+              com.badlogic.gdx.scenes.scene2d.ui.TextField${'$'}TextFieldStyle: {
+                def: { cursor: bla },
+                test: <caret>
+              }
+            }
+          """ to (listOf("def") to listOf("test", "tbs"))
   )
 
   fun testCompletions() {
