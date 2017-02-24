@@ -217,7 +217,7 @@ open class Library(
       okHttpClient.newCall(request).enqueue(object : Callback {
         override fun onFailure(call: Call?, e: IOException?) {
           e?.let {
-            VersionManager.LOG.info(it)
+            VersionManager.LOG.warn(it)
           }
           onFailure()
         }
@@ -226,7 +226,7 @@ open class Library(
           if (response == null || response.isSuccessful != true) {
             response?.close()
             onFailure()
-            VersionManager.LOG.info("Failed to retrieve url: " + response)
+            VersionManager.LOG.warn("Failed to retrieve url: " + response)
             return
           }
 

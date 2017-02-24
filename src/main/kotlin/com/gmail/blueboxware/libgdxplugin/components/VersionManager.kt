@@ -44,6 +44,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     val META_DATA_FILE = "maven-metadata.xml"
 
     private val okHttpClient = OkHttpClient()
+
   }
 
   fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
@@ -75,7 +76,9 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     var networkCount = 0
 
     Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
-      if (lib.library.updateLatestVersion(this, okHttpClient, networkCount < BATCH_SIZE && usedVersions[lib] != null)) {
+      val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
+      VersionManager.LOG.debug("Updating latest version of ${lib.library.name}. Network allowed: $networkAllowed.")
+      if (lib.library.updateLatestVersion(this, okHttpClient, networkAllowed)) {
         networkCount++
       }
     }

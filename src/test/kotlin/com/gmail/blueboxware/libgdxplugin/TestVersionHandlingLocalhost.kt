@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
@@ -44,6 +45,20 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.enableInspections(GradleOutdatedVersionsInspection())
     myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle")
+
+  }
+
+  fun testOutdatedVersionsGradleInspection3() {
+
+    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.testHighlightingAllFiles(true, false, false, "test3.gradle")
+
+  }
+
+  fun testOutdatedVersionsGradlePropertiesInspection() {
+
+    myFixture.enableInspections(GradlePropertiesOutdatedVersionsInspection())
+    myFixture.testHighlightingAllFiles(true, false, false, "gradle.properties")
 
   }
 
