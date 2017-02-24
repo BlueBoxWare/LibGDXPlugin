@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.versions.libs
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
-import okhttp3.OkHttpClient
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -24,6 +23,6 @@ class LibGDXLibrary(name: String, groupId: String, artifactId: String) : Library
 
   override fun getLatestVersion(versionManager: VersionManager) = versionManager.getLatestVersion(Libraries.LIBGDX)
 
-  override fun updateLatestVersion(versionManager: VersionManager, okHttpClient: OkHttpClient, networkAllowed: Boolean): Boolean = false
+  override fun updateLatestVersion(versionManager: VersionManager, networkAllowed: Boolean): Boolean = false
 
 }

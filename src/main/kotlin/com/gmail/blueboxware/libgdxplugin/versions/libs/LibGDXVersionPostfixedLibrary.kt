@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.versions.libs
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
-import okhttp3.OkHttpClient
 import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
@@ -39,12 +38,12 @@ class LibGDXVersionPostfixedLibrary(name: String, groupId: String, artifactId: S
 
   }
 
-  override fun updateLatestVersion(versionManager: VersionManager, okHttpClient: OkHttpClient, networkAllowed: Boolean): Boolean {
+  override fun updateLatestVersion(versionManager: VersionManager, networkAllowed: Boolean): Boolean {
 
 
     if (networkAllowed && System.currentTimeMillis() - lastUpdated > VersionManager.SCHEDULED_UPDATE_INTERVAL) {
 
-      fetchVersions(okHttpClient,
+      fetchVersions(
               onSuccess = { versions ->
                 availableVersions.clear()
                 availableVersions.addAll(versions)

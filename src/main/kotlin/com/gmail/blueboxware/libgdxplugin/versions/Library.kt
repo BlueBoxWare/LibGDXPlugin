@@ -3,9 +3,10 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.utils.toLongOrNull
 import com.intellij.ide.util.PropertiesComponent
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.Library
-import okhttp3.*
+import com.intellij.util.io.HttpRequests
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrNamedArgument
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
@@ -67,12 +68,11 @@ open class Library(
       } catch (e: Exception) {
         if (e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException) {
           VersionManager.LOG.info(e)
+          return null
         } else {
           throw e
         }
       }
-
-      return null
 
     }
 
@@ -87,7 +87,7 @@ open class Library(
 
   open fun getLatestVersion(versionManager: VersionManager) = latestVersion
 
-  open fun updateLatestVersion(versionManager: VersionManager, okHttpClient: OkHttpClient, networkAllowed: Boolean): Boolean {
+  open fun updateLatestVersion(versionManager: VersionManager, networkAllowed: Boolean): Boolean {
 
     val currentTime = System.currentTimeMillis()
 
@@ -114,7 +114,7 @@ open class Library(
 
     if (currentTime - lastUpdated > VersionManager.SCHEDULED_UPDATE_INTERVAL && networkAllowed) {
 
-      fetchVersions(okHttpClient,
+      fetchVersions(
               onSuccess = { versions ->
                 latestVersion = versions.map(::MavenComparableVersion).max()
                 lastUpdated = System.currentTimeMillis()
@@ -202,53 +202,37 @@ open class Library(
 
   private fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
 
-  protected fun fetchVersions(okHttpClient: OkHttpClient, onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
+  protected fun fetchVersions(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
 
     val url = VersionManager.BASE_URL + groupId.replace('.', '/') + "/" + artifactId + "/" + VersionManager.META_DATA_FILE
 
     VersionManager.LOG.info("Fetching $url")
 
-    try {
+    ApplicationManager.getApplication().executeOnPooledThread {
 
-      val request = Request.Builder()
-              .url(url)
-              .build()
+      try {
 
-      okHttpClient.newCall(request).enqueue(object : Callback {
-        override fun onFailure(call: Call?, e: IOException?) {
-          e?.let {
-            VersionManager.LOG.warn(it)
-          }
-          onFailure()
-        }
+        HttpRequests.request(url).connect { request ->
 
-        override fun onResponse(call: Call?, response: Response?) {
-          if (response == null || response.isSuccessful != true) {
-            response?.close()
+          try {
+            extractVersionsFromMavenMetaData(request.inputStream)?.let { versions ->
+              onSuccess(versions)
+            }
+          } catch (e: IOException) {
+            VersionManager.LOG.warn(e)
             onFailure()
-            VersionManager.LOG.warn("Failed to retrieve url: " + response)
-            return
           }
-
-          extractVersionsFromMavenMetaData(response.body().byteStream())?.let { versions ->
-            onSuccess(versions)
-          }
-
-          response.close()
 
         }
-      })
 
-    } catch (e: Exception) {
-      if (e is IllegalArgumentException || e is IllegalStateException) {
-        VersionManager.LOG.info(e)
-      } else {
-        throw e
+      } catch (e: IOException) {
+        VersionManager.LOG.warn(e)
+        onFailure()
       }
+
     }
 
   }
-
 
 }
 

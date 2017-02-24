@@ -9,7 +9,6 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
-import okhttp3.OkHttpClient
 import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
@@ -43,8 +42,6 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     val META_DATA_FILE = "maven-metadata.xml"
 
-    private val okHttpClient = OkHttpClient()
-
   }
 
   fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
@@ -57,7 +54,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   override fun projectOpened() {
     updateUsedVersions()
-    Libraries.LIBGDX.library.updateLatestVersion(this, okHttpClient, true)
+    Libraries.LIBGDX.library.updateLatestVersion(this, true)
     updateLatestVersions()
     updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
 
@@ -78,7 +75,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
       val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
       VersionManager.LOG.debug("Updating latest version of ${lib.library.name}. Network allowed: $networkAllowed.")
-      if (lib.library.updateLatestVersion(this, okHttpClient, networkAllowed)) {
+      if (lib.library.updateLatestVersion(this, networkAllowed)) {
         networkCount++
       }
     }
