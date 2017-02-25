@@ -41,6 +41,10 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("blue", "com.example.MyTestClass")
   }
 
+  fun testResourceReferenceTintedDrawable() {
+    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
   fun testJavaClassReference1() {
     doTestJavaClassReference("com.example.MyTestClass")
   }

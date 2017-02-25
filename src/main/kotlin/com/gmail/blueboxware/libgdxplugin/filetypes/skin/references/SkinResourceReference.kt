@@ -34,7 +34,10 @@ class SkinResourceReference(element: SkinPropertyValue) : SkinReference<SkinProp
         (element.value as? SkinStringLiteral)?.let { stringLiteral ->
 
           for (classSpec in classSpecifications) {
-            if (classSpec.classNameAsString == valueType) {
+            if (
+            classSpec.classNameAsString == valueType
+                    || (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+            ) {
               for (resource in classSpec.resourcesAsList) {
                 if (resource.name == stringLiteral.value) {
                   result.add(PsiElementResolveResult(resource))

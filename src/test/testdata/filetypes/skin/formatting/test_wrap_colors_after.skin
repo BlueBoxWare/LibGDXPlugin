@@ -12,12 +12,15 @@
       b: 0,
       a: 1
     },
+    default: red
     yellow: {
       r: 0.5,
       g: 0.5,
       b: 0,
       a: 1
-    }
+    },
+    alias: yellow
+    alias2: red,
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: {
@@ -49,6 +52,7 @@
         b: 0,
         a: 1
       }
-    }
+    },
+    something: default
   }
 }

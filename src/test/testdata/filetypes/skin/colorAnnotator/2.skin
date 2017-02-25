@@ -1,0 +1,42 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: <weak_warning descr="#ffffffff">{ r: 1, g: 1, b: 1, a: 1 }</weak_warning>,
+    red: <weak_warning descr="#ff0000ff">{ r: 1, g: 0, b: 0, a: 1 }</weak_warning>
+    yellow: <weak_warning descr="#808000ff">{ r: 0.5, g: 0.5, b: 0, a: 1 }</weak_warning>,
+    g: <weak_warning descr="#808000ff">yellow</weak_warning>
+    f: <weak_warning descr="#808000ff">g</weak_warning>,
+    h: <weak_warning descr="#808000ff">g</weak_warning>,
+    i: <weak_warning descr="#808000ff">h</weak_warning>
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    medium: {
+      file: medium.fnt
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      down: round-down,
+      up: round,
+      font: medium,
+      <weak_warning descr="#ffffffff">fontColor: white</weak_warning>,
+      <weak_warning descr="#808000ff">checkedFontColor: f</weak_warning>
+    },
+    toggle: {
+      down: round-down,
+      up: round,
+      checked: round-down,
+      font: medium,
+      <weak_warning descr="#ffffffff">fontColor: white</weak_warning>,
+      <weak_warning descr="#ff0000ff">checkedFontColor: red</weak_warning>
+    },
+    green: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: <weak_warning descr="#00ff00ff">{ r: 0, g: 1, b: 0, a: 1 }</weak_warning>
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    round-green: { name: round, <weak_warning descr="#808000ff">color: h</weak_warning> }
+  }
+}

@@ -39,6 +39,10 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     doTest(4)
   }
 
+  fun testFindUsages5() {
+    doTest(6)
+  }
+
   fun doTest(nrOfUsages: Int) {
     val usagesInfos = myFixture.testFindUsages(getTestName(true) + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)
@@ -49,7 +53,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
       (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
         val type = propertyValue.property?.resolveToTypeString()
         assertNotNull(type)
-        assertEquals(classType, type)
+        assertTrue(classType == type || (classType == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"))
       }
       (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
         assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)

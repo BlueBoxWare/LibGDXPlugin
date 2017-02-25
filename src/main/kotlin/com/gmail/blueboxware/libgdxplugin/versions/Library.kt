@@ -91,7 +91,7 @@ open class Library(
 
     val currentTime = System.currentTimeMillis()
 
-    if (latestVersion != null &&  currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL) {
+    if (latestVersion != null &&  currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL * 2) {
       return false
     }
 
@@ -219,14 +219,14 @@ open class Library(
               onSuccess(versions)
             }
           } catch (e: IOException) {
-            VersionManager.LOG.warn(e)
+            VersionManager.LOG.warn("Could not fetch $url", e)
             onFailure()
           }
 
         }
 
       } catch (e: IOException) {
-        VersionManager.LOG.warn(e)
+        VersionManager.LOG.warn("Could not fetch $url", e)
         onFailure()
       }
 

@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -20,15 +19,20 @@ import com.gmail.blueboxware.libgdxplugin.annotators.SkinColorAnnotator
  */
 class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testHighlighting() {
+  fun testHighlighting1() {
     myFixture.configureByFile("1.skin")
+    myFixture.checkHighlighting(false, false, true)
+  }
+
+  fun testHighlighting2() {
+    myFixture.configureByFile("2.skin")
     myFixture.checkHighlighting(false, false, true)
   }
 
   override fun setUp() {
     super.setUp()
 
-    SkinColorAnnotator.isTesting = true
+    addLibGDX()
   }
 
   override fun getBasePath() = "filetypes/skin/colorAnnotator/"

@@ -6,5 +6,29 @@
     c2: <weak_warning descr="#00ff00ff">{  hex: 00ff00 }</weak_warning>
     c3: <weak_warning descr="#0000ff00">{ hex: "#0000ff00" }</weak_warning>
     __4z/*#\: <weak_warning descr="#ffff00ff">{ b: 0, \/: 1 }</weak_warning>
-  }
+    test: <weak_warning descr="#ff0000ff">red</weak_warning>
+    test2: <weak_warning descr="#33ffff80">c1</weak_warning>,
+    test3: <weak_warning descr="#ff0000ff">test</weak_warning>
+    test4: <weak_warning descr="#ff0000ff">test3</weak_warning>
+    test5: <weak_warning descr="#ff0000ff">test4</weak_warning>,
+    test6: <weak_warning descr="#ff0000ff">test3</weak_warning>,
+    test7: <weak_warning descr="#ff0000ff">test5</weak_warning>
+    test8: <weak_warning descr="#0000ffff">blue</weak_warning>
+    blue: <weak_warning descr="#0000ffff">{ r: 0, g: 0, b: 1, a: 1 }</weak_warning>,
+    test9: <weak_warning descr="#0000ffff">test8</weak_warning>
+  },
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+      default: {
+        down: round-down,
+        up: round,
+        font: medium,
+        <weak_warning descr="#0000ffff">fontColor: test9</weak_warning>,
+        <weak_warning descr="#ff0000ff">checkedFontColor: test7</weak_warning>
+      }
+      }
+    com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+      round-green: { name: round, <weak_warning descr="#ff0000ff">color: test6</weak_warning> }
+      round-red: { name: round, <weak_warning descr="#ff0000ff">color: test3</weak_warning> }
+      round-yellow: { name: round, color: <weak_warning descr="#00ff00ff">{ hex: "00ff00" }</weak_warning> }
+    }
 }

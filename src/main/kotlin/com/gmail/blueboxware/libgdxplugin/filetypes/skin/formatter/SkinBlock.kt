@@ -63,12 +63,13 @@ class SkinBlock(
 
   private var subBlocks: List<Block>? = null
 
-  override fun isIncomplete() = when {
-    hasElementType(myNode, OBJECT, RESOURCE, CLASS_SPECIFICATION) -> myNode.lastChildNode?.elementType != R_CURLY
-    hasElementType(myNode, ARRAY)                                 -> myNode.lastChildNode?.elementType != R_BRACKET
-    hasElementType(myNode, PROPERTY)                              -> (psiElement as? SkinProperty)?.value == null
-    else                              -> false
-  }
+  override fun isIncomplete() =
+          when {
+            hasElementType(myNode, OBJECT, RESOURCE, CLASS_SPECIFICATION, RESOURCES) -> myNode.lastChildNode?.elementType != R_CURLY
+            hasElementType(myNode, ARRAY) -> myNode.lastChildNode?.elementType != R_BRACKET
+            hasElementType(myNode, PROPERTY) -> (psiElement as? SkinProperty)?.value == null
+            else -> false
+          }
 
   override fun getSubBlocks(): List<Block> {
     if (subBlocks == null) {
@@ -83,7 +84,10 @@ class SkinBlock(
     return subBlocks?.toMutableList() ?: listOf()
   }
 
-  override fun getChildAttributes(newChildIndex: Int) = if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS) || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION) {
+  override fun getChildAttributes(newChildIndex: Int) = if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
+          || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION
+          || myNode.elementType == SkinElementTypes.RESOURCE
+  ) {
     ChildAttributes(Indent.getNormalIndent(), null)
   } else if (myNode.psi is PsiFile) {
     if (isInsideBraces(newChildIndex)) {
