@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.intellij.psi.PsiElement
@@ -29,8 +30,14 @@ class SkinResourceAliasReference(element: SkinStringLiteral) : SkinReference<Ski
 
     val result = mutableListOf<PsiElementResolveResult>()
 
-    (element.context as? SkinResource)?.classSpecification?.getResource(element.asString())?.let { resource ->
-      result.add(PsiElementResolveResult(resource))
+    (element.context as? SkinResource)?.classSpecification?.classNameAsString?.let { clazz ->
+
+      for (classSpec in (element.containingFile as? SkinFile)?.getClassSpecifications(clazz) ?: listOf()) {
+        classSpec.getResource(element.value)?.let { resource ->
+          result.add(PsiElementResolveResult(resource))
+        }
+      }
+
     }
 
     return result.toTypedArray()

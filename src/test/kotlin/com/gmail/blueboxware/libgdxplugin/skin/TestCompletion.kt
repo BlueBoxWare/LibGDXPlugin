@@ -23,41 +23,15 @@ import junit.framework.Assert
 class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
   val tests = listOf(
-          "{ <caret> }" to (listOf(
-                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton\$ImageButtonStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton\$ImageTextButtonStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Label\$LabelStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.List\$ListStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar\$ProgressBarStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane\$ScrollPaneStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.SelectBox\$SelectBoxStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Slider\$SliderStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.SplitPane\$SplitPaneStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.TextField\$TextFieldStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.TextTooltip\$TextTooltipStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Touchpad\$TouchpadStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Tree\$TreeStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Window\$WindowStyle",
-                  "com.badlogic.gdx.graphics.Color",
-                  "com.badlogic.gdx.graphics.g2d.BitmapFont",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
-          ) to listOf(
-                  "com.badlogic.gdx.scenes.scene2d.ui.Button",
-                  "com.badlogic.gdx.scenes.scene2d.ui.List",
-                  "com.badlogic.gdx.scenes.scene2d.ui.Value.Fixed"
-          )),
+          "{ <caret> }" to (listOf("com", "java") to listOf()),
 
-          "{ bad<caret> }" to (listOf(
-                  "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle",
-                  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton\$ImageButtonStyle"
-          ) to listOf()),
+          "{ co<caret> }" to (listOf("com") to listOf()),
 
-          "{ My<caret> }" to (listOf("com.example.MyTestClass\$InnerClass\$MyInnerStyle")  to listOf()),
+          "{ My<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
+
+          "{ MyT<caret> }" to (listOf("com.example.MyTestClass") to listOf()),
+
+          "{ com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
 
           """{ com.example.MyTestClass: {
             default: { <caret> }

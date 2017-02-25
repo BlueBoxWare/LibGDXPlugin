@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalformedColorStringInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingResourceAliasInspection
 import com.intellij.codeInspection.LocalInspectionTool
 
 /*
@@ -29,6 +30,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   fun testNonExistingFieldInspection() {
     doTest(SkinNonExistingFieldInspection())
+  }
+
+  fun testNonExistingResourceAliasInspection() {
+    doTest(SkinNonExistingResourceAliasInspection())
   }
 
   fun testMalformedColorStringInspection() {

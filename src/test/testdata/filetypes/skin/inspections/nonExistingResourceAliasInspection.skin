@@ -1,0 +1,46 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
+    a: white,
+    b: red,
+    c: blue,
+    d: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist.">green</error>,
+    y: z
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    medium: { file: medium.fnt }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      down: round-down, up: round,
+      font: medium, fontColor: white
+    },
+    toggle: {
+      down: round-down, up: round, checked: round-down,
+      font: medium, fontColor: white, checkedFontColor: red
+    },
+    green: {
+      down: round-down, up: round,
+      font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+    },
+    standard: toggle,
+    non-standard: <error descr="A resource with name 'notoggle' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">notoggle</error>,
+    x: z
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    round-green: { name: round, color: green }
+  }
+  com.badlogic.gdx.graphics.Color: {
+    blue: { r: 1, g: 1, b: 1, a: 1 },
+    f: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist.">green</error>,
+    e: yellow,
+    z: d
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    yes: green,
+    no: <error descr="A resource with name 'yellow' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">yellow</error>,
+    z: <error descr="A resource with name 'd' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">d</error>
+  }
+}
