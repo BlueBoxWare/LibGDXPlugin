@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.codeInsight.completion.*
-import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.vfs.VfsUtilCore
@@ -236,14 +235,6 @@ class SkinCompletionContributor : CompletionContributor() {
         return putDollarsInClassName(containingClass) + "$" + psiClass.name
       }
     }
-  }
-
-  private fun createLookupElement(psiClass: PsiClass): LookupElement? {
-    putDollarsInClassName(psiClass)?.let { fqName ->
-      return LookupElementBuilder.create(psiClass, fqName).withIcon(ICON_CLASS).withLookupString(psiClass.name ?: "")
-    }
-
-    return null
   }
 
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {

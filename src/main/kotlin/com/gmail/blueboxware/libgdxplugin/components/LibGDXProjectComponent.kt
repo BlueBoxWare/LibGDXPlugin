@@ -35,8 +35,6 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
   val isLibGDXProject: Boolean
     get() = project.getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
 
-  private val LOG = Logger.getInstance("#com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent")
-
   override fun getComponentName() = "LibGDXProjectComponent"
 
   override fun initComponent() { }
