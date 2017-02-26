@@ -12,6 +12,18 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
     doTest()
   }
 
+  fun testColonInsertedAfterClassname2() {
+    doTest()
+  }
+
+  fun testColonInsertedAfterClassname3() {
+    doTest()
+  }
+
+  fun testColonInsertedAfterClassname4() {
+    doTest()
+  }
+
   fun testColonInsertedBetweenClassNameAndBody() {
     doTest()
   }
@@ -20,7 +32,19 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
     doTest()
   }
 
+  fun testColonInsertedAfterResourceName2() {
+    doTest()
+  }
+
+  fun testColonInsertedAfterResourceName3() {
+    doTest()
+  }
+
   fun testColonInsertedAfterPropertyName() {
+    doTest()
+  }
+
+  fun testColonInsertedAfterPropertyName2() {
     doTest()
   }
 

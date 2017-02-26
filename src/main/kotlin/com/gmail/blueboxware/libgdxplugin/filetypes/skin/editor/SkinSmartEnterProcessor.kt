@@ -1,12 +1,14 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.PsiTreeUtil
 
@@ -62,16 +64,26 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
         value = parent.resource?.`object`
       }
 
-      if (value != null && value.text != "") {
-        if (terminatedOnCurrentLine(editor, value) && !isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
+      if (value != null && value.text != "" && terminatedOnCurrentLine(editor, value)) {
+        if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
           editor.document.insertString(value.textRange.endOffset, ",")
           processor.shouldAddNewline = true
         }
       } else if (key != null) {
         val keyEndOffset = key.textRange.endOffset
         if (!isFollowedByTerminal(key, SkinElementTypes.COLON)) {
-          processor.myFirstErrorOffset = keyEndOffset + 2
-          editor.document.insertString(keyEndOffset, ": ")
+          var colonText = ":"
+          CodeStyleSettingsManager.getSettings(key.project).getCustomSettings(SkinCodeStyleSettings::class.java)?.let { settings ->
+            if (settings.SPACE_BEFORE_COLON) {
+              colonText = " :"
+            }
+            if (settings.SPACE_AFTER_COLON) {
+              colonText += " "
+            }
+          }
+
+          processor.myFirstErrorOffset = keyEndOffset + colonText.length
+          editor.document.insertString(keyEndOffset, colonText)
         }
       }
 
