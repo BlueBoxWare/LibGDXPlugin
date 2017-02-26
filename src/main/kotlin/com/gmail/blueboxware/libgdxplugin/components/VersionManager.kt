@@ -34,7 +34,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     val LIBRARY_CHANGED_TIME_OUT = 3 * DateFormatUtil.SECOND
 
-    var BATCH_SIZE = 5
+    var BATCH_SIZE = 7
 
     var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
 

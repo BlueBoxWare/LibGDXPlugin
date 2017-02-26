@@ -42,26 +42,32 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
       element.getCommonElement()?.let {
         result.add(BitmapFontStructureViewElement(it))
       }
-      result.add(MyStructureViewElement(
-              element = element.getPages().first(),
-              presentableText = "Pages",
-              sortKey = "3",
-              icon = AllIcons.Nodes.Folder,
-              myChildren = element.getPages().map(::BitmapFontStructureViewElement)
-      ))
-      result.add(MyStructureViewElement(
-              element = element.getCharsElement(),
-              presentableText = "Characters",
-              sortKey = "4",
-              myChildren = element.getCharacters().map(::BitmapFontStructureViewElement)
-      ))
-      result.add(MyStructureViewElement(
-              element = element.getKerningsElement(),
-              presentableText = "Kernings",
-              sortKey = "5",
-              icon = AllIcons.Nodes.Tag,
-              myChildren = element.kernings.map(::BitmapFontStructureViewElement)
-      ))
+      element.getPages().firstOrNull()?.let { firstPage ->
+        result.add(MyStructureViewElement(
+                element = firstPage,
+                presentableText = "Pages",
+                sortKey = "3",
+                icon = AllIcons.Nodes.Folder,
+                myChildren = element.getPages().map(::BitmapFontStructureViewElement)
+        ))
+      }
+      element.getCharsElement()?.let { charsElement ->
+        result.add(MyStructureViewElement(
+                element = charsElement,
+                presentableText = "Characters",
+                sortKey = "4",
+                myChildren = element.getCharacters().map(::BitmapFontStructureViewElement)
+        ))
+      }
+      element.getKerningsElement()?.let { kerningsElement ->
+        result.add(MyStructureViewElement(
+                element = kerningsElement,
+                presentableText = "Kernings",
+                sortKey = "5",
+                icon = AllIcons.Nodes.Tag,
+                myChildren = element.getKernings().map(::BitmapFontStructureViewElement)
+        ))
+      }
 
     } else if (element is PropertyContainer) {
 

@@ -23,10 +23,12 @@ The following inspections are included:
 * Use of static resources (more info on the use of statics: [here](http://bitiotic.com/blog/2013/05/23/libgdx-and-android-application-lifecycle/) and [here](http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=22358))
 * Use of non-reentrant iterator methods of LibGDX collection classes
 * Missing OpenGL declaration in AndroidManifest.xml \[1]
-* Using outdated versions of LibGDX and related libraries \[1]
+* Using outdated versions of LibGDX and related libraries \[1] \[2]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
 
-\[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-setup`](https://github.com/czyzby/gdx-setup). 
+\[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-setup`](https://github.com/czyzby/gdx-setup).
+ 
+\[2]: Currently: Ashley, Autumn, Autumn MVC, Box2d, Box2dLights, Gdx AI, GDX Bullet, GDX Controllers, GDX FreeType, gdx-dialogs, gdx-facebook, gdx-lml, gdx-lml-vis, Gdx-Pay, Kiwi, KTX actors, KTX app, KTX assets, KTX collections, KTX i18n, KTX inject, KTX log, KTX math, KTX scene2d, KTX style, KTX vis, KTX vis-style, LibGDX, libgdx-utils, libgdx-utils-box2d, Overlap2D, Vis Runtime, VisUI, Web Sockets, Web Sockets Serialization
 
 ### Color previews
 When using a LibGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
@@ -71,3 +73,9 @@ Atlas file support includes:
 * [Structure View](https://www.jetbrains.com/help/idea/2016.2/navigating-with-structure-views.html)
 * Folding
 
+### Bitmap Font file (.fnt) support
+ 
+Files with a `.fnt` extension are treated as Bitmap Font Files, with:
+* Highlighting
+* Structure View
+* Folding

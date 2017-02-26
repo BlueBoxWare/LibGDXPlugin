@@ -22,7 +22,7 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
 
-  val characterMap: Map<Int, BitmapFontFontChar> by lazy {
+  fun getCharacterMap(): Map<Int, BitmapFontFontChar> {
 
     val map = mutableMapOf<Int, BitmapFontFontChar>()
 
@@ -32,30 +32,26 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
       }
     }
 
-    map
+    return map
 
   }
 
-  val kernings: Collection<BitmapFontKerning> by lazy {
-
-    PsiTreeUtil.findChildrenOfType(this, BitmapFontKerning::class.java)
-
-  }
+  fun getKernings(): Collection<BitmapFontKerning> = PsiTreeUtil.findChildrenOfType(this, BitmapFontKerning::class.java)
 
   override fun getFileType() = viewProvider.fileType
 
-  fun getInfoElement() = PsiTreeUtil.findChildOfType(this, BitmapFontInfo::class.java)
+  fun getInfoElement(): BitmapFontInfo? = PsiTreeUtil.findChildOfType(this, BitmapFontInfo::class.java)
 
-  fun getCommonElement() = PsiTreeUtil.findChildOfType(this, BitmapFontCommon::class.java)
+  fun getCommonElement(): BitmapFontCommon? = PsiTreeUtil.findChildOfType(this, BitmapFontCommon::class.java)
 
-  fun getCharsElement() = PsiTreeUtil.findChildOfType(this, BitmapFontChars::class.java)
+  fun getCharsElement(): BitmapFontChars? = PsiTreeUtil.findChildOfType(this, BitmapFontChars::class.java)
 
-  fun getKerningsElement() = PsiTreeUtil.findChildOfType(this, BitmapFontKernings::class.java)
+  fun getKerningsElement(): BitmapFontKernings? = PsiTreeUtil.findChildOfType(this, BitmapFontKernings::class.java)
 
   fun getPages() = PsiTreeUtil.findChildrenOfType(this, BitmapFontPageDefinition::class.java)
 
-  fun getCharacters() = characterMap.values
+  fun getCharacters() = getCharacterMap().values
 
-  fun getCharacter(id: Int): BitmapFontFontChar? = characterMap.get(id)
+  fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap().get(id)
 
 }

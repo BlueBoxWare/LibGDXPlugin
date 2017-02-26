@@ -72,8 +72,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return
       val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)?.files ?: return
 
-      if (!nonSkinFiles.contains(virtualFile) && !settings.neverAskAboutSkinFiles
-      ) {
+      if (!nonSkinFiles.contains(virtualFile) && !settings.neverAskAboutSkinFiles) {
         EditorNotifications.getInstance(project).updateNotifications(virtualFile)
       }
     }

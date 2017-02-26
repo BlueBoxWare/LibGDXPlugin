@@ -32,6 +32,10 @@
     <change-notes><![CDATA[
         <b>1.8</b>
         <ul>
+            <li>Syntax Highlighting and Structure View for .fnt files</li>
+            <li>Use Maven Central instead of GitHub to determine latest versions of libraries. Respect proxy settings, if any.</li>
+            <li>Add versions checks for more libraries. The following libraries are now checked: Ashley, Autumn, Autumn MVC, Box2d, Box2dLights, Gdx AI, GDX Bullet, GDX Controllers, GDX FreeType, gdx-dialogs, gdx-facebook, gdx-lml, gdx-lml-vis, Gdx-Pay, Kiwi, KTX actors, KTX app, KTX assets, KTX collections, KTX i18n, KTX inject, KTX log, KTX math, KTX scene2d, KTX style, KTX vis, KTX vis-style, LibGDX, libgdx-utils, libgdx-utils-box2d, Overlap2D, Vis Runtime, VisUI, Web Sockets, Web Sockets Serialization</li>
+            <li>Several fixes in the handling of Skin files, show color previews everywhere and use Ctrl-B to jump between definitions and usages of Tinted Drawables</li>
         </ul>
 
         <b>1.7</b>
