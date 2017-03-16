@@ -60,7 +60,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-    override fun getPresentableText() = name.let { StringUtil.getShortName(it) }
+    override fun getPresentableText() = name.let { removeDollarFromClassName(StringUtil.getShortName(it)) }
   }
 
   companion object {

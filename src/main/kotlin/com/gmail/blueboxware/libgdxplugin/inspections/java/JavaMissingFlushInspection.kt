@@ -16,6 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
@@ -50,7 +51,7 @@ class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
 
       if (expression == null) return
 
-      val (receiverClass, methodName) = LibGDXJavaBaseInspection.resolveMethodCallExpression(expression) ?: return
+      val (receiverClass, method) = PsiUtils.resolveJavaMethodCall(expression) ?: return
 
       var isPreferences = false
 
@@ -66,9 +67,9 @@ class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
 
       if (!isPreferences) return
 
-      if (methodName.startsWith("put") || methodName == "remove") {
+      if (method.name.startsWith("put") || method.name == "remove") {
         lastPreferenceChange = expression
-      } else if (methodName == "flush") {
+      } else if (method.name == "flush") {
          lastPreferenceChange = null
       }
 

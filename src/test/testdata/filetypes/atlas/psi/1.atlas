@@ -31,7 +31,7 @@ size: 256,128
 format: Alpha
 filter: Linear,Linear
 repeat: none
-cursor
+cursor with spaces
   rotate: false
   xy: 23, 1
   size: 3, 3

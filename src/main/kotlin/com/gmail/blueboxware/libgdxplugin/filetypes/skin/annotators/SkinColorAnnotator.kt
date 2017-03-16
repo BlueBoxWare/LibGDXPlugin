@@ -38,7 +38,7 @@ class SkinColorAnnotator : Annotator {
       element.asColor(force)?.let { color ->
 
         val annotation = createAnnotation(color, element, holder, createIcon = false)
-        annotation.gutterIconRenderer = object: GutterColorRenderer(color) {
+        annotation.gutterIconRenderer = object : GutterColorRenderer(color) {
           override fun getClickAction() = object : AnAction() {
             override fun actionPerformed(e: AnActionEvent?) {
               if (!element.isWritable) return
@@ -63,14 +63,8 @@ class SkinColorAnnotator : Annotator {
 
       (element.context as? SkinResource)?.let { resource ->
 
-        if (resource.classSpecification?.classNameAsString == "com.badlogic.gdx.graphics.Color") {
-
-          (resolveAliasToDefinition(element) as? SkinObject)?.let { obj ->
-            obj.asColor(true)?.let { color ->
-              createAnnotation(color, element, holder)
-            }
-          }
-
+        resource.asColor(false)?.let { color ->
+          createAnnotation(color, element, holder)
         }
 
       }
@@ -79,16 +73,11 @@ class SkinColorAnnotator : Annotator {
 
       if (element.resolveToTypeString() == "com.badlogic.gdx.graphics.Color") {
 
-        (element.propertyValue?.reference?.resolve() as? SkinResource)?.value?.let { value ->
-          (resolveAliasToDefinition(value) as? SkinObject)?.let { obj ->
-            obj.asColor(true)?.let { color ->
-              createAnnotation(color, element, holder)
-            }
-          }
+        (element.propertyValue?.reference?.resolve() as? SkinResource)?.asColor(false)?.let { color ->
+          createAnnotation(color, element, holder)
         }
 
       }
-
     }
 
   }
@@ -104,16 +93,4 @@ class SkinColorAnnotator : Annotator {
             }
           }
 
-
-  private fun resolveAliasToDefinition(skinElement: SkinElement): SkinElement? {
-
-    var element: SkinElement? = skinElement
-
-    while (element is SkinStringLiteral) {
-      val origin = (element.reference?.resolve() as? SkinResource) ?: return element
-      element = origin.value
-    }
-
-    return element
-  }
 }

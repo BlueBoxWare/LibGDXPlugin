@@ -14,6 +14,8 @@ import com.intellij.util.text.DateFormatUtil
 import org.apache.log4j.Level
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.GroovyFileType
+import org.junit.Assume
+import org.junit.Before
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -31,6 +33,8 @@ import org.jetbrains.plugins.groovy.GroovyFileType
  * limitations under the License.
  */
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
+
+  var RUN_TESTS = false
 
   lateinit var versionManager: VersionManager
 
@@ -102,6 +106,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
+  @Before
   fun testSavedState() {
 
     PropertiesComponent.getInstance()?.let { propertiesComponent ->
@@ -117,6 +122,8 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
   }
 
   override fun setUp() {
+
+    Assume.assumeTrue("Testing against LocalHost disabled", RUN_TESTS)
 
     VersionManager.BATCH_SIZE = Libraries.values().size / 2
     VersionManager.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND

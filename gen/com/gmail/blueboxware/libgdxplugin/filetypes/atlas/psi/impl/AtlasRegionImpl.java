@@ -52,6 +52,12 @@ public class AtlasRegionImpl extends AtlasRegionMixin implements AtlasRegion {
 
   @Override
   @NotNull
+  public AtlasRegionName getRegionName() {
+    return findNotNullChildByClass(AtlasRegionName.class);
+  }
+
+  @Override
+  @NotNull
   public AtlasRotate getRotate() {
     return findNotNullChildByClass(AtlasRotate.class);
   }
@@ -72,12 +78,6 @@ public class AtlasRegionImpl extends AtlasRegionMixin implements AtlasRegion {
   @NotNull
   public AtlasXy getXy() {
     return findNotNullChildByClass(AtlasXy.class);
-  }
-
-  @Override
-  @NotNull
-  public AtlasValue getRegionName() {
-    return findNotNullChildByClass(AtlasValue.class);
   }
 
 }

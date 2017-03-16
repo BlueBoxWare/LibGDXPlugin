@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -22,17 +23,14 @@ import com.intellij.psi.PsiElement
 class SkinFindUsagesProvider : FindUsagesProvider {
 
   override fun getType(element: PsiElement) = when(element) {
-    is SkinResource       ->  "skin resource"
+    is SkinResource       ->  "resource"
     else                  ->  ""
   }
 
-  override fun getNodeText(element: PsiElement, useFullName: Boolean) = when(element) {
-    is SkinResource     -> "skin resource"
-    else                -> ""
-  }
+  override fun getNodeText(element: PsiElement, useFullName: Boolean) = (element as? PsiNamedElement)?.name ?: ""
 
   override fun getDescriptiveName(element: PsiElement) = when(element) {
-    is SkinResource     -> element.name + " (" + (element.classSpecification?.classNameAsString ?: "<unknown>") + ")"
+    is SkinResource     -> element.name + element.classSpecification?.classNameAsString?.let { "($it)" }
     else                -> ""
   }
 

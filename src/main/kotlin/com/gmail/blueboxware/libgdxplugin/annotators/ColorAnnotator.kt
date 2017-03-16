@@ -2,7 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
+import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
+import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -10,11 +12,14 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
+import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
+import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.idea.refactoring.getLineNumber
@@ -23,6 +28,7 @@ import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
+import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import java.awt.Color
 
 /*
@@ -172,7 +178,12 @@ class ColorAnnotator : Annotator {
 
         for (reference in references) {
           val targetName = (resolve(cache, reference) as? PsiMethod)?.getKotlinFqName()?.asString() ?: continue
-          if (targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf") {
+          if (targetName == "com.badlogic.gdx.graphics.Color.Color"
+                  || targetName == "com.badlogic.gdx.graphics.Color.valueOf"
+                  || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor"
+                  || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get"
+                  || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional"
+          ) {
             isColorCall = true
           }
         }
@@ -191,12 +202,44 @@ class ColorAnnotator : Annotator {
             return rgbaToColor(int.toLong())
           }
         }
-      } else if (arguments.size == 1 && KotlinBuiltIns.isString(argument1type)) {
-        // Color.valueOf(string)
-        arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
-          val arg = getRoot(cache, expr)
-          if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
-            return stringToColor(arg.text)
+      } else if (KotlinBuiltIns.isString(argument1type)) {
+        PsiUtils.resolveKotlinMethodCallToStrings(initialValue)?.let { resolvedCall ->
+          arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
+            val arg = getRoot(cache, expr)
+            if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
+              if (resolvedCall.second == "valueOf") {
+                // Color.valueOf(string)
+                return stringToColor(arg.text)
+              } else if (resolvedCall.second == "getColor") {
+                // Skin.getColor(string)
+                val resourceName = StringUtil.unquoteString(arg.text)
+                AssetUtils.getAssetFiles(initialValue).let { assetFiles ->
+                  for (skinFile in assetFiles.first) {
+                    skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
+                      return it.asColor(true)
+                    }
+                  }
+                }
+              } else if ((resolvedCall.second == "get" || resolvedCall.second == "optional") && arguments.size == 2) {
+                ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
+                  ((classLiteralExpression.typeReference?.typeElement as? KtUserType)?.referenceExpression as? KtSimpleNameExpression)?.getImportableTargets(initialValue.analyzeFully())?.firstOrNull()?.let { clazz ->
+                    JavaPsiFacade.getInstance(element.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(element.project))?.let { psiClass ->
+                      if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
+                        // Skin.get(string, Color::class.java)
+                        val resourceName = StringUtil.unquoteString(arg.text)
+                        AssetUtils.getAssetFiles(initialValue).let { assetFiles ->
+                          for (skinFile in assetFiles.first) {
+                            skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
+                              return it.asColor(true)
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       } else if (arguments.size == 1) {
@@ -235,14 +278,42 @@ class ColorAnnotator : Annotator {
             return rgbaToColor(int)
           }
         }
-      } else if (arguments.size == 1 && argument1type == PsiType.getJavaLangString(element.manager, element.resolveScope)) {
-        // Color.valueOf(String)
+      } else if (argument1type == PsiType.getJavaLangString(element.manager, element.resolveScope)) {
         arguments.firstOrNull()?.let { expr ->
           val arg = getRoot(cache, expr)
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
-            return stringToColor(arg.text)
+            (initialValue as? PsiMethodCallExpression)?.let { methodCallExpression ->
+              PsiUtils.resolveJavaMethodCallToStrings(methodCallExpression)?.let { resolved ->
+                if (resolved.second == "valueOf") {
+                  // Color.valueOf(String)
+                  return stringToColor(arg.text)
+                } else if (resolved.second == "getColor") {
+                  // Skin.getColor(string)
+                  AssetUtils.getAssetFiles(methodCallExpression).let { assetFiles ->
+                    for (skinFile in assetFiles.first) {
+                      skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
+                        return it.asColor(true)
+                      }
+                    }
+                  }
+                } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
+                  (methodCallExpression.argumentList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.let { classObject ->
+                    (classObject.operand.type as? PsiClassReferenceType)?.resolve()?.let { clazz ->
+                      AssetUtils.getAssetFiles(methodCallExpression).let { assetFiles ->
+                        for (skinFile in assetFiles.first) {
+                          skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
+                            return it.asColor(true)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
+
       } else if (arguments.size == 1) {
         // new Color(Color)
         arguments.firstOrNull()?.let { expr ->

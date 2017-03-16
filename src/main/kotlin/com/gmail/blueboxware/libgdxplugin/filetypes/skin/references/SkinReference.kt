@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.ElementManipulators
 import com.intellij.psi.PsiElement
@@ -22,7 +21,7 @@ import com.intellij.psi.PsiReferenceBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinReference<T: SkinElement>(element: T) : PsiReferenceBase<T>(element, element.textRange), PsiPolyVariantReference {
+abstract class SkinReference<T: PsiElement>(element: T) : PsiReferenceBase<T>(element, element.textRange), PsiPolyVariantReference {
 
   override fun resolve(): PsiElement? = multiResolve(false).firstOrNull()?.element
 

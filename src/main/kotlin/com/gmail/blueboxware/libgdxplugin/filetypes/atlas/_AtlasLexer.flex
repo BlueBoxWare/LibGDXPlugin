@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.intellij.grammar.psi.BnfTypes;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;

@@ -16,6 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.JavaPsiFacade
@@ -24,7 +25,6 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
@@ -86,10 +86,10 @@ private class MissingFlushInspectionMethodChecker(val preferencesSubClasses: Col
 
   override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-    val (receiverType, methodName) = LibGDXKotlinBaseInspection.resolveMethodCallExpression(expression) ?: return
+    val (className, methodName) = PsiUtils.resolveKotlinMethodCallToStrings(expression) ?: return
 
     for (subClass in preferencesSubClasses) {
-      if (subClass.getKotlinFqName() == receiverType.fqNameSafe) {
+      if (subClass.getKotlinFqName()?.asString() == className) {
         if (methodName.startsWith("put") || methodName == "remove") {
           lastPreferenceChange = expression
         } else if (methodName == "flush") {

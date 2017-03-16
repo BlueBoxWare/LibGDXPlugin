@@ -8,6 +8,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
 import java.io.File
@@ -42,6 +43,11 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
     return classSpecs
   }
+
+  override fun getResources(className: String?, resourceName: String?) =
+    getClassSpecifications(className).flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
+
+  override fun getUseScope() = GlobalSearchScope.allScope(project)
 
   override fun getPresentation() = object: ItemPresentation {
 

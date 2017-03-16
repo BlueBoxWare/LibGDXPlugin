@@ -49,6 +49,10 @@ public class AtlasElementVisitor extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitRegionName(@NotNull AtlasRegionName o) {
+    visitPsiElement(o);
+  }
+
   public void visitRepeat(@NotNull AtlasRepeat o) {
     visitElement(o);
   }

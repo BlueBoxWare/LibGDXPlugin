@@ -51,3 +51,9 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+task libJar(type: Jar) {
+    archiveName 'annotations.jar'
+    from sourceSets.main.output
+    include 'com/gmail/blueboxware/libgdxplugin/annotations/**'
+}

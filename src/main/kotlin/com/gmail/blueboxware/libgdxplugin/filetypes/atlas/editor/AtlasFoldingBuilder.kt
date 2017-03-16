@@ -37,7 +37,7 @@ class AtlasFoldingBuilder : FoldingBuilder, DumbAware {
     if (element is AtlasPage) {
       return "Page: " + element.pageName.getValue() + " ..."
     } else if (element is AtlasRegion) {
-      return "Texture: " + element.regionName.getValue() + " ..."
+      return "Texture: " + element.name + " ..."
     }
 
     return "..."

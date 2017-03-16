@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteral
@@ -39,9 +40,9 @@ class JavaLogLevelInspection: LibGDXJavaBaseInspection() {
 
       if (expression == null) return
 
-      val (receiverClass, methodName) = LibGDXJavaBaseInspection.resolveMethodCallExpression(expression) ?: return
+      val (receiverClass, method) = PsiUtils.resolveJavaMethodCall(expression) ?: return
 
-      if (isSetLogLevel(receiverClass, methodName)) {
+      if (isSetLogLevel(receiverClass, method.name)) {
         val argument = expression.argumentList.expressions.firstOrNull() ?: return
 
         if (argument is PsiReferenceExpression) {

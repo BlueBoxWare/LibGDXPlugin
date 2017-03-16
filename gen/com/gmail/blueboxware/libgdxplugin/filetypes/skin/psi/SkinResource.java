@@ -1,8 +1,10 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
+import java.awt.Color;
 
 public interface SkinResource extends SkinNamedElement {
 
@@ -23,5 +25,11 @@ public interface SkinResource extends SkinNamedElement {
 
   @Nullable
   SkinStringLiteral getString();
+
+  @Nullable
+  SkinResource findDefinition();
+
+  @Nullable
+  Color asColor(boolean force);
 
 }

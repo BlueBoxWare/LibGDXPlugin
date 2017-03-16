@@ -74,13 +74,15 @@ repeat_value ::= 'x' | 'y' | 'xy' | 'none' {
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasValueElement"
 }
 
-region ::= value EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL offset EOL index EOL? {
+region ::= regionName EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL offset EOL index EOL? {
     methods=[
-        regionName="value"
+        getName
     ]
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasRegionMixin"
 }
+
+regionName ::= value+
 
 rotate ::= 'rotate' ':' rotate_value {
     pin=1

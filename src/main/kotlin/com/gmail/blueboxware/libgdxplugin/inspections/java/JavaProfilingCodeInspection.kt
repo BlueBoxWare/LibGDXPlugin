@@ -15,8 +15,9 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.utils.isProfilingCall
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.isProfilingCall
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiMethodCallExpression
@@ -37,10 +38,10 @@ class JavaProfilingCodeInspection: LibGDXJavaBaseInspection() {
 
       if (expression == null) return
 
-      val (receiverClass, methodName) = LibGDXJavaBaseInspection.resolveMethodCallExpression(expression) ?: return
+      val (receiverClass, method) = PsiUtils.resolveJavaMethodCall(expression) ?: return
       val className = receiverClass.qualifiedName ?: return
 
-      if (isProfilingCall(className, methodName)) {
+      if (isProfilingCall(className, method.name)) {
         holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
       }
     }

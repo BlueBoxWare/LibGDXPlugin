@@ -18,6 +18,7 @@ public interface AtlasElementTypes {
   IElementType PAD = new AtlasElementType("PAD");
   IElementType PAGE = new AtlasElementType("PAGE");
   IElementType REGION = new AtlasElementType("REGION");
+  IElementType REGION_NAME = new AtlasElementType("REGION_NAME");
   IElementType REPEAT = new AtlasElementType("REPEAT");
   IElementType REPEAT_VALUE = new AtlasElementType("REPEAT_VALUE");
   IElementType ROTATE = new AtlasElementType("ROTATE");
@@ -64,6 +65,9 @@ public interface AtlasElementTypes {
       }
       else if (type == REGION) {
         return new AtlasRegionImpl(node);
+      }
+      else if (type == REGION_NAME) {
+        return new AtlasRegionNameImpl(node);
       }
       else if (type == REPEAT) {
         return new AtlasRepeatImpl(node);

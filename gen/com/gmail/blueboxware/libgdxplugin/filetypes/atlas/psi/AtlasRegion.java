@@ -21,6 +21,9 @@ public interface AtlasRegion extends AtlasElement {
   AtlasPad getPad();
 
   @NotNull
+  AtlasRegionName getRegionName();
+
+  @NotNull
   AtlasRotate getRotate();
 
   @NotNull
@@ -32,7 +35,6 @@ public interface AtlasRegion extends AtlasElement {
   @NotNull
   AtlasXy getXy();
 
-  @NotNull
-  AtlasValue getRegionName();
+  String getName();
 
 }

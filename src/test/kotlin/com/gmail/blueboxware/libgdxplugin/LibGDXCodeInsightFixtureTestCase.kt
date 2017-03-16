@@ -41,6 +41,10 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/kotlin-runtime.jar")
   }
 
+  fun addAnnotations() {
+    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/annotations.jar")
+  }
+
   fun assertIdeaHomePath() {
     val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
     if (path == null || path == "") {

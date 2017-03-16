@@ -37,8 +37,10 @@ object SkinUtils {
 
   val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
 
-  fun markFileAsSkin(project: Project, file: VirtualFile) {
+  private val SKIN_FILE_DOC_TAG = "skinFile"
+  private val ATLAS_FILE_DOC_TAG = "atlasFile"
 
+  fun markFileAsSkin(project: Project, file: VirtualFile) {
 
     if (project.isDisposed) return
 

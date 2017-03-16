@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.getValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl
 import com.intellij.lang.ASTNode
@@ -24,13 +23,15 @@ import icons.ImagesIcons
  */
 abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(node) {
 
+  override fun getName() = regionName.text
+
   override fun getPresentation() = object : ItemPresentation {
 
     override fun getLocationString() = null
 
     override fun getIcon(unused: Boolean) = ImagesIcons.ImagesFileType
 
-    override fun getPresentableText() = regionName.getValue()
+    override fun getPresentableText() = name
 
   }
 

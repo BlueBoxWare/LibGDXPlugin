@@ -18,7 +18,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.BaseJavaLocalInspectionTool
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
 
 open class LibGDXJavaBaseInspection : BaseJavaLocalInspectionTool() {
 
@@ -34,22 +34,4 @@ open class LibGDXJavaBaseInspection : BaseJavaLocalInspectionTool() {
     return !(element.project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false) || super.isSuppressedFor(element)
   }
 
-  companion object {
-
-    fun resolveMethodCallExpression(expression: PsiMethodCallExpression): Pair<PsiClass, String>? {
-
-      val qualifierExpression = expression.methodExpression.qualifierExpression ?: return null
-
-      var receiverType = (qualifierExpression.type as? PsiClassType)?.resolve()
-
-      if (receiverType == null) {
-        // static method call?
-        receiverType = (qualifierExpression as? PsiReference)?.resolve() as? PsiClass ?: return null
-      }
-
-      val methodName = expression.resolveMethod()?.name ?: return null
-
-      return Pair(receiverType, methodName)
-    }
-  }
 }

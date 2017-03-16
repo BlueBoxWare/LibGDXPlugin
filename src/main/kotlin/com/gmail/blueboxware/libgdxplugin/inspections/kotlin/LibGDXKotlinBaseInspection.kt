@@ -19,13 +19,9 @@ import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
-import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.inspections.AbstractKotlinInspection
-import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtQualifiedExpression
-import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.calls.callUtil.getCall
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.kotlin.types.KotlinType
@@ -47,20 +43,6 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
   }
 
   companion object {
-    fun resolveMethodCallExpression(expression: KtQualifiedExpression): Pair<DeclarationDescriptor, String>? {
-
-      var receiverType: DeclarationDescriptor? = expression.analyze().getType(expression.receiverExpression)?.constructor?.declarationDescriptor
-
-      if (receiverType == null) {
-        // static method call?
-        receiverType = expression.receiverExpression.getReferenceTargets(expression.analyze()).firstOrNull() ?: return null
-      }
-
-      val methodName = expression.calleeName ?: return null
-
-      return Pair(receiverType, methodName)
-
-    }
 
     fun getClassIfConstructorCall(expression: KtCallExpression): KotlinType? {
 

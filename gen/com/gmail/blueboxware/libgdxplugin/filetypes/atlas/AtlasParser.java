@@ -53,6 +53,9 @@ public class AtlasParser implements PsiParser, LightPsiParser {
     else if (t == REGION) {
       r = region(b, 0);
     }
+    else if (t == REGION_NAME) {
+      r = regionName(b, 0);
+    }
     else if (t == REPEAT) {
       r = repeat(b, 0);
     }
@@ -338,13 +341,13 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // value EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL offset EOL index EOL?
+  // regionName EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL offset EOL index EOL?
   public static boolean region(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "region")) return false;
     if (!nextTokenIs(b, STRING)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = value(b, l + 1);
+    r = regionName(b, l + 1);
     r = r && consumeToken(b, EOL);
     r = r && rotate(b, l + 1);
     r = r && consumeToken(b, EOL);
@@ -405,6 +408,24 @@ public class AtlasParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "region_14")) return false;
     consumeToken(b, EOL);
     return true;
+  }
+
+  /* ********************************************************** */
+  // value+
+  public static boolean regionName(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "regionName")) return false;
+    if (!nextTokenIs(b, STRING)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = value(b, l + 1);
+    int c = current_position_(b);
+    while (r) {
+      if (!value(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "regionName", c)) break;
+      c = current_position_(b);
+    }
+    exit_section_(b, m, REGION_NAME, r);
+    return r;
   }
 
   /* ********************************************************** */

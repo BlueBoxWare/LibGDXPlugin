@@ -6,7 +6,6 @@ import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.components.ServiceManager
-import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.event.DocumentAdapter
 import com.intellij.openapi.editor.event.DocumentEvent

@@ -86,6 +86,8 @@ resource ::= resource_name ':' (object | string_literal) {
         getClassSpecification
         getObject
         getString
+        findDefinition
+        asColor
     ]
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin"
     pin(".*") = 1

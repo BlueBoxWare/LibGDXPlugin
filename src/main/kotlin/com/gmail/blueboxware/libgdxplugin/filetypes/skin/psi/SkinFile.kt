@@ -21,4 +21,6 @@ interface SkinFile : SkinElement, PsiFile {
 
   fun getClassSpecifications(className: String? = null): Collection<SkinClassSpecification>
 
+  fun getResources(className: String? = null, resourceName: String? = null): List<SkinResource>
+
 }

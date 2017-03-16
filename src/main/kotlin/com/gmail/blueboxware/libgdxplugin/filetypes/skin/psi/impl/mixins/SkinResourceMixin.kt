@@ -6,9 +6,11 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
+import java.awt.Color
 import javax.swing.Icon
 
 /*
@@ -37,6 +39,22 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   override fun getString(): SkinStringLiteral? = value as? SkinStringLiteral
 
   override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
+
+  override fun getUseScope() = GlobalSearchScope.allScope(project)
+
+  override fun findDefinition(): SkinResource? {
+
+    var element: SkinResource? = this
+
+    while (element?.string != null) {
+      element = element?.string?.reference?.resolve() as? SkinResource
+    }
+
+    return element
+
+  }
+
+  override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.classNameAsString == "com.badlogic.gdx.graphics.Color")
 
   override fun setName(name: String): PsiElement? {
     SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.quotationChar)?.let { newResourceName ->

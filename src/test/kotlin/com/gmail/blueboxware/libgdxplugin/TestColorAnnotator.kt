@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.testFramework.FileTreeAccessFilter
-import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
 
 /*
@@ -45,7 +44,9 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/kotlin-runtime.jar")
+    addKotlin()
+    addAnnotations()
+    addLibGDX()
 
     (myFixture as JavaCodeInsightTestFixtureImpl).setVirtualFileFilter(object: FileTreeAccessFilter() {
       override fun accept(file: VirtualFile?): Boolean {
@@ -53,7 +54,7 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
       }
     })
 
-    myFixture.copyFileToProject("lib/Color.java", "com/badlogic/gdx/graphics/Color.java")
+    myFixture.copyFileToProject("annotations/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
 
   }
 

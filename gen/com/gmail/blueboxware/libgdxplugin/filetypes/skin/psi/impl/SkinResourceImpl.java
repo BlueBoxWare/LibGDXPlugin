@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
+import java.awt.Color;
 
 public class SkinResourceImpl extends SkinResourceMixin implements SkinResource {
 
