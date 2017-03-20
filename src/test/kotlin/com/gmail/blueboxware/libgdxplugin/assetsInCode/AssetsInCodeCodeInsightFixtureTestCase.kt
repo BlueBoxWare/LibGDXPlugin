@@ -26,17 +26,23 @@ abstract class AssetsInCodeCodeInsightFixtureTestCase : LibGDXCodeInsightFixture
     addAnnotations()
     addKotlin()
 
-    myFixture.copyFileToProject("assets/libgdx.skin")
-    myFixture.copyFileToProject("assets/dir/holo.json")
-    myFixture.copyFileToProject("assets/dir/holo.skin")
-    myFixture.copyFileToProject("assets/dir/skin.json")
-    myFixture.copyFileToProject("assets/dir/test.pack")
-    myFixture.copyFileToProject("assets/dir/something")
-    myFixture.copyFileToProject("src/JavaSkinTest.java")
-    myFixture.copyFileToProject("src/KotlinSkinTest.kt")
+    listOf(
+            "assets/libgdx.skin",
+            "assets/dir/holo.json",
+            "assets/dir/holo.skin",
+            "assets/dir/skin.json",
+            "assets/dir/test.pack",
+            "assets/dir/something",
+            "src/JavaSkinTest.java",
+            "src/KotlinSkinTest.kt",
+            "assets/libgdx.atlas",
+            "assets/dir/holo.atlas"
+    ).forEach {
+      myFixture.copyFileToProject(it)
+    }
 
   }
 
-  override fun getBasePath() = "/assetsInCode"
+  override fun getBasePath() = "assetsInCode"
 
 }

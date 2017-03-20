@@ -1,10 +1,10 @@
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin;
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
 public class Java1 {
 
-  @GDXSkin(skinFiles = {"src/libgdx.skin"})
+  @GDXAssets(skinFiles = {"src/libgdx.skin"})
   Skin skin;
 
   static final String c1 = "ff0000";

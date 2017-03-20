@@ -1,4 +1,7 @@
-package com.gmail.blueboxware.libgdxplugin.annotations;
+package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
+
+import com.intellij.psi.PsiNamedElement
+
 /*
  * Copyright 2017 Blue Box Ware
  *
@@ -14,15 +17,4 @@ package com.gmail.blueboxware.libgdxplugin.annotations;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import java.lang.annotation.*;
-
-@Documented
-@Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE})
-public @interface GDXSkin {
-
-  String[] skinFiles() default "";
-  String[] atlasFiles() default "";
-
-}
+interface AtlasNamedElement : AtlasElement, PsiNamedElement

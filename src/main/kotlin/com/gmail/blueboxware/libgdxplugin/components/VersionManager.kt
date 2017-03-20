@@ -44,6 +44,9 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   }
 
+  val isLibGDXProject: Boolean
+    get() = getUsedVersion(Libraries.LIBGDX) != null
+
   fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
 
   fun getLatestVersion(library: Libraries): MavenComparableVersion? = library.library.getLatestVersion(this)

@@ -1,8 +1,8 @@
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-@GDXSkin(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/libgdx.skin"))
+@GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/libgdx.skin"))
 val skin: Skin = Skin()
 
 val s = "ff00ff"

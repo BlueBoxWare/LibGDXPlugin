@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.external.KotlinToSkinReferenceProvider
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.json.JsonFileType
 import com.intellij.lang.Language
@@ -38,13 +37,13 @@ import org.jetbrains.kotlin.resolve.BindingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinAssetReferenceContributor : PsiReferenceContributor() {
+class KotlinReferenceContributor : PsiReferenceContributor() {
 
   override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java),
-            KotlinToSkinReferenceProvider()
+            KotlinAssetReferenceProvider()
     )
 
     createAssetAnnotationProvider(

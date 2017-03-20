@@ -76,7 +76,8 @@ class FileReference(
 
   }
 
-  override fun isReferenceTo(element: PsiElement?): Boolean {
-    return super.isReferenceTo(element)
+  override fun handleElementRename(newElementName: String?): PsiElement {
+    val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
+    return super.handleElementRename(newPath)
   }
 }

@@ -1,0 +1,27 @@
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+@GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = arrayOf("src/refactor\\libgdx.skin"))
+val s: Skin = Skin()
+
+object O {
+  @GDXAssets(atlasFiles = arrayOf("src\\refactor/libgdx.atlas"), skinFiles = arrayOf("src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"))
+  val skin: Skin = Skin()
+}
+
+class C {
+  @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = arrayOf("src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"))
+  val skin: Skin = Skin()
+
+  companion object {
+    @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = arrayOf("src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"))
+    val skin: Skin = Skin()
+  }
+}
+
+fun f() {
+  val c = s.get("yellow",  TextButton.TextButtonStyle::class.java)
+  val d = O.skin.has("yellow",  TextButton.TextButtonStyle::class.java)
+  val e = C.skin.optional("yellow", TextButton.TextButtonStyle::class.java)
+}

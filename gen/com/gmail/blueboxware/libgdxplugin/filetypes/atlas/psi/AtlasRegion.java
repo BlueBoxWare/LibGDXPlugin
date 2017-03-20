@@ -4,9 +4,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement;
 
-public interface AtlasRegion extends AtlasElement {
+public interface AtlasRegion extends AtlasNamedElement {
 
   @NotNull
   AtlasIndex getIndex();

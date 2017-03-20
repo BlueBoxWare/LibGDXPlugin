@@ -1,0 +1,18 @@
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+class SomeClass {
+
+  @GDXAssets(skinFiles = "src/refactor/newname.json")
+  static Skin staticSkin;
+
+  @GDXAssets(skinFiles = {"src/findUsages/findUsages1.skin", "src/refactor/newname.json"})
+  private Skin skin;
+
+  void f() {
+    staticSkin.get("green", TextButton.TextButtonStyle.class);
+    skin.remove("green", TextButton.TextButtonStyle.class)
+  }
+
+}

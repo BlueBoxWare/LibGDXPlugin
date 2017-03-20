@@ -78,7 +78,7 @@ region ::= regionName EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? ori
     methods=[
         getName
     ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasRegionMixin"
 }
 

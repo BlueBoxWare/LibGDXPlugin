@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.external.JavaToSkinReferenceProvider
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.json.JsonFileType
 import com.intellij.lang.Language
@@ -31,13 +30,13 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaAssetReferenceContributor : PsiReferenceContributor() {
+class JavaReferenceContributor : PsiReferenceContributor() {
 
   override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
     registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()),
-            JavaToSkinReferenceProvider()
+            JavaAssetReferenceProvider()
     )
 
     createAssetAnnotationProvider(

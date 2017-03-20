@@ -156,8 +156,8 @@
 
         <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
 
-        <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaAssetReferenceContributor" />
-        <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinAssetReferenceContributor" />
+        <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
+        <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
 
         <!--Atlas files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />
@@ -171,6 +171,8 @@
         <lang.psiStructureViewFactory language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory" />
 
         <lang.foldingBuilder language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFoldingBuilder" />
+
+        <lang.findUsagesProvider language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFindUsagesProvider" />
 
         <!--Font files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileTypeFactory" id="LibGDXBitmapFont" />

@@ -39,7 +39,14 @@ import java.io.IOException
  */
 object AssetUtils {
 
-  val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin"
+  val SKIN_TEXTURE_REGION_CLASSES = listOf(
+          "com.badlogic.gdx.graphics.g2d.TextureRegion",
+          "com.badlogic.gdx.graphics.g2d.NinePatch",
+          "com.badlogic.gdx.graphics.g2d.Sprite"
+  )
+  val SKIN_TEXTURE_REGION_METHODS = listOf("getRegion", "getRegions", "getPatch", "getSprite", "getTiledDrawable")
+
+  val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
 
   val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
   val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
@@ -126,7 +133,15 @@ object AssetUtils {
     }
 
     val calculatedAtlasFilenames = atlasFileNames ?:
-            skinFiles.mapNotNull { FileUtils.projectBaseDir(project)?.let { baseDir -> VfsUtil.getRelativeLocation(getAssociatedAtlas(it.virtualFile), baseDir) } }
+              skinFileNames.mapNotNull {
+                it.lastIndexOf('.').let { dot ->
+                  if (dot > -1) {
+                    it.substring(0, dot) + ".atlas"
+                  } else {
+                    null
+                  }
+                }
+              }
 
     for (atlasFileName in calculatedAtlasFilenames) {
       if (atlasFileName != "") {

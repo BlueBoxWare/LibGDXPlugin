@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinReference
+import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.references.FileReference
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -35,15 +35,15 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           PsiLiteralExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
             class SkinTest {
 
-                @GDXSkin(skinFiles = "src/assets/dir/holo.skin")
+                @GDXAssets(skinFiles = "src/assets/dir/holo.skin")
                 static Skin staticSkin;
 
                 void f() {
-                    staticSkin.getDrawable("dialo<caret>gDim");
+                    staticSkin.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java);
                 }
 
             }
@@ -55,9 +55,9 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           KtStringTemplateExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-            @GDXSkin(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets/dir/holo.skin"))
+            @GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets/dir/holo.skin"))
             val s: Skin = Skin()
 
 
@@ -72,7 +72,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           KtStringTemplateExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
             fun f() {
               JavaSkinTest().skin.getColor("inv<caret>erse")
@@ -85,12 +85,12 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           PsiLiteralExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
             class SkinTest {
 
                 void f() {
-                    KotlinSkinTestKt.skin.get("default<caret>-horizontal", "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle::class.java");
+                    KotlinSkinTestKt.skin.get("default<caret>-horizontal", com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle.class);
                 }
 
             }
@@ -102,9 +102,9 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           KtStringTemplateExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-            @GDXSkin(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets\\dir/ho<caret>lo.skin"))
+            @GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets\\dir/ho<caret>lo.skin"))
             val s: Skin = Skin()
           """
   )
@@ -114,11 +114,11 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           PsiLiteralExpression::class.java,
           """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXSkin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
             class SkinTest {
 
-                @GDXSkin(skinFiles = "src/assets\\dir/ho<caret>lo.skin")
+                @GDXAssets(skinFiles = "src/assets\\dir/ho<caret>lo.skin")
                 static Skin staticSkin;
 
             }
@@ -134,9 +134,9 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
     myFixture.configureByText(fileType, content)
     val referencingElement = myFixture.file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
       PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
-    } ?: throw AssertionError()
+    } ?: throw AssertionError("Referencing element not found")
 
-    val referentElement = referencingElement.references.filter{ it is SkinReference<*> || it is FileReference }.firstOrNull()?.resolve() ?: throw AssertionError()
+    val referentElement = referencingElement.references.filter{ it is AssetReference || it is FileReference }.firstOrNull()?.resolve() ?: throw AssertionError("Referent not found")
 
     assertTrue(referentElement is expectedReferentType)
 

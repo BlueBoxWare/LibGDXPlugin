@@ -12,24 +12,13 @@
       down: round-down, up: round,
       font: medium, fontColor: white
     },
-    toggle: {
+    tog<caret>gle: {
       down: round-down, up: round, checked: round-down,
-      font: medium, fontColor: white, checkedFontColor: red
+      font: medium, fontColor: white
     },
     green: {
       down: round-down, up: round,
       font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
-    }
-  }
-  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-    user-red: {
-      name: user
-      color: {
-        r: 1
-        g: 0
-        b: 0
-        a: 1
-      }
     }
   }
 }

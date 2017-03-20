@@ -6,6 +6,7 @@ import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasValueElement;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement;
 
 public class AtlasElementVisitor extends PsiElementVisitor {
 
@@ -46,7 +47,7 @@ public class AtlasElementVisitor extends PsiElementVisitor {
   }
 
   public void visitRegion(@NotNull AtlasRegion o) {
-    visitElement(o);
+    visitNamedElement(o);
   }
 
   public void visitRegionName(@NotNull AtlasRegionName o) {
@@ -86,6 +87,10 @@ public class AtlasElementVisitor extends PsiElementVisitor {
   }
 
   public void visitElement(@NotNull AtlasElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNamedElement(@NotNull AtlasNamedElement o) {
     visitPsiElement(o);
   }
 

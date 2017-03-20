@@ -4,6 +4,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.util.IncorrectOperationException
 import icons.ImagesIcons
 
 /*
@@ -24,6 +27,10 @@ import icons.ImagesIcons
 abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(node) {
 
   override fun getName() = regionName.text
+
+  override fun setName(name: String): PsiElement = throw IncorrectOperationException()
+
+  override fun getUseScope() = GlobalSearchScope.allScope(project)
 
   override fun getPresentation() = object : ItemPresentation {
 
