@@ -9,7 +9,6 @@ import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -51,6 +50,6 @@ class AtlasStructureViewElement(val element: PsiElement) : StructureViewTreeElem
 
   override fun getValue() = element
 
-  override fun getAlphaSortKey() = (element as? PsiNamedElement)?.name ?: ""
+  override fun getAlphaSortKey() = (element as? NavigationItem)?.presentation?.presentableText ?: ""
 
 }
