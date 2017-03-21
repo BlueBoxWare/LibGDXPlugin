@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.codeInsight.lookup.LookupElement
@@ -97,11 +98,14 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
       assetFiles.second.forEach { atlasFile ->
         atlasFile.getPages().forEach { page ->
           page.regionList.forEach { region ->
-            val lookupElement = LookupElementBuilder
-                    .create(region)
-                    .withTypeText(atlasFile.name, true)
 
-            result.add(lookupElement)
+            if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name} ?: false } == null) {
+              val lookupElement = LookupElementBuilder
+                      .create(region)
+                      .withTypeText(atlasFile.name, true)
+
+              result.add(lookupElement)
+            }
           }
         }
       }

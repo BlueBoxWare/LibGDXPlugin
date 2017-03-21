@@ -43,41 +43,11 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
         if (resolvedMethod.first == AssetUtils.SKIN_CLASS_NAME) {
 
-          if (resolvedMethod.second == "getColor") {
+          return createSkinReferences(element, methodCall, resolvedMethod.second)
 
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.Color")
+        } else if (resolvedMethod.first == AssetUtils.TEXTURE_ATLAS_CLASS_NAME) {
 
-          } else if (resolvedMethod.second == "getDrawable" || resolvedMethod.second == "newDrawable") {
-
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
-
-          } else if (resolvedMethod.second in AssetUtils.SKIN_TEXTURE_REGION_METHODS) {
-
-              return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
-
-          } else if (resolvedMethod.second == "getFont") {
-
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.BitmapFont")
-
-          } else if (resolvedMethod.second in listOf("get", "optional", "has", "remove")) {
-
-            val arg2receiver = (methodCall.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression
-
-            if (arg2receiver is KtClassLiteralExpression) {
-
-              getClassFromClassLiteralExpression(arg2receiver, methodCall.analyzeFully())?.let { clazz ->
-                if (clazz in AssetUtils.SKIN_TEXTURE_REGION_CLASSES) {
-                  return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-                } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
-                  return AssetReference.createReferences(element, methodCall, wantedClass = clazz)
-                }
-              }
-
-            }
-
-            return AssetReference.createReferences(element, methodCall)
-
-          }
+          return createAtlasReferences(element, methodCall, resolvedMethod.second)
 
         }
 
@@ -87,6 +57,59 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
     return arrayOf()
 
+  }
+
+  fun createAtlasReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
+
+    if (methodName in AssetUtils.TEXTURE_ATLAS_TEXTURE_METHODS) {
+
+      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+
+    }
+
+    return arrayOf()
+
+  }
+
+  fun createSkinReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
+
+    if (methodName == "getColor") {
+
+      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.Color")
+
+    } else if (methodName == "getDrawable" || methodName == "newDrawable") {
+
+      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
+
+    } else if (methodName in AssetUtils.SKIN_TEXTURE_REGION_METHODS) {
+
+      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+
+    } else if (methodName == "getFont") {
+
+      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.BitmapFont")
+
+    } else if (methodName in listOf("get", "optional", "has", "remove")) {
+
+      val arg2receiver = (callExpression.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression
+
+      if (arg2receiver is KtClassLiteralExpression) {
+
+        getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzeFully())?.let { clazz ->
+          if (clazz in AssetUtils.SKIN_TEXTURE_REGION_CLASSES) {
+            return AssetReference.createReferences(element, callExpression, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
+          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+            return AssetReference.createReferences(element, callExpression, wantedClass = clazz)
+          }
+        }
+
+      }
+
+      return AssetReference.createReferences(element, callExpression)
+
+    }
+
+    return arrayOf()
   }
 
   fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =

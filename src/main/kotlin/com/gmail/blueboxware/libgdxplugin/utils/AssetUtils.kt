@@ -46,12 +46,16 @@ object AssetUtils {
   )
   val SKIN_TEXTURE_REGION_METHODS = listOf("getRegion", "getRegions", "getPatch", "getSprite", "getTiledDrawable")
 
+  val TEXTURE_ATLAS_TEXTURE_METHODS = listOf("createPatch", "createSprite", "createSprites", "findRegion", "findRegions")
+
   val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
 
   val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
   val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
 
   val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
+
+  val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
 
   val FAKE_FILE_KEY = Key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
 

@@ -32,50 +32,76 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
     (element.context?.context as? PsiMethodCallExpression)?.let { methodCall ->
 
       PsiUtils.resolveJavaMethodCallToStrings(methodCall)?.let { resolvedMethod->
+
         if (resolvedMethod.first == AssetUtils.SKIN_CLASS_NAME) {
 
-          if (resolvedMethod.second == "getColor") {
+          return createSkinReferences(element, methodCall, resolvedMethod.second)
 
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.Color")
+        } else if (resolvedMethod.first == AssetUtils.TEXTURE_ATLAS_CLASS_NAME) {
 
-          } else if (resolvedMethod.second == "getDrawable" || resolvedMethod.second == "newDrawable") {
-
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
-
-          } else if (resolvedMethod.second in AssetUtils.SKIN_TEXTURE_REGION_METHODS) {
-
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
-
-          } else if (resolvedMethod.second == "getFont") {
-
-            return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.BitmapFont")
-
-          } else if (resolvedMethod.second in listOf("get", "optional", "has", "remove")) {
-
-            val arg2 = methodCall.argumentList.expressions.getOrNull(1)
-
-            if (arg2 is PsiClassObjectAccessExpression) {
-
-              getClassFromClassObjectExpression(arg2)?.let { clazz ->
-                if (clazz in AssetUtils.SKIN_TEXTURE_REGION_CLASSES) {
-                  return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-                } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
-                  return AssetReference.createReferences(element, methodCall, wantedClass = clazz)
-                }
-              }
-
-            }
-
-            return AssetReference.createReferences(element, methodCall)
-
-          }
+          return createAtlasReferences(element, methodCall, resolvedMethod.second)
 
         }
+
       }
 
     }
 
     return arrayOf()
+  }
+
+  fun createAtlasReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
+
+    if (methodName in AssetUtils.TEXTURE_ATLAS_TEXTURE_METHODS) {
+
+      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+
+    }
+
+    return arrayOf()
+
+  }
+
+  fun createSkinReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
+
+    if (methodName == "getColor") {
+
+      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.Color")
+
+    } else if (methodName == "getDrawable" || methodName == "newDrawable") {
+
+      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
+
+    } else if (methodName in AssetUtils.SKIN_TEXTURE_REGION_METHODS) {
+
+      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+
+    } else if (methodName == "getFont") {
+
+      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.BitmapFont")
+
+    } else if (methodName in listOf("get", "optional", "has", "remove")) {
+
+      val arg2 = methodCall.argumentList.expressions.getOrNull(1)
+
+      if (arg2 is PsiClassObjectAccessExpression) {
+
+        getClassFromClassObjectExpression(arg2)?.let { clazz ->
+          if (clazz in AssetUtils.SKIN_TEXTURE_REGION_CLASSES) {
+            return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
+          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+            return AssetReference.createReferences(element, methodCall, wantedClass = clazz)
+          }
+        }
+
+      }
+
+      return AssetReference.createReferences(element, methodCall)
+
+    }
+
+    return arrayOf()
+
   }
 
   fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): String? =

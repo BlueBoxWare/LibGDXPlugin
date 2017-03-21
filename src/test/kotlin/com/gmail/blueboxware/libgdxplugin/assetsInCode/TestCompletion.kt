@@ -213,7 +213,41 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
                 }
 
             }
-          """ to (listOf("slider-knob", "slider", "scroll-background-v") to listOf("medium", "red", "white", "yellow", "user-red", "lightGrey", "user-red"))
+          """ to (listOf("slider-knob", "slider", "scroll-background-v") to listOf("medium", "red", "white", "yellow", "user-red", "lightGrey", "user-red")),
+
+          """
+            import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+            class C {
+              @GDXAssets(atlasFiles = {"src/assets/dir/test.pack"})
+              TextureAtlas atlas;
+            }
+
+            class Test {
+
+                void test() {
+                    new C().atlas.createSprite("<caret>");
+                }
+
+            }
+          """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf()),
+
+          """
+            import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+
+            class C {
+              @GDXAssets(atlasFiles = {"src/assets/dir/test.pack", "src/assets/libgdx.atlas"})
+              static TextureAtlas atlas;
+            }
+
+            class Test {
+
+                void test() {
+                    C.atlas.findRegion("<caret>", 3);
+                }
+
+            }
+          """ to (listOf("abstractClass", "aspect", "compiledClassesFolder", "scroll-corner", "tooltip", "button back") to listOf())
   )
 
   val kotlinResourceCompletionTests = listOf(
@@ -366,7 +400,20 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             fun f() {
                 s.get("<caret>", Sprite::class.java)
             }
-          """ to (listOf("scroll-background-v", "logo small") to listOf("user-red", "lightGrey"))
+          """ to (listOf("scroll-background-v", "logo small") to listOf("user-red", "lightGrey")),
+
+          """
+            import com.badlogic.gdx.graphics.g2d.TextureAtlas
+
+            object O {
+              @GDXAssets(atlasFiles = arrayOf("src/assets/dir/test.pack"))
+              val atlas = TextureAtlas()
+            }
+
+            fun f() {
+              O.atlas.createPatch("<caret>")
+            }
+          """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf())
 
   )
 
