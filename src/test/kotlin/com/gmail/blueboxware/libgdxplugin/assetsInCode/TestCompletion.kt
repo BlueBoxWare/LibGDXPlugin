@@ -413,6 +413,80 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             fun f() {
               O.atlas.createPatch("<caret>")
             }
+          """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf()),
+
+          """
+            @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
+            val s: Skin? = Skin()
+
+            fun f() {
+                s?.getColor("<caret>")
+            }
+          """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
+
+          """
+            @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin", "src/assets/dir/skin.json"))
+            val s: Skin = Skin()
+
+            fun f() {
+                s?.getColor("<caret>")
+            }
+          """ to (listOf("red", "white", "yellow", "c1", "c2", "c3") to listOf("medium", "default", "toggle", "green", "round-green")),
+
+          """
+            class Test {
+              @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
+              val s: Skin? = Skin()
+            }
+
+            fun f() {
+                Test()?.s?.getColor("<caret>")
+            }
+          """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
+
+          """
+            class Test {
+              companion object {
+                @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
+                val s: Skin? = Skin()
+              }
+            }
+
+            fun f() {
+                Test.s?.getColor("<caret>")
+            }
+          """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
+
+          """
+            fun f() {
+              JavaSkinTest()?.skin?.getColor("<caret>")
+            }
+          """  to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
+
+          """
+            class Test {
+              companion object {
+                @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
+                val s = Skin()
+              }
+            }
+
+            fun f() {
+                Test.s?.getColor("<caret>")
+            }
+          """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
+
+          """
+            import com.badlogic.gdx.graphics.g2d.TextureAtlas
+
+            object O {
+              @GDXAssets(atlasFiles = arrayOf("src/assets/dir/test.pack"))
+              val atlas: TextureAtlas? = TextureAtlas()
+            }
+
+            fun f() {
+              O?.atlas?.createPatch("<caret>")
+            }
           """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf())
 
   )
@@ -453,6 +527,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf("src/assets/dir/test.pack", "src/assets/libgdx.atlas", "src/assets/dir/holo.atlas") to listOf("src/assets/dir/something", "src/assets/libgdx.skin"))
+
   )
 
   val kotlinAssetFileNameCompletionTests = listOf(
@@ -536,7 +611,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
       assertNotNull(strings)
       strings?.let { results ->
         for (exp in expectedCompletionStrings) {
-          assertTrue("Expected to find $exp", exp in results)
+          assertTrue("Expected to find $exp, content:\n$content", exp in results)
         }
         for (notExpectedCompletionString in notExpectedCompletionStrings) {
           val msg2 = "Not expected to find '$notExpectedCompletionString'. Content: '$content'"

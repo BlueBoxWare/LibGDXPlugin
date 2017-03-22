@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
@@ -90,7 +89,7 @@ object PsiUtils {
 
   fun resolveKotlinMethodCall(ktCallExpression: KtCallExpression): Pair<ClassDescriptor, KtNameReferenceExpression>? {
 
-    (ktCallExpression.context as? KtDotQualifiedExpression)?.let { dotExpression ->
+    (ktCallExpression.context as? KtQualifiedExpression)?.let { dotExpression ->
 
       var receiverType: ClassDescriptor? = dotExpression.analyze().getType(dotExpression.receiverExpression)?.constructor?.declarationDescriptor as? ClassDescriptor
 

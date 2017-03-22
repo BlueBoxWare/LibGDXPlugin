@@ -267,7 +267,7 @@ object AssetUtils {
 
   fun getAssetFiles(element: KtCallExpression): Pair<List<SkinFile>, List<AtlasFile>> {
 
-    (element.context as? KtDotQualifiedExpression)?.receiverExpression?.getCalleeExpressionIfAny()?.references?.forEach {
+    (element.context as? KtQualifiedExpression)?.receiverExpression?.getCalleeExpressionIfAny()?.references?.forEach {
       if (it is KtSimpleNameReference) {
         getAssetFiles(it)?.let {
           return it
