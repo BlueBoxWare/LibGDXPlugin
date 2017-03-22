@@ -433,4 +433,15 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
+  fun testGDXAssetsFileNameErrorInspection() {
+
+    addAnnotations()
+    addLibGDX()
+    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
+
+    performInspectionsTest(JavaGDXAssetsFileNameErrorInspection(), "inspections/GDXAssetsFileName/Test.java")
+    performInspectionsTest(KotlinGDXAssetsFileNameErrorInspection(), "inspections/GDXAssetsFileName/Test.kt")
+
+  }
+
 }

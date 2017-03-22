@@ -40,6 +40,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           JavaShapeRenderer64BitCrashInspection::class.java,
           JavaFlushInsideLoopInspection::class.java,
           JavaLogLevelInspection::class.java,
+          JavaGDXAssetsFileNameErrorInspection::class.java,
 
           KotlinUnsafeIteratorInspection::class.java,
           KotlinTestIdsInspection::class.java,
@@ -49,6 +50,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           KotlinShapeRenderer64BitCrashInspection::class.java,
           KotlinFlushInsideLoopInspection::class.java,
           KotlinLogLevelInspection::class.java,
+          KotlinGDXAssetsFileNameErrorInspection::class.java,
 
           OpenGLESDirectiveInspection::class.java,
           DesignedForTabletsInspection::class.java,
