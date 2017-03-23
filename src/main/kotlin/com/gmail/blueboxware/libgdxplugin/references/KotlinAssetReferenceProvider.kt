@@ -12,7 +12,10 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
-import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.psi.KtClassLiteralExpression
+import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
+import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
@@ -113,7 +116,8 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
   }
 
   fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =
-          ((ktClassLiteralExpression.typeReference?.typeElement as? KtUserType)?.referenceExpression as? KtSimpleNameExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
+
+          (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
             JavaPsiFacade.getInstance(ktClassLiteralExpression.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(ktClassLiteralExpression.project))?.let { psiClass ->
               SkinClassSpecificationMixin.putDollarInInnerClassName(psiClass)
             }

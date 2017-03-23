@@ -34,7 +34,7 @@ import org.junit.Before
  */
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-  var RUN_TESTS = false
+  var RUN_TESTS = true
 
   lateinit var versionManager: VersionManager
 

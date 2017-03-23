@@ -13,7 +13,7 @@ class Test {
   @GDXAssets(skinFiles = <error>"src/dir\\holo.kin"</error>, atlasFiles = {"src/dir\\holo.skin"})
   TextureAtlas atlas1;
 
-  @GDXAssets(skinFiles = {}, atlasFiles = {<error>""</error>})
+  @GDXAssets(skinFiles = {}, atlasFiles = {""})
   TextureAtlas atlas2;
 
 }

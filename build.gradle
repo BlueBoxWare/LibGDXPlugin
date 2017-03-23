@@ -1,30 +1,27 @@
 buildscript {
 
-    ext.kotlin_version = '1.0.5'
+    ext.kotlin_version = '1.1.1'
 
     repositories {
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
     }
 
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.5"
-    }
 }
 
 plugins {
-    id "org.jetbrains.intellij" version "0.1.10"
+    id "org.jetbrains.kotlin.jvm" version "1.1.1"
+    id "org.jetbrains.intellij" version "0.2.5"
 }
 
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
-apply plugin: 'kotlin'
 
 group 'com.gmail.blueboxware'
 version '1.9'
 
 intellij {
     version = '2016.3.2'
-    plugins = ['org.jetbrains.kotlin:1.0.5-release-IJ2016.3-1', 'Groovy', 'properties']
+    plugins = ['org.jetbrains.kotlin:1.1.1-release-IJ2016.3-1', 'Groovy', 'properties']
     pluginName = 'LibGDX Inspections'
     updateSinceUntilBuild = false
     downloadSources =  true
@@ -53,7 +50,7 @@ dependencies {
 }
 
 task libJar(type: Jar) {
-    archiveName 'annotations.jar'
+    archiveName 'libgdxpluginannotations.jar'
     from sourceSets.main.output
     include 'com/gmail/blueboxware/libgdxplugin/annotations/**'
 }

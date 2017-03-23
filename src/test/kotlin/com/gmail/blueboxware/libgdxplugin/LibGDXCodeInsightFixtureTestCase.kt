@@ -42,7 +42,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
   }
 
   fun addAnnotations() {
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/annotations.jar")
+    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/libgdxpluginannotations.jar")
   }
 
   fun assertIdeaHomePath() {

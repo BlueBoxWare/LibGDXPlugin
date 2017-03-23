@@ -86,6 +86,8 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
 
     fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
 
+      if (fileName == "") return null
+
       val psiFile = PsiUtils.getPsiFile(element.project, fileName)
 
       if (psiFile == null) {

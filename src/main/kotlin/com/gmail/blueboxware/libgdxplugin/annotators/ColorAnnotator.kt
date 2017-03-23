@@ -222,7 +222,7 @@ class ColorAnnotator : Annotator {
                 }
               } else if ((resolvedCall.second == "get" || resolvedCall.second == "optional") && arguments.size == 2) {
                 ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
-                  ((classLiteralExpression.typeReference?.typeElement as? KtUserType)?.referenceExpression as? KtSimpleNameExpression)?.getImportableTargets(initialValue.analyzeFully())?.firstOrNull()?.let { clazz ->
+                  (classLiteralExpression.receiverExpression as? KtReferenceExpression ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(initialValue.analyzeFully())?.firstOrNull()?.let { clazz ->
                     JavaPsiFacade.getInstance(element.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(element.project))?.let { psiClass ->
                       if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
                         // Skin.get(string, Color::class.java)
