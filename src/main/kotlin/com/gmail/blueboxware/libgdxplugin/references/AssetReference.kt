@@ -82,7 +82,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
                             StringUtil.getShortName(resource.classSpecification?.classNameAsString ?: "")
                           else
                             if (isDrawable)
-                              skinFile.name
+                              getOriginalFileName(skinFile)
                             else
                               null
                           , true
@@ -102,7 +102,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
             if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name} ?: false } == null) {
               val lookupElement = LookupElementBuilder
                       .create(region)
-                      .withTypeText(atlasFile.name, true)
+                      .withTypeText(getOriginalFileName(atlasFile), true)
 
               result.add(lookupElement)
             }
@@ -132,6 +132,15 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
       return arrayOf(AssetReference(element, resourceName ?: StringUtil.stripQuotesAroundValue(element.text), wantedClass, assetFiles))
 
     }
+
+    fun getOriginalFileName(psiFile: PsiFile): String =
+            if (psiFile.getUserData(AssetUtils.FAKE_FILE_KEY) == true) {
+              psiFile.originalFile.name
+            } else {
+              psiFile.name
+            }
+
+
 
   }
 

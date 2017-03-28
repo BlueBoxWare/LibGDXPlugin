@@ -13,6 +13,7 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
+import com.jetbrains.jsonSchema.JsonSchemaFileType
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
@@ -49,7 +50,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
     createAssetAnnotationProvider(
             registrar,
             AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME,
-            listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE),
+            listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE, JsonSchemaFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXSkinLanguage.INSTANCE)
     )
 

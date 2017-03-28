@@ -17,6 +17,74 @@ package com.gmail.blueboxware.libgdxplugin.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * An annotation for use with <a href="https://github.com/BlueBoxWare/LibGDXPlugin">LibGDXPLugin</a>.<p>
+ *
+ * Use this annotation on a field of type Skin or TextureAtlas in Java (or a property of one of those
+ * types in Kotlin) to specify which Skin JSON files and Texture Atlas files are being used by that Skin or Atlas.
+ * LibGDXPlugin will use the specified files to provide Completion, Go to Definition, Find Usages and
+ * Rename Refactoring where appropriate.<p>
+ *
+ * All files should be specified relative to the Project Root.<p>
+ *
+ * Skin example (Java):
+ * <blockquote><pre>
+ *
+ *   {@literal @}GDXAssets(skinFiles = {"android/assets/ui.skin"})
+ *    Skin uiSkin = new Skin(Gdx.files.internal("assets/ui.skin"));
+ *
+ * </pre></blockquote><p>
+ *
+ * TextureAtlas example (Java):
+ * <blockquote><pre>
+ *
+ *   {@literal @}GDXAssets(atlasFiles = {"android/assets/textures.atlas"})
+ *    TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("assets/textures.atlas"));
+ *
+ * </pre></blockquote><p>
+ *
+ * Skin example (Kotlin):
+ * <blockquote><pre>
+ *
+ *    {@literal @}GDXAssets(skinFiles = arrayOf("android/assets/ui.skin"))
+ *     val s: Skin = Skin(Gdx.files.internal("assets/ui.skin"))
+ *
+ * </pre></blockquote><p>
+ *
+ * When no Atlas files are specified and a file with same name (or multiple files, if you specify multiple Skin files)
+ * in the same directory with a ".atlas" extension exists, that file is used as Atlas file.<p>
+ *
+ * You can specify multiple Skin and Atlas files:<p>
+ *
+ * Example (Java):
+ * <blockquote><pre>
+ *
+ *   {@literal @}GDXAssets(
+ *      skinFiles = {"android/assets/ui.skin", "android/assets/extra.skin"},
+ *      atlasFiles = {"android/assets/ui.atlas", "android/assets/icons.atlas"}
+ *    )
+ *    Skin uiSkin = new Skin(Gdx.files.internal("assets/ui.skin"));
+ *    // ...
+ *    uiSkin.load(Gdx.files.internal("android/assets/extra.skin"))
+ *
+ * </pre></blockquote><p>
+ *
+ * Example (Kotlin):
+ * <blockquote><pre>
+ *
+ *    {@literal @}GDXAssets(
+ *       skinFiles = arrayOf("android/assets/ui.skin", "android/assets/extra.skin"),
+ *       atlasFiles = arrayOf("android/assets/ui.atlas", "android/assets/icons.atlas")
+ *     )
+ *     val s: Skin = Skin(Gdx.files.internal("assets/ui.skin"))
+ *     // ...
+ *     uiSkin.load(Gdx.files.internal("android/assets/extra.skin"))
+ *
+ * </pre></blockquote><p>
+ *
+ * Go to Definition, Find Usages and Smart Renaming are only available when the specified Skin files
+ * and Atlas files are registered by Idea as Skin files and Atlas files respectively.
+ */
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE})

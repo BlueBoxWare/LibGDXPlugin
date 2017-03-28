@@ -14,6 +14,7 @@ import com.intellij.patterns.StandardPatterns
 import com.intellij.psi.*
 import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
+import com.jetbrains.jsonSchema.JsonSchemaFileType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -42,7 +43,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
     createAssetAnnotationProvider(
             registrar,
             AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME,
-            listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE),
+            listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE, JsonSchemaFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXSkinLanguage.INSTANCE)
     )
 

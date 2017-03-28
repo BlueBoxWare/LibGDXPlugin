@@ -32,7 +32,9 @@
     <change-notes><![CDATA[
         <b>1.9</b>
         <ul>
+            <li>Support for Completion, Go to Definition and Find Usages of resources from Skin files and Atlas files in Java and Kotlin code. Use the @LibGDXAssets annotation to specify the files to use. See the <a href="https://github.com/BlueBoxWare/LibGDXPlugin/blob/master/README.md">README</a> for usage instructions.</li>
             <li>Atlas files: allow spaces in region names</li>
+            <li>Misc. bug fixes</li>
         </ul>
 
         <b>1.8</b>
@@ -90,7 +92,6 @@
     ]]>
     </change-notes>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="145.0"/>
 
     <depends>org.jetbrains.kotlin</depends>

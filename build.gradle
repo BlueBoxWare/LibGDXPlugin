@@ -15,13 +15,14 @@ plugins {
 
 apply plugin: 'org.jetbrains.intellij'
 apply plugin: 'java'
+apply plugin: 'maven-publish'
 
 group 'com.gmail.blueboxware'
 version '1.9'
 
 intellij {
-    version = '2016.3.2'
-    plugins = ['org.jetbrains.kotlin:1.1.1-release-IJ2016.3-1', 'Groovy', 'properties']
+    version = '2017.1'
+    plugins = ['org.jetbrains.kotlin:1.1.1-release-IJ2017.1-1', 'Groovy', 'properties']
     pluginName = 'LibGDX Inspections'
     updateSinceUntilBuild = false
     downloadSources =  true
@@ -49,8 +50,61 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-task libJar(type: Jar) {
-    archiveName 'libgdxpluginannotations.jar'
+task annotationsJar(type: Jar) {
+    baseName 'libgdxpluginannotations'
     from sourceSets.main.output
     include 'com/gmail/blueboxware/libgdxplugin/annotations/**'
+    version '1.0'
+}
+
+task annotationsSourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    include tasks.getByName("annotationsJar").includes
+    baseName tasks.getByName("annotationsJar").property('baseName')
+    version tasks.getByName("annotationsJar").property('version')
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "blueboxware"
+            name "Blue Box Ware"
+            email "blueboxware@gmail.com"
+        }
+    }
+}
+
+model {
+    tasks.generatePomFileForAnnotationsJarPublication {
+        destination = file("$buildDir/" + tasks.getByName("annotationsJar").property('baseName') + "-" + tasks.getByName("annotationsJar").property('version') + ".pom")
+    }
+}
+
+publishing {
+    publications {
+        AnnotationsJar(MavenPublication) {
+            artifact annotationsJar
+            artifact annotationsSourcesJar
+            groupId project.group
+            artifactId tasks.getByName("annotationsJar").property('baseName')
+            version tasks.getByName("annotationsJar").property('version')
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'An annotation for use with LibGDXPlugin for IntelliJ')
+                root.appendNode('name', tasks.getByName("annotationsJar").property('baseName'))
+                root.appendNode('url', 'https://github.com/BlueBoxWare/LibGDXPlugin')
+                root.children().last() + pomConfig
+            }
+        }
+    }
 }

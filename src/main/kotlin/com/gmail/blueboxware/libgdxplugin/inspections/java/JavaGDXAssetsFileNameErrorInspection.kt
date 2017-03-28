@@ -1,13 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.gmail.blueboxware.libgdxplugin.utils.FileUtils
 import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.json.JsonFileType
 import com.intellij.psi.*
 
 /*
@@ -76,8 +76,8 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
 
     fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
 
-      checkFilename(element, fileName, holder)?.fileType?.let { type ->
-        if (type != LibGDXSkinFileType.INSTANCE && type != JsonFileType.INSTANCE) {
+      checkFilename(element, fileName, holder)?.let { psiFile ->
+        if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
           holder.registerProblem(element, message("gdxassets.annotation.filename.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
         }
       }

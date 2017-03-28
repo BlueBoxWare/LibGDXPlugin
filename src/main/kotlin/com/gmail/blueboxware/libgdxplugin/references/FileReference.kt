@@ -48,7 +48,7 @@ class FileReference(
     val baseDir = FileUtils.projectBaseDir(myElement.project) ?: return arrayOf()
 
     for (fileType in fileTypes) {
-      FileTypeIndex.processFiles(fileType, { virtualFile ->
+      FileTypeIndex.getFiles(fileType, searchScope).forEach { virtualFile ->
 
         psiManager.findFile(virtualFile)?.let { psiFile ->
 
@@ -69,8 +69,7 @@ class FileReference(
 
         }
 
-        return@processFiles true
-      }, searchScope)
+      }
     }
 
     return result.toTypedArray()

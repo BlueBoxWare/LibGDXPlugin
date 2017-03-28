@@ -51,16 +51,15 @@ exists, drawable/texture names
 * Formatting/Code Style (Code Style can be configured using *Settings* -> *Editor* -> *Code Style* -> *LibGDX Skin*)
 * Warnings when using classes which don't exist, using properties which don't correspond to a field in a given class or using malformed color strings
 * Find usages of a defined resources within the Skin file \[1]
-* *Crtl-B*: Jump from the usage of a resource to it's definition \[1]
-* *Ctrl-B* with the caret on a class name jumps to the source of the class and *Ctrl-B* with the caret on a property name jumps to the corresponding field
-* *Ctrl-B* on a bitmap font name jumps to the corresponding bitmap font file
+* *Crtl-B* (*⌘+B*): Jump from the usage of a resource to it's definition \[1]
+* *Crtl-B* (*⌘+B*) with the caret on a class name jumps to the source of the class and *Ctrl-B* with the caret on a property name jumps to the corresponding field
+* *Crtl-B* (*⌘+B*) on a bitmap font name jumps to the corresponding bitmap font file
 * Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[2]
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
 
-\[1]: Navigating between definition and usages of a resource in Java/Kotlin code is currently not supported
-
-\[2]: Usages of the resource in Java/Kotlin code are not automatically renamed
+\[2]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
+annotation (See below)
 
 ### Atlas file support
 
@@ -79,3 +78,71 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 * Highlighting
 * Structure View
 * Folding
+
+### Skin resources and Atlas region names in Java and Kotlin code
+
+To get Code Completion (and Go To Definition, Find Usages and Rename Refactoring) for Skin resource names and region names from Atlas files in Skin.get*() and TextureAtlas.get*() 
+and related methods, use the `@GDXAssets` annotation to tell LibGDXPlugin which files to use.
+
+First add the annotation to your build. In `build.gradle`:
+
+```gradle
+
+repositories {
+    // ...
+    jcenter()
+}
+
+dependencies {
+    // ...
+    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.0'
+}
+
+```
+
+Then annotate Skin and TextureAtlas fields and properties where appropriate. Specify file names **relative to the Project Root**!
+
+**Java example:**
+```java
+        @GDXAssets(skinFiles = {"android/assets/ui.skin"})
+        Skin uiSkin = new Skin(Gdx.files.internal("ui.skin"));
+
+        @GDXAssets(
+                skinFiles = {"assets/default.skin", "assets/main.skin"},
+                atlasFiles = {"assets/images.atlas"}
+        )
+        Skin skin = new Skin();
+        skin.load(DEFAULT_SKIN);
+        skin.load(MAIN_SKIN);
+        skin.addRegions(ATLAS);
+
+        @GDXAssets(atlasFiles = {"assets/images/images.pack"})
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images/images.pack"));
+```
+
+**Kotlin example:**
+```kotlin
+    @GDXAssets(skinFiles = arrayOf("android/assets/ui.skin"))
+    val uiSkin = Skin(Gdx.files.internal("ui.skin"))
+
+    @GDXAssets(
+            skinFiles = arrayOf("assets/default.skin", "assets/main.skin"),
+            atlasFiles = arrayOf("assets/textures.atlas")
+    )
+    val skin = Skin()
+    skin.load(DEFAULT_SKIN)
+    skin.load(MAIN_SKIN)
+    skin.addRegions(ATLAS)
+
+    @GDXAssets(atlasFiles = arrayOf("assets/images/images.pack"))
+    val atlas: TextureAtlas = TextureAtlas(Gdx.files.internal("images/images.pack"))
+```
+
+**NOTES**
+* Specify file names **relative to the Project Root**!
+* Multiple files can be specified for both the `skinFiles` and `atlasFiles` parameters
+* When *no* atlasFiles are specified and a file with the same name as the specified Skin file and the
+".atlas" extension exist, that file is used as Atlas files (just like the Skin class itself does). This also
+works if you specify multiple Skin files.
+* Go To Definition are Find Usages only available if the specified files are registered as Skin or Atlas file, not
+when they are registered as JSON or Text files.
