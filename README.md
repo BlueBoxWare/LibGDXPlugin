@@ -146,5 +146,5 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 * When *no* atlasFiles are specified and a file with the same name as the specified Skin file and the
 ".atlas" extension exist, that file is used as Atlas files (just like the Skin class itself does). This also
 works if you specify multiple Skin files.
-* Go To Definition are Find Usages only available if the specified files are registered as Skin or Atlas file, not
+* Go To Definition and Find Usages are only available if the specified files are registered as Skin or Atlas file, not
 when they are registered as JSON or Text files.
