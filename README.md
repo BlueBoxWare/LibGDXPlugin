@@ -105,6 +105,7 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 **Java example:**
 ```java
         @GDXAssets(skinFiles = {"android/assets/ui.skin"})
+        // or Windows style: @GDXAssets(skinFiles = {"android\\assets\\ui.skin"})
         Skin uiSkin = new Skin(Gdx.files.internal("ui.skin"));
 
         @GDXAssets(
@@ -123,6 +124,7 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 **Kotlin example:**
 ```kotlin
     @GDXAssets(skinFiles = arrayOf("android/assets/ui.skin"))
+    // or Windows style: @GDXAssets(skinFiles = arrayOf("android\\assets\\ui.skin"))
     val uiSkin = Skin(Gdx.files.internal("ui.skin"))
 
     @GDXAssets(
