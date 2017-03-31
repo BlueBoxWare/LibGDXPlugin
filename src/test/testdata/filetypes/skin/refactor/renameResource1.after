@@ -28,5 +28,16 @@
       disabledFontColor: 'green',
       backgroundOpen: blue
     }
+  },
+  ColorArrayHolder: {
+    default: {
+      colors: [
+        [blue],
+        green, green
+      ]
+    },
+    yes: {
+      moreColors: [blue, [green, "green", 'green']]
+    }
   }
 }

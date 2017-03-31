@@ -139,12 +139,19 @@ property_name ::= string_literal {
 property_value ::= value {
     methods = [
         getProperty
-        setValueAsString
     ]
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin"
 }
 
-value ::= object | array | literal
+value ::= object | array | literal {
+    methods=[
+        getPropertyValue
+        getProperty
+        getActualType
+        getActualTypeString
+    ]
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin"
+}
 
 array ::= '[' value? (separator value)* optionalComma ']' {
     pin=2
@@ -163,7 +170,9 @@ literal ::= string_literal | number_literal | boolean_literal | null_literal {
 string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
       methods=[
         getValue
+        setValue
         asPropertyName
+
         SINGLE_QUOTED_STRING=""
         DOUBLE_QUOTED_STRING=""
         UNQUOTED_STRING=""

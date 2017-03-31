@@ -18,25 +18,25 @@
       down: round-down,
       up: round,
       font: medium,
-      <weak_warning descr="#ffffffff">fontColor: white</weak_warning>,
-      <weak_warning descr="#808000ff">checkedFontColor: f</weak_warning>
+      fontColor: <weak_warning descr="#ffffffff">white</weak_warning>,
+      checkedFontColor: <weak_warning descr="#808000ff">f</weak_warning>
     },
     toggle: {
       down: round-down,
       up: round,
       checked: round-down,
       font: medium,
-      <weak_warning descr="#ffffffff">fontColor: white</weak_warning>,
-      <weak_warning descr="#ff0000ff">checkedFontColor: red</weak_warning>
+      fontColor: <weak_warning descr="#ffffffff">white</weak_warning>,
+      checkedFontColor: <weak_warning descr="#ff0000ff">red</weak_warning>
     },
     green: {
       down: round-down,
       up: round,
       font: medium,
-      fontColor: <weak_warning descr="#00ff00ff">{ r: 0, g: 1, b: 0, a: 1 }</weak_warning>
+      fontColor: <weak_warning descr="#00ff00ff">{ r: 0, <weak_warning descr="#808000ff">g</weak_warning>: 1, b: 0, a: 1 }</weak_warning>
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-    round-green: { name: round, <weak_warning descr="#808000ff">color: h</weak_warning> }
+    round-green: { name: round, color: <weak_warning descr="#808000ff">h</weak_warning> }
   }
 }

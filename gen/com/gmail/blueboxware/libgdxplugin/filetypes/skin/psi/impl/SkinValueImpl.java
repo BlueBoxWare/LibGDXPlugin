@@ -8,9 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
+import com.intellij.psi.PsiType;
 
-public abstract class SkinValueImpl extends SkinElementImpl implements SkinValue {
+public abstract class SkinValueImpl extends SkinValueMixin implements SkinValue {
 
   public SkinValueImpl(ASTNode node) {
     super(node);

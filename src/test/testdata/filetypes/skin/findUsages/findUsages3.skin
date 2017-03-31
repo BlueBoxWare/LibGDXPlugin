@@ -12,7 +12,7 @@
     blue: {}
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
-    <caret>blue: {
+    <caret>'blue': {
       file: medium.fnt
     }
   },
@@ -27,5 +27,12 @@
       font: blue
       over: blue
     }
-  }
+  },
+  com.example.KotlinClass: {
+    default: {
+      bitmapFonts: [
+        blue, selection, blue
+      ]
+    }
+  },
 }

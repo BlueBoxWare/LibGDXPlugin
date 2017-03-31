@@ -31,5 +31,16 @@
     down: round-down, up: round,
     font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
   }
-}
+},
+  com.mygdx.game.ColorArrayHolder: {
+    default: {
+      colors: [
+        [blue],
+        blue, blue
+      ]
+    },
+    yes: {
+      moreColors: [blue, [blue, "blue", 'blue']]
+    }
+  }
 }

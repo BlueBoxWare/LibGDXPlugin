@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
@@ -22,31 +22,29 @@ import com.intellij.psi.ResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinPropertyValue) : SkinReference<SkinPropertyValue>(element) {
+class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStringLiteral>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 
     val result = mutableListOf<PsiElementResolveResult>()
 
-    (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
+    element.actualTypeString?.let { valueType ->
 
-      element.property?.resolveToTypeString()?.let { valueType ->
-        (element.value as? SkinStringLiteral)?.let { stringLiteral ->
+      (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
 
           for (classSpec in classSpecifications) {
             if (
-            classSpec.classNameAsString == valueType
+              SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == valueType
                     || (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
-            ) {
+                    ) {
               for (resource in classSpec.resourcesAsList) {
-                if (resource.name == stringLiteral.value) {
+                if (resource.name == element.value) {
                   result.add(PsiElementResolveResult(resource))
                 }
               }
             }
           }
 
-        }
       }
     }
 
@@ -54,7 +52,7 @@ class SkinResourceReference(element: SkinPropertyValue) : SkinReference<SkinProp
   }
 
   override fun handleElementRename(newElementName: String?): PsiElement {
-    element.setValueAsString(newElementName, (element.value as? SkinStringLiteral)?.quotationChar)
+    element.setValue(newElementName, element.quotationChar)
     return element
   }
 }

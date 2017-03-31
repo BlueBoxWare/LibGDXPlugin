@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
@@ -22,7 +23,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
   private var shouldAddNewline = false
 
   init {
-    addFixers(SkinObjectPropertyFixer())
+    addFixers(SkinFixer())
     addEnterProcessors(SkinEnterProcessor())
   }
 
@@ -41,52 +42,72 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
     }
   }
 
-  private class SkinObjectPropertyFixer : SmartEnterProcessorWithFixers.Fixer<SkinSmartEnterProcessor>() {
+
+
+  private class SkinFixer : SmartEnterProcessorWithFixers.Fixer<SkinSmartEnterProcessor>() {
 
     override fun apply(editor: Editor, processor: SkinSmartEnterProcessor, element: PsiElement) {
 
       val parent = element.context?.parent ?: return
 
-      var key: PsiElement? = null
-      var value: PsiElement? = null
+      if (parent is SkinPropertyName
+              || parent is SkinClassName
+              || parent is SkinResourceName
+              || parent is SkinPropertyValue
+              ) {
 
-      if (parent is SkinPropertyName) {
-        key = parent
-        value = parent.property?.propertyValue
-      } else if (parent is SkinPropertyValue) {
-        key = parent.property?.propertyName
-        value = parent
-      } else if (parent is SkinClassName) {
-        key = parent
-        value = (parent.parent as? SkinClassSpecification)?.resources
-      } else if (parent is SkinResourceName) {
-        key = parent
-        value = parent.resource?.`object`
-      }
-
-      if (value != null && value.text != "" && terminatedOnCurrentLine(editor, value)) {
-        if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
-          editor.document.insertString(value.textRange.endOffset, ",")
-          processor.shouldAddNewline = true
+        val key = if (parent is SkinPropertyValue) {
+          parent.property?.propertyName
+        } else {
+          parent
         }
-      } else if (key != null) {
-        val keyEndOffset = key.textRange.endOffset
-        if (!isFollowedByTerminal(key, SkinElementTypes.COLON)) {
-          var colonText = ":"
-          CodeStyleSettingsManager.getSettings(key.project).getCustomSettings(SkinCodeStyleSettings::class.java)?.let { settings ->
-            if (settings.SPACE_BEFORE_COLON) {
-              colonText = " :"
+
+        if (key != null) {
+          val keyEndOffset = key.textRange.endOffset
+          if (!isFollowedByTerminal(key, SkinElementTypes.COLON)) {
+            var colonText = ":"
+            CodeStyleSettingsManager.getSettings(key.project).getCustomSettings(SkinCodeStyleSettings::class.java)?.let { settings ->
+              if (settings.SPACE_BEFORE_COLON) {
+                colonText = " :"
+              }
+              if (settings.SPACE_AFTER_COLON) {
+                colonText += " "
+              }
             }
-            if (settings.SPACE_AFTER_COLON) {
-              colonText += " "
-            }
+
+            processor.myFirstErrorOffset = keyEndOffset + colonText.length
+            editor.document.insertString(keyEndOffset, colonText)
           }
-
-          processor.myFirstErrorOffset = keyEndOffset + colonText.length
-          editor.document.insertString(keyEndOffset, colonText)
         }
-      }
 
+
+      } else if (parent is SkinArray) {
+
+        element.context?.let { value ->
+          val valueEndOffset = value.textRange.endOffset
+          if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
+
+            var commaText = ","
+            CodeStyleSettingsManager.getSettings(parent.project).getCommonSettings(LibGDXSkinLanguage.INSTANCE)?.let { settings ->
+              if (settings.SPACE_BEFORE_COMMA) {
+                commaText = " ,"
+              }
+              if (settings.SPACE_AFTER_COMMA) {
+                commaText += " "
+              }
+            }
+
+            editor.document.insertString(valueEndOffset, commaText)
+            if (terminatedOnCurrentLine(editor, value)) {
+              processor.shouldAddNewline = true
+            } else {
+              processor.myFirstErrorOffset = valueEndOffset + commaText.length
+            }
+
+          }
+        }
+
+      }
 
     }
 

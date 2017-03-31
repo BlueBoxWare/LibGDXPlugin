@@ -24,15 +24,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
-    doTest(1)
+    doTest(6)
   }
 
   fun testFindUsages2() {
-    doTest(74)
+    doTest(77)
   }
 
   fun testFindUsages3() {
-    doTest(2)
+    doTest(4)
   }
 
   fun testFindUsages4() {
@@ -40,7 +40,11 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindUsages5() {
-    doTest(6)
+    doTest(9)
+  }
+
+  fun testFindUsages6() {
+    doTest(5)
   }
 
   fun doTest(nrOfUsages: Int) {
@@ -49,7 +53,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     val classType = (myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
     assertNotNull(classType)
     for (usageInfo in usagesInfos) {
-      assertTrue(usageInfo.element is SkinPropertyValue || (usageInfo.element is SkinStringLiteral && usageInfo.element?.parent is SkinResource))
+      assertTrue(usageInfo.element is SkinStringLiteral)
       (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
         val type = propertyValue.property?.resolveToTypeString()
         assertNotNull(type)
@@ -66,6 +70,9 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addKotlin()
+
+    myFixture.copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
   }
 
   override fun getBasePath() = "/filetypes/skin/findUsages/"

@@ -9,13 +9,14 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
+import com.intellij.util.ui.ColorIcon
+import com.intellij.util.ui.UIUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -53,7 +54,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withSuperParent(2, SkinResourceName::class.java),
             object : CompletionProvider<CompletionParameters>() {
               override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
-                resoureNameCompletion(parameters, result)
+                resourceNameCompletion(parameters, result)
               }
             }
     )
@@ -91,6 +92,17 @@ class SkinCompletionContributor : CompletionContributor() {
             }
     )
 
+    extend(CompletionType.BASIC,
+            PlatformPatterns.psiElement()
+                    .withParent(SkinStringLiteral::class.java)
+                    .withSuperParent(2, SkinArray::class.java),
+            object : CompletionProvider<CompletionParameters>() {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+                arrayElementCompletion(parameters, result)
+              }
+            }
+    )
+
   }
 
   private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -105,7 +117,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
   }
 
-  private fun resoureNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
+  private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
 
@@ -144,7 +156,14 @@ class SkinCompletionContributor : CompletionContributor() {
     for (classSpec in skinFile.getClassSpecifications()) {
       if (SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == fieldClassName) {
         for (resource in classSpec.resourcesAsList) {
-          result.addElement(LookupElementBuilder.create(resource.name).withIcon(ICON_RESOURCE))
+
+          val icon = if (fieldClassName == "com.badlogic.gdx.graphics.Color") {
+            resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
+          } else {
+            null
+          }
+
+          result.addElement(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE))
         }
       } else if (fieldClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" &&
               classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
@@ -165,6 +184,28 @@ class SkinCompletionContributor : CompletionContributor() {
         }
       }
     }
+  }
+
+  private fun arrayElementCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
+
+    val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
+    val type = stringLiteral.actualTypeString ?: return
+
+    (stringLiteral.containingFile as? SkinFile)?.getClassSpecifications()?.forEach { classSpec ->
+      if (SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == type) {
+        classSpec.resourcesAsList.forEach { resource ->
+
+          val icon = if (type == "com.badlogic.gdx.graphics.Color") {
+            resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
+          } else {
+            null
+          }
+
+          result.addElement(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE))
+        }
+      }
+    }
+
   }
 
   private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
@@ -224,16 +265,6 @@ class SkinCompletionContributor : CompletionContributor() {
 
     if (isColor && usedPropertyNames.none { listOf("r", "g", "b", "a", "hex").contains(it) } ) {
       result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("hex").withIcon(ICON_FIELD), 1.0))
-    }
-  }
-
-  private fun putDollarsInClassName(psiClass: PsiClass): String? {
-    psiClass.containingClass.let { containingClass ->
-      if (containingClass == null) {
-        return psiClass.qualifiedName
-      } else {
-        return putDollarsInClassName(containingClass) + "$" + psiClass.name
-      }
     }
   }
 

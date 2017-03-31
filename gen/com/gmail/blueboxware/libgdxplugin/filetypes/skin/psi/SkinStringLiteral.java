@@ -10,6 +10,8 @@ public interface SkinStringLiteral extends SkinLiteral {
   @NotNull
   String getValue();
 
+  void setValue(String string, Character quotationChar);
+
   @Nullable
   SkinPropertyName asPropertyName();
 

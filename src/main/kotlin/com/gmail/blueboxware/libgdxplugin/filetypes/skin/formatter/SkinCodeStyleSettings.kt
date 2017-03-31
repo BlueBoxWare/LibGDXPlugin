@@ -29,7 +29,7 @@ class SkinCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSetti
   @JvmField
   var OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_ALWAYS
   @JvmField
-  var ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_ALWAYS
+  var ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
 
   @JvmField
   var PROPERTY_ALIGNMENT = DO_NOT_ALIGN_PROPERTY

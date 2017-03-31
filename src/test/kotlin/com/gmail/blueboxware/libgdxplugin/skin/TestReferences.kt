@@ -41,6 +41,14 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("blue", "com.example.MyTestClass")
   }
 
+  fun testResourceReference5() {
+    doTestResourceReference("blue", "com.badlogic.gdx.graphics.Color")
+  }
+
+  fun testResourceReference6() {
+    doTestResourceReference("ddd", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
+  }
+
   fun testResourceReferenceTintedDrawable() {
     doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
   }
@@ -55,7 +63,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testBitmapFontReference() {
     myFixture.copyFileToProject("bitmap.fnt")
-    doTestFileReference(SkinPropertyValue::class.java, "bitmap.fnt")
+    doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
   }
 
   fun testFieldReference1() {
@@ -109,7 +117,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun doTestResourceReference(resourceName: String, resourceType: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent
+    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent
     assertNotNull(element)
     val resource = element?.reference?.resolve() as? SkinResource
     assertNotNull(resource)

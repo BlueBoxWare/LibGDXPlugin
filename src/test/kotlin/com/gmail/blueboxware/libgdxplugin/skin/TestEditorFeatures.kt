@@ -21,8 +21,12 @@ import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
  */
 class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testFolding() {
+  fun testFolding1() {
     myFixture.testFolding(testDataPath + "folding.skin")
+  }
+
+  fun testFolding2() {
+    myFixture.testFolding(testDataPath + "folding2.skin")
   }
 
   fun testComments() {

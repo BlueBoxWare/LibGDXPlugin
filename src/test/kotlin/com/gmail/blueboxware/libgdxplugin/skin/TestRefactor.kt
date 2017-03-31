@@ -33,6 +33,8 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+
+    myFixture.copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "/filetypes/skin/refactor/"

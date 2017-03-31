@@ -54,5 +54,23 @@
       }
     },
     something: default
+  },
+  com.mygdx.game.colorTests.KotlinClass: {
+    default: {
+      colors: [
+        red,
+        yellow,
+        yellow
+      ],
+      colorss: [
+        [red]
+        [
+          yellow
+        ]
+        [
+          alias
+        ]
+      ]
+    }
   }
 }

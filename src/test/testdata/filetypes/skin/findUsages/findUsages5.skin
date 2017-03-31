@@ -1,6 +1,6 @@
 {
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-    round-d<caret>own: { name: round },
+    "round-d<caret>own": { name: round },
     round-up: { name: square }
   }
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
@@ -26,6 +26,14 @@
   com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
     something: {
       disabled: round-down
+    }
+  },
+  com.example.KotlinClass: {
+    default: {
+      tds: [round-down]
+    },
+    a: {
+      tds: ["round-down", 'round-down']
     }
   }
 }

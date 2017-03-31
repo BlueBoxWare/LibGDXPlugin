@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.9</version>
+    <version>1.10</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.10</b>
+        <ul>
+        </ul>
+
         <b>1.9</b>
         <ul>
             <li>Support for Completion, Go to Definition and Find Usages of resources from Skin files and Atlas files in Java and Kotlin code. Use the @LibGDXAssets annotation to specify the files to use. See the <a href="https://github.com/BlueBoxWare/LibGDXPlugin/blob/master/README.md">README</a> for usage instructions.</li>

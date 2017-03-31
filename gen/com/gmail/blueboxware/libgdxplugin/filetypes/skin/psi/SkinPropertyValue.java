@@ -13,6 +13,4 @@ public interface SkinPropertyValue extends SkinElement {
   @Nullable
   SkinProperty getProperty();
 
-  void setValueAsString(String string, Character quotationChar);
-
 }

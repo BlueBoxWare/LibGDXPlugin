@@ -48,6 +48,22 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
     doTest()
   }
 
+  fun testArrayNoCommaInsertedBeforeComma() {
+    doTest()
+  }
+
+  fun testArrayCommaInsertedBeforeItem() {
+    doTest()
+  }
+
+  fun testArrayCommaAfterLastItem() {
+    doTest()
+  }
+
+  fun testArrayCommaAndNewlineAfterItem() {
+    doTest()
+  }
+
   fun doTest() {
     myFixture.configureByFile(getTestName(true) + ".skin")
 
@@ -63,6 +79,14 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
     }.execute()
 
     myFixture.checkResultByFile(getTestName(true) + "_after.skin", true)
+  }
+
+  override fun setUp() {
+    super.setUp()
+
+    addLibGDX()
+
+    myFixture.copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "/filetypes/skin/smartEnter/"

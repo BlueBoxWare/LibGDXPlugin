@@ -18,7 +18,7 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group 'com.gmail.blueboxware'
-version '1.9'
+version '1.10'
 
 intellij {
     version = '2017.1'

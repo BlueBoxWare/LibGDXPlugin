@@ -1,0 +1,13 @@
+{
+
+  com.mygdx.game.ColorArrayHolder: {
+    default: {
+      colors: [
+        red,
+        blue,
+        <caret>
+      ]
+    }
+  }
+
+}

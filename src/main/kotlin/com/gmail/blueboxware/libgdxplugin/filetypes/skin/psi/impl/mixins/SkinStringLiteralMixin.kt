@@ -1,11 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceAliasReference
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiReference
@@ -34,8 +33,20 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
   override fun getReference(): PsiReference? {
     if (context is SkinResource) {
       return SkinResourceAliasReference(this)
+    } else if (
+      property?.containingClassSpecification?.classNameAsString == "com.badlogic.gdx.graphics.g2d.BitmapFont"
+            && property?.name == "file"
+    ) {
+      return SkinFileReference(this, containingFile)
+    } else  {
+      return SkinResourceReference(this)
     }
 
-    return null
+  }
+
+  override fun setValue(string: String, quotationChar: Char?) {
+    SkinElementFactory.createStringLiteral(project, string, quotationChar)?.let {
+      replace(it)
+    }
   }
 }

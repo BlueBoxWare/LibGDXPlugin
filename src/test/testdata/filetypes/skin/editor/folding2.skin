@@ -1,0 +1,118 @@
+<fold text='//...'>//
+// Android Holo Theme
+//
+// By Daniel Holderbaum (https://github.com/nooone)
+//
+// https://github.com/czyzby/gdx-skins/tree/master/gdx-holo
+//</fold>
+
+{
+<fold text='{ com.badlogic.gdx.graphics.g2d.BitmapFont ...}'>com.badlogic.gdx.graphics.g2d.BitmapFont: {
+default-font: {file: default.fnt }
+}</fold>,
+<fold text='{ com.badlogic.gdx.graphics.Color ...}'>com.badlogic.gdx.graphics.Color: {
+green: {a: 1, b: 0, g: 1, r: 0 },
+white: {a: 1, b: 1, g: 1, r: 1 },
+red: {a: 1, b: 0, g: 0, r: 1 },
+black: {a: 1, b: 0, g: 0, r: 0 },
+grey: {a: 1, b: 0.5, g: 0.5, r: 0.5 },
+default: {a: 1, b: 0, g: 0, r: 0 },
+inverse: {a: 1, b: 1, g: 1, r: 1 },
+ui: {a: 1, b: 0.9, g: 0.71, r: 0.2 }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable ...}'>com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+dialogDim: {name: white, color: {r: 0, g: 0, b: 0, a: 0.45} },
+lightGrey: {name: white, color: {r: 0.9, g: 0.9, b: 0.9, a: 1} },
+darkGrey: {name: white, color: {r: 0.8, g: 0.8, b: 0.8, a: 1} }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+default: {down: apptheme_btn_default_pressed_holo_light, up: apptheme_btn_default_normal_holo_light, disabled: apptheme_btn_default_disabled_holo_light },
+colored: {down: apptheme_btn_colored_pressed_holo_light, up: apptheme_btn_colored_normal_holo_light, disabled: apptheme_btn_colored_disabled_holo_light },
+toggle: {down: apptheme_btn_toggle_off_pressed_holo_light, up: apptheme_btn_toggle_off_normal_holo_light, over: apptheme_btn_toggle_off_focused_holo_light, disabled: apptheme_btn_toggle_off_disabled_holo_light, checked: apptheme_btn_toggle_on_normal_holo_light, checkedOver: apptheme_btn_toggle_on_focused_holo_light }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+default: {down: apptheme_btn_default_pressed_holo_light, up: apptheme_btn_default_normal_holo_light, disabled: apptheme_btn_default_disabled_holo_light, font: default-font, fontColor: default, downFontColor: inverse, disabledFontColor: grey },
+colored: {down: apptheme_btn_colored_pressed_holo_light, up: apptheme_btn_colored_normal_holo_light, disabled: apptheme_btn_colored_disabled_holo_light, font: default-font, fontColor: default, downFontColor: inverse, disabledFontColor: grey },
+toggle: {down: apptheme_btn_toggle_off_pressed_holo_light, up: apptheme_btn_toggle_off_normal_holo_light, over: apptheme_btn_toggle_off_focused_holo_light, disabled: apptheme_btn_toggle_off_disabled_holo_light, checked: apptheme_btn_toggle_on_normal_holo_light, checkedOver: apptheme_btn_toggle_on_focused_holo_light, font: default-font, fontColor: default, downFontColor: inverse, disabledFontColor: grey }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
+default: {down: apptheme_btn_default_pressed_holo_light, up: apptheme_btn_default_normal_holo_light, disabled: apptheme_btn_default_disabled_holo_light },
+colored: {down: apptheme_btn_colored_pressed_holo_light, up: apptheme_btn_colored_normal_holo_light, disabled: apptheme_btn_colored_disabled_holo_light }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+default: {down: apptheme_btn_default_pressed_holo_light, up: apptheme_btn_default_normal_holo_light, disabled: apptheme_btn_default_disabled_holo_light, font: default-font, fontColor: default, downFontColor: inverse, disabledFontColor: grey },
+colored: {down: apptheme_btn_colored_pressed_holo_light, up: apptheme_btn_colored_normal_holo_light, disabled: apptheme_btn_colored_disabled_holo_light, font: default-font, fontColor: default, downFontColor: inverse, disabledFontColor: grey }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+default: {hScrollKnob: apptheme_fastscroll_thumb_default_holo_h, vScrollKnob: apptheme_fastscroll_thumb_default_holo_v }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+default: {background: white, fontColorUnselected: default, selection: apptheme_list_activated_holo, fontColorSelected: inverse, font: default-font }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {
+<fold text='{ default ...}'>default: <fold text='{...}'>{font: default-font, fontColor: default, background: apptheme_spinner_default_holo_light, backgroundOver: apptheme_spinner_pressed_holo_light, backgroundOpen: apptheme_spinner_focused_holo_light, backgroundDisabled: apptheme_spinner_disabled_holo_light, scrollStyle: default, listStyle: default
+}</fold></fold>
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
+default-vertical: {handle: default-splitpane-vertical },
+default-horizontal: {handle: default-splitpane }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle: {
+default: {titleFont: default-font, background: dialog_holo_light, titleFontColor: ui },
+dialog: {stageBackground: dialogDim, titleFont: default-font, background: dialog_holo_light, titleFontColor: ui }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle: {
+default-horizontal: {background: apptheme_progress_bg_holo_light, knobBefore: apptheme_progress_primary_holo_light, knob: apptheme_fastscroll_thumb_pressed_holo_h },
+default-vertical: {background: apptheme_progress_vertical_bg_holo_light, knobBefore: apptheme_progress_vertical_primary_holo_light, knob: apptheme_fastscroll_thumb_pressed_holo_v }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+default: {font: default-font, fontColor: default }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
+default: {selection: apptheme_list_activated_holo, background: apptheme_textfield_default_holo_light, focusedBackground: apptheme_textfield_focused_holo_light, disabledBackground: apptheme_textfield_disabled_holo_light, font: default-font, fontColor: default, disabledFontColor: grey, cursor: cursor },
+area: {selection: apptheme_list_activated_holo, background: apptheme_textarea_default_holo_light, focusedBackground: apptheme_textarea_focused_holo_light, disabledBackground: apptheme_textarea_disabled_holo_light, font: default-font, fontColor: default, disabledFontColor: grey, cursor: cursor }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+default: {checkboxOn: apptheme_btn_check_on_holo_light, checkboxOff: apptheme_btn_check_off_holo_light, checkboxOnDisabled: apptheme_btn_check_on_disabled_holo_light, checkboxOffDisabled: apptheme_btn_check_off_disabled_holo_light, font: default-font, fontColor: default },
+radio: {checkboxOn: apptheme_btn_radio_on_holo_light, checkboxOff: apptheme_btn_radio_off_holo_light, checkboxOnDisabled: apptheme_btn_radio_on_disabled_holo_light, checkboxOffDisabled: apptheme_btn_radio_off_disabled_holo_light, font: default-font, fontColor: default },
+switch: {checkboxOn: apptheme_btn_radio_on_holo_light, checkboxOff: apptheme_btn_radio_off_holo_light, checkboxOnDisabled: apptheme_btn_radio_on_disabled_holo_light, checkboxOffDisabled: apptheme_btn_radio_off_disabled_holo_light, font: default-font, fontColor: default }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
+default-horizontal: {background: apptheme_progress_bg_holo_light, knobBefore: apptheme_progress_primary_holo_light },
+default-vertical: {background: apptheme_progress_vertical_bg_holo_light, knobBefore: apptheme_progress_vertical_primary_holo_light }
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
+<fold text='{ default ...}'>default: <fold text='{...}'>{knob: apptheme_scrubber_control_pressed_holo
+
+array: [a, b, c]
+
+}</fold></fold>
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.Tree$TreeStyle: {
+default: {minus: tree-minus, plus: tree-plus, selection: apptheme_list_activated_holo },
+<fold text='{ arrayarray ...}'>arrayarray: <fold text='{...}'>{
+a: <fold text='[...]'>[
+[a, b],
+<fold text='[...]'>[
+c,
+d
+]</fold>,
+<fold text='[...]'>[e,
+[f, g, h]
+]</fold>
+]</fold>
+}</fold></fold>
+}</fold>,
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
+<fold text='{ default ...}'>default: <fold text='{...}'>{label: {font: default-font, fontColor: default}, background: tooltip, wrapWidth: 150
+}</fold></fold>
+}</fold>
+<fold text='{ com.badlogic.gdx.graphics.g2d.BitmapFont ...}'>com.badlogic.gdx.graphics.g2d.BitmapFont: {
+medium: { file: test/test\medium.fnt }
+test: { str: "\"'\n\f", str2: '"\'' }
+<fold text='{ classNamesInProperties ...}'>classNamesInProperties: <fold text='{...}'>{ com.badlogic.gdx.graphics.g2d.BitmapFont: "com.badlogic.gdx.graphics.g2d.BitmapFont"
+str: com.badlogic.gdx.graphics.g2d.BitmapFont
+}</fold></fold>
+
+}</fold>
+}

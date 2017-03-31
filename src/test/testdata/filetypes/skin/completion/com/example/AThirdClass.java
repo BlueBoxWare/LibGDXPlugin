@@ -5,4 +5,6 @@ class AThirdClass {
     MyTestClass myTestClass;
     MyOtherClass myOtherClass;
 
+    Color
+
 }

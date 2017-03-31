@@ -34,5 +34,23 @@
       fontColor: {r: 0, g: 1, b: 0, a: 1}
     },
     something: default
+  },
+  com.mygdx.game.colorTests.KotlinClass: {
+    default: {
+      colors: [
+        red,
+        yellow,
+        yellow
+      ],
+      colorss: [
+        [red]
+        [
+          yellow
+        ]
+        [
+          alias
+        ]
+      ]
+    }
   }
 }

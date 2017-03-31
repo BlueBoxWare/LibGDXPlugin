@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.completion.CompletionType
-import com.intellij.testFramework.PsiTestUtil
 import junit.framework.Assert
 
 /*
@@ -296,26 +295,88 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 test: <caret>
               }
             }
-          """ to (listOf("def") to listOf("test", "tbs"))
+          """ to (listOf("def") to listOf("test", "tbs")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              },
+              com.example.MyTestClass: {
+                default: {
+                  colors: [green, <caret>]
+                }
+              }
+            }
+          """ to (listOf("red", "green", "blue") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              },
+              com.example.MyTestClass: {
+                default: {
+                  moreColors: [[green], [<caret>]]
+                }
+              }
+            }
+          """ to (listOf("red", "green", "blue") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                t1: {}
+                t2: {
+                  fontColor: { hex: "ff0000" }
+                }
+              },
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                t3: {},
+                default: {}
+              }
+              com.example.KotlinClass: {
+                default: {
+                  buttonStyles: [ <caret> ]
+                }
+              }
+            }
+          """ to (listOf("t1", "t2") to listOf("t3", "default")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                t1: {}
+                t2: {
+                  fontColor: { hex: "ff0000" }
+                }
+              },
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                t3: {},
+                default: {}
+              }
+              com.example.KotlinClass: {
+                default: {
+                  listStyles: [[ <caret> ]]
+                }
+              }
+            }
+          """ to (listOf("t3", "default") to listOf("t1", "t2"))
+
   )
 
   fun testCompletions() {
     for ((content, expected) in tests) {
       doTest(content, expected.first, expected.second)
     }
-  }
-
-  override fun setUp() {
-    super.setUp()
-
-    PsiTestUtil.addLibrary(myFixture.module, testDataPath + "/lib/gdx.jar")
-
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
-    myFixture.copyFileToProject("ui.atlas")
-    myFixture.copyFileToProject("font1.fnt")
-    myFixture.copyDirectoryToProject("assets", "assets")
   }
 
   fun doTest(content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()) {
@@ -340,6 +401,21 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         }
       }
     }
+  }
+
+  override fun setUp() {
+    super.setUp()
+
+    addLibGDX()
+    addKotlin()
+
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/KotlinClass.kt", "com/example/KotlinClass.kt")
+    myFixture.copyFileToProject("ui.atlas")
+    myFixture.copyFileToProject("font1.fnt")
+    myFixture.copyDirectoryToProject("assets", "assets")
   }
 
 }

@@ -18,6 +18,21 @@
       b: 0.70333326
       a: 1
     }
+  },
+  com.example.KotlinClass: {
+    default: {
+      colors: [
+        blue, selection, blue
+      ]
+    }
+  },
+  com.example.KotlinClass: {
+    f: {
+      colors: [
+        selection
+      ],
+      moreColors: [[white, 'selection'], [white]]
+    }
   }
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     button-c: {

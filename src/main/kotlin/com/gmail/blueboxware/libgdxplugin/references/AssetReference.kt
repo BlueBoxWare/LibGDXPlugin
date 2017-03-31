@@ -140,8 +140,6 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
               psiFile.name
             }
 
-
-
   }
 
 }

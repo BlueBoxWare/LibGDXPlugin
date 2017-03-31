@@ -22,13 +22,37 @@
         down: round-down,
         up: round,
         font: medium,
-        <weak_warning descr="#0000ffff">fontColor: test9</weak_warning>,
-        <weak_warning descr="#ff0000ff">checkedFontColor: test7</weak_warning>
+        fontColor: <weak_warning descr="#0000ffff">test9</weak_warning>,
+        checkedFontColor: <weak_warning descr="#ff0000ff">test7</weak_warning>
+      },
+      d: {
+        fontColor: <weak_warning descr="#ff00ffff">{g: 0}</weak_warning>
       }
       }
     com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-      round-green: { name: round, <weak_warning descr="#ff0000ff">color: test6</weak_warning> }
-      round-red: { name: round, <weak_warning descr="#ff0000ff">color: test3</weak_warning> }
+      round-green: { name: round, color: <weak_warning descr="#ff0000ff">test6</weak_warning> }
+      round-red: { name: round, color: <weak_warning descr="#ff0000ff">test3</weak_warning> }
       round-yellow: { name: round, color: <weak_warning descr="#00ff00ff">{ hex: "00ff00" }</weak_warning> }
+      default: {
+        color: <weak_warning descr="#ffffffff">{}</weak_warning>
+      }
     }
+
+      ColorArrayHolder: {
+        default: {
+          colors: [
+            <weak_warning descr="#00ff00ff">c2</weak_warning>, <weak_warning descr="#0000ffff">blue</weak_warning>,
+            <weak_warning descr="#ff0000ff">test7</weak_warning>, <weak_warning descr="#0000ffff">test8</weak_warning>
+          ]
+        },
+        something: {
+            moreColors:
+
+            [[<weak_warning descr="#ff0000ff">test3</weak_warning>, <weak_warning descr="#0000ff00">c3</weak_warning>],
+            [<weak_warning descr="#0000ffff">test9</weak_warning>], [
+            <weak_warning descr="#ffffffff">{}</weak_warning>
+            <weak_warning descr="#ff00ffff">{hex: "ff00ff"}</weak_warning>
+            ]]
+        }
+      },
 }

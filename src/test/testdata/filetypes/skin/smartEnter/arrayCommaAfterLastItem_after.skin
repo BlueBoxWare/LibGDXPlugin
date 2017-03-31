@@ -1,0 +1,9 @@
+{
+
+  ColorArrayHolder: {
+    default: {
+      colors: [blue, red, <caret>]
+    }
+  }
+
+}

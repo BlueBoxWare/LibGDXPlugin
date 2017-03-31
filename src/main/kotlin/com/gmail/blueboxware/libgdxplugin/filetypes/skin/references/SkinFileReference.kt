@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
@@ -24,13 +23,13 @@ import com.intellij.psi.ResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileReference(element: SkinPropertyValue, val baseFile: VirtualFile?) : SkinReference<SkinPropertyValue>(element) {
+class SkinFileReference(element: SkinStringLiteral, val baseFile: VirtualFile?) : SkinReference<SkinStringLiteral>(element) {
 
-  constructor(element: SkinPropertyValue, baseFile: PsiFile): this(element, baseFile.virtualFile)
+  constructor(element: SkinStringLiteral, baseFile: PsiFile): this(element, baseFile.virtualFile)
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
     baseFile?.let { baseFile ->
-      (element.value as? SkinStringLiteral)?.value?.let { fileName ->
+      element.value.let { fileName ->
         VfsUtil.findRelativeFile(baseFile.parent, fileName)?.let { virtualFile ->
           PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
             return arrayOf(PsiElementResolveResult(psiFile))
