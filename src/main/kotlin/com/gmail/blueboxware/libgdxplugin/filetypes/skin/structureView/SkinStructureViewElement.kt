@@ -1,11 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
-import com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.structureView.StructureViewTreeElement.EMPTY_ARRAY
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
+import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.NavigationItem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
@@ -13,6 +13,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ArrayUtil
 import com.intellij.util.Function
 import com.intellij.util.containers.ContainerUtil
+import javax.swing.Icon
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -31,7 +32,19 @@ import com.intellij.util.containers.ContainerUtil
  */
 class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElement, SortableTreeElement {
 
-  override fun getPresentation() = (element as? NavigationItem)?.presentation ?: DummyItemPresentation()
+  override fun getPresentation() = object: ItemPresentation {
+    override fun getLocationString(): String? {
+      if (element is SkinObject) {
+        return element.resolveToTypeString()
+      }
+
+      return null
+    }
+
+    override fun getIcon(unused: Boolean): Icon? = (element as? NavigationItem)?.presentation?.getIcon(true)
+
+    override fun getPresentableText(): String? = (element as? NavigationItem)?.presentation?.presentableText
+  }
 
   override fun canNavigate() = element is NavigationItem && element.canNavigate()
 
@@ -73,9 +86,9 @@ class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElemen
       )
     } else if (value is SkinArray) {
       val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList,  { value1 ->
-        if (value1 is SkinObject && !value1.propertyList.isEmpty()) {
+        if (value1 is SkinObject) {
           SkinStructureViewElement(value1)
-        } else if (value1 is SkinArray && PsiTreeUtil.findChildOfType(value1, SkinProperty::class.java) != null) {
+        } else if (value1 is SkinArray) {
           SkinStructureViewElement(value1)
         } else {
           null

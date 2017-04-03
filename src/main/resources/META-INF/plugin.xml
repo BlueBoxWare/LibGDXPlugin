@@ -147,6 +147,7 @@
         <lang.commenter language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinCommenter" />
 
         <lang.psiStructureViewFactory language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewFactory" />
+        <psi.treeChangePreprocessor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinTreeChangePreprocessor" />
 
         <lang.braceMatcher language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher" />
 
@@ -174,6 +175,7 @@
         <annotator language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasAdditionalHighlighter" />
 
         <lang.psiStructureViewFactory language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory" />
+        <psi.treeChangePreprocessor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasTreeChangePreprocessor" />
 
         <lang.foldingBuilder language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFoldingBuilder" />
 
@@ -188,6 +190,7 @@
         <annotator language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.highlighting.BitmapFontHighlighter" />
 
         <lang.psiStructureViewFactory language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontStructureViewFactory" />
+        <psi.treeChangePreprocessor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontTreeChangePreprocessor" />
 
         <lang.foldingBuilder language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.editor.BitmapFontFoldingBuilder" />
 
