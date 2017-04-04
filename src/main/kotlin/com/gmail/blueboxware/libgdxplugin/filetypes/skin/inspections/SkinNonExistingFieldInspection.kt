@@ -30,28 +30,26 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitPropertyName(o: SkinPropertyName) {
-      val property = o.property ?: return
-      val classSpec = property.containingClassSpecification ?: return
-      val className = classSpec.classNameAsString
+    override fun visitPropertyName(propertyName: SkinPropertyName) {
+      val name = propertyName.value
+      val property = propertyName.property ?: return
+      val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
 
-      classSpec.resolveClass() ?: return
-
-      if (className == "com.badlogic.gdx.graphics.Color") {
-        if (o.value == "hex") {
-          return
-        }
-      } else if (className == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-        if (!listOf("file", "scaledSize", "flip", "markupEnabled").contains(o.value)) {
-          holder.registerProblem(o, message("skin.inspection.non.existing.field.message.BitmapFont", o.value))
+      if (typeString == "com.badlogic.gdx.graphics.Color" && name == "hex") {
+        return
+      } else if (typeString == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+        if (!listOf("file", "scaledSize", "flip", "markupEnabled").contains(name)) {
+          holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message.BitmapFont", name))
         }
         return
       }
 
       if (property.resolveToField() == null) {
-        holder.registerProblem(o, message("skin.inspection.non.existing.field.message", classSpec.classNameAsString, o.value))
+        holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message", typeString, name))
       }
+
     }
+
   }
 
 }

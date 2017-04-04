@@ -47,6 +47,10 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     doTest(5)
   }
 
+  fun testFindUsages7() {
+    doTest(6)
+  }
+
   fun doTest(nrOfUsages: Int) {
     val usagesInfos = myFixture.testFindUsages(getTestName(true) + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)

@@ -63,7 +63,14 @@
         yellow
       ],
       colorss: [
-        [red]
+        [red], [
+          {
+            r: 1,
+            g: 0,
+            b: 1,
+            a: 0
+          }
+        ],
         [
           yellow
         ]
@@ -72,5 +79,51 @@
         ]
       ]
     }
-  }
+  },
+  com.mygdx.game.ColorArrayHolder: {
+    f: {
+      moreColors: [
+        [
+          {
+            hex: "ff0000"
+          }, gray
+        ], [
+          {
+            g: 0
+          }
+        ], [
+          {}, {}, gray, {
+            r: 1,
+            g: 0,
+            b: 1,
+            a: 0
+          }
+        ]
+      ],
+      m: [
+        {
+          colors: [gray]
+        },
+        {
+          moreColors: [[gray]],
+          textButtonStyle: {
+            fontColor: gray
+          },
+          textButtonStyles: [
+            {
+              fontColor: gray
+            },
+            {
+              fontColor: {
+                r: 1,
+                g: 0,
+                b: 1,
+                a: 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
 }

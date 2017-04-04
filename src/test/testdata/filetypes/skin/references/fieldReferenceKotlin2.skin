@@ -1,0 +1,11 @@
+{
+  com.example.KTestClass: {
+    dd: {
+      labelStyles: [
+        {
+          back<caret>ground: f
+        }
+      ]
+    }
+  }
+}

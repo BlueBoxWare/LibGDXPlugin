@@ -1,0 +1,13 @@
+{
+  com.example.KTestClass: {
+    dd: {
+      m: [{
+        textButtonStyle: [{
+          fontColor: {
+            <caret>a: 1
+          }
+        }]
+      }]
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
@@ -11,6 +12,7 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiType
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
@@ -98,7 +100,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withSuperParent(2, SkinArray::class.java),
             object : CompletionProvider<CompletionParameters>() {
               override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
-                arrayElementCompletion(parameters, result)
+                propertyValueCompletion(parameters, result)
               }
             }
     )
@@ -109,10 +111,14 @@ class SkinCompletionContributor : CompletionContributor() {
 
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
+    val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition, {it is SkinClassSpecification})
 
-    classSpec.resourceNames.forEach { name ->
-      if (name != resource.name)
-      result.addElement(LookupElementBuilder.create(name))
+    (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
+      cs.resourcesAsList.forEach { res ->
+        if (res.name != resource.name || cs != originalClassSpec) {
+          result.addElement(LookupElementBuilder.create(res.name))
+        }
+      }
     }
 
   }
@@ -127,16 +133,16 @@ class SkinCompletionContributor : CompletionContributor() {
   }
 
   private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-    val propertyValue = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinPropertyValue }) as? SkinPropertyValue ?: return
-    val classSpecification = propertyValue.property?.containingClassSpecification ?: return
-    val skinFile = propertyValue.containingFile as? SkinFile ?: return
-    val property = propertyValue.property ?: return
 
-    if (classSpecification.classNameAsString == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+    val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
+    val property = stringLiteral.property ?: return
+    val objectType = property.containingObject?.resolveToTypeString()
+
+    if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
       if (property.name == "file") {
         parameters.originalFile.virtualFile?.let { virtualFile ->
           for (file in AssetUtils.getAssociatedFiles(virtualFile)) {
-            if (file.extension == "fnt") {
+            if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
               VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
                 result.addElement(LookupElementBuilder.create(file, relativePath).withIcon(ICON_BITMAP_FONT))
               }
@@ -150,108 +156,95 @@ class SkinCompletionContributor : CompletionContributor() {
       return
     }
 
-    val fieldClass = property.resolveToType() as? PsiClassType ?: return
-    val fieldClassName = fieldClass.getCanonicalText(false)
+    val skinFile = parameters.originalFile as? SkinFile ?: return
+    val elementType = stringLiteral.resolveToType()
+    val elementClass = (elementType as? PsiClassType)?.resolve()
+    val elementClassName = elementClass?.let { SkinClassSpecificationMixin.putDollarInInnerClassName(it) }
 
-    for (classSpec in skinFile.getClassSpecifications()) {
-      if (SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == fieldClassName) {
-        for (resource in classSpec.resourcesAsList) {
+    if (elementClassName != null && elementClassName != "java.lang.Boolean") {
 
-          val icon = if (fieldClassName == "com.badlogic.gdx.graphics.Color") {
+      skinFile.getClassSpecifications(elementClassName).forEach { classSpec ->
+        classSpec.resourcesAsList.forEach { resource ->
+
+          val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
             resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
           } else {
             null
           }
 
           result.addElement(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE))
-        }
-      } else if (fieldClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" &&
-              classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
-      ) {
-        for (resource in classSpec.resourcesAsList) {
-          result.addElement(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE))
+
         }
       }
+
+      if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
+
+        skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable").forEach { classSpec ->
+          classSpec.resourcesAsList.forEach { resource ->
+            result.addElement(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE))
+          }
+        }
+
+      }
+    } else if (PsiType.BOOLEAN == elementType || elementClassName == "java.lang.Boolean") {
+      result.addElement(LookupElementBuilder.create("true"))
+      result.addElement(LookupElementBuilder.create("false"))
     }
 
-    if (fieldClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" ||
-            (classSpecification.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && property.name == "name")) {
-      parameters.originalFile.virtualFile?.let { file ->
-        AssetUtils.getAssociatedAtlas(file)?.let { atlas ->
+    if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+            || (objectType == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && property.name == "name")
+    ) {
+
+      skinFile.virtualFile?.let { virtualFile ->
+        AssetUtils.getAssociatedAtlas(virtualFile)?.let { atlas ->
           AssetUtils.readImageNamesFromAtlas(atlas).forEach {
             result.addElement(LookupElementBuilder.create(it).withIcon(ICON_ATLAS))
           }
         }
       }
-    }
-  }
 
-  private fun arrayElementCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-
-    val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
-    val type = stringLiteral.actualTypeString ?: return
-
-    (stringLiteral.containingFile as? SkinFile)?.getClassSpecifications()?.forEach { classSpec ->
-      if (SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == type) {
-        classSpec.resourcesAsList.forEach { resource ->
-
-          val icon = if (type == "com.badlogic.gdx.graphics.Color") {
-            resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
-          } else {
-            null
-          }
-
-          result.addElement(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE))
-        }
-      }
     }
 
   }
 
   private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-    val propertyName = (parameters.position.context as? SkinStringLiteral)?.asPropertyName() ?: return
-    val containingObject = propertyName.property?.containingObject ?: return
-    var isColor = false
+
+    val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
+    val property = stringLiteral.property ?: return
+    val containingObject = property.containingObject ?: return
+    val objectType = containingObject.resolveToTypeString()
     val usedPropertyNames = containingObject.propertyNames
 
-    if (containingObject.parent !is SkinResource) {
+    if (objectType == "com.badlogic.gdx.graphics.Color") {
 
-      (containingObject.parent?.parent as? SkinProperty)?.let { property ->
-        property.resolveToTypeString()?.let { type ->
-          if (type == "com.badlogic.gdx.graphics.Color") {
-            isColor = true
-            listOf("r", "g", "b", "a").forEach {
-              if (!usedPropertyNames.contains(it) && !usedPropertyNames.contains("hex")) {
-                result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
-              }
-            }
-          } else if (type == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-            listOf("file", "scaledSize", "flip", "markupEnabled").forEach {
-              if (!usedPropertyNames.contains(it)) {
-                result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
-              }
-            }
-            return
+
+      if (!usedPropertyNames.contains("hex")) {
+        var addHex = true
+        listOf("r", "g", "b", "a").forEach {
+          if (!usedPropertyNames.contains(it)) {
+            result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
+          } else {
+            addHex = false
           }
+        }
+        if (addHex) {
+          result.addElement(LookupElementBuilder.create("hex").withIcon(ICON_FIELD))
+        }
+      }
+
+    } else if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+
+      listOf("file", "scaledSize", "flip", "markupEnabled").forEach {
+        if (!usedPropertyNames.contains(it)) {
+          result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
         }
       }
 
     } else {
 
-      val resource = containingObject.asResource() ?: return
-      val classSpec = resource.classSpecification ?: return
+      val clazz = containingObject.resolveToClass() ?: return
 
-      if (classSpec.classNameAsString == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-        listOf("file", "scaledSize", "flip", "markupEnabled").forEach {
-          result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
-        }
-        return
-      }
-
-      val psiClass = classSpec.resolveClass() ?: return
-
-      if (psiClass.qualifiedName != "com.badlogic.gdx.graphics.Color" || !usedPropertyNames.contains("hex"))
-      for (field in psiClass.allFields) {
+      for (field in clazz.allFields) {
         if (field.hasModifierProperty(PsiModifier.STATIC)) continue
         field.name?.let { name ->
           if (!usedPropertyNames.contains(name)) {
@@ -260,12 +253,8 @@ class SkinCompletionContributor : CompletionContributor() {
         }
       }
 
-      isColor = psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color"
     }
 
-    if (isColor && usedPropertyNames.none { listOf("r", "g", "b", "a", "hex").contains(it) } ) {
-      result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("hex").withIcon(ICON_FIELD), 1.0))
-    }
   }
 
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {

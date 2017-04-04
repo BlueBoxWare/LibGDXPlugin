@@ -13,7 +13,7 @@
       down: round-down,
       up: round,
       font: medium,
-      fontColor: whi<caret>te
+      fontColor: white
     },
   },
   com.example.MyTestClass: {

@@ -3,8 +3,11 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
+import com.intellij.psi.util.PsiTreeUtil
+import java.awt.Color
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -68,6 +71,17 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
     doTest()
   }
 
+  fun test10() {
+    myFixture.configureByFile("10.skin")
+    val colorElement = PsiTreeUtil.findFirstParent(myFixture.elementAtCaret, { it is SkinObject }) as SkinObject
+    colorElement.setColor(Color(128, 128, 128))?.let { newObject ->
+      WriteCommandAction.runWriteCommandAction(myFixture.project) {
+        colorElement.replace(newObject)
+      }
+    }
+    myFixture.checkResultByFile("10.after")
+  }
+
   fun keepColorOnOneLine(yesOrNo: Boolean) {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
   }
@@ -93,6 +107,8 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+
+    myFixture.copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "/filetypes/skin/setColor/"

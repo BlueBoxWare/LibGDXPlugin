@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 
 /*
@@ -22,4 +23,10 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
   override fun multiResolve(incompleteCode: Boolean) = element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
 
+  override fun handleElementRename(newElementName: String?): PsiElement {
+    element.stringLiteral.let { stringLiteral ->
+      stringLiteral.setValue(newElementName, stringLiteral.quotationChar)
+      return element
+    }
+  }
 }

@@ -33,7 +33,7 @@
       down: round-down,
       up: round,
       font: medium,
-      fontColor: <weak_warning descr="#00ff00ff">{ r: 0, <weak_warning descr="#808000ff">g</weak_warning>: 1, b: 0, a: 1 }</weak_warning>
+      fontColor: <weak_warning descr="#00ff00ff">{ r: 0, g: 1, b: 0, a: 1 }</weak_warning>
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {

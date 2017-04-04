@@ -15,4 +15,9 @@ class KotlinClass {
   val bitmapFonts = arrayOf<BitmapFont>()
   val tds = arrayOf<Skin.TintedDrawable>()
 
+  var textButtonStyle: TextButton.TextButtonStyle? = null
+  var textButtonStyles: Array<TextButton.TextButtonStyle>? = null
+
+  val m = arrayOf<KotlinClass>()
+
 }

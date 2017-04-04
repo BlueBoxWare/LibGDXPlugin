@@ -36,7 +36,7 @@ class SkinMalformedColorStringInspection : SkinFileInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
     override fun visitPropertyValue(o: SkinPropertyValue) {
-      if (o.property?.containingClassSpecification?.classNameAsString == "com.badlogic.gdx.graphics.Color" && o.property?.name == "hex") {
+      if (o.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.graphics.Color" && o.property?.name == "hex") {
         (o.value as? SkinStringLiteral)?.value?.let { str ->
           if (!colorRegex.matches(str)) {
             holder.registerProblem(o, message("skin.inspection.malformed.color.display.name"))

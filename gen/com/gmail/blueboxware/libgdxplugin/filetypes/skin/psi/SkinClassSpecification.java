@@ -5,7 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiField;
 
 public interface SkinClassSpecification extends SkinNamedElement {
 
@@ -17,9 +16,6 @@ public interface SkinClassSpecification extends SkinNamedElement {
 
   @Nullable
   PsiClass resolveClass();
-
-  @Nullable
-  PsiField resolveProperty(SkinProperty property);
 
   @NotNull
   String getClassNameAsString();

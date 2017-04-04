@@ -32,6 +32,11 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
     override fun visitResource(resource: SkinResource) {
+
+      // Disabled in LibGDXInspectionToolProvider
+      // Probably not a good idea to warn about this: resources can be added programmatically or loaded from another skin
+      assert(false)
+
       (resource.value as? SkinStringLiteral)?.let { stringLiteral ->
         if (stringLiteral.reference?.resolve() == null) {
           val type = resource.classSpecification?.classNameAsString ?: "<unknown>"

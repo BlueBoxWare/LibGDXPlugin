@@ -30,4 +30,5 @@ abstract class SkinPropertyNameMixin(node: ASTNode) : SkinPropertyName, SkinElem
   override fun getValue() = stringLiteral.value
 
   override fun getReference(): PsiReference? = SkinJavaFieldReference(this)
+
 }

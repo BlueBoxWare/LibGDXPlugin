@@ -1,0 +1,38 @@
+{
+  com.example.KotlinClass: {
+    f: {
+      moreColors: [gray,
+        [{hex: "ff0000"}, gray], [
+          {
+            g: 0,
+            a: gray
+          }
+        ], [{}, {}, gray]
+      ],
+      m: [
+        {
+          colors: [gray, [gray]]
+        },
+        {
+          moreColors: [[gray]],
+          textButtonStyle: {
+            fontColor: gray,
+            something: gray
+          },
+          textButtonStyles: [
+            {fontColor: gray}, gray
+          ]
+        }
+      ]
+    }
+  }
+
+  com.badlogic.gdx.graphics.Color: {
+    gr<caret>ay: {
+      r: 0.15333334
+      g: 0.15333334
+      b: 0.15333334
+      a: 1
+    }
+  }
+}

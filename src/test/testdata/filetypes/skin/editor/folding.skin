@@ -1,24 +1,45 @@
 {
   <fold text='{ com.badlogic.gdx.graphics.Color ...}'>com.badlogic.gdx.graphics.Color: {
-  white: { r: 1, g: 1, b: 1, a: 1 },
-  red: { r: 1, g: 0, b: 0, a: 1 },
-  yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+white: { r: 1, g: 1, b: 1, a: 1 },
+red: { r: 1, g: 0, b: 0, a: 1 },
+yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
 }</fold>,
-  <fold text='{ com.badlogic.gdx.graphics.g2d.BitmapFont ...}'>com.badlogic.gdx.graphics.g2d.BitmapFont: {
-  medium: { file: medium.fnt }
+<fold text='{ com.badlogic.gdx.graphics.g2d.BitmapFont ...}'>com.badlogic.gdx.graphics.g2d.BitmapFont: {
+medium: { file: medium.fnt }
 }</fold>,
-  <fold text='{ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-  <fold text='{ default ...}'>default: <fold text='{...}'>{
-    down: round-down, up: round,
-    font: medium, fontColor: white
-  }</fold></fold>,
-  <fold text='{ toggle ...}'>toggle: <fold text='{...}'>{
-    down: round-down, up: round, checked: round-down,
-    font: medium, fontColor: white, checkedFontColor: red
-  }</fold></fold>,
-  <fold text='{ green ...}'>green: <fold text='{...}'>{
-    down: round-down, up: round,
-    font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
-  }</fold></fold>
+<fold text='{ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle ...}'>com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+<fold text='{ default ...}'>default: <fold text='{...}'>{
+down: round-down, up: round,
+font: medium, fontColor: white
+}</fold></fold>,
+<fold text='{ toggle ...}'>toggle: <fold text='{...}'>{
+down: round-down, up: round, checked: round-down,
+font: medium, fontColor: white, checkedFontColor: red
+}</fold></fold>,
+<fold text='{ green ...}'>green: <fold text='{...}'>{
+down: round-down, up: round,
+font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+}</fold></fold>
+}</fold>
+
+<fold text='{ com.mygdx.game.ColorArrayHolder ...}'>com.mygdx.game.ColorArrayHolder: {
+<fold text='{ f ...}'>f: <fold text='{...}'>{
+abc: false,
+jkuef: dsf,
+fedtgtzds: fe
+fe: fwe
+moreColors: <fold text='[...]'>[
+[{hex: "ff0000"}, {}], <fold text='[...]'>[
+<fold text='{...}'>{
+g: 0
+}</fold>
+]</fold>, [{}, {}]
+]</fold>,
+m: <fold text='[...]'>[
+<fold text='{...}'>{
+colors: [dark-gray]
+}</fold>
+]</fold>
+}</fold></fold>
 }</fold>
 }

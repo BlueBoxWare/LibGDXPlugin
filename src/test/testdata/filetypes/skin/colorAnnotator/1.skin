@@ -55,4 +55,14 @@
             ]]
         }
       },
+
+
+      ColorArrayHolder: {
+        z: {
+            m: [{
+                moreColors: [[<weak_warning descr="#ffffffff">{}</weak_warning>], [<weak_warning descr="#ff0000ff">test3</weak_warning>]]
+            }],
+            colors: [<weak_warning descr="#ff00ffff">{g: 0}</weak_warning>, <weak_warning descr="#ff0000ff">test6</weak_warning>, <weak_warning descr="#ff0000ff">test7</weak_warning>, <weak_warning descr="#0000ffff">test9</weak_warning>]
+        }
+      }
 }

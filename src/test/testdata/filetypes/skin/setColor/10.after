@@ -1,0 +1,15 @@
+{
+  ColorArrayHolder: {
+    d: {
+      m: [
+        {
+          moreColors: [[
+            {
+              hex: "#808080ff"
+            }
+          ]]
+        }
+      ],
+    }
+  }
+}

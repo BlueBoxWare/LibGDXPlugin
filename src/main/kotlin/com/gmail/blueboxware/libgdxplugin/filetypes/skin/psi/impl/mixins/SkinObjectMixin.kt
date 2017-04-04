@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiField
 import com.intellij.psi.codeStyle.CodeStyleManager
 import java.awt.Color
 import javax.swing.Icon
@@ -17,6 +18,8 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
   override fun getProperty(name: String) = propertyList.firstOrNull { it.name == name }
 
   override fun asResource(): SkinResource? = parent as? SkinResource
+
+  override fun resolveToField(property: SkinProperty): PsiField? = resolveToClass()?.findFieldByName(property.name, true)
 
   override fun addProperty(property: SkinProperty) {
     if (firstChild?.text == "{") {

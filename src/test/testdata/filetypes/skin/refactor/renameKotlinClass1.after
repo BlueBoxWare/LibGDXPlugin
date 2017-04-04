@@ -1,0 +1,13 @@
+{
+  MyClass: {
+    d: {
+      bool: true
+    }
+  }
+  'MyClass': {
+
+  }
+  No: {
+
+  }
+}

@@ -1,7 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.intellij.psi.PsiClass
@@ -49,6 +52,18 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("ddd", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
+  fun testResourceAliasReference1() {
+    doTestResourceReference("yellow", "com.badlogic.gdx.graphics.Color")
+  }
+
+  fun testResourceAliasReference2() {
+    doTestResourceReference("yellow", "com.badlogic.gdx.scenes.scene2d.ui.TextField\$TextFieldStyle")
+  }
+
+  fun testResourceAliasReference3() {
+    doTestResourceReference("dark-gray", "com.badlogic.gdx.graphics.Color")
+  }
+
   fun testResourceReferenceTintedDrawable() {
     doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
   }
@@ -86,12 +101,20 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checked")
   }
 
-  fun testResourceAliasReference1() {
-    doTestResourceAliasReference()
+  fun testFieldReference6() {
+    doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checkedOffsetX")
   }
 
-  fun testResourceAliasReference2() {
-    doTestResourceAliasReference()
+  fun testFieldReferenceKotlin1() {
+    doTestFieldReference("com.example.KTestClass::labelStyles")
+  }
+
+  fun testFieldReferenceKotlin2() {
+    doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle::background")
+  }
+
+  fun testFieldReferenceKotlin3() {
+    doTestFieldReference("com.badlogic.gdx.graphics.Color::a")
   }
 
   fun doTestFieldReference(expectedFieldName: String? = null) {
@@ -101,7 +124,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
-    val expectedName = expectedFieldName ?: SkinClassSpecificationMixin.removeDollarFromClassName(sourceElement?.property?.containingClassSpecification?.classNameAsString!!) + "::" + field?.name
+    val expectedName = expectedFieldName ?: SkinClassSpecificationMixin.removeDollarFromClassName(sourceElement?.property?.containingObject?.resolveToTypeString()!!) + "::" + field?.name
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 
@@ -125,16 +148,6 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
   }
 
-  fun doTestResourceAliasReference() {
-    myFixture.configureByFile(getTestName(true) + ".skin")
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent as? SkinStringLiteral
-    assertNotNull(element)
-    val resource = element?.reference?.resolve() as? SkinResource
-    assertNotNull(resource)
-    assertEquals(element!!.value, resource!!.name)
-    assertEquals(PsiTreeUtil.findFirstParent(element, { it is SkinClassSpecification} ), resource.classSpecification)
-  }
-
   fun doTestJavaClassReference(className: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
@@ -149,7 +162,13 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
 
+    if (getTestName(true).contains("Kotlin")) {
+      addKotlin()
+      myFixture.copyFileToProject("com/example/KTestClass.kt", "com/example/KTestClass.kt")
+    }
+
     myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
+
   }
 
   override fun getBasePath() = "/filetypes/skin/references/"

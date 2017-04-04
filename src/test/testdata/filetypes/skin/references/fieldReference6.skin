@@ -1,0 +1,13 @@
+{
+  com.example.MyTestClass: {
+    z: {
+      m: [
+        {
+          textButtonStyle: [{
+            checkedOf<caret>fsetX: 10
+          }]
+        }
+      ]
+    }
+  }
+}

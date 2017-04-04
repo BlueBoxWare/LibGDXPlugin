@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
 
@@ -27,5 +28,12 @@ class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinProp
     }
 
     return ResolveResult.EMPTY_ARRAY
+  }
+
+  override fun handleElementRename(newElementName: String?): PsiElement {
+    element.stringLiteral.let { stringLiteral ->
+      stringLiteral.setValue(newElementName, stringLiteral.quotationChar)
+      return element
+    }
   }
 }

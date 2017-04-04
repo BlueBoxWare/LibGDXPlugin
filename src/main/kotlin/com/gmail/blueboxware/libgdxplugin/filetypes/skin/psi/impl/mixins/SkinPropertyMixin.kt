@@ -2,17 +2,13 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinPropertyNameReference
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
-import com.intellij.psi.PsiReference
 import com.intellij.psi.PsiType
-import com.intellij.psi.impl.source.resolve.reference.ReferenceProvidersRegistry
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.ArrayUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
@@ -32,11 +28,9 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun getNameIdentifier(): SkinPropertyName = propertyName
 
-  override fun getContainingClassSpecification(): SkinClassSpecification? = (PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject)?.asResource()?.classSpecification
-
   override fun getContainingObject(): SkinObject? = PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject
 
-  override fun resolveToField(): PsiField? = containingClassSpecification?.resolveProperty(this)
+  override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
   override fun resolveToType(): PsiType? = resolveToField()?.type
 
@@ -50,13 +44,6 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     return null
   }
-
-  override fun getReferences(): Array<out PsiReference> {
-    val fromProviders = ReferenceProvidersRegistry.getReferencesFromProviders(this)
-    return ArrayUtil.prepend(SkinPropertyNameReference(this), fromProviders)
-  }
-
-  override fun getReference(): PsiReference? = SkinPropertyNameReference(this)
 
   override fun getPresentation() = object : ItemPresentation {
     override fun getLocationString() = null

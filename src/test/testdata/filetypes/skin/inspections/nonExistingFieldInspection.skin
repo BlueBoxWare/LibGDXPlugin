@@ -5,11 +5,11 @@
       up: round,
       font: medium,
       fontColor: white,
-      <error>blue</error>: "no"
+      <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'blue'.">blue</error>: "no"
     }
   }
   com.badlogic.gdx.graphics.Color: {
-    white: {r: 1, g: 1, b: 1, a: 1, <error>z</error>: 1},
+    white: {r: 1, g: 1, b: 1, a: 1, <error descr="Class 'com.badlogic.gdx.graphics.Color' does not have a property named 'z'.">z</error>: 1},
     blue: {
       hex: "ff"
     }
@@ -22,15 +22,15 @@
       file: medium.fnt,
       scaledSize: -1,
       markupEnabled: false,
-      <error>markupenabled</error>: false,
+      <error descr="'markupenabled' is not a valid property for BitmapFont.">markupenabled</error>: false,
       flip : false
-      <error>flipped</error>: true
+      <error descr="'flipped' is not a valid property for BitmapFont.">flipped</error>: true
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
     default: {
-      <error>enabledFontColor</error>: blue
-      <error>"enabledFontColor"</error>: blue
+      <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle' does not have a property named 'enabledFontColor'.">enabledFontColor</error>: blue
+      <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle' does not have a property named 'enabledFontColor'.">"enabledFontColor"</error>: blue
 disabledFontColor: blue
 font: blue
 }
@@ -39,7 +39,7 @@ font: blue
   something: {
   font: blue
   over: blue
-<error>'checkered'</error>: true
+<error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'checkered'.">'checkered'</error>: true
 }
 green: {
 down: round-down, up: round,
@@ -48,6 +48,39 @@ font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
 }
 "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {
 round-green: { name: round, color: green }
-round-blue: { <error>title</error>: round, color: green }
+round-blue: { <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable' does not have a property named 'title'.">title</error>: round, color: green }
 }
+
+    com.example.ColorArrayHolder: {
+      default: {
+        textButtonStyles: [
+          {
+            fontColor: {},
+            <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'something'.">something</error>: {}
+          }
+        ] ,
+        m: [
+          {
+            colors: []
+            <error descr="Class 'com.example.ColorArrayHolder' does not have a property named 'clors'.">clors</error>: [],
+            moreColors: [[{g:1, <error descr="Class 'com.badlogic.gdx.graphics.Color' does not have a property named 'w'.">w</error>: 1}]]
+          },
+          {
+            m: [
+              {
+                textButtonStyle: {
+                  font: {
+                    file: ""
+                    flip: true,
+                    <error descr="'flp' is not a valid property for BitmapFont.">flp</error>: false
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        c: {}
+        <error descr="Class 'com.example.ColorArrayHolder' does not have a property named 'd'.">d</error>: {}
+      }
+    }
 }

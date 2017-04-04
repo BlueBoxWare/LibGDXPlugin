@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
+import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiType;
 
 public abstract class SkinValueImpl extends SkinValueMixin implements SkinValue {

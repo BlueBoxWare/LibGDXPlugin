@@ -28,7 +28,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
     val result = mutableListOf<PsiElementResolveResult>()
 
-    element.actualTypeString?.let { valueType ->
+    element.resolveToTypeString()?.let { valueType ->
 
       (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
 

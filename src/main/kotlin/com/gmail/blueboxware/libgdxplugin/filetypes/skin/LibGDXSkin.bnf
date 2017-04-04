@@ -54,7 +54,6 @@ skin ::= '{'  class_specification? (separator class_specification)* optionalComm
 class_specification ::= class_name ':' '{' resources optionalComma '}' {
     methods=[
         resolveClass
-        resolveProperty
         getClassNameAsString
         getResourcesAsList
         getResourceNames
@@ -108,6 +107,7 @@ object ::= '{' property? (separator property)* optionalComma '}' {
         setColor
         addProperty
         getProperty
+        resolveToField
     ]
     pin = 2
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
@@ -145,10 +145,10 @@ property_value ::= value {
 
 value ::= object | array | literal {
     methods=[
-        getPropertyValue
         getProperty
-        getActualType
-        getActualTypeString
+        resolveToType
+        resolveToTypeString
+        resolveToClass
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin"
 }

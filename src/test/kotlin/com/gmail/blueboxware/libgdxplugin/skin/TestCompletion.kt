@@ -123,7 +123,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                         color: skyblue,
                         name: <caret>
             } } }
-          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to listOf()),
+          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to listOf<String>()),
 
           """
             { com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
@@ -312,7 +312,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("red", "green", "blue") to listOf()),
+          """ to (listOf("red", "green", "blue") to listOf<String>()),
 
           """
             {
@@ -369,7 +369,214 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("t3", "default") to listOf("t1", "t2"))
+          """ to (listOf("t3", "default") to listOf("t1", "t2")),
+
+          """
+            { com.example.MyTestClass: {
+              default: {
+              bool: <caret>
+            }
+            } }
+          """ to (listOf("true", "false")  to listOf()),
+
+          """
+            { com.example.MyTestClass: {
+              default: {
+              bools: [true, <caret>]
+            }
+            } }
+          """ to (listOf("true", "false")  to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              },
+            com.example.MyTestClass: {
+              default: {
+              textButtonStyle: {
+                fontColor: <caret>
+              }
+            }
+            } }
+          """ to (listOf("red", "green", "blue")  to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              },
+            com.example.MyTestClass: {
+              default: {
+              textButtonStyles: [{
+                fontColor: <caret>
+              }]
+            }
+            } }
+          """ to (listOf("red", "green", "blue")  to listOf()),
+
+          """
+            {
+                com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                  a: {}
+                  b: {}
+                }
+              com.example.KotlinClass: {
+                default: {
+                  buttonStyles: [ { font: <caret> } ]
+                }
+              }
+            }
+          """ to (listOf("a", "b") to listOf("default")),
+
+          """
+            { com.example.MyTestClass: {
+              default: {
+              m: [{m: [{ <caret> }]}]
+            }
+            } }
+          """ to (listOf("m", "colors", "textButtonStyle", "moreColors")  to listOf()),
+
+          """
+            { com.example.MyTestClass: {
+              default: {
+              m: [{m: [{ m: [{  moreColors: [[{<caret>}]]}] }]}]
+            }
+            } }
+          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+
+          """
+            {
+                com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              },
+            com.example.MyTestClass: {
+              default: {
+              m: [{m: [{ m: [{  moreColors: [[<caret>]]}] }]}]
+            }
+            } }
+          """ to (listOf("red", "green", "blue")  to listOf("r", "g", "b", "hex")),
+
+          """
+            {
+            com.example.MyTestClass: {
+              x: {}
+              n: {},
+              default: {
+              m: [{m: [{ m: [<caret>] }]}]
+            }
+            } }
+          """ to (listOf("n", "x")  to listOf()),
+
+
+          """
+            {
+            com.example.KotlinClass: {
+              x: {}
+              n: {},
+              default: {
+              m: [{m: [{ m: [<caret>] }]}]
+            }
+            } }
+          """ to (listOf("n", "x")  to listOf()),
+
+          """
+            {
+            com.example.KotlinClass: {
+              default: {
+              m: [{m: [{ m: [{ m: "", <caret> }] }]}]
+            }
+            } }
+          """ to (listOf("buttonStyles", "listStyles")  to listOf("m")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                t3: {},
+                default: {}
+              }
+            com.example.KotlinClass: {
+              default: {
+              m: [{m: [{ m: [{ m: "", listStyles: [[<caret>]] }] }]}]
+            }
+            } }
+          """ to (listOf("default", "t3")  to listOf("m")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                t3: {},
+                default: {}
+              }
+            com.example.KotlinClass: {
+              default: {
+              m: [{m: [{ m: [{ m: "", listStyles: [[{<caret>}]] }] }]}]
+            }
+            } }
+          """ to (listOf("font", "selection", "fontColorSelected")  to listOf("m")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                t3: {},
+                default: {}
+              }
+            com.example.KotlinClass: {
+              default: {
+              m: [{m: [{ m: [{ m: "", listStyles: [[{fontColorSelected: {<caret>}]] }] }]}]
+            }
+            } }
+          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+
+          """
+            {
+            com.example.KotlinClass: {
+              default: {
+              m: [{m: [{ m: [{ bools: [<caret>] }] }]}]
+            }
+            } }
+          """ to (listOf("true", "false")  to listOf<String>()),
+
+          """
+            {
+            com.badlogic.gdx.graphics.g2d.BitmapFont: {
+              z: {},
+              k: {}
+            },
+
+              com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                l: {}
+                x: <caret>
+              }
+            }
+          """ to (listOf("z", "k", "l")  to listOf<String>("x")),
+
+          """
+            {,
+
+              com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                l: {}
+                x: <caret>
+              }
+
+            com.badlogic.gdx.graphics.g2d.BitmapFont: {
+              z: {},
+              k: {},
+              x: {}
+            }}
+          """ to (listOf("z", "k", "l", "x")  to listOf<String>())
 
   )
 

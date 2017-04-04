@@ -1,0 +1,12 @@
+{
+  ColorArrayHolder: {
+    d: {
+      m: [
+        {
+          someColors: []
+        }
+      ],
+      "someColors": []
+    }
+  }
+}

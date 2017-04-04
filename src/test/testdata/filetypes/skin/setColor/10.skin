@@ -1,0 +1,13 @@
+{
+  ColorArrayHolder: {
+    d: {
+      m: [
+        {
+          moreColors: [[{
+            he<caret>x: "00ff00"
+          }]]
+        }
+      ],
+    }
+  }
+}

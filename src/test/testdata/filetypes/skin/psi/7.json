@@ -1,0 +1,28 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    yellow: {}
+  }
+  com.example.ColorArrayHolder: {
+    d: {
+      m: [
+        {
+          moreColors: [[
+            {
+              hex: "#ff3360ff"
+            }
+          ]],
+          kt: {
+            colors: [
+              {}, yellow
+            ]
+          },
+          m: [{
+            kt: {
+              bool: true
+            }
+          }]
+        }
+      ],
+    }
+  }
+}

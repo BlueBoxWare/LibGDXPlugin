@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.icons.AllIcons
@@ -11,7 +10,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiField
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -35,8 +33,6 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
   override fun getClassNameAsString(): String = className.value
 
   override fun resolveClass(): PsiClass? = className.resolve() as? PsiClass
-
-  override fun resolveProperty(property: SkinProperty): PsiField? = resolveClass()?.findFieldByName(property.name, true)
 
   override fun setName(name: String): PsiElement? {
     SkinElementFactory.createStringLiteral(project, name, nameIdentifier.quotationChar)?.let { newClassName ->

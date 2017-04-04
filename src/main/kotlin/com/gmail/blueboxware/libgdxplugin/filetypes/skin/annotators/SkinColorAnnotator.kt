@@ -38,7 +38,7 @@ class SkinColorAnnotator : Annotator {
     if (element is SkinObject) {
 
       val force = (PsiTreeUtil.findFirstParent(element, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
-        || element.actualTypeString == "com.badlogic.gdx.graphics.Color"
+        || element.resolveToTypeString() == "com.badlogic.gdx.graphics.Color"
 
       element.asColor(force)?.let { color ->
 
@@ -76,7 +76,7 @@ class SkinColorAnnotator : Annotator {
 
       }
 
-      if (element.actualTypeString == "com.badlogic.gdx.graphics.Color") {
+      if (element.resolveToTypeString() == "com.badlogic.gdx.graphics.Color") {
 
         (element.reference?.resolve() as? SkinResource)?.asColor(false)?.let { color ->
           createAnnotation(color, element, holder)

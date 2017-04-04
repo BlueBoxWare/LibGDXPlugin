@@ -1,15 +1,14 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinArray
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiArrayType
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiType
+import com.intellij.psi.*
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.PsiTypesUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -28,42 +27,59 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 abstract class SkinValueMixin(node: ASTNode): SkinValue, SkinElementImpl(node) {
 
-  override fun getPropertyValue() = PsiTreeUtil.findFirstParent(this, { it is SkinPropertyValue }) as? SkinPropertyValue
+  override fun getProperty() = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
-  override fun getProperty() = propertyValue?.property
+  override fun resolveToClass(): PsiClass? {
 
-  override fun getActualType(): PsiType? =
-          property?.resolveToType()?.let { type ->
-            var elementType = type
-            var arrayDepth = arrayDepth()
+    (parent as? SkinResource)?.let { resource ->
+      return resource.classSpecification?.resolveClass()
+    }
 
-            while (arrayDepth > 0 && elementType is PsiArrayType) {
-              elementType = elementType.componentType
-              arrayDepth--
-            }
+    return (resolveToType() as? PsiClassType)?.resolve()
 
-            if (arrayDepth == 0) {
-              return elementType
-            } else {
-              return null
-            }
-          }
+  }
 
-  private fun arrayDepth(): Int {
+  override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
+
+  override fun resolveToType(): PsiType? {
+
+    (parent as? SkinResource)?.let { resource ->
+      resource.classSpecification?.resolveClass()?.let { clazz ->
+        return PsiTypesUtil.getClassType(clazz)
+      }
+      return null
+    }
+
+    property?.resolveToType()?.let { type ->
+      var elementType = type
+      var arrayDepth = arrayDepth()
+
+      while (arrayDepth > 0 && elementType is PsiArrayType) {
+        elementType = elementType.componentType
+        arrayDepth--
+      }
+
+      if (arrayDepth == 0) {
+        return elementType
+      } else {
+        return null
+      }
+    }
+
+    return null
+
+  }
+
+  fun arrayDepth(): Int {
     var depth = 0
     var element: PsiElement = this
 
-    while (element.parent != null && element.parent !is SkinResource) {
+    while (element.parent is SkinArray) {
       element = element.parent
-      if (element is SkinArray) {
-        depth++
-      }
+      depth++
     }
 
     return depth
   }
-
-  override fun getActualTypeString(): String? = actualType?.canonicalText
-
 
 }

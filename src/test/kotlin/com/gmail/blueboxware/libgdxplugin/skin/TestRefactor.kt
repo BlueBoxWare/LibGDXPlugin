@@ -19,14 +19,39 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  */
 class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testRenameResource1() {
-    doRenameTest("green")
+  fun testRenameResource() {
+    myFixture.configureByFile("ColorArrayHolder.java")
+    myFixture.configureByFile("renameResource.skin")
+    myFixture.renameElementAtCaret("green")
+    myFixture.checkResultByFile("renameResource.after")
+  }
+
+  fun testRenameJavaField1() {
+    myFixture.configureByFile("ColorArrayHolder.java")
+    val fieldToRename = myFixture.elementAtCaret
+    myFixture.configureByFile("renameJavaField.skin")
+    myFixture.renameElement(fieldToRename, "someColors")
+    myFixture.checkResultByFile("renameJavaField.after")
+  }
+
+  fun testRenameJavaClass1() {
+    myFixture.configureByFile("JavaClass.java")
+    val classToRename = myFixture.elementAtCaret
+    myFixture.configureByFile("renameJavaClass1.skin")
+    myFixture.renameElement(classToRename, "MyClass")
+    myFixture.checkResultByFile("renameJavaClass1.after")
+  }
+
+  fun testRenameKotlinClass1() {
+    myFixture.configureByFile("KotlinClass.kt")
+    val classToRename = myFixture.elementAtCaret
+    myFixture.configureByFile("renameKotlinClass1.skin")
+    myFixture.renameElement(classToRename, "MyClass")
+    myFixture.checkResultByFile("renameKotlinClass1.after")
   }
 
   fun doRenameTest(newName: String) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
-    myFixture.renameElementAtCaret(newName)
-    myFixture.checkResultByFile(getTestName(true) + ".after")
+
   }
 
   override fun setUp() {
@@ -34,7 +59,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
 
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+
   }
 
   override fun getBasePath() = "/filetypes/skin/refactor/"

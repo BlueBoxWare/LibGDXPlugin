@@ -13,6 +13,8 @@ class MyTestClass {
     Color[] colors;
     Color[][] moreColors;
 
+    MyTestClass[] m;
+
     TextButton.TextButtonStyle[] textButtonStyle;
 
     public class Inner {
