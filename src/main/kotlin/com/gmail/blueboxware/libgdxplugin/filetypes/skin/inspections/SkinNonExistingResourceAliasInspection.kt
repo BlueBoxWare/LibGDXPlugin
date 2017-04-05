@@ -1,10 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.message
+import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.psi.PsiClassType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -29,21 +31,34 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
 
   override fun getDisplayName() = message("skin.inspection.non.existing.resource.alias.display.name")
 
+  override fun getDefaultLevel(): HighlightDisplayLevel = if (ApplicationManager.getApplication().isUnitTestMode) HighlightDisplayLevel.ERROR else HighlightDisplayLevel.WARNING
+
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitResource(resource: SkinResource) {
+    override fun visitStringLiteral(stringLiteral: SkinStringLiteral) {
 
-      // Disabled in LibGDXInspectionToolProvider
-      // Probably not a good idea to warn about this: resources can be added programmatically or loaded from another skin
-      assert(false)
+      if (stringLiteral.parent is SkinPropertyName
+              || stringLiteral.parent is SkinClassName
+              || stringLiteral.parent is SkinResourceName
+              ) {
+        return
+      }
 
-      (resource.value as? SkinStringLiteral)?.let { stringLiteral ->
-        if (stringLiteral.reference?.resolve() == null) {
-          val type = resource.classSpecification?.classNameAsString ?: "<unknown>"
-          holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value, type))
+      val type = stringLiteral.resolveToType() as? PsiClassType ?: return
+      val typeString = type.canonicalText
+      val clazz = type.resolve() ?: return
+
+      if (typeString == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || typeString == "java.lang.String") {
+        return
+      }
+
+      (stringLiteral.containingFile as? SkinFile)?.let { skinFile ->
+        if (skinFile.getResources(SkinClassSpecificationMixin.putDollarInInnerClassName(clazz), stringLiteral.value).isEmpty()) {
+          holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value, typeString))
         }
       }
     }
+
   }
 
 }

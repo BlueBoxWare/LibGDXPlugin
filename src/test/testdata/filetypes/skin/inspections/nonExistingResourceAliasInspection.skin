@@ -6,7 +6,7 @@
     a: white,
     b: red,
     c: blue,
-    d: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist.">green</error>,
+    d: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">green</error>,
     y: z
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
@@ -26,21 +26,56 @@
       font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
     },
     standard: toggle,
-    non-standard: <error descr="A resource with name 'notoggle' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">notoggle</error>,
+    non-standard: <error descr="A resource with name 'notoggle' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not exist in this file.">notoggle</error>,
     x: z
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-    round-green: { name: round, color: green }
+    round-green: { name: round, color: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">green</error> }
   }
   com.badlogic.gdx.graphics.Color: {
     blue: { r: 1, g: 1, b: 1, a: 1 },
-    f: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist.">green</error>,
+    f: <error descr="A resource with name 'green' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">green</error>,
     e: yellow,
     z: d
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     yes: green,
-    no: <error descr="A resource with name 'yellow' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">yellow</error>,
-    z: <error descr="A resource with name 'd' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle' does not exist.">d</error>
+    no: <error descr="A resource with name 'yellow' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not exist in this file.">yellow</error>,
+    z: d
   }
+
+    com.example.ColorArrayHolder: {
+     a: {
+        colors: [red, <error descr="A resource with name 'pink' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">pink</error> ],
+        moreColors: [pink, [<error descr="A resource with name 'pink' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">pink</error>]],
+        m: [
+          {
+            textButtonStyle: d
+          },
+          {
+            textButtonStyle: <error descr="A resource with name 'pink' and type 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not exist in this file.">pink</error>
+          }
+        ]
+        textButtonStyles: [
+          {
+            font: {
+              flip: true
+              file: sfdsdsf
+            }
+          },
+          {
+            font: medium
+          },
+          {
+            font: <error descr="A resource with name 'pink' and type 'com.badlogic.gdx.graphics.g2d.BitmapFont' does not exist in this file.">pink</error>
+          }
+        ]
+      }
+    },
+
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+      d: {
+        fontColor: <error descr="A resource with name 'pink' and type 'com.badlogic.gdx.graphics.Color' does not exist in this file.">pink</error>
+      }
+    }
 }
