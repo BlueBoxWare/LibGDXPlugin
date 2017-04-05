@@ -186,7 +186,7 @@ class SkinCompletionContributor : CompletionContributor() {
         }
 
       }
-    } else if (PsiType.BOOLEAN == elementType || elementClassName == "java.lang.Boolean") {
+    } else if (elementType == PsiType.BOOLEAN || elementClassName == "java.lang.Boolean") {
       result.addElement(LookupElementBuilder.create("true"))
       result.addElement(LookupElementBuilder.create("false"))
     }

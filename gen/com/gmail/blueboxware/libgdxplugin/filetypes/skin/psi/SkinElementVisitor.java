@@ -67,8 +67,8 @@ public class SkinElementVisitor extends PsiElementVisitor {
     visitLiteral(o);
   }
 
-  public void visitValue(@NotNull SkinValue o) {
-    visitElement(o);
+  public void visitValue(@NotNull SkinValue skinValue) {
+    visitElement(skinValue);
   }
 
   public void visitElement(@NotNull SkinElement o) {

@@ -1,9 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalformedColorStringInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingResourceAliasInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
@@ -64,7 +61,8 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           SkinNonExistingClassInspection::class.java,
           SkinNonExistingFieldInspection::class.java,
           SkinNonExistingResourceAliasInspection::class.java,
-          SkinMalformedColorStringInspection::class.java
+          SkinMalformedColorStringInspection::class.java,
+          SkinTypeInspection::class.java
 
   )
 }

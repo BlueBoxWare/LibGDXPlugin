@@ -1,10 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalformedColorStringInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingResourceAliasInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.intellij.codeInspection.LocalInspectionTool
 
 /*
@@ -40,6 +37,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinNonExistingResourceAliasInspection())
   }
 
+  fun testTypeInspection() {
+    doTest(SkinTypeInspection())
+  }
+
   private fun doTest(inspection: LocalInspectionTool) {
     myFixture.enableInspections(inspection)
     myFixture.testHighlighting(false, false, false, getTestName(true) + ".skin")
@@ -49,8 +50,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addKotlin()
 
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
+    myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")
   }
 
   override fun getBasePath() = "/filetypes/skin/inspections/"
