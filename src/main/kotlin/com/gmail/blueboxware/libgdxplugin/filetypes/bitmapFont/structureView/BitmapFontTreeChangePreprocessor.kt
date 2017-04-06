@@ -1,11 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontLanguage
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiManager
-import com.intellij.psi.impl.PsiTreeChangeEventImpl
-import com.intellij.psi.impl.PsiTreeChangePreprocessorBase
+import com.gmail.blueboxware.libgdxplugin.utils.PsiTreeChangePreprocessorBase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -22,9 +18,4 @@ import com.intellij.psi.impl.PsiTreeChangePreprocessorBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontTreeChangePreprocessor(psiManager: PsiManager): PsiTreeChangePreprocessorBase(psiManager) {
-
-  override fun isOutOfCodeBlock(element: PsiElement): Boolean  = element.language is BitmapFontLanguage
-
-  override fun acceptsEvent(event: PsiTreeChangeEventImpl): Boolean  = event.file is BitmapFontFile
-}
+class BitmapFontTreeChangePreprocessor: PsiTreeChangePreprocessorBase(BitmapFontLanguage.INSTANCE)

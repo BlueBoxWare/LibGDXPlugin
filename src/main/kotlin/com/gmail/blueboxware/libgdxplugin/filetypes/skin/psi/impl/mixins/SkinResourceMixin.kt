@@ -6,6 +6,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
@@ -39,6 +40,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
 
+  override fun getUseScope() = GlobalSearchScope.allScope(project)
 
   override fun findDefinition(): SkinResource? {
 

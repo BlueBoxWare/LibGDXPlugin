@@ -32,6 +32,8 @@
     <change-notes><![CDATA[
         <b>1.10</b>
         <ul>
+            <li>Proper support for arrays and nested objects in Skin files</li>
+            <li>Fixed Structure View not updating when changing files</li>
         </ul>
 
         <b>1.9</b>
@@ -96,7 +98,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="145.0"/>
+    <idea-version since-build="162.0"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
