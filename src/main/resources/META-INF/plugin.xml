@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.10</version>
+    <version>1.11</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.11</b>
+        <ul>
+            <li></li>
+        </ul>
+
         <b>1.10</b>
         <ul>
             <li>Proper support for arrays and nested objects in Skin files</li>
@@ -152,6 +157,7 @@
         <psi.treeChangePreprocessor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinTreeChangePreprocessor" />
 
         <lang.braceMatcher language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher" />
+        <quoteHandler fileType="LibGDX Skin" className="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler" />
 
         <lang.smartEnterProcessor language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSmartEnterProcessor" />
 
