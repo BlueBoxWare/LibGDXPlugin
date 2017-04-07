@@ -1,10 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -49,6 +51,19 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages7() {
     doTest(6)
+  }
+
+  fun testFindDrawableUsages() {
+    myFixture.copyFileToProject("drawableUsages.skin")
+    val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
+    val origin = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset), { it is AtlasRegion })
+    assertEquals(6, usagesInfos.size)
+    usagesInfos.forEach { usagesInfo ->
+      assertNotNull(usagesInfo.element)
+      assertTrue(usagesInfo.element is SkinStringLiteral)
+      assertEquals(origin, usagesInfo.element?.reference?.resolve())
+    }
+
   }
 
   fun doTest(nrOfUsages: Int) {

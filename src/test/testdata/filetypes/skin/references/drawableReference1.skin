@@ -1,0 +1,13 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    button-forward: { hex: 00ff00 }
+  },
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      checked: bu<caret>tton-forward
+    },
+    button-forward: {}
+  }
+
+}

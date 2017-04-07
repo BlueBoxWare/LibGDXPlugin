@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
@@ -117,6 +118,18 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestFieldReference("com.badlogic.gdx.graphics.Color::a")
   }
 
+  fun testDrawableReference1() {
+    doTestDrawableReference()
+  }
+
+  fun testDrawableReference2() {
+    doTestDrawableReference()
+  }
+
+  fun testDrawableReference3() {
+    doTestDrawableReference()
+  }
+
   fun doTestFieldReference(expectedFieldName: String? = null) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
@@ -155,6 +168,15 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     val clazz = (element?.reference as? SkinJavaClassReference)?.multiResolve(false)?.firstOrNull()?.element as? PsiClass
     assertNotNull(clazz)
     assertEquals(className, clazz?.qualifiedName)
+  }
+
+  fun doTestDrawableReference() {
+    myFixture.copyFileToProject(getTestName(true) + ".atlas")
+    myFixture.configureByFile(getTestName(true) + ".skin")
+    val element = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset), { it is SkinStringLiteral }) as SkinStringLiteral
+    val reference = element.reference ?: throw AssertionError()
+    val target = reference.resolve() as AtlasRegion
+    assertEquals(element.value, target.name)
   }
 
   override fun setUp() {

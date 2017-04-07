@@ -1,0 +1,16 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    button-forward: { hex: 00ff00 }
+  },
+
+  com.example.MyTestClass: {
+    z: {
+      textButtonStyle: [
+        {
+          disabled: button-ba<caret>ck-disabled
+        }
+      ]
+    }
+  }
+
+}

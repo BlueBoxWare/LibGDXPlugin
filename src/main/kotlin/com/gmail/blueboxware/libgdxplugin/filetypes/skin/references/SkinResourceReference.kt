@@ -1,8 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
+import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
@@ -46,6 +48,25 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
           }
 
       }
+
+      if (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+        || (element.property?.name == "name" && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
+              ) {
+        element.containingFile.virtualFile?.let { virtualFile ->
+          AssetUtils.getAssociatedAtlas(virtualFile)?.let { atlasVirtualFile ->
+            (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->
+              atlasFile.getPages().forEach { page ->
+                page.regionList.forEach { region ->
+                  if (region.name == element.value) {
+                    result.add(PsiElementResolveResult(region))
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
     }
 
     return result.toTypedArray()

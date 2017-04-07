@@ -1,0 +1,44 @@
+{
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    zz: {
+      checked: start-pressed,
+      disabled: start-pressed
+    }
+  },
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    default: {
+      name: start-pressed,
+      color: start-pressed
+    }
+  },
+
+  com.example.KotlinClass: {
+    a: {
+      textButtonStyle: {
+        disabled: start-pressed
+        font: start-pressed
+      },
+      buttonStyles: [
+        {
+          font: start-pressed
+          disabled: start-pressed
+        }
+      ]
+    },
+    b: {
+      m: [
+        {
+          buttonStyles: [
+            {
+              disabled: start-pressed
+              fontColor: start-pressed
+            }
+          ]
+        }
+      ]
+    }
+  }
+
+}
