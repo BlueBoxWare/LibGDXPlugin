@@ -576,7 +576,42 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               k: {},
               x: {}
             }}
-          """ to (listOf("z", "k", "l", "x")  to listOf<String>())
+          """ to (listOf("z", "k", "l", "x")  to listOf<String>()),
+
+          """
+            {
+
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                zz: {
+                  checked: start-pressed,
+                  disabled: start-pressed
+                },
+                xx: {}
+              },
+
+              com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
+                drawable: {
+                  name: start-pressed,
+                  color: start-pressed
+                },
+                something: {}
+              },
+
+              com.badlogic.gdx.graphics.Color: {
+                color1: {}
+                color2: {}
+              }
+
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                zz: {}
+                <caret>
+              }
+
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                color1: {}
+              }
+            }
+          """ to (listOf("default", "xx", "drawable", "something", "color2") to listOf("zz", "color1"))
 
   )
 

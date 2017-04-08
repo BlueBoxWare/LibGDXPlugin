@@ -126,10 +126,30 @@ class SkinCompletionContributor : CompletionContributor() {
   private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
+    val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.classNameAsString)?.map { it.name } ?: listOf()
 
-    if (!classSpec.resourceNames.contains("default")) {
-      result.addElement(LookupElementBuilder.create("default"))
+    if (!usedResourceNames.contains("default")) {
+      result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 1.0))
     }
+
+    val strings = mutableSetOf<String>()
+
+    (resource.containingFile as? SkinFile)?.getClassSpecifications()?.forEach {
+      if (it != classSpec) {
+        it.resourceNames.forEach { resourceName ->
+          if (!usedResourceNames.contains(resourceName)) {
+            strings.add(resourceName)
+          }
+        }
+      }
+    }
+
+    strings.remove("default")
+
+    strings.forEach {
+      result.addElement(LookupElementBuilder.create(it))
+    }
+
   }
 
   private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
