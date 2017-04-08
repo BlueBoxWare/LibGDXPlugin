@@ -15,7 +15,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin.utils
 
-val testIdMap = mapOf(
+val TEST_ID_MAP = mapOf(
         "ca-app-pub-3940256099942544/1033173712" to "AdMob interstitial test ad (Android)",
         "ca-app-pub-3940256099942544/6300978111" to "AdMob banner test ad (Android)",
         "ca-app-pub-3940256099942544/2247696110" to "AdMob native test ad (Android)",

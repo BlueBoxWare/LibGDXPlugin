@@ -1,5 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+
+import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
+import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
+import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
@@ -42,15 +45,15 @@ class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testgetAssociatedAtlas() {
-    assertEquals(AssetUtils.getAssociatedAtlas(skinFile!!), atlasFile!!)
+    assertEquals(skinFile!!.getAssociatedAtlas(), atlasFile!!)
   }
 
   fun testgetAssociatedFiles() {
-    assertTrue(AssetUtils.getAssociatedFiles(skinFile!!).map { it.name }.containsAll(listOf("somefile", "anotherfile", "ui.atlas")))
+    assertTrue(skinFile!!.getAssociatedFiles().map { it.name }.containsAll(listOf("somefile", "anotherfile", "ui.atlas")))
   }
 
   fun testReadImageNamesFromAtlas() {
-    val imageNames = AssetUtils.readImageNamesFromAtlas(atlasFile!!)
+    val imageNames = atlasFile!!.readImageNamesFromAtlas()
     assertEquals(25, imageNames.size)
     assertTrue(imageNames.containsAll(listOf(
             "check-off",

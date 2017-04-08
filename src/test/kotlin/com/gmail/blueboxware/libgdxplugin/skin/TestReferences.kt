@@ -6,8 +6,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
@@ -137,7 +137,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
-    val expectedName = expectedFieldName ?: SkinClassSpecificationMixin.removeDollarFromClassName(sourceElement?.property?.containingObject?.resolveToTypeString()!!) + "::" + field?.name
+    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString()!!.removeDollarFromClassName() + "::" + field?.name
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 

@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
@@ -51,7 +51,7 @@ class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
 
       if (expression == null) return
 
-      val (receiverClass, method) = PsiUtils.resolveJavaMethodCall(expression) ?: return
+      val (receiverClass, method) = expression.resolveCall() ?: return
 
       var isPreferences = false
 

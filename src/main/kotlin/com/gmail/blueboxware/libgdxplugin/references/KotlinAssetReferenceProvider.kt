@@ -1,13 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiReference
-import com.intellij.psi.PsiReferenceProvider
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
+import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
@@ -42,13 +39,13 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
     (element.context?.context?.context as? KtCallExpression)?.let { methodCall ->
 
-      PsiUtils.resolveKotlinMethodCallToStrings(methodCall)?.let { resolvedMethod ->
+      methodCall.resolveCallToStrings()?.let { resolvedMethod ->
 
-        if (resolvedMethod.first == AssetUtils.SKIN_CLASS_NAME) {
+        if (resolvedMethod.first == Assets.SKIN_CLASS_NAME) {
 
           return createSkinReferences(element, methodCall, resolvedMethod.second)
 
-        } else if (resolvedMethod.first == AssetUtils.TEXTURE_ATLAS_CLASS_NAME) {
+        } else if (resolvedMethod.first == Assets.TEXTURE_ATLAS_CLASS_NAME) {
 
           return createAtlasReferences(element, methodCall, resolvedMethod.second)
 
@@ -64,7 +61,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   fun createAtlasReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
 
-    if (methodName in AssetUtils.TEXTURE_ATLAS_TEXTURE_METHODS) {
+    if (methodName in Assets.TEXTURE_ATLAS_TEXTURE_METHODS) {
 
       return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
 
@@ -84,7 +81,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
       return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
 
-    } else if (methodName in AssetUtils.SKIN_TEXTURE_REGION_METHODS) {
+    } else if (methodName in Assets.SKIN_TEXTURE_REGION_METHODS) {
 
       return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
 
@@ -99,7 +96,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
       if (arg2receiver is KtClassLiteralExpression) {
 
         getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzeFully())?.let { clazz ->
-          if (clazz in AssetUtils.SKIN_TEXTURE_REGION_CLASSES) {
+          if (clazz in Assets.SKIN_TEXTURE_REGION_CLASSES) {
             return AssetReference.createReferences(element, callExpression, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
           } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
             return AssetReference.createReferences(element, callExpression, wantedClass = clazz)
@@ -116,11 +113,8 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
   }
 
   fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =
-
-          (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
-            JavaPsiFacade.getInstance(ktClassLiteralExpression.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(ktClassLiteralExpression.project))?.let { psiClass ->
-              SkinClassSpecificationMixin.putDollarInInnerClassName(psiClass)
-            }
-          }
+    (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
+      JavaPsiFacade.getInstance(ktClassLiteralExpression.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(ktClassLiteralExpression.project))?.let(PsiClass::putDollarInInnerClassName)
+    }
 
 }

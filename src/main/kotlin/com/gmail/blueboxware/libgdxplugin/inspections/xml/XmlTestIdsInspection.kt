@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
@@ -52,8 +52,8 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
 
       tag?.value?.trimmedText?.let { content ->
 
-        if (testIdMap.containsKey(content)) {
-          holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + testIdMap[content])
+        if (TEST_ID_MAP.containsKey(content)) {
+          holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[content])
         }
 
       }

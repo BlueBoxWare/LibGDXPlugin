@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecificat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -56,15 +57,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-    override fun getPresentableText() = name.let { removeDollarFromClassName(StringUtil.getShortName(it)) }
-  }
-
-  companion object {
-
-    fun removeDollarFromClassName(name: String) = name.split(".", "$").joinToString(".")
-
-    fun putDollarInInnerClassName(clazz: PsiClass) = clazz.containingClass?.let { it.qualifiedName + "$" + clazz.name } ?: clazz.qualifiedName
-
+    override fun getPresentableText() = name.let { StringUtil.getShortName(it).removeDollarFromClassName() }
   }
 
 }

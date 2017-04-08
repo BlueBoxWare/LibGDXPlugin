@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.completion.CompletionType
-import junit.framework.Assert
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -561,7 +560,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 x: <caret>
               }
             }
-          """ to (listOf("z", "k", "l")  to listOf<String>("x")),
+          """ to (listOf("z", "k", "l")  to listOf("x")),
 
           """
             {,
@@ -626,7 +625,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     val result = myFixture.complete(CompletionType.BASIC, 2)
     if (result == null) {
       // the only item was auto-completed?
-      Assert.assertEquals(expectedCompletionStrings.size, 1)
+      assertEquals(expectedCompletionStrings.size, 1)
       val text = myFixture.editor.document.text
       val expectedString = expectedCompletionStrings.first()
       val msg = "Expected string '$expectedString' not found. Content: '$content'"

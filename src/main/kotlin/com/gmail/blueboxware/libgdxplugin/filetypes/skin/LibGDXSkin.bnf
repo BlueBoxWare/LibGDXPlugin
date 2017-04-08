@@ -117,7 +117,6 @@ property ::= property_name ':' property_value {
       methods=[
         getName
         getValue
-        getContainingClassSpecification
         getContainingObject
         resolveToField
         resolveToType

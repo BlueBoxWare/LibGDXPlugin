@@ -16,8 +16,8 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
 import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.psi.KtForExpression
@@ -39,7 +39,7 @@ class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
     override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
       super.visitQualifiedExpression(expression)
 
-      val (receiverType, methodName) = PsiUtils.resolveKotlinMethodCallExpression(expression) ?: return
+      val (receiverType, methodName) = expression.resolveCall() ?: return
 
       val receiverTypeFqName = receiverType.fqNameSafe.asString()
       val receiverTypeShortName = receiverType.name

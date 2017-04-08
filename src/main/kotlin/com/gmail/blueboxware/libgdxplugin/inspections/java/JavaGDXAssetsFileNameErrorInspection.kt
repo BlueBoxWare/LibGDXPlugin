@@ -3,9 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
-import com.gmail.blueboxware.libgdxplugin.utils.FileUtils
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
+import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
@@ -38,29 +38,29 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
     override fun visitAnnotationParameterList(list: PsiAnnotationParameterList?) {
       (list?.context as? PsiAnnotation)?.let { annotation ->
 
-        if (annotation.qualifiedName != AssetUtils.ASSET_ANNOTATION_NAME) {
+        if (annotation.qualifiedName != Assets.ASSET_ANNOTATION_NAME) {
           return
         }
 
-        (annotation.findAttributeValue(AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
           ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
             checkSkinFilename(it, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
           (literal.value as? String)?.let { value ->
             checkSkinFilename(literal, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(AssetUtils.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
           ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
             checkFilename(it, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(AssetUtils.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
           (literal.value as? String)?.let { value ->
             checkFilename(literal, value, holder)
           }
@@ -88,14 +88,14 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
 
       if (fileName == "") return null
 
-      val psiFile = PsiUtils.getPsiFile(element.project, fileName)
+      val psiFile = getPsiFile(element.project, fileName)
 
       if (psiFile == null) {
         holder.registerProblem(element,
                 message(
                         "gdxassets.annotation.filename.problem.descriptor.nofile",
                         fileName,
-                        FileUtils.projectBaseDir(element.project)?.path ?: ""
+                        element.project.getProjectBaseDir()?.path ?: ""
                 ),
                 ProblemHighlightType.ERROR
         )

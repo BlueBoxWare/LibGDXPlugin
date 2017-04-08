@@ -2,8 +2,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
+import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
+import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
+import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
@@ -161,7 +163,7 @@ class SkinCompletionContributor : CompletionContributor() {
     if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
       if (property.name == "file") {
         parameters.originalFile.virtualFile?.let { virtualFile ->
-          for (file in AssetUtils.getAssociatedFiles(virtualFile)) {
+          for (file in virtualFile.getAssociatedFiles()) {
             if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
               VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
                 result.addElement(LookupElementBuilder.create(file, relativePath).withIcon(ICON_BITMAP_FONT))
@@ -179,7 +181,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val skinFile = parameters.originalFile as? SkinFile ?: return
     val elementType = stringLiteral.resolveToType()
     val elementClass = (elementType as? PsiClassType)?.resolve()
-    val elementClassName = elementClass?.let { SkinClassSpecificationMixin.putDollarInInnerClassName(it) }
+    val elementClassName = elementClass?.putDollarInInnerClassName()
 
     if (elementClassName != null && elementClassName != "java.lang.Boolean") {
 
@@ -216,8 +218,8 @@ class SkinCompletionContributor : CompletionContributor() {
     ) {
 
       skinFile.virtualFile?.let { virtualFile ->
-        AssetUtils.getAssociatedAtlas(virtualFile)?.let { atlas ->
-          AssetUtils.readImageNamesFromAtlas(atlas).forEach {
+        virtualFile.getAssociatedAtlas()?.let { atlas ->
+          atlas.readImageNamesFromAtlas().forEach {
             result.addElement(LookupElementBuilder.create(it).withIcon(ICON_ATLAS))
           }
         }
@@ -295,7 +297,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val currentPackage = psiFacade.findPackage(prefix)
     if (currentPackage == null || currentPackage.name == null) {
       AllClassesGetter.processJavaClasses(result.prefixMatcher, project, GlobalSearchScope.allScope(project), { psiClass ->
-        SkinClassSpecificationMixin.putDollarInInnerClassName(psiClass)?.let { name ->
+        psiClass.putDollarInInnerClassName()?.let { name ->
           val priority = classPriority(name)
           result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, name)
                   .withPresentableText(name)

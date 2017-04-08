@@ -3,7 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
@@ -38,7 +39,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     if (className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
       assetFiles.first.forEach {
-        if (it.getUserData(AssetUtils.FAKE_FILE_KEY) != true) {
+        if (it.getUserData(Assets.FAKE_FILE_KEY) != true) {
           it.getResources(if (isDrawable) "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" else className, resourceName).forEach { resource ->
             result.add(PsiElementResolveResult(resource))
           }
@@ -48,7 +49,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     if (isDrawable || className == null || className == "com.badlogic.gdx.graphics.g2d.TextureRegion") {
       assetFiles.second.forEach { atlasFile ->
-        if (atlasFile.getUserData(AssetUtils.FAKE_FILE_KEY) != true) {
+        if (atlasFile.getUserData(Assets.FAKE_FILE_KEY) != true) {
           atlasFile.getPages().forEach { page ->
             page.regionList.forEach { region ->
               if (region.name == resourceName) {
@@ -121,10 +122,11 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     fun createReferences(element: PsiElement, callExpression: PsiElement, wantedClass: String? = null, resourceName: String? = null): Array<out PsiReference> {
 
+      @Suppress("IfThenToElvis")
       val assetFiles = if (callExpression is PsiMethodCallExpression) {
-        AssetUtils.getAssetFiles(callExpression)
+        callExpression.getAssetFiles()
       } else if (callExpression is KtCallExpression) {
-        AssetUtils.getAssetFiles(callExpression)
+        callExpression.getAssetFiles()
       } else {
         listOf<SkinFile>() to listOf<AtlasFile>()
       }
@@ -134,7 +136,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
     }
 
     fun getOriginalFileName(psiFile: PsiFile): String =
-            if (psiFile.getUserData(AssetUtils.FAKE_FILE_KEY) == true) {
+            if (psiFile.getUserData(Assets.FAKE_FILE_KEY) == true) {
               psiFile.originalFile.name
             } else {
               psiFile.name

@@ -3,8 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
+import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
@@ -36,7 +36,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
           for (classSpec in classSpecifications) {
             if (
-              SkinClassSpecificationMixin.removeDollarFromClassName(classSpec.classNameAsString) == valueType
+            classSpec.classNameAsString.removeDollarFromClassName() == valueType
                     || (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
                     ) {
               for (resource in classSpec.resourcesAsList) {
@@ -53,7 +53,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
         || (element.property?.name == "name" && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
               ) {
         element.containingFile.virtualFile?.let { virtualFile ->
-          AssetUtils.getAssociatedAtlas(virtualFile)?.let { atlasVirtualFile ->
+          virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
             (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->
               atlasFile.getPages().forEach { page ->
                 page.regionList.forEach { region ->

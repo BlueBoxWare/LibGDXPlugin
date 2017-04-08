@@ -47,7 +47,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
     var element: SkinResource? = this
 
     while (element?.string != null) {
-      element = element?.string?.reference?.resolve() as? SkinResource
+      element = element.string?.reference?.resolve() as? SkinResource
     }
 
     return element

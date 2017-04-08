@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.JavaPsiFacade
@@ -86,7 +86,7 @@ private class MissingFlushInspectionMethodChecker(val preferencesSubClasses: Col
 
   override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-    val (className, methodName) = PsiUtils.resolveKotlinMethodCallToStrings(expression) ?: return
+    val (className, methodName) = expression.resolveCallToStrings() ?: return
 
     for (subClass in preferencesSubClasses) {
       if (subClass.getKotlinFqName()?.asString() == className) {

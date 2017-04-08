@@ -45,11 +45,11 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
 
       if (!iteratorsMap.containsKey(receiverFqClassName)) return
 
-      val methodName = expression?.resolveMethod()?.name ?: return
+      val methodName = expression.resolveMethod()?.name ?: return
 
       if (iteratorsMap[receiverFqClassName]?.contains(methodName) ?: false) {
 
-        holder.registerProblem(expression!!, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.$methodName()")
+        holder.registerProblem(expression, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.$methodName()")
 
       }
     }
@@ -65,7 +65,9 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
 
       if (!iteratorsMap.containsKey(receiverFqClassName) || !(iteratorsMap[receiverFqClassName]?.contains("iterator") ?: false)) return
 
-      holder.registerProblem(statement!!.iteratedValue!!, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.iterator()")
+      statement.iteratedValue?.let { iteratedValue ->
+        holder.registerProblem(iteratedValue, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.iterator()")
+      }
 
     }
   }

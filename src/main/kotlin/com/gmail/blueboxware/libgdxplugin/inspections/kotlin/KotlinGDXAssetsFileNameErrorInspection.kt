@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaGDXAssetsFileNameErrorInspection
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
@@ -42,7 +42,7 @@ class KotlinGDXAssetsFileNameErrorInspection : LibGDXKotlinBaseInspection() {
 
       annotationEntry.analyzeFully().get(BindingContext.ANNOTATION, annotationEntry)?.type?.getJetTypeFqName(false)?.let { fqName ->
 
-        if (fqName != AssetUtils.ASSET_ANNOTATION_NAME) return
+        if (fqName != Assets.ASSET_ANNOTATION_NAME) return
 
         annotationEntry.valueArgumentList?.arguments?.forEach { argument ->
 
@@ -51,9 +51,9 @@ class KotlinGDXAssetsFileNameErrorInspection : LibGDXKotlinBaseInspection() {
           (argument.getArgumentExpression() as? KtCallExpression)?.valueArgumentList?.arguments?.forEach {
             (it.getArgumentExpression() as? KtStringTemplateExpression)?.plainContent?.let { value ->
 
-              if (name == AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
+              if (name == Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
                 JavaGDXAssetsFileNameErrorInspection.checkSkinFilename(it, value, holder)
-              } else if (name == AssetUtils.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
+              } else if (name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
                 JavaGDXAssetsFileNameErrorInspection.checkFilename(it, value, holder)
               }
 

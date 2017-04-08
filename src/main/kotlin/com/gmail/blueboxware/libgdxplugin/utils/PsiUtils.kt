@@ -28,89 +28,89 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object PsiUtils {
+fun String.removeDollarFromClassName() = split(".", "$").joinToString(".")
 
-  fun getPsiFile(project: Project, filename: String): PsiFile? {
+fun PsiClass.putDollarInInnerClassName() = containingClass?.let { it.qualifiedName + "$" + name } ?: qualifiedName
 
-    FileUtils.projectBaseDir(project)?.findFileByRelativePath(PathUtil.toSystemIndependentName(filename))?.let { virtualFile ->
-      return PsiManager.getInstance(project).findFile(virtualFile)
-    }
+fun getPsiFile(project: Project, filename: String): PsiFile? {
 
-    return null
-
+  project.getProjectBaseDir()?.findFileByRelativePath(PathUtil.toSystemIndependentName(filename))?.let { virtualFile ->
+    return PsiManager.getInstance(project).findFile(virtualFile)
   }
 
-  fun resolveJavaMethodCall(psiMethodCallExpression: PsiMethodCallExpression): Pair<PsiClass, PsiMethod>? {
+  return null
 
-    psiMethodCallExpression.methodExpression.qualifierExpression?.let { qualifierExpression ->
+}
 
-      (qualifierExpression.type as? PsiClassType)?.resolve().let { it ->
+fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
-        (it ?: (qualifierExpression as? PsiReference)?.resolve() as? PsiClass)?.let { clazz ->
+  methodExpression.qualifierExpression?.let { qualifierExpression ->
 
-          psiMethodCallExpression.resolveMethod()?.let { method ->
-            return Pair(clazz, method)
-          }
+    (qualifierExpression.type as? PsiClassType)?.resolve().let { it ->
 
+      (it ?: (qualifierExpression as? PsiReference)?.resolve() as? PsiClass)?.let { clazz ->
+
+        resolveMethod()?.let { method ->
+          return Pair(clazz, method)
         }
 
       }
 
     }
 
-    return null
-
   }
 
-  fun resolveJavaMethodCallToStrings(psiMethodCallExpression: PsiMethodCallExpression): Pair<String, String>? =
-          resolveJavaMethodCall(psiMethodCallExpression)?.let {
-            it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
-          }
+  return null
 
-  fun resolveKotlinMethodCallExpression(expression: KtQualifiedExpression): Pair<DeclarationDescriptor, String>? {
+}
 
-    var receiverType: DeclarationDescriptor? = expression.analyze().getType(expression.receiverExpression)?.constructor?.declarationDescriptor
+fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? =
+        resolveCall()?.let {
+          it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
+        }
+
+fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
+
+  var receiverType: DeclarationDescriptor? = analyze().getType(receiverExpression)?.constructor?.declarationDescriptor
+
+  if (receiverType == null) {
+    // static method call?
+    receiverType = receiverExpression.getReferenceTargets(analyze()).firstOrNull() ?: return null
+  }
+
+  val methodName = calleeName ?: return null
+
+  return Pair(receiverType, methodName)
+
+}
+
+fun KtQualifiedExpression.resolveCallToStrings(): Pair<String, String>? =
+        resolveCall()?.let {
+          Pair(it.first.fqNameSafe.asString(), it.second)
+        }
+
+fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferenceExpression>? {
+
+  (context as? KtQualifiedExpression)?.let { dotExpression ->
+
+    var receiverType: ClassDescriptor? = dotExpression.analyze().getType(dotExpression.receiverExpression)?.constructor?.declarationDescriptor as? ClassDescriptor
 
     if (receiverType == null) {
       // static method call?
-      receiverType = expression.receiverExpression.getReferenceTargets(expression.analyze()).firstOrNull() ?: return null
+      receiverType = dotExpression.receiverExpression.getReferenceTargets(dotExpression.analyze()).firstOrNull() as? ClassDescriptor ?: return null
     }
 
-    val methodName = expression.calleeName ?: return null
+    val methodName = calleeExpression as? KtNameReferenceExpression ?: return null
 
     return Pair(receiverType, methodName)
 
   }
 
-  fun resolveKotlinMethodCallToStrings(expression: KtQualifiedExpression): Pair<String, String>? =
-          resolveKotlinMethodCallExpression(expression)?.let {
-            Pair(it.first.fqNameSafe.asString(), it.second)
-          }
-
-  fun resolveKotlinMethodCall(ktCallExpression: KtCallExpression): Pair<ClassDescriptor, KtNameReferenceExpression>? {
-
-    (ktCallExpression.context as? KtQualifiedExpression)?.let { dotExpression ->
-
-      var receiverType: ClassDescriptor? = dotExpression.analyze().getType(dotExpression.receiverExpression)?.constructor?.declarationDescriptor as? ClassDescriptor
-
-      if (receiverType == null) {
-        // static method call?
-        receiverType = dotExpression.receiverExpression.getReferenceTargets(dotExpression.analyze()).firstOrNull() as? ClassDescriptor ?: return null
-      }
-
-      val methodName = ktCallExpression.calleeExpression as? KtNameReferenceExpression ?: return null
-
-      return Pair(receiverType, methodName)
-
-    }
-
-    return null
-
-  }
-
-  fun resolveKotlinMethodCallToStrings(ktCallExpression: KtCallExpression): Pair<String, String>? =
-    resolveKotlinMethodCall(ktCallExpression)?.let {
-      Pair(it.first.fqNameSafe.asString(), it.second.getReferencedName())
-    }
+  return null
 
 }
+
+fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
+        resolveCall()?.let {
+          Pair(it.first.fqNameSafe.asString(), it.second.getReferencedName())
+        }

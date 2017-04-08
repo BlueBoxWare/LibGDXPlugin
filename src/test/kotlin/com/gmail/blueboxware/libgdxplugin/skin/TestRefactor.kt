@@ -50,10 +50,6 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("renameKotlinClass1.after")
   }
 
-  fun doRenameTest(newName: String) {
-
-  }
-
   override fun setUp() {
     super.setUp()
 

@@ -19,13 +19,10 @@ import com.intellij.openapi.vfs.VirtualFileManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object FileUtils {
-
-  fun projectBaseDir(project: Project) =
+fun Project.getProjectBaseDir() =
           if (ApplicationManager.getApplication().isUnitTestMode) {
             VirtualFileManager.getInstance().findFileByUrl("temp:///")
           } else {
-            project.baseDir
+            baseDir
           }
 
-}

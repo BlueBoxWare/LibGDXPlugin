@@ -4,7 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.intellij.json.JsonFileType
 import com.intellij.lang.Language
 import com.intellij.openapi.fileTypes.FileType
@@ -49,14 +49,14 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
     createAssetAnnotationProvider(
             registrar,
-            AssetUtils.ASSET_ANNOTATION_SKIN_PARAM_NAME,
+            Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME,
             listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE, JsonSchemaFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXSkinLanguage.INSTANCE)
     )
 
     createAssetAnnotationProvider(
             registrar,
-            AssetUtils.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
+            Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
             listOf(LibGDXAtlasFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXAtlasLanguage.INSTANCE)
     )
@@ -72,7 +72,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
                 element.getParentOfType<KtAnnotationEntry>(true)?.let { entry ->
                   entry.analyzeFully().get(BindingContext.ANNOTATION, entry)?.type?.getJetTypeFqName(false)?.let { fqName ->
-                    if (fqName == AssetUtils.ASSET_ANNOTATION_NAME) {
+                    if (fqName == Assets.ASSET_ANNOTATION_NAME) {
                       element.getParentOfType<KtValueArgument>(true)?.getParentOfType<KtValueArgument>(true)?.getArgumentName()?.asName?.identifier?.let { arg ->
                         if (arg == paramName) {
                           (element as? KtStringTemplateExpression)?.plainContent?.let { path ->

@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
-import com.gmail.blueboxware.libgdxplugin.utils.AssetUtils
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -203,7 +203,7 @@ class ColorAnnotator : Annotator {
           }
         }
       } else if (KotlinBuiltIns.isString(argument1type)) {
-        PsiUtils.resolveKotlinMethodCallToStrings(initialValue)?.let { resolvedCall ->
+        initialValue.resolveCallToStrings()?.let { resolvedCall ->
           arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
             val arg = getRoot(cache, expr)
             if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
@@ -213,7 +213,7 @@ class ColorAnnotator : Annotator {
               } else if (resolvedCall.second == "getColor") {
                 // Skin.getColor(string)
                 val resourceName = StringUtil.unquoteString(arg.text)
-                AssetUtils.getAssetFiles(initialValue).let { assetFiles ->
+                initialValue.getAssetFiles().let { assetFiles ->
                   for (skinFile in assetFiles.first) {
                     skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
                       return it.asColor(true)
@@ -227,7 +227,7 @@ class ColorAnnotator : Annotator {
                       if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
                         // Skin.get(string, Color::class.java)
                         val resourceName = StringUtil.unquoteString(arg.text)
-                        AssetUtils.getAssetFiles(initialValue).let { assetFiles ->
+                        initialValue.getAssetFiles().let { assetFiles ->
                           for (skinFile in assetFiles.first) {
                             skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
                               return it.asColor(true)
@@ -283,13 +283,13 @@ class ColorAnnotator : Annotator {
           val arg = getRoot(cache, expr)
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
             (initialValue as? PsiMethodCallExpression)?.let { methodCallExpression ->
-              PsiUtils.resolveJavaMethodCallToStrings(methodCallExpression)?.let { resolved ->
+              methodCallExpression.resolveCallToStrings()?.let { resolved ->
                 if (resolved.second == "valueOf") {
                   // Color.valueOf(String)
                   return stringToColor(arg.text)
                 } else if (resolved.second == "getColor") {
                   // Skin.getColor(string)
-                  AssetUtils.getAssetFiles(methodCallExpression).let { assetFiles ->
+                  methodCallExpression.getAssetFiles().let { assetFiles ->
                     for (skinFile in assetFiles.first) {
                       skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
@@ -299,7 +299,7 @@ class ColorAnnotator : Annotator {
                 } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
                   (methodCallExpression.argumentList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.let { classObject ->
                     (classObject.operand.type as? PsiClassReferenceType)?.resolve()?.let { clazz ->
-                      AssetUtils.getAssetFiles(methodCallExpression).let { assetFiles ->
+                      methodCallExpression.getAssetFiles().let { assetFiles ->
                         for (skinFile in assetFiles.first) {
                           skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                             return it.asColor(true)

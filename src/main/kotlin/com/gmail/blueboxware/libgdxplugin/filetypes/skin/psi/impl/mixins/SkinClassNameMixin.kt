@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
@@ -27,9 +28,9 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImp
 
   override fun getValue() = stringLiteral.value
 
-  override fun resolve(): PsiClass? = JavaPsiFacade.getInstance(project).findClass(SkinClassSpecificationMixin.removeDollarFromClassName(value), GlobalSearchScope.allScope(project))
+  override fun resolve(): PsiClass? = JavaPsiFacade.getInstance(project).findClass(value.removeDollarFromClassName(), GlobalSearchScope.allScope(project))
 
-  override fun multiResolve(): Array<PsiClass> = JavaPsiFacade.getInstance(project).findClasses(SkinClassSpecificationMixin.removeDollarFromClassName(value), GlobalSearchScope.allScope(project))
+  override fun multiResolve(): Array<PsiClass> = JavaPsiFacade.getInstance(project).findClasses(value.removeDollarFromClassName(), GlobalSearchScope.allScope(project))
 
   override fun getReference(): SkinJavaClassReference = SkinJavaClassReference(this)
 }

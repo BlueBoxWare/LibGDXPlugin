@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
@@ -113,8 +112,6 @@ class SkinBlock(
   override fun getAlignment() = myAlignment
 
   private fun getCustomSettings() = settings.getCustomSettings(SkinCodeStyleSettings::class.java)
-
-  private fun getCommonSettings() = settings.getCommonSettings(LibGDXSkinLanguage.INSTANCE)
 
   override fun getSpacing(child1: Block?, child2: Block) = spacingBuilder.getSpacing(this, child1, child2)
 

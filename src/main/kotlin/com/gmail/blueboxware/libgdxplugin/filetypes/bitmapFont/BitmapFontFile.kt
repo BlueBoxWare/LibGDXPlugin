@@ -52,6 +52,6 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
 
   fun getCharacters() = getCharacterMap().values
 
-  fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap().get(id)
+  fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap()[id]
 
 }

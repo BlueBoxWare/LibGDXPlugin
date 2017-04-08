@@ -19,22 +19,20 @@ import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
-import com.gmail.blueboxware.libgdxplugin.utils.testIdMap
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.GlobalInspectionTool
-import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
-import com.intellij.codeInspection.ex.InspectionManagerEx
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.UsefulTestCase
-import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl
+import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import org.jetbrains.plugins.groovy.GroovyFileType
 import java.io.File
@@ -88,8 +86,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     val scope = AnalysisScope(psiDirectory)
     scope.invalidate()
 
-    val inspectionManager = InspectionManager.getInstance(project) as InspectionManagerEx
-    val globalContext = CodeInsightTestFixtureImpl.createGlobalContextForTool(scope, project, inspectionManager, toolWrapper)
+    val globalContext = createGlobalContextForTool(scope, project, listOf(toolWrapper))
 
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
 
@@ -222,15 +219,11 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     val stringBuilderJava = StringBuilder("class Test {\n")
     val stringBuilderXml = StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>")
 
-    var idCount = 0
-
-    for (testId in testIdMap.keys) {
+    for ((idCount, testId) in TEST_ID_MAP.keys.withIndex()) {
 
       stringBuilderKotlin.append("val id$idCount = \"<warning>$testId</warning>\"\n")
       stringBuilderJava.append("String id$idCount = <warning>\"$testId\"</warning>;\n")
       stringBuilderXml.append("<warning><string name=\"id$idCount\">$testId</string></warning>\n")
-
-      idCount++
 
     }
 

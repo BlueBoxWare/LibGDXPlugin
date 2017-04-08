@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.utils.FileUtils
-import com.gmail.blueboxware.libgdxplugin.utils.PsiUtils
+import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
+import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
 import com.intellij.codeInsight.completion.PrioritizedLookupElement
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
@@ -38,14 +38,14 @@ class FileReference(
         val preferableLanguages: List<Language> = listOf()
 ) : PsiReferenceBase<PsiElement>(element) {
 
-  override fun resolve(): PsiElement? = PsiUtils.getPsiFile(myElement.project, path)
+  override fun resolve(): PsiElement? = getPsiFile(myElement.project, path)
 
   override fun getVariants(): Array<out Any> {
 
     val result = mutableListOf<LookupElement>()
     val searchScope = GlobalSearchScope.projectScope(myElement.project)
     val psiManager = PsiManager.getInstance(myElement.project)
-    val baseDir = FileUtils.projectBaseDir(myElement.project) ?: return arrayOf()
+    val baseDir = myElement.project.getProjectBaseDir() ?: return arrayOf()
 
     for (fileType in fileTypes) {
       FileTypeIndex.getFiles(fileType, searchScope).forEach { virtualFile ->
