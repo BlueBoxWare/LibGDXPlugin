@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
+import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiArrayType
 import com.intellij.psi.PsiClassType
@@ -30,6 +31,8 @@ class SkinTypeInspection: SkinFileInspection() {
   override fun getID() = "LibGDXSkinTypeError"
 
   override fun getDisplayName() = message("skin.inspection.types.display.name")
+
+  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 

@@ -26,6 +26,6 @@ open class SkinFileInspection : LocalInspectionTool() {
 
   override fun isEnabledByDefault() = true
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
+  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
 }

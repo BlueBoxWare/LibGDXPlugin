@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.message
+import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 
 /*
@@ -32,6 +33,8 @@ class SkinMalformedColorStringInspection : SkinFileInspection() {
   override fun getID() = "LibGDXSkinMalformedColorString"
 
   override fun getDisplayName() = message("skin.inspection.malformed.color.display.name")
+
+  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 

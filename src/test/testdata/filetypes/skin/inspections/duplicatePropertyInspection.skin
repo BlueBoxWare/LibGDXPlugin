@@ -1,0 +1,34 @@
+{
+
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default: {
+      file: sdf
+      <warning descr="Property 'file' has already been specified.">file</warning>: fwefwe
+      <warning descr="Property 'file' has already been specified.">file</warning>:d
+    }
+  },
+
+  com.badlogic.gdx.graphics.Color: {
+    blue: {
+      a: 1, <warning descr="Property 'a' has already been specified.">a</warning>:1, <warning descr="Property 'a' has already been specified.">a</warning>:1, g: 1, b: 1, <warning descr="Property 'a' has already been specified.">a</warning>:1
+    },
+    yellow: {
+      a: 1
+    }
+  },
+
+  com.example.ColorArrayHolder: {
+    yellow: {
+      m: [
+        {
+          a: 1,
+          <warning descr="Property 'a' has already been specified.">a</warning>: 1,
+          b: 1,
+          c: 1,
+          <warning descr="Property 'a' has already been specified.">a</warning>: 1
+        }
+      ]
+    }
+  }
+
+}
