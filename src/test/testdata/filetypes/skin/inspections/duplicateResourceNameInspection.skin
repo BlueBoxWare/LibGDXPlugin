@@ -1,0 +1,43 @@
+{
+
+  com.badlogic.gdx.graphics.Color: {
+    <error descr="A resource with name 'color1' and type 'com.badlogic.gdx.graphics.Color' is defined more than once in this file.">"color1"</error>: {}
+    Color2: {}
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    zz: {
+      checked: start-pressed,
+      disabled: start-pressed
+    },
+    xx: {}
+  },
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    <error descr="A resource with name 'something' and type 'com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable' is defined more than once in this file.">something</error>: {}
+    drawable: {
+      name: start-pressed,
+      color: start-pressed
+    },
+    <error descr="A resource with name 'something' and type 'com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable' is defined more than once in this file.">'something'</error>: {}
+  },
+
+  com.badlogic.gdx.graphics.Color: {
+    <error descr="A resource with name 'color1' and type 'com.badlogic.gdx.graphics.Color' is defined more than once in this file.">color1</error>: {}
+    color2: {}
+    zz: {}
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+    <error descr="A resource with name 'zz' and type 'com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle' is defined more than once in this file.">zz</error>: {}
+
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
+    color1: {},
+    default: {
+
+    },
+    <error descr="A resource with name 'zz' and type 'com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle' is defined more than once in this file.">zz</error>: {}
+  }
+}

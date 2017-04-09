@@ -62,7 +62,8 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           SkinNonExistingFieldInspection::class.java,
           SkinNonExistingResourceAliasInspection::class.java,
           SkinMalformedColorStringInspection::class.java,
-          SkinTypeInspection::class.java
+          SkinTypeInspection::class.java,
+          SkinDuplicateResourceNameInspection::class.java
 
   )
 }

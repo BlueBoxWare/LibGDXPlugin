@@ -41,6 +41,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinTypeInspection())
   }
 
+  fun testDuplicateResourceNameInspection() {
+    doTest(SkinDuplicateResourceNameInspection())
+  }
+
   private fun doTest(inspection: LocalInspectionTool) {
     myFixture.enableInspections(inspection)
     myFixture.testHighlighting(false, false, false, getTestName(true) + ".skin")
