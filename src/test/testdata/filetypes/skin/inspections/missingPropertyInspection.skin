@@ -1,0 +1,48 @@
+{
+
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default: <error descr="Property 'file' is missing.">{
+
+    }</error>,
+    oke: {
+      file: file
+    }
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    default:
+    <error descr="Property 'color' is missing."><error descr="Property 'name' is missing.">{
+
+    }</error></error>,
+
+  },
+
+  com.example.ColorArrayHolder: {
+    z: {
+      m: [
+        {
+          textButtonStyle:
+            {font: <error descr="Property 'file' is missing.">{}</error>
+            }
+
+        }
+      ]
+    },
+    x: {
+      tds: [
+        <error descr="Property 'color' is missing."><error descr="Property 'name' is missing.">{
+
+        }</error></error>,
+
+        <error descr="Property 'color' is missing.">{
+          name: yes
+        }</error>,
+        {
+          color: {}
+          name: yes
+        }
+      ]
+    }
+  }
+
+}
