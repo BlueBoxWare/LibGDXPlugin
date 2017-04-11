@@ -26,3 +26,4 @@ fun Project.getProjectBaseDir() =
             baseDir
           }
 
+fun fileNameToPathList(fileName: String): Array<String> = fileName.replace('\\', '/').split("/").toTypedArray()

@@ -1,22 +1,28 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
 import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
 import com.intellij.codeInsight.completion.*
+import com.intellij.codeInsight.completion.impl.CamelHumpMatcher
+import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
+import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.PsiType
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.util.PathUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.intellij.util.ui.ColorIcon
@@ -109,6 +115,17 @@ class SkinCompletionContributor : CompletionContributor() {
 
   }
 
+  override fun beforeCompletion(context: CompletionInitializationContext) {
+    if (context.file is SkinFile) {
+      context.dummyIdentifier = CompletionUtil.DUMMY_IDENTIFIER_TRIMMED
+    }
+
+    val type = (context.file.findElementAt(context.caret.offset) as? LeafPsiElement)?.elementType
+    if (type == SkinElementTypes.SINGLE_QUOTED_STRING || type == SkinElementTypes.DOUBLE_QUOTED_STRING) {
+      context.replacementOffset = context.replacementOffset - 1
+    }
+  }
+
   private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
@@ -118,7 +135,7 @@ class SkinCompletionContributor : CompletionContributor() {
     (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
       cs.resourcesAsList.forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
-          result.addElement(LookupElementBuilder.create(res.name))
+          doAdd(LookupElementBuilder.create(res.name), parameters, result)
         }
       }
     }
@@ -131,7 +148,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.classNameAsString)?.map { it.name } ?: listOf()
 
     if (!usedResourceNames.contains("default")) {
-      result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 1.0))
+      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 1.0), parameters, result)
     }
 
     val strings = mutableSetOf<String>()
@@ -149,7 +166,7 @@ class SkinCompletionContributor : CompletionContributor() {
     strings.remove("default")
 
     strings.forEach {
-      result.addElement(LookupElementBuilder.create(it))
+      doAdd(LookupElementBuilder.create(it), parameters, result)
     }
 
   }
@@ -166,14 +183,19 @@ class SkinCompletionContributor : CompletionContributor() {
           for (file in virtualFile.getAssociatedFiles()) {
             if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
               VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
-                result.addElement(LookupElementBuilder.create(file, relativePath).withIcon(ICON_BITMAP_FONT))
+                val altName = if (SystemInfo.isWindows) {
+                  relativePath
+                } else {
+                  relativePath.replace("/", "\\\\")
+                }
+                doAdd(LookupElementBuilder.create(file, PathUtil.toSystemDependentName(relativePath)).withIcon(ICON_BITMAP_FONT).withLookupString(altName), parameters, result)
               }
             }
           }
         }
       } else if (property.name == "markupEnabled" || property.name == "flip") {
-        result.addElement(LookupElementBuilder.create("true"))
-        result.addElement(LookupElementBuilder.create("false"))
+        doAdd(LookupElementBuilder.create("true"), parameters, result)
+        doAdd(LookupElementBuilder.create("false"), parameters, result)
       }
       return
     }
@@ -194,7 +216,7 @@ class SkinCompletionContributor : CompletionContributor() {
             null
           }
 
-          result.addElement(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE))
+          doAdd(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE), parameters, result)
 
         }
       }
@@ -203,14 +225,14 @@ class SkinCompletionContributor : CompletionContributor() {
 
         skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable").forEach { classSpec ->
           classSpec.resourcesAsList.forEach { resource ->
-            result.addElement(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE))
+            doAdd(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE), parameters, result)
           }
         }
 
       }
     } else if (elementType == PsiType.BOOLEAN || elementClassName == "java.lang.Boolean") {
-      result.addElement(LookupElementBuilder.create("true"))
-      result.addElement(LookupElementBuilder.create("false"))
+      doAdd(LookupElementBuilder.create("true"), parameters, result)
+      doAdd(LookupElementBuilder.create("false"), parameters, result)
     }
 
     if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
@@ -220,7 +242,7 @@ class SkinCompletionContributor : CompletionContributor() {
       skinFile.virtualFile?.let { virtualFile ->
         virtualFile.getAssociatedAtlas()?.let { atlas ->
           atlas.readImageNamesFromAtlas().forEach {
-            result.addElement(LookupElementBuilder.create(it).withIcon(ICON_ATLAS))
+            doAdd(LookupElementBuilder.create(it).withIcon(ICON_ATLAS), parameters, result)
           }
         }
       }
@@ -244,13 +266,13 @@ class SkinCompletionContributor : CompletionContributor() {
         var addHex = true
         listOf("r", "g", "b", "a").forEach {
           if (!usedPropertyNames.contains(it)) {
-            result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
+            doAdd(LookupElementBuilder.create(it).withIcon(ICON_FIELD), parameters, result)
           } else {
             addHex = false
           }
         }
         if (addHex) {
-          result.addElement(LookupElementBuilder.create("hex").withIcon(ICON_FIELD))
+          doAdd(LookupElementBuilder.create("hex").withIcon(ICON_FIELD), parameters, result)
         }
       }
 
@@ -258,7 +280,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
       listOf("file", "scaledSize", "flip", "markupEnabled").forEach {
         if (!usedPropertyNames.contains(it)) {
-          result.addElement(LookupElementBuilder.create(it).withIcon(ICON_FIELD))
+          doAdd(LookupElementBuilder.create(it).withIcon(ICON_FIELD), parameters, result)
         }
       }
 
@@ -270,7 +292,7 @@ class SkinCompletionContributor : CompletionContributor() {
         if (field.hasModifierProperty(PsiModifier.STATIC)) continue
         field.name?.let { name ->
           if (!usedPropertyNames.contains(name)) {
-            result.addElement(LookupElementBuilder.create(field, name).withIcon(ICON_FIELD))
+            doAdd(LookupElementBuilder.create(field, name).withIcon(ICON_FIELD), parameters, result)
           }
         }
       }
@@ -280,32 +302,47 @@ class SkinCompletionContributor : CompletionContributor() {
   }
 
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {
-    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }
+    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }?.let { prefix ->
+      if (prefix.firstOrNull() == '\'' || prefix.firstOrNull() == '"') {
+        prefix.substring(1)
+      } else {
+        prefix
+      }
+    }
     val project = parameters.position.project
     val psiFacade = JavaPsiFacade.getInstance(project)
     val rootPackage = psiFacade.findPackage(prefix) ?: return
 
     for (subpackage in rootPackage.subPackages) {
       val priority = packagePriority(subpackage.qualifiedName)
-      result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(subpackage, subpackage.qualifiedName)
+      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(subpackage, subpackage.qualifiedName)
               .withIcon(ICON_PACKAGE)
               .withBoldness(priority > 0.0),
               priority
-      ))
+      ), parameters, result)
     }
 
+    val dummyText = parameters.position.text
     val currentPackage = psiFacade.findPackage(prefix)
+
     if (currentPackage == null || currentPackage.name == null) {
-      AllClassesGetter.processJavaClasses(result.prefixMatcher, project, GlobalSearchScope.allScope(project), { psiClass ->
+
+      val prefixMatcher = if (dummyText.firstOrNull() == '"' || dummyText.firstOrNull() == '\'') {
+        CamelHumpMatcher(result.prefixMatcher.prefix.substring(1))
+      } else {
+        result.prefixMatcher
+      }
+
+      AllClassesGetter.processJavaClasses(prefixMatcher, project, GlobalSearchScope.allScope(project), { psiClass ->
         psiClass.putDollarInInnerClassName()?.let { name ->
           val priority = classPriority(name)
-          result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, name)
+          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, name)
                   .withPresentableText(name)
                   .withLookupString(psiClass.name ?: "")
                   .withIcon(ICON_CLASS)
                   .withBoldness(priority > 0.0),
                   priority
-          ))
+          ), parameters, result)
         }
         true
       })
@@ -317,10 +354,10 @@ class SkinCompletionContributor : CompletionContributor() {
       if (!clazz.isAnnotationType && !clazz.isInterface && !clazz.hasModifierProperty(PsiModifier.ABSTRACT) && clazz.containingClass == null) {
         clazz.qualifiedName?.let { fqName ->
           val priority = classPriority(fqName)
-          result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(clazz, fqName)
+          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(clazz, fqName)
                   .withIcon(ICON_CLASS)
                   .withBoldness(priority > 0.0)
-                  , priority))
+                  , priority), parameters, result)
         }
       }
 
@@ -328,15 +365,24 @@ class SkinCompletionContributor : CompletionContributor() {
         val fqName = clazz.qualifiedName + "$" + innerClass.name
         val priority = classPriority(fqName)
         if (innerClass.hasModifierProperty(PsiModifier.PUBLIC)) {
-          result.addElement(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(innerClass, fqName)
+          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(innerClass, fqName)
                   .withBoldness(priority > 0.0)
                   .withIcon(ICON_CLASS)
-                  , priority))
+                  , priority), parameters, result)
         }
       }
 
     }
 
+  }
+
+  private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {
+    val dummyText = parameters.position.text
+    if (dummyText.firstOrNull() == '"' || dummyText.firstOrNull() == '\'') {
+      result.withPrefixMatcher(result.prefixMatcher.prefix.substring(1)).addElement(element)
+      return
+    }
+    result.addElement(element)
   }
 
   private fun packagePriority(packageName: String): Double {

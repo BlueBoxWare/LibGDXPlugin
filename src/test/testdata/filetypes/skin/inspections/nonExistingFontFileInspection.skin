@@ -1,0 +1,40 @@
+{
+
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default: {
+      file: x/y/font.fnt
+      file: x\\y/font.fnt
+      file: 'x\\y/font.fnt'
+      file: "z\\font.fnt"
+      file: <error descr="File 'x\y/fon.fnt' doesnt exist.">x\\y/fon.fnt</error>
+    }
+  },
+
+  com.example.ColorArrayHolder: {
+    default: {
+      textButtonStyles: [
+        {
+          font: {
+            file: x/y/font.fnt
+          }
+        },
+        {
+          font: {
+            file: x\\y/font.fnt
+          }
+        },
+        {
+          font: {
+            file: "z\\font.fnt"
+          }
+        },
+        {
+          font: {
+            file: <error descr="File 'z/fon.fnt' doesnt exist.">z/fon.fnt</error>
+          }
+        }
+      ]
+    }
+  }
+
+}

@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.utils.fileNameToPathList
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiElementResolveResult
@@ -30,7 +31,7 @@ class SkinFileReference(element: SkinStringLiteral, val baseFile: VirtualFile?) 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
     baseFile?.let { baseFile ->
       element.value.let { fileName ->
-        VfsUtil.findRelativeFile(baseFile.parent, fileName)?.let { virtualFile ->
+        VfsUtil.findRelativeFile(baseFile.parent, *fileNameToPathList(fileName))?.let { virtualFile ->
           PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
             return arrayOf(PsiElementResolveResult(psiFile))
           }

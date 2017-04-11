@@ -53,10 +53,18 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinDuplicatePropertyInspection())
   }
 
+  fun testNonExistingFontFileInspection() {
+    myFixture.copyDirectoryToProject("x", "x")
+    myFixture.copyDirectoryToProject("z", "z")
+    doTest(SkinNonExistingFontFileInspection())
+  }
+
   private fun doTest(inspection: LocalInspectionTool) {
     myFixture.enableInspections(inspection)
     myFixture.testHighlighting(true, false, false, getTestName(true) + ".skin")
   }
+
+
 
   override fun setUp() {
     super.setUp()
@@ -66,6 +74,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
     myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")
+
   }
 
   override fun getBasePath() = "/filetypes/skin/inspections/"
