@@ -1,7 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.psi.PsiElement
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -20,6 +23,12 @@ import com.intellij.codeInspection.LocalInspectionTool
  */
 open class SkinFileInspection : LocalInspectionTool() {
 
+  init {
+    if (ApplicationManager.getApplication().isUnitTestMode) {
+      assert(INSPECTION_NAMES.contains(id.removePrefix("LibGDXSkin")))
+    }
+  }
+
   override fun getGroupPath() = arrayOf("LibGDX", "Skin files")
 
   override fun getGroupDisplayName() = "LibGDX"
@@ -27,5 +36,23 @@ open class SkinFileInspection : LocalInspectionTool() {
   override fun isEnabledByDefault() = true
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
+
+  override fun isSuppressedFor(element: PsiElement): Boolean =
+          (element as? SkinElement)?.isInspectionSuppressed(id.removePrefix("LibGDXSkin")) ?: super.isSuppressedFor(element)
+
+  companion object {
+    val INSPECTION_NAMES = listOf(
+            "DuplicateProperty",
+            "DuplicateResource",
+            "MalformedColorString",
+            "MissingProperty",
+            "NonExistingClass",
+            "NonExistingField",
+            "NonExistingFile",
+            "NonExistingResourceInAlias",
+            "NonExistingInspection",
+            "TypeError"
+    )
+  }
 
 }

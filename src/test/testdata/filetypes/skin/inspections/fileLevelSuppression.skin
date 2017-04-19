@@ -1,16 +1,20 @@
+/*
+ *  @SUPPRESS(NonExistingClass)
+ */
 {
 
+  // @Suppress( "DuplicateProperty" )
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     default: {
       file: sdf
-      <warning descr="Property 'file' has already been specified.">file</warning>: fwefwe
-      <warning descr="Property 'file' has already been specified.">file</warning>:d
+      file: fwefwe
+      file:d
     }
   },
 
-  com.badlogic.gdx.graphics.Color: {
+  NonExistingClass: {
     blue: {
-      a: 1, <warning descr="Property 'a' has already been specified.">a</warning>:1, <warning descr="Property 'a' has already been specified.">a</warning>:1, g: 1, b: 1, <warning descr="Property 'a' has already been specified.">a</warning>:1
+      a: 1, a:1, a:1, g: 1, b: 1, a:1
     },
     yellow: {
       a: 1
@@ -22,15 +26,15 @@
       m: [
         {
           a: 1,
-          <warning descr="Property 'a' has already been specified.">a</warning>: 1,
+          a: 1,
           b: 1,
           c: 1,
-          <warning descr="Property 'a' has already been specified.">a</warning>: 1
+          a: 1
         }
       ]
     }
     green: {
-        // @Suppress(DuplicateProperty)
+
           m: [
             {
               a: 1,
@@ -47,7 +51,7 @@
                   m: [
                     {
                     /*
-                        @Suppress( "DuplicateProperty" )
+
                     */
                       a: 1,
                       a: 1,

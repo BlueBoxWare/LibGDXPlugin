@@ -12,7 +12,7 @@
   tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinTokenType'
 
   implements("value|property_name|resource_name|property_value|class_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement"
-  extends("value") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
+  extends("value|resources") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
 
   implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
 

@@ -1,12 +1,11 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
-import com.intellij.psi.NavigatablePsiElement
-import com.intellij.psi.PsiElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResources
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.intellij.lang.ASTNode
 
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2017 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +19,8 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface SkinElement : PsiElement, NavigatablePsiElement {
+abstract class SkinResourcesMixin(node: ASTNode): SkinResources, SkinElementImpl(node) {
 
-  fun getActiveAnnotations(annotation: SkinAnnotations? = null): List<SkinAnnotation>
 
-  fun isInspectionSuppressed(inspectionId: String): Boolean
 
 }

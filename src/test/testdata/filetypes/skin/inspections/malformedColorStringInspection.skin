@@ -21,4 +21,11 @@ x: { a: 1 }
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 x: { hex: medium.fnt }
 },
+  com.badlogic.gdx.graphics.Color: {
+    x: { /* @Suppress (   MalformedColorString     ) */ hex: #fffhff }
+        x: { hex: #fffff
+            // @Suppress( "MalformedColorString"  )
+        }
+    x: { hex: <error>#fffff</error> }
+}
 }

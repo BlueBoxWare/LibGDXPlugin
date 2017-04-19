@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
@@ -27,6 +28,7 @@ import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -46,6 +48,15 @@ import com.intellij.util.ui.UIUtil
 class SkinCompletionContributor : CompletionContributor() {
 
   init {
+
+    extend(CompletionType.BASIC,
+            PlatformPatterns.psiComment(),
+            object : CompletionProvider<CompletionParameters>() {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+                annotationCompletion(parameters, result)
+              }
+            }
+    )
 
     extend(CompletionType.BASIC,
             PlatformPatterns.psiElement()
@@ -123,6 +134,19 @@ class SkinCompletionContributor : CompletionContributor() {
     val type = (context.file.findElementAt(context.caret.offset) as? LeafPsiElement)?.elementType
     if (type == SkinElementTypes.SINGLE_QUOTED_STRING || type == SkinElementTypes.DOUBLE_QUOTED_STRING) {
       context.replacementOffset = context.replacementOffset - 1
+    }
+  }
+
+  private fun annotationCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
+    val commentStartOffset = parameters.originalPosition?.startOffset ?: return
+    val startingText = parameters.originalFile.text.substring(commentStartOffset, parameters.offset).trimEnd()
+
+    if (Regex("""@\w*$""").containsMatchIn(startingText)) {
+      result.addElement(LookupElementBuilder.create("Suppress").withIcon(AllIcons.Nodes.Annotationtype))
+    } else if (Regex("""@\s*Suppress\s*\(\s*["']?\s*\w*$""", RegexOption.IGNORE_CASE).containsMatchIn(startingText)) {
+      SkinFileInspection.INSPECTION_NAMES.forEach {
+        result.addElement(LookupElementBuilder.create(it).withIcon(AllIcons.Nodes.Annotationtype))
+      }
     }
   }
 

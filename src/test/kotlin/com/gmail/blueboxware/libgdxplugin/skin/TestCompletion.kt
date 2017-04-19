@@ -984,7 +984,81 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("assets/somedir/font.fnt", "assets/font2.fnt") to listOf("assets/ui.atlas", "assets/somedir/anotherfile"))
+          """ to (listOf("assets/somedir/font.fnt", "assets/font2.fnt") to listOf("assets/ui.atlas", "assets/somedir/anotherfile")),
+
+          """
+            {
+              // @<caret>
+            }
+          """ to (listOf("Suppress") to listOf()),
+
+          """
+              /*
+                 @<caret>
+              */
+
+          """ to (listOf("Suppress") to listOf()),
+
+
+          """
+            {
+              // @<caret> abc
+            }
+          """ to (listOf("Suppress") to listOf()),
+
+          """
+            {
+              // @SU<caret> abc
+            }
+          """ to (listOf("Suppress") to listOf()),
+
+          """
+            {
+              // @SUPPRESS ( "  <caret>
+            }
+          """ to (listOf(
+                  "DuplicateProperty",
+                  "DuplicateResource",
+                  "MalformedColorString",
+                  "MissingProperty",
+                  "NonExistingClass",
+                  "NonExistingField",
+                  "NonExistingFile",
+                  "NonExistingResourceInAlias",
+                  "TypeError"
+          ) to listOf()),
+
+          """
+            {
+              // @Suppress(  Non<caret>
+            }
+          """ to (listOf(
+                  "NonExistingClass",
+                  "NonExistingField",
+                  "NonExistingFile",
+                  "NonExistingResourceInAlias"
+          ) to listOf(
+                  "DuplicateProperty",
+                  "DuplicateResource",
+                  "MalformedColorString",
+                  "MissingProperty"
+          )),
+
+          """
+            {
+              // @Suppress("Non<caret>
+            }
+          """ to (listOf(
+                  "NonExistingClass",
+                  "NonExistingField",
+                  "NonExistingFile",
+                  "NonExistingResourceInAlias"
+          ) to listOf(
+                  "DuplicateProperty",
+                  "DuplicateResource",
+                  "MalformedColorString",
+                  "MissingProperty"
+          ))
   )
 
   fun testCompletions() {
@@ -995,7 +1069,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
   fun doTest(content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()) {
     myFixture.configureByText("ui.skin", content)
-    val result = myFixture.complete(CompletionType.BASIC, 2)
+    val result = myFixture.complete(CompletionType.BASIC, 1)
     if (result == null) {
       // the only item was auto-completed?
       assertEquals(expectedCompletionStrings.size, 1)

@@ -6,7 +6,7 @@ SkinFile: 2.json(0,44)
         PsiElement(UNQUOTED_STRING)('com.badlogic.gdx.graphics.Color')(5,36)
     PsiElement(:)(':')(36,37)
     PsiElement({)('{')(38,39)
-    SkinResourcesImpl(RESOURCES)(40,40)
+    SkinResources(40,40)
       <empty list>
     PsiElement(})('}')(40,41)
   PsiElement(})('}')(43,44)

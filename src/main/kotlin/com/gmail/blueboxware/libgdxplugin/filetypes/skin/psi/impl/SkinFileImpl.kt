@@ -1,6 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.intellij.extapi.psi.PsiFileBase
@@ -8,6 +11,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiComment
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
@@ -44,8 +48,14 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
     return classSpecs
   }
 
+  override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
+          children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }
+
+  override fun isInspectionSuppressed(inspectionId: String): Boolean =
+          getActiveAnnotations(SkinAnnotations.SUPPRESS).filter { it.second == inspectionId }.isNotEmpty()
+
   override fun getResources(className: String?, resourceName: String?) =
-    getClassSpecifications(className).flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
+          getClassSpecifications(className).flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
 

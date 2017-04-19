@@ -1,0 +1,28 @@
+{<EOLError descr="<string literal> or '}' expected, got '{'"></EOLError>
+
+    // @SUPPRESS   ( NonExistingFile  )
+    // @SUPPRESS   (<error descr="Inspection 'NonExistingFil' does not exist. Valid inspection names are: DuplicateProperty, DuplicateResource, MalformedColorString, MissingProperty, NonExistingClass, NonExistingField, NonExistingFile, NonExistingResourceInAlias, NonExistingInspection, TypeError."> NonExistingFil  </error>)
+
+    {
+
+        /*
+         * @Suppress( "NonExistingField"  )
+         * @Suppress(<error descr="Inspection 'onExistingField' does not exist. Valid inspection names are: DuplicateProperty, DuplicateResource, MalformedColorString, MissingProperty, NonExistingClass, NonExistingField, NonExistingFile, NonExistingResourceInAlias, NonExistingInspection, TypeError."> "onExistingField"  </error>)
+         */
+
+    }
+
+     Test:   {
+
+            /*
+             * @  Suppress  ( "   NonExistingInspection   "  )
+             * @Suppress(<error descr="Inspection 'onExistingField' does not exist. Valid inspection names are: DuplicateProperty, DuplicateResource, MalformedColorString, MissingProperty, NonExistingClass, NonExistingField, NonExistingFile, NonExistingResourceInAlias, NonExistingInspection, TypeError."> "onExistingField"  </error>)
+             */
+
+          default:   {
+                // @Suppress(<error descr="Inspection 'sdfsdf' does not exist. Valid inspection names are: DuplicateProperty, DuplicateResource, MalformedColorString, MissingProperty, NonExistingClass, NonExistingField, NonExistingFile, NonExistingResourceInAlias, NonExistingInspection, TypeError.">sdfsdf</error>)
+             }
+
+        }
+
+}

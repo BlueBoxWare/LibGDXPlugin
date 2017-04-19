@@ -66,7 +66,8 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           SkinDuplicateResourceNameInspection::class.java,
           SkinMissingPropertyInspection::class.java,
           SkinDuplicatePropertyInspection::class.java,
-          SkinNonExistingFontFileInspection::class.java
+          SkinNonExistingFontFileInspection::class.java,
+          SkinInspectionNameInspection::class.java
 
   )
 }

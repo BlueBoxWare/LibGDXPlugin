@@ -1,12 +1,11 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi;
 
-import com.intellij.psi.PsiField;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
 import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiField;
+import java.awt.Color;
 
 public interface SkinObject extends SkinValue {
 
