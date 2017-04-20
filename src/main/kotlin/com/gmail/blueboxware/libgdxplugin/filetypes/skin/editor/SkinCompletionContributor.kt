@@ -157,7 +157,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition, {it is SkinClassSpecification})
 
     (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
-      cs.resourcesAsList.forEach { res ->
+      cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
           doAdd(LookupElementBuilder.create(res.name), parameters, result)
         }
@@ -232,7 +232,7 @@ class SkinCompletionContributor : CompletionContributor() {
     if (elementClassName != null && elementClassName != "java.lang.Boolean") {
 
       skinFile.getClassSpecifications(elementClassName).forEach { classSpec ->
-        classSpec.resourcesAsList.forEach { resource ->
+        classSpec.getResourcesAsList(property).forEach { resource ->
 
           val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
             resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
@@ -248,7 +248,7 @@ class SkinCompletionContributor : CompletionContributor() {
       if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
 
         skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable").forEach { classSpec ->
-          classSpec.resourcesAsList.forEach { resource ->
+          classSpec.getResourcesAsList(property).forEach { resource ->
             doAdd(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE), parameters, result)
           }
         }

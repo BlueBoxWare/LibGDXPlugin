@@ -1,24 +1,4 @@
 {
-  com.example.MyTestClass: {
-    f: {
-      abc: false,
-      jkuef: dsf,
-      fedtgtzds: fe
-      fe: fwe
-      moreColors: [
-        [{hex: "ff0000"}, {}], [
-          {
-            g: 0
-          }
-        ], [{}, {}]
-      ],
-      m: [
-        {
-          colors: [dark<caret>-gray]
-        }
-      ]
-    }
-  }
 
   com.badlogic.gdx.graphics.Color: {
     "nou": {
@@ -52,4 +32,26 @@
       a: 1
     }
   }
+
+  com.example.MyTestClass: {
+    f: {
+      abc: false,
+      jkuef: dsf,
+      fedtgtzds: fe
+      fe: fwe
+      moreColors: [
+        [{hex: "ff0000"}, {}], [
+          {
+            g: 0
+          }
+        ], [{}, {}]
+      ],
+      m: [
+        {
+          colors: [dark<caret>-gray]
+        }
+      ]
+    }
+  }
+
 }

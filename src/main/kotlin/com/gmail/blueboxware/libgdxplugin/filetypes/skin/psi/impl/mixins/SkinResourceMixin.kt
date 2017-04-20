@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImp
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
@@ -66,7 +67,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   }
 
   override fun getPresentation(): ItemPresentation  = object : ItemPresentation {
-    override fun getLocationString(): String? = null
+    override fun getLocationString(): String? = VfsUtil.getRelativeLocation(containingFile.virtualFile, project.baseDir)
 
     override fun getIcon(unused: Boolean): Icon? {
       val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"

@@ -53,8 +53,8 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
       }
 
       (stringLiteral.containingFile as? SkinFile)?.let { skinFile ->
-        if (skinFile.getResources(clazz.putDollarInInnerClassName(), stringLiteral.value).isEmpty()) {
-          holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value, typeString))
+        if (skinFile.getResources(clazz.putDollarInInnerClassName(), stringLiteral.value, beforeElement = stringLiteral).isEmpty()) {
+          holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value))
         }
       }
     }

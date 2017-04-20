@@ -32,8 +32,6 @@ class SkinTypeInspection: SkinFileInspection() {
 
   override fun getDisplayName() = message("skin.inspection.types.display.name")
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 
     override fun visitValue(skinValue: SkinValue) {
@@ -61,9 +59,8 @@ class SkinTypeInspection: SkinFileInspection() {
           holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
         }
       } else if (expectedType == PsiType.INT
-        || (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && propertyName == "scaledSize")
-                                            ) {
-        if (SkinPsiUtil.stripQuotes(skinValue.text).toIntOrNull() == null) {
+        || (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && propertyName == "scaledSize")) {
+        if (skinValue.text.toIntOrNull() == null) {
           holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
         }
       } else if (expectedType is PsiClassType && expectedType.canonicalText != "java.lang.String") {

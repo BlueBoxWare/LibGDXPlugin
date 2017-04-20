@@ -868,7 +868,22 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               k: {},
               x: {}
             }}
-          """ to (listOf("z", "k", "l", "x")  to listOf<String>()),
+          """ to (listOf("l")  to listOf("z", "k", "x")),
+
+          """
+            {,
+              com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                z: {},
+                k: {},
+                x: {}
+              }
+              com.badlogic.gdx.graphics.g2d.BitmapFont: {
+                l: {}
+                x: <caret>
+              }
+
+         }
+          """ to (listOf("l", "z", "k", "x")  to listOf()),
 
           """
             {

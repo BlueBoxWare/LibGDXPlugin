@@ -39,7 +39,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
             classSpec.classNameAsString.removeDollarFromClassName() == valueType
                     || (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
                     ) {
-              for (resource in classSpec.resourcesAsList) {
+              for (resource in classSpec.getResourcesAsList(element)) {
                 if (resource.name == element.value) {
                   result.add(PsiElementResolveResult(resource))
                 }

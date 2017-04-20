@@ -12,9 +12,12 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
+import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
 
 /*
@@ -48,14 +51,16 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
     return classSpecs
   }
 
+  override fun getResources(className: String?, resourceName: String?, beforeElement: PsiElement?) =
+          getClassSpecifications(className)
+                  .flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
+                  .filter { beforeElement == null || it.endOffset < beforeElement.startOffset }
+
   override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
           children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }
 
   override fun isInspectionSuppressed(inspectionId: String): Boolean =
           getActiveAnnotations(SkinAnnotations.SUPPRESS).filter { it.second == inspectionId }.isNotEmpty()
-
-  override fun getResources(className: String?, resourceName: String?) =
-          getClassSpecifications(className).flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
 

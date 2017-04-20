@@ -46,7 +46,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindUsages6() {
-    doTest(5)
+    doTest(4)
   }
 
   fun testFindUsages7() {

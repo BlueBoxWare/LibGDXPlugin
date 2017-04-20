@@ -16,9 +16,18 @@
       fontColor: white
     },
   },
+
   com.example.MyTestClass: {
     default: {
       textButtonStyle: [d<caret>dd]
     }
   }
+      com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+        ddd: {
+          down: round-down,
+          up: round,
+          font: medium,
+          fontColor: white
+        },
+      },
 }
