@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiArrayType
 import com.intellij.psi.PsiClassType
@@ -52,16 +51,27 @@ class SkinTypeInspection: SkinFileInspection() {
         if (skinValue !is SkinArray) {
           holder.registerProblem(skinValue, message("skin.inspection.types.array.expected"))
         }
-      } else if (expectedType == PsiType.BOOLEAN
-              || (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("flip", "markupEnabled").contains(propertyName))
-                     ) {
+      } else if (expectedType == PsiType.BOOLEAN) {
         if (skinValue !is SkinBooleanLiteral) {
           holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
         }
-      } else if (expectedType == PsiType.INT
-        || (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && propertyName == "scaledSize")) {
+      } else if (expectedType == PsiType.INT) {
         if (skinValue.text.toIntOrNull() == null) {
           holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
+        }
+      } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("scaledSize", "markupEnabled", "flip").contains(propertyName)) {
+        if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue is SkinBooleanLiteral) {
+          return
+        } else if (propertyName == "scaledSize" && skinValue.text.toIntOrNull() != null) {
+          return
+        }
+        if ((skinValue.reference?.resolve() as? SkinResource)?.classSpecification?.classNameAsString == expectedType?.canonicalText) {
+          return
+        }
+        if (propertyName == "scaledSize") {
+          holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
+        } else {
+          holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
         }
       } else if (expectedType is PsiClassType && expectedType.canonicalText != "java.lang.String") {
         if (skinValue !is SkinStringLiteral && skinValue !is SkinObject) {

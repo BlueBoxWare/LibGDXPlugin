@@ -5,10 +5,13 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImp
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiType
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
@@ -32,7 +35,27 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
-  override fun resolveToType(): PsiType? = resolveToField()?.type
+  override fun resolveToType(): PsiType? {
+    val field = resolveToField()
+
+    if (field != null) {
+      return field.type
+    }
+
+    val objectType = containingObject?.resolveToTypeString()
+
+    if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+      if (name == "scaledSize") {
+        val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Integer", GlobalSearchScope.allScope(project)) ?: return null
+        return PsiTypesUtil.getClassType(clazz)
+      } else if (name == "markupEnabled" || name == "flip") {
+        val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Boolean", GlobalSearchScope.allScope(project)) ?: return null
+        return PsiTypesUtil.getClassType(clazz)
+      }
+    }
+
+    return null
+  }
 
   override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 

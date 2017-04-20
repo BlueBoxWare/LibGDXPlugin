@@ -576,10 +576,50 @@ com.example.KColorArrayHolder: {
 [{}],
 [
 {
-m: [<warning descr="Object or resource name expected">[]</warning>, {c: true}]
+m: [<warning descr="Object or resource name expected">[]</warning>, {c: true}],
+ints: [1,2,<warning descr="Integer expected">false</warning>, <warning descr="Integer expected">{}</warning>]
 }
 ]
 ]
 }
 }
+
+  java.lang.Integer: {
+    f: {
+      value: 3
+    }
+  }
+
+  java.lang.Boolean: {
+    b: {
+      value: true
+    }
+  }
+
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    default: {
+      scaledSize: f
+      markupEnabled: b
+      file: tubular/skin/font-export.fnt
+    }
+    d: {
+      scaledSize: <warning descr="Integer expected">b</warning>
+      markupEnabled: <warning descr="Boolean value expected">f</warning>
+      file: tubular/skin/font-export.fnt
+    }
+    e: {
+      scaledSize: 3
+      markupEnabled: true
+      file: tubular/skin/font-export.fnt
+    }
+  }
+
+  com.example.ColorArrayHolder: {
+    x: {
+        c: true
+    }
+    y: {
+        c: <warning descr="Boolean value expected">b</warning>
+    }
+  }
 }

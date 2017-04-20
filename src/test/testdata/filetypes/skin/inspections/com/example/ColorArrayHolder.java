@@ -17,4 +17,6 @@ public class ColorArrayHolder {
   ColorArrayHolder[] m;
 
   public Skin.TintedDrawable[] tds;
+
+  public int[] ints;
 }
