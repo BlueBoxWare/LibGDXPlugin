@@ -5,6 +5,8 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement;
+import java.awt.image.BufferedImage;
+import javax.swing.Icon;
 
 public interface AtlasRegion extends AtlasNamedElement {
 
@@ -36,5 +38,32 @@ public interface AtlasRegion extends AtlasNamedElement {
   AtlasXy getXy();
 
   String getName();
+
+  @Nullable
+  AtlasPage getPage();
+
+  @Nullable
+  BufferedImage getImage();
+
+  @Nullable
+  Icon getPreviewIcon();
+
+  @Nullable
+  Integer getX();
+
+  @Nullable
+  Integer getY();
+
+  @Nullable
+  Integer getWidth();
+
+  @Nullable
+  Integer getHeight();
+
+  int getOriginalSize();
+
+  int getOriginalHeight();
+
+  int getOriginalWidth();
 
 }

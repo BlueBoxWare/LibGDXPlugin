@@ -1,0 +1,37 @@
+// @Suppress(MalformedColorString)
+{
+  // @Suppress(DuplicateProperty)
+  com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
+    default: {
+      background: {}
+      background: {}
+    }
+  }
+
+  com.badlogic.gdx.graphics.Color: {
+    default: {
+      hex: #ff
+    }
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'sdsd'.">sdsd</error>: {}
+      font: {
+        <error descr="'hui' is not a valid property for BitmapFont.">hui</error>: {}
+        file: ""
+      }
+    }
+    h: {
+      /*
+      * @Suppress(NonExistingField)
+      */
+      fghu: {}
+      font: {
+        hui: {}
+        file: ""
+      }
+    }
+  }
+
+}

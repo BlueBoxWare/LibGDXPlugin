@@ -10,6 +10,8 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasRegionMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
+import java.awt.image.BufferedImage;
+import javax.swing.Icon;
 
 public class AtlasRegionImpl extends AtlasRegionMixin implements AtlasRegion {
 

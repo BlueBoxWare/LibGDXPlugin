@@ -7,6 +7,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementI
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.util.PathUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -26,6 +28,8 @@ import com.intellij.navigation.ItemPresentation
 abstract class AtlasPageMixin(node: ASTNode) : AtlasPage, AtlasElementImpl(node) {
 
   override fun getIndex(): Int? = (containingFile as? AtlasFile)?.getPages()?.indexOf(this)
+
+  override fun getImageFile(): VirtualFile? = containingFile.virtualFile.parent?.findFileByRelativePath(PathUtil.toSystemIndependentName(pageName.text))
 
   override fun getPresentation() = object: ItemPresentation {
 

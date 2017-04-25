@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
-import com.gmail.blueboxware.libgdxplugin.utils.toLongOrNull
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.roots.OrderRootType

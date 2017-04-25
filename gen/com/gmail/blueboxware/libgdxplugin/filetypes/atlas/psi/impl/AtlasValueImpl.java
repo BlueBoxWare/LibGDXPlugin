@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasValueMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
-public class AtlasValueImpl extends ASTWrapperPsiElement implements AtlasValue {
+public class AtlasValueImpl extends AtlasValueMixin implements AtlasValue {
 
   public AtlasValueImpl(ASTNode node) {
     super(node);

@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontKerning
-import com.gmail.blueboxware.libgdxplugin.utils.toIntOrNull
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.*
 

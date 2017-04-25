@@ -57,9 +57,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinInspectionNameInspection())
   }
 
-  fun testFileLevelSuppression() {
-    myFixture.enableInspections(SkinDuplicatePropertyInspection(), SkinNonExistingClassInspection())
-    myFixture.testHighlighting(true, false, false, "fileLevelSuppression.skin")
+  fun testSuppression() {
+    myFixture.enableInspections(SkinMalformedColorStringInspection(), SkinDuplicatePropertyInspection(), SkinNonExistingFieldInspection())
+    myFixture.testHighlighting(true, false, false, "suppression.skin")
   }
 
   fun testNonExistingFontFileInspection() {

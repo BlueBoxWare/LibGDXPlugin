@@ -1,0 +1,117 @@
+
+images/t<caret>est.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+class
+  rotate: false
+  xy: 1, 102
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 2
+class
+  rotate: false
+  xy: 1, 84
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 4
+class
+  rotate: false
+  xy: 19, 102
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 3
+class
+  rotate: false
+  xy: 1, 66
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: 1
+abstractClass
+  rotate: false
+  xy: 19, 84
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+copyOfFolder
+  rotate: false
+  xy: 37, 102
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+classInitializer
+  rotate: false
+  xy: 1, 48
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+advice1
+  rotate: false
+  xy: 19, 66
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+advice2
+  rotate: false
+  xy: 37, 84
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+advice3
+  rotate: false
+  xy: 1, 30
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+advice
+  rotate: false
+  xy: 19, 48
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+annotationtype
+  rotate: false
+  xy: 37, 66
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+artifact
+  rotate: false
+  xy: 1, 12
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+compiledClassesFolder
+  rotate: false
+  xy: 19, 30
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+aspect
+  rotate: false
+  xy: 37, 50
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+collapseNode
+  rotate: false
+  xy: 1, 1
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1

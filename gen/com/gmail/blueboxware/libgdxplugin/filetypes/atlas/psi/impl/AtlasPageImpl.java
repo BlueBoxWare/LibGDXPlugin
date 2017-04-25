@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasPageMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
+import com.intellij.openapi.vfs.VirtualFile;
 
 public class AtlasPageImpl extends AtlasPageMixin implements AtlasPage {
 

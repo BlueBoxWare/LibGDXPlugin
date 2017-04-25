@@ -5,7 +5,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontKer
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontFontCharImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.PropertyContainerImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.references.BitmapFontCharReference
-import com.gmail.blueboxware.libgdxplugin.utils.toIntOrNull
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation

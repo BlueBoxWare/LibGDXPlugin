@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasPage
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.vfs.VfsUtil
@@ -26,6 +27,22 @@ import java.io.File
 class AtlasFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, LibGDXAtlasLanguage.INSTANCE), AtlasElement {
 
   fun getPages(): List<AtlasPage> = children.mapNotNull { it as? AtlasPage }
+
+  fun getRegions(name: String? = null): List<AtlasRegion> = getPages().flatMap { it.regionList.filter { name == null || it.name == name } }
+
+  fun getRegion(name: String): AtlasRegion? {
+
+    for (page in getPages()) {
+      for (region in page.regionList) {
+        if (region.name == name) {
+          return region
+        }
+      }
+    }
+
+    return null
+
+  }
 
   override fun getFileType() = viewProvider.fileType
 

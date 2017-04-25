@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasValue
 import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
 import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
 import com.intellij.codeInsight.completion.PrioritizedLookupElement
@@ -8,13 +9,14 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiManager
-import com.intellij.psi.PsiReferenceBase
+import com.intellij.psi.*
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PathUtil
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -77,7 +79,24 @@ class FileReference(
   }
 
   override fun handleElementRename(newElementName: String?): PsiElement {
-    val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
-    return super.handleElementRename(newPath)
+
+    if (element is AtlasValue) {
+
+      // we don't handle renaming of the image file in Atlas files
+      return element
+
+    } else if (element is KtStringTemplateExpression || element is PsiLiteralExpression) {
+
+      val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
+      return super.handleElementRename(newPath)
+
+    } else {
+
+      throw IncorrectOperationException()
+
+    }
+
   }
+
+  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
 }

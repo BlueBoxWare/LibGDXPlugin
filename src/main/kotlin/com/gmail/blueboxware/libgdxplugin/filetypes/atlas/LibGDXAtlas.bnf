@@ -33,6 +33,7 @@ page ::= value EOL (size EOL)? format EOL filter EOL repeat EOL region* {
     methods=[
         pageName="value"
         getIndex
+        getImageFile
     ]
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasPageMixin"
@@ -77,6 +78,16 @@ repeat_value ::= 'x' | 'y' | 'xy' | 'none' {
 region ::= regionName EOL rotate EOL xy EOL size EOL (split EOL (pad EOL)?)? orig EOL offset EOL index EOL? {
     methods=[
         getName
+        getPage
+        getImage
+        getPreviewIcon
+        getX
+        getY
+        getWidth
+        getHeight
+        getOriginalSize
+        getOriginalHeight
+        getOriginalWidth
     ]
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasRegionMixin"
@@ -147,6 +158,7 @@ index ::= 'index' ':' value {
 
 value ::= STRING {
     implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasValueElement"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasValueMixin"
 }
 
 private recover ::= !EOL
