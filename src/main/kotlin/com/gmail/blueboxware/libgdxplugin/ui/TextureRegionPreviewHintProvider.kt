@@ -2,11 +2,17 @@ package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.intellij.codeInsight.preview.PreviewHintProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiJavaFile
+import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ImageUtil
+import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import javax.swing.JComponent
 
 /*
@@ -26,12 +32,34 @@ import javax.swing.JComponent
  */
 class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
-  override fun isSupportedFile(file: PsiFile?): Boolean  = file is AtlasFile
+  override fun isSupportedFile(file: PsiFile?): Boolean =
+    file is SkinFile || file is PsiJavaFile || file is KtFile
 
   override fun getPreviewComponent(element: PsiElement): JComponent? {
 
-    PsiTreeUtil.getParentOfType(element, AtlasRegion::class.java)?.let { atlasRegion ->
-      return createPreviewComponent(atlasRegion)
+    if (element.containingFile is AtlasFile) {
+
+      PsiTreeUtil.getParentOfType(element, AtlasRegion::class.java)?.let { atlasRegion ->
+        return createPreviewComponent(atlasRegion)
+      }
+
+    } else {
+
+      val element = when (element.containingFile) {
+        is SkinFile     -> PsiTreeUtil.getParentOfType(element, SkinStringLiteral::class.java)
+        is PsiJavaFile  -> PsiTreeUtil.getParentOfType(element, PsiLiteralExpression::class.java)
+        is KtFile       -> PsiTreeUtil.getParentOfType(element, KtStringTemplateExpression::class.java)
+        else             -> null
+      }
+
+      element?.references?.forEach { reference ->
+        reference.resolve()?.let { target ->
+          if (target is AtlasRegion) {
+            return createPreviewComponent(target)
+          }
+        }
+      }
+
     }
 
     return null
