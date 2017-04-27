@@ -32,12 +32,13 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
     element.resolveToTypeString()?.let { valueType ->
 
+      val isTintedDrawableNameProperty = element.property?.name == "name" && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
+
       (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
 
           for (classSpec in classSpecifications) {
-            if (
-            classSpec.classNameAsString.removeDollarFromClassName() == valueType
-                    || (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+            if (classSpec.classNameAsString.removeDollarFromClassName() == valueType
+                    || ((valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
                     ) {
               for (resource in classSpec.getResourcesAsList(element)) {
                 if (resource.name == element.value) {
@@ -49,9 +50,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
       }
 
-      if (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
-        || (element.property?.name == "name" && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
-              ) {
+      if (valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) {
         element.containingFile.virtualFile?.let { virtualFile ->
           virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
             (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->

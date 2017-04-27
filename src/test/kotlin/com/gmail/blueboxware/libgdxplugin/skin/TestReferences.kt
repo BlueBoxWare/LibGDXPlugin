@@ -53,6 +53,10 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("ddd", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
+  fun testResourceReference7() {
+    doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
   fun testResourceAliasReference1() {
     doTestResourceReference("yellow", "com.badlogic.gdx.graphics.Color")
   }

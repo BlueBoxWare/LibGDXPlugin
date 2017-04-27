@@ -1,0 +1,11 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+   d1: {}
+  }
+  com.badlogic.gdx.graphics.Color: {
+    d1: {}
+  }
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    d2: d<caret>1
+  }
+}

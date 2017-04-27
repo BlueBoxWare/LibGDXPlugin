@@ -1,7 +1,8 @@
 {
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     "round-d<caret>own": { name: round },
-    round-up: { name: square }
+    round-up: { name: square },
+    something: { name: round-down }
   }
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     default: {
@@ -13,6 +14,9 @@
       font: medium, fontColor: white, checkedFontColor: red
     },
   },
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    default: { name: round-down }
+  }
   com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
     default: {
       background: round-down
