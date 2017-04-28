@@ -1,0 +1,26 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    yellow: { hex: "ffff00" }
+    default: yellow
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    something: {
+      name: user
+      color: { hex: "ff0000" }
+    }
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    test: {
+      name: something
+      color: default
+    }
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      disabled: te<caret>st
+    }
+  }
+}

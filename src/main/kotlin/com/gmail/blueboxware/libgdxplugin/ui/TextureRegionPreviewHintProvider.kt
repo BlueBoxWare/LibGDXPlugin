@@ -3,7 +3,10 @@ package com.gmail.blueboxware.libgdxplugin.ui
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.utils.tint
 import com.intellij.codeInsight.preview.PreviewHintProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -13,6 +16,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ImageUtil
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import java.awt.image.BufferedImage
 import javax.swing.JComponent
 
 /*
@@ -40,7 +44,9 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
     if (element.containingFile is AtlasFile) {
 
       PsiTreeUtil.getParentOfType(element, AtlasRegion::class.java)?.let { atlasRegion ->
-        return createPreviewComponent(atlasRegion)
+        atlasRegion.image?.let { image ->
+          return createPreviewComponent(image, atlasRegion.name)
+        }
       }
 
     } else {
@@ -55,7 +61,35 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
       element?.references?.forEach { reference ->
         reference.resolve()?.let { target ->
           if (target is AtlasRegion) {
-            return createPreviewComponent(target)
+            target.image?.let { image ->
+              return createPreviewComponent(image, target.name)
+            }
+          } else if (target is SkinResource && target.classSpecification?.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+
+            val tintedDrawableName = target.name
+
+            var colorElement = target.`object`?.getProperty("color")?.value
+
+            while (colorElement is SkinStringLiteral) {
+              colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
+            }
+
+            val color = (colorElement as? SkinObject)?.asColor(true)
+
+            var nameTarget: PsiElement? = target
+
+            while ((nameTarget as? SkinResource)?.classSpecification?.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+              nameTarget = (nameTarget as? SkinResource)?.`object`?.getProperty("name")?.value?.reference?.resolve()
+            }
+
+            (nameTarget as? AtlasRegion)?.let { atlasRegion ->
+              atlasRegion.image?.let { image ->
+                return createPreviewComponent(color?.let { image.tint(color) } ?: image, tintedDrawableName)
+              }
+            }
+
+          } else {
+
           }
         }
       }
@@ -66,10 +100,11 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
   }
 
-  private fun createPreviewComponent(atlasRegion: AtlasRegion): JComponent? {
-    atlasRegion.image?.let { image ->
+  private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent? {
+
       var previewImage = image
       var scale = 1
+
       if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
         previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0f))
         scale = 4
@@ -78,14 +113,12 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
         scale = 2
       }
 
-      val txt = atlasRegion.name + " (" + atlasRegion.originalWidth + " x " + atlasRegion.originalHeight +
+      val txt = (name ?: "<unknown>" )+ " (" + image.width + " x " + image.height +
               (if (scale != 1) ", shown at scale ${scale}x" else "" ) + ")"
       val component = ImagePreviewComponent(previewImage, txt)
 
       return component
-    }
 
-    return null
   }
 
 }
