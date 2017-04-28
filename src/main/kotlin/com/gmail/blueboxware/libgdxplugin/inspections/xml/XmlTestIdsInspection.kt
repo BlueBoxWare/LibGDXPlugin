@@ -15,9 +15,9 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.XmlSuppressableInspectionTool
@@ -42,7 +42,7 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !(element.project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false) || super.isSuppressedFor(element)
+    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {

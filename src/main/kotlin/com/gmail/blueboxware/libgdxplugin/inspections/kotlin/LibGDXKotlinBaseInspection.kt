@@ -16,6 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
@@ -39,7 +40,7 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
   override val suppressionKey = id
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
-      return !(element.project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false) || super.isSuppressedFor(element)
+      return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }
 
   companion object {

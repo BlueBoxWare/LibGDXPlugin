@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.actions
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.highlighter.JavaFileType
@@ -45,7 +45,7 @@ class CreateScreenAction: CreateFileFromTemplateAction("LibGDX Screen", "Creates
       val project = PlatformDataKeys.PROJECT.getData(dataContext) ?: return false
       val projectFileIndex = ProjectRootManager.getInstance(project).fileIndex
 
-      return (project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false) && ideView.directories.any {
+      return project.isLibGDXProject() && ideView.directories.any {
         projectFileIndex.isInSourceContent(it.virtualFile)
       }
 

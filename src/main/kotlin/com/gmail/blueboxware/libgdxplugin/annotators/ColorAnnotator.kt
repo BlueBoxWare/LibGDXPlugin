@@ -1,11 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
-import com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
-import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
-import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles
-import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
-import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.application.ApplicationManager
@@ -674,7 +670,7 @@ private class ColorAnnotatorCache(project: Project) {
   val rootCache = mutableMapOf<PsiElement, PsiElement?>()
   val resolveCache = mutableMapOf<PsiReference, PsiElement?>()
 
-  val colorAnnotationsEnabled = (project.getComponent(LibGDXProjectComponent::class.java)?.isLibGDXProject ?: false)
-          && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
+  val colorAnnotationsEnabled =
+          project.isLibGDXProject() && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
 
 }

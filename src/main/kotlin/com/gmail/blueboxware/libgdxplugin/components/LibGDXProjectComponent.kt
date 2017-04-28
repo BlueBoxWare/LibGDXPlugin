@@ -31,9 +31,6 @@ import com.intellij.ui.EditorNotifications
  */
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
-  val isLibGDXProject: Boolean
-    get() = project.getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
-
   override fun getComponentName() = "LibGDXProjectComponent"
 
   override fun initComponent() { }
