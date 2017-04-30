@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
@@ -31,6 +32,11 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
     val result = mutableListOf<PsiElementResolveResult>()
 
     element.resolveToTypeString()?.let { valueType ->
+
+      if (valueType == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && element.parent is SkinResource) {
+        // Aliases for TintedDrawables are not allowed
+        return PsiElementResolveResult.EMPTY_ARRAY
+      }
 
       val isTintedDrawableNameProperty = element.property?.name == "name" && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
 

@@ -156,6 +156,11 @@ class SkinCompletionContributor : CompletionContributor() {
     val classSpec = resource.classSpecification ?: return
     val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition, {it is SkinClassSpecification})
 
+    if (classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+      // Aliases for TintedDrawables are not allowed
+      return
+    }
+
     (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {

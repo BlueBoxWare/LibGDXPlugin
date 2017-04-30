@@ -54,7 +54,11 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceReference7() {
-    doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference(null, "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
+  fun testResourceReference8() {
+    doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
   fun testResourceAliasReference1() {
@@ -155,14 +159,18 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertEquals(expectedFileName, file?.name)
   }
 
-  fun doTestResourceReference(resourceName: String, resourceType: String) {
+  fun doTestResourceReference(resourceName: String?, resourceType: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent
     assertNotNull(element)
     val resource = element?.reference?.resolve() as? SkinResource
-    assertNotNull(resource)
-    assertEquals(resourceName, resource?.name)
-    assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
+    if (resourceName != null) {
+      assertNotNull(resource)
+      assertEquals(resourceName, resource?.name)
+      assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
+    } else {
+      assertNull(resource)
+    }
   }
 
   fun doTestJavaClassReference(className: String) {

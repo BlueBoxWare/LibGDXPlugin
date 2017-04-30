@@ -1073,7 +1073,20 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   "DuplicateResource",
                   "MalformedColorString",
                   "MissingProperty"
-          ))
+          )),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
+                a: {}
+              }
+              com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
+                x: {}
+                y: {}
+                u: <caret>
+              }
+            }
+          """ to (listOf<String>() to listOf("a", "x", "y"))
   )
 
   fun testCompletions() {
