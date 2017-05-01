@@ -135,6 +135,8 @@
 
         <previewHintProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.TextureRegionPreviewHintProvider" />
 
+        <debugger.nodeRenderer implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXColorObjectRenderer" />
+
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />

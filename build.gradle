@@ -46,6 +46,7 @@ test {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+    compile files("${System.properties['java.home']}/../lib/tools.jar")
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
