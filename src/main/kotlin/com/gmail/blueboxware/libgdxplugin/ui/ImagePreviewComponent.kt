@@ -2,10 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.UIUtil
-import java.awt.BorderLayout
-import java.awt.Dimension
-import java.awt.Graphics
-import java.awt.Label
+import org.intellij.images.options.TransparencyChessboardOptions
+import java.awt.*
 import java.awt.image.BufferedImage
 import javax.swing.BorderFactory
 import javax.swing.JComponent
@@ -48,7 +46,7 @@ class ImagePreviewComponent(val image: BufferedImage, description: String): JPan
 
   private inner class MyImageComponent: JComponent() {
 
-    private val prefSize: Dimension = Dimension(image.width, image.height)
+    private val prefSize: Dimension = Dimension(image.width + 32, image.height + 32)
 
     override fun paint(g: Graphics?) {
       super.paint(g)
@@ -58,16 +56,38 @@ class ImagePreviewComponent(val image: BufferedImage, description: String): JPan
         val width = if (bounds.width > image.width) image.width else bounds.width
         val height = if (bounds.height > image.height) image.height else bounds.height
 
+        (g as? Graphics2D)?.let {
+          drawChessBoard(it)
+        }
+
         g?.drawImage(
                 image,
                 bounds.width / 2 - width / 2,
-                0,
+                bounds.height / 2 - height / 2,
                 width,
                 height,
                 this
         )
       }
 
+    }
+
+    private fun drawChessBoard(g: Graphics2D) {
+
+      val cellSize = 3
+      val patternSize = 2 * cellSize
+
+      val pattern = UIUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
+      pattern.graphics.let {
+        it.color = TransparencyChessboardOptions.DEFAULT_BLACK_COLOR
+        it.fillRect(0, 0, patternSize, patternSize)
+        it.color = TransparencyChessboardOptions.DEFAULT_WHITE_COLOR
+        it.fillRect(0, cellSize, cellSize, cellSize)
+        it.fillRect(cellSize, 0, cellSize, cellSize)
+      }
+
+      g.paint = TexturePaint(pattern, Rectangle(0, 0, patternSize, patternSize))
+      g.fillRect(0, 0, bounds.width, bounds.height)
     }
 
     override fun getPreferredSize() = prefSize

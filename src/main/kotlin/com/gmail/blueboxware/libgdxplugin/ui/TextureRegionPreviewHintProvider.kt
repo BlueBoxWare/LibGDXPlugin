@@ -37,7 +37,7 @@ import javax.swing.JComponent
 class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
   override fun isSupportedFile(file: PsiFile?): Boolean =
-    file is SkinFile || file is PsiJavaFile || file is KtFile
+    file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
 
   override fun getPreviewComponent(element: PsiElement): JComponent? {
 
