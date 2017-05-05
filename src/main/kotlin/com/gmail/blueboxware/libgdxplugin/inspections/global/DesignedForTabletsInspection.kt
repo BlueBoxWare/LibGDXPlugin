@@ -1,14 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.global
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
+import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SdkVersionType
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.*
 import com.intellij.psi.PsiElement
-import com.intellij.psi.XmlRecursiveElementVisitor
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.xml.XmlDocument
+import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
 import org.jetbrains.plugins.groovy.lang.psi.GroovyFileBase
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
@@ -17,7 +19,6 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrApplic
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrMethodCall
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.path.GrCallExpression
-import java.util.*
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -34,9 +35,6 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-private enum class SdkVersionType { MIN, MAX, TARGET }
-
 class DesignedForTabletsInspection: GlobalInspectionTool() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
@@ -69,7 +67,9 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
     val manifests = FilenameIndex.getFilesByName(globalContext.project, "AndroidManifest.xml", GlobalSearchScope.projectScope(globalContext.project))
 
     for (manifest in manifests) {
-      manifest.accept(DesignedForTabletsManifestVisitor(problems, versionsMap))
+      (manifest as? XmlFile)?.let {
+        processManifest(problems, it, versionsMap)
+      }
     }
 
     for ((element, msg) in problems) {
@@ -88,64 +88,32 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
     }
 
   }
-}
 
-private class DesignedForTabletsManifestVisitor(val problems: MutableList<Pair<PsiElement, String>>, versionsMap: Map<SdkVersionType, Int>): XmlRecursiveElementVisitor() {
+  private fun processManifest(problems: MutableList<Pair<PsiElement, String>>, manifest: XmlFile, versionsMap: Map<SdkVersionType, Int>) {
 
-  val localVersionsMap: HashMap<SdkVersionType, Int> = HashMap(versionsMap)
+    val model = ManifestModel.fromFile(manifest)
+    model.applyExternalVersions(versionsMap)
 
-  var supportsScreensFound = false
-
-  override fun visitXmlDocument(document: XmlDocument?) {
-    super.visitXmlDocument(document)
-
-    if (document != null && !supportsScreensFound && localVersionsMap[SdkVersionType.MIN] ?: 1 < 13) {
-      problems.add(document to message("designed.for.tablets.problem.descriptor.missing.support.screens"))
+    val versionTag = (model.targetSDK?.element ?: model.minSDK.element ?: model.maxSDK?.element)?.let { attribute ->
+      PsiTreeUtil.findFirstParent(attribute, { it is XmlTag })
+    } ?: manifest
+    if (model.resolveTargetSDK() < 11 && model.minSDK.value < 11) {
+      problems.add(versionTag to message("designed.for.tablets.problem.descriptor.target.or.min"))
+    } else if (model.maxSDK?.value ?: 11 < 11) {
+      problems.add(versionTag to message("designed.for.tablets.problem.descriptor.max"))
     }
-  }
 
-  override fun visitXmlTag(tag: XmlTag?) {
-    super.visitXmlTag(tag)
-
-    if (tag == null) return
-
-    val tagName = tag.name.toLowerCase()
-
-    if (tagName == "uses-sdk") {
-      val versionsMap = getVersionsFromUsesSdkElement(tag)
-
-      if (versionsMap[SdkVersionType.TARGET] ?: 0 < 11 && versionsMap[SdkVersionType.MIN] ?: 0 < 11) {
-        problems.add(tag to message("designed.for.tablets.problem.descriptor.target.or.min"))
-      } else if (versionsMap[SdkVersionType.MAX] ?: 11 < 11) {
-        problems.add(tag to message("designed.for.tablets.problem.descriptor.max"))
+    if (model.supportScreens == null && model.minSDK.value < 13) {
+      problems.add(manifest to message("designed.for.tablets.problem.descriptor.missing.support.screens"))
+    } else {
+      val supportScreens = model.resolveSupportsScreens()
+      val supportScreensElement = model.supportScreens?.element ?: manifest
+      if ((model.hasLargeScreensSupportAttribute && supportScreens.largeScreens != true) || (model.hasXLargeScreenSupportAttribute && supportScreens.xlargeScreens != true)) {
+        problems.add(supportScreensElement to message("designed.for.tablets.problem.descriptor.large.false"))
       }
-
-      updateVersionMap(localVersionsMap, versionsMap)
-
-    } else if (tagName  == "supports-screens") {
-
-      supportsScreensFound = true
-
-      var largeScreensFound = false
-      var xlargeScreensFound = false
-
-      for (attribute in tag.attributes) {
-        if (attribute.name == "android:largeScreens" || attribute.name == "android:xlargeScreens") {
-          if (attribute.value == "false") {
-            problems.add(tag to message("designed.for.tablets.problem.descriptor.large.false"))
-            return
-          } else if (attribute.value == "true" ){
-            if (attribute.name == "android:largeScreens") largeScreensFound = true else xlargeScreensFound = true
-          }
-        }
+      if (model.minSDK.value < 13 && (!model.hasLargeScreensSupportAttribute || !model.hasXLargeScreenSupportAttribute)) {
+        problems.add(supportScreensElement to message("designed.for.tablets.problem.descriptor.large.missing"))
       }
-
-      if (localVersionsMap[SdkVersionType.MIN] ?: 13 < 13) {
-        if (!largeScreensFound || !xlargeScreensFound) {
-          problems.add(tag to message("designed.for.tablets.problem.descriptor.large.missing"))
-        }
-      }
-
     }
 
   }
@@ -216,49 +184,3 @@ private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<Psi
 
   }
 }
-
-private fun getVersionsFromUsesSdkElement(tag: XmlTag): MutableMap<SdkVersionType, Int> {
-
-  fun strToInt(str: String?): Int? {
-    if (str == null) return null
-
-    try {
-      val i = str.toInt()
-      return i
-    } catch (e: NumberFormatException) {
-
-    }
-
-    return null
-  }
-
-  val versionsMap = mutableMapOf<SdkVersionType, Int>()
-
-  for (attribute in tag.attributes) {
-
-    val version = strToInt(attribute.value) ?: continue
-
-    when (attribute.name) {
-      "android:maxSdkVersion" -> versionsMap[SdkVersionType.MAX] = version
-      "android:minSdkVersion" -> versionsMap[SdkVersionType.MIN] = version
-      "android:targetSdkVersion" -> versionsMap[SdkVersionType.TARGET] = version
-    }
-  }
-
-  return versionsMap
-
-}
-
-private fun updateVersionMap(target: MutableMap<SdkVersionType, Int>, newMap: Map<SdkVersionType, Int>) {
-
-  for (type in SdkVersionType.values()) {
-    if (newMap.containsKey(type)) {
-      if (!target.containsKey(type) || target[type] ?: 0 < newMap[type] ?: 0) {
-        target[type] = newMap[type] ?: 0
-      }
-    }
-  }
-
-}
-
-

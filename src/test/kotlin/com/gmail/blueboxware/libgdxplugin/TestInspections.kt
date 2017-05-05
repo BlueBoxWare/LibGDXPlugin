@@ -72,7 +72,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.configureByFiles(*fileNames)
     myFixture.enableInspections(inspection)
-    return myFixture.doHighlighting().filter { it.description == warningDescription }
+    return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) ?: false }
 
   }
 
@@ -167,13 +167,13 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   /*
    * OpenGL Directive inspection
    */
-  fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String = "manifest") {
+  fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
     val lName = "inspections/missingOpenGLDirective/" + name
     val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
 
     for (hightLight in hightLights) {
       if (warningExpected) {
-        if (!hightLight.text.startsWith("<" + problemElement)) {
+        if (problemElement != null && !hightLight.text.startsWith("<" + problemElement)) {
           UsefulTestCase.fail(name + ": Hightlight starts at wrong element: '" + hightLight.text.substring(0, 30) + "'")
           return
         } else {
@@ -196,9 +196,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testOpenGLDirectiveInspectionDirectiveIsMissing() {
-    performOpenGLDirectiveInspectionTest("missingDirective1/AndroidManifest.xml", true)
-    performOpenGLDirectiveInspectionTest("missingDirective2/AndroidManifest.xml", true, problemElement = "uses-feature")
-    performOpenGLDirectiveInspectionTest("missingDirective3/AndroidManifest.xml", true, problemElement = "uses-feature")
+    performOpenGLDirectiveInspectionTest("missingDirective1/AndroidManifest.xml", true, problemElement = null)
+    performOpenGLDirectiveInspectionTest("missingDirective2/AndroidManifest.xml", true)
+    performOpenGLDirectiveInspectionTest("missingDirective3/AndroidManifest.xml", true)
+    performOpenGLDirectiveInspectionTest("missingDirective4/AndroidManifest.xml", true, problemElement = null)
   }
 
   fun testOpenGLDirectiveInspectionDirectiveIsPresent() {
@@ -295,7 +296,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             """<uses-sdk android:minSdkVersion="13" /><supports-screens android:largeScreens="true" android:xlargeScreens="true" />""" to null
     )
 
-    for ((content, warnings) in tests) {
+    for ((str, warnings) in tests) {
+      val content = "<manifest>$str</manifest>"
       doDesignedForTabletsTest(mapOf("AndroidManifest.xml" to content), warnings)
     }
   }
@@ -351,22 +353,22 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
             mapOf(
                     "build.gradle" to "targetSdkVersion 11",
-                    "AndroidManifest.xml" to """<uses-sdk android:minSdkVersion="11" />"""
+                    "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="11" /></manifest>"""
             ) to listOf("missing.support.screens"),
             mapOf(
                     "build.gradle" to "targetSdkVersion 10",
-                    "AndroidManifest.xml" to """<uses-sdk android:minSdkVersion="13" />"""
+                    "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="13" /></manifest>"""
             ) to null,
             mapOf(
                     "build.gradle" to "targetSdkVersion 10\nminSdkVersion 10",
                     "a/build.gradle" to "targetSdkVersion 11",
-                    "AndroidManifest.xml" to """<uses-sdk android:minSdkVersion="13" />"""
+                    "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="13" /></manifest>"""
             ) to null,
             mapOf(
                     "build.gradle" to "minSdkVersion 10",
                     "a/build.gradle" to "minSdkVersion 11",
                     "b/build.gradle" to "targetSdkVersion 12",
-                    "AndroidManifest.xml" to """<supports-screens android:largeScreens="true" android:xlargeScreens="true" />"""
+                    "AndroidManifest.xml" to """<manifest><supports-screens android:largeScreens="true" android:xlargeScreens="true" /></manifest>"""
             ) to null,
             mapOf(
                     "a/build.gradle" to "maxSdkVersion 10",

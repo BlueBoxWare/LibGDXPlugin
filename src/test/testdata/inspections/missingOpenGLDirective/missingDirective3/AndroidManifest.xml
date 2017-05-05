@@ -21,7 +21,7 @@
           android:versionName="1.0" >
 
   <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="24" />
-  <uses-feature android:glEsVersion="0x00020000" android:required="false" />
+  <uses-feature android:glEsVersion="0x00011000" android:required="false" />
 
   <application
       android:allowBackup="true"
