@@ -1,0 +1,6 @@
+{
+ doesNotExist: {
+   // @Suppress(NonExistingClass)
+   default: {}
+ }
+}

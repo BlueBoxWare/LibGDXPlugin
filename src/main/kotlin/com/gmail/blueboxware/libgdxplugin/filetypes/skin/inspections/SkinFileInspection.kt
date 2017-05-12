@@ -58,9 +58,7 @@ open class SkinFileInspection : LocalInspectionTool() {
   open class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
 
     override fun getContainer(context: PsiElement?): PsiElement? =
-            ((context?.parent?.parent as? SkinClassName)?.parent ?: context)?.let { realContext ->
-              PsiTreeUtil.findFirstParent(realContext, true, { it is SkinClassSpecification || it is SkinObject })
-            }
+            PsiTreeUtil.findFirstParent(context, true, { it is SkinClassSpecification || it is SkinObject })
 
     override fun getFamilyName(): String = message("suppress.object")
 

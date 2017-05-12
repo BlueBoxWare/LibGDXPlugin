@@ -78,6 +78,11 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
     doTest(message("suppress.file"))
   }
 
+  fun testSuppressNonexistingClass() {
+    myFixture.enableInspections(SkinNonExistingClassInspection())
+    doTest(message("suppress.object"))
+  }
+
   fun doTest(familyName: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     for (intention in myFixture.availableIntentions) {

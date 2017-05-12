@@ -331,7 +331,7 @@ class SkinCompletionContributor : CompletionContributor() {
   }
 
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {
-    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }?.let { prefix ->
+    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }.let { prefix ->
       if (prefix.firstOrNull() == '\'' || prefix.firstOrNull() == '"') {
         prefix.substring(1)
       } else {

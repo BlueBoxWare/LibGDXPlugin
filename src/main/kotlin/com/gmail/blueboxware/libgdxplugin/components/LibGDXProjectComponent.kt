@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.components
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.editor.EditorFactory
