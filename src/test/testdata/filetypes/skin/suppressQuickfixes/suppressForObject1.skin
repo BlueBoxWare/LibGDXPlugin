@@ -1,0 +1,10 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    default: {
+      /* Comment */
+      // Comment
+      hex: "#000000"
+      z<caret>z: ''
+    }
+  }
+}

@@ -1,0 +1,13 @@
+
+// Comments
+
+/**
+ * More Comments
+ */
+
+{
+ doesNot<caret>Exist: {
+   default: {}
+   default: {}
+ }
+}

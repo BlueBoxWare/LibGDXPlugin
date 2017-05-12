@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
+import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiField;
 import java.awt.Color;
 

@@ -4,6 +4,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiField;
 import java.awt.Color;
 
@@ -25,6 +26,8 @@ public interface SkinObject extends SkinValue {
   SkinObject setColor(Color color);
 
   void addProperty(SkinProperty property);
+
+  void addComment(PsiComment comment);
 
   @Nullable
   SkinProperty getProperty(String name);

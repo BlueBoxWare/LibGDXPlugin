@@ -19,8 +19,4 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinResourcesMixin(node: ASTNode): SkinResources, SkinElementImpl(node) {
-
-
-
-}
+abstract class SkinResourcesMixin(node: ASTNode): SkinResources, SkinElementImpl(node)

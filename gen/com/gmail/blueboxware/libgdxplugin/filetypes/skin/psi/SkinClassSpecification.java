@@ -2,6 +2,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi;
 
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -33,5 +34,7 @@ public interface SkinClassSpecification extends SkinNamedElement {
 
   @Nullable
   SkinResource getResource(String name);
+
+  void addComment(PsiComment comment);
 
 }

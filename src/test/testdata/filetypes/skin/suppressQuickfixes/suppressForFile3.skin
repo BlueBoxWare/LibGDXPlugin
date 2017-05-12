@@ -1,0 +1,12 @@
+{
+  ColorArrayHolder: {
+    default: {
+      m: [
+        {
+          moreColors: []
+          m: [[<caret>]]
+        }
+      ]
+    }
+  }
+}

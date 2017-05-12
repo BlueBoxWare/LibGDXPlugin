@@ -58,6 +58,7 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
         getResourcesAsList
         getResourceNames
         getResource
+        addComment
         value=""
         className="string_literal"
     ]
@@ -106,6 +107,7 @@ object ::= '{' property? (separator property)* optionalComma '}' {
         getPropertyNames
         setColor
         addProperty
+        addComment
         getProperty
         resolveToField
     ]

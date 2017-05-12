@@ -2,12 +2,16 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiField
 import com.intellij.psi.codeStyle.CodeStyleManager
+import com.intellij.psi.impl.source.tree.TreeUtil
+import com.intellij.psi.util.PsiTreeUtil
 import java.awt.Color
 import javax.swing.Icon
 
@@ -27,6 +31,18 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
         if (propertyList.size > 1) {
           SkinElementFactory.createComma(project)?.let { comma ->
             addAfter(comma, it)
+          }
+        }
+      }
+    }
+  }
+
+  override fun addComment(comment: PsiComment) {
+    if (firstChild?.text == "{") {
+      PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
+        TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
+          SkinElementFactory.createNewLine(project)?.let { newLine ->
+            addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
           }
         }
       }

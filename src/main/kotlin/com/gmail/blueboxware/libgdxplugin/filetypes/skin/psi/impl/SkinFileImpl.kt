@@ -5,7 +5,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
@@ -13,6 +15,7 @@ import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
@@ -63,6 +66,16 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
           getActiveAnnotations(SkinAnnotations.SUPPRESS).filter { it.second == inspectionId }.isNotEmpty()
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
+
+  override fun addComment(comment: PsiComment) {
+    firstChild?.node?.let { firstNode ->
+      TreeUtil.skipWhitespaceAndComments(firstNode, true)?.let { anchor ->
+        SkinElementFactory.createNewLine(project)?.let { newLine ->
+          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+        }
+      }
+    }
+  }
 
   override fun getPresentation() = object: ItemPresentation {
 

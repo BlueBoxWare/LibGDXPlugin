@@ -413,8 +413,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   fun testLogLevelInspection() {
 
-    performInspectionsTest(KotlinLogLevelInspection(), "inspections/logLevel/Test.kt")
     performInspectionsTest(JavaLogLevelInspection(), "inspections/logLevel/Test.java")
+    performInspectionsTest(KotlinLogLevelInspection(), "inspections/logLevel/Test.kt")
 
   }
 
@@ -431,7 +431,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   fun testGDXAssetsFileNameErrorInspection() {
 
     addAnnotations()
-    addLibGDX()
     myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
 
     performInspectionsTest(JavaGDXAssetsFileNameErrorInspection(), "inspections/GDXAssetsFileName/Test.java")

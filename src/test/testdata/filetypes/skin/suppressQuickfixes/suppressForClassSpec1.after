@@ -1,0 +1,9 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    // @Suppress(DuplicateResource)
+    default: { hex: "00ff00" }
+    zz: {}
+    default: {}
+    xx: {}
+  }
+}

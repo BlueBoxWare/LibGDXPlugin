@@ -1,18 +1,23 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.TreeUtil
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
@@ -47,15 +52,30 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
     return null
   }
 
-  override fun getResourcesAsList() = resources?.resourceList ?: listOf()
+  override fun getResourcesAsList(): List<SkinResource> = resources?.resourceList ?: listOf()
 
-  override fun getResourcesAsList(beforeElement: PsiElement): List<SkinResource> = getResourcesAsList().filter { it.endOffset < beforeElement.startOffset }
+  override fun getResourcesAsList(beforeElement: PsiElement): List<SkinResource> = resourcesAsList.filter { it.endOffset < beforeElement.startOffset }
 
   override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
 
   override fun getResource(name: String) = resources?.resourceList?.firstOrNull { it.name == name }
 
   override fun getName() = nameIdentifier.value
+
+  override fun addComment(comment: PsiComment) {
+    var leaf: PsiElement? = firstChild
+    while (leaf != null && leaf.node?.elementType != SkinElementTypes.L_CURLY) {
+      leaf = leaf.nextLeaf()
+    }
+
+    leaf?.nextLeaf()?.node?.let { curlyNode ->
+      TreeUtil.skipWhitespaceAndComments(curlyNode, true)?.let { anchor ->
+        SkinElementFactory.createNewLine(project)?.let { newLine ->
+          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+        }
+      }
+    }
+  }
 
   override fun getPresentation() = object: ItemPresentation {
     override fun getLocationString() = null

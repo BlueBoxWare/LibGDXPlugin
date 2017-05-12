@@ -1,0 +1,13 @@
+
+// Comments
+
+/**
+ * More Comments
+ */
+
+{
+ doesNotExist: {
+   def<caret>ault: {}
+   default: {}
+ }
+}

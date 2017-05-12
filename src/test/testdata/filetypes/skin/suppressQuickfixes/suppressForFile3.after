@@ -1,0 +1,13 @@
+// @Suppress(TypeError)
+{
+  ColorArrayHolder: {
+    default: {
+      m: [
+        {
+          moreColors: []
+          m: [[]]
+        }
+      ]
+    }
+  }
+}

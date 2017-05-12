@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
@@ -23,5 +24,7 @@ interface SkinFile : SkinElement, PsiFile {
   fun getClassSpecifications(className: String? = null): Collection<SkinClassSpecification>
 
   fun getResources(className: String? = null, resourceName: String? = null, beforeElement: PsiElement? = null): List<SkinResource>
+
+  fun addComment(comment: PsiComment)
 
 }

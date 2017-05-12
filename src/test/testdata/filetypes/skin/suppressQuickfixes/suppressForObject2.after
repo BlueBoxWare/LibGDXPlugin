@@ -1,0 +1,13 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      fontColor: {
+        hex: "#00ff00"
+      }
+      font: {
+        // @Suppress(MissingProperty)
+        markupEnabled: true
+      }
+    }
+  }
+}

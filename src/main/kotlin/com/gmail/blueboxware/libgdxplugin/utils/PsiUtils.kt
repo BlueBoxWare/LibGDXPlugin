@@ -28,6 +28,14 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
+  var element: PsiElement? = this
+  while (element != null && element.parent != childOf) {
+    element = element.parent
+  }
+  return element
+}
+
 fun String.removeDollarFromClassName() = split(".", "$").joinToString(".")
 
 fun PsiClass.putDollarInInnerClassName() = containingClass?.let { it.qualifiedName + "$" + name } ?: qualifiedName

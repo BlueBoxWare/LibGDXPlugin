@@ -1,0 +1,14 @@
+
+// Comments
+
+/**
+ * More Comments
+ */
+
+// @Suppress(NonExistingClass)
+{
+ doesNotExist: {
+   default: {}
+   default: {}
+ }
+}

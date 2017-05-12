@@ -11,6 +11,7 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 import com.intellij.psi.PsiClass;
+import com.intellij.psi.PsiComment;
 
 public class SkinClassSpecificationImpl extends SkinClassSpecificationMixin implements SkinClassSpecification {
 

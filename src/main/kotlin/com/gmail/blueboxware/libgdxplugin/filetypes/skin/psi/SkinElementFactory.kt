@@ -1,8 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
+import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.util.PsiTreeUtil
@@ -34,6 +37,9 @@ object SkinElementFactory {
 }
   """
 
+  fun createSuppressionComment(project: Project, inspectionId: String): PsiComment? =
+          createComment(project, " @Suppress($inspectionId)", LibGDXSkinLanguage.INSTANCE)
+
   fun createProperty(project: Project, name: String, value: String): SkinProperty? {
     val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, """
     {
@@ -60,6 +66,17 @@ object SkinElementFactory {
     val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
 
     return file.findElementAt(content.indexOf(','))
+  }
+
+  fun createNewLine(project: Project): PsiElement? {
+    val content = """
+    {
+
+    }
+    """
+    val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+
+    return file.findElementAt(content.indexOf('\n'))
   }
 
   fun createObject(project: Project): SkinObject? {

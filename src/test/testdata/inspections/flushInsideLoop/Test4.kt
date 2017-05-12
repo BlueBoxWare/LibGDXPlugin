@@ -28,7 +28,9 @@ fun t() {
 
     val fff =  { x: Any ->
       fun g() {
-        SpriteBatch().flush()
+        if (x is Int) {
+          SpriteBatch().flush()
+        }
       }
       g()
     }
