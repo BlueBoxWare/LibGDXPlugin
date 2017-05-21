@@ -54,6 +54,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   override fun setUp() {
     assertIdeaHomePath()
+
     VersionManager.BASE_URL = "http://127.0.0.1/maven/"
 
     super.setUp()

@@ -6,13 +6,11 @@ import com.intellij.debugger.ui.tree.ValueDescriptor
 import com.intellij.debugger.ui.tree.render.CompoundReferenceRenderer
 import com.intellij.debugger.ui.tree.render.DescriptorLabelListener
 import com.intellij.util.ui.ColorIcon
-import com.intellij.util.ui.JBUI
 import com.sun.jdi.ClassNotPreparedException
 import com.sun.jdi.FloatValue
 import com.sun.jdi.ObjectReference
 import java.awt.Color
 import java.lang.IllegalArgumentException
-
 import javax.swing.Icon
 
 /*
@@ -53,7 +51,7 @@ class LibGDXColorObjectRenderer(rendererSettings: NodeRendererSettings): Compoun
 
     val color = Color(r, g, b, a)
 
-    return JBUI.scale(ColorIcon(16, 12, color, true))
+    return ColorIcon(16, 12, color, true)
   }
 
   private fun getValue(objectReference: ObjectReference, fieldName: String): Float {

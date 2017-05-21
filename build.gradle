@@ -1,28 +1,35 @@
 buildscript {
 
-    ext.kotlin_version = '1.1.2'
-
     repositories {
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 
 }
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.1.2"
-    id "org.jetbrains.intellij" version "0.2.9"
+    id "org.jetbrains.intellij" version "0.2.7"
 }
 
-apply plugin: 'org.jetbrains.intellij'
+apply plugin: 'kotlin'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 group 'com.gmail.blueboxware'
-version '1.10'
+version pluginVersion
 
 intellij {
-    version = '2017.1.2'
-    plugins = ['Kotlin', 'Groovy', 'properties']
+    if (Boolean.valueOf(isAndroidStudio)) {
+        version = asVersion
+        plugins = ["org.jetbrains.kotlin:$asKotlinPlugin", 'Groovy', 'properties']
+    } else {
+        version = ideaVersion
+        plugins = ['Kotlin', 'Groovy', 'properties']
+    }
+
     pluginName = 'LibGDX Inspections'
     updateSinceUntilBuild = false
     downloadSources =  true
@@ -44,8 +51,8 @@ test {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-runtime:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-runtime:$kotlinVersion"
     compile files("${System.properties['java.home']}/../lib/tools.jar")
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -55,7 +62,7 @@ task annotationsJar(type: Jar) {
     baseName 'libgdxpluginannotations'
     from sourceSets.main.output
     include 'com/gmail/blueboxware/libgdxplugin/annotations/**'
-    version '1.0'
+    version annotationsVersion
 }
 
 task annotationsSourcesJar(type: Jar) {
@@ -71,16 +78,16 @@ task annotationsSourcesJar(type: Jar) {
 def pomConfig = {
     licenses {
         license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
+            name = "The Apache Software License, Version 2.0"
+            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution = "repo"
         }
     }
     developers {
         developer {
-            id "blueboxware"
-            name "Blue Box Ware"
-            email "blueboxware@gmail.com"
+            id = "blueboxware"
+            name = "Blue Box Ware"
+            email = "blueboxware@gmail.com"
         }
     }
 }

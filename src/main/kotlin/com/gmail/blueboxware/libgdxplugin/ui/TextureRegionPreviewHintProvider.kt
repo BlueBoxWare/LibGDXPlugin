@@ -14,8 +14,10 @@ import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ImageUtil
+import org.imgscalr.Scalr
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.JComponent
 
@@ -54,7 +56,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
       val element = when (element.containingFile) {
         is SkinFile     -> PsiTreeUtil.getParentOfType(element, SkinStringLiteral::class.java)
         is PsiJavaFile  -> PsiTreeUtil.getParentOfType(element, PsiLiteralExpression::class.java)
-        is KtFile       -> PsiTreeUtil.getParentOfType(element, KtStringTemplateExpression::class.java)
+        is KtFile -> PsiTreeUtil.getParentOfType(element, KtStringTemplateExpression::class.java)
         else             -> null
       }
 
@@ -106,10 +108,10 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
       var scale = 1
 
       if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
-        previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0f))
+        previewImage = ImageUtil.toBufferedImage(scaleImage(image, 4.0f))
         scale = 4
       } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
-        previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0f))
+        previewImage = ImageUtil.toBufferedImage(scaleImage(image, 2.0f))
         scale = 2
       }
 
@@ -118,6 +120,18 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
       val component = ImagePreviewComponent(previewImage, txt)
 
       return component
+
+  }
+
+  companion object {
+
+    // ImageUtil.scaleImage() not yet available in Android Studio
+    private fun scaleImage(image: Image, scale: Float): Image {
+      val width = (scale * image.getWidth(null)).toInt()
+      val height = (scale * image.getHeight(null)).toInt()
+
+      return Scalr.resize(ImageUtil.toBufferedImage(image), Scalr.Method.QUALITY, width, height)
+    }
 
   }
 

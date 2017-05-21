@@ -62,6 +62,8 @@ open class SkinFileInspection : LocalInspectionTool() {
 
     override fun getFamilyName(): String = message("suppress.object")
 
+    override fun getName(): String = familyName
+
     override fun isSuppressAll(): Boolean = false
 
     override fun isAvailable(project: Project, context: PsiElement): Boolean = context.isValid && getContainer(context) != null
@@ -77,6 +79,8 @@ open class SkinFileInspection : LocalInspectionTool() {
     override fun getContainer(context: PsiElement?) = context?.containingFile as? SkinFile
 
     override fun getFamilyName(): String = message("suppress.file")
+
+    override fun getName(): String = familyName
 
   }
 

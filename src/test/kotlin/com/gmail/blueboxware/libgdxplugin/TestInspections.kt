@@ -24,15 +24,17 @@ import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.GlobalInspectionTool
+import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
+import com.intellij.codeInspection.ex.InspectionManagerEx
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.UsefulTestCase
-import com.intellij.testFramework.createGlobalContextForTool
+import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import org.jetbrains.plugins.groovy.GroovyFileType
 import java.io.File
@@ -86,7 +88,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     val scope = AnalysisScope(psiDirectory)
     scope.invalidate()
 
-    val globalContext = createGlobalContextForTool(scope, project, listOf(toolWrapper))
+    val globalContext = createGlobalContextForTool(scope, project, InspectionManager.getInstance(project) as InspectionManagerEx, toolWrapper)
 
     InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
 
