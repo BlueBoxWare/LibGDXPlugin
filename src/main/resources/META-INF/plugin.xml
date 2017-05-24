@@ -32,7 +32,18 @@
     <change-notes><![CDATA[
         <b>1.11</b>
         <ul>
-            <li></li>
+            <li>
+                Skin files:
+                <ul>
+                    <li>Allow suppression of warnings for specific objects or entire file</li>
+                    <li>Added quickfixes to suppress warnings</li>
+                    <li>Added a number of inspections</li>
+                    <li>Smart closing quotes insertion and removal</li>
+                    <li>Bugfixes</li>
+                </ul>
+            </li>
+            <li>Previews for Textures/Drawables: with SHIFT pressed, hover over a region in an Atlas files, a Drawable name in a Skin file or Drawable name in Skin methods of a properly annotated Skin object</li>
+            <li>Color previews in the debug view</li>
         </ul>
 
         <b>1.10</b>
