@@ -35,6 +35,8 @@ When using a LibGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.va
 
 To disable color previews, go to *Settings* -> *Editor* -> *LibGDXPlugin*.
 
+Color previews are also shown in the Debug Tool Window.
+
 ### Skin JSON support
 Files with the extension `.skin` are treated as Skin JSON files. For files with the extension `.json` which look like Skin files, you are asked
 whether they should be treated as Skin files (can be turned of in the settings). You can also mark and unmark files as Skin files using the context menu of a file.
@@ -57,6 +59,7 @@ exists, drawable/texture names
 * Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[2]
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
+* With *Shift* pressed, hover over a Drawable/Texture name to view a preview of the Drawable
 
 \[2]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
 annotation (See below)
@@ -71,6 +74,7 @@ Atlas file support includes:
 * Highlighting
 * [Structure View](https://www.jetbrains.com/help/idea/2016.2/navigating-with-structure-views.html)
 * Folding
+* With *Shift* pressed, hover over a Region to view a preview of the image
 
 ### Bitmap Font file (.fnt) support
  
@@ -81,7 +85,7 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 
 ### Skin resources and Atlas region names in Java and Kotlin code
 
-To get Code Completion (and Go To Definition, Find Usages and Rename Refactoring) for Skin resource names and region names from Atlas files in Skin.get*() and TextureAtlas.get*() 
+To get Code Completion (and Go To Definition, Find Usages, Rename Refactoring and image previews \[1]) for Skin resource names and region names from Atlas files in Skin.get*() and TextureAtlas.get*() 
 and related methods, use the `@GDXAssets` annotation to tell LibGDXPlugin which files to use.
 
 First add the annotation to your build. In `build.gradle`:
@@ -148,3 +152,5 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 works if you specify multiple Skin files.
 * Go To Definition and Find Usages are only available if the specified files are registered as Skin or Atlas file, not
 when they are registered as JSON or Text files.
+
+\[1]: With *Shift* pressed, hover over a Drawable name to get a preview.
