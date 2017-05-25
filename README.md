@@ -3,6 +3,8 @@ This unofficial plugin adds a number of LibGDX related tools and features to [In
 [Android Studio](https://developer.android.com/studio/index.html). You can install the plugin 
 [from the Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509). 
 
+For running and building the plugin from source, see [FromSource](FromSource.md).
+
 This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
 you only use Java), so install and/or enable that plugin first. 
 
