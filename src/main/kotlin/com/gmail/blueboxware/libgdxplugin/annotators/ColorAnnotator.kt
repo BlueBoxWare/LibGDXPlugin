@@ -293,14 +293,10 @@ class ColorAnnotator : Annotator {
                     }
                   }
                 } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
-                  (methodCallExpression.argumentList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.let { classObject ->
-                    (classObject.operand.type as? PsiClassReferenceType)?.resolve()?.let { clazz ->
-                      methodCallExpression.getAssetFiles().let { assetFiles ->
-                        for (skinFile in assetFiles.first) {
-                          skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
-                            return it.asColor(true)
-                          }
-                        }
+                  methodCallExpression.getAssetFiles().let { assetFiles ->
+                    for (skinFile in assetFiles.first) {
+                      skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
+                        return it.asColor(true)
                       }
                     }
                   }

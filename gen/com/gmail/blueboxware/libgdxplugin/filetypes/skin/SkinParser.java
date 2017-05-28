@@ -26,23 +26,11 @@ public class SkinParser implements PsiParser, LightPsiParser {
     if (t == ARRAY) {
       r = array(b, 0);
     }
-    else if (t == BOOLEAN_LITERAL) {
-      r = boolean_literal(b, 0);
-    }
     else if (t == CLASS_NAME) {
       r = class_name(b, 0);
     }
     else if (t == CLASS_SPECIFICATION) {
       r = class_specification(b, 0);
-    }
-    else if (t == LITERAL) {
-      r = literal(b, 0);
-    }
-    else if (t == NULL_LITERAL) {
-      r = null_literal(b, 0);
-    }
-    else if (t == NUMBER_LITERAL) {
-      r = number_literal(b, 0);
     }
     else if (t == OBJECT) {
       r = object(b, 0);
@@ -82,8 +70,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(ARRAY, BOOLEAN_LITERAL, LITERAL, NULL_LITERAL,
-      NUMBER_LITERAL, OBJECT, STRING_LITERAL, VALUE),
+    create_token_set_(ARRAY, OBJECT, STRING_LITERAL, VALUE),
   };
 
   /* ********************************************************** */
@@ -134,19 +121,6 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TRUE | FALSE
-  public static boolean boolean_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "boolean_literal")) return false;
-    if (!nextTokenIs(b, "<boolean literal>", FALSE, TRUE)) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BOOLEAN_LITERAL, "<boolean literal>");
-    r = consumeToken(b, TRUE);
-    if (!r) r = consumeToken(b, FALSE);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
   // string_literal
   public static boolean class_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_name")) return false;
@@ -171,44 +145,6 @@ public class SkinParser implements PsiParser, LightPsiParser {
     r = p && consumeToken(b, R_CURLY) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  /* ********************************************************** */
-  // string_literal | number_literal | boolean_literal | null_literal
-  public static boolean literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "literal")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _COLLAPSE_, LITERAL, "<literal>");
-    r = string_literal(b, l + 1);
-    if (!r) r = number_literal(b, l + 1);
-    if (!r) r = boolean_literal(b, l + 1);
-    if (!r) r = null_literal(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // NULL
-  public static boolean null_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "null_literal")) return false;
-    if (!nextTokenIs(b, NULL)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NULL);
-    exit_section_(b, m, NULL_LITERAL, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // NUMBER
-  public static boolean number_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "number_literal")) return false;
-    if (!nextTokenIs(b, NUMBER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NUMBER);
-    exit_section_(b, m, NUMBER_LITERAL, r);
-    return r;
   }
 
   /* ********************************************************** */
@@ -434,14 +370,14 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // object | array | literal
+  // object | array | string_literal
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _COLLAPSE_, VALUE, "<value>");
     r = object(b, l + 1);
     if (!r) r = array(b, l + 1);
-    if (!r) r = literal(b, l + 1);
+    if (!r) r = string_literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

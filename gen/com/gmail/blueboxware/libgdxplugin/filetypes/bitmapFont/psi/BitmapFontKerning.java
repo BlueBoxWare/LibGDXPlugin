@@ -4,6 +4,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontFontCharImpl;
 
 public interface BitmapFontKerning extends PropertyContainer {
 
@@ -11,9 +12,9 @@ public interface BitmapFontKerning extends PropertyContainer {
   List<BitmapFontProperty> getPropertyList();
 
   @Nullable
-  BitmapFontFontChar getFirstCharacter();
+  BitmapFontFontCharImpl getFirstCharacter();
 
   @Nullable
-  BitmapFontFontChar getSecondCharacter();
+  BitmapFontFontCharImpl getSecondCharacter();
 
 }

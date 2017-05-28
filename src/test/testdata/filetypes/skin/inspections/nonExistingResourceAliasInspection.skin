@@ -37,6 +37,7 @@
     f: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
     e: yellow,
     z: d
+    123: e
   },
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     yes: green,
@@ -79,6 +80,12 @@
     com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
       d: {
         fontColor: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+      }
+      e: {
+        fontColor: 123
+      }
+      f: {
+        fontColor: <error descr="'456' does not refer to anything. Resources must be defined before they can be used.">456</error>
       }
     }
 }

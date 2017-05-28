@@ -12,6 +12,8 @@ public interface SkinValue extends SkinElement {
   @Nullable
   SkinProperty getProperty();
 
+  boolean isBoolean();
+
   @Nullable
   PsiType resolveToType();
 

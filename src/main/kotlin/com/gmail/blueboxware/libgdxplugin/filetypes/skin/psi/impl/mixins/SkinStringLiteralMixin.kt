@@ -4,7 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinLiteralImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
@@ -26,11 +26,13 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLiteralImpl(node) {
+abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinValueImpl(node) {
 
   override fun getValue(): String = StringUtil.unescapeStringCharacters(SkinPsiUtil.stripQuotes(text))
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
+
+  override fun isBoolean(): Boolean = text == "true" || value == "false"
 
   override fun getReference(): PsiReference? {
     if (
@@ -39,6 +41,14 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
     ) {
       return SkinFileReference(this, containingFile)
     } else  {
+      property?.resolveToTypeString()?.let { type ->
+        if (isBoolean && type == "java.lang.Boolean") {
+          return null
+        }
+        if (type == "java.lang.Integer") {
+          return null
+        }
+      }
       return SkinResourceReference(this)
     }
 
@@ -49,4 +59,6 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinLi
       replace(it)
     }
   }
+
+  override fun getQuotationChar(): Char? = text.firstOrNull()?.let { if (it == '"' || it == '\'')  it else null }
 }

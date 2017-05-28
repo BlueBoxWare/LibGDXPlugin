@@ -543,12 +543,12 @@
   com.example.ColorArrayHolder: {
     d: {
       moreColors: [
-        <warning descr="Array expected">{}</warning>, [<warning descr="Object or resource name expected">true</warning>], [{}], [<warning descr="Object or resource name expected">[]</warning>]],
+        <warning descr="Array expected">{}</warning>, [true], [{}], [<warning descr="Object or resource name expected">[]</warning>]],
 m: [
 f,
 {
 c: true,
-textButtonStyle: <warning descr="Object or resource name expected">null</warning>
+textButtonStyle: null
 }
 ],
 textButtonStyle: {
@@ -567,12 +567,12 @@ markupEnabled: <warning descr="Boolean value expected">truefd</warning>,
 }
 },
 com.example.KColorArrayHolder: {
-  d: {
-  bool: <warning descr="Boolean value expected">tfrue</warning>,
-  i: <warning descr="Integer expected">1.0</warning>,
-  m: [
+d: {
+bool: <warning descr="Boolean value expected">tfrue</warning>,
+i: <warning descr="Integer expected">1.0</warning>,
+m: [
 <warning descr="Array expected">{}</warning>,
-[<warning descr="Object or resource name expected">1</warning>],
+[1],
 [{}],
 [
 {
@@ -584,42 +584,42 @@ ints: [1,2,<warning descr="Integer expected">false</warning>, <warning descr="In
 }
 }
 
-  java.lang.Integer: {
-    f: {
-      value: 3
-    }
-  }
+java.lang.Integer: {
+f: {
+value: 3
+}
+}
 
-  java.lang.Boolean: {
-    b: {
-      value: true
-    }
-  }
+java.lang.Boolean: {
+b: {
+value: true
+}
+}
 
-  com.badlogic.gdx.graphics.g2d.BitmapFont: {
-    default: {
-      scaledSize: f
-      markupEnabled: b
-      file: tubular/skin/font-export.fnt
-    }
-    d: {
-      scaledSize: <warning descr="Integer expected">b</warning>
-      markupEnabled: <warning descr="Boolean value expected">f</warning>
-      file: tubular/skin/font-export.fnt
-    }
-    e: {
-      scaledSize: 3
-      markupEnabled: true
-      file: tubular/skin/font-export.fnt
-    }
-  }
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+default: {
+scaledSize: <warning descr="Integer expected">f</warning>
+markupEnabled: b
+file: tubular/skin/font-export.fnt
+}
+d: {
+scaledSize: <warning descr="Integer expected">b</warning>
+markupEnabled: <warning descr="Boolean value expected">f</warning>
+file: tubular/skin/font-export.fnt
+}
+e: {
+scaledSize: 3
+markupEnabled: true
+file: tubular/skin/font-export.fnt
+}
+}
 
-  com.example.ColorArrayHolder: {
-    x: {
-        c: true
-    }
-    y: {
-        c: <warning descr="Boolean value expected">b</warning>
-    }
-  }
+com.example.ColorArrayHolder: {
+x: {
+c: true
+}
+y: {
+c: <warning descr="Boolean value expected">b</warning>
+}
+}
 }

@@ -9,12 +9,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.*;
 public interface SkinElementTypes {
 
   IElementType ARRAY = new SkinElementType("ARRAY");
-  IElementType BOOLEAN_LITERAL = new SkinElementType("BOOLEAN_LITERAL");
   IElementType CLASS_NAME = new SkinElementType("CLASS_NAME");
   IElementType CLASS_SPECIFICATION = new SkinElementType("CLASS_SPECIFICATION");
-  IElementType LITERAL = new SkinElementType("LITERAL");
-  IElementType NULL_LITERAL = new SkinElementType("NULL_LITERAL");
-  IElementType NUMBER_LITERAL = new SkinElementType("NUMBER_LITERAL");
   IElementType OBJECT = new SkinElementType("OBJECT");
   IElementType PROPERTY = new SkinElementType("PROPERTY");
   IElementType PROPERTY_NAME = new SkinElementType("PROPERTY_NAME");
@@ -29,16 +25,12 @@ public interface SkinElementTypes {
   IElementType COLON = new SkinTokenType(":");
   IElementType COMMA = new SkinTokenType(",");
   IElementType DOUBLE_QUOTED_STRING = new SkinTokenType("DOUBLE_QUOTED_STRING");
-  IElementType FALSE = new SkinTokenType("false");
   IElementType LINE_COMMENT = new SkinTokenType("LINE_COMMENT");
   IElementType L_BRACKET = new SkinTokenType("[");
   IElementType L_CURLY = new SkinTokenType("{");
-  IElementType NULL = new SkinTokenType("null");
-  IElementType NUMBER = new SkinTokenType("NUMBER");
   IElementType R_BRACKET = new SkinTokenType("]");
   IElementType R_CURLY = new SkinTokenType("}");
   IElementType SINGLE_QUOTED_STRING = new SkinTokenType("SINGLE_QUOTED_STRING");
-  IElementType TRUE = new SkinTokenType("true");
   IElementType UNQUOTED_STRING = new SkinTokenType("UNQUOTED_STRING");
 
   class Factory {
@@ -47,20 +39,11 @@ public interface SkinElementTypes {
        if (type == ARRAY) {
         return new SkinArrayImpl(node);
       }
-      else if (type == BOOLEAN_LITERAL) {
-        return new SkinBooleanLiteralImpl(node);
-      }
       else if (type == CLASS_NAME) {
         return new SkinClassNameImpl(node);
       }
       else if (type == CLASS_SPECIFICATION) {
         return new SkinClassSpecificationImpl(node);
-      }
-      else if (type == NULL_LITERAL) {
-        return new SkinNullLiteralImpl(node);
-      }
-      else if (type == NUMBER_LITERAL) {
-        return new SkinNumberLiteralImpl(node);
       }
       else if (type == OBJECT) {
         return new SkinObjectImpl(node);

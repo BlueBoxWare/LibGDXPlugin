@@ -29,6 +29,8 @@ abstract class SkinValueMixin(node: ASTNode): SkinValue, SkinElementImpl(node) {
 
   override fun getProperty() = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
 
+  override fun isBoolean(): Boolean = false
+
   override fun resolveToClass(): PsiClass? {
 
     (parent as? SkinResource)?.let { resource ->

@@ -11,28 +11,12 @@ public class SkinElementVisitor extends PsiElementVisitor {
     visitValue(o);
   }
 
-  public void visitBooleanLiteral(@NotNull SkinBooleanLiteral o) {
-    visitLiteral(o);
-  }
-
   public void visitClassName(@NotNull SkinClassName o) {
     visitElement(o);
   }
 
   public void visitClassSpecification(@NotNull SkinClassSpecification o) {
     visitNamedElement(o);
-  }
-
-  public void visitLiteral(@NotNull SkinLiteral o) {
-    visitValue(o);
-  }
-
-  public void visitNullLiteral(@NotNull SkinNullLiteral o) {
-    visitLiteral(o);
-  }
-
-  public void visitNumberLiteral(@NotNull SkinNumberLiteral o) {
-    visitLiteral(o);
   }
 
   public void visitObject(@NotNull SkinObject o) {
@@ -64,7 +48,7 @@ public class SkinElementVisitor extends PsiElementVisitor {
   }
 
   public void visitStringLiteral(@NotNull SkinStringLiteral o) {
-    visitLiteral(o);
+    visitValue(o);
   }
 
   public void visitValue(@NotNull SkinValue o) {

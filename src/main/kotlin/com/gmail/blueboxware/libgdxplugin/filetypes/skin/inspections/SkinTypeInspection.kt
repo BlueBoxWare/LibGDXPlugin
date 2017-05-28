@@ -52,7 +52,7 @@ class SkinTypeInspection: SkinFileInspection() {
           holder.registerProblem(skinValue, message("skin.inspection.types.array.expected"))
         }
       } else if (expectedType == PsiType.BOOLEAN) {
-        if (skinValue !is SkinBooleanLiteral) {
+        if (!skinValue.isBoolean) {
           holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
         }
       } else if (expectedType == PsiType.INT) {
@@ -60,7 +60,7 @@ class SkinTypeInspection: SkinFileInspection() {
           holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
         }
       } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("scaledSize", "markupEnabled", "flip").contains(propertyName)) {
-        if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue is SkinBooleanLiteral) {
+        if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue.isBoolean) {
           return
         } else if (propertyName == "scaledSize" && skinValue.text.toIntOrNull() != null) {
           return

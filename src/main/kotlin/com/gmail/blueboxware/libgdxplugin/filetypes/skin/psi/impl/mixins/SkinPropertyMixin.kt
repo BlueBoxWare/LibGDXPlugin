@@ -88,7 +88,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
       return PlatformIcons.PROPERTY_ICON
     }
 
-    override fun getPresentableText() = (value as? SkinLiteral)?.asString()?.let { name + ": " + it } ?: name
+    override fun getPresentableText() = (value as? SkinStringLiteral)?.value?.let { name + ": " + it } ?: name
   }
 
 }

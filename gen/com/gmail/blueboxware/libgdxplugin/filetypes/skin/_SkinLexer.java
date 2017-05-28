@@ -5,8 +5,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
-import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 
 
 /**
@@ -54,10 +55,9 @@ public class _SkinLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\20\1\2\2\1\1\2\22\0\1\20\1\0\1\6\4\0\1\10\2\0\1\5\1\16\1\25\1\11\1"+
-    "\14\1\4\1\12\11\13\1\17\12\0\1\15\25\0\1\23\1\7\1\24\3\0\1\33\3\0\1\31\1\32"+
-    "\5\0\1\34\1\0\1\36\3\0\1\27\1\35\1\26\1\30\5\0\1\21\1\0\1\22\7\0\1\1\32\0"+
-    "\1\3\337\0\1\3\177\0\13\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
+    "\11\0\1\12\1\2\2\1\1\2\22\0\1\12\1\0\1\6\4\0\1\10\2\0\1\5\1\0\1\17\2\0\1\4"+
+    "\12\0\1\11\40\0\1\15\1\7\1\16\35\0\1\13\1\0\1\14\7\0\1\1\32\0\1\3\337\0\1"+
+    "\3\177\0\13\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -65,14 +65,12 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\2\2\1\1\1\3\1\4\1\1\2\5"+
-    "\1\1\1\6\1\7\1\10\1\11\1\12\1\13\3\1"+
-    "\1\14\1\15\1\3\2\0\1\4\1\1\2\5\3\1"+
-    "\1\14\1\15\1\1\1\5\3\1\1\0\1\15\1\16"+
-    "\1\1\1\17\1\15\1\20";
+    "\1\0\1\1\2\2\1\1\1\3\1\4\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\3\2\0"+
+    "\1\4\1\13\1\14\1\1\1\0\2\14";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[46];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -97,15 +95,13 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\37\0\76\0\135\0\174\0\233\0\272\0\331"+
-    "\0\370\0\u0117\0\u0136\0\u0155\0\u0155\0\u0155\0\u0155\0\u0155"+
-    "\0\u0155\0\u0174\0\u0193\0\u01b2\0\u01d1\0\u01f0\0\u0155\0\u020f"+
-    "\0\u022e\0\u0155\0\u024d\0\u026c\0\u0136\0\u028b\0\u02aa\0\u02c9"+
-    "\0\u02e8\0\u0307\0\u0326\0\u0345\0\u0364\0\u0383\0\u03a2\0\u03c1"+
-    "\0\37\0\37\0\u03e0\0\37\0\u0155\0\37";
+    "\0\0\0\20\0\40\0\60\0\100\0\120\0\140\0\160"+
+    "\0\160\0\160\0\160\0\160\0\160\0\200\0\220\0\160"+
+    "\0\240\0\260\0\160\0\300\0\320\0\340\0\360\0\20"+
+    "\0\160";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[46];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -129,47 +125,20 @@ public class _SkinLexer implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\3\1\5\1\2\1\6\1\2"+
-    "\1\7\1\10\1\11\1\12\1\13\2\2\1\14\1\4"+
-    "\1\15\1\16\1\17\1\20\1\21\1\22\3\2\1\23"+
-    "\3\2\1\24\2\2\1\0\3\2\1\0\1\2\1\0"+
-    "\6\2\7\0\12\2\1\3\1\4\1\3\2\2\1\0"+
-    "\1\2\1\0\6\2\1\0\1\4\5\0\11\2\1\0"+
-    "\3\4\14\0\1\4\16\0\2\2\1\0\1\2\1\25"+
-    "\1\26\1\0\1\2\1\0\6\2\7\0\11\2\2\6"+
-    "\1\0\3\6\1\27\1\30\27\6\2\7\1\0\4\7"+
-    "\1\31\1\32\26\7\2\2\1\0\3\2\1\0\1\2"+
-    "\1\0\1\2\1\11\1\12\1\13\2\2\7\0\13\2"+
-    "\1\0\3\2\1\0\1\2\1\0\3\2\1\33\1\34"+
-    "\1\2\7\0\3\2\1\34\7\2\1\0\3\2\1\0"+
-    "\1\2\1\0\1\2\2\12\1\33\1\34\1\2\7\0"+
-    "\3\2\1\34\7\2\1\0\3\2\1\0\1\2\1\0"+
-    "\1\2\2\35\3\2\7\0\11\2\37\0\2\2\1\0"+
-    "\3\2\1\0\1\2\1\0\6\2\7\0\1\2\1\36"+
-    "\11\2\1\0\3\2\1\0\1\2\1\0\6\2\7\0"+
-    "\5\2\1\37\5\2\1\0\3\2\1\0\1\2\1\0"+
-    "\6\2\7\0\2\2\1\40\6\2\1\25\1\2\1\0"+
-    "\3\25\1\41\1\25\1\41\6\25\7\41\11\25\2\26"+
-    "\1\42\2\26\1\43\1\42\1\26\1\42\6\26\7\42"+
-    "\11\26\2\6\1\0\34\6\2\7\1\0\34\7\2\2"+
-    "\1\0\3\2\1\0\1\2\1\0\1\2\2\44\3\2"+
-    "\7\0\13\2\1\0\3\2\1\0\1\2\1\0\3\35"+
-    "\2\2\1\35\7\0\13\2\1\0\3\2\1\0\1\2"+
-    "\1\0\6\2\7\0\2\2\1\45\10\2\1\0\3\2"+
-    "\1\0\1\2\1\0\6\2\7\0\6\2\1\46\4\2"+
-    "\1\0\3\2\1\0\1\2\1\0\6\2\7\0\6\2"+
-    "\1\47\2\2\1\41\2\0\34\41\5\42\1\50\31\42"+
-    "\2\26\1\42\1\26\1\51\1\43\1\42\1\26\1\42"+
-    "\6\26\7\42\11\26\2\2\1\0\3\2\1\0\1\2"+
-    "\1\0\1\2\2\44\1\2\1\34\1\2\7\0\3\2"+
-    "\1\34\7\2\1\0\3\2\1\0\1\2\1\0\6\2"+
-    "\7\0\3\2\1\52\7\2\1\0\3\2\1\0\1\2"+
-    "\1\0\6\2\7\0\7\2\1\53\3\2\1\0\3\2"+
-    "\1\0\1\2\1\0\6\2\7\0\6\2\1\54\2\2"+
-    "\4\42\1\55\1\50\31\42\2\2\1\0\3\2\1\0"+
-    "\1\2\1\0\6\2\7\0\3\2\1\56\5\2";
+    "\1\7\1\10\1\4\1\11\1\12\1\13\1\14\1\15"+
+    "\2\2\1\0\3\2\1\0\1\2\10\0\1\2\1\3"+
+    "\1\4\1\3\2\2\1\0\1\2\2\0\1\4\6\0"+
+    "\3\4\6\0\1\4\5\0\2\2\1\0\1\2\1\16"+
+    "\1\17\1\0\1\2\10\0\2\6\1\0\3\6\1\20"+
+    "\1\21\10\6\2\7\1\0\4\7\1\22\1\23\7\7"+
+    "\20\0\1\16\1\2\1\0\3\16\1\24\1\16\10\24"+
+    "\2\17\1\25\2\17\1\26\1\25\1\17\10\25\2\6"+
+    "\1\0\15\6\2\7\1\0\15\7\1\24\2\0\15\24"+
+    "\5\25\1\27\12\25\2\17\1\25\1\17\1\30\1\26"+
+    "\1\25\1\17\14\25\1\31\1\27\12\25";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[1023];
+    int [] result = new int[256];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -207,11 +176,11 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\12\1\6\11\5\1\1\11\2\0\1\11\15\1"+
-    "\1\0\4\1\1\11\1\1";
+    "\1\0\6\1\6\11\2\1\1\11\2\0\1\11\3\1"+
+    "\1\0\1\1\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[46];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -519,67 +488,51 @@ public class _SkinLexer implements FlexLexer {
           case 1: 
             { return UNQUOTED_STRING;
             }
-          case 17: break;
+          case 13: break;
           case 2: 
             { return WHITE_SPACE;
             }
-          case 18: break;
+          case 14: break;
           case 3: 
             { return DOUBLE_QUOTED_STRING;
             }
-          case 19: break;
+          case 15: break;
           case 4: 
             { return SINGLE_QUOTED_STRING;
             }
-          case 20: break;
+          case 16: break;
           case 5: 
-            { return NUMBER;
-            }
-          case 21: break;
-          case 6: 
             { return COLON;
             }
-          case 22: break;
-          case 7: 
+          case 17: break;
+          case 6: 
             { return L_CURLY;
             }
-          case 23: break;
-          case 8: 
+          case 18: break;
+          case 7: 
             { return R_CURLY;
             }
-          case 24: break;
-          case 9: 
+          case 19: break;
+          case 8: 
             { return L_BRACKET;
             }
-          case 25: break;
-          case 10: 
+          case 20: break;
+          case 9: 
             { return R_BRACKET;
             }
-          case 26: break;
-          case 11: 
+          case 21: break;
+          case 10: 
             { return COMMA;
             }
-          case 27: break;
-          case 12: 
+          case 22: break;
+          case 11: 
             { return LINE_COMMENT;
             }
-          case 28: break;
-          case 13: 
+          case 23: break;
+          case 12: 
             { return BLOCK_COMMENT;
             }
-          case 29: break;
-          case 14: 
-            { return TRUE;
-            }
-          case 30: break;
-          case 15: 
-            { return NULL;
-            }
-          case 31: break;
-          case 16: 
-            { return FALSE;
-            }
-          case 32: break;
+          case 24: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

@@ -73,12 +73,6 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
               SkinElementTypes.DOUBLE_QUOTED_STRING to SKIN_STRING,
               SkinElementTypes.UNQUOTED_STRING to SKIN_STRING,
 
-              SkinElementTypes.NUMBER to SKIN_NUMBER,
-
-              SkinElementTypes.TRUE   to SKIN_KEYWORD,
-              SkinElementTypes.FALSE  to SKIN_KEYWORD,
-              SkinElementTypes.NULL   to SKIN_KEYWORD,
-
               SkinElementTypes.LINE_COMMENT to SKIN_LINE_COMMENT,
               SkinElementTypes.BLOCK_COMMENT to SKIN_BLOCK_COMMENT,
 

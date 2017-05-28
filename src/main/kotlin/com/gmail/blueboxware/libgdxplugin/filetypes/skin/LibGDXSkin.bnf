@@ -16,10 +16,9 @@
 
   implements("resource|property|class_specification") = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement"
 
-  extends("literal|array|object")=value
+  extends("string_literal|array|object")=value
 
   extends("class_specification")="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl"
-  extends("boolean_literal|number_literal|string_literal|null_literal")=literal
 
   tokens = [
         L_CURLY='{'
@@ -35,13 +34,7 @@
         DOUBLE_QUOTED_STRING="regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
         SINGLE_QUOTED_STRING="regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
 
-        NUMBER='regexp:-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d*)?|-?\.\d+'
-
         UNQUOTED_STRING="regexp:[^ \t\n\r\{\}\[\]\"':,]+"
-
-        TRUE='true'
-        FALSE='false'
-        NULL='null'
     ]
 
 
@@ -59,7 +52,6 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
         getResourceNames
         getResource
         addComment
-        value=""
         className="string_literal"
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin"
@@ -144,9 +136,10 @@ property_value ::= value {
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin"
 }
 
-value ::= object | array | literal {
+value ::= object | array | string_literal {
     methods=[
         getProperty
+        isBoolean
         resolveToType
         resolveToTypeString
         resolveToClass
@@ -159,20 +152,12 @@ array ::= '[' value? (separator value)* optionalComma ']' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinArrayMixin"
 }
 
-literal ::= string_literal | number_literal | boolean_literal | null_literal {
-      methods=[
-        asFloat
-        asString
-        getQuotationChar
-      ]
-      mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinLiteralMixin"
-}
-
 string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
       methods=[
         getValue
         setValue
         asPropertyName
+        getQuotationChar
 
         SINGLE_QUOTED_STRING=""
         DOUBLE_QUOTED_STRING=""
@@ -180,22 +165,6 @@ string_literal ::= SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING
       ]
       mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinStringLiteralMixin"
 }
-number_literal ::= NUMBER {
-      methods=[
-        getValue
-        NUMBER=""
-      ]
-      mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinNumberLiteralMixin"
-}
-
-boolean_literal ::= TRUE | FALSE {
-    methods=[
-        getValue
-    ]
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinBooleanLiteralMixin"
-}
-
-null_literal ::= NULL
 
 external private separator ::= parseSeparator
 external private optionalComma ::= parseOtionalComma

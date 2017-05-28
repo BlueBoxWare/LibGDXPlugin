@@ -1,5 +1,6 @@
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
 public class Java1 {
@@ -30,6 +31,7 @@ public class Java1 {
   final String resource = "red";
   final Color ccc1 = <weak_warning descr="#ff0000ff">skin.getColor("red")</weak_warning>;
   final Color ccc2 = <weak_warning descr="#ff0000ff">skin.get("red", Color.class)</weak_warning>;
+  final Drawable ccca = skin.get("red", Drawable.class);
   final Color ccc4 = <weak_warning descr="#ff0000ff">skin.optional(resource, Color.class)</weak_warning>;
   final Color ccc5 = <weak_warning descr="#ff0000ff">ccc1</weak_warning>;
   final Color ccc6 = <weak_warning descr="#ff0000ff">ccc2</weak_warning>;

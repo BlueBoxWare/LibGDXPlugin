@@ -14,7 +14,6 @@ import com.intellij.util.text.DateFormatUtil
 import org.apache.log4j.Level
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.GroovyFileType
-import org.junit.Assume
 import org.junit.Before
 
 /*
@@ -37,6 +36,18 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
   var RUN_TESTS = true
 
   lateinit var versionManager: VersionManager
+
+  override fun shouldRunTest(): Boolean {
+    if (RUN_TESTS) {
+      return getTestName(true) != "testingAgainstLocalHostIsDisabled"
+    } else {
+      return getTestName(true) == "testingAgainstLocalHostIsDisabled"
+    }
+  }
+
+  fun testTestingAgainstLocalHostIsDisabled() {
+    fail("Testing against localhost is disabled")
+  }
 
   fun testOutdatedVersionsGradleInspection1() {
 
@@ -122,8 +133,6 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
   }
 
   override fun setUp() {
-
-    Assume.assumeTrue("Testing against LocalHost disabled", RUN_TESTS)
 
     VersionManager.BATCH_SIZE = Libraries.values().size / 2
     VersionManager.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND

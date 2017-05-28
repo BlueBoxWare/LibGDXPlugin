@@ -67,7 +67,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
       var quotationChar = "\""
 
-      (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinLiteral)?.let { oldValue ->
+      (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
         quotationChar = oldValue.quotationChar?.toString() ?: ""
       }
 
@@ -79,7 +79,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
       for (property in propertyList) {
         if (listOf("r", "g", "b", "a").contains(property.name)) {
-          (property.propertyValue?.value as? SkinLiteral)?.let {
+          (property.propertyValue?.value as? SkinStringLiteral)?.let {
             quotationChar = it.quotationChar?.toString() ?: ""
           }
         }
@@ -115,7 +115,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
     if (propertyList.size == 1 && propertyList.firstOrNull()?.name == "hex") {
 
-      (propertyList.firstOrNull()?.value as? SkinLiteral)?.asString()?.let { string ->
+      (propertyList.firstOrNull()?.value as? SkinStringLiteral)?.value?.let { string ->
         color = stringToColor(string)
       }
 
@@ -128,7 +128,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
       for (property in propertyList) {
 
-        (property.value as? SkinLiteral)?.asFloat()?.let { d ->
+        (property.value as? SkinStringLiteral)?.value?.toFloatOrNull()?.let { d ->
 
           when (property.name) {
             "r" -> r = d

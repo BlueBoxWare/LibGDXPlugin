@@ -50,6 +50,10 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
 
       if (typeString == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || typeString == "java.lang.String") {
         return
+      } else if (typeString == "java.lang.Boolean" && stringLiteral.isBoolean) {
+        return
+      } else if (typeString == "java.lang.Integer") {
+        return
       }
 
       (stringLiteral.containingFile as? SkinFile)?.let { skinFile ->
