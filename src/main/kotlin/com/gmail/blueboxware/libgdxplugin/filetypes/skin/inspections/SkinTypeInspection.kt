@@ -3,10 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.psi.PsiArrayType
-import com.intellij.psi.PsiClassType
-import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.PsiType
+import com.intellij.psi.*
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -35,6 +32,10 @@ class SkinTypeInspection: SkinFileInspection() {
 
     override fun visitValue(skinValue: SkinValue) {
 
+      fun problem(expectedType: String) {
+        holder.registerProblem(skinValue, message("skin.inspection.types.type.expected", expectedType))
+      }
+
       if (skinValue.parent is SkinPropertyName
               || skinValue.parent is SkinClassName
               || skinValue.parent is SkinResourceName
@@ -49,15 +50,24 @@ class SkinTypeInspection: SkinFileInspection() {
 
       if (expectedType is PsiArrayType) {
         if (skinValue !is SkinArray) {
-          holder.registerProblem(skinValue, message("skin.inspection.types.array.expected"))
+          problem("Array")
         }
       } else if (expectedType == PsiType.BOOLEAN) {
         if (!skinValue.isBoolean) {
-          holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
+          problem("boolean")
         }
-      } else if (expectedType == PsiType.INT) {
-        if (skinValue.text.toIntOrNull() == null) {
-          holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
+      } else if (expectedType is PsiPrimitiveType) {
+        val check = when(expectedType) {
+          PsiType.BYTE    -> skinValue.text.toByteOrNull() != null
+          PsiType.DOUBLE  -> skinValue.text.toDoubleOrNull() != null
+          PsiType.FLOAT   -> skinValue.text.toFloatOrNull() != null
+          PsiType.INT     -> skinValue.text.toIntOrNull() != null
+          PsiType.LONG    -> skinValue.text.toLongOrNull() != null
+          PsiType.SHORT   -> skinValue.text.toShortOrNull() != null
+          else            -> true
+        }
+        if (!check) {
+          problem(expectedType.getPresentableText(false))
         }
       } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("scaledSize", "markupEnabled", "flip").contains(propertyName)) {
         if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue.isBoolean) {
@@ -69,9 +79,9 @@ class SkinTypeInspection: SkinFileInspection() {
           return
         }
         if (propertyName == "scaledSize") {
-          holder.registerProblem(skinValue, message("skin.inspection.types.int.expected"))
+          problem("int")
         } else {
-          holder.registerProblem(skinValue, message("skin.inspection.types.boolean.expected"))
+          problem("boolean")
         }
       } else if (expectedType is PsiClassType && expectedType.canonicalText != "java.lang.String") {
         if (skinValue !is SkinStringLiteral && skinValue !is SkinObject) {

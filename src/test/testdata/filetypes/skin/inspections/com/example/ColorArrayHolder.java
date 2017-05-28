@@ -13,6 +13,10 @@ public class ColorArrayHolder {
   TextButton.TextButtonStyle[] textButtonStyles;
 
   boolean c;
+  byte aByte;
+
+  public int i;
+  public float f;
 
   ColorArrayHolder[] m;
 

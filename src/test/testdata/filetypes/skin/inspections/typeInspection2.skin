@@ -1,0 +1,37 @@
+// @Suppress(NonExistingClass)
+{
+  com.badlogic.gdx.graphics.Color: {
+    default: {
+      g: 1.0
+      a: 1
+    }
+  }
+  java.lang.Integer: {
+    i: {
+      value: 4
+    }
+  }
+  java.lang.Boolean: {
+    b: {
+      value: true
+    }
+  }
+  com.example.ColorArrayHolder: {
+    default: {
+      i: 4
+      f: <warning descr="float expected">fd</warning>
+}
+}
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+default: {
+  file: tubular/skin/font-export.fnt
+  markupEnabled: b
+  }
+  }
+  com.example.KColorArrayHolder: {
+default: {
+bool: true
+}
+
+}
+}

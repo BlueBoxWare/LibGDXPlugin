@@ -1,0 +1,72 @@
+// @Suppress(NonExistingClass)
+{
+  com.badlogic.gdx.graphics.Color: {
+    default: {
+      g: <warning descr="float expected">"1.0"</warning>
+a: 1
+}
+}
+java.lang.Integer: {
+i: {
+value: 4
+}
+}
+java.lang.Boolean: {
+b: {
+value: <warning descr="boolean expected">"true"</warning>
+}
+}
+java.lang.Float: {
+fl: {
+value: 1.0
+}
+}
+java.lang.Short: {
+default: {
+value: <warning descr="short expected">999999</warning>
+}
+}
+com.example.ColorArrayHolder: {
+default: {
+i: <warning descr="int expected">"4"</warning>
+f: <warning descr="float expected">fl</warning>
+}
+f: {
+i: <warning descr="int expected">4.0</warning>
+f: -4
+}
+}
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+default: {
+file: tubular/skin/font-export.fnt
+markupEnabled: <warning descr="boolean expected">"true"</warning>
+scaledSize: <warning descr="int expected">3.0</warning>
+}
+  }
+  com.example.KColorArrayHolder: {
+  default: {
+  bool: <warning descr="boolean expected">b</warning>
+f: <warning descr="double expected">fk</warning>
+byte: <warning descr="byte expected">-129</warning>
+nc: [
+{r: 1.0, g: <warning descr="float expected">fd</warning>, b: <warning descr="float expected">"1.0"</warning>}
+],
+m: [[
+{
+c: <warning descr="boolean expected">"true"</warning>
+i: 5,
+aByte: 2
+},
+{
+c: <warning descr="boolean expected">b</warning>
+aByte: <warning descr="byte expected">257</warning>
+},
+{
+c: <warning descr="boolean expected">"b"</warning>
+}
+]]
+  },
+  f: { byte: -127 }
+
+  }
+}

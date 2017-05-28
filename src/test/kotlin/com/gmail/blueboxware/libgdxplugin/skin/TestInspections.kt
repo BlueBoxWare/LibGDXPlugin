@@ -37,7 +37,15 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinNonExistingResourceAliasInspection())
   }
 
-  fun testTypeInspection() {
+  fun testTypeInspection1() {
+    doTest(SkinTypeInspection())
+  }
+
+  fun testTypeInspection2() {
+    doTest(SkinTypeInspection())
+  }
+
+  fun testTypeInspection3() {
     doTest(SkinTypeInspection())
   }
 
