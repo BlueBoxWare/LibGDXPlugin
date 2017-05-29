@@ -1,12 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_KEYWORD
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_NUMBER
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
@@ -33,8 +32,17 @@ class SkinAdditionalHighlighter : Annotator {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_PROPERTY_NAME }
     } else if (element is SkinResourceName) {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_RESOURCE_NAME }
-    } else if (element is SkinStringLiteral && element.parent is SkinClassSpecification) {
-      holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_CLASS_NAME }
+    } else if (element is SkinStringLiteral) {
+      if (element.parent is SkinClassSpecification) {
+        holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_CLASS_NAME }
+      } else if (element.parent is SkinPropertyValue) {
+        if (element.isBoolean || element.text == "null") {
+          holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_KEYWORD }
+        } else if (element.text.toDoubleOrNull() != null) {
+          holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_NUMBER }
+        }
+      }
     }
   }
+
 }

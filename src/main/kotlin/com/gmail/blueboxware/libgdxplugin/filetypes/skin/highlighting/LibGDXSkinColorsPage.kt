@@ -48,7 +48,9 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
     private val additionalHighlighting = mapOf(
             "resourceName" to SKIN_RESOURCE_NAME,
             "propertyName" to SKIN_PROPERTY_NAME,
-            "className" to SKIN_CLASS_NAME
+            "className" to SKIN_CLASS_NAME,
+            "number" to SKIN_NUMBER,
+            "keyword" to SKIN_KEYWORD
     )
 
     private val myAttributeDescriptors = arrayOf(
@@ -86,11 +88,11 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
     // Line comment
     /* Block comment */
     <className>com.badlogic.gdx.graphics.Color</className>: {
-        <resourceName>red</resourceName>: { <propertyName>r</propertyName>: 1, <propertyName>g</propertyName>: 0, <propertyName>b</propertyName>: 0, <propertyName>a</propertyName>: 1 },
-        <resourceName>yellow</resourceName>: { <propertyName>r</propertyName>: 0.5, <propertyName>g</propertyName>: 0.5, <propertyName>b</propertyName>: 0, <propertyName>a</propertyName>: 1 }
+        <resourceName>red</resourceName>: { <propertyName>r</propertyName>: <number>1</number>, <propertyName>g</propertyName>: <number>0</number>, <propertyName>b</propertyName>: <number>0</number>, <propertyName>a</propertyName>: <number>1</number> },
+        <resourceName>yellow</resourceName>: { <propertyName>r</propertyName>: <number>0.5</number>, <propertyName>g</propertyName>: <number>0.5</number>, <propertyName>b</propertyName>: <number>0</number>, <propertyName>a</propertyName>: <number>1</number> }
     },
     <className>com.badlogic.gdx.graphics.g2d.BitmapFont</className>: {
-        <resourceName>medium</resourceName>: { <propertyName>file</propertyName>: medium.fnt, <propertyName>keyword</propertyName>: true }
+        <resourceName>medium</resourceName>: { <propertyName>file</propertyName>: medium.fnt, <propertyName>keyword</propertyName>: <keyword>true</keyword> }
     },
     <className>com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle</className>: {
         <resourceName>default</resourceName>: {

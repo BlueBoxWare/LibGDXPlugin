@@ -32,7 +32,7 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 
-  override fun isBoolean(): Boolean = text == "true" || value == "false"
+  override fun isBoolean(): Boolean = text == "true" || text == "false"
 
   override fun getReference(): PsiReference? {
     if (
