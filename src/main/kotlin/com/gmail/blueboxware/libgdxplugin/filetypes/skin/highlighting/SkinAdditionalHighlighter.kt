@@ -33,7 +33,7 @@ class SkinAdditionalHighlighter : Annotator {
     } else if (element is SkinResourceName) {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_RESOURCE_NAME }
     } else if (element is SkinStringLiteral) {
-      if (element.parent is SkinClassSpecification) {
+      if (element.parent is SkinClassName) {
         holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_CLASS_NAME }
       } else if (element.parent is SkinPropertyValue) {
         if (element.isBoolean || element.text == "null") {
