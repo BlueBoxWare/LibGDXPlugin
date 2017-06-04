@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
@@ -13,17 +12,14 @@ import com.intellij.codeInsight.completion.impl.CamelHumpMatcher
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.PsiType
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.PathUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.intellij.util.ui.ColorIcon
@@ -131,8 +127,8 @@ class SkinCompletionContributor : CompletionContributor() {
       context.dummyIdentifier = CompletionUtil.DUMMY_IDENTIFIER_TRIMMED
     }
 
-    val type = (context.file.findElementAt(context.caret.offset) as? LeafPsiElement)?.elementType
-    if (type == SkinElementTypes.SINGLE_QUOTED_STRING || type == SkinElementTypes.DOUBLE_QUOTED_STRING) {
+    val element = context.file.findElementAt(context.caret.offset)
+    if ((element as? SkinStringLiteral)?.isQuoted == true) {
       context.replacementOffset = context.replacementOffset - 1
     }
   }
@@ -212,12 +208,7 @@ class SkinCompletionContributor : CompletionContributor() {
           for (file in virtualFile.getAssociatedFiles()) {
             if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
               VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
-                val altName = if (SystemInfo.isWindows) {
-                  relativePath
-                } else {
-                  relativePath.replace("/", "\\\\")
-                }
-                doAdd(LookupElementBuilder.create(file, PathUtil.toSystemDependentName(relativePath)).withIcon(ICON_BITMAP_FONT).withLookupString(altName), parameters, result)
+                doAdd(LookupElementBuilder.create(file, relativePath).withIcon(ICON_BITMAP_FONT), parameters, result)
               }
             }
           }
