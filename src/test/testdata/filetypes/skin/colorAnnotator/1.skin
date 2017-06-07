@@ -6,7 +6,7 @@
     c1: <weak_warning descr="#33ffff80">{ r: 0.2, a: .5  }</weak_warning>
     c2: <weak_warning descr="#00ff00ff">{  hex: 00ff00 }</weak_warning>
     c3: <weak_warning descr="#0000ff00">{ hex: "#0000ff00" }</weak_warning>
-    __4z/*#\: <weak_warning descr="#ffff00ff">{ b: 0, \/: 1 }</weak_warning>
+    __4z/=*#: <weak_warning descr="#ffff00ff">{ b: 0, \n\\\""': 1 }</weak_warning>
     test: <weak_warning descr="#ff0000ff">red</weak_warning>
     test2: <weak_warning descr="#33ffff80">c1</weak_warning>,
     test3: <weak_warning descr="#ff0000ff">test</weak_warning>

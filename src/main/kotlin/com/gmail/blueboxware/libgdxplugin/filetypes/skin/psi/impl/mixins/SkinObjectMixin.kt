@@ -68,22 +68,12 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
       var quotationChar = "\""
 
       (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
-        quotationChar = oldValue.quotationChar?.toString() ?: ""
+        quotationChar = if (oldValue.isQuoted) "\"" else ""
       }
 
       newObject.addProperty(SkinElementFactory.createProperty(project, "hex", quotationChar + colorToString(color) + quotationChar))
 
     } else {
-
-      var quotationChar = ""
-
-      for (property in propertyList) {
-        if (listOf("r", "g", "b", "a").contains(property.name)) {
-          (property.propertyValue?.value as? SkinStringLiteral)?.let {
-            quotationChar = it.quotationChar?.toString() ?: ""
-          }
-        }
-      }
 
       val components = color.getRGBComponents(null)
 
@@ -95,7 +85,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
           "b" -> components[2]
           else -> components[3]
         }
-        val property = SkinElementFactory.createProperty(project, rgb, quotationChar + value + quotationChar)
+        val property = SkinElementFactory.createProperty(project, rgb, value.toString())
 
         newObject.addProperty(property)
 

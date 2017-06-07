@@ -158,6 +158,7 @@
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />
+        <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator" />
 
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" id="LibGDXSkin" />
 

@@ -1,10 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins
+package com.gmail.blueboxware.libgdxplugin.skin
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.stripQuotes
-import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.text.StringUtil
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -21,8 +17,13 @@ import com.intellij.openapi.util.text.StringUtil
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontValueMixin(node: ASTNode) : BitmapFontValue, BitmapFontElementImpl(node) {
+class TestErrorsAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
-  override fun getValue() = StringUtil.unescapeStringCharacters(text.stripQuotes())
+  fun testErrorsAnnotator() {
+    myFixture.configureByFile("errorsAnnotator.skin")
+    myFixture.checkHighlighting(false, false, false)
+  }
+
+  override fun getBasePath() = "/filetypes/skin/errorsAnnotator/"
 
 }

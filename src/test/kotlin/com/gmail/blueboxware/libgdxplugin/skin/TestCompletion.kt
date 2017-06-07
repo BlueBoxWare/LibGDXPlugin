@@ -20,12 +20,14 @@ import com.intellij.codeInsight.completion.CompletionType
  */
 class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
+  private val EMPTY = listOf<String>()
+
   val tests = listOf(
-          "{ <caret> }" to (listOf("com", "java") to listOf()),
+          "{ <caret> }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont") to listOf()),
 
-          "{ '<caret>' }" to (listOf("com", "java") to listOf()),
+          "{ '<caret>' }" to (EMPTY to listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont")),
 
-          "{ '<caret> }" to (listOf("com", "java") to listOf()),
+          "{ \"<caret>\" }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont") to listOf()),
 
           "{ co<caret> }" to (listOf("com") to listOf()),
 
@@ -33,40 +35,40 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
           "{ My<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
 
-          "{ 'My<caret>' }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
+          "{ \"My<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
+
+          "{ 'My<caret>' }" to (EMPTY  to listOf("com.example.MyTestClass", "com.example.MyOtherClass")),
 
           "{ MyT<caret> }" to (listOf("com.example.MyTestClass") to listOf()),
 
           "{ com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
 
-          "{ 'com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
-
-          "{ 'com.example.MyT<caret>' }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
+          "{ \"com.example.MyT<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
 
           """{ com.example.MyTestClass: {
             default: { <caret> }
             }
-            }""" to (listOf("number", "name")  to listOf<String>()),
+            }""" to (listOf("number", "name")  to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { '<caret>' }
             }
-            }""" to (listOf("number", "name")  to listOf<String>()),
+            }""" to (EMPTY  to listOf<String>("number", "name")),
 
           """{ com.example.MyTestClass: {
             default: { "<caret>" }
             }
-            }""" to (listOf("number", "name")  to listOf<String>()),
+            }""" to (listOf("number", "name")  to EMPTY),
 
           """{ com.example.MyTestClass: {
-            default: { '<caret> }
+            default: { "<caret> }
             }
-            }""" to (listOf("number", "name")  to listOf<String>()),
+            }""" to (listOf("number", "name")  to EMPTY),
 
           """{ com.example.MyTestClass: {
-            default: { '<caret>': }
+            default: { "<caret>": }
             }
-            }""" to (listOf("number", "name")  to listOf<String>()),
+            }""" to (listOf("number", "name")  to EMPTY),
 
           """
             { com.example.MyTestClass: {
@@ -112,7 +114,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
                 b: { fontColor: '<caret>' }
             } }
-          """ to (listOf("default", "color", "green") to listOf()),
+          """ to (EMPTY to listOf("default", "color", "green")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
@@ -133,13 +135,19 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             { com.badlogic.gdx.graphics.Color: {
               default: { r: 1, '<caret>': 1
             } } }
+          """ to (EMPTY  to listOf("r", "g", "b", "a")),
+
+          """
+            { com.badlogic.gdx.graphics.Color: {
+              default: { r: 1, "<caret>": 1
+            } } }
           """ to (listOf("g", "b", "a")  to listOf("r")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { hex: 1, <caret>
             } } }
-          """ to (listOf<String>()  to listOf("r", "g", "b", "a", "hex")),
+          """ to (EMPTY  to listOf("r", "g", "b", "a", "hex")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
@@ -188,15 +196,15 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                         color: skyblue,
                         name: <caret>
             } } }
-          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to listOf<String>()),
+          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to EMPTY),
 
           """
             { com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
                     default: {
                         color: skyblue,
-                        name: '<caret>
+                        name: "<caret>
             } } }
-          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to listOf<String>()),
+          """ to (listOf("tree-minus", "selection", "textfield", "cursor") to EMPTY),
 
           """
             { com.badlogic.gdx.scenes.scene2d.ui.Skin${'$'}TintedDrawable: {
@@ -281,7 +289,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             {
                 com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
                     green: {
-                        fontColor: {  '<caret>' }
+                        fontColor: {  "<caret>" }
                     }
                 }
             }
@@ -295,7 +303,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                     }
                 }
             }
-          """ to (listOf<String>() to listOf("r", "g", "b", "a", "hex")),
+          """ to (EMPTY to listOf("r", "g", "b", "a", "hex")),
 
           """
             {
@@ -324,7 +332,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
               com.example.AThirdClass: {
                 aThirdClass: {
-                  myTestClass: '<caret>'
+                  myTestClass: "<caret>"
                 }
               }
             }
@@ -364,7 +372,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 '<caret>'
               }
             }
-          """ to (listOf("default") to listOf()),
+          """ to (EMPTY to listOf("default")),
 
           """
             {
@@ -390,7 +398,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 <caret>
               }
             }
-          """ to (listOf<String>() to listOf("default")),
+          """ to (EMPTY to listOf("default")),
 
           """
             {
@@ -400,6 +408,27 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """ to (listOf("color") to listOf("name")),
+
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                "\u0064\nd\"d": { r: 1, g: 1, b: 1, a: 1 },
+                name: <caret>
+              }
+            }
+          """ to (listOf("d\\nd\\\"d") to listOf("name")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.Color: {
+                \u0064\nd\"d: { r: 1, g: 1, b: 1, a: 1 },
+                \u0064\nd\"d\"'"\/: {}
+                "())([}{}": {}
+                name: <caret>
+              }
+            }
+          """ to (listOf("d\\nd\\\"d", "d\\nd\\\"d\\\"'\\\"/", "())([}{}\"") to listOf("name")),
 
           """
             {
@@ -428,7 +457,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 test: <caret>
               }
             }
-          """ to (listOf("color", "name1", "name2") to listOf("test")),
+          """ to (listOf("color", "name1", "'name2'") to listOf("test")),
 
           """
             {
@@ -436,10 +465,10 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 color: { r: 1, g: 1, b: 1, a: 1 },
                 "name1": color
                 'name2': bla
-                test: '<caret>'
+                test: "<caret>"
               }
             }
-          """ to (listOf("color", "name1", "name2") to listOf("test")),
+          """ to (listOf("color", "name1", "'name2'") to listOf("test")),
 
           """
             {
@@ -460,7 +489,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               },
               com.badlogic.gdx.scenes.scene2d.ui.TextField${'$'}TextFieldStyle: {
                 def: { cursor: bla },
-                test: '<caret>'
+                test: "<caret>"
               }
             }
           """ to (listOf("def") to listOf("test", "tbs")),
@@ -473,7 +502,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               com.badlogic.gdx.scenes.scene2d.ui.TextField${'$'}TextFieldStyle: {
                 def: { cursor: bla },
                 s: {}
-                test: '<caret>
+                test: "<caret>
               }
             }
           """ to (listOf("def", "s") to listOf("test", "tbs")),
@@ -486,7 +515,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               com.badlogic.gdx.scenes.scene2d.ui.TextField${'$'}TextFieldStyle: {
                 def: { cursor: bla },
                 s: {}
-                test: '<caret>'
+                test: "<caret>"
               }
             }
           """ to (listOf("def", "s") to listOf("test", "tbs")),
@@ -506,7 +535,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("red", "green", "blue") to listOf<String>()),
+          """ to (listOf("red", "green", "blue") to EMPTY),
 
           """
             {
@@ -536,7 +565,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               },
               com.example.MyTestClass: {
                 default: {
-                  moreColors: [[green], ['<caret>']]
+                  moreColors: [[green], ["<caret>"]]
                 }
               }
             }
@@ -695,7 +724,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
           """
             { com.example.MyTestClass: {
               default: {
-              m: [{m: [{ m: [{  moreColors: [[{'<caret>'}]]}] }]}]
+              m: [{m: [{ m: [{  moreColors: [[{"<caret>"}]]}] }]}]
             }
             } }
           """ to (listOf("r", "g", "b", "hex")  to listOf()),
@@ -703,7 +732,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
           """
             { com.example.MyTestClass: {
               default: {
-              m: [{m: [{ m: [{  moreColors: [[{'<caret>}]]}] }]}]
+              m: [{m: [{ m: [{  moreColors: [[{"<caret>}]]}] }]}]
             }
             } }
           """ to (listOf("r", "g", "b", "hex")  to listOf()),
@@ -753,7 +782,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               x: {}
               n: {},
               default: {
-              m: [{m: [{ m: ['<caret>'] }]}]
+              m: [{m: [{ m: ["<caret>"] }]}]
             }
             } }
           """ to (listOf("n", "x")  to listOf()),
@@ -801,7 +830,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
             com.example.KotlinClass: {
               default: {
-              m: [{m: [{ m: [{ m: "", listStyles: [[{'<caret>'}]] }] }]}]
+              m: [{m: [{ m: [{ m: "", listStyles: [[{"<caret>"}]] }] }]}]
             }
             } }
           """ to (listOf("font", "selection", "fontColorSelected")  to listOf("m")),
@@ -839,7 +868,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ bools: [<caret>] }] }]}]
             }
             } }
-          """ to (listOf("true", "false")  to listOf<String>()),
+          """ to (listOf("true", "false")  to EMPTY),
 
           """
             {
@@ -946,7 +975,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
               com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
                 zz: {}
-                '<caret>'
+                "<caret>"
               }
 
               com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
@@ -967,22 +996,6 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             {
               com.badlogic.gdx.graphics.g2d.BitmapFont: {
                 default: { file: assets/some<caret> }
-              }
-            }
-          """ to (listOf("assets/somedir/font.fnt") to listOf("assets/font2.fnt", "assets/ui.atlas", "assets/somedir/anotherfile")),
-
-          """
-            {
-              com.badlogic.gdx.graphics.g2d.BitmapFont: {
-                default: { file: assets\\some<caret> }
-              }
-            }
-          """ to (listOf("assets/somedir/font.fnt") to listOf("assets/font2.fnt", "assets/ui.atlas", "assets/somedir/anotherfile")),
-
-          """
-            {
-              com.badlogic.gdx.graphics.g2d.BitmapFont: {
-                default: { file: 'assets\\some<caret>' }
               }
             }
           """ to (listOf("assets/somedir/font.fnt") to listOf("assets/font2.fnt", "assets/ui.atlas", "assets/somedir/anotherfile")),
@@ -1086,7 +1099,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 u: <caret>
               }
             }
-          """ to (listOf<String>() to listOf("a", "x", "y"))
+          """ to (EMPTY to listOf("a", "x", "y"))
   )
 
   fun testCompletions() {
@@ -1106,7 +1119,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
       val msg = "Expected string '$expectedString' not found. Content: '$content'"
       assertTrue(msg, text.contains(expectedString))
     } else {
-      val strings = myFixture.lookupElementStrings?.map { if (listOf('\'', '"').contains(it.firstOrNull())) it.substring(1) else it }
+      val strings = myFixture.lookupElementStrings?.map { if (listOf('"').contains(it.firstOrNull())) it.substring(1) else it }
       assertNotNull(strings)
       strings?.let { results ->
         val msg = "Expected results: $expectedCompletionStrings, \nfound: $strings, \nContent: '$content'"

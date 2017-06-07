@@ -58,7 +58,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.classNameAsString == "com.badlogic.gdx.graphics.Color")
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.quotationChar)?.let { newResourceName ->
+    SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
       resourceName.replace(newResourceName)
       return newResourceName
     }

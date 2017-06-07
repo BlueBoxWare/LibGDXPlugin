@@ -31,7 +31,7 @@
       colors: [
         selection
       ],
-      moreColors: [[white, 'selection'], [white]]
+      moreColors: [[white, "selection"], [white]]
     }
   }
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {

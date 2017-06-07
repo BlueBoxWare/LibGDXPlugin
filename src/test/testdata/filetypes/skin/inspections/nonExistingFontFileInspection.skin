@@ -4,37 +4,37 @@
     default: {
       file: x/y/font.fnt
       file: x\\y/font.fnt
-      file: 'x\\y/font.fnt'
-      file: "z\\font.fnt"
-      file: <error descr="File 'x\y/fon.fnt' does not exist.">x\\y/fon.fnt</error>
-    }
-  },
+      file: <error descr="File ''x\y/font.fnt'' does not exist.">'x\\y/font.fnt'</error>
+file: "z\\font.fnt"
+file: <error descr="File 'x\y/fon.fnt' does not exist.">x\\y/fon.fnt</error>
+}
+},
 
-  com.example.ColorArrayHolder: {
-    default: {
-      textButtonStyles: [
-        {
-          font: {
-            file: x/y/font.fnt
-          }
-        },
-        {
-          font: {
-            file: x\\y/font.fnt
-          }
-        },
-        {
-          font: {
-            file: "z\\font.fnt"
-          }
-        },
-        {
-          font: {
-            file: <error descr="File 'z/fon.fnt' does not exist.">z/fon.fnt</error>
-          }
-        }
-      ]
-    }
-  }
+com.example.ColorArrayHolder: {
+default: {
+textButtonStyles: [
+{
+font: {
+file: x/y/font.fnt
+}
+},
+{
+font: {
+file: x\\y/font.fnt
+}
+},
+{
+font: {
+file: "z\\font.fnt"
+}
+},
+{
+font: {
+file: <error descr="File 'z/fon.fnt' does not exist.">z/fon.fnt</error>
+}
+}
+]
+}
+}
 
 }

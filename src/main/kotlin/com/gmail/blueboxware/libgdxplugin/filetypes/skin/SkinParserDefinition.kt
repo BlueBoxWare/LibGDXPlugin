@@ -30,7 +30,7 @@ class SkinParserDefinition : ParserDefinition {
 
   companion object {
     val FILE = IFileElementType(LibGDXSkinLanguage.INSTANCE)
-    val STRING_LITERALS = TokenSet.create(SINGLE_QUOTED_STRING, DOUBLE_QUOTED_STRING)
+    val STRING_LITERALS = TokenSet.create(UNQUOTED_STRING, DOUBLE_QUOTED_STRING)
 
     val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
     val SKIN_COMMENTARIES = TokenSet.create(BLOCK_COMMENT, LINE_COMMENT)

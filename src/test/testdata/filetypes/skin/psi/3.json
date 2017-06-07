@@ -12,8 +12,8 @@
   }
 },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
-  medium: { file: test/test\medium.fnt }
-  test: { str: "\"'\n\f", str2: '"\'' }
+  medium: { file: test/test\\medium.fnt }
+  test: { str: "\"'\n\f", str2: '"'' }
   classNamesInProperties: { com.badlogic.gdx.graphics.g2d.BitmapFont: "com.badlogic.gdx.graphics.g2d.BitmapFont"
     str: com.badlogic.gdx.graphics.g2d.BitmapFont
   }
@@ -43,4 +43,6 @@
       moreColors: [blue, [blue, "blue", 'blue']]
     }
   }
+  com.badlogic.gdx.graphics.Color:{default:{hex:"00ffff"},d:default,e:"default"},com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle:{
+  default: {checkedFontColor:default,fontColor:{g:0}}}
 }

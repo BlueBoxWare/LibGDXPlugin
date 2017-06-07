@@ -21,7 +21,6 @@ val d2 = <weak_warning descr="#ff0000ff">skin.getColor(resource)</weak_warning>
 val d3 = <weak_warning descr="#ff0000ff">skin.get(resource, Color::class.java)</weak_warning>
 val d4 = <weak_warning descr="#ffffffff">skin.optional("white", Color::class.java)</weak_warning>
 val da = skin.optional("white", Drawable::class.java)
-val db = skin.optional("white", 3)
 val d5 = skin.get(Color::class.java)
 val d6 = <weak_warning descr="#ff0000ff">d1</weak_warning>
 val d7 = <weak_warning descr="#ff0000ff">d2</weak_warning>

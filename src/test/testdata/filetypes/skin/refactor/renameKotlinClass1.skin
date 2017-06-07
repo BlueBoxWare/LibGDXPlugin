@@ -1,10 +1,10 @@
 {
-  KotlinClass: {
+  com.example.KotlinClass: {
     d: {
       bool: true
     }
   }
-  'KotlinClass': {
+  "com.example.KotlinClass": {
 
   }
   No: {

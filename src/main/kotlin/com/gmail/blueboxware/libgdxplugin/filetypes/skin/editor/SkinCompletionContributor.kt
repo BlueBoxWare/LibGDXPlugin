@@ -160,7 +160,7 @@ class SkinCompletionContributor : CompletionContributor() {
     (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
-          doAdd(LookupElementBuilder.create(res.name), parameters, result)
+          doAdd(LookupElementBuilder.create(res.name.makeSafe()).withPresentableText(res.name.escape()), parameters, result)
         }
       }
     }
@@ -323,7 +323,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
   private fun classNameCompletion(parameters : CompletionParameters, result : CompletionResultSet) {
     val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }.let { prefix ->
-      if (prefix.firstOrNull() == '\'' || prefix.firstOrNull() == '"') {
+      if (prefix.firstOrNull() == '"') {
         prefix.substring(1)
       } else {
         prefix
@@ -347,7 +347,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     if (currentPackage == null || currentPackage.name == null) {
 
-      val prefixMatcher = if (dummyText.firstOrNull() == '"' || dummyText.firstOrNull() == '\'') {
+      val prefixMatcher = if (dummyText.firstOrNull() == '"') {
         CamelHumpMatcher(result.prefixMatcher.prefix.substring(1))
       } else {
         result.prefixMatcher
@@ -398,7 +398,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
   private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {
     val dummyText = parameters.position.text
-    if (dummyText.firstOrNull() == '"' || dummyText.firstOrNull() == '\'') {
+    if (dummyText.firstOrNull() == '"') {
       result.withPrefixMatcher(result.prefixMatcher.prefix.substring(1)).addElement(element)
       return
     }

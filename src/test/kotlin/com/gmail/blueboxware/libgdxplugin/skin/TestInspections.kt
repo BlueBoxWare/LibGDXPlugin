@@ -81,8 +81,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     myFixture.testHighlighting(true, false, false, getTestName(true) + ".skin")
   }
 
-
-
   override fun setUp() {
     super.setUp()
 

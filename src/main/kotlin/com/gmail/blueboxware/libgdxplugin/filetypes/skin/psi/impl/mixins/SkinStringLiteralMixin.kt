@@ -1,14 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
-import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiReference
 
 /*
@@ -28,7 +24,7 @@ import com.intellij.psi.PsiReference
  */
 abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinValueImpl(node) {
 
-  override fun getValue(): String = StringUtil.unescapeStringCharacters(SkinPsiUtil.stripQuotes(text))
+  override fun getValue(): String = text.stripQuotes().unescape()
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 
@@ -54,11 +50,12 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
 
   }
 
-  override fun setValue(string: String, quotationChar: Char?) {
-    SkinElementFactory.createStringLiteral(project, string, quotationChar)?.let {
+  override fun setValue(string: String) {
+    SkinElementFactory.createStringLiteral(project, string, isQuoted)?.let {
       replace(it)
     }
   }
 
-  override fun getQuotationChar(): Char? = text.firstOrNull()?.let { if (it == '"' || it == '\'')  it else null }
+  override fun isQuoted(): Boolean = text.firstOrNull() == '\"'
+
 }

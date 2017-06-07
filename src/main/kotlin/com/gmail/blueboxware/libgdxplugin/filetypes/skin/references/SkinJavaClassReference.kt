@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 
@@ -25,7 +26,8 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
   override fun handleElementRename(newElementName: String?): PsiElement {
     element.stringLiteral.let { stringLiteral ->
-      stringLiteral.setValue(newElementName, stringLiteral.quotationChar)
+      val fqName = StringUtil.getPackageName(stringLiteral.value) + "." + newElementName
+      stringLiteral.setValue(fqName)
       return element
     }
   }

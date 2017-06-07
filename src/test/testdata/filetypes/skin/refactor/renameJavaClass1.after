@@ -1,10 +1,10 @@
 {
-  MyClass: {
+  com.example.MyClass: {
     d: {
       bool: true
     }
  }
-  'MyClass': {
+  "com.example.MyClass": {
 
   }
   No: {

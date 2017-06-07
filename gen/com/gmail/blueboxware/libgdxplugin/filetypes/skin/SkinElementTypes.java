@@ -30,7 +30,6 @@ public interface SkinElementTypes {
   IElementType L_CURLY = new SkinTokenType("{");
   IElementType R_BRACKET = new SkinTokenType("]");
   IElementType R_CURLY = new SkinTokenType("}");
-  IElementType SINGLE_QUOTED_STRING = new SkinTokenType("SINGLE_QUOTED_STRING");
   IElementType UNQUOTED_STRING = new SkinTokenType("UNQUOTED_STRING");
 
   class Factory {

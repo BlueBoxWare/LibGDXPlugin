@@ -3,9 +3,9 @@
     x: { hex: #ffffff }
     x: { hex: #ffff00 }
     x: { hex: ffff12 }
-    x: { hex: '#ffffff' }
+    x: { hex: <error>'#ffffff'</error> }
     x: { hex: "ffFA1f" }
-    x: { hex: '#ffffff00' }
+    x: { hex: <error>'#ffffff'</error> }
     x: { hex: "12fffFff" }
 
     x: { hex: <error>#fffff</error> }

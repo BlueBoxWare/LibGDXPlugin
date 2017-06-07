@@ -3,6 +3,8 @@
     white: { r: 1, g: 1, b: 1, a: 1 },
     red: { r: 1, g: 0, b: 0, a: 1 },
     yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+    "\"'\n\r/": {}
+    ''\"\u7654: {}
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: { file: medium.fnt }

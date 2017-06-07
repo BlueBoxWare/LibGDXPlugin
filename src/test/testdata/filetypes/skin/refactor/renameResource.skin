@@ -19,12 +19,12 @@
   },
   com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
     bla: {
-      background: blue
+      background: "blue"
       fontColor: "blue"
     },
     something: {
-      background: 'blue'
-      fontColor: 'blue'
+      background: blue
+      fontColor: blue
     }
   }
   com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle: {

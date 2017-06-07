@@ -78,7 +78,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
   }
 
   override fun handleElementRename(newElementName: String?): PsiElement {
-    element.setValue(newElementName, element.quotationChar)
+    element.setValue(newElementName)
     return element
   }
 }

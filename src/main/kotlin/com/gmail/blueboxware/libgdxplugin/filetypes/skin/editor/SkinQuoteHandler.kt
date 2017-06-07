@@ -1,7 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler
+import com.intellij.psi.tree.TokenSet
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -18,4 +20,4 @@ import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinQuoteHandler: SimpleTokenSetQuoteHandler(SkinParserDefinition.STRING_LITERALS)
+class SkinQuoteHandler: SimpleTokenSetQuoteHandler(TokenSet.create(SkinElementTypes.DOUBLE_QUOTED_STRING))

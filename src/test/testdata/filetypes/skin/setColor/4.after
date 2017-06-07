@@ -1,7 +1,7 @@
 {
   com.badlogic.gdx.graphics.Color: {
     color: {
-      hex: '#ffffffff'
+      hex: #ffffffff
     }
   },
   newColor: {

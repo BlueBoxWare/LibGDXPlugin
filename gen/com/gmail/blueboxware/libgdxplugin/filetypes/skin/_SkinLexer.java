@@ -55,9 +55,9 @@ public class _SkinLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\12\1\2\2\1\1\2\22\0\1\12\1\0\1\6\4\0\1\10\2\0\1\5\1\0\1\17\2\0\1\4"+
-    "\12\0\1\11\40\0\1\15\1\7\1\16\35\0\1\13\1\0\1\14\7\0\1\1\32\0\1\3\337\0\1"+
-    "\3\177\0\13\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
+    "\11\0\1\11\1\2\2\1\1\2\22\0\1\11\1\0\1\6\7\0\1\5\1\0\1\12\2\0\1\4\12\0\1\13"+
+    "\40\0\1\10\1\7\1\16\35\0\1\14\1\0\1\15\7\0\1\1\32\0\1\3\337\0\1\3\177\0\13"+
+    "\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -65,12 +65,12 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\2\2\1\1\1\3\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\1\12\1\13\1\14\1\3\2\0"+
-    "\1\4\1\13\1\14\1\1\1\0\2\14";
+    "\1\0\1\1\2\2\1\3\1\4\1\3\1\5\1\6"+
+    "\1\7\1\10\1\11\1\12\2\0\1\13\1\14\1\4"+
+    "\2\0\1\14";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[25];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -95,13 +95,12 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\20\0\40\0\60\0\100\0\120\0\140\0\160"+
-    "\0\160\0\160\0\160\0\160\0\160\0\200\0\220\0\160"+
-    "\0\240\0\260\0\160\0\300\0\320\0\340\0\360\0\20"+
-    "\0\160";
+    "\0\0\0\17\0\36\0\55\0\74\0\113\0\132\0\151"+
+    "\0\151\0\151\0\151\0\151\0\151\0\170\0\132\0\207"+
+    "\0\226\0\151\0\245\0\264\0\151";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[25];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -124,21 +123,18 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\3\1\5\1\2\1\6\1\2"+
-    "\1\7\1\10\1\4\1\11\1\12\1\13\1\14\1\15"+
-    "\2\2\1\0\3\2\1\0\1\2\10\0\1\2\1\3"+
-    "\1\4\1\3\2\2\1\0\1\2\2\0\1\4\6\0"+
-    "\3\4\6\0\1\4\5\0\2\2\1\0\1\2\1\16"+
-    "\1\17\1\0\1\2\10\0\2\6\1\0\3\6\1\20"+
-    "\1\21\10\6\2\7\1\0\4\7\1\22\1\23\7\7"+
-    "\20\0\1\16\1\2\1\0\3\16\1\24\1\16\10\24"+
-    "\2\17\1\25\2\17\1\26\1\25\1\17\10\25\2\6"+
-    "\1\0\15\6\2\7\1\0\15\7\1\24\2\0\15\24"+
-    "\5\25\1\27\12\25\2\17\1\25\1\17\1\30\1\26"+
-    "\1\25\1\17\14\25\1\31\1\27\12\25";
+    "\1\2\1\3\1\4\1\3\1\5\1\2\1\6\1\7"+
+    "\1\10\1\4\1\11\1\12\1\13\1\14\1\15\2\2"+
+    "\1\0\1\2\1\16\2\2\1\17\1\2\3\0\1\2"+
+    "\2\0\1\2\1\3\1\4\1\3\1\16\2\2\1\17"+
+    "\1\2\1\4\2\0\1\2\3\0\3\4\5\0\1\4"+
+    "\11\0\1\20\1\21\11\0\2\6\1\0\3\6\1\22"+
+    "\1\23\7\6\2\2\1\0\14\2\17\0\4\2\2\0"+
+    "\5\2\1\0\3\2\1\20\2\0\14\20\5\21\1\24"+
+    "\11\21\2\6\1\0\14\6\4\21\1\25\1\24\11\21";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[256];
+    int [] result = new int[195];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -176,11 +172,10 @@ public class _SkinLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\6\1\6\11\2\1\1\11\2\0\1\11\3\1"+
-    "\1\0\1\1\1\11";
+    "\1\0\6\1\6\11\2\0\2\1\1\11\2\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[25];
+    int [] result = new int[21];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -494,35 +489,35 @@ public class _SkinLexer implements FlexLexer {
             }
           case 14: break;
           case 3: 
-            { return DOUBLE_QUOTED_STRING;
+            { return BAD_CHARACTER;
             }
           case 15: break;
           case 4: 
-            { return SINGLE_QUOTED_STRING;
+            { return DOUBLE_QUOTED_STRING;
             }
           case 16: break;
           case 5: 
-            { return COLON;
+            { return L_BRACKET;
             }
           case 17: break;
           case 6: 
-            { return L_CURLY;
+            { return COMMA;
             }
           case 18: break;
           case 7: 
-            { return R_CURLY;
+            { return COLON;
             }
           case 19: break;
           case 8: 
-            { return L_BRACKET;
+            { return L_CURLY;
             }
           case 20: break;
           case 9: 
-            { return R_BRACKET;
+            { return R_CURLY;
             }
           case 21: break;
           case 10: 
-            { return COMMA;
+            { return R_BRACKET;
             }
           case 22: break;
           case 11: 

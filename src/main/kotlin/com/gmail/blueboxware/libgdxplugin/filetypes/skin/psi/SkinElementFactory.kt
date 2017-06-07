@@ -80,25 +80,26 @@ object SkinElementFactory {
   }
 
   fun createObject(project: Project): SkinObject? {
-    return createElement(project, "propertyName: propertyValue", "", SkinObject::class.java, null)
+    return createElement(project, "propertyName: propertyValue", "", SkinObject::class.java, false)
   }
 
-  fun createPropertyName(project: Project, name: String, quotationChar: Char?): SkinPropertyName? {
-    return createElement(project, "propertyName", name, SkinPropertyName::class.java, quotationChar)
+  fun createPropertyName(project: Project, name: String, quote: Boolean): SkinPropertyName? {
+    return createElement(project, "propertyName", name, SkinPropertyName::class.java, quote)
   }
 
-  fun createResourceName(project: Project, name: String, quotationChar: Char?): SkinResourceName? {
-    return createElement(project, "resourceName", name, SkinResourceName::class.java, quotationChar)
+  fun createResourceName(project: Project, name: String, quote: Boolean): SkinResourceName? {
+    return createElement(project, "resourceName", name, SkinResourceName::class.java, quote)
   }
 
-  fun createStringLiteral(project : Project, value : String, quotationChar: Char?): SkinStringLiteral? {
-    val propertyValue = createElement(project, "propertyValue", value, SkinPropertyValue::class.java, quotationChar)
+  fun createStringLiteral(project : Project, value : String, quote: Boolean): SkinStringLiteral? {
+    val propertyValue = createElement(project, "propertyValue", value, SkinPropertyValue::class.java, quote)
     return propertyValue?.value as? SkinStringLiteral
   }
 
-  private fun <T: SkinElement> createElement(project: Project, replace: String, with: String, type: Class<T>, quotationChar: Char?): T? {
-    val quote = quotationChar?.toString() ?: ""
-    val content = dummyContent.replace(replace, quote + StringUtil.escapeStringCharacters(with) + quote)
+  private fun <T: SkinElement> createElement(project: Project, replace: String, with: String, type: Class<T>, quote: Boolean): T? {
+    val quoteChar = if (quote) "\"" else ""
+    val replacement = if (quote) StringUtil.escapeStringCharacters(with) else with
+    val content = dummyContent.replace(replace, quoteChar + replacement + quoteChar)
     val file = createFile(project, content)
     return PsiTreeUtil.findChildOfType(file, type)
   }

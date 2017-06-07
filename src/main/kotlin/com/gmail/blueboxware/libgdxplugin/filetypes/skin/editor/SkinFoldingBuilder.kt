@@ -2,8 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.findFurthestSiblingOfSameType
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -63,8 +63,8 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
             ) && spansMultipleLines(node, document)) {
       descriptors.add(FoldingDescriptor(node, node.textRange))
     } else if (type == SkinElementTypes.LINE_COMMENT) {
-      val firstNode = SkinPsiUtil.findFurthestSiblingOfSameType(node.psi, false)
-      val lastNode = SkinPsiUtil.findFurthestSiblingOfSameType(node.psi, true)
+      val firstNode = findFurthestSiblingOfSameType(node.psi, false)
+      val lastNode = findFurthestSiblingOfSameType(node.psi, true)
       val start = firstNode.textRange.startOffset
       val end = lastNode.textRange.endOffset
       if (document.getLineNumber(start) != document.getLineNumber(end)) {

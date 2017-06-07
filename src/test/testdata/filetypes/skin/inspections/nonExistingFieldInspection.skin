@@ -39,7 +39,8 @@ font: blue
   something: {
   font: blue
   over: blue
-<error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'checkered'.">'checkered'</error>: true
+<error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'checkered'.">checkered</error>: true
+<error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named ''checkered''.">'checkered'</error>: true
 }
 green: {
 down: round-down, up: round,

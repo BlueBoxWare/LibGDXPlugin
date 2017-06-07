@@ -19,7 +19,7 @@ font: medium, fontColor: yellow
 },
 toggle: {
 down: round-down, up: round, checked: round-down,
-font: medium, fontColor: white, checkedFontColor: red
+font: medium, fontColor: white, checkedFontColor: "yellow"
 },
 green: {
 down: round-down, up: round,

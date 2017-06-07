@@ -60,7 +60,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
   override fun setName(@NonNls name: String): PsiElement? {
-    SkinElementFactory.createPropertyName(project, name, nameIdentifier.stringLiteral.quotationChar)?.let { newPropertyName ->
+    SkinElementFactory.createPropertyName(project, name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
       propertyName.replace(newPropertyName)
       return newPropertyName
     }

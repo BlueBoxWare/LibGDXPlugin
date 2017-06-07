@@ -6,7 +6,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_COLON
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_VALUE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPsiUtil.hasElementType
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -169,7 +168,7 @@ class SkinBlock(
 
   private fun isInsideBraces(psiElement: PsiElement): Boolean {
 
-    val prevBrace = SkinPsiUtil.findPreviousSibling(psiElement, { sibling ->
+    val prevBrace = findPreviousSibling(psiElement, { sibling ->
       (sibling is LeafPsiElement && (sibling.text == "{" || sibling.text == "}"))
     })
 

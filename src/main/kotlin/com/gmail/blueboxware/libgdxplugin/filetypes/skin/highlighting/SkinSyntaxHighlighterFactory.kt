@@ -69,7 +69,6 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
               SkinElementTypes.COMMA to SKIN_COMMA,
               SkinElementTypes.COLON to SKIN_COLON,
 
-              SkinElementTypes.SINGLE_QUOTED_STRING to SKIN_STRING,
               SkinElementTypes.DOUBLE_QUOTED_STRING to SKIN_STRING,
               SkinElementTypes.UNQUOTED_STRING to SKIN_STRING,
 
@@ -96,10 +95,6 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
       layeredLexer.registerSelfStoppingLayer(
               StringLiteralLexer('\"', SkinElementTypes.DOUBLE_QUOTED_STRING, false, "/", false, false),
               arrayOf(SkinElementTypes.DOUBLE_QUOTED_STRING), IElementType.EMPTY_ARRAY
-      )
-      layeredLexer.registerSelfStoppingLayer(
-              StringLiteralLexer('\'', SkinElementTypes.SINGLE_QUOTED_STRING, false, "/", false, false),
-              arrayOf(SkinElementTypes.SINGLE_QUOTED_STRING), IElementType.EMPTY_ARRAY
       )
       return layeredLexer
     }

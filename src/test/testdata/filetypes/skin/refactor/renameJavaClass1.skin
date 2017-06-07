@@ -1,10 +1,10 @@
 {
-  JavaClass: {
+  com.example.JavaClass: {
     d: {
       bool: true
     }
  }
-  'JavaClass': {
+  "com.example.JavaClass": {
 
   }
   No: {

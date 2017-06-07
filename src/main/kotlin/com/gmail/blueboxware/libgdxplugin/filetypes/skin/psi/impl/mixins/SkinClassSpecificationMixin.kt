@@ -44,7 +44,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
   override fun resolveClass(): PsiClass? = className.resolve() as? PsiClass
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createStringLiteral(project, name, nameIdentifier.quotationChar)?.let { newClassName ->
+    SkinElementFactory.createStringLiteral(project, name, nameIdentifier.isQuoted)?.let { newClassName ->
       newClassName.replace(newClassName)
       return newClassName
     }

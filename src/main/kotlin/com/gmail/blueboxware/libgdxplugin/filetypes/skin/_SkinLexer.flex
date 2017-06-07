@@ -27,9 +27,8 @@ WHITE_SPACE=\s+
 
 LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
-DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
-SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
-UNQUOTED_STRING=[^ \t\n\r\{\}\[\]\"':,]+
+DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\n\r])*\"?
+UNQUOTED_STRING=([^\\\":,{}\[\]/\r\n\t ]|\\[^\n\r])([^\\:}\]/,\r\n\t ]|"/"[^/*:]|\\[^\n\r])*
 
 %%
 <YYINITIAL> {
@@ -45,7 +44,6 @@ UNQUOTED_STRING=[^ \t\n\r\{\}\[\]\"':,]+
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
-  {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
   {UNQUOTED_STRING}           { return UNQUOTED_STRING; }
 
 }

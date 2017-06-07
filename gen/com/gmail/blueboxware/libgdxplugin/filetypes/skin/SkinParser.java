@@ -124,6 +124,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // string_literal
   public static boolean class_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_name")) return false;
+    if (!nextTokenIs(b, "<class name>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CLASS_NAME, "<class name>");
     r = string_literal(b, l + 1);
@@ -135,6 +136,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // class_name ':' '{' resources optionalComma '}'
   public static boolean class_specification(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_specification")) return false;
+    if (!nextTokenIs(b, "<class specification>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, CLASS_SPECIFICATION, "<class specification>");
     r = class_name(b, l + 1);
@@ -155,9 +157,9 @@ public class SkinParser implements PsiParser, LightPsiParser {
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, OBJECT, null);
     r = consumeToken(b, L_CURLY);
-    r = r && object_1(b, l + 1);
-    p = r; // pin = 2
-    r = r && report_error_(b, object_2(b, l + 1));
+    p = r; // pin = 1
+    r = r && report_error_(b, object_1(b, l + 1));
+    r = p && report_error_(b, object_2(b, l + 1)) && r;
     r = p && report_error_(b, parseOtionalComma(b, l + 1)) && r;
     r = p && consumeToken(b, R_CURLY) && r;
     exit_section_(b, l, m, r, p, null);
@@ -198,6 +200,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // property_name ':' property_value
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
+    if (!nextTokenIs(b, "<property>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
     r = property_name(b, l + 1);
@@ -212,6 +215,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // string_literal
   public static boolean property_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property_name")) return false;
+    if (!nextTokenIs(b, "<property name>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY_NAME, "<property name>");
     r = string_literal(b, l + 1);
@@ -234,6 +238,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // resource_name ':' (object | string_literal)
   public static boolean resource(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resource")) return false;
+    if (!nextTokenIs(b, "<resource>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, RESOURCE, "<resource>");
     r = resource_name(b, l + 1);
@@ -259,6 +264,7 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // string_literal
   public static boolean resource_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resource_name")) return false;
+    if (!nextTokenIs(b, "<resource name>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, RESOURCE_NAME, "<resource name>");
     r = string_literal(b, l + 1);
@@ -357,13 +363,13 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SINGLE_QUOTED_STRING | DOUBLE_QUOTED_STRING | UNQUOTED_STRING
+  // DOUBLE_QUOTED_STRING | UNQUOTED_STRING
   public static boolean string_literal(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "string_literal")) return false;
+    if (!nextTokenIs(b, "<string literal>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, STRING_LITERAL, "<string literal>");
-    r = consumeToken(b, SINGLE_QUOTED_STRING);
-    if (!r) r = consumeToken(b, DOUBLE_QUOTED_STRING);
+    r = consumeToken(b, DOUBLE_QUOTED_STRING);
     if (!r) r = consumeToken(b, UNQUOTED_STRING);
     exit_section_(b, l, m, r, false, null);
     return r;
