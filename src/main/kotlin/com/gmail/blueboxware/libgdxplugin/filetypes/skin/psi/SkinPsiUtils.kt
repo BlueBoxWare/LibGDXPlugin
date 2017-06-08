@@ -54,7 +54,7 @@ fun String.isQuoted(): Boolean = length > 1 && firstOrNull() == '\"' && lastOrNu
 fun String.escape(): String = StringUtil.escapeStringCharacters(this)
 
 fun String.makeSafe(): String =
-  if (!isQuoted() && this.any { listOf('{', '}', ':', '[', ']').contains(it) }) {
+  if (!isQuoted() && this.any { listOf('{', '}', ':', '[', ']', ',').contains(it) }) {
     "\"" + this.escape() + "\""
   } else {
     this.escape()
@@ -62,7 +62,7 @@ fun String.makeSafe(): String =
 
 
 fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
-  var result = StringBuilder()
+  val result = StringBuilder()
   var i = 0
   while (i < length) {
     var c = get(i++)

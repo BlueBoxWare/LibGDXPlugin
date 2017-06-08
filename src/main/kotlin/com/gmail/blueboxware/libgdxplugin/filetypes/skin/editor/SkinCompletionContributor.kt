@@ -208,7 +208,7 @@ class SkinCompletionContributor : CompletionContributor() {
           for (file in virtualFile.getAssociatedFiles()) {
             if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
               VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
-                doAdd(LookupElementBuilder.create(file, relativePath).withIcon(ICON_BITMAP_FONT), parameters, result)
+                doAdd(LookupElementBuilder.create(relativePath.makeSafe()).withPresentableText(relativePath).withIcon(ICON_BITMAP_FONT), parameters, result)
               }
             }
           }

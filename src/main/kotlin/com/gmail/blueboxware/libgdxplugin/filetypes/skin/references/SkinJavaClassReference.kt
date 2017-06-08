@@ -27,7 +27,7 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
   override fun handleElementRename(newElementName: String?): PsiElement {
     element.stringLiteral.let { stringLiteral ->
       val fqName = StringUtil.getPackageName(stringLiteral.value) + "." + newElementName
-      stringLiteral.setValue(fqName)
+      stringLiteral.value = fqName
       return element
     }
   }

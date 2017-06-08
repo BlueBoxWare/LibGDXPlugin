@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler
 import com.intellij.psi.tree.TokenSet
 

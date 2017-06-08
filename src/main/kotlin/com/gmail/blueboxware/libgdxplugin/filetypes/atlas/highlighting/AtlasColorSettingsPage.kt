@@ -5,6 +5,7 @@ import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import icons.Icons
+import javax.swing.Icon
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -30,9 +31,9 @@ class AtlasColorSettingsPage : ColorSettingsPage {
           "value" to AtlasSyntaxHighlighter.VALUE
   )
 
-  override fun getIcon() = Icons.ATLAS_FILETYPE
+  override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
 
-  override fun getAttributeDescriptors() = arrayOf(
+  override fun getAttributeDescriptors(): Array<AttributesDescriptor> = arrayOf(
           AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),
           AttributesDescriptor("Comma", AtlasSyntaxHighlighter.COMMA),
 
@@ -42,13 +43,13 @@ class AtlasColorSettingsPage : ColorSettingsPage {
           AttributesDescriptor("Value", AtlasSyntaxHighlighter.VALUE)
   )
 
-  override fun getColorDescriptors() = ColorDescriptor.EMPTY_ARRAY
+  override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  override fun getDisplayName() = "LibGDX Atlas"
+  override fun getDisplayName(): String = "LibGDX Atlas"
 
-  override fun getHighlighter() = AtlasSyntaxHighlighter()
+  override fun getHighlighter(): AtlasSyntaxHighlighter = AtlasSyntaxHighlighter()
 
-  override fun getDemoText() = """<fileName>uiskin1.png</fileName>
+  override fun getDemoText(): String = """<fileName>uiskin1.png</fileName>
 <key>size</key>: <value>256</value>,<value>128</value>
 <key>format</key>: <value>Alpha</value>
 <key>filter</key>: <value>Linear</value>,<value>Linear</value>

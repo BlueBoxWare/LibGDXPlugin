@@ -45,7 +45,7 @@ class SkinInspectionNameInspection: SkinFileInspection() {
           matchResult.groupValues.getOrNull(2)?.let {
             val inspectionName = StringUtil.stripQuotesAroundValue(it.trim()).trim()
             if (!SkinFileInspection.INSPECTION_NAMES.map(String::toLowerCase).contains(inspectionName.toLowerCase())) {
-              matchResult.groups.get(2)?.range?.let { range ->
+              matchResult.groups[2]?.range?.let { range ->
                 val textRange = TextRange(range.start, range.endInclusive + 1)
                 holder.registerProblem(comment, textRange, message("skin.inspection.inspection.name.message",
                         inspectionName,

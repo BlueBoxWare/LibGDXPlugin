@@ -43,17 +43,17 @@ class ManifestModel {
           supportScreens?.value?.resolveSupportsScreensValues(resolveTargetSDK()) ?: SupportsScreens.getDefaultValues(resolveTargetSDK())
 
   fun applyExternalVersions(versionMap: Map<SdkVersionType, Int>) {
-    versionMap.get(SdkVersionType.MIN)?.let { extVersion ->
+    versionMap[SdkVersionType.MIN]?.let { extVersion ->
       if (extVersion > minSDK.value) {
         minSDK = ManifestValue(extVersion)
       }
     }
-    versionMap.get(SdkVersionType.TARGET)?.let { extVersion ->
+    versionMap[SdkVersionType.TARGET]?.let { extVersion ->
       if (targetSDK == null || extVersion > resolveTargetSDK()) {
         targetSDK = ManifestValue(extVersion)
       }
     }
-    versionMap.get(SdkVersionType.MAX)?.let { extVersion ->
+    versionMap[SdkVersionType.MAX]?.let { extVersion ->
       if (maxSDK == null || extVersion > maxSDK?.value ?: 0) {
         maxSDK = ManifestValue(extVersion)
       }
