@@ -23,27 +23,27 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
   private val EMPTY = listOf<String>()
 
   val tests = listOf(
-          "{ <caret> }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont") to listOf()),
+          "{ <caret> }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont", "com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle") to listOf("com.example.MyTestClass\$NonStatic")),
 
           "{ '<caret>' }" to (EMPTY to listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont")),
 
-          "{ \"<caret>\" }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont") to listOf()),
+          "{ \"<caret>\" }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont", "com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle") to listOf()),
 
           "{ co<caret> }" to (listOf("com") to listOf()),
 
           "{ \"co<caret>\" }" to (listOf("com") to listOf()),
 
-          "{ My<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
+          "{ My<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass", "com.example.MyTestClass\$InnerClass\$MyInnerStyle")  to listOf("com.example.MyTestClass\$NonStatic", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")),
 
-          "{ \"My<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf()),
+          "{ \"My<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf("com.example.MyTestClass\$NonStatic")),
 
           "{ 'My<caret>' }" to (EMPTY  to listOf("com.example.MyTestClass", "com.example.MyOtherClass")),
 
           "{ MyT<caret> }" to (listOf("com.example.MyTestClass") to listOf()),
 
-          "{ com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
+          "{ com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass\$InnerClass\$MyInnerStyle") to listOf()),
 
-          "{ \"com.example.MyT<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner") to listOf()),
+          "{ \"com.example.MyT<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass\$InnerClass\$MyInnerStyle") to listOf()),
 
           """{ com.example.MyTestClass: {
             default: { <caret> }
@@ -1113,19 +1113,19 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     val result = myFixture.complete(CompletionType.BASIC, 1)
     if (result == null) {
       // the only item was auto-completed?
-      assertEquals(expectedCompletionStrings.size, 1)
+      assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", expectedCompletionStrings.size, 1)
       val text = myFixture.editor.document.text
       val expectedString = expectedCompletionStrings.first()
-      val msg = "Expected string '$expectedString' not found. Content: '$content'"
+      val msg = "Expected string '$expectedString' not found. Content: \n'$content'"
       assertTrue(msg, text.contains(expectedString))
     } else {
       val strings = myFixture.lookupElementStrings?.map { if (listOf('"').contains(it.firstOrNull())) it.substring(1) else it }
       assertNotNull(strings)
       strings?.let { results ->
-        val msg = "Expected results: $expectedCompletionStrings, \nfound: $strings, \nContent: '$content'"
+        val msg = "Expected results: $expectedCompletionStrings, \nfound: $strings, Content:\n '$content'"
         assertTrue(msg, results.containsAll(expectedCompletionStrings))
         for (notExpectedCompletionString in notExpectedCompletionStrings) {
-          val msg2 = "Not expected to find '$notExpectedCompletionString'. Content: '$content'"
+          val msg2 = "Not expected to find '$notExpectedCompletionString'. Content:\n '$content'"
           assertFalse(msg2, strings.contains(notExpectedCompletionString))
         }
       }

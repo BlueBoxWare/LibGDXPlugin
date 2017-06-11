@@ -12,12 +12,10 @@ import com.intellij.codeInsight.completion.impl.CamelHumpMatcher
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
+import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiClassType
-import com.intellij.psi.PsiModifier
-import com.intellij.psi.PsiType
+import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
@@ -345,6 +343,10 @@ class SkinCompletionContributor : CompletionContributor() {
     val dummyText = parameters.position.text
     val currentPackage = psiFacade.findPackage(prefix)
 
+    val scope = ModuleUtilCore.findModuleForPsiElement(parameters.position)?.let {
+      GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(it)
+    } ?: return
+
     if (currentPackage == null || currentPackage.name == null) {
 
       val prefixMatcher = if (dummyText.firstOrNull() == '"') {
@@ -353,47 +355,67 @@ class SkinCompletionContributor : CompletionContributor() {
         result.prefixMatcher
       }
 
-      AllClassesGetter.processJavaClasses(prefixMatcher, project, GlobalSearchScope.allScope(project), { psiClass ->
-        psiClass.putDollarInInnerClassName()?.let { name ->
-          val priority = classPriority(name)
-          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, name)
-                  .withPresentableText(name)
-                  .withLookupString(psiClass.name ?: "")
-                  .withIcon(ICON_CLASS)
-                  .withBoldness(priority > 0.0),
-                  priority
-          ), parameters, result)
+      AllClassesGetter.processJavaClasses(prefixMatcher, project, scope, { psiClass ->
+
+        for (innerClass in allStaticInnerClasses(psiClass)) {
+
+          if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
+            val fqName = innerClass.putDollarInInnerClassName()
+            val priority = classPriority(fqName)
+            doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName)
+                    .withPresentableText(fqName)
+                    .withLookupString(psiClass.name ?: "")
+                    .withIcon(ICON_CLASS)
+                    .withBoldness(priority > 0.0),
+                    priority
+            ), parameters, result)
+          }
+
         }
+
         true
+
       })
 
       return
     }
 
-    for (clazz in currentPackage.classes) {
-      if (!clazz.isAnnotationType && !clazz.isInterface && !clazz.hasModifierProperty(PsiModifier.ABSTRACT) && clazz.containingClass == null) {
-        clazz.qualifiedName?.let { fqName ->
-          val priority = classPriority(fqName)
-          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(clazz, fqName)
-                  .withIcon(ICON_CLASS)
-                  .withBoldness(priority > 0.0)
-                  , priority), parameters, result)
-        }
-      }
+    for (clazz in currentPackage.getClasses(scope)) {
 
-      for (innerClass in clazz.innerClasses) {
-        val fqName = clazz.qualifiedName + "$" + innerClass.name
-        val priority = classPriority(fqName)
-        if (innerClass.hasModifierProperty(PsiModifier.PUBLIC)) {
-          doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(innerClass, fqName)
-                  .withBoldness(priority > 0.0)
-                  .withIcon(ICON_CLASS)
-                  , priority), parameters, result)
+      for (innerClass in allStaticInnerClasses(clazz)) {
+
+        if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
+
+          innerClass.putDollarInInnerClassName()?.let { fqName ->
+
+            val priority = classPriority(fqName)
+            doAdd(
+                    PrioritizedLookupElement.withPriority(
+                            LookupElementBuilder.create(innerClass, fqName).withIcon(ICON_CLASS).withBoldness(priority > 0.0),
+                            priority
+                    ),
+                    parameters,
+                    result
+            )
+
+          }
+
         }
       }
 
     }
 
+  }
+
+  private fun allStaticInnerClasses(clazz: PsiClass): List<PsiClass> {
+    if (clazz.containingClass == null || clazz.hasModifierProperty(PsiModifier.STATIC)) {
+      val result = mutableListOf(clazz)
+      for (innerClass in clazz.innerClasses) {
+          result.addAll(allStaticInnerClasses(innerClass))
+      }
+      return result
+    }
+    return listOf()
   }
 
   private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {

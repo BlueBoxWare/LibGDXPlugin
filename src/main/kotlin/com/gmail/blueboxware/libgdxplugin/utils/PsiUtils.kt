@@ -36,9 +36,12 @@ fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
   return element
 }
 
-fun String.removeDollarFromClassName() = split(".", "$").joinToString(".")
+fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
 
-fun PsiClass.putDollarInInnerClassName() = containingClass?.let { it.qualifiedName + "$" + name } ?: qualifiedName
+fun PsiClass.putDollarInInnerClassName(): String =
+        containingClass?.let {
+          it.putDollarInInnerClassName() + "$" + name
+        } ?: qualifiedName ?: ""
 
 fun getPsiFile(project: Project, filename: String): PsiFile? {
 

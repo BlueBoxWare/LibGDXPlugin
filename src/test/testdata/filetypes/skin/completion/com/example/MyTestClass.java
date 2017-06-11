@@ -19,14 +19,16 @@ class MyTestClass {
     TextButton.TextButtonStyle textButtonStyle;
     TextButton.TextButtonStyle[] textButtonStyles;
 
-    public class Inner {
+    public static class Inner {
         int innerField;
     }
 
-    public class InnerClass {
-        public class MyInnerStyle extends List.ListStyle {
+    private static class InnerClass {
+        static class MyInnerStyle extends List.ListStyle {
 
         }
     }
+
+    class NonStatic {}
 
 }
