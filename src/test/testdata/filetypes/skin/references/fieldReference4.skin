@@ -1,5 +1,5 @@
 {
-  com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle: {
+  com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
     blue: {
       imageCh<caret>ecked: something
     }

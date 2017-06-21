@@ -85,6 +85,13 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestJavaClassReference("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
   }
 
+  fun testJavaClassReference3() {
+    myFixture.configureByFile("javaClassReference3.skin")
+    val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
+    assertNotNull(element)
+    assertTrue(element!!.multiResolve().isEmpty())
+  }
+
   fun testBitmapFontReference() {
     myFixture.copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")

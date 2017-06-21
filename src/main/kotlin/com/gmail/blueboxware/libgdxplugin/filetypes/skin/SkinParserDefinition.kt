@@ -44,7 +44,7 @@ class SkinParserDefinition : ParserDefinition {
 
   override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements = ParserDefinition.SpaceRequirements.MAY
 
-  override fun getStringLiteralElements(): TokenSet = STRING_LITERALS
+  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
   override fun getFileNodeType(): IFileElementType = FILE
 

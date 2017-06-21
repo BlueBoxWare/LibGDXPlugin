@@ -1,0 +1,23 @@
+{
+
+  com.foo.KotlinClass: {
+
+  }
+  com.example.FooBar: {
+
+  }
+
+  "com.foo.KotlinClass$Inner": {
+
+
+  }
+
+  "com.foo.JavaClass2": {
+
+  }
+
+  com.foo.JavaClass2$InnerClass: {
+
+  }
+
+}

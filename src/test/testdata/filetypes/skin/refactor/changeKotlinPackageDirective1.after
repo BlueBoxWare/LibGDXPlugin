@@ -1,0 +1,39 @@
+{
+
+  com.example.SomeClass: {
+
+  }
+
+  org.something.KotlinClass: {
+
+  }
+
+  "org.something.KotlinClass$Inner": {
+
+
+  }
+
+  org.something.KotlinClass$Inner$Inner: {
+
+  }
+
+  "org.something.KotlinClass$Private": {
+
+  }
+
+  org.something.KotlinClass$NonStatic: {
+
+  }
+
+  org.something.SecondClass$Inner: {
+
+  }
+
+  com.example.KotlinClassFoo: {
+
+  }
+
+  com.example.KotlinCl: {
+
+  }
+}

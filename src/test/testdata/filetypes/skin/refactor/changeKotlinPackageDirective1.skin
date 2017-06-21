@@ -1,13 +1,10 @@
 {
-  com.example.KotlinClass: {
-    d: {
-      bool: true
-    }
-  }
-  "com.example.KotlinClass": {
+
+  com.example.SomeClass: {
 
   }
-  No: {
+
+  com.example.KotlinClass: {
 
   }
 
@@ -25,6 +22,18 @@
   }
 
   com.example.KotlinClass$NonStatic: {
+
+  }
+
+  com.example.SecondClass$Inner: {
+
+  }
+
+  com.example.KotlinClassFoo: {
+
+  }
+
+  com.example.KotlinCl: {
 
   }
 }

@@ -1,0 +1,13 @@
+{
+  org.something.TopLevelClass: {
+
+  }
+
+  org.something.TopLevelClass$Inner: {
+
+  }
+
+  SomeClass: {
+
+  }
+}

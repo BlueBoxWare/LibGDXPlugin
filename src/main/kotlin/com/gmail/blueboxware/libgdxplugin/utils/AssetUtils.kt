@@ -10,7 +10,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_SKIN_PAR
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.FAKE_FILE_KEY
 import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
@@ -60,7 +59,7 @@ object Assets {
 
   val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
 
-  val FAKE_FILE_KEY = Key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
+  val FAKE_FILE_KEY = key<Boolean>("fake")
 
   val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
 

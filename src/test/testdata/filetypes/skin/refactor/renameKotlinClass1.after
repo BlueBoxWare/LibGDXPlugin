@@ -10,4 +10,21 @@
   No: {
 
   }
+
+  "com.example.MyClass$Inner": {
+
+
+  }
+
+  com.example.MyClass$Inner$Inner: {
+
+  }
+
+  "com.example.MyClass$Private": {
+
+  }
+
+  com.example.KotlinClass$NonStatic: {
+
+  }
 }

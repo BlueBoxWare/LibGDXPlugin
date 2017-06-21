@@ -67,7 +67,7 @@ class SkinTypeInspection: SkinFileInspection() {
           else            -> true
         }
         if (!check) {
-          problem(expectedType.getPresentableText(false))
+          problem(expectedType.getPresentableText())
         }
       } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("scaledSize", "markupEnabled", "flip").contains(propertyName)) {
         if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue.isBoolean) {

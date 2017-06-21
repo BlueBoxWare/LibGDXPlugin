@@ -1,6 +1,6 @@
 package com.example
 
-class Kotli<caret>nClass {
+class KotlinClass {
 
   val bool = true
 

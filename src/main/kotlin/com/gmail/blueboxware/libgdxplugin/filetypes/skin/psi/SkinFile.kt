@@ -27,4 +27,6 @@ interface SkinFile : SkinElement, PsiFile {
 
   fun addComment(comment: PsiComment)
 
+  fun replacePackage(className: String, oldPackage: String, newPackage: String)
+
 }

@@ -1,0 +1,39 @@
+{
+
+  com.example.SomeClass: {
+
+  }
+
+  KotlinClass: {
+
+  }
+
+  "KotlinClass$Inner": {
+
+
+  }
+
+  KotlinClass$Inner$Inner: {
+
+  }
+
+  "KotlinClass$Private": {
+
+  }
+
+  KotlinClass$NonStatic: {
+
+  }
+
+  SecondClass$Inner: {
+
+  }
+
+  com.example.KotlinClassFoo: {
+
+  }
+
+  com.example.KotlinCl: {
+
+  }
+}

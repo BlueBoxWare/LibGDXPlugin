@@ -12,4 +12,11 @@ class KotlinClass {
 
   val bools = arrayOf(true)
 
+  class StaticInner {
+    class InnerInner
+  }
+  private class PrivateInner
+  inner class NonStaticInner
+  object InnerObject
+
 }

@@ -3,7 +3,7 @@
     d: {
       bool: true
     }
- }
+  }
   "com.example.JavaClass": {
 
   }
@@ -11,7 +11,7 @@
 
   }
 
-  com.example.JavaClass$InnerClass: {
+  com.example.JavaClass$FooBar: {
 
   }
 
@@ -19,7 +19,7 @@
 
   }
 
-  "com.example.JavaClass$InnerClass$InnerInnerClass": {
+  "com.example.JavaClass$FooBar$InnerInnerClass": {
 
   }
 

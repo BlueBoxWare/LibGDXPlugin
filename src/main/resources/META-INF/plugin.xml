@@ -190,11 +190,14 @@
         <langCodeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider" />
 
         <lang.refactoringSupport language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider" />
+        <refactoring.elementListenerProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringElementListenerProvider" />
+        <refactoring.elementListenerProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener" />
 
         <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
 
         <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
         <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
+        <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.ClassUseScopeEnlarger" />
 
         <!--Atlas files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />

@@ -157,9 +157,9 @@ public class SkinParser implements PsiParser, LightPsiParser {
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, OBJECT, null);
     r = consumeToken(b, L_CURLY);
-    p = r; // pin = 1
-    r = r && report_error_(b, object_1(b, l + 1));
-    r = p && report_error_(b, object_2(b, l + 1)) && r;
+    r = r && object_1(b, l + 1);
+    p = r; // pin = 2
+    r = r && report_error_(b, object_2(b, l + 1));
     r = p && report_error_(b, parseOtionalComma(b, l + 1)) && r;
     r = p && consumeToken(b, R_CURLY) && r;
     exit_section_(b, l, m, r, p, null);

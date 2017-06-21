@@ -1,6 +1,6 @@
 package com.example;
 
-private class JavaC<caret>lass {
+private class JavaClass2 {
   public boolean bool;
 
   static class InnerClass {

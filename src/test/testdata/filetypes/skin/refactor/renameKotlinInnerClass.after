@@ -11,12 +11,12 @@
 
   }
 
-  "com.example.KotlinClass$Inner": {
+  "com.example.KotlinClass$FooBar": {
 
 
   }
 
-  com.example.KotlinClass$Inner$Inner: {
+  com.example.KotlinClass$FooBar$Inner: {
 
   }
 

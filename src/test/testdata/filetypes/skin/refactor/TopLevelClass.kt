@@ -1,0 +1,7 @@
+class TopLevelClass {
+
+  class Inner {
+
+  }
+
+}

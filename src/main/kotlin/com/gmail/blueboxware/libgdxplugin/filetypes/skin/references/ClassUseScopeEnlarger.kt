@@ -1,10 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
+import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiElementResolveResult
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.SearchScope
+import com.intellij.psi.search.UseScopeEnlarger
+import org.jetbrains.kotlin.j2k.getContainingClass
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -21,19 +24,19 @@ import com.intellij.psi.PsiElementResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassName>(element) {
+class ClassUseScopeEnlarger: UseScopeEnlarger() {
 
-  override fun multiResolve(incompleteCode: Boolean) = element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
+  override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
 
-  override fun handleElementRename(newElementName: String?): PsiElement = element
+    if (element !is PsiClass) return null
 
-  override fun bindToElement(target: PsiElement): PsiElement {
-    if (target is PsiClass) {
-      element.stringLiteral.value = target.putDollarInInnerClassName()
-    } else {
-      super.bindToElement(target)
+    if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
+
+    ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
+      return GlobalSearchScope.moduleWithDependentsScope(module)
     }
 
-    return element
+    return null
   }
+
 }

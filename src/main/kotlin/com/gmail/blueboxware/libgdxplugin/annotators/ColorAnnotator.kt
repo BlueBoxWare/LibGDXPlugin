@@ -7,7 +7,6 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
@@ -44,11 +43,10 @@ import java.awt.Color
  */
 class ColorAnnotator : Annotator {
 
-
   companion object {
 
-    private val annotationsKey = Key<MutableList<Pair<Int, Color>>>("annotations")
-    private val cacheKey = Key<ColorAnnotatorCache>("cache")
+    private val annotationsKey = key<MutableList<Pair<Int, Color>>>("annotations")
+    private val cacheKey = key<ColorAnnotatorCache>("cache")
 
     val colorRegex = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
 

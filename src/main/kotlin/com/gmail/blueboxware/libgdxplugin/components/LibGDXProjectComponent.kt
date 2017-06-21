@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
@@ -11,6 +12,8 @@ import com.intellij.openapi.editor.event.DocumentEvent
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiManager
+import com.intellij.psi.PsiTreeChangeListener
 import com.intellij.ui.EditorNotifications
 
 /*
@@ -30,6 +33,8 @@ import com.intellij.ui.EditorNotifications
  */
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
+  val changeKotlinPackageListener: PsiTreeChangeListener = ChangeKotlinPackageListener(project)
+
   override fun getComponentName() = "LibGDXProjectComponent"
 
   override fun initComponent() { }
@@ -45,11 +50,15 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
         EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, skinFile)
       }
     }
+
+    PsiManager.getInstance(project).addPsiTreeChangeListener(changeKotlinPackageListener)
+
   }
 
   override fun disposeComponent() {
 
     EditorFactory.getInstance().eventMulticaster.removeDocumentListener(documentListener)
+    PsiManager.getInstance(project).removePsiTreeChangeListener(changeKotlinPackageListener)
 
   }
 

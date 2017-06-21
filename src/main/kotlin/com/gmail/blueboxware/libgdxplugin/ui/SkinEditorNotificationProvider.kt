@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.utils.SKIN_SIGNATURE
+import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.json.JsonLanguage
@@ -14,7 +15,6 @@ import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotifications
@@ -37,7 +37,7 @@ import com.intellij.ui.EditorNotifications
 class SkinEditorNotificationProvider(val project: Project, val notifications: EditorNotifications) : EditorNotifications.Provider<EditorNotificationPanel>() {
 
   companion object {
-    val KEY = Key<EditorNotificationPanel>("com.gmail.blueboxware.libgdxplugin.skin.file.detected")
+    val KEY = key<EditorNotificationPanel>("skin.file.detected")
   }
 
   override fun createNotificationPanel(file: VirtualFile, fileEditor: FileEditor): EditorNotificationPanel? {

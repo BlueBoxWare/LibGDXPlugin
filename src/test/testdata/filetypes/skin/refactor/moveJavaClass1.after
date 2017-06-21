@@ -1,0 +1,30 @@
+{
+  org.something.JavaClass: {
+    d: {
+      bool: true
+    }
+  }
+  "org.something.JavaClass": {
+
+  }
+  No: {
+
+  }
+
+  org.something.JavaClass$InnerClass: {
+
+  }
+
+  com.example.JavaClass$NonStatic: {
+
+  }
+
+  "org.something.JavaClass$InnerClass$InnerInnerClass": {
+
+  }
+
+  org.something.JavaClass$Private: {
+
+  }
+
+}

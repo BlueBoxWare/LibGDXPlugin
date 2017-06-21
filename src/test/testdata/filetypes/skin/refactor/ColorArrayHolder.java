@@ -7,4 +7,6 @@ class ColorArrayHolder {
 
   public ColorArrayHolder[] m;
 
+  public com.example.KotlinClass kotlin;
+
 }

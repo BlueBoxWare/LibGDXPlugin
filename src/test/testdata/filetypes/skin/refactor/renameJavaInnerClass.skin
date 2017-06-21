@@ -3,7 +3,7 @@
     d: {
       bool: true
     }
- }
+  }
   "com.example.JavaClass": {
 
   }

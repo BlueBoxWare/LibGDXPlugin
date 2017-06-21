@@ -10,4 +10,21 @@
   No: {
 
   }
+
+  com.example.MyClass$InnerClass: {
+
+  }
+
+  com.example.JavaClass$NonStatic: {
+
+  }
+
+  "com.example.MyClass$InnerClass$InnerInnerClass": {
+
+  }
+
+  com.example.MyClass$Private: {
+
+  }
+
 }

@@ -1,0 +1,27 @@
+{
+
+  org.something.example.KotlinClass: {
+
+  }
+  com.example.FooBar: {
+
+  }
+
+  "org.something.example.KotlinClass$Inner": {
+
+
+  }
+
+  "org.something.example.JavaClass2": {
+
+  }
+
+  org.something.example.JavaClass2$InnerClass: {
+
+  }
+
+  TopLevelClass: {
+
+  }
+
+}

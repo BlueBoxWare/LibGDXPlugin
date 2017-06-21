@@ -3,12 +3,14 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.util.PathUtil
+import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
@@ -51,6 +53,18 @@ fun getPsiFile(project: Project, filename: String): PsiFile? {
 
   return null
 
+}
+
+fun PsiClass.allStaticInnerClasses(): List<PsiClass> {
+  val result = mutableListOf(this)
+
+  for (innerClass in innerClasses) {
+    if (innerClass.hasModifierProperty(PsiModifier.STATIC) && (innerClass !is KtLightClass || innerClass.kotlinOrigin !is KtObjectDeclaration)) {
+      result.addAll(innerClass.allStaticInnerClasses())
+    }
+  }
+
+  return result
 }
 
 fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {

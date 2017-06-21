@@ -3,10 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
-import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
-import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
-import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.completion.impl.CamelHumpMatcher
 import com.intellij.codeInsight.lookup.LookupElement
@@ -15,13 +12,18 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.*
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiClassType
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiType
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
+import org.jetbrains.kotlin.asJava.classes.KtLightClass
+import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
@@ -126,7 +128,7 @@ class SkinCompletionContributor : CompletionContributor() {
     }
 
     val element = context.file.findElementAt(context.caret.offset)
-    if ((element as? SkinStringLiteral)?.isQuoted == true) {
+    if ((element?.context as? SkinStringLiteral)?.isQuoted == true) {
       context.replacementOffset = context.replacementOffset - 1
     }
   }
@@ -357,18 +359,24 @@ class SkinCompletionContributor : CompletionContributor() {
 
       AllClassesGetter.processJavaClasses(prefixMatcher, project, scope, { psiClass ->
 
-        for (innerClass in allStaticInnerClasses(psiClass)) {
+        if ((psiClass.containingClass == null || psiClass.hasModifierProperty(PsiModifier.STATIC)
+                && (psiClass !is KtLightClass || psiClass.kotlinOrigin !is KtObjectDeclaration)
+                )) {
 
-          if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
-            val fqName = innerClass.putDollarInInnerClassName()
-            val priority = classPriority(fqName)
-            doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName)
-                    .withPresentableText(fqName)
-                    .withLookupString(psiClass.name ?: "")
-                    .withIcon(ICON_CLASS)
-                    .withBoldness(priority > 0.0),
-                    priority
-            ), parameters, result)
+          for (innerClass in psiClass.allStaticInnerClasses()) {
+
+            if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
+              val fqName = innerClass.putDollarInInnerClassName()
+              val priority = classPriority(fqName)
+              doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName)
+                      .withPresentableText(fqName)
+                      .withLookupString(psiClass.name ?: "")
+                      .withIcon(ICON_CLASS)
+                      .withBoldness(priority > 0.0),
+                      priority
+              ), parameters, result)
+            }
+
           }
 
         }
@@ -382,7 +390,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     for (clazz in currentPackage.getClasses(scope)) {
 
-      for (innerClass in allStaticInnerClasses(clazz)) {
+      for (innerClass in clazz.allStaticInnerClasses()) {
 
         if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
 
@@ -405,17 +413,6 @@ class SkinCompletionContributor : CompletionContributor() {
 
     }
 
-  }
-
-  private fun allStaticInnerClasses(clazz: PsiClass): List<PsiClass> {
-    if (clazz.containingClass == null || clazz.hasModifierProperty(PsiModifier.STATIC)) {
-      val result = mutableListOf(clazz)
-      for (innerClass in clazz.innerClasses) {
-          result.addAll(allStaticInnerClasses(innerClass))
-      }
-      return result
-    }
-    return listOf()
   }
 
   private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {

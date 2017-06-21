@@ -17,6 +17,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.FlushingMethodsUtils
+import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
@@ -56,8 +57,8 @@ class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
 private class LoopChecker(val holder: ProblemsHolder, session: LocalInspectionToolSession): JavaRecursiveElementVisitor() {
 
   companion object {
-    private val keyMethods: Key<Pair<Set<PsiElement>, Set<PsiElement>>> = Key("flushingmethods")
-    private val keyPreviousProject: Key<Project> = Key("previousproject")
+    private val keyMethods = key<Pair<Set<PsiElement>, Set<PsiElement>>>("flushingmethods")
+    private val keyPreviousProject = key<Project>("previousproject")
 
     fun getFlushingMethods(project: Project, session: LocalInspectionToolSession): Set<PsiElement>? {
 

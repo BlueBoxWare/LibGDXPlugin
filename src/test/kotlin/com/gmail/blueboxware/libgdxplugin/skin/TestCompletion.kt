@@ -23,52 +23,120 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
   private val EMPTY = listOf<String>()
 
   val tests = listOf(
-          "{ <caret> }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont", "com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle") to listOf("com.example.MyTestClass\$NonStatic")),
+          "{ <caret> }" to (listOf(
+                  "com",
+                  "java",
+                  "com.badlogic.gdx.graphics.g2d.BitmapFont",
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle",
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle",
+                  "com.example.KotlinClass\$StaticInner",
+                  "com.example.KotlinClass\$StaticInner\$InnerInner",
+                  "com.example.KotlinClass\$PrivateInner"
+          ) to listOf(
+                  "com.example.MyTestClass\$NonStatic",
+                  "com.example.KotlinClass\$NonStaticInner",
+                  "com.example.KotlinClass\$InnerObject"
+          )),
 
-          "{ '<caret>' }" to (EMPTY to listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont")),
+          "{ \"<caret>\" }" to (listOf(
+                  "com",
+                  "java",
+                  "com.badlogic.gdx.graphics.g2d.BitmapFont",
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle",
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle",
+                  "com.example.KotlinClass\$StaticInner",
+                  "com.example.KotlinClass\$StaticInner\$InnerInner",
+                  "com.example.KotlinClass\$PrivateInner"
+          ) to listOf(
+                  "com.example.MyTestClass\$NonStatic",
+                  "com.example.KotlinClass\$NonStaticInner",
+                  "com.example.KotlinClass\$InnerObject"
+          )),
 
-          "{ \"<caret>\" }" to (listOf("com", "java", "com.badlogic.gdx.graphics.g2d.BitmapFont", "com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle") to listOf()),
+          "{ \"Ko<caret>\" }" to (listOf(
+                  "com.example.KotlinClass\$StaticInner",
+                  "com.example.KotlinClass\$StaticInner\$InnerInner",
+                  "com.example.KotlinClass\$PrivateInner"
+          ) to listOf(
+                  "com.example.KotlinClass\$NonStaticInner",
+                  "com.example.KotlinClass\$InnerObject"
+          )),
+
+          "{ '<caret>' }" to (EMPTY to listOf(
+                  "com",
+                  "java",
+                  "com.badlogic.gdx.graphics.g2d.BitmapFont"
+          )),
 
           "{ co<caret> }" to (listOf("com") to listOf()),
 
           "{ \"co<caret>\" }" to (listOf("com") to listOf()),
 
-          "{ My<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass", "com.example.MyTestClass\$InnerClass\$MyInnerStyle")  to listOf("com.example.MyTestClass\$NonStatic", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")),
+          "{ My<caret> }" to (listOf(
+                  "com.example.MyTestClass",
+                  "com.example.MyOtherClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf(
+                  "com.example.MyTestClass\$NonStatic",
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          )),
 
-          "{ \"My<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyOtherClass")  to listOf("com.example.MyTestClass\$NonStatic")),
+          "{ \"My<caret>\" }" to (listOf(
+                  "com.example.MyTestClass",
+                  "com.example.MyOtherClass"
+          ) to listOf(
+                  "com.example.MyTestClass\$NonStatic"
+          )),
 
-          "{ 'My<caret>' }" to (EMPTY  to listOf("com.example.MyTestClass", "com.example.MyOtherClass")),
+          "{ 'My<caret>' }" to (EMPTY to listOf(
+                  "com.example.MyTestClass",
+                  "com.example.MyOtherClass"
+          )),
 
           "{ MyT<caret> }" to (listOf("com.example.MyTestClass") to listOf()),
 
-          "{ com.example.MyT<caret> }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass\$InnerClass\$MyInnerStyle") to listOf()),
+          "{ com.example.MyT<caret> }" to (listOf(
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
 
-          "{ \"com.example.MyT<caret>\" }" to (listOf("com.example.MyTestClass", "com.example.MyTestClass\$Inner", "com.example.MyTestClass\$InnerClass\$MyInnerStyle") to listOf()),
+          "{ \"com.example.MyT<caret>\" }" to (listOf(
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
 
           """{ com.example.MyTestClass: {
             default: { <caret> }
             }
-            }""" to (listOf("number", "name")  to EMPTY),
+            }""" to (listOf("number", "name") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { '<caret>' }
             }
-            }""" to (EMPTY  to listOf<String>("number", "name")),
+            }""" to (EMPTY to listOf("number", "name")),
 
           """{ com.example.MyTestClass: {
             default: { "<caret>" }
             }
-            }""" to (listOf("number", "name")  to EMPTY),
+            }""" to (listOf("number", "name") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { "<caret> }
             }
-            }""" to (listOf("number", "name")  to EMPTY),
+            }""" to (listOf("number", "name") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { "<caret>": }
             }
-            }""" to (listOf("number", "name")  to EMPTY),
+            }""" to (listOf("number", "name") to EMPTY),
 
           """
             { com.example.MyTestClass: {
@@ -76,7 +144,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   number: 3
                   <caret>
                 }
-            } }""" to (listOf("name")  to listOf()),
+            } }""" to (listOf("name") to listOf()),
 
           """
             { com.example.MyTestClass${'$'}Inner: {
@@ -84,19 +152,19 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               i<caret>
             }
             } }
-          """ to (listOf("innerField")  to listOf()),
+          """ to (listOf("innerField") to listOf()),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { <caret>
             } } }
-          """ to (listOf("r", "g", "b", "a")  to listOf()),
+          """ to (listOf("r", "g", "b", "a") to listOf()),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { <caret>: 1
             } } }
-          """ to (listOf("r", "g", "b", "a")  to listOf()),
+          """ to (listOf("r", "g", "b", "a") to listOf()),
 
           """
             { com.badlogic.gdx.graphics.Color: {
@@ -129,31 +197,31 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             { com.badlogic.gdx.graphics.Color: {
               default: { r: 1, <caret>: 1
             } } }
-          """ to (listOf("g", "b", "a")  to listOf("r")),
+          """ to (listOf("g", "b", "a") to listOf("r")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { r: 1, '<caret>': 1
             } } }
-          """ to (EMPTY  to listOf("r", "g", "b", "a")),
+          """ to (EMPTY to listOf("r", "g", "b", "a")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { r: 1, "<caret>": 1
             } } }
-          """ to (listOf("g", "b", "a")  to listOf("r")),
+          """ to (listOf("g", "b", "a") to listOf("r")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { hex: 1, <caret>
             } } }
-          """ to (EMPTY  to listOf("r", "g", "b", "a", "hex")),
+          """ to (EMPTY to listOf("r", "g", "b", "a", "hex")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
               default: { r: 1, <caret>: 1, g: 0.0
             } } }
-          """ to (listOf("b", "a")  to listOf("r", "g", "hex")),
+          """ to (listOf("b", "a") to listOf("r", "g", "hex")),
 
           """
             {com.badlogic.gdx.graphics.Color: {
@@ -637,7 +705,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               bool: <caret>
             }
             } }
-          """ to (listOf("true", "false")  to listOf()),
+          """ to (listOf("true", "false") to listOf()),
 
           """
             { com.example.MyTestClass: {
@@ -645,7 +713,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               bools: [true, <caret>]
             }
             } }
-          """ to (listOf("true", "false")  to listOf()),
+          """ to (listOf("true", "false") to listOf()),
 
           """
             {
@@ -663,7 +731,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
             }
             } }
-          """ to (listOf("red", "green", "blue")  to listOf()),
+          """ to (listOf("red", "green", "blue") to listOf()),
 
           """
             {
@@ -681,7 +749,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }]
             }
             } }
-          """ to (listOf("red", "green", "blue")  to listOf()),
+          """ to (listOf("red", "green", "blue") to listOf()),
 
           """
             {
@@ -703,7 +771,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ <caret> }]}]
             }
             } }
-          """ to (listOf("m", "colors", "textButtonStyle", "moreColors")  to listOf()),
+          """ to (listOf("m", "colors", "textButtonStyle", "moreColors") to listOf()),
 
           """
             { com.example.MyTestClass: {
@@ -711,7 +779,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ "<caret>" }]}]
             }
             } }
-          """ to (listOf("m", "colors", "textButtonStyle", "moreColors")  to listOf()),
+          """ to (listOf("m", "colors", "textButtonStyle", "moreColors") to listOf()),
 
           """
             { com.example.MyTestClass: {
@@ -719,7 +787,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{  moreColors: [[{<caret>}]]}] }]}]
             }
             } }
-          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+          """ to (listOf("r", "g", "b", "hex") to listOf()),
 
           """
             { com.example.MyTestClass: {
@@ -727,7 +795,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{  moreColors: [[{"<caret>"}]]}] }]}]
             }
             } }
-          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+          """ to (listOf("r", "g", "b", "hex") to listOf()),
 
           """
             { com.example.MyTestClass: {
@@ -735,7 +803,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{  moreColors: [[{"<caret>}]]}] }]}]
             }
             } }
-          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+          """ to (listOf("r", "g", "b", "hex") to listOf()),
 
           """
             {
@@ -751,7 +819,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{  moreColors: [[<caret>]]}] }]}]
             }
             } }
-          """ to (listOf("red", "green", "blue")  to listOf("r", "g", "b", "hex")),
+          """ to (listOf("red", "green", "blue") to listOf("r", "g", "b", "hex")),
 
           """
             {
@@ -762,7 +830,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [<caret>] }]}]
             }
             } }
-          """ to (listOf("n", "x")  to listOf()),
+          """ to (listOf("n", "x") to listOf()),
 
 
           """
@@ -774,7 +842,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [<caret>] }]}]
             }
             } }
-          """ to (listOf("n", "x")  to listOf()),
+          """ to (listOf("n", "x") to listOf()),
 
           """
             {
@@ -785,7 +853,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: ["<caret>"] }]}]
             }
             } }
-          """ to (listOf("n", "x")  to listOf()),
+          """ to (listOf("n", "x") to listOf()),
 
           """
             {
@@ -794,7 +862,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", <caret> }] }]}]
             }
             } }
-          """ to (listOf("buttonStyles", "listStyles")  to listOf("m")),
+          """ to (listOf("buttonStyles", "listStyles") to listOf("m")),
 
           """
             {
@@ -807,7 +875,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", listStyles: [[<caret>]] }] }]}]
             }
             } }
-          """ to (listOf("default", "t3")  to listOf("m")),
+          """ to (listOf("default", "t3") to listOf("m")),
 
           """
             {
@@ -820,7 +888,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", listStyles: [[{<caret>}]] }] }]}]
             }
             } }
-          """ to (listOf("font", "selection", "fontColorSelected")  to listOf("m")),
+          """ to (listOf("font", "selection", "fontColorSelected") to listOf("m")),
 
           """
             {
@@ -833,7 +901,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", listStyles: [[{"<caret>"}]] }] }]}]
             }
             } }
-          """ to (listOf("font", "selection", "fontColorSelected")  to listOf("m")),
+          """ to (listOf("font", "selection", "fontColorSelected") to listOf("m")),
 
           """
             {
@@ -846,7 +914,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", listStyles: [[{fontColorSelected: {<caret>}]] }] }]}]
             }
             } }
-          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+          """ to (listOf("r", "g", "b", "hex") to listOf()),
 
           """
             {
@@ -859,7 +927,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ m: "", listStyles: [[{fontColorSelected: {"<caret>"}]] }] }]}]
             }
             } }
-          """ to (listOf("r", "g", "b", "hex")  to listOf()),
+          """ to (listOf("r", "g", "b", "hex") to listOf()),
 
           """
             {
@@ -868,7 +936,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               m: [{m: [{ m: [{ bools: [<caret>] }] }]}]
             }
             } }
-          """ to (listOf("true", "false")  to EMPTY),
+          """ to (listOf("true", "false") to EMPTY),
 
           """
             {
@@ -882,7 +950,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 x: <caret>
               }
             }
-          """ to (listOf("z", "k", "l")  to listOf("x")),
+          """ to (listOf("z", "k", "l") to listOf("x")),
 
           """
             {,
@@ -897,7 +965,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               k: {},
               x: {}
             }}
-          """ to (listOf("l")  to listOf("z", "k", "x")),
+          """ to (listOf("l") to listOf("z", "k", "x")),
 
           """
             {,
@@ -912,7 +980,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
 
          }
-          """ to (listOf("l", "z", "k", "x")  to listOf()),
+          """ to (listOf("l", "z", "k", "x") to listOf()),
 
           """
             {
@@ -1122,8 +1190,9 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
       val strings = myFixture.lookupElementStrings?.map { if (listOf('"').contains(it.firstOrNull())) it.substring(1) else it }
       assertNotNull(strings)
       strings?.let { results ->
-        val msg = "Expected results: $expectedCompletionStrings, \nfound: $strings, Content:\n '$content'"
-        assertTrue(msg, results.containsAll(expectedCompletionStrings))
+        for (expected in expectedCompletionStrings) {
+          assertTrue("'$expected' expected but not found, Content:\n'$content'", results.contains(expected))
+        }
         for (notExpectedCompletionString in notExpectedCompletionStrings) {
           val msg2 = "Not expected to find '$notExpectedCompletionString'. Content:\n '$content'"
           assertFalse(msg2, strings.contains(notExpectedCompletionString))
