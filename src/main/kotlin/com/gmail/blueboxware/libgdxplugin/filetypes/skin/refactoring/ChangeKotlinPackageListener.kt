@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.getSkinFiles
 import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
@@ -9,8 +9,6 @@ import com.intellij.psi.PsiTreeChangeAdapter
 import com.intellij.psi.PsiTreeChangeEvent
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.impl.source.JavaDummyHolder
-import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
@@ -89,7 +87,7 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
 
         fun refactored() {
 
-          FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, GlobalSearchScope.projectScope(project)).forEach {
+          getSkinFiles(project).forEach {
 
             (it.toPsiFile(project) as? SkinFile)?.replacePackage(className, oldPackage, newPackage)
 

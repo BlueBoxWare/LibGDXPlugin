@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.undo.UndoManager
@@ -82,13 +83,14 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
   fun testRenameJavaClass() {
     myFixture.configureByFile("JavaClass.java")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaClass1.skin")
+    myFixture.configureByFile("renameJavaClass1.json")
+    markFileAsSkin(project, file.virtualFile)
     runCommand {
       myFixture.renameElement(classToRename, "MyClass")
     }
     myFixture.checkResultByFile("renameJavaClass1.after")
     undo()
-    myFixture.checkResultByFile("renameJavaClass1.skin")
+    myFixture.checkResultByFile("renameJavaClass1.json")
   }
 
   fun testRenameJavaInnerClass() {
@@ -119,13 +121,14 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
   fun testRenameKotlinInnerClass() {
     myFixture.configureByFile("KotlinClass.kt")
     val innerClass = (myFixture.elementAtCaret as KtClass).declarations.find { (it as? KtClass)?.fqName?.shortName()?.asString() == "Inner" }
-    myFixture.configureByFile("renameKotlinInnerClass.skin")
+    myFixture.configureByFile("renameKotlinInnerClass.json")
+    markFileAsSkin(project, file.virtualFile)
     runCommand {
       myFixture.renameElement(innerClass!!, "FooBar")
     }
     myFixture.checkResultByFile("renameKotlinInnerClass.after")
     undo()
-    myFixture.checkResultByFile("renameKotlinInnerClass.skin")
+    myFixture.checkResultByFile("renameKotlinInnerClass.json")
   }
 
   fun testRenamePackage() {
@@ -145,13 +148,14 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     myFixture.copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
     myFixture.copyFileToProject("TopLevelClass.kt", "com/example/TopLevelClass.kt")
     myFixture.copyFileToProject("KotlinClass3.kt", "com/example/KotlinClass3.kt")
-    myFixture.configureByFile("movePackage.skin")
+    myFixture.configureByFile("movePackage.json")
+    markFileAsSkin(project, file.virtualFile)
     runCommand {
       movePackage("com.example", "org.something")
     }
     myFixture.checkResultByFile("movePackage.after")
     undo()
-    myFixture.checkResultByFile("movePackage.skin")
+    myFixture.checkResultByFile("movePackage.json")
   }
 
   fun testMoveJavaClass() {

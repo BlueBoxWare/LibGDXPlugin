@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
@@ -10,6 +11,8 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.LanguageSubstitutors
+import com.intellij.psi.search.FileTypeIndex
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.FileContentUtilCore
 import com.intellij.util.indexing.FileBasedIndex
@@ -34,6 +37,13 @@ private val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIde
 private val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
 
 val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
+
+fun getSkinFiles(project: Project): List<VirtualFile> {
+  val result = mutableListOf<VirtualFile>()
+  result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, GlobalSearchScope.allScope(project)))
+  project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
+  return result.filter { it.isValid }.toList()
+}
 
 fun markFileAsSkin(project: Project, file: VirtualFile) {
 
