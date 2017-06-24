@@ -14,6 +14,8 @@ package com.gmail.blueboxware.libgdxplugin/*
  * limitations under the License.
  */
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesTestIdsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection
@@ -64,9 +66,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
   }
 
-  fun performInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileExtension: String) {
+  fun performInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
 
-    myFixture.configureByText("Test." + fileExtension, text)
+    myFixture.configureByText(fileName, text)
     myFixture.enableInspections(inspection)
     myFixture.checkHighlighting(true, false, false)
 
@@ -223,21 +225,30 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     val stringBuilderKotlin = StringBuilder()
     val stringBuilderJava = StringBuilder("class Test {\n")
     val stringBuilderXml = StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>")
+    val stringBuilderBuildGradle = StringBuilder()
+    val stringBuilderGradleProperties = StringBuilder()
 
     for ((idCount, testId) in TEST_ID_MAP.keys.withIndex()) {
 
       stringBuilderKotlin.append("val id$idCount = \"<warning>$testId</warning>\"\n")
       stringBuilderJava.append("String id$idCount = <warning>\"$testId\"</warning>;\n")
       stringBuilderXml.append("<warning><string name=\"id$idCount\">$testId</string></warning>\n")
+      stringBuilderBuildGradle.append("single$idCount = <warning>'$testId'</warning>\n")
+      stringBuilderBuildGradle.append("double$idCount = <warning>\"$testId\"</warning>\n")
+      stringBuilderBuildGradle.append("triple$idCount = <warning>'''$testId'''</warning>\n")
+      stringBuilderGradleProperties.append("<warning>id$idCount=$testId</warning>\n")
+      stringBuilderGradleProperties.append("<warning>idQuoted$idCount=\"$testId\"</warning>\n")
 
     }
 
     stringBuilderJava.append("}")
     stringBuilderXml.append("</resources>")
 
-    performInspectionTestWithString(stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "kt")
-    performInspectionTestWithString(stringBuilderJava.toString(), JavaTestIdsInspection(), "java")
-    performInspectionTestWithString(stringBuilderXml.toString(), XmlTestIdsInspection(), "xml")
+    performInspectionTestWithString(stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "Test.kt")
+    performInspectionTestWithString(stringBuilderJava.toString(), JavaTestIdsInspection(), "Test.java")
+    performInspectionTestWithString(stringBuilderXml.toString(), XmlTestIdsInspection(), "Test.xml")
+    performInspectionTestWithString(stringBuilderBuildGradle.toString(), GradleTestIdsInspection(), "build.gradle")
+    performInspectionTestWithString(stringBuilderGradleProperties.toString(), GradlePropertiesTestIdsInspection(), "gradle.properties")
 
   }
 

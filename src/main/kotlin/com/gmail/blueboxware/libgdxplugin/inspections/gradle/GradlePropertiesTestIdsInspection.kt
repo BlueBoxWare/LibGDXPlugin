@@ -1,13 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -24,13 +22,13 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
+class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() {
 
-  override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.Companion.listOfCheckedLibraries())
+  override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXOutdatedVersionGradleProperties"
+  override fun getID() = "LibGDXGradlePropertiesTestId"
 
-  override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle.properties")
+  override fun getDisplayName() = message("testid.name")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
@@ -42,26 +40,21 @@ class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseIns
 
       override fun visitElement(element: PsiElement?) {
 
-        if (element is Property) {
+        if (element !is Property) {
+          return
+        }
 
-          element.name?.let { extKey ->
-            Libraries.fromExtKey(extKey)?.let { lib ->
-              element.project.getComponent(VersionManager::class.java)?.getLatestVersion(lib)?.let { latestVersion ->
-                element.value?.let { value ->
-                  if (MavenComparableVersion(value) < latestVersion) {
-                    holder.registerProblem(
-                            element,
-                            message("outdated.version.inspection.msg", lib.library.name, latestVersion)
-                    )
-                  }
-                }
-              }
+        element.value?.let { str ->
+          for ((key, value) in TEST_ID_MAP) {
+            if (str.contains(key)) {
+              holder.registerProblem(element, message("testid.problem.descriptor") + ": " + value)
             }
           }
-
         }
 
       }
     }
+
   }
+
 }

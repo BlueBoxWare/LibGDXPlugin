@@ -15,8 +15,8 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteralExpression
@@ -27,7 +27,7 @@ class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXTestId"
+  override fun getID() = "LibGDXJavaTestId"
 
   override fun getDisplayName() = message("testid.name")
 

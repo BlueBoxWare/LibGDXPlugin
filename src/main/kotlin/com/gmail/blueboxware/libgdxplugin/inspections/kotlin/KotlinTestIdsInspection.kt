@@ -15,8 +15,8 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtVisitorVoid
@@ -25,7 +25,7 @@ class KotlinTestIdsInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXTestId"
+  override fun getID() = "LibGDXKotlinTestId"
 
   override fun getDisplayName() = message("testid.name")
 
