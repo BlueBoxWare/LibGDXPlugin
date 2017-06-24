@@ -16,6 +16,7 @@ package com.gmail.blueboxware.libgdxplugin/*
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
+import com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
@@ -36,6 +37,7 @@ import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
+import junit.framework.Assert
 import org.jetbrains.plugins.groovy.GroovyFileType
 import java.io.File
 
@@ -384,6 +386,82 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     for ((files, warnings) in tests.entries) {
       doDesignedForTabletsTest(files, warnings)
+    }
+  }
+
+  /*
+   * External files permission inspection
+   */
+  val externalFilesPermissionJavaTests = arrayOf(
+          true to """Gdx.files.external("");""",
+          true to """Gdx.files.absolute("");""",
+          false to """Gdx.files.classpath("");""",
+          false to """Gdx.files.internal("");""",
+          false to """Gdx.files.local("");""",
+          true to """Gdx.files.getFileHandle("", Files.FileType.External);""",
+          true to """Gdx.files.getFileHandle("", Files.FileType.Absolute);""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Classpath);""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Internal);""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Local);""",
+          true to """new FileHandle("")"""
+  )
+
+  fun testExternalFilesPermissionInspectionJava() {
+    for ((warningExpected, content) in externalFilesPermissionJavaTests) {
+      val fileContents = """
+        import com.badlogic.gdx.Files;
+        import com.badlogic.gdx.Gdx;
+        import com.badlogic.gdx.files.FileHandle;
+        class Test {
+          void f() {
+            $content
+          }
+        }
+      """
+      myFixture.configureByText("Test.java", fileContents)
+      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
+      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+    }
+  }
+
+  val externalFilesPermissionKotlinTests = arrayOf(
+          true to """Gdx.files.external("")""",
+          true to """Gdx.files.absolute("")""",
+          false to """Gdx.files.classpath("")""",
+          false to """Gdx.files.internal("")""",
+          false to """Gdx.files.local("")""",
+          true to """Gdx.files.getFileHandle("", Files.FileType.External)""",
+          true to """Gdx.files.getFileHandle("", Files.FileType.Absolute)""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Classpath)""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Internal)""",
+          false to """Gdx.files.getFileHandle("", Files.FileType.Local)""",
+          true to """FileHandle("")"""
+  )
+
+  fun testExternalFilesPermissionInspectionKotlin() {
+    for ((warningExpected, content) in externalFilesPermissionKotlinTests) {
+      val fileContents = """
+        import com.badlogic.gdx.Files
+        import com.badlogic.gdx.Gdx
+        import com.badlogic.gdx.files.FileHandle
+        fun f() {
+          $content
+        }
+      """
+      myFixture.configureByText("Test.kt", fileContents)
+      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
+      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+    }
+  }
+
+  fun doTestExternalFilesPermissionInspection(manifestFileName: String, warningExpected: Boolean) {
+    myFixture.enableInspections(MissingExternalFilesPermissionInspection())
+    myFixture.configureByFile(manifestFileName)
+    val hasWarning = myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }
+    if (warningExpected && !hasWarning) {
+      Assert.fail("Warning expected, but no warning found.")
+    } else if (!warningExpected && hasWarning) {
+      Assert.fail("Unexpected warning")
     }
   }
 

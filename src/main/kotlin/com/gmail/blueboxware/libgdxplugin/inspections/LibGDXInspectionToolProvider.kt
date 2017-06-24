@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersi
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
+import com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.intellij.codeInspection.InspectionToolProvider
@@ -51,6 +52,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
 
           OpenGLESDirectiveInspection::class.java,
           DesignedForTabletsInspection::class.java,
+          MissingExternalFilesPermissionInspection::class.java,
 
           OutdatedVersionsInspection::class.java,
           GradleOutdatedVersionsInspection::class.java,

@@ -17,15 +17,11 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
-import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.codeInspection.XmlSuppressableInspectionTool
-import com.intellij.psi.PsiElement
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
 
-class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
+class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
@@ -34,16 +30,6 @@ class XmlTestIdsInspection : XmlSuppressableInspectionTool() {
   override fun getDisplayName() = message("testid.name")
 
   override fun getGroupPath() = arrayOf("LibGDX", "XML")
-
-  override fun getGroupDisplayName() = "LibGDX"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {
 
