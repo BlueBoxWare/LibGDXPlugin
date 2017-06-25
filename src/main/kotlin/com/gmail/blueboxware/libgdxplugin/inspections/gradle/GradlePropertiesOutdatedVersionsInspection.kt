@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
@@ -31,6 +32,9 @@ class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseIns
   override fun getID() = "LibGDXOutdatedVersionGradleProperties"
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle.properties")
+
+  override fun isSuppressedFor(element: PsiElement): Boolean =
+          !element.project.isLibGDXProject() || super.isSuppressedFor(element)
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 

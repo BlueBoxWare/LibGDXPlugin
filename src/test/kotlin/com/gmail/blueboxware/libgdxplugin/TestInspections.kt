@@ -236,8 +236,12 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       stringBuilderBuildGradle.append("single$idCount = <warning>'$testId'</warning>\n")
       stringBuilderBuildGradle.append("double$idCount = <warning>\"$testId\"</warning>\n")
       stringBuilderBuildGradle.append("triple$idCount = <warning>'''$testId'''</warning>\n")
+      stringBuilderBuildGradle.append("//noinspection LibGDXGradleTestId\n")
+      stringBuilderBuildGradle.append("suppressed$idCount = '$testId'\n")
       stringBuilderGradleProperties.append("<warning>id$idCount=$testId</warning>\n")
       stringBuilderGradleProperties.append("<warning>idQuoted$idCount=\"$testId\"</warning>\n")
+      stringBuilderGradleProperties.append("# suppress inspection \"LibGDXGradlePropertiesTestId\"\n")
+      stringBuilderGradleProperties.append("suppressed$idCount=$testId\n")
 
     }
 
