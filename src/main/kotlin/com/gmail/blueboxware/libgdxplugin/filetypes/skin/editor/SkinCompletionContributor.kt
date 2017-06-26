@@ -10,6 +10,7 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.module.ModuleUtilCore
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.JavaPsiFacade
@@ -351,11 +352,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     if (currentPackage == null || currentPackage.name == null) {
 
-      val prefixMatcher = if (dummyText.firstOrNull() == '"') {
-        CamelHumpMatcher(result.prefixMatcher.prefix.substring(1))
-      } else {
-        result.prefixMatcher
-      }
+      val prefixMatcher = CamelHumpMatcher(result.prefixMatcher.prefix.substring(if (dummyText.firstOrNull() == '"') 1 else 0).takeWhile { it != '.' && it != '$' })
 
       AllClassesGetter.processJavaClasses(prefixMatcher, project, scope, { psiClass ->
 
@@ -370,7 +367,7 @@ class SkinCompletionContributor : CompletionContributor() {
               val priority = classPriority(fqName)
               doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName)
                       .withPresentableText(fqName)
-                      .withLookupString(psiClass.name ?: "")
+                      .withLookupString(StringUtil.getShortName(fqName))
                       .withIcon(ICON_CLASS)
                       .withBoldness(priority > 0.0),
                       priority

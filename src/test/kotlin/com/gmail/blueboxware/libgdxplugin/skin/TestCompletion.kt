@@ -107,6 +107,42 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
           ) to listOf()),
 
+          "{ com.example.MyTestClass\$<caret> }" to (listOf(
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
+
+          "{ com.example.MyTestClass\$Inn<caret> }" to (listOf(
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
+
+          "{ Skin\$<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
+          ) to listOf()),
+
+          "{ Skin\$Tin<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
+          ) to listOf()),
+
+          "{ \"com.example.MyTestClass\$<caret> }" to (listOf(
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
+
+          "{ \"com.example.MyTestClass\$Inn<caret>\" }" to (listOf(
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
+          ) to listOf()),
+
+          "{ \"Skin\$<caret>\" }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
+          ) to listOf()),
+
+          "{ \"Skin\$Tin<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
+          ) to listOf()),
+
           "{ \"com.example.MyT<caret>\" }" to (listOf(
                   "com.example.MyTestClass",
                   "com.example.MyTestClass\$Inner",
