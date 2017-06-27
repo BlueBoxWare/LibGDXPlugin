@@ -230,6 +230,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     for ((idCount, testId) in TEST_ID_MAP.keys.withIndex()) {
 
+      assertFalse(testId.isEmpty())
       stringBuilderKotlin.append("val id$idCount = \"<warning>$testId</warning>\"\n")
       stringBuilderJava.append("String id$idCount = <warning>\"$testId\"</warning>;\n")
       stringBuilderXml.append("<warning><string name=\"id$idCount\">$testId</string></warning>\n")
