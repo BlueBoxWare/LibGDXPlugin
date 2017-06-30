@@ -42,8 +42,21 @@ repositories {
 sourceSets {
     main {
         resources.srcDir 'resources'
-        java.srcDir 'gen'
+        java {
+            srcDir 'gen'
+            exclude 'com/gmail/blueboxware/libgdxplugin/annotations/**'
+        }
     }
+    annotations {
+        java {
+            srcDir 'src/main/java/com/gmail/blueboxware/libgdxplugin/annotations/'
+        }
+    }
+}
+
+compileAnnotationsJava {
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
 }
 
 test {
@@ -60,14 +73,14 @@ dependencies {
 
 task annotationsJar(type: Jar) {
     baseName 'libgdxpluginannotations'
-    from sourceSets.main.output
+    from sourceSets.annotations.output
     include 'com/gmail/blueboxware/libgdxplugin/annotations/**'
     version annotationsVersion
 }
 
 task annotationsSourcesJar(type: Jar) {
     classifier 'sources'
-    from sourceSets.main.allSource
+    from sourceSets.annotations.allSource
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     include tasks.getByName("annotationsJar").includes
@@ -78,16 +91,16 @@ task annotationsSourcesJar(type: Jar) {
 def pomConfig = {
     licenses {
         license {
-            name = "The Apache Software License, Version 2.0"
-            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution = "repo"
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
         }
     }
     developers {
         developer {
-            id = "blueboxware"
-            name = "Blue Box Ware"
-            email = "blueboxware@gmail.com"
+            id "blueboxware"
+            name "Blue Box Ware"
+            email "blueboxware@gmail.com"
         }
     }
 }
