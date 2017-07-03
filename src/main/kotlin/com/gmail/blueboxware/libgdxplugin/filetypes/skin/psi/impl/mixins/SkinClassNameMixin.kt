@@ -36,11 +36,11 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImp
 
   override fun multiResolve(): List<PsiClass> =
           ModuleUtilCore.findModuleForPsiElement(this)?.let { module ->
-            JavaPsiFacade.getInstance(project).findClasses(value.removeDollarFromClassName(), GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module))
+              JavaPsiFacade.getInstance(project).findClasses(value.removeDollarFromClassName(), GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module))
                     .filter {
                       (it !is KtLightClass || it.kotlinOrigin !is KtObjectDeclaration) && it.putDollarInInnerClassName() == value
                     }
-          } ?: listOf()
+          }?.map { (it.navigationElement as? PsiClass) ?: it } ?: listOf()
 
   override fun getReference(): SkinJavaClassReference = SkinJavaClassReference(this)
 

@@ -20,11 +20,12 @@ The following inspections are included:
 * Setting an overly verbose log level
 * Causing flushing of a batch or renderer from inside a loop
 * Missing flush() after changing Preferences
-* Use of AdMob test ids
+* Use of some commonly known test ids or dummy ids (ex. AdMob and MoPub)
 * Use of ShapeRenderer with a release of LibGDX older than 1.9.2 (It crashes on 64bit devices. See [Issue 3790](https://github.com/libgdx/libgdx/issues/3790)) \[1]
 * Use of static resources (more info on the use of statics: [here](http://bitiotic.com/blog/2013/05/23/libgdx-and-android-application-lifecycle/) and [here](http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=22358))
 * Use of non-reentrant iterator methods of LibGDX collection classes
 * Missing OpenGL declaration in AndroidManifest.xml \[1]
+* Missing WRITE_EXTERNAL_STORAGE permission in AndroidManifest.xml when using external files
 * Using outdated versions of LibGDX and related libraries \[1] \[2]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
 

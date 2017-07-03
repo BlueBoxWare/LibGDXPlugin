@@ -32,7 +32,9 @@
     <change-notes><![CDATA[
         <b>1.12</b>
         <ul>
-            <li></li>
+            <li>New inspection: missing WRITE_EXTERNAL_STORAGE permission</li>
+            <li>Skin files: improved autocompletion, refactoring support and string handling</li>
+            <li>Bugfixes</li>
         </ul>
 
         <b>1.11</b>

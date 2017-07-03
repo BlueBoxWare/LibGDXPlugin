@@ -28,7 +28,7 @@ class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() 
 
   override fun getID() = "LibGDXGradlePropertiesTestId"
 
-  override fun getDisplayName() = message("testid.name")
+  override fun getDisplayName() = message("testid.name.gradle.properties")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
