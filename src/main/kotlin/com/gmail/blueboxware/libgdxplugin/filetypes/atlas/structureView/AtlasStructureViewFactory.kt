@@ -22,9 +22,9 @@ import com.intellij.psi.PsiFile
  */
 class AtlasStructureViewFactory : PsiStructureViewFactory {
 
-  override fun getStructureViewBuilder(psiFile: PsiFile?) = object : TreeBasedStructureViewBuilder() {
+  override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
 
-    override fun createStructureViewModel(editor: Editor?) = AtlasStructureViewModel(psiFile ?: throw AssertionError())
+    override fun createStructureViewModel(editor: Editor?) = AtlasStructureViewModel(psiFile)
 
   }
 

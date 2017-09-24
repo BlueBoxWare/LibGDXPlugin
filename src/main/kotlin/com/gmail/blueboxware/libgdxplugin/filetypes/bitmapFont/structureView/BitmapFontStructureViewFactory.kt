@@ -22,9 +22,9 @@ import com.intellij.psi.PsiFile
  */
 class BitmapFontStructureViewFactory : PsiStructureViewFactory {
 
-  override fun getStructureViewBuilder(psiFile: PsiFile?) = object : TreeBasedStructureViewBuilder() {
+  override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
 
-    override fun createStructureViewModel(editor: Editor?) = BitmapFontStructureViewModel(psiFile ?: throw AssertionError())
+    override fun createStructureViewModel(editor: Editor?) = BitmapFontStructureViewModel(psiFile)
 
   }
 

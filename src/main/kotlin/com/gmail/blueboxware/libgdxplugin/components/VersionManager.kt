@@ -108,20 +108,20 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
   }
 
   private val libraryListener = object: LibraryTable.Listener {
-    override fun beforeLibraryRemoved(library: Library?) {
+    override fun beforeLibraryRemoved(library: Library) {
     }
 
-    override fun afterLibraryRenamed(library: Library?) {
+    override fun afterLibraryRenamed(library: Library) {
       updateUsedVersions()
     }
 
-    override fun afterLibraryAdded(newLibrary: Library?) {
+    override fun afterLibraryAdded(newLibrary: Library) {
       updateUsedVersions()
       updateLatestVersionsAlarm.cancelAllRequests()
       updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, LIBRARY_CHANGED_TIME_OUT)
     }
 
-    override fun afterLibraryRemoved(library: Library?) {
+    override fun afterLibraryRemoved(library: Library) {
       updateUsedVersions()
     }
   }

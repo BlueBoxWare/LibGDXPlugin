@@ -24,8 +24,8 @@ import com.intellij.psi.PsiFile
  */
 class SkinStructureViewFactory: PsiStructureViewFactory {
 
-  override fun getStructureViewBuilder(psiFile: PsiFile?): StructureViewBuilder?  = object: TreeBasedStructureViewBuilder() {
+  override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder?  = object: TreeBasedStructureViewBuilder() {
 
-    override fun createStructureViewModel(editor: Editor?): StructureViewModel = SkinStructureViewModel(psiFile ?: throw AssertionError())
+    override fun createStructureViewModel(editor: Editor?): StructureViewModel = SkinStructureViewModel(psiFile)
   }
 }
