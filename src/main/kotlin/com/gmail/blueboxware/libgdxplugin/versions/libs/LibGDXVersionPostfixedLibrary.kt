@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions.libs
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
+import com.gmail.blueboxware.libgdxplugin.versions.Repository
 import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
@@ -20,7 +21,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXVersionPostfixedLibrary(name: String, groupId: String, artifactId: String, extKeys: List<String>? = null) : Library(name, groupId, artifactId, extKeys) {
+internal class LibGDXVersionPostfixedLibrary(name: String, groupId: String, artifactId: String, repository: Repository = Repository.MAVEN_CENTRAL, extKeys: List<String>? = null) : Library(name, groupId, artifactId, repository, extKeys) {
 
   private val availableVersions = mutableListOf<String>()
 

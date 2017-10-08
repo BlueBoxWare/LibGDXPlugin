@@ -64,7 +64,7 @@ object Assets {
 
 }
 
-fun VirtualFile.getAssociatedFiles(): List<VirtualFile> {
+internal fun VirtualFile.getAssociatedFiles(): List<VirtualFile> {
 
   val result = mutableListOf<VirtualFile>()
 
@@ -81,7 +81,7 @@ fun VirtualFile.getAssociatedFiles(): List<VirtualFile> {
   return result
 }
 
-fun VirtualFile.getAssociatedAtlas(): VirtualFile? {
+internal fun VirtualFile.getAssociatedAtlas(): VirtualFile? {
 
   val dot = name.lastIndexOf('.')
   if (dot > -1) {
@@ -92,7 +92,7 @@ fun VirtualFile.getAssociatedAtlas(): VirtualFile? {
   return null
 }
 
-fun VirtualFile.readImageNamesFromAtlas(): List<String> {
+internal fun VirtualFile.readImageNamesFromAtlas(): List<String> {
 
   val result = mutableListOf<String>()
 

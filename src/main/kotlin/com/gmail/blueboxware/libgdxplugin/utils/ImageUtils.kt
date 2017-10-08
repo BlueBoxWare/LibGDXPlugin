@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun BufferedImage.tint(color: Color): BufferedImage {
+internal fun BufferedImage.tint(color: Color): BufferedImage {
 
   val tintedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
 

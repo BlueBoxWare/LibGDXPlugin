@@ -35,14 +35,19 @@ import javax.xml.parsers.ParserConfigurationException
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-open class Library(
+internal open class Library(
         val name: String,
         val groupId: String,
         val artifactId: String,
+        private val repository: Repository = Repository.MAVEN_CENTRAL,
         val extKeys: List<String>? = null
 ) {
 
   companion object {
+
+    var TEST_URL: String? = null
+
+    val META_DATA_FILE = "maven-metadata.xml"
 
     val PERSISTENT_STATE_KEY_VERSION_PREFIX = "com.gmail.blueboxware.libgdxplugin.versions."
     val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
@@ -203,7 +208,7 @@ open class Library(
 
   protected fun fetchVersions(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
 
-    val url = VersionManager.BASE_URL + groupId.replace('.', '/') + "/" + artifactId + "/" + VersionManager.META_DATA_FILE
+    val url = (TEST_URL ?: repository.baseUrl) + groupId.replace('.', '/') + "/" + artifactId + "/" + META_DATA_FILE
 
     VersionManager.LOG.info("Fetching $url")
 

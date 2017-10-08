@@ -57,6 +57,9 @@ allprojects {
             compile project(":core")
             compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
             compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+            compile <warning descr="There is a newer version of LibGDX Annotations available (version 1.0)">'com.gmail.blueboxware:libgdxpluginannotations:0.9'</warning>
+            compile 'com.gmail.blueboxware:libgdxpluginannotations:1.0'
+            compile "com.gmail.blueboxware:libgdxpluginannotations:1.1"
         }
     }
 

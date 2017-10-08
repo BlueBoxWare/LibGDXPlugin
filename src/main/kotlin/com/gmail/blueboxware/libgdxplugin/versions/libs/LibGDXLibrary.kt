@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions.libs
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
+import com.gmail.blueboxware.libgdxplugin.versions.Repository
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -19,7 +20,7 @@ import com.gmail.blueboxware.libgdxplugin.versions.Library
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXLibrary(name: String, groupId: String, artifactId: String) : Library(name, groupId, artifactId) {
+internal class LibGDXLibrary(name: String, groupId: String, artifactId: String, val reposity: Repository = Repository.MAVEN_CENTRAL) : Library(name, groupId, artifactId, reposity) {
 
   override fun getLatestVersion(versionManager: VersionManager) = versionManager.getLatestVersion(Libraries.LIBGDX)
 

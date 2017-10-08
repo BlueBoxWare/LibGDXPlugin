@@ -131,6 +131,9 @@ enum class Libraries(val library: com.gmail.blueboxware.libgdxplugin.versions.Li
   ),
   KTX_VIS_STYLE(
           Library("KTX vis-style", "com.github.czyzby", "ktx-vis-style", extKeys = listOf("ktxVisStyleVersion"))
+  ),
+  LIBGDX_ANNOTATIONS(
+          Library("LibGDX Annotations", "com.gmail.blueboxware", "libgdxpluginannotations", repository = Repository.JCENTER)
   )
   ;
 

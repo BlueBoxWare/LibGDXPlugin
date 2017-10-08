@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
+internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
   var element: PsiElement? = this
   while (element != null && element.parent != childOf) {
     element = element.parent
@@ -38,9 +38,9 @@ fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
   return element
 }
 
-fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
+internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
 
-fun PsiClass.putDollarInInnerClassName(): String =
+internal fun PsiClass.putDollarInInnerClassName(): String =
         containingClass?.let {
           it.putDollarInInnerClassName() + "$" + name
         } ?: qualifiedName ?: ""
@@ -55,7 +55,7 @@ fun getPsiFile(project: Project, filename: String): PsiFile? {
 
 }
 
-fun PsiClass.allStaticInnerClasses(): List<PsiClass> {
+internal fun PsiClass.allStaticInnerClasses(): List<PsiClass> {
   val result = mutableListOf(this)
 
   for (innerClass in innerClasses) {
@@ -67,7 +67,7 @@ fun PsiClass.allStaticInnerClasses(): List<PsiClass> {
   return result
 }
 
-fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
+internal fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
   methodExpression.qualifierExpression?.let { qualifierExpression ->
 
@@ -89,12 +89,12 @@ fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
 }
 
-fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? =
+internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? =
         resolveCall()?.let {
           it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
         }
 
-fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
+internal fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
 
   var receiverType: DeclarationDescriptor? = analyze().getType(receiverExpression)?.constructor?.declarationDescriptor
 
@@ -109,12 +109,12 @@ fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
 
 }
 
-fun KtQualifiedExpression.resolveCallToStrings(): Pair<String, String>? =
+internal fun KtQualifiedExpression.resolveCallToStrings(): Pair<String, String>? =
         resolveCall()?.let {
           Pair(it.first.fqNameSafe.asString(), it.second)
         }
 
-fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferenceExpression>? {
+internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferenceExpression>? {
 
   (context as? KtQualifiedExpression)?.let { dotExpression ->
 
@@ -135,7 +135,7 @@ fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferenceExpress
 
 }
 
-fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
+internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
         resolveCall()?.let {
           Pair(it.first.fqNameSafe.asString(), it.second.getReferencedName())
         }

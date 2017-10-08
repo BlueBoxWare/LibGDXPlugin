@@ -38,10 +38,6 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
 
-    var BASE_URL = "https://repo1.maven.org/maven2/"
-
-    val META_DATA_FILE = "maven-metadata.xml"
-
   }
 
   val isLibGDXProject: Boolean

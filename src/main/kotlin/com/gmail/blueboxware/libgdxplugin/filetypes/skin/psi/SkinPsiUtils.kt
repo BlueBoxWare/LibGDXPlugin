@@ -25,7 +25,7 @@ import java.lang.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun String.stripQuotes(): String {
+internal fun String.stripQuotes(): String {
   if (length > 0) {
     val firstChar = firstOrNull()
     val lastChar = lastOrNull()
@@ -40,7 +40,7 @@ fun String.stripQuotes(): String {
   return this
 }
 
-fun String.isEscapedChar(position: Int): Boolean {
+internal fun String.isEscapedChar(position: Int): Boolean {
   var count = 0
   for (i in position - 1 downTo 0) {
     if (getOrNull(i) != '\\') break
@@ -49,11 +49,11 @@ fun String.isEscapedChar(position: Int): Boolean {
   return count % 2 != 0
 }
 
-fun String.isQuoted(): Boolean = length > 1 && firstOrNull() == '\"' && lastOrNull() == '\"' && !isEscapedChar(length - 1)
+internal fun String.isQuoted(): Boolean = length > 1 && firstOrNull() == '\"' && lastOrNull() == '\"' && !isEscapedChar(length - 1)
 
-fun String.escape(): String = StringUtil.escapeStringCharacters(this)
+internal fun String.escape(): String = StringUtil.escapeStringCharacters(this)
 
-fun String.makeSafe(): String =
+internal fun String.makeSafe(): String =
   if (!isQuoted() && this.any { listOf('{', '}', ':', '[', ']', ',').contains(it) }) {
     "\"" + this.escape() + "\""
   } else {
@@ -61,7 +61,7 @@ fun String.makeSafe(): String =
   }
 
 
-fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
+internal fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
   val result = StringBuilder()
   var i = 0
   while (i < length) {

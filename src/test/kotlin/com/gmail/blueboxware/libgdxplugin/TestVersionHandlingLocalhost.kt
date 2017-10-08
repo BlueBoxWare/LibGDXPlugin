@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
 import com.intellij.ide.util.PropertiesComponent
@@ -79,6 +80,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
   fun testGetLatestVersions() {
 
+    assertEquals(MavenComparableVersion("1.0"), versionManager.getLatestVersion(Libraries.LIBGDX_ANNOTATIONS))
     assertEquals(MavenComparableVersion("1.9.5"), versionManager.getLatestVersion(Libraries.LIBGDX))
     assertEquals(MavenComparableVersion("1.8.1"), versionManager.getLatestVersion(Libraries.AI))
     assertEquals(MavenComparableVersion("1.7.3"), versionManager.getLatestVersion(Libraries.ASHLEY))
@@ -137,7 +139,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
     VersionManager.BATCH_SIZE = Libraries.values().size / 2
     VersionManager.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND
     VersionManager.LOG.setLevel(Level.DEBUG)
-    VersionManager.BASE_URL = "http://127.0.0.1/maven/"
+    Library.TEST_URL = "http://127.0.0.1/maven/"
 
     super.setUp()
 

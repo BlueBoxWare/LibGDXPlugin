@@ -1,9 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.utils
+package com.gmail.blueboxware.libgdxplugin.versions
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -20,9 +16,7 @@ import com.intellij.openapi.util.Key
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
-
-internal fun Project.isLibGDXProject(): Boolean = getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
-
-inline fun <T>key(key: String) = Key<T>(PREFIX + "." + key)
+internal enum class Repository(val baseUrl: String) {
+  MAVEN_CENTRAL("https://repo1.maven.org/maven2/"),
+  JCENTER("https://jcenter.bintray.com/")
+}

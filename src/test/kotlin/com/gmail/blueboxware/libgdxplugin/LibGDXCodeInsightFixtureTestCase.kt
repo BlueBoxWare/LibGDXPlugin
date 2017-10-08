@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
@@ -55,7 +56,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
   override fun setUp() {
     assertIdeaHomePath()
 
-    VersionManager.BASE_URL = "http://127.0.0.1/maven/"
+    Library.TEST_URL = "http://127.0.0.1/maven/"
 
     super.setUp()
 
