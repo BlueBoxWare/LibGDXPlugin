@@ -598,7 +598,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
   fun doTest(testFileName: String, content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String>) {
     myFixture.configureByText(testFileName, content)
-    val result = myFixture.complete(CompletionType.BASIC, 1)
+    val result = myFixture.complete(CompletionType.BASIC, 0)
     if (result == null) {
       // the only item was auto-completed?
       assertEquals(expectedCompletionStrings.size, 1)
@@ -611,7 +611,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
       assertNotNull(strings)
       strings?.let { results ->
         for (exp in expectedCompletionStrings) {
-          assertTrue("Expected to find $exp, content:\n$content", exp in results)
+          assertTrue("Expected to find $exp, content:\n$content\nFound: $strings", exp in results)
         }
         for (notExpectedCompletionString in notExpectedCompletionStrings) {
           val msg2 = "Not expected to find '$notExpectedCompletionString'. Content: '$content'"

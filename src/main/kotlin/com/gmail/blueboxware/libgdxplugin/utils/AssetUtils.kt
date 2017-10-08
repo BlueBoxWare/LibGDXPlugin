@@ -8,20 +8,19 @@ import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_ATLAS_PA
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.FAKE_FILE_KEY
+import com.gmail.blueboxware.libgdxplugin.utils.Assets.NO_ASSET_FILES
 import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
-import com.intellij.psi.*
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiFile
+import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.impl.source.PsiFileImpl
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
-import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
-import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
-import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
-import org.jetbrains.kotlin.resolve.BindingContext
-import org.jetbrains.kotlin.resolve.calls.callUtil.getCalleeExpressionIfAny
+import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.psi.KtCallExpression
 import java.io.IOException
 
 /*
@@ -125,7 +124,7 @@ private fun createFakePsiFile(project: Project, original: PsiFile?, language: La
           }
         }
 
-private fun getAssetFiles(project: Project, skinFileNames: List<String>, atlasFileNames: List<String>?): Pair<List<SkinFile>, List<AtlasFile>> {
+private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atlasFileNames: List<String>): Pair<List<SkinFile>, List<AtlasFile>> {
 
   val skinFiles = mutableListOf<SkinFile>()
   val atlasFiles = mutableListOf<AtlasFile>()
@@ -140,7 +139,7 @@ private fun getAssetFiles(project: Project, skinFileNames: List<String>, atlasFi
     }
   }
 
-  val calculatedAtlasFilenames = atlasFileNames ?:
+  val calculatedAtlasFilenames =
           skinFileNames.mapNotNull {
             it.lastIndexOf('.').let { dot ->
               if (dot > -1) {
@@ -151,7 +150,7 @@ private fun getAssetFiles(project: Project, skinFileNames: List<String>, atlasFi
             }
           }
 
-  for (atlasFileName in calculatedAtlasFilenames) {
+  for (atlasFileName in atlasFileNames + calculatedAtlasFilenames) {
     if (atlasFileName != "") {
       var atlasFile = getPsiFile(project, atlasFileName)
       if (atlasFile != null && atlasFile !is AtlasFile) {
@@ -166,119 +165,33 @@ private fun getAssetFiles(project: Project, skinFileNames: List<String>, atlasFi
 
 }
 
-private fun getAssetFiles(annotation: PsiAnnotation): Pair<List<SkinFile>, List<AtlasFile>>? {
+private fun getAssetFilesFromAnnotation(project: Project, annotation: AnnotationWrapper?): Pair<List<SkinFile>, List<AtlasFile>> {
 
-  if (annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
-    return null
+  if (annotation != null) {
+    val skins = annotation.getValue(ASSET_ANNOTATION_SKIN_PARAM_NAME)
+    val atlasses = annotation.getValue(ASSET_ANNOTATION_ATLAS_PARAM_NAME)
+    return getAssetPsiFiles(project, skins, atlasses)
   }
 
-  var skinFileNames =
-          (annotation.findAttributeValue(ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.mapNotNull {
-            (it as? PsiLiteralExpression)?.value as? String
-          }?.filter { it != "" }
-  if (skinFileNames == null) {
-    skinFileNames = ((annotation.findAttributeValue(ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiLiteralExpression)?.value as? String)?.let {
-      listOf(it)
-    } ?: listOf()
-  }
-
-  var atlasFileNames =
-          (annotation.findDeclaredAttributeValue(ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.mapNotNull {
-            (it as? PsiLiteralExpression)?.value as? String
-          }?.filter { it != "" }
-  if (atlasFileNames == null) {
-    atlasFileNames = ((annotation.findDeclaredAttributeValue(ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiLiteralExpression)?.value as? String)?.let {
-      listOf(it)
-    }
-  }
-
-  return getAssetFiles(annotation.project, skinFileNames, atlasFileNames)
+  return NO_ASSET_FILES
 
 }
 
-private fun getAssetFiles(modifierList: KtModifierList): Pair<List<SkinFile>, List<AtlasFile>>? {
+internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 
-  val skinFiles = mutableListOf<String>()
-  var atlasFiles: MutableList<String>? = null
-
-  modifierList.annotationEntries.forEach { entry ->
-    modifierList.analyzeFully().get(BindingContext.ANNOTATION, entry)?.type?.getJetTypeFqName(false)?.let { fqName ->
-      if (fqName == ASSET_ANNOTATION_NAME) {
-
-        entry.valueArgumentList?.arguments?.forEach { argument ->
-          val name = argument.getArgumentName()?.asName?.identifier
-          val value = (argument.getArgumentExpression() as? KtCallExpression)?.valueArgumentList?.arguments?.mapNotNull {
-            (it.getArgumentExpression() as? KtStringTemplateExpression)?.plainContent
-          }
-
-          if (value != null) {
-            when (name) {
-              ASSET_ANNOTATION_SKIN_PARAM_NAME -> skinFiles.addAll(value)
-              ASSET_ANNOTATION_ATLAS_PARAM_NAME -> {
-                if (atlasFiles == null) {
-                  atlasFiles = mutableListOf()
-                }
-                atlasFiles?.addAll(value)
-              }
-            }
-          }
-        }
-
-        return getAssetFiles(modifierList.project, skinFiles, atlasFiles)
-
-      }
-    }
+  JavaPsiFacade.getInstance(project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(project))?.let { annotation ->
+    return getAssetFilesFromAnnotation(project, getAnnotation(annotation))
   }
 
-  return null
-
+  return NO_ASSET_FILES
 }
 
-fun KtSimpleNameReference.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>>? {
+internal fun KtCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 
-  resolve()?.let { result ->
-    (result as? KtProperty)?.modifierList?.let { modifierList ->
-      return getAssetFiles(modifierList)
-    }
-    (result as? PsiField)?.modifierList?.let { modifierList ->
-      modifierList.findAnnotation(ASSET_ANNOTATION_NAME)?.let { annotation ->
-        return getAssetFiles(annotation)
-      }
-    }
+  JavaPsiFacade.getInstance(project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(project))?.let { annotation ->
+    return getAssetFilesFromAnnotation(project, getAnnotation(annotation))
   }
 
-  return null
-
-}
-
-fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
-
-  methodExpression.qualifierExpression?.let { qualifierExpression ->
-    ((qualifierExpression as? PsiMethodCallExpression)?.resolveMethod()?.navigationElement as? KtProperty)?.modifierList?.let { modifierList ->
-      getAssetFiles(modifierList)?.let {
-        return it
-      }
-    }
-    ((qualifierExpression as? PsiReference)?.resolve() as? PsiVariable)?.modifierList?.findAnnotation(ASSET_ANNOTATION_NAME)?.let { annotation ->
-      getAssetFiles(annotation)?.let {
-        return it
-      }
-    }
-  }
-
-  return Assets.NO_ASSET_FILES
-}
-
-fun KtCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
-
-  (context as? KtQualifiedExpression)?.receiverExpression?.getCalleeExpressionIfAny()?.references?.forEach {
-    if (it is KtSimpleNameReference) {
-      it.getAssetFiles()?.let {
-        return it
-      }
-    }
-  }
-
-  return Assets.NO_ASSET_FILES
+  return NO_ASSET_FILES
 
 }

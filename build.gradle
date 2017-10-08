@@ -27,7 +27,7 @@ intellij {
         plugins = ["org.jetbrains.kotlin:$asKotlinPlugin", 'Groovy', 'properties']
     } else {
         version = ideaVersion
-        plugins = ['Kotlin', 'Groovy', 'properties']
+        plugins = ["org.jetbrains.kotlin:$ideaKotlinPlugin", 'Groovy', 'properties']
     }
 
     pluginName = 'LibGDX Inspections'

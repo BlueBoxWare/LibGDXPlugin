@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.13</b>
+        <ul>
+            <li></li>
+        </ul>
+
         <b>1.12</b>
         <ul>
             <li>New inspection: missing WRITE_EXTERNAL_STORAGE permission</li>
@@ -125,6 +130,7 @@
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
+    <depends>com.intellij.properties</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <inspectionToolProvider
@@ -229,6 +235,9 @@
         <psi.treeChangePreprocessor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontTreeChangePreprocessor" />
 
         <lang.foldingBuilder language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.editor.BitmapFontFoldingBuilder" />
+
+        <!--Properties files-->
+        <properties.implicitPropertyUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.LibGDXImplicitPropertyUsageProvider" />
 
     </extensions>
 

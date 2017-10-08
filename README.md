@@ -5,7 +5,7 @@ This unofficial plugin adds a number of LibGDX related tools and features to [In
 
 For running and building the plugin from source, see [FromSource](FromSource.md).
 
-This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
+This plugin needs a recent version (at least version 1.1.2-2) of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
 you only use Java), so install and/or enable that plugin first. 
 
 ## Features
