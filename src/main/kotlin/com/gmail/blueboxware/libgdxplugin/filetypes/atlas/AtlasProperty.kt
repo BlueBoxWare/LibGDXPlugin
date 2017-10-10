@@ -40,7 +40,7 @@ abstract class AtlasProperty(node: ASTNode) : AtlasElementImpl(node), Navigation
     else -> "<unknown>"
   }
 
-  fun getValueAsString() = (PsiTreeUtil.findChildrenOfType(this, AtlasValueElement::class.java)).map { it.text }.joinToString(separator = ", ")
+  fun getValueAsString() = (PsiTreeUtil.findChildrenOfType(this, AtlasValueElement::class.java)).joinToString(separator = ", ") { it.text }
 
   override fun getPresentation() = object : ItemPresentation {
 

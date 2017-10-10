@@ -47,7 +47,7 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
 
       val methodName = expression.resolveMethod()?.name ?: return
 
-      if (iteratorsMap[receiverFqClassName]?.contains(methodName) ?: false) {
+      if (iteratorsMap[receiverFqClassName]?.contains(methodName) == true) {
 
         holder.registerProblem(expression, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.$methodName()")
 
@@ -63,7 +63,7 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
       val receiverFqClassName = receiverClass.qualifiedName
       val receiverShortClassName = receiverClass.name
 
-      if (!iteratorsMap.containsKey(receiverFqClassName) || !(iteratorsMap[receiverFqClassName]?.contains("iterator") ?: false)) return
+      if (!iteratorsMap.containsKey(receiverFqClassName) || iteratorsMap[receiverFqClassName]?.contains("iterator") != true) return
 
       statement.iteratedValue?.let { iteratedValue ->
         holder.registerProblem(iteratedValue, "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.iterator()")

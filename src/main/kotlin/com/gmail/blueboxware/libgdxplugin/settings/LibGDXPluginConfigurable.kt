@@ -29,7 +29,7 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
   private var form: LibGDXPluginSettingsPane? = null
 
-  override fun isModified() = getForm()?.isModified() ?: false
+  override fun isModified() = getForm()?.isModified() == true
 
   override fun disposeUIResources() {
     form = null
@@ -68,8 +68,8 @@ class LibGDXPluginSettings: PersistentStateComponent<LibGDXPluginSettings> {
   var neverAskAboutSkinFiles: Boolean = false
 
   override fun loadState(state: LibGDXPluginSettings?) {
-    enableColorAnnotations = state?.enableColorAnnotations ?: true
-    neverAskAboutSkinFiles = state?.neverAskAboutSkinFiles ?: false
+    enableColorAnnotations = state?.enableColorAnnotations != false
+    neverAskAboutSkinFiles = state?.neverAskAboutSkinFiles == true
   }
 
   override fun getState() = this

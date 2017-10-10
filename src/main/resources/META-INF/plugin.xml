@@ -236,9 +236,6 @@
 
         <lang.foldingBuilder language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.editor.BitmapFontFoldingBuilder" />
 
-        <!--Properties files-->
-        <properties.implicitPropertyUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.LibGDXImplicitPropertyUsageProvider" />
-
     </extensions>
 
     <actions>

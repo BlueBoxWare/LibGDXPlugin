@@ -100,8 +100,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
                         ?.getArgumentExpression()
                         ?.getCalleeExpressionIfAny()
                         ?.references
-                        ?.filter { it is KtSimpleNameReference }
-                        ?.firstOrNull()
+                        ?.firstOrNull { it is KtSimpleNameReference }
                         ?.resolve() as? PsiEnumConstant
                         )?.getKotlinFqName()?.asString()?.let { fqName ->
                   if (fqName == "com.badlogic.gdx.Files.FileType.External" || fqName == "com.badlogic.gdx.Files.FileType.Absolute") {

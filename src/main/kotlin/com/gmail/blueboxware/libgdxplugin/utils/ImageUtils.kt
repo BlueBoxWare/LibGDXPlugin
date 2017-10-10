@@ -22,8 +22,8 @@ internal fun BufferedImage.tint(color: Color): BufferedImage {
 
   val tintedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
 
-  for (x in 0 .. width - 1) {
-    for (y in 0 .. height - 1) {
+  for (x in 0 until width) {
+    for (y in 0 until height) {
       val oldColor = Color(getRGB(x, y))
       val r = mul(oldColor.red, color.red)
       val g = mul(oldColor.green, color.green)

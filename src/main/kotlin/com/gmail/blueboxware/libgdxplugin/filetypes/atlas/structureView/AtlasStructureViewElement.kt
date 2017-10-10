@@ -42,9 +42,9 @@ class AtlasStructureViewElement(val element: PsiElement) : StructureViewTreeElem
 
   }
 
-  override fun canNavigate() = (element as? NavigationItem)?.canNavigate() ?: false
+  override fun canNavigate() = (element as? NavigationItem)?.canNavigate() == true
 
-  override fun canNavigateToSource() = (element as? NavigationItem)?.canNavigateToSource() ?: false
+  override fun canNavigateToSource() = (element as? NavigationItem)?.canNavigateToSource() == true
 
   override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
 

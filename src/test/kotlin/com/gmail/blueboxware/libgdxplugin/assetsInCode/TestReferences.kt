@@ -136,7 +136,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
       PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
     } ?: throw AssertionError("Referencing element not found")
 
-    val referentElement = referencingElement.references.filter{ it is AssetReference || it is FileReference }.firstOrNull()?.resolve() ?: throw AssertionError("Referent not found")
+    val referentElement = referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.resolve() ?: throw AssertionError("Referent not found")
 
     assertTrue(referentElement is expectedReferentType)
 

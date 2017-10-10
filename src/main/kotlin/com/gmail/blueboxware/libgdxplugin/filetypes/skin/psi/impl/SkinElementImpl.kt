@@ -51,6 +51,6 @@ abstract class SkinElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), Skin
   }
 
   override fun isInspectionSuppressed(inspectionId: String): Boolean =
-          getActiveAnnotations(SkinAnnotations.SUPPRESS).filter { it.second == inspectionId }.isNotEmpty()
+          getActiveAnnotations(SkinAnnotations.SUPPRESS).any { it.second == inspectionId }
 
 }

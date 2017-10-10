@@ -54,7 +54,7 @@ class SkinCodeStylePanel(settings: CodeStyleSettings) : CodeStyleAbstractPanel(L
   }
 
   override fun resetImpl(settings: CodeStyleSettings) {
-    for (i in 0 .. myPropertiesAlignmentCombo.itemCount - 1) {
+    for (i in 0 until myPropertiesAlignmentCombo.itemCount) {
       if (myPropertiesAlignmentCombo.getItemAt(i).id == getCustomSettings(settings).PROPERTY_ALIGNMENT) {
         myPropertiesAlignmentCombo.selectedIndex = i
       }

@@ -63,7 +63,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
           children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }
 
   override fun isInspectionSuppressed(inspectionId: String): Boolean =
-          getActiveAnnotations(SkinAnnotations.SUPPRESS).filter { it.second == inspectionId }.isNotEmpty()
+          getActiveAnnotations(SkinAnnotations.SUPPRESS).any { it.second == inspectionId }
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
 

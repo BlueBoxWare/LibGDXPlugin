@@ -117,9 +117,8 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
       val txt = (name ?: "<unknown>" )+ " (" + image.width + " x " + image.height +
               (if (scale != 1) ", shown at scale ${scale}x" else "" ) + ")"
-      val component = ImagePreviewComponent(previewImage, txt)
 
-      return component
+    return ImagePreviewComponent(previewImage, txt)
 
   }
 

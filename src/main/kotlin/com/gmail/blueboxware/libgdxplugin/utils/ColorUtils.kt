@@ -34,15 +34,15 @@ fun stringToColor(string: String): Color? {
     str = str.substring(1)
   }
 
-  try {
+  return try {
     val r = Integer.valueOf(str.substring(0, 2), 16)
     val g = Integer.valueOf(str.substring(2, 4), 16)
     val b = Integer.valueOf(str.substring(4, 6), 16)
     val a = if (str.length == 8) Integer.valueOf(str.substring(6, 8), 16) else 255
 
-    return Color(r / 255f, g / 255f, b / 255f, a / 255f)
+    Color(r / 255f, g / 255f, b / 255f, a / 255f)
   } catch (e: NumberFormatException) {
-    return null
+    null
   }
 }
 

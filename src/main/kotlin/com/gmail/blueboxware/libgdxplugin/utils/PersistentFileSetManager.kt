@@ -40,7 +40,7 @@ open class PersistentFileSetManager : PersistentStateComponent<Element> {
   private fun getSortedFiles(): Collection<VirtualFile> {
     val sortedFiles = mutableListOf<VirtualFile>()
     sortedFiles.addAll(files)
-    sortedFiles.sortWith(Comparator<VirtualFile> { o1, o2 -> o1.path.toLowerCase().compareTo(o2.path.toLowerCase()) })
+    sortedFiles.sortWith(Comparator { o1, o2 -> o1.path.toLowerCase().compareTo(o2.path.toLowerCase()) })
     return sortedFiles
   }
 

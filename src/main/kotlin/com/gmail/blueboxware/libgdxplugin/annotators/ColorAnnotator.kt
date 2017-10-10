@@ -88,7 +88,7 @@ class ColorAnnotator : Annotator {
       currentAnnotations.add(element.getLineNumber() to color)
     }
 
-    if ( ApplicationManager.getApplication()?.isUnitTestMode ?: false) {
+    if (ApplicationManager.getApplication()?.isUnitTestMode == true) {
       val msg = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
       holder.createWeakWarningAnnotation(element, msg)
     } else {
@@ -665,6 +665,6 @@ private class ColorAnnotatorCache(project: Project) {
   val resolveCache = mutableMapOf<PsiReference, PsiElement?>()
 
   val colorAnnotationsEnabled =
-          project.isLibGDXProject() && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations ?: false)
+          project.isLibGDXProject() && (ServiceManager.getService(project, LibGDXPluginSettings::class.java)?.enableColorAnnotations == true)
 
 }

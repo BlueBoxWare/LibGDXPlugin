@@ -114,7 +114,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
       var r: Float? = null
       var g: Float? = null
       var b: Float? = null
-      var a: Float = 1.0f
+      var a = 1.0f
 
       for (property in propertyList) {
 

@@ -21,7 +21,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.psi.*
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod

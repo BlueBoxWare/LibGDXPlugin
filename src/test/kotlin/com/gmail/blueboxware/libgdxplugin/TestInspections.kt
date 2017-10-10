@@ -78,7 +78,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.configureByFiles(*fileNames)
     myFixture.enableInspections(inspection)
-    return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) ?: false }
+    return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) == true }
 
   }
 

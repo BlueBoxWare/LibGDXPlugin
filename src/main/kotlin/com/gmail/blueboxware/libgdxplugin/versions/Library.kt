@@ -62,7 +62,7 @@ internal open class Library(
 
         val result = mutableListOf<String>()
 
-        for (index in 0..versionElements.length - 1) {
+        for (index in 0 until versionElements.length) {
           val content = (versionElements.item(index) as? Element)?.textContent ?: continue
           result.add(content)
         }

@@ -46,7 +46,7 @@ class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 
       if (!iteratorsMap.containsKey(receiverTypeFqName)) return
 
-      if (!(iteratorsMap[receiverTypeFqName]?.contains(methodName) ?: false)) return
+      if (iteratorsMap[receiverTypeFqName]?.contains(methodName) != true) return
 
       holder.registerProblem(expression, "${message("unsafeiterator.problem.descriptor")}: $receiverTypeShortName.$methodName()")
 
@@ -61,7 +61,7 @@ class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
         val iteratorTypeFqName = iteratorType.fqNameSafe.asString()
         val iteratorTypeShortName = iteratorType.name
 
-        if (iteratorsMap.containsKey(iteratorTypeFqName) && (iteratorsMap[iteratorTypeFqName]?.contains("iterator") ?: false)) {
+        if (iteratorsMap.containsKey(iteratorTypeFqName) && (iteratorsMap[iteratorTypeFqName]?.contains("iterator") == true)) {
           holder.registerProblem(loopRange, "${message("unsafeiterator.problem.descriptor")}: $iteratorTypeShortName.iterator()")
         }
 

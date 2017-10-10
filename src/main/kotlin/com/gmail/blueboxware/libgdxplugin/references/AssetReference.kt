@@ -100,7 +100,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
         atlasFile.getPages().forEach { page ->
           page.regionList.forEach { region ->
 
-            if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name} ?: false } == null) {
+            if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name} == true } == null) {
               val lookupElement = LookupElementBuilder
                       .create(region)
                       .withTypeText(getOriginalFileName(atlasFile), true)
@@ -128,7 +128,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
       } else if (callExpression is KtCallExpression) {
         callExpression.getAssetFiles()
       } else {
-        listOf<SkinFile>() to listOf<AtlasFile>()
+        listOf<SkinFile>() to listOf()
       }
 
       return arrayOf(AssetReference(element, resourceName ?: StringUtil.stripQuotesAroundValue(element.text), wantedClass, assetFiles))

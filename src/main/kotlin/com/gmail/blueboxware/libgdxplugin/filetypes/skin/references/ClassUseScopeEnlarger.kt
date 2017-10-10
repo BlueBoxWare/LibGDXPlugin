@@ -7,7 +7,6 @@ import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
-import org.jetbrains.kotlin.j2k.getContainingClass
 
 /*
  * Copyright 2017 Blue Box Ware
