@@ -236,6 +236,15 @@
 
         <lang.foldingBuilder language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.editor.BitmapFontFoldingBuilder" />
 
+        <!--Properties files-->
+        <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesReferenceContributor" />
+        <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesReferenceContributor" />
+
+        <properties.implicitPropertyUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXImplicitPropertyUsageProvider" />
+
+        <completion.contributor language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesCompletionContributor" />
+        <completion.contributor language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesCompletionContributor" />
+
     </extensions>
 
     <actions>

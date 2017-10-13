@@ -40,7 +40,7 @@ class FileReference(
         val preferableLanguages: List<Language> = listOf()
 ) : PsiReferenceBase<PsiElement>(element) {
 
-  override fun resolve(): PsiElement? = getPsiFile(myElement.project, path)
+  override fun resolve(): PsiElement? = myElement.project.getPsiFile(path)
 
   override fun getVariants(): Array<out Any> {
 

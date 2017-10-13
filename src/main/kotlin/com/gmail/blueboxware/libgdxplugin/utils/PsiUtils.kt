@@ -40,15 +40,24 @@ internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElemen
 
 internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
 
+
+internal fun PsiLiteralExpression.innerText(): String {
+  if (text.length > 1 && text.first() == '\"' && text.last() == '\"') {
+    return text.substring(1, text.length - 1)
+  } else {
+    return text
+  }
+}
+
 internal fun PsiClass.putDollarInInnerClassName(): String =
         containingClass?.let {
           it.putDollarInInnerClassName() + "$" + name
         } ?: qualifiedName ?: ""
 
-fun getPsiFile(project: Project, filename: String): PsiFile? {
+internal fun Project.getPsiFile(filename: String): PsiFile? {
 
-  project.getProjectBaseDir()?.findFileByRelativePath(PathUtil.toSystemIndependentName(filename))?.let { virtualFile ->
-    return PsiManager.getInstance(project).findFile(virtualFile)
+  getProjectBaseDir()?.findFileByRelativePath(PathUtil.toSystemIndependentName(filename))?.let { virtualFile ->
+    return PsiManager.getInstance(this).findFile(virtualFile)
   }
 
   return null

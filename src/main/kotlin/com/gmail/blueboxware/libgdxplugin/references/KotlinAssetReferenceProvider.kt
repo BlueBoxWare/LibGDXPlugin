@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.psi.*
@@ -35,7 +35,9 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
 
-    if (element.project.getComponent(VersionManager::class.java)?.isLibGDXProject != true) return arrayOf()
+    if (element.project.isLibGDXProject()) {
+      return arrayOf()
+    }
 
     (element.context?.context?.context as? KtCallExpression)?.let { methodCall ->
 

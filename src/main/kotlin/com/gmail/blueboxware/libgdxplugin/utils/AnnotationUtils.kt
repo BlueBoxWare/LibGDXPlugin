@@ -72,14 +72,6 @@ class PsiAnnotationWrapper(private val psiAnnotation: PsiAnnotation): Annotation
 
 }
 
-private fun PsiLiteralExpression.innerText(): String {
-  if (text.length > 1 && text.first() == '\"' && text.last() == '\"') {
-    return text.substring(1, text.length - 1)
-  } else {
-    return text
-  }
-}
-
 internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): AnnotationWrapper? {
 
   PsiUtil.deparenthesizeExpression(methodExpression.qualifierExpression)?.let { qualifierExpression ->

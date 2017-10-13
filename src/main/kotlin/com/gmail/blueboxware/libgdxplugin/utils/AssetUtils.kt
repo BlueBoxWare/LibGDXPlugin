@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.FAKE_FILE_KEY
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.NO_ASSET_FILES
@@ -14,10 +15,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.PsiMethodCallExpression
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiFileImpl
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -38,7 +36,7 @@ import java.io.IOException
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object Assets {
+internal object Assets {
 
   val SKIN_TEXTURE_REGION_CLASSES = listOf(
           "com.badlogic.gdx.graphics.g2d.TextureRegion",
@@ -53,10 +51,13 @@ object Assets {
 
   val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
   val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
+  val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
 
   val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
-
   val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
+  val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
+
+  val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 
   val FAKE_FILE_KEY = key<Boolean>("fake")
 
@@ -131,7 +132,7 @@ private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atla
 
   for (skinFileName in skinFileNames) {
     if (skinFileName != "") {
-      var skinFile = getPsiFile(project, skinFileName)
+      var skinFile = project.getPsiFile(skinFileName)
       if (skinFile != null && skinFile !is SkinFile) {
         skinFile = createFakePsiFile(project, skinFile, LibGDXSkinLanguage.INSTANCE)
       }
@@ -152,7 +153,7 @@ private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atla
 
   for (atlasFileName in atlasFileNames + calculatedAtlasFilenames) {
     if (atlasFileName != "") {
-      var atlasFile = getPsiFile(project, atlasFileName)
+      var atlasFile = project.getPsiFile(atlasFileName)
       if (atlasFile != null && atlasFile !is AtlasFile) {
         atlasFile = createFakePsiFile(project, atlasFile, LibGDXAtlasLanguage.INSTANCE)
       }
@@ -177,9 +178,12 @@ private fun getAssetFilesFromAnnotation(project: Project, annotation: Annotation
 
 }
 
+private fun findAssetsAnnotationClass(context: PsiElement): PsiClass? =
+  JavaPsiFacade.getInstance(context.project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(context.project))
+
 internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 
-  JavaPsiFacade.getInstance(project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(project))?.let { annotation ->
+  findAssetsAnnotationClass(this)?.let { annotation ->
     return getAssetFilesFromAnnotation(project, getAnnotation(annotation))
   }
 
@@ -188,10 +192,34 @@ internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<
 
 internal fun KtCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 
-  JavaPsiFacade.getInstance(project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(project))?.let { annotation ->
+  findAssetsAnnotationClass(this)?.let { annotation ->
     return getAssetFilesFromAnnotation(project, getAnnotation(annotation))
   }
 
   return NO_ASSET_FILES
+
+}
+
+internal fun PsiMethodCallExpression.getPropertiesFiles(): List<String> {
+
+  findAssetsAnnotationClass(this)?.let { annotationClass ->
+    getAnnotation(annotationClass)?.let { annotation ->
+      return annotation.getValue(ASSET_ANNOTATION_PROPERTIES_PARAM_NAME)
+    }
+  }
+
+  return listOf()
+
+}
+
+internal fun KtCallExpression.getPropertiesFiles(): List<String> {
+
+  findAssetsAnnotationClass(this)?.let { annotationClass ->
+    getAnnotation(annotationClass)?.let { annotation ->
+      return annotation.getValue(ASSET_ANNOTATION_PROPERTIES_PARAM_NAME)
+    }
+  }
+
+  return listOf()
 
 }
