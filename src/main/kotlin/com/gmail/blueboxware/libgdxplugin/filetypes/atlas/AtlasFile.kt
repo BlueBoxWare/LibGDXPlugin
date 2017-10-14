@@ -28,8 +28,10 @@ class AtlasFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvid
 
   fun getPages(): List<AtlasPage> = children.mapNotNull { it as? AtlasPage }
 
+  @Suppress("unused")
   fun getRegions(name: String? = null): List<AtlasRegion> = getPages().flatMap { it.regionList.filter { name == null || it.name == name } }
 
+  @Suppress("unused")
   fun getRegion(name: String): AtlasRegion? {
 
     for (page in getPages()) {

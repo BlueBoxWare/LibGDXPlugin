@@ -30,7 +30,7 @@ import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
  */
 abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCase() {
 
-  fun getTestDataBasePath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
+  private fun getTestDataBasePath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
   override fun getTestDataPath() =  FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
@@ -46,7 +46,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/libgdxpluginannotations.jar")
   }
 
-  fun assertIdeaHomePath() {
+  private fun assertIdeaHomePath() {
     val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
     if (path == null || path == "") {
       throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
@@ -74,8 +74,8 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
         val projectModel = ProjectLibraryTable.getInstance(project).modifiableModel
 
         for (lib in projectModel.libraries) {
-          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { result ->
-            if (result.first == library) {
+          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
+            if (libraries == library) {
               projectModel.removeLibrary(lib)
             }
           }

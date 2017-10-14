@@ -34,7 +34,7 @@ import com.intellij.ui.EditorNotifications
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinEditorNotificationProvider(val project: Project, val notifications: EditorNotifications) : EditorNotifications.Provider<EditorNotificationPanel>() {
+class SkinEditorNotificationProvider(val project: Project, private val notifications: EditorNotifications) : EditorNotifications.Provider<EditorNotificationPanel>() {
 
   companion object {
     val KEY = key<EditorNotificationPanel>("skin.file.detected")

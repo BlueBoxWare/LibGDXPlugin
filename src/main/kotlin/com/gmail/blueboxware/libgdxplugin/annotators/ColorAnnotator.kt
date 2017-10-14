@@ -79,8 +79,8 @@ class ColorAnnotator : Annotator {
     }
 
     annotationSessions.getUserData(annotationsKey)?.let { currentAnnotations ->
-      for (a in currentAnnotations) {
-        if (a.first == element.getLineNumber() && a.second == color) {
+      for ((first, second) in currentAnnotations) {
+        if (first == element.getLineNumber() && second == color) {
           return
         }
       }
@@ -207,8 +207,8 @@ class ColorAnnotator : Annotator {
               } else if (resolvedCall.second == "getColor") {
                 // Skin.getColor(string)
                 val resourceName = StringUtil.unquoteString(arg.text)
-                initialValue.getAssetFiles().let { assetFiles ->
-                  for (skinFile in assetFiles.first) {
+                initialValue.getAssetFiles().let { (skinFiles) ->
+                  for (skinFile in skinFiles) {
                     skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
                       return it.asColor(true)
                     }
@@ -221,8 +221,8 @@ class ColorAnnotator : Annotator {
                       if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
                         // Skin.get(string, Color::class.java)
                         val resourceName = StringUtil.unquoteString(arg.text)
-                        initialValue.getAssetFiles().let { assetFiles ->
-                          for (skinFile in assetFiles.first) {
+                        initialValue.getAssetFiles().let { (skinFiles) ->
+                          for (skinFile in skinFiles) {
                             skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
                               return it.asColor(true)
                             }
@@ -283,16 +283,16 @@ class ColorAnnotator : Annotator {
                   return stringToColor(arg.text)
                 } else if (resolved.second == "getColor") {
                   // Skin.getColor(string)
-                  methodCallExpression.getAssetFiles().let { assetFiles ->
-                    for (skinFile in assetFiles.first) {
+                  methodCallExpression.getAssetFiles().let { (skinFiles) ->
+                    for (skinFile in skinFiles) {
                       skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
                       }
                     }
                   }
                 } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
-                  methodCallExpression.getAssetFiles().let { assetFiles ->
-                    for (skinFile in assetFiles.first) {
+                  methodCallExpression.getAssetFiles().let { (skinFiles) ->
+                    for (skinFile in skinFiles) {
                       skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
                       }

@@ -82,12 +82,13 @@ internal open class Library(
 
   }
 
-  protected var latestVersion: MavenComparableVersion? = null
+  private var latestVersion: MavenComparableVersion? = null
+
   var lastUpdated: Long = 0
     protected set
 
   val versionKey = PERSISTENT_STATE_KEY_VERSION_PREFIX + groupId + "_" + artifactId
-  val timeKey = PERSISTENT_STATE_KEY_TIME_PREFIX + groupId + "_" + artifactId
+  private val timeKey = PERSISTENT_STATE_KEY_TIME_PREFIX + groupId + "_" + artifactId
 
   open fun getLatestVersion(versionManager: VersionManager) = latestVersion
 

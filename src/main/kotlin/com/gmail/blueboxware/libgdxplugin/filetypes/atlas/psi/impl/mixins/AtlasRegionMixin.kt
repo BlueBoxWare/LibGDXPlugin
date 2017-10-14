@@ -36,7 +36,7 @@ import javax.swing.Icon
  */
 abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(node) {
 
-  override fun getName() = regionName.text
+  override fun getName(): String = regionName.text
 
   override fun getX() = xy.valueList.firstOrNull()?.text?.toIntOrNull()
 
@@ -77,8 +77,8 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
 
   }
 
-  val myPreviewIcon: Icon? by lazy {
-    (image as? BufferedImage)?.let { image ->
+  private val myPreviewIcon: Icon? by lazy {
+    image?.let { image ->
       IconUtil.createImageIcon(ImageUtil.toBufferedImage(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT)))
     }
   }

@@ -63,7 +63,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
   }
 
-  fun createAssetAnnotationProvider(registrar: PsiReferenceRegistrar, paramName: String, fileTypes: List<FileType>, preferableLangs: List<Language>) {
+  private fun createAssetAnnotationProvider(registrar: PsiReferenceRegistrar, paramName: String, fileTypes: List<FileType>, preferableLangs: List<Language>) {
 
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java).inside(KtAnnotationEntry::class.java),

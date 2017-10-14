@@ -34,9 +34,9 @@ import org.junit.Before
  */
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-  var RUN_TESTS = true
+  private var RUN_TESTS = true
 
-  lateinit var versionManager: VersionManager
+  private lateinit var versionManager: VersionManager
 
   override fun shouldRunTest(): Boolean {
     if (RUN_TESTS) {

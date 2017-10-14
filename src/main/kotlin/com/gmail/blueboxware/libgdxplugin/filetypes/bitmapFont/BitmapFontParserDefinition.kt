@@ -4,6 +4,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
@@ -38,7 +39,7 @@ class BitmapFontParserDefinition : ParserDefinition {
 
   override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 
-  override fun getStringLiteralElements() = TokenSet.EMPTY
+  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
   override fun getFileNodeType() = FILE
 
@@ -46,8 +47,8 @@ class BitmapFontParserDefinition : ParserDefinition {
 
   override fun createLexer(project: Project?) = BitmapFontLexer()
 
-  override fun createElement(node: ASTNode?) = BitmapFontElementTypes.Factory.createElement(node)
+  override fun createElement(node: ASTNode?): PsiElement = BitmapFontElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens() = TokenSet.EMPTY
+  override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 
 }

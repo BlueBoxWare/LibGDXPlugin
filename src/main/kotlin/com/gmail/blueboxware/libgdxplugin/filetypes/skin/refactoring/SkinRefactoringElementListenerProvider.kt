@@ -62,13 +62,13 @@ class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvide
 
   }
 
-  class MyRefactoringElementListerener(val refToClassMap: Map<SkinJavaClassReference, PsiClass>) : RefactoringElementListener {
+  class MyRefactoringElementListerener(private val refToClassMap: Map<SkinJavaClassReference, PsiClass>) : RefactoringElementListener {
 
     override fun elementRenamed(newElement: PsiElement) = refactored()
 
     override fun elementMoved(newElement: PsiElement) = refactored()
 
-    fun refactored() {
+    private fun refactored() {
 
       ApplicationManager.getApplication().runWriteAction {
         refToClassMap.forEach { reference, clazz ->

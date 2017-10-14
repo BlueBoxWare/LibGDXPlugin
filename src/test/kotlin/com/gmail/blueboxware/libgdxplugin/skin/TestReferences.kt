@@ -145,7 +145,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestDrawableReference()
   }
 
-  fun doTestFieldReference(expectedFieldName: String? = null) {
+  private fun doTestFieldReference(expectedFieldName: String? = null) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
     val sourceElement = PsiTreeUtil.findFirstParent(elementAtCaret, { it is SkinPropertyName }) as? SkinPropertyName
@@ -156,7 +156,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 
-  fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
+  private fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
     val sourceElement = PsiTreeUtil.findFirstParent(elementAtCaret, { sourceElementClass.isInstance(it) })
@@ -166,7 +166,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertEquals(expectedFileName, file?.name)
   }
 
-  fun doTestResourceReference(resourceName: String?, resourceType: String) {
+  private fun doTestResourceReference(resourceName: String?, resourceType: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent
     assertNotNull(element)
@@ -180,7 +180,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  fun doTestJavaClassReference(className: String) {
+  private fun doTestJavaClassReference(className: String) {
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
     assertNotNull(element)
@@ -189,7 +189,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertEquals(className, clazz?.qualifiedName)
   }
 
-  fun doTestDrawableReference() {
+  private fun doTestDrawableReference() {
     myFixture.copyFileToProject(getTestName(true) + ".atlas")
     myFixture.configureByFile(getTestName(true) + ".skin")
     val element = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset), { it is SkinStringLiteral }) as SkinStringLiteral

@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReference(element: PsiElement, val resourceName: String, val className: String?, val assetFiles: Pair<List<SkinFile>, List<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
+class AssetReference(element: PsiElement, val resourceName: String, val className: String?, private val assetFiles: Pair<List<SkinFile>, List<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 

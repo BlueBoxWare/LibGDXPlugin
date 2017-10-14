@@ -61,12 +61,12 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
+  private fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
     myFixture.enableInspections(inspection)
     myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
   }
 
-  fun performInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
+  private fun performInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
 
     myFixture.configureByText(fileName, text)
     myFixture.enableInspections(inspection)
@@ -74,7 +74,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
+  private fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
 
     myFixture.configureByFiles(*fileNames)
     myFixture.enableInspections(inspection)
@@ -82,7 +82,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun getGlobalInspectionResults(testDir: String, inspection: GlobalInspectionTool): Collection<CommonProblemDescriptor> {
+  private fun getGlobalInspectionResults(testDir: String, inspection: GlobalInspectionTool): Collection<CommonProblemDescriptor> {
 
     val toolWrapper = GlobalInspectionToolWrapper(inspection)
 
@@ -101,7 +101,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     return globalContext.getPresentation(toolWrapper).problemDescriptors
   }
 
-  fun testGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
+  fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
     val expectedWarnings = warnings.toMutableList()
     val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
 
@@ -140,7 +140,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
    * Unsafe iterators inspection
    */
 
-  fun performUnsafeIteratorInspectionTest(name: String) {
+  private fun performUnsafeIteratorInspectionTest(name: String) {
     val lName = "inspections/unsafeIterators/" + name
     performInspectionsTest(JavaUnsafeIteratorInspection(), lName + ".java")
     performInspectionsTest(KotlinUnsafeIteratorInspection(), lName + ".kt")
@@ -173,7 +173,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   /*
    * OpenGL Directive inspection
    */
-  fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
+  private fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
     val lName = "inspections/missingOpenGLDirective/" + name
     val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
 
@@ -271,7 +271,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  fun doDesignedForTabletsTest(files: Map<String, String>, warnings: List<String>?) {
+  private fun doDesignedForTabletsTest(files: Map<String, String>, warnings: List<String>?) {
 
     val fakeProjectDir = "/inspections/designedForTablets/"
     val fullDir = testDataPath + fakeProjectDir + "src/"
@@ -283,7 +283,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       file.writeText(content)
     }
 
-    testGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor."+it) } ?: listOf())
+    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor."+it) } ?: listOf())
 
   }
 
@@ -408,7 +408,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   /*
    * External files permission inspection
    */
-  val externalFilesPermissionJavaTests = arrayOf(
+  private val externalFilesPermissionJavaTests = arrayOf(
           true to """Gdx.files.external("");""",
           true to """Gdx.files.absolute("");""",
           false to """Gdx.files.classpath("");""",
@@ -440,7 +440,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  val externalFilesPermissionKotlinTests = arrayOf(
+  private val externalFilesPermissionKotlinTests = arrayOf(
           true to """Gdx.files.external("")""",
           true to """Gdx.files.absolute("")""",
           false to """Gdx.files.classpath("")""",
@@ -470,7 +470,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  fun doTestExternalFilesPermissionInspection(manifestFileName: String, warningExpected: Boolean) {
+  private fun doTestExternalFilesPermissionInspection(manifestFileName: String, warningExpected: Boolean) {
     myFixture.enableInspections(MissingExternalFilesPermissionInspection())
     myFixture.configureByFile(manifestFileName)
     val hasWarning = myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }

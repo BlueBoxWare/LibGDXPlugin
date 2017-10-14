@@ -52,7 +52,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
     checkUsages(usagesInfos, myFixture.elementAtCaret as PsiNamedElement)
   }
 
-  fun checkUsages(usagesInfos: Collection<UsageInfo>, target: PsiNamedElement) {
+  private fun checkUsages(usagesInfos: Collection<UsageInfo>, target: PsiNamedElement) {
     for (usageInfo in usagesInfos) {
         usageInfo.element?.let { element ->
         assertEquals(target.name, StringUtil.stripQuotesAroundValue(element.text))

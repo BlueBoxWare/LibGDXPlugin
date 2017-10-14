@@ -213,7 +213,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("changeKotlinPackageDirective1.skin", "changeKotlinPackageDirective1.skin", false)
   }
 
-  fun moveKotlinFile(file: KtFile, newPackageName: String) {
+  private fun moveKotlinFile(file: KtFile, newPackageName: String) {
 
     val pkg = JavaPsiFacade.getInstance(project).findPackage(newPackageName)
     assertNotNull(pkg)
@@ -236,7 +236,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun moveJavaClass(className: String, newPackageName: String) {
+  private fun moveJavaClass(className: String, newPackageName: String) {
 
     BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
 
@@ -262,7 +262,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun movePackage(packageName: String, newPackageName: String) {
+  private fun movePackage(packageName: String, newPackageName: String) {
 
     BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
 
@@ -288,7 +288,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun doTestChangeKotlinPackageDirective(beforeFileName: String, afterFileName: String, kotlinFileName: String, newPackageName: String) {
+  private fun doTestChangeKotlinPackageDirective(beforeFileName: String, afterFileName: String, kotlinFileName: String, newPackageName: String) {
 
     val kotlinFile = myFixture.configureByFile(kotlinFileName) as KtFile
     myFixture.configureByFile(beforeFileName)
@@ -307,11 +307,11 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  fun runCommand(f: () -> Unit) {
+  private fun runCommand(f: () -> Unit) {
     CommandProcessor.getInstance().executeCommand(project, f, "", null, UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION)
   }
 
-  fun undo() {
+  private fun undo() {
     val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
     val undoManager = UndoManager.getInstance(project)
 
@@ -319,7 +319,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     undoManager.undo(fileEditor)
   }
 
-  fun commit() {
+  private fun commit() {
 
     PsiDocumentManager.getInstance(project).commitAllDocuments()
     FileDocumentManager.getInstance().saveAllDocuments()

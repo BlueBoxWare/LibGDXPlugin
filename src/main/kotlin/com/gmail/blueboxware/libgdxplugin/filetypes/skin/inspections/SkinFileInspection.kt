@@ -35,7 +35,7 @@ open class SkinFileInspection : LocalInspectionTool() {
     }
   }
 
-  fun getShortID() = id.removePrefix("LibGDXSkin")
+  private fun getShortID() = id.removePrefix("LibGDXSkin")
 
   override fun getGroupPath() = arrayOf("LibGDX", "Skin files")
 

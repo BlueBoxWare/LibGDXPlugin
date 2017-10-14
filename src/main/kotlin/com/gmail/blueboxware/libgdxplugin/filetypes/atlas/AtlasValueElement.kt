@@ -17,4 +17,4 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
  */
 interface AtlasValueElement : AtlasElement
 
-fun AtlasValueElement.getValue() = text
+fun AtlasValueElement.getValue(): String = text

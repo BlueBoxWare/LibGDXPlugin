@@ -7,6 +7,7 @@ import com.intellij.lang.ParserDefinition
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
@@ -30,7 +31,6 @@ class SkinParserDefinition : ParserDefinition {
 
   companion object {
     val FILE = IFileElementType(LibGDXSkinLanguage.INSTANCE)
-    val STRING_LITERALS = TokenSet.create(UNQUOTED_STRING, DOUBLE_QUOTED_STRING)
 
     val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
     val SKIN_COMMENTARIES = TokenSet.create(BLOCK_COMMENT, LINE_COMMENT)
@@ -52,7 +52,7 @@ class SkinParserDefinition : ParserDefinition {
 
   override fun createLexer(project: Project?): Lexer  = SkinLexer()
 
-  override fun createElement(node: ASTNode?) = SkinElementTypes.Factory.createElement(node)
+  override fun createElement(node: ASTNode?): PsiElement = SkinElementTypes.Factory.createElement(node)
 
   override fun getCommentTokens(): TokenSet  = SKIN_COMMENTARIES
 }

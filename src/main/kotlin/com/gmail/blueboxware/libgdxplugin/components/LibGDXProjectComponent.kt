@@ -33,7 +33,7 @@ import com.intellij.ui.EditorNotifications
  */
 class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
-  val changeKotlinPackageListener: PsiTreeChangeListener = ChangeKotlinPackageListener(project)
+  private val changeKotlinPackageListener: PsiTreeChangeListener = ChangeKotlinPackageListener(project)
 
   override fun getComponentName() = "LibGDXProjectComponent"
 

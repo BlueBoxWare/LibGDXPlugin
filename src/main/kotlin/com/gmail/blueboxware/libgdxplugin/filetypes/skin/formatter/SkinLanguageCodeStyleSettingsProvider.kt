@@ -15,41 +15,43 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
 
   override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
-    if (settingsType == SettingsType.SPACING_SETTINGS) {
-      consumer.showStandardOptions(
-              "SPACE_WITHIN_BRACKETS",
-              "SPACE_WITHIN_BRACES",
-              "SPACE_AFTER_COMMA",
-              "SPACE_BEFORE_COMMA"
-      )
-      consumer.renameStandardOption("SPACE_WITHIN_BRACES", "Braces")
-      consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_BEFORE_COLON", "Before ':'", SPACES_OTHER)
-      consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_AFTER_COLON", "After ':'", SPACES_OTHER)
-    } else if (settingsType == SettingsType.BLANK_LINES_SETTINGS) {
-      consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE")
-    } else if (settingsType == SettingsType.WRAPPING_AND_BRACES_SETTINGS) {
-      consumer.showStandardOptions(
-              "RIGHT_MARGIN",
-              "WRAP_ON_TYPING",
-              "KEEP_LINE_BREAKS",
-              "WRAP_LONG_LINES"
-      )
-      consumer.showCustomOption(
-              SkinCodeStyleSettings::class.java,
-              "ARRAY_WRAPPING",
-              "Arrays",
-              null,
-              CodeStyleSettingsCustomizable.WRAP_OPTIONS,
-              CodeStyleSettingsCustomizable.WRAP_VALUES
-      )
-      consumer.showCustomOption(
-              SkinCodeStyleSettings::class.java,
-              "OBJECT_WRAPPING",
-              "Objects",
-              null,
-              CodeStyleSettingsCustomizable.WRAP_OPTIONS,
-              CodeStyleSettingsCustomizable.WRAP_VALUES
-      )
+    when (settingsType) {
+      SettingsType.SPACING_SETTINGS -> {
+        consumer.showStandardOptions(
+                "SPACE_WITHIN_BRACKETS",
+                "SPACE_WITHIN_BRACES",
+                "SPACE_AFTER_COMMA",
+                "SPACE_BEFORE_COMMA"
+        )
+        consumer.renameStandardOption("SPACE_WITHIN_BRACES", "Braces")
+        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_BEFORE_COLON", "Before ':'", SPACES_OTHER)
+        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_AFTER_COLON", "After ':'", SPACES_OTHER)
+      }
+      SettingsType.BLANK_LINES_SETTINGS -> consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE")
+      SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
+        consumer.showStandardOptions(
+                "RIGHT_MARGIN",
+                "WRAP_ON_TYPING",
+                "KEEP_LINE_BREAKS",
+                "WRAP_LONG_LINES"
+        )
+        consumer.showCustomOption(
+                SkinCodeStyleSettings::class.java,
+                "ARRAY_WRAPPING",
+                "Arrays",
+                null,
+                CodeStyleSettingsCustomizable.WRAP_OPTIONS,
+                CodeStyleSettingsCustomizable.WRAP_VALUES
+        )
+        consumer.showCustomOption(
+                SkinCodeStyleSettings::class.java,
+                "OBJECT_WRAPPING",
+                "Objects",
+                null,
+                CodeStyleSettingsCustomizable.WRAP_OPTIONS,
+                CodeStyleSettingsCustomizable.WRAP_VALUES
+        )
+      }
     }
   }
 

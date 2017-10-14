@@ -35,21 +35,21 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
 
-    if (element.project.isLibGDXProject()) {
+    if (!element.project.isLibGDXProject()) {
       return arrayOf()
     }
 
     (element.context?.context?.context as? KtCallExpression)?.let { methodCall ->
 
-      methodCall.resolveCallToStrings()?.let { resolvedMethod ->
+      methodCall.resolveCallToStrings()?.let { (className, methodName) ->
 
-        if (resolvedMethod.first == Assets.SKIN_CLASS_NAME) {
+        if (className == Assets.SKIN_CLASS_NAME) {
 
-          return createSkinReferences(element, methodCall, resolvedMethod.second)
+          return createSkinReferences(element, methodCall, methodName)
 
-        } else if (resolvedMethod.first == Assets.TEXTURE_ATLAS_CLASS_NAME) {
+        } else if (className == Assets.TEXTURE_ATLAS_CLASS_NAME) {
 
-          return createAtlasReferences(element, methodCall, resolvedMethod.second)
+          return createAtlasReferences(element, methodCall, methodName)
 
         }
 
@@ -61,7 +61,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   }
 
-  fun createAtlasReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
+  private fun createAtlasReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
 
     if (methodName in Assets.TEXTURE_ATLAS_TEXTURE_METHODS) {
 
@@ -73,7 +73,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   }
 
-  fun createSkinReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
+  private fun createSkinReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
 
     if (methodName == "getColor") {
 
@@ -114,7 +114,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
     return arrayOf()
   }
 
-  fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =
+  private fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =
     (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
       JavaPsiFacade.getInstance(ktClassLiteralExpression.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(ktClassLiteralExpression.project))?.let(PsiClass::putDollarInInnerClassName)
     }

@@ -26,6 +26,7 @@ import com.intellij.util.ui.UIUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import javax.swing.Icon
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -391,7 +392,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
         if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
 
-          innerClass.putDollarInInnerClassName()?.let { fqName ->
+          innerClass.putDollarInInnerClassName().let { fqName ->
 
             val priority = classPriority(fqName)
             doAdd(
@@ -443,12 +444,12 @@ class SkinCompletionContributor : CompletionContributor() {
             "com.badlogic.gdx.graphics.Color",
             "com.badlogic.gdx.graphics.g2d.BitmapFont"
     )
-    val ICON_CLASS = PlatformIcons.CLASS_ICON
-    val ICON_PACKAGE = PlatformIcons.PACKAGE_ICON
-    val ICON_RESOURCE = AllIcons.Nodes.KeymapOther
-    val ICON_ATLAS = AllIcons.Nodes.ModuleGroup
-    val ICON_BITMAP_FONT = AllIcons.Nodes.ExtractedFolder
-    val ICON_TINTED_DRAWABLE = AllIcons.Nodes.KeymapOther
-    val ICON_FIELD = PlatformIcons.FIELD_ICON
+    val ICON_CLASS: Icon = PlatformIcons.CLASS_ICON
+    val ICON_PACKAGE: Icon = PlatformIcons.PACKAGE_ICON
+    val ICON_RESOURCE: Icon = AllIcons.Nodes.KeymapOther
+    val ICON_ATLAS: Icon = AllIcons.Nodes.ModuleGroup
+    val ICON_BITMAP_FONT: Icon = AllIcons.Nodes.ExtractedFolder
+    val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
+    val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
   }
 }

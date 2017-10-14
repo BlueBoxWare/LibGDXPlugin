@@ -61,10 +61,10 @@ abstract class SkinValueMixin(node: ASTNode): SkinValue, SkinElementImpl(node) {
         arrayDepth--
       }
 
-      if (arrayDepth == 0) {
-        return elementType
+      return if (arrayDepth == 0) {
+        elementType
       } else {
-        return null
+        null
       }
     }
 
@@ -72,7 +72,7 @@ abstract class SkinValueMixin(node: ASTNode): SkinValue, SkinElementImpl(node) {
 
   }
 
-  fun arrayDepth(): Int {
+  private fun arrayDepth(): Int {
     var depth = 0
     var element: PsiElement = this
 

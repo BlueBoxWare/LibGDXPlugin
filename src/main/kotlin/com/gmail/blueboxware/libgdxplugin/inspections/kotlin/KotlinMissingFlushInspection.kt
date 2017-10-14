@@ -30,7 +30,7 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
   companion object {
 
-    var preferencesSubClasses: Collection<PsiClass>? = null
+    private var preferencesSubClasses: Collection<PsiClass>? = null
 
     private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
       if (preferencesSubClasses == null) {

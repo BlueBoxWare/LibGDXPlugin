@@ -22,21 +22,16 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
 
     val type = node.elementType
 
-    if (type == SkinElementTypes.OBJECT) {
-      return "{...}"
-    } else if (type == SkinElementTypes.ARRAY) {
-      return "[...]"
-    } else if (type == SkinElementTypes.LINE_COMMENT) {
-      return "//..."
-    } else if (type == SkinElementTypes.BLOCK_COMMENT) {
-      return "/*...*/"
-    } else if (type == SkinElementTypes.RESOURCE) {
-      return "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
-    } else if (type == SkinElementTypes.CLASS_SPECIFICATION) {
-      return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString ?: "") + " ...}"
+    when (type) {
+      SkinElementTypes.OBJECT -> return "{...}"
+      SkinElementTypes.ARRAY -> return "[...]"
+      SkinElementTypes.LINE_COMMENT -> return "//..."
+      SkinElementTypes.BLOCK_COMMENT -> return "/*...*/"
+      SkinElementTypes.RESOURCE -> return "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
+      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString ?: "") + " ...}"
+      else -> return "..."
     }
 
-    return "..."
   }
 
   override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {

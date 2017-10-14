@@ -29,7 +29,7 @@ import org.jetbrains.kotlin.psi.psiUtil.plainContent
  */
 class TestReferences: PropertiesCodeInsightFixtureTestCase() {
 
-  val kotlinTests = listOf(
+  private val kotlinTests = listOf(
           """
             I18NBundle().get("<caret>noTranslation");
           """ to true,
@@ -70,7 +70,7 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
           """ to false
   )
 
-  val javaTests = listOf(
+  private val javaTests = listOf(
           """
             new I18NBundle().get("<caret>noTranslation");
           """ to true,
@@ -163,18 +163,16 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
 
     var found = false
     referencingElement.references.forEach { reference ->
-      if (reference is GDXPropertyReference) {
-        reference.multiResolve(true).forEach { resolveResult ->
-          assertTrue(resolveResult.element is Property)
-          val text =
-                  if (referencingElement is PsiLiteralExpression)
-                    referencingElement.innerText()
-                  else if (referencingElement is KtStringTemplateExpression)
-                    referencingElement.plainContent
-                  else throw AssertionError()
-          assertEquals((resolveResult.element as? Property)?.name, text)
-          found = true
-        }
+      (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolveResult ->
+        assertTrue(resolveResult.element is Property)
+        val text =
+                if (referencingElement is PsiLiteralExpression)
+                  referencingElement.innerText()
+                else if (referencingElement is KtStringTemplateExpression)
+                  referencingElement.plainContent
+                else throw AssertionError()
+        assertEquals((resolveResult.element as? Property)?.name, text)
+        found = true
       }
     }
 

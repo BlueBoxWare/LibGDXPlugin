@@ -19,7 +19,7 @@ import com.intellij.openapi.util.IconLoader
  */
 object Icons {
 
-  val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png")
+  private val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png")
   val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png")
   val ATLAS_FILETYPE = LIBGDX_FILETYPE
   val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png")

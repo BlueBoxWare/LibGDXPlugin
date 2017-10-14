@@ -22,7 +22,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
   private val EMPTY = listOf<String>()
 
-  val tests = listOf(
+  private val tests = listOf(
           "{ <caret> }" to (listOf(
                   "com",
                   "java",

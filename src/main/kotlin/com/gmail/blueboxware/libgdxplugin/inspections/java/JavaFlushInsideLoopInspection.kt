@@ -43,9 +43,7 @@ class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
       val statements = method.body?.statements ?: return
 
       for (statement in statements) {
-        if (statement is PsiLoopStatement) {
-          statement.accept(LoopChecker(holder, session))
-        }
+        (statement as? PsiLoopStatement)?.accept(LoopChecker(holder, session))
       }
 
     }

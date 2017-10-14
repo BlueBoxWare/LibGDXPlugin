@@ -19,7 +19,7 @@ import com.intellij.codeInsight.completion.CompletionType
  */
 class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
-  val javaResourceCompletionTests = listOf(
+  private val javaResourceCompletionTests = listOf(
           """
             class Test {
 
@@ -250,7 +250,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
           """ to (listOf("abstractClass", "aspect", "compiledClassesFolder", "scroll-corner", "tooltip", "button back") to listOf())
   )
 
-  val kotlinResourceCompletionTests = listOf(
+  private val kotlinResourceCompletionTests = listOf(
 
           """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
@@ -491,7 +491,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
   )
 
-  val javaAssetFileNameCompletionTests = listOf(
+  private val javaAssetFileNameCompletionTests = listOf(
           """
             class Test {
 
@@ -530,7 +530,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
   )
 
-  val kotlinAssetFileNameCompletionTests = listOf(
+  private val kotlinAssetFileNameCompletionTests = listOf(
           """
             @GDXAssets(skinFiles = arrayOf("<caret>"))
             val s: Skin = Skin()
@@ -568,7 +568,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
     doKotlinTest(kotlinResourceCompletionTests)
   }
 
-  fun doJavaTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
+  private fun doJavaTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
     for ((content, expected) in tests) {
       val source = """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -582,7 +582,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
     }
   }
 
-  fun doKotlinTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
+  private fun doKotlinTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
     for ((content, expected) in tests) {
       val source = """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin

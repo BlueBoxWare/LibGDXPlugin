@@ -22,16 +22,16 @@ import com.intellij.openapi.fileTypes.LanguageFileType
  */
 class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
 
-  val javaTests = listOf(
+  private val javaTests = listOf(
           """
             new I18NBundle().get("<caret>");
-          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf<String>()),
+          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf()),
           """
             new I18NBundle().get("s<caret>");
-          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf<String>( "french.Only", "default")),
+          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf( "french.Only", "default")),
           """
             new I18NBundle().get("so<caret>");
-          """ to (listOf("something") to listOf<String>("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
+          """ to (listOf("something") to listOf("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
 
           """
             i18NBundle.format("<caret>");
@@ -48,19 +48,19 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
           """
             i18NBundle3.get("<caret>");
-          """ to (listOf<String>("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
+          """ to (listOf("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
   )
 
-  val kotlinTests = listOf(
+  private val kotlinTests = listOf(
           """
             I18NBundle().get("<caret>");
-          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf<String>()),
+          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf()),
           """
             I18NBundle().get("s<caret>");
-          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf<String>( "french.Only", "default")),
+          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf( "french.Only", "default")),
           """
             I18NBundle().get("so<caret>");
-          """ to (listOf("something") to listOf<String>("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
+          """ to (listOf("something") to listOf("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
 
           """
             i18NBundle.format("<caret>");
@@ -77,7 +77,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
           """
             i18NBundle3.get("<caret>");
-          """ to (listOf<String>("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
+          """ to (listOf("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
   )
 
   fun testKotlinCompletion() {

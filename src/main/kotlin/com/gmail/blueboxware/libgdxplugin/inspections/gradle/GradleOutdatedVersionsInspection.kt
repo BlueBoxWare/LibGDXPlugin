@@ -55,9 +55,7 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
       if (versionManager == null || !FileUtilRt.extensionEquals(element.containingFile.name, "gradle")) return
 
-      Libraries.extractLibraryInfoFromGroovyConstruct(element)?.let { result ->
-        val lib = result.first
-        val usedVersion = result.second
+      Libraries.extractLibraryInfoFromGroovyConstruct(element)?.let { (lib, usedVersion) ->
         val latestVersion = versionManager.getLatestVersion(lib) ?: return
 
         if (usedVersion < latestVersion) {

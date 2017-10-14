@@ -24,16 +24,16 @@ import com.intellij.psi.tree.TokenSet
  */
 class SkinBlock(
         val parent: SkinBlock?,
-        val myNode: ASTNode,
+        private val myNode: ASTNode,
         val settings: CodeStyleSettings,
-        val myAlignment: Alignment?,
-        val myIndent: Indent,
-        val myWrap: Wrap?
+        private val myAlignment: Alignment?,
+        private val myIndent: Indent,
+        private val myWrap: Wrap?
 ) : ASTBlock {
 
   companion object {
     val SKIN_OPEN_BRACES = TokenSet.create(L_BRACKET, L_CURLY)
-    val SKIN_CLOSE_BRACES = TokenSet.create(R_BRACKET, R_CURLY)
+    private val SKIN_CLOSE_BRACES = TokenSet.create(R_BRACKET, R_CURLY)
     val SKIN_ALL_BRACES = TokenSet.orSet(SKIN_OPEN_BRACES, SKIN_CLOSE_BRACES)
   }
 

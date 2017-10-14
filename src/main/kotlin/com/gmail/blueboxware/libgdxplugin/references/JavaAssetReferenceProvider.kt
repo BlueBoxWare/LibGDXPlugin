@@ -27,21 +27,21 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
   override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
 
-    if (element.project.isLibGDXProject()) {
+    if (!element.project.isLibGDXProject()) {
       return arrayOf()
     }
 
     (element.context?.context as? PsiMethodCallExpression)?.let { methodCall ->
 
-      methodCall.resolveCallToStrings()?.let { resolvedMethod->
+      methodCall.resolveCallToStrings()?.let { (className, methodName) ->
 
-        if (resolvedMethod.first == Assets.SKIN_CLASS_NAME) {
+        if (className == Assets.SKIN_CLASS_NAME) {
 
-          return createSkinReferences(element, methodCall, resolvedMethod.second)
+          return createSkinReferences(element, methodCall, methodName)
 
-        } else if (resolvedMethod.first == Assets.TEXTURE_ATLAS_CLASS_NAME) {
+        } else if (className == Assets.TEXTURE_ATLAS_CLASS_NAME) {
 
-          return createAtlasReferences(element, methodCall, resolvedMethod.second)
+          return createAtlasReferences(element, methodCall, methodName)
 
         }
 
@@ -52,7 +52,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
     return arrayOf()
   }
 
-  fun createAtlasReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
+  private fun createAtlasReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
 
     if (methodName in Assets.TEXTURE_ATLAS_TEXTURE_METHODS) {
 
@@ -64,7 +64,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
   }
 
-  fun createSkinReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
+  private fun createSkinReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
 
     if (methodName == "getColor") {
 
@@ -106,7 +106,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
   }
 
-  fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): String? =
+  private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): String? =
           (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()?.let(PsiClass::putDollarInInnerClassName)
 
 }

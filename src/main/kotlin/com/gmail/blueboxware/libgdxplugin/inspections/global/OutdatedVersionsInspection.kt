@@ -27,7 +27,7 @@ import com.intellij.codeInspection.ProblemDescriptionsProcessor
  */
 class OutdatedVersionsInspection : GlobalInspectionTool() {
 
-  override fun getDefaultLevel() = HighlightDisplayLevel.WARNING
+  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name")
 

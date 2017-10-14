@@ -27,7 +27,7 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 object SkinElementFactory {
 
-  val dummyContent = """
+  private val dummyContent = """
 {
     className: {
         resourceName: {

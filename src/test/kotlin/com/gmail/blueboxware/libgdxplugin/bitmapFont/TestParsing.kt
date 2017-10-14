@@ -51,9 +51,9 @@ class TestParsing : ParsingTestCase("", "fnt", BitmapFontParserDefinition()) {
     assertTrue(bitmapFontFile.getPages().map { it.getValue("file") }.containsAll(expectedPages.map { it.second }))
   }
 
-  fun getCharacterIds(str: String): List<String> = Regex("""char\s+id=(\d+)""").findAll(str).map { it.groups[1]?.value ?: "" }.toList()
+  private fun getCharacterIds(str: String): List<String> = Regex("""char\s+id=(\d+)""").findAll(str).map { it.groups[1]?.value ?: "" }.toList()
 
-  fun getPages(str: String): List<Pair<String, String>> = Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map { Pair(it.groups[1]?.value ?: "", it.groups[2]?.value ?: "") }.toList()
+  private fun getPages(str: String): List<Pair<String, String>> = Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map { Pair(it.groups[1]?.value ?: "", it.groups[2]?.value ?: "") }.toList()
 
   override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/bitmapFont/psi")
 

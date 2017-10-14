@@ -56,7 +56,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
 
   }
 
-  fun createAssetAnnotationProvider(registrar: PsiReferenceRegistrar, paramName: String, fileTypes: List<FileType>, preferableLangs: List<Language>) {
+  private fun createAssetAnnotationProvider(registrar: PsiReferenceRegistrar, paramName: String, fileTypes: List<FileType>, preferableLangs: List<Language>) {
 
     registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()).insideAnnotationParam(StandardPatterns.string().equalTo(Assets.ASSET_ANNOTATION_NAME), paramName),

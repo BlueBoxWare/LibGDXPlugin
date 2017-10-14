@@ -38,10 +38,9 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testGradleBuildScriptVersionDetection() {
-    for (test in gradleVersionTests) {
-      val content = test.first
-      val expectedLib = test.second.first
-      val expectedVersion = MavenComparableVersion(test.second.second)
+    for ((content, second) in gradleVersionTests) {
+      val expectedLib = second.first
+      val expectedVersion = MavenComparableVersion(second.second)
       var result: Pair<Libraries, MavenComparableVersion>? = null
 
       myFixture.configureByText(GroovyFileType.GROOVY_FILE_TYPE, content)
@@ -61,7 +60,7 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  val gradleVersionTests = listOf(
+  private val gradleVersionTests = listOf(
           """gdxVersion = "1.9.3"""" to (Libraries.LIBGDX to "1.9.3"),
           """gdxVersion = '1.9.3'""" to (Libraries.LIBGDX to "1.9.3"),
           """ashleyVersion = '1.7.0a-beta'""" to (Libraries.ASHLEY to "1.7.0a-beta"),
@@ -73,7 +72,7 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
           """natives "com.badlogicgames.gdx:gdx:1.2:natives-x86_64"""" to (Libraries.LIBGDX to "1.2")
   )
 
-  fun doTestExtractVersionsFromMavenMetaData(fileName: String) {
+  private fun doTestExtractVersionsFromMavenMetaData(fileName: String) {
     val file = File("src/test/testdata/versions/$fileName.xml")
     val versions = Library.extractVersionsFromMavenMetaData(file.inputStream())
     assertNotNull(versions)

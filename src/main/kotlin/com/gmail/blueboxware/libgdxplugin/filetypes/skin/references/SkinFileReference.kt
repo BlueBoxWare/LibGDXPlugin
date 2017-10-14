@@ -24,7 +24,7 @@ import com.intellij.psi.ResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileReference(element: SkinStringLiteral, val baseFile: VirtualFile?) : SkinReference<SkinStringLiteral>(element) {
+class SkinFileReference(element: SkinStringLiteral, private val baseFile: VirtualFile?) : SkinReference<SkinStringLiteral>(element) {
 
   constructor(element: SkinStringLiteral, baseFile: PsiFile): this(element, baseFile.virtualFile)
 

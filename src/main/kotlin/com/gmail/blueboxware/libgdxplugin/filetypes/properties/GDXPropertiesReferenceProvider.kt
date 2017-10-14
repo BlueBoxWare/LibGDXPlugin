@@ -58,9 +58,9 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
 
   private fun processKtCallExpression(element: PsiElement, callExpression: KtCallExpression): Array<PsiReference> {
 
-    callExpression.resolveCallToStrings()?.let { resolvedMethod ->
+    callExpression.resolveCallToStrings()?.let { (className, methodName) ->
 
-      if (resolvedMethod.first == Assets.I18NBUNDLE_CLASS_NAME && resolvedMethod.second in Assets.I18NBUNDLE_PROPERTIES_METHODS) {
+      if (className == Assets.I18NBUNDLE_CLASS_NAME && methodName in Assets.I18NBUNDLE_PROPERTIES_METHODS) {
 
         val key = (element as? KtStringTemplateExpression)?.plainContent ?: return arrayOf()
         val propertiesFiles = callExpression.getPropertiesFiles()
@@ -77,8 +77,8 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
 
   private fun processPsiMethodCallExpression(element: PsiElement, methodCallExpression: PsiMethodCallExpression): Array<PsiReference> {
 
-    methodCallExpression.resolveCallToStrings()?.let { resolvedMethod ->
-      if (resolvedMethod.first == Assets.I18NBUNDLE_CLASS_NAME && resolvedMethod.second in Assets.I18NBUNDLE_PROPERTIES_METHODS) {
+    methodCallExpression.resolveCallToStrings()?.let { (className, methodName) ->
+      if (className == Assets.I18NBUNDLE_CLASS_NAME && methodName in Assets.I18NBUNDLE_PROPERTIES_METHODS) {
 
         val key = (element as? PsiLiteralExpression)?.innerText() ?: return arrayOf()
         val propertiesFiles = methodCallExpression.getPropertiesFiles()

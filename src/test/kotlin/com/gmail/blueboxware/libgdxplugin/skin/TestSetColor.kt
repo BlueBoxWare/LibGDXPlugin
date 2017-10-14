@@ -82,7 +82,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("10.after")
   }
 
-  fun keepColorOnOneLine(yesOrNo: Boolean) {
+  private fun keepColorOnOneLine(yesOrNo: Boolean) {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
   }
 

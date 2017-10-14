@@ -24,8 +24,8 @@ import com.intellij.psi.search.GlobalSearchScope
  */
 class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
 
-  var skinFile: VirtualFile? = null
-  var atlasFile: VirtualFile? = null
+  private var skinFile: VirtualFile? = null
+  private var atlasFile: VirtualFile? = null
 
   override fun setUp() {
     super.setUp()

@@ -68,7 +68,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
   }
 
 
-  fun updateLatestVersions() {
+  private fun updateLatestVersions() {
     var networkCount = 0
 
     Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
@@ -84,10 +84,10 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
   fun updateUsedVersions() {
     usedVersions.clear()
 
-    ProjectLibraryTable.getInstance(myProject)?.libraryIterator?.let { libraryIterator ->
+    ProjectLibraryTable.getInstance(myProject).libraryIterator.let { libraryIterator ->
       for (lib in libraryIterator) {
-        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { result ->
-          usedVersions[result.first] = result.second
+        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
+          usedVersions[libraries] = version
         }
       }
     }

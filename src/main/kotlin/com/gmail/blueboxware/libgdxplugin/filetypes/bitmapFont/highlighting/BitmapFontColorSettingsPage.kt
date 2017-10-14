@@ -51,7 +51,7 @@ class BitmapFontColorSettingsPage : ColorSettingsPage {
           AttributesDescriptor("Value", VALUE)
   )
 
-  override fun getColorDescriptors() = ColorDescriptor.EMPTY_ARRAY
+  override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
   override fun getDisplayName() = "LibGDX Bitmap Font"
 

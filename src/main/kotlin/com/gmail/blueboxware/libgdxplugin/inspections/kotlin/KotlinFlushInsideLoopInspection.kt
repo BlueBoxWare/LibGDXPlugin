@@ -40,9 +40,7 @@ class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
     override fun visitBlockExpression(expression: KtBlockExpression) {
 
       for (statement in expression.statements) {
-        if (statement is KtLoopExpression) {
-          statement.accept(LoopBodyChecker(holder, session))
-        }
+        (statement as? KtLoopExpression)?.accept(LoopBodyChecker(holder, session))
       }
 
     }
