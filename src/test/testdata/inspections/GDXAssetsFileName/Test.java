@@ -4,7 +4,9 @@ import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
 class Test {
 
-  @GDXAssets(skinFiles = "src/dir\\holo.skin", atlasFiles = <error>"src/dir\\hol.skin"</error>)
+  @GDXAssets(skinFiles = "src/dir\\holo.skin", atlasFiles = <error>"src/dir\\hol.skin"</error>,
+          <error>propertiesFiles</error> = {"src\\test.properties", <error>"src/foo.properties"</error>}
+  )
   Skin skin1;
 
   @GDXAssets(skinFiles = {<error>"src\\libgdx"</error>, "src\\libgdx.skin", "src\\libgdx.atlas"}, atlasFiles = {"src/dir/holo.atlas", <error>"src/dir/holo"</error>})

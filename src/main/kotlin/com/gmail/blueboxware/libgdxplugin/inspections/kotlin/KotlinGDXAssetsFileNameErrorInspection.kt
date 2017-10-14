@@ -55,6 +55,10 @@ class KotlinGDXAssetsFileNameErrorInspection : LibGDXKotlinBaseInspection() {
                 JavaGDXAssetsFileNameErrorInspection.checkSkinFilename(it, value, holder)
               } else if (name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
                 JavaGDXAssetsFileNameErrorInspection.checkFilename(it, value, holder)
+              } else if (name == Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
+                JavaGDXAssetsFileNameErrorInspection.checkFilename(it, value, holder)
+              } else {
+                null
               }
 
             }

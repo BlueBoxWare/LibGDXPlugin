@@ -66,6 +66,18 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
           }
         }
 
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+          ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
+            checkFilename(it, value, holder)
+          }
+        }
+
+        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+          (literal.value as? String)?.let { value ->
+            checkFilename(literal, value, holder)
+          }
+        }
+
       }
 
     }
