@@ -1,0 +1,25 @@
+import com.badlogic.gdx.utils.I18NBundle;
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+class JavaClass {
+
+  @GDXAssets(propertiesFiles = {"src/messages.properties"})
+  I18NBundle i18NBundle;
+  @GDXAssets(propertiesFiles = {"src/doesnotexist.properties"})
+  I18NBundle i18NBundle2;
+  @GDXAssets(propertiesFiles = {"src/extra.properties", "src/messages.properties"})
+  I18NBundle i18NBundle3;
+  @GDXAssets(propertiesFiles = {"src/extra.properties", "src/test.properties"})
+  I18NBundle i18NBundle4;
+
+  String s = i18NBundle.get("newName1");
+
+  void m() {
+    new I18NBundle().get("newName1");
+    i18NBundle.format("newName1", "", new Object());
+    i18NBundle.format("newName1", "oldName", "");
+    i18NBundle2.get("oldName");
+    i18NBundle3.format("newName1");
+    i18NBundle4.format("oldName");
+  }
+}
