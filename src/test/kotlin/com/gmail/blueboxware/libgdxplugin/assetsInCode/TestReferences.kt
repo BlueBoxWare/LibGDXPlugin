@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.references.FileReference
 import com.intellij.ide.highlighter.JavaFileType
+import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
@@ -119,6 +120,34 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
             class SkinTest {
 
                 @GDXAssets(skinFiles = "src/assets\\dir/ho<caret>lo.skin")
+                static Skin staticSkin;
+
+            }
+          """
+  )
+
+  fun testKotlinPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            @GDXAssets(propertiesFiles = arrayOf("src/assets\\test<caret>.properties"))
+            val s: Skin = Skin()
+          """
+  )
+
+  fun testJavaPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
+          JavaFileType.INSTANCE,
+          PsiLiteralExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+            class SkinTest {
+
+                @GDXAssets(propertiesFiles = "src/assets\\test.<caret>properties")
                 static Skin staticSkin;
 
             }

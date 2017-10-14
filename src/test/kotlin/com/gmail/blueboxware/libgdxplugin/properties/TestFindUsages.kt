@@ -1,8 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.properties
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
+import com.gmail.blueboxware.libgdxplugin.references.FileReference
 import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
+import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.search.GlobalSearchScope
 
@@ -30,6 +32,20 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
 
   fun testFindUsages2() {
     doTest(4, "test_es.properties", "spain")
+  }
+
+  fun testFindPropertiesFileUsagesInAnnotation() {
+    FilenameIndex.getFilesByName(project, "messages.properties", GlobalSearchScope.projectScope(project)).first().let { psiFile ->
+      val usages = myFixture.findUsages(psiFile)
+      assertEquals(4, usages.size)
+      usages.forEach { usage ->
+        usage.element!!.references.forEach { reference ->
+          if (reference is FileReference) {
+            assertEquals("messages.properties", (reference.resolve() as PropertiesFileImpl).name)
+          }
+        }
+      }
+    }
   }
 
   fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {

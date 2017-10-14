@@ -504,6 +504,15 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
           """
             class Test {
 
+                @GDXAssets(propertiesFiles = "<caret>", atlasFiles = "")
+                I18NBundle bundle;
+
+            }
+          """ to (listOf("src/assets/test.properties",  "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties")),
+
+          """
+            class Test {
+
                 @GDXAssets(skinFiles = "src/assets/d<caret>", atlasFiles = "")
                 Skin skn1;
 
@@ -549,7 +558,12 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
           """
             @GDXAssets(skinFiles = arrayOf("test"), atlasFiles = arrayOf("", "<caret>"))
             val s: Skin = Skin()
-          """ to (listOf("src/assets/dir/test.pack", "src/assets/libgdx.atlas", "src/assets/dir/holo.atlas") to listOf("src/assets/dir/something", "src/assets/libgdx.skin"))
+          """ to (listOf("src/assets/dir/test.pack", "src/assets/libgdx.atlas", "src/assets/dir/holo.atlas") to listOf("src/assets/dir/something", "src/assets/libgdx.skin")),
+
+          """
+            @GDXAssets(skinFiles = arrayOf("test"), atlasFiles = arrayOf("", ""), propertiesFiles = arrayOf("<caret>"))
+            val s = I18NBundle()
+          """ to (listOf("src/assets/test.properties",  "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties"))
   )
 
   fun testJavaAssetFileNameCompletion() {
@@ -574,6 +588,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
             import com.badlogic.gdx.graphics.Color;
+            import com.badlogic.gdx.utils.I18NBundle;
 
             $content
       """
@@ -588,6 +603,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
             import com.badlogic.gdx.graphics.Color
+            import com.badlogic.gdx.utils.I18NBundle
 
             $content
       """
