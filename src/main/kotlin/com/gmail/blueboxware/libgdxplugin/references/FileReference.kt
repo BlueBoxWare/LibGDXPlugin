@@ -3,11 +3,13 @@ package com.gmail.blueboxware.libgdxplugin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasValue
 import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
 import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
+import com.gmail.blueboxware.libgdxplugin.utils.isDefaultFile
 import com.intellij.codeInsight.completion.PrioritizedLookupElement
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
+import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VfsUtil
@@ -54,19 +56,22 @@ class FileReference(
 
         psiManager.findFile(virtualFile)?.let { psiFile ->
 
-          val relativePath = PathUtil.toSystemDependentName(VfsUtil.getRelativePath(virtualFile, baseDir))
-          val prioritized = LanguageUtil.getLanguageForPsi(element.project, virtualFile) in preferableLanguages
+          if (psiFile !is PropertiesFileImpl || psiFile.isDefaultFile()) {
 
-          PrioritizedLookupElement.withPriority(
-                  LookupElementBuilder
-                          .create(psiFile, relativePath.replace("\\", "\\\\", false))
-                          .withPresentableText(relativePath)
-                          ?.withIcon(psiFile.getIcon(0))
-                          ?.withBoldness(prioritized),
-                  if (prioritized) Double.MAX_VALUE else 0.0
-          )
-                          ?.let {
-            result.add(it)
+            val relativePath = PathUtil.toSystemDependentName(VfsUtil.getRelativePath(virtualFile, baseDir))
+            val prioritized = LanguageUtil.getLanguageForPsi(element.project, virtualFile) in preferableLanguages
+
+            PrioritizedLookupElement.withPriority(
+                    LookupElementBuilder
+                            .create(psiFile, relativePath.replace("\\", "\\\\", false))
+                            .withPresentableText(relativePath)
+                            ?.withIcon(psiFile.getIcon(0))
+                            ?.withBoldness(prioritized),
+                    if (prioritized) Double.MAX_VALUE else 0.0
+            )?.let {
+                      result.add(it)
+            }
+
           }
 
         }

@@ -11,6 +11,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_SKIN_PAR
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.FAKE_FILE_KEY
 import com.gmail.blueboxware.libgdxplugin.utils.Assets.NO_ASSET_FILES
 import com.intellij.lang.Language
+import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
@@ -223,3 +224,5 @@ internal fun KtCallExpression.getPropertiesFiles(): List<String> {
   return listOf()
 
 }
+
+internal fun PropertiesFileImpl.isDefaultFile(): Boolean = this == resourceBundle.defaultPropertiesFile

@@ -245,6 +245,8 @@
         <completion.contributor language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesCompletionContributor" />
         <completion.contributor language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesCompletionContributor" />
 
+        <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.PropertiesFileUsageScopeEnlarger" />
+
     </extensions>
 
     <actions>
