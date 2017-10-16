@@ -49,7 +49,7 @@ sourceSets {
     }
     annotations {
         java {
-            srcDir 'src/main/java/com/gmail/blueboxware/libgdxplugin/annotations/'
+            srcDir 'src/main/java'
         }
     }
 }
@@ -86,6 +86,7 @@ task annotationsSourcesJar(type: Jar) {
     include tasks.getByName("annotationsJar").includes
     baseName tasks.getByName("annotationsJar").property('baseName')
     version pluginVersion
+
 }
 
 def pomConfig = {
