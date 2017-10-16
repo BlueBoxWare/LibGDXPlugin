@@ -337,9 +337,6 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
               JavaClass().f().t.charAt<caret>()
             """, "arg", listOf("t")),
           Test("""
-              JavaClass.INSTANCE.m()
-            """, "arg", listOf("arg")),
-          Test("""
               JavaClass.INSTANCE.subClass.t.charAt<caret>()
             """, "arg", listOf("t")),
           Test("""
