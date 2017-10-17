@@ -25,6 +25,7 @@ intellij {
     if (Boolean.valueOf(isAndroidStudio)) {
         version = asVersion
         plugins = ["org.jetbrains.kotlin:$asKotlinPlugin", 'Groovy', 'properties']
+        alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
     } else {
         version = ideaVersion
         plugins = ["org.jetbrains.kotlin:$ideaKotlinPlugin", 'Groovy', 'properties']
@@ -128,5 +129,11 @@ publishing {
                 root.children().last() + pomConfig
             }
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
