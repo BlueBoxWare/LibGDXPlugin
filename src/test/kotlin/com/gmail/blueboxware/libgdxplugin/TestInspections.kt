@@ -484,7 +484,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   /*
    * Other inspections
    */
-
   fun testStaticResourceInspection() {
 
     performInspectionsTest(JavaStaticResourceInspection(), "inspections/staticResources/Test1.java")

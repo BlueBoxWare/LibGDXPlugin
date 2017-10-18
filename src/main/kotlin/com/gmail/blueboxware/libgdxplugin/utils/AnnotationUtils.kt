@@ -59,11 +59,11 @@ class PsiAnnotationWrapper(private val psiAnnotation: PsiAnnotation): Annotation
   override fun getValue(key: String): List<String> {
     psiAnnotation.findAttributeValue(key)?.navigationElement?.let { value ->
       (value as? PsiArrayInitializerMemberValue)?.initializers?.mapNotNull {
-        (it as? PsiLiteralExpression)?.innerText()
+        (it as? PsiLiteralExpression)?.asString()
       }?.filter { !it.isEmpty() }?.let { result ->
         return result
       }
-      (value as? PsiLiteralExpression)?.innerText()?.let {
+      (value as? PsiLiteralExpression)?.asString()?.let {
         return listOf(it)
       }
     }

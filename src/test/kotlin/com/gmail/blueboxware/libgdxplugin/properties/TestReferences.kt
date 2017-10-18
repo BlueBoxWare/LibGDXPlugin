@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.properties
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
-import com.gmail.blueboxware.libgdxplugin.utils.innerText
+import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.lang.properties.psi.Property
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -167,7 +167,7 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
         assertTrue(resolveResult.element is Property)
         val text =
                 if (referencingElement is PsiLiteralExpression)
-                  referencingElement.innerText()
+                  referencingElement.asString()
                 else if (referencingElement is KtStringTemplateExpression)
                   referencingElement.plainContent
                 else throw AssertionError()

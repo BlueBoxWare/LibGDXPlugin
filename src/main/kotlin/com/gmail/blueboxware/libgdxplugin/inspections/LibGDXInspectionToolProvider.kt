@@ -41,6 +41,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           JavaFlushInsideLoopInspection::class.java,
           JavaLogLevelInspection::class.java,
           JavaGDXAssetsFileNameErrorInspection::class.java,
+          JavaInvalidPropertyKeyInspection::class.java,
 
           KotlinUnsafeIteratorInspection::class.java,
           KotlinTestIdsInspection::class.java,
@@ -51,6 +52,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           KotlinFlushInsideLoopInspection::class.java,
           KotlinLogLevelInspection::class.java,
           KotlinGDXAssetsFileNameErrorInspection::class.java,
+          KotlinInvalidPropertyKeyInspection::class.java,
 
           OpenGLESDirectiveInspection::class.java,
           DesignedForTabletsInspection::class.java,

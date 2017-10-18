@@ -41,13 +41,7 @@ internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElemen
 internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
 
 
-internal fun PsiLiteralExpression.innerText(): String {
-  if (text.length > 1 && text.first() == '\"' && text.last() == '\"') {
-    return text.substring(1, text.length - 1)
-  } else {
-    return text
-  }
-}
+internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
 
 internal fun PsiClass.putDollarInInnerClassName(): String =
         containingClass?.let {

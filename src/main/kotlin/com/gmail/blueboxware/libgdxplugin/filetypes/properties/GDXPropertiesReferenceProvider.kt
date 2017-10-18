@@ -80,7 +80,7 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
     methodCallExpression.resolveCallToStrings()?.let { (className, methodName) ->
       if (className == Assets.I18NBUNDLE_CLASS_NAME && methodName in Assets.I18NBUNDLE_PROPERTIES_METHODS) {
 
-        val key = (element as? PsiLiteralExpression)?.innerText() ?: return arrayOf()
+        val key = (element as? PsiLiteralExpression)?.asString() ?: return arrayOf()
         val propertiesFiles = methodCallExpression.getPropertiesFiles()
 
         return createReferences(key, element, propertiesFiles)
