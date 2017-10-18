@@ -1,3 +1,7 @@
+[![Current version](https://img.shields.io/github/release/BlueBoxware/LibGDXPlugin.svg)](https://github.com/BlueBoxWare/LibGDXPlugin/releases/latest)
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/8509-libgdx-inspections.svg)](https://plugins.jetbrains.com/plugin/8509-libgdx-inspections)
+
+
 # LibGDXPlugin
 This unofficial plugin adds a number of LibGDX related tools and features to [IntelliJ](https://www.jetbrains.com/idea/) and
 [Android Studio](https://developer.android.com/studio/index.html). You can install the plugin 

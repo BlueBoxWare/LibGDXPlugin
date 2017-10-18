@@ -101,7 +101,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     return globalContext.getPresentation(toolWrapper).problemDescriptors
   }
 
-  fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
+  private fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
     val expectedWarnings = warnings.toMutableList()
     val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
 

@@ -5,6 +5,7 @@ import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.util.PsiUtil
+import org.jetbrains.kotlin.asJava.elements.KtLightAnnotationForSourceEntry
 import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.asJava.elements.KtLightMember
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
@@ -78,6 +79,9 @@ internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): A
 
     ((qualifierExpression as? PsiReference)?.resolve() as? PsiVariable)?.let { variable ->
       AnnotationUtil.findAnnotation(variable, annotationClass.qualifiedName)?.let {
+        ((it as? KtLightAnnotationForSourceEntry)?.navigationElement as? KtAnnotationEntry)?.let {
+          return KtAnnotationWrapper(it)
+        }
         return PsiAnnotationWrapper(it)
       }
     }
