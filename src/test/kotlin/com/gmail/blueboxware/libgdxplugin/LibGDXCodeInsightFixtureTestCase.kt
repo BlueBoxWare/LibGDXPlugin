@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
@@ -71,7 +72,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
       override fun run(result: Result<Unit>) {
 
-        val projectModel = ProjectLibraryTable.getInstance(project).modifiableModel
+        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel ?: throw AssertionError()
 
         for (lib in projectModel.libraries) {
           Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->

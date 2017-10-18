@@ -33,7 +33,7 @@ class GDXPropertyReference(key: String, element: PsiElement, private val bundleN
 
     results.firstOrNull()?.element?.getResourceBundle()?.let { firstResourceBundle ->
       if (results.all { it.element?.getResourceBundle() == firstResourceBundle }) {
-        return results.first { (it.element as? Property)?.propertiesFile == firstResourceBundle.defaultPropertiesFile }.element
+        return results.firstOrNull { (it.element as? Property)?.propertiesFile == firstResourceBundle.defaultPropertiesFile }?.element
       }
     }
 

@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.components
 
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.AbstractProjectComponent
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
@@ -57,14 +58,14 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     updateLatestVersions()
     updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
 
-    ProjectLibraryTable.getInstance(myProject).addListener(libraryListener)
+    ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.addListener(libraryListener)
 
   }
 
   override fun projectClosed() {
     updateLatestVersionsAlarm.cancelAllRequests()
 
-    ProjectLibraryTable.getInstance(myProject).removeListener(libraryListener)
+    ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.removeListener(libraryListener)
   }
 
 
@@ -84,7 +85,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
   fun updateUsedVersions() {
     usedVersions.clear()
 
-    ProjectLibraryTable.getInstance(myProject).libraryIterator.let { libraryIterator ->
+    ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.libraryIterator?.let { libraryIterator ->
       for (lib in libraryIterator) {
         Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
           usedVersions[libraries] = version
