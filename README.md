@@ -5,8 +5,10 @@ This unofficial plugin adds a number of LibGDX related tools and features to [In
 
 For running and building the plugin from source, see [FromSource](FromSource.md).
 
-This plugin needs a recent version (at least version 1.1.2-2) of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
-you only use Java), so install and/or enable that plugin first. 
+This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
+you only use Java), so please install and/or enable that plugin first. 
+
+To update the Kotlin plugin to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Updates* -> *Check for updates now*.
 
 ## Features
 
@@ -25,6 +27,7 @@ The following inspections are included:
 * Use of static resources (more info on the use of statics: [here](http://bitiotic.com/blog/2013/05/23/libgdx-and-android-application-lifecycle/) and [here](http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=22358))
 * Use of non-reentrant iterator methods of LibGDX collection classes
 * Missing OpenGL declaration in AndroidManifest.xml \[1]
+* Invalid property key for I18NBundle.get() and I18NBundle.format()
 * Missing WRITE_EXTERNAL_STORAGE permission in AndroidManifest.xml when using external files
 * Using outdated versions of LibGDX and related libraries \[1] \[2]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
@@ -55,16 +58,16 @@ exists, drawable/texture names
 * Folding
 * Formatting/Code Style (Code Style can be configured using *Settings* -> *Editor* -> *Code Style* -> *LibGDX Skin*)
 * Warnings when using classes which don't exist, using properties which don't correspond to a field in a given class or using malformed color strings
-* Find usages of a defined resources within the Skin file \[1]
-* *Crtl-B* (*⌘+B*): Jump from the usage of a resource to it's definition \[1]
+* Find usages of a defined resources within the Skin file 
+* *Crtl-B* (*⌘+B*): Jump from the usage of a resource to it's definition 
 * *Crtl-B* (*⌘+B*) with the caret on a class name jumps to the source of the class and *Ctrl-B* with the caret on a property name jumps to the corresponding field
 * *Crtl-B* (*⌘+B*) on a bitmap font name jumps to the corresponding bitmap font file
-* Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[2]
+* Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[1]
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
 * With *Shift* pressed, hover over a Drawable/Texture name to view a preview of the Drawable
 
-\[2]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
+\[1]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
 annotation (See below)
 
 ### Atlas file support
@@ -88,7 +91,11 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 
 ### Skin resources and Atlas region names in Java and Kotlin code
 
-To get Code Completion (and Go To Definition, Find Usages, Rename Refactoring and image previews \[1]) for Skin resource names and region names from Atlas files in Skin.get*() and TextureAtlas.get*() 
+To get Code completion, Go To Definition, Find Usages, Rename Refactoring, Diagnostics and Image previews (with *Shift* pressed, hover over a Drawable name to get a preview) for:
+* Skin resource names
+* Region names from Atlas files in Skin.get*() and TextureAtlas.get*()
+* Property keys in I18NBundle.get() and I18NBundle.format() 
+
 and related methods, use the `@GDXAssets` annotation to tell LibGDXPlugin which files to use.
 
 First add the annotation to your build. In `build.gradle`:
@@ -107,7 +114,7 @@ dependencies {
 
 ```
 
-Then annotate Skin and TextureAtlas fields and properties where appropriate. Specify file names **relative to the Project Root**!
+Then annotate Java fields and Kotlin properties where appropriate. Specify file names **relative to the Project Root**!
 
 **Java example:**
 ```java
@@ -126,6 +133,9 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 
         @GDXAssets(atlasFiles = {"assets/images/images.pack"})
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("images/images.pack"));
+        
+        @GDXAssets(propertiesFile = {"assets/18n/Messages.properties"}) // Specify the base file, including .properties extension
+        I18NBundle bundle = I18NBundle.createBundle(Gdx.files.internal("i18n/Messages"));
 ```
 
 **Kotlin example:**
@@ -149,11 +159,10 @@ Then annotate Skin and TextureAtlas fields and properties where appropriate. Spe
 
 **NOTES**
 * Specify file names **relative to the Project Root**!
-* Multiple files can be specified for both the `skinFiles` and `atlasFiles` parameters
+* Multiple files can be specified for both the `skinFiles`, `atlasFiles` and `propertiesFiles` parameters
 * When *no* atlasFiles are specified and a file with the same name as the specified Skin file and the
-".atlas" extension exist, that file is used as Atlas files (just like the Skin class itself does). This also
+".atlas" extension exist, that file is used as Atlas file (just like the Skin class itself does). This also
 works if you specify multiple Skin files.
 * Go To Definition and Find Usages are only available if the specified files are registered as Skin or Atlas file, not
 when they are registered as JSON or Text files.
 
-\[1]: With *Shift* pressed, hover over a Drawable name to get a preview.

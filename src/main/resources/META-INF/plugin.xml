@@ -23,7 +23,7 @@
     <description><![CDATA[
       This unofficial plugin adds a number of LibGDX related inspections and features to IntelliJ and Android Studio.
         <br/><br/>
-      This plugin needs a recent version (1.1.2 or higher) of the official Kotlin plugin to be installed (even if you don't use Kotlin), so install and/or enable that plugin first.
+      This plugin needs a recent version of the official Kotlin plugin to be installed (even if you don't use Kotlin), so please install and/or enable that plugin first.
         <br/><br/>
       See <b><a href="https://github.com/BlueBoxWare/LibGDXPlugin">github.com/BlueBoxWare/LibGDXPlugin</a></b> for more information.
 
@@ -34,6 +34,7 @@
         <ul>
             <li>Completion for I18NBundle.get() and I18NBundle.format() arguments</li>
             <li>Improved Go to definition, Find Usages and renaming support for .properties keys</li>
+            <li>Invalid property key inspection for I18NBundle.get() and I18NBundle.format()</li>
         </ul>
 
         <b>1.12</b>
