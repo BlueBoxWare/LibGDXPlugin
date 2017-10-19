@@ -113,7 +113,7 @@ repositories {
 
 dependencies {
     // ...
-    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.0'
+    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.13'
 }
 
 ```
