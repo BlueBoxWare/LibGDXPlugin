@@ -1,13 +1,13 @@
 import com.badlogic.gdx.utils.I18NBundle
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-@GDXAssets(<error descr="[NAMED_PARAMETER_NOT_FOUND] Cannot find a parameter with this name: propertiesFiles">propertiesFiles</error> = arrayOf("src/messages.properties" ))
+@GDXAssets(propertiesFiles = arrayOf("src/messages.properties" ))
 var i18NBundle: I18NBundle = I18NBundle()
-@GDXAssets(<error descr="[NAMED_PARAMETER_NOT_FOUND] Cannot find a parameter with this name: propertiesFiles">propertiesFiles</error> = arrayOf( "src/doesnotexist.properties" ))
+@GDXAssets(propertiesFiles = arrayOf( "src/doesnotexist.properties" ))
 var i18NBundle2: I18NBundle = I18NBundle()
-@GDXAssets(<error descr="[NAMED_PARAMETER_NOT_FOUND] Cannot find a parameter with this name: propertiesFiles">propertiesFiles</error> = arrayOf( "src/extra.properties", "src/messages.properties" ))
+@GDXAssets(propertiesFiles = arrayOf( "src/extra.properties", "src/messages.properties" ))
 var i18NBundle3: I18NBundle = I18NBundle()
-@GDXAssets(<error descr="[NAMED_PARAMETER_NOT_FOUND] Cannot find a parameter with this name: propertiesFiles">propertiesFiles</error> = arrayOf( "src/extra.properties", "src/test.properties" ))
+@GDXAssets(propertiesFiles = arrayOf( "src/extra.properties", "src/test.properties" ))
 var i18NBundle4: I18NBundle = I18NBundle()
 
 fun f() {

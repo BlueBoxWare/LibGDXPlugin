@@ -3,13 +3,13 @@ import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
 class JavaClass {
 
-  @GDXAssets(<error descr="Cannot resolve method 'propertiesFiles'">propertiesFiles</error> = {"src/messages.properties"})
+  @GDXAssets(propertiesFiles = {"src/messages.properties"})
   I18NBundle i18NBundle;
-  @GDXAssets(<error descr="Cannot resolve method 'propertiesFiles'">propertiesFiles</error> = {"src/doesnotexist.properties"})
+  @GDXAssets(propertiesFiles = {"src/doesnotexist.properties"})
   I18NBundle i18NBundle2;
-  @GDXAssets(<error descr="Cannot resolve method 'propertiesFiles'">propertiesFiles</error> = {"src/extra.properties", "src/messages.properties"})
+  @GDXAssets(propertiesFiles = {"src/extra.properties", "src/messages.properties"})
   I18NBundle i18NBundle3;
-  @GDXAssets(<error descr="Cannot resolve method 'propertiesFiles'">propertiesFiles</error> = {"src/extra.properties", "src/test.properties"})
+  @GDXAssets(propertiesFiles = {"src/extra.properties", "src/test.properties"})
   I18NBundle i18NBundle4;
 
   void m() {
