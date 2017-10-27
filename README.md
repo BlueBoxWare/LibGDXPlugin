@@ -4,8 +4,7 @@
 
 # LibGDXPlugin
 This unofficial plugin adds a number of LibGDX related tools and features to [IntelliJ](https://www.jetbrains.com/idea/) and
-[Android Studio](https://developer.android.com/studio/index.html). You can install the plugin 
-[from the Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509). 
+[Android Studio](https://developer.android.com/studio/index.html).
 
 For running and building the plugin from source, see [FromSource](FromSource.md).
 
@@ -13,6 +12,12 @@ This plugin needs a recent version of the official [Kotlin plugin](https://plugi
 you only use Java), so please install and/or enable that plugin first. 
 
 To update the Kotlin plugin to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Updates* -> *Check for updates now*.
+
+### INSTALLATION
+In IntelliJ or Android Studio go to *Settings* -> *Plugins* -> *Browse repositories...* and search for "LibGDX".<br />
+
+Alternatively: download the zip [from the Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509), 
+go to *Settings* -> *Plugins* -> *Install plugin from disk* and select the zip you downloaded.  
 
 ## Features
 
