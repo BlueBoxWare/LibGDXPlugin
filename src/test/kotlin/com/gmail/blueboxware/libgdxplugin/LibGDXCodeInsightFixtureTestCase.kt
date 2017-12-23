@@ -65,6 +65,21 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 
+  override fun tearDown() {
+
+    WriteCommandAction.runWriteCommandAction(null) {
+      ProjectLibraryTable.getInstance(project).modifiableModel.let { model ->
+        listOf("gdx.jar", "kotlin-runtime.jar", "libgdxpluginannotations-1.13.jar").forEach {
+          model.getLibraryByName(it)?.let { lib ->
+            model.removeLibrary(lib)
+          }
+        }
+        model.commit()
+      }
+    }
+
+    super.tearDown()
+  }
 
   fun addDummyLibrary(library: Libraries, version: String) {
 
