@@ -264,13 +264,13 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
               (((s) as String) as String).char<caret>At(0)
             """, "args", listOf("var")),
           Test("""
-              String.char<caret>At(0)
+              string.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")),
           Test("""
-              String?.char<caret>At(0)
+              string?.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")),
           Test("""
-              String!!.char<caret>At(0)
+              string!!.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")),
           Test("""
               KotlinObject.m<caret>()
@@ -403,8 +403,9 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
     addKotlin()
 
     myFixture.copyFileToProject("JavaClass.java")
-    myFixture.copyFileToProject("KotlinClass.kt")
     myFixture.copyFileToProject("MyAnnotation.java")
+    myFixture.copyFileToProject("KotlinClass.kt")
+
   }
 
   override fun getBasePath() = "annotationUtils/"

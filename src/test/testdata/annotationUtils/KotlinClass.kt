@@ -1,14 +1,14 @@
-@MyAnnotation(argsNoDefault = arrayOf("foo", "oof"), arg = "bar")
-var String: String? = "foo"
+@MyAnnotation(argsNoDefault = ["foo", "oof"], arg = "bar")
+var string: String? = "foo"
 
-@MyAnnotation(argNoDefault = arrayOf("object"))
+@MyAnnotation(argNoDefault = "object")
 object KotlinObject {
   fun m() {
 
   }
 
-  @MyAnnotation(args = arrayOf("123", "456"), argsNoDefault = arrayOf("789"))
-  fun annotatedMethod {
+  @MyAnnotation(args = ["123", "456"], argsNoDefault = ["789"])
+  fun annotatedMethod() {
 
   }
 
@@ -22,26 +22,26 @@ object KotlinObject {
 
 }
 
-@MyAnnotation(argNoDefault = "kotlin", args = arrayOf("123"))
-class KotlinClass {
+@MyAnnotation(argNoDefault = "kotlin", args = ["123"])
+open class KotlinClass {
 
-  @MyAnnotation(args = arrayOf("a", "b"))
+  @MyAnnotation(args = ["a", "b"])
   val string: String? = "string"
 
-  @MyAnnotation(args = arrayOf("a", "b"))
+  @MyAnnotation(args = ["a", "b"])
   val kotlinClass = KotlinClass()
 
   val kotlinClassNA: KotlinClass? = KotlinClass()
 
   fun m() {}
 
-  @MyAnnotation(args = arrayOf("me", "thod"))
+  @MyAnnotation(args = ["me", "thod"])
   fun annotatedMethod() {}
 
 
   companion object {
 
-    @MyAnnotation(argsNoDefault = arrayOf("xyz"))
+    @MyAnnotation(argsNoDefault = ["xyz"])
     val s = ""
 
     fun coMethod() {}
@@ -54,12 +54,12 @@ class KotlinClass {
       return KotlinClass()
     }
 
-    @MyAnnotation(argsNoDefault = arrayOf("g"))
+    @MyAnnotation(argsNoDefault = ["g"])
     fun g() {}
   }
 
 }
 
-class SubClass: KotlinClass {
+class SubClass: KotlinClass() {
 
 }

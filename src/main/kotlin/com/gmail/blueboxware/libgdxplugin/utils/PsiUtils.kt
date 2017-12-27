@@ -121,7 +121,8 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferen
 
   (context as? KtQualifiedExpression)?.let { dotExpression ->
 
-    var receiverType: ClassDescriptor? = dotExpression.analyze().getType(dotExpression.receiverExpression)?.constructor?.declarationDescriptor as? ClassDescriptor
+    val type = dotExpression.analyze().getType(dotExpression.receiverExpression)
+    var receiverType: ClassDescriptor? = type?.constructor?.declarationDescriptor as? ClassDescriptor
 
     if (receiverType == null) {
       // static method call?

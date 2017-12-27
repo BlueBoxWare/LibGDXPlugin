@@ -33,8 +33,6 @@ abstract class AssetsInCodeCodeInsightFixtureTestCase : LibGDXCodeInsightFixture
             "assets/dir/skin.json",
             "assets/dir/test.pack",
             "assets/dir/something",
-            "src/JavaSkinTest.java",
-            "src/KotlinSkinTest.kt",
             "assets/libgdx.atlas",
             "assets/dir/holo.atlas",
             "assets/test.properties",
@@ -45,6 +43,9 @@ abstract class AssetsInCodeCodeInsightFixtureTestCase : LibGDXCodeInsightFixture
     ).forEach {
       myFixture.copyFileToProject(it)
     }
+
+    myFixture.copyFileToProject("src/JavaSkinTest.java", "JavaSkinTest.java")
+    myFixture.copyFileToProject("src/KotlinSkinTest.kt", "KotlinSkinTest.kt")
 
   }
 

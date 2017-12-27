@@ -1,7 +1,7 @@
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
-class JavaSkinTest {
+public class JavaSkinTest {
 
   @GDXAssets(skinFiles = {"src/assets/dir/holo.skin"}, atlasFiles = "")
   Skin skin;
