@@ -39,6 +39,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
   private lateinit var versionManager: VersionManager
 
   override fun shouldRunTest(): Boolean {
+    @Suppress("ConstantConditionIf")
     if (RUN_TESTS) {
       return getTestName(true) != "testingAgainstLocalHostIsDisabled"
     } else {

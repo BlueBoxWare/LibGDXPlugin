@@ -57,6 +57,7 @@ internal object Assets {
   val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
   val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
   val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
+  val TARGETS_FOR_GDXANNOTATION = listOf(SKIN_CLASS_NAME, TEXTURE_ATLAS_CLASS_NAME, I18NBUNDLE_CLASS_NAME)
 
   val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 

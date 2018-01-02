@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
 import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
+import com.gmail.blueboxware.libgdxplugin.utils.supersAndThis
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
@@ -25,15 +26,29 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
+internal class JavaGDXAssetsInspection: LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("gdxassets.annotation.filename.inspection.descriptor")
+  override fun getStaticDescription() = message("gdxassets.annotation.inspection.descriptor")
 
   override fun getID() = "LibGDXAssetsFileError"
 
-  override fun getDisplayName() = message("gdxassets.annotation.filename.inspection")
+  override fun getDisplayName() = message("gdxassets.annotation.inspection")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: JavaElementVisitor() {
+
+    override fun visitAnnotation(annotation: PsiAnnotation?) {
+
+      if (annotation == null || annotation.qualifiedName != Assets.ASSET_ANNOTATION_NAME) {
+        return
+      }
+
+      if ((annotation.owner as? PsiModifierList)?.context is PsiVariable) {
+        if (annotation.getClassNamesOfOwningVariable().none { it in Assets.TARGETS_FOR_GDXANNOTATION }) {
+          holder.registerProblem(annotation, message("gdxassets.annotation.problem.descriptor.wrong.target"), ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
+        }
+      }
+
+    }
 
     override fun visitAnnotationParameterList(list: PsiAnnotationParameterList?) {
       (list?.context as? PsiAnnotation)?.let { annotation ->
@@ -78,6 +93,27 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
           }
         }
 
+        annotation.parameterList.attributes.forEach { psiNameValuePair ->
+          if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.SKIN_CLASS_NAME }) {
+              registerUselessParameterProblem(holder, psiNameValuePair, Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME, Assets.SKIN_CLASS_NAME)
+            }
+          } else if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.TEXTURE_ATLAS_CLASS_NAME || it == Assets.SKIN_CLASS_NAME }) {
+              registerUselessParameterProblem(
+                      holder,
+                      psiNameValuePair,
+                      Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
+                      Assets.SKIN_CLASS_NAME + " or " + Assets.TEXTURE_ATLAS_CLASS_NAME
+              )
+            }
+          } else if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.I18NBUNDLE_CLASS_NAME }) {
+              registerUselessParameterProblem(holder, psiNameValuePair, Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, Assets.I18NBUNDLE_CLASS_NAME)
+            }
+          }
+        }
+
       }
 
     }
@@ -86,17 +122,17 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
 
   companion object {
 
-    fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
+    internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
 
       checkFilename(element, fileName, holder)?.let { psiFile ->
         if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
-          holder.registerProblem(element, message("gdxassets.annotation.filename.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
+          holder.registerProblem(element, message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
         }
       }
 
     }
 
-    fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
+    internal fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
 
       if (fileName == "") return null
 
@@ -105,7 +141,7 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
       if (psiFile == null) {
         holder.registerProblem(element,
                 message(
-                        "gdxassets.annotation.filename.problem.descriptor.nofile",
+                        "gdxassets.annotation.problem.descriptor.nofile",
                         fileName,
                         element.project.getProjectBaseDir()?.path ?: ""
                 ),
@@ -114,6 +150,38 @@ class JavaGDXAssetsFileNameErrorInspection : LibGDXJavaBaseInspection() {
       }
 
       return psiFile
+
+    }
+
+    private fun PsiAnnotation.getClassNamesOfOwningVariable(): List<String> {
+
+      ((owner as? PsiModifierList)?.context as? PsiVariable)?.type?.let { type ->
+        if (type is PsiClassType) {
+          return type.resolve()?.supersAndThis()?.mapNotNull { it.qualifiedName } ?: listOf()
+        }
+      }
+
+      return listOf()
+
+    }
+
+    private fun registerUselessParameterProblem(
+            holder: ProblemsHolder,
+            psiNameValuePair: PsiNameValuePair,
+            parameterName: String,
+            className: String
+    ) {
+
+      psiNameValuePair.nameIdentifier?.let { identifier ->
+        holder.registerProblem(
+                identifier,
+                message(
+                        "gdxassets.annotation.problem.descriptor.useless.parameter",
+                        parameterName,
+                        className
+                )
+        )
+      }
 
     }
 

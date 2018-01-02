@@ -19,7 +19,6 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.XmlElementVisitor
-import com.intellij.psi.xml.XmlAttributeValue
 import com.intellij.psi.xml.XmlTag
 
 class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
@@ -47,9 +46,6 @@ class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
 
     }
 
-    override fun visitXmlAttributeValue(value: XmlAttributeValue?) {
-      super.visitXmlAttributeValue(value)
-    }
   }
 
 }

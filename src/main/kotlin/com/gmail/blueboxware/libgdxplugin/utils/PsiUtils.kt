@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
+import com.intellij.psi.util.InheritanceUtil
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -14,6 +15,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
+import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -30,6 +32,11 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+internal fun PsiClass.supersAndThis() = InheritanceUtil.getSuperClasses(this) + this
+
+internal fun ClassDescriptor.supersAndThis() = getAllSuperclassesWithoutAny() + this
+
 internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
   var element: PsiElement? = this
   while (element != null && element.parent != childOf) {
@@ -39,7 +46,6 @@ internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElemen
 }
 
 internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
-
 
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
 
