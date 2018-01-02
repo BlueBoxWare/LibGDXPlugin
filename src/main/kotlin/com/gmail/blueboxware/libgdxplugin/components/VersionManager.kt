@@ -33,7 +33,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     val LOG = Logger.getInstance("#" + VersionManager::class.java.name)
 
-    val LIBRARY_CHANGED_TIME_OUT = 3 * DateFormatUtil.SECOND
+    val LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
 
     var BATCH_SIZE = 7
 
@@ -54,9 +54,11 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   override fun projectOpened() {
     updateUsedVersions()
-    Libraries.LIBGDX.library.updateLatestVersion(this, true)
-    updateLatestVersions()
-    updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
+    if (isLibGDXProject) {
+      Libraries.LIBGDX.library.updateLatestVersion(this, true)
+      updateLatestVersions()
+      updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
+    }
 
     ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.addListener(libraryListener)
 
