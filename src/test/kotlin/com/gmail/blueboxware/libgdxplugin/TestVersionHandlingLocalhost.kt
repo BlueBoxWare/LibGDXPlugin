@@ -139,6 +139,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     VersionManager.BATCH_SIZE = Libraries.values().size / 2
     VersionManager.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND
+    VersionManager.LIBRARY_CHANGED_TIME_OUT = 5 * DateFormatUtil.SECOND
     VersionManager.LOG.setLevel(Level.DEBUG)
     Library.TEST_URL = "http://127.0.0.1/maven/"
 
@@ -158,8 +159,8 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     addDummyLibrary(Libraries.LIBGDX, "1.9.3")
 
-    if (getTestName(true) != "usedVersions") {
-      Thread.sleep(4 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
+    if (getTestName(true) !in listOf("usedVersions", "testingAgainstLocalHostIsDisabled")) {
+      Thread.sleep(2 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
     }
 
   }

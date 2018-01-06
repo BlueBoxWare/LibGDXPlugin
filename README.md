@@ -8,7 +8,7 @@ This unofficial plugin adds a number of LibGDX related tools and features to [In
 
 For running and building the plugin from source, see [FromSource](FromSource.md).
 
-This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
+This plugin needs a recent version (1.1.51 or higher) of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
 you only use Java), so please install and/or enable that plugin first. 
 
 To update the Kotlin plugin to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Updates* -> *Check for updates now*.
@@ -125,7 +125,7 @@ dependencies {
 
 Then annotate Java fields and Kotlin properties where appropriate. Specify file names **relative to the Project Root**!
 
-**Java example:**
+**Java:**
 ```java
         @GDXAssets(skinFiles = {"android/assets/ui.skin"})
         // or Windows style: @GDXAssets(skinFiles = {"android\\assets\\ui.skin"})
@@ -147,22 +147,22 @@ Then annotate Java fields and Kotlin properties where appropriate. Specify file 
         I18NBundle bundle = I18NBundle.createBundle(Gdx.files.internal("i18n/Messages"));
 ```
 
-**Kotlin example:**
+**Kotlin:**
 ```kotlin
-    @GDXAssets(skinFiles = arrayOf("android/assets/ui.skin"))
-    // or Windows style: @GDXAssets(skinFiles = arrayOf("android\\assets\\ui.skin"))
+    @GDXAssets(skinFiles = ["android/assets/ui.skin"])
+    // or Windows style: @GDXAssets(skinFiles = ["android\\assets\\ui.skin"])
     val uiSkin = Skin(Gdx.files.internal("ui.skin"))
 
     @GDXAssets(
-            skinFiles = arrayOf("assets/default.skin", "assets/main.skin"),
-            atlasFiles = arrayOf("assets/textures.atlas")
+            skinFiles = ["assets/default.skin", "assets/main.skin"],
+            atlasFiles = ["assets/textures.atlas"]
     )
     val skin = Skin()
     skin.load(DEFAULT_SKIN)
     skin.load(MAIN_SKIN)
     skin.addRegions(ATLAS)
 
-    @GDXAssets(atlasFiles = arrayOf("assets/images/images.pack"))
+    @GDXAssets(atlasFiles = ["assets/images/images.pack"])
     val atlas: TextureAtlas = TextureAtlas(Gdx.files.internal("images/images.pack"))
 ```
 

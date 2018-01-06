@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.properties
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.openapi.fileTypes.LanguageFileType
+import org.jetbrains.kotlin.idea.KotlinFileType
 
 
 /*
@@ -86,7 +87,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
         import com.badlogic.gdx.utils.I18NBundle
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-          @GDXAssets(propertiesFiles = arrayOf("src/messages.properties"))
+          @GDXAssets(propertiesFiles = ["src/messages.properties"])
           val i18NBundle = I18NBundle()
           @GDXAssets(propertiesFiles = arrayOf("src/doesnotexist.properties"))
           val i18NBundle2 = I18NBundle()
@@ -97,6 +98,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           $text
         }
         """
+      doTest(KotlinFileType.INSTANCE, content, expectedResults)
     }
   }
 
@@ -136,7 +138,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
     } else {
       val strings = myFixture.lookupElementStrings
       assertNotNull(strings)
-      strings?.let { results ->
+      strings?.let {
         for (exp in expectedResults.first) {
           assertTrue("Expected to find $exp\nContent:\n$content\nFound: $strings", exp in strings)
         }

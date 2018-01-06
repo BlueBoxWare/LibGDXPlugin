@@ -118,9 +118,9 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
         import com.badlogic.gdx.utils.I18NBundle
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-          @GDXAssets(propertiesFiles = "src/messages.properties")
+          @GDXAssets(propertiesFiles = ["src/messages.properties"])
           val i18NBundle = I18NBundle()
-          @GDXAssets(propertiesFiles = "src/doesnotexist.properties")
+          @GDXAssets(propertiesFiles = arrayOf("src/doesnotexist.properties"))
           val i18NBundle2 = I18NBundle()
 
         fun f() {

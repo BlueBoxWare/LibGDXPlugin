@@ -28,7 +28,7 @@ intellij {
         alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
     } else {
         version = ideaVersion
-        plugins = ["org.jetbrains.kotlin:$ideaKotlinPlugin", 'Groovy', 'properties']
+        plugins = ['Kotlin', 'Groovy', 'properties']
     }
 
     pluginName = 'LibGDX Inspections'

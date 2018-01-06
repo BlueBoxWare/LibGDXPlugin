@@ -60,7 +60,7 @@ class SkinEditorNotificationProvider(val project: Project, private val notificat
 
     val editorNotificationPanel = EditorNotificationPanel()
 
-    editorNotificationPanel.setText(message("skin.file.detected", params = file.fileType.description))
+    editorNotificationPanel.setText(message("skin.file.detected", file.fileType.description))
 
     editorNotificationPanel.createActionLabel(message("skin.file.yes"), {
       markFileAsSkin(project, file)

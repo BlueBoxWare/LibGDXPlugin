@@ -2,8 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.atlas
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition
-import com.intellij.testFramework.ParsingTestCase
 import com.intellij.openapi.util.io.FileUtil
+import com.intellij.testFramework.ParsingTestCase
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -35,10 +35,10 @@ class TestParsing : ParsingTestCase("", "atlas", AtlasParserDefinition()) {
 
     val pages = (myFile as? AtlasFile)?.getPages()
     assertNotNull(pages)
-    pages?.let { pages ->
-      assertEquals(regionsPerPage.size, pages.size)
+    pages?.let { foundPages ->
+      assertEquals(regionsPerPage.size, foundPages.size)
       for ((index, size) in regionsPerPage.withIndex()) {
-        assertEquals(size, pages[index].regionList.size)
+        assertEquals(size, foundPages[index].regionList.size)
       }
     }
   }

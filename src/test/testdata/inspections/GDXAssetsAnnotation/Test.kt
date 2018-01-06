@@ -9,7 +9,7 @@ class Test {
   )
   val skin1 = Skin()
 
-  @GDXAssets(<warning>skinFiles</warning> = arrayOf("src/../src//libgdx.skin", <error>"src\\libgd.skin"</error>), atlasFiles = arrayOf(<error>"src/dir/hol.atlas"</error>))
+  @GDXAssets(<warning>skinFiles</warning> = ["src/../src//libgdx.skin", <error>"src\\libgd.skin"</error>], atlasFiles = arrayOf(<error>"src/dir/hol.atlas"</error>))
   val atlas1 = TextureAtlas()
 
   companion object {
@@ -17,7 +17,7 @@ class Test {
     object O {
       @Suppress("UNUSED_VARIABLE")
       fun f() {
-        @GDXAssets(skinFiles = arrayOf(<error>"android/tubular/skin/tubular-ui.json"</error>, "src//libgdx.skin"), atlasFiles = arrayOf("src/dir/holo.atlas", <error>"src/dir/holo"</error>))
+        @GDXAssets(skinFiles = arrayOf(<error>"android/tubular/skin/tubular-ui.json"</error>, "src//libgdx.skin"), atlasFiles = ["src/dir/holo.atlas", <error>"src/dir/holo"</error>])
         val skin: Skin = Skin()
 
         <warning>@GDXAssets(<warning>skinFiles</warning> = [])</warning>

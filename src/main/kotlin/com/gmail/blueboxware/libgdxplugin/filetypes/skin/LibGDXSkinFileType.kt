@@ -28,7 +28,7 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
   }
 
   init {
-    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { project, fileType, virtualFile, colors ->
+    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
       LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
     }
   }

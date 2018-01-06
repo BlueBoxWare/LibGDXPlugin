@@ -7,7 +7,7 @@ object KotlinObject {
 
   }
 
-  @MyAnnotation(args = ["123", "456"], argsNoDefault = ["789"])
+  @MyAnnotation(args = arrayOf("123", "456"), argsNoDefault = ["789"])
   fun annotatedMethod() {
 
   }
@@ -28,7 +28,7 @@ open class KotlinClass {
   @MyAnnotation(args = ["a", "b"])
   val string: String? = "string"
 
-  @MyAnnotation(args = ["a", "b"])
+  @MyAnnotation(args = arrayOf("a", "b"))
   val kotlinClass = KotlinClass()
 
   val kotlinClassNA: KotlinClass? = KotlinClass()
@@ -54,7 +54,7 @@ open class KotlinClass {
       return KotlinClass()
     }
 
-    @MyAnnotation(argsNoDefault = ["g"])
+    @MyAnnotation(argsNoDefault = arrayOf("g"))
     fun g() {}
   }
 

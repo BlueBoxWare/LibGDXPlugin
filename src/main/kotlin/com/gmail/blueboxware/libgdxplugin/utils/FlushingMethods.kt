@@ -106,8 +106,8 @@ object FlushingMethodsUtils {
         }
       }
 
-      refs?.let { refs ->
-        for (ref in refs) {
+      refs?.let { refsNotNull ->
+        for (ref in refsNotNull) {
           if (!ref.isReferenceTo(method)) {
             continue // Workaround for https://youtrack.jetbrains.com/issue/IDEA-90019
           }

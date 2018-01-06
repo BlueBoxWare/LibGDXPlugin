@@ -5,11 +5,11 @@ internal class JavaClass {
 
   @GDXAssets(propertiesFiles = arrayOf("src/messages.properties" ))
   var i18NBundle: I18NBundle = I18NBundle()
-  @GDXAssets(propertiesFiles = arrayOf("src/doesnotexist.properties" ))
+  @GDXAssets(propertiesFiles = ["src/doesnotexist.properties" ])
   var i18NBundle2: I18NBundle = I18NBundle()
-  @GDXAssets(propertiesFiles = arrayOf( "src/extra.properties", "src/messages.properties" ))
+  @GDXAssets(propertiesFiles = ["src/extra.properties", "src/messages.properties" ])
   var i18NBundle3: I18NBundle = I18NBundle()
-  @GDXAssets(propertiesFiles = arrayOf( "src/extra.properties", "src/test.properties" ))
+  @GDXAssets(propertiesFiles = arrayOf"src/extra.properties", "src/test.properties" ))
   var i18NBundle4: I18NBundle = I18NBundle()
 
   var s = i18NBundle.get("newName1")

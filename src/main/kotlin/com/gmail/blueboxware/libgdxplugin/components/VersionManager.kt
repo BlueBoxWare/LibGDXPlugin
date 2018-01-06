@@ -33,7 +33,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     val LOG = Logger.getInstance("#" + VersionManager::class.java.name)
 
-    val LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
+    var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
 
     var BATCH_SIZE = 7
 

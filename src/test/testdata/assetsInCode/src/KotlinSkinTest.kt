@@ -6,7 +6,7 @@ val skin: Skin = Skin()
 
 class KotlinSkinTest {
 
-  @GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets/libgdx.skin"))
+  @GDXAssets(atlasFiles = arrayOf(""), skinFiles = ["src/assets/libgdx.skin"])
   val skin = Skin()
 
   companion object {

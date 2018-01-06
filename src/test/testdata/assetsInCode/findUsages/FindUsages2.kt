@@ -2,7 +2,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-@GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src\\findUsages/findUsages2.skin"))
+@GDXAssets(atlasFiles = arrayOf(""), skinFiles = ["src\\findUsages/findUsages2.skin"])
 val s: Skin = Skin()
 
 object O {

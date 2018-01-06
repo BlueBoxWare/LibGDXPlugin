@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
+import com.intellij.util.ui.UIUtil
 import java.awt.Color
 import java.awt.image.BufferedImage
 
@@ -20,7 +21,7 @@ import java.awt.image.BufferedImage
  */
 internal fun BufferedImage.tint(color: Color): BufferedImage {
 
-  val tintedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+  val tintedImage = UIUtil.createImage(width, height, BufferedImage.TYPE_INT_ARGB)
 
   for (x in 0 until width) {
     for (y in 0 until height) {
@@ -37,4 +38,4 @@ internal fun BufferedImage.tint(color: Color): BufferedImage {
 
 }
 
-private inline fun mul(x: Int, y: Int): Int = (x * y / 255f).toInt()
+private fun mul(x: Int, y: Int): Int = (x * y / 255f).toInt()

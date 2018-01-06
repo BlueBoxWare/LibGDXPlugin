@@ -46,7 +46,7 @@ abstract class LibGDXGradlePropertiesBaseInspection : LocalInspectionTool() {
   override fun isSuppressedFor(element: PsiElement): Boolean {
 
     val property = PsiTreeUtil.getParentOfType(element, Property::class.java, false)
-    var file: PropertiesFile? = null
+    val file: PropertiesFile?
 
     if (property == null) {
       file = element.containingFile as? PropertiesFile ?: return false

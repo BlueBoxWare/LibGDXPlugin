@@ -144,11 +144,11 @@ private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<Psi
       "targetSdkVersion" -> type = SdkVersionType.TARGET
     }
 
-    type?.let { type ->
-      if (version > versionsMap[type] ?: 0) {
-        versionsMap[type] = version
+    type?.let { typeNotNull ->
+      if (version > versionsMap[typeNotNull] ?: 0) {
+        versionsMap[typeNotNull] = version
       }
-      foundElementMap[type] = call
+      foundElementMap[typeNotNull] = call
     }
 
     if (invokedText == "maxSdkVersion" && versionsMap[SdkVersionType.MAX] ?: 11 < 11) {

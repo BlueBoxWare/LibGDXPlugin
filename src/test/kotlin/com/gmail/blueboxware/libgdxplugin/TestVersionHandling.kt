@@ -76,10 +76,10 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
     val file = File("src/test/testdata/versions/$fileName.xml")
     val versions = Library.extractVersionsFromMavenMetaData(file.inputStream())
     assertNotNull(versions)
-    versions?.let { versions ->
+    versions?.let { foundVersions ->
       val expectedVersions = Regex("""<version>([^<]*)</version>""").findAll(file.inputStream().reader().readText())
-      assertEquals(versions.size, expectedVersions.count())
-      assertTrue(versions.containsAll(expectedVersions.map { it.groupValues[1] }.toList()))
+      assertEquals(foundVersions.size, expectedVersions.count())
+      assertTrue(foundVersions.containsAll(expectedVersions.map { it.groupValues[1] }.toList()))
     }
   }
 

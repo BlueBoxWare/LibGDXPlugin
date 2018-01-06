@@ -13,10 +13,7 @@ import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiClassType
-import com.intellij.psi.PsiModifier
-import com.intellij.psi.PsiType
+import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
@@ -310,9 +307,9 @@ class SkinCompletionContributor : CompletionContributor() {
 
       val clazz = containingObject.resolveToClass() ?: return
 
-      for (field in clazz.allFields) {
-        if (field.hasModifierProperty(PsiModifier.STATIC)) continue
-        field.name?.let { name ->
+      for (field: PsiField? in clazz.allFields) {
+        if (field?.hasModifierProperty(PsiModifier.STATIC) == true) continue
+        field?.name?.let { name ->
           if (!usedPropertyNames.contains(name)) {
             doAdd(LookupElementBuilder.create(field, name).withIcon(ICON_FIELD), parameters, result)
           }

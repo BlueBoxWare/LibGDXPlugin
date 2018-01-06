@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.supersAndThis
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
+import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.impl.VariableDescriptorImpl
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.idea.search.usagesSearch.descriptor
@@ -13,10 +14,7 @@ import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.BindingContext
-import org.jetbrains.kotlin.resolve.DescriptorUtils
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
-import org.jetbrains.kotlin.types.asSimpleType
-import org.jetbrains.kotlin.types.checker.isClassType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -118,8 +116,8 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
       ((context as? KtModifierList)?.owner as? KtVariableDeclaration)?.let { ktVariableDeclaration ->
 
         (ktVariableDeclaration.descriptor as? VariableDescriptorImpl)?.type?.let { type ->
-          if (type.asSimpleType().isClassType) {
-            return DescriptorUtils.getClassDescriptorForType(type).supersAndThis().map { it.fqNameSafe.asString() }
+          (type.constructor.declarationDescriptor as? ClassDescriptor)?.let { classDescriptor ->
+            return classDescriptor.supersAndThis().map { it.fqNameSafe.asString() }
           }
         }
 

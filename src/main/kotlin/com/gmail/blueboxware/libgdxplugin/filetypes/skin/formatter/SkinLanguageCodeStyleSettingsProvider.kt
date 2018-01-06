@@ -15,6 +15,7 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
 
   override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
+    @Suppress("NON_EXHAUSTIVE_WHEN")
     when (settingsType) {
       SettingsType.SPACING_SETTINGS -> {
         consumer.showStandardOptions(

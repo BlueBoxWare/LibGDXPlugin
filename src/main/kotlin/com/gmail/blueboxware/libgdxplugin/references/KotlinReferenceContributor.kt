@@ -19,6 +19,7 @@ import com.jetbrains.jsonSchema.JsonSchemaFileType
 import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
+import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
 import org.jetbrains.kotlin.psi.psiUtil.getParentOfType
@@ -82,7 +83,11 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
                 element.getParentOfType<KtAnnotationEntry>(true)?.let { entry ->
                   entry.analyzeFully().get(BindingContext.ANNOTATION, entry)?.type?.getJetTypeFqName(false)?.let { fqName ->
                     if (fqName == Assets.ASSET_ANNOTATION_NAME) {
-                      element.getParentOfType<KtValueArgument>(true)?.getParentOfType<KtValueArgument>(true)?.getArgumentName()?.asName?.identifier?.let { arg ->
+                      var valueArgument = element.getParentOfType<KtValueArgument>(true)
+                      if (element.context !is KtCollectionLiteralExpression) {
+                        valueArgument = valueArgument?.getParentOfType(true)
+                      }
+                      valueArgument?.getArgumentName()?.asName?.identifier?.let { arg ->
                         if (arg == paramName) {
                           (element as? KtStringTemplateExpression)?.plainContent?.let { path ->
                             return arrayOf(

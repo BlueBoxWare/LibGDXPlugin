@@ -11,11 +11,11 @@ object O {
 }
 
 class C {
-  @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = arrayOf("src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"))
+  @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = ["src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"])
   val skin: Skin = Skin()
 
   companion object {
-    @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = arrayOf("src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"))
+    @GDXAssets(atlasFiles = arrayOf("src/refactor/libgdx.atlas"), skinFiles = ["src\\refactor/libgdx.skin", "src/findUsages/findUsages2.skin"])
     val skin: Skin = Skin()
   }
 }

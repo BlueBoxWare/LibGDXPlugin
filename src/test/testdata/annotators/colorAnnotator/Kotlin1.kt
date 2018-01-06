@@ -6,6 +6,9 @@ import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 @GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/libgdx.skin"))
 val skin: Skin = Skin()
 
+@GDXAssets(skinFiles = ["src/libgdx.skin"])
+val skin2: Skin = Skin()
+
 val s = "ff00ff"
 val c1 = <weak_warning descr="#ff0000ff">"#ff0000"</weak_warning>
 val c2 = <weak_warning descr="#00006443">Color(25667)</weak_warning>
@@ -20,6 +23,10 @@ val d1 = <weak_warning descr="#ff0000ff">skin.getColor("red")</weak_warning>
 val d2 = <weak_warning descr="#ff0000ff">skin.getColor(resource)</weak_warning>
 val d3 = <weak_warning descr="#ff0000ff">skin.get(resource, Color::class.java)</weak_warning>
 val d4 = <weak_warning descr="#ffffffff">skin.optional("white", Color::class.java)</weak_warning>
+val d1x = <weak_warning descr="#ff0000ff">skin2.getColor("red")</weak_warning>
+val d2x = <weak_warning descr="#ff0000ff">skin2.getColor(resource)</weak_warning>
+val d3x = <weak_warning descr="#ff0000ff">skin2.get(resource, Color::class.java)</weak_warning>
+val d4x = <weak_warning descr="#ffffffff">skin2.optional("white", Color::class.java)</weak_warning>
 val da = skin.optional("white", Drawable::class.java)
 val d5 = skin.get(Color::class.java)
 val d6 = <weak_warning descr="#ff0000ff">d1</weak_warning>

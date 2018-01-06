@@ -48,6 +48,7 @@ abstract class PsiTreeChangePreprocessorBase(val language: Language): PsiTreeCha
 
     var changedInsideCodeBlock = false
 
+    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
     when (event.code) {
       PsiTreeChangeEventImpl.PsiEventType.BEFORE_CHILDREN_CHANGE -> {
         if (element is PsiFile) {

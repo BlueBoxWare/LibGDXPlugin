@@ -7,8 +7,8 @@ import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.editor.EditorFactory
-import com.intellij.openapi.editor.event.DocumentAdapter
 import com.intellij.openapi.editor.event.DocumentEvent
+import com.intellij.openapi.editor.event.DocumentListener
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
@@ -62,7 +62,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   }
 
-  private val documentListener = object : DocumentAdapter() {
+  private val documentListener = object : DocumentListener {
 
     override fun documentChanged(event: DocumentEvent?) {
 
@@ -77,6 +77,9 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       if (!nonSkinFiles.contains(virtualFile) && !settings.neverAskAboutSkinFiles) {
         EditorNotifications.getInstance(project).updateNotifications(virtualFile)
       }
+    }
+
+    override fun beforeDocumentChange(event: DocumentEvent?) {
     }
 
   }

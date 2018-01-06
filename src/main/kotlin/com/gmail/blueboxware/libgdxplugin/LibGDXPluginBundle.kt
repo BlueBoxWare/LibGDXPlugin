@@ -15,9 +15,7 @@ private const val BUNDLE = "libgdxplugin"
 
 fun message(@PropertyKey(resourceBundle = BUNDLE)key: String, vararg params: Any, default: String? = null): String {
 
-  val bundle = getBundle()
-
-  bundle?.let { bundle ->
+  getBundle()?.let { bundle ->
     if (default == null) {
       return CommonBundle.message(bundle, key, *params)
     }

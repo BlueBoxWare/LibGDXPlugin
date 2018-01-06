@@ -3,7 +3,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 
-@GDXAssets(atlasFiles = arrayOf("src\\findUsages/findUsages3.atlas"))
+@GDXAssets(atlasFiles = ["src\\findUsages/findUsages3.atlas"])
 val s: Skin = Skin()
 
 fun f() {

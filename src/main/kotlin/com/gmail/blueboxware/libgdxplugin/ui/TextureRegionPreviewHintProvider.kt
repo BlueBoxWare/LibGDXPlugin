@@ -53,14 +53,12 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
     } else {
 
-      val element = when (element.containingFile) {
+      when (element.containingFile) {
         is SkinFile     -> PsiTreeUtil.getParentOfType(element, SkinStringLiteral::class.java)
         is PsiJavaFile  -> PsiTreeUtil.getParentOfType(element, PsiLiteralExpression::class.java)
         is KtFile -> PsiTreeUtil.getParentOfType(element, KtStringTemplateExpression::class.java)
         else             -> null
-      }
-
-      element?.references?.forEach { reference ->
+      }?.references?.forEach { reference ->
         reference.resolve()?.let { target ->
           if (target is AtlasRegion) {
             target.image?.let { image ->

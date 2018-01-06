@@ -44,8 +44,8 @@ class AtlasAdditionalHighlighter : Annotator {
       attributes = AtlasSyntaxHighlighter.VALUE
     }
 
-    attributes?.let { attributes ->
-      holder.createInfoAnnotation(element, null).apply { textAttributes = attributes }
+    attributes?.let {
+      holder.createInfoAnnotation(element, null).apply { textAttributes = it }
     }
   }
 }

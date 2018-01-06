@@ -68,6 +68,23 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           """
   )
 
+  fun testKotlinResourceReference2() = doTest<SkinResource>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            @GDXAssets(atlasFiles = [""], skinFiles = ["src/assets/dir/holo.skin"])
+            val s: Skin = Skin()
+
+
+            fun test() {
+                s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
+            }
+          """
+  )
+
   fun testKotlinAndJavaResourceReference() = doTest<SkinResource>(
           KotlinFileType.INSTANCE,
           KtStringTemplateExpression::class.java,
@@ -110,6 +127,18 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           """
   )
 
+  fun testKotlinSkinFileReferenceInAnnotation2() = doTest<SkinFile>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            @GDXAssets(atlasFiles = arrayOf(""), skinFiles = ["src/assets\\dir/ho<caret>lo.skin"])
+            val s: Skin = Skin()
+          """
+  )
+
   fun testJavaSkinFileReferenceInAnnotation() = doTest<SkinFile>(
           JavaFileType.INSTANCE,
           PsiLiteralExpression::class.java,
@@ -138,6 +167,18 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           """
   )
 
+  fun testKotlinPropertiesFileReferenceInAnnotation2() = doTest<PropertiesFileImpl>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            @GDXAssets(propertiesFiles = ["src/assets\\test<caret>.properties"])
+            val s: Skin = Skin()
+          """
+  )
+
   fun testJavaPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
           JavaFileType.INSTANCE,
           PsiLiteralExpression::class.java,
@@ -154,7 +195,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           """
   )
 
-  inline fun <reified expectedReferentType: PsiElement>doTest(
+  private inline fun <reified expectedReferentType: PsiElement>doTest(
           fileType: LanguageFileType,
           referencingElementType: Class<out PsiElement>,
           content: String

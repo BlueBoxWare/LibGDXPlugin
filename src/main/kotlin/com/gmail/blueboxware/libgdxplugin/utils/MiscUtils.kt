@@ -25,4 +25,4 @@ const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 
 internal fun Project.isLibGDXProject(): Boolean = getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
 
-inline fun <T>key(key: String) = Key<T>(PREFIX + "." + key)
+fun <T>key(key: String) = Key<T>(PREFIX + "." + key)

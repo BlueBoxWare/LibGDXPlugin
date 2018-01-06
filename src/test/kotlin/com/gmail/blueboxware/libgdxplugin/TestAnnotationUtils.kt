@@ -249,6 +249,11 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
               s?.char<caret>At(0)
             """, "args", listOf("var")),
           Test("""
+              @MyAnnotation(args = ["var"])
+              val s = ""
+              s?.char<caret>At(0)
+            """, "args", listOf("var")),
+          Test("""
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               s.char<caret>At(0)
