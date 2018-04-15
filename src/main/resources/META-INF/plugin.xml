@@ -135,7 +135,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="171.0"/>
+    <idea-version since-build="173.0"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>

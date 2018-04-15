@@ -44,9 +44,9 @@ open class PersistentFileSetManager : PersistentStateComponent<Element> {
     return sortedFiles
   }
 
-  override fun loadState(state: Element?) {
+  override fun loadState(state: Element) {
     val vfManager = VirtualFileManager.getInstance()
-    for (child in state?.getChildren("file") ?: listOf()) {
+    for (child in state.getChildren("file") ?: listOf()) {
       if (child is Element) {
         child.getAttribute("url")?.let { filePathAttr ->
           val filePath = filePathAttr.value

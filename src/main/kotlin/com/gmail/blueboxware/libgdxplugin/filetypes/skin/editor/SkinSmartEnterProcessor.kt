@@ -88,7 +88,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
           if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
 
             var commaText = ","
-            CodeStyleSettingsManager.getSettings(parent.project).getCommonSettings(LibGDXSkinLanguage.INSTANCE)?.let { settings ->
+            CodeStyleSettingsManager.getSettings(parent.project).getCommonSettings(LibGDXSkinLanguage.INSTANCE).let { settings ->
               if (settings.SPACE_BEFORE_COMMA) {
                 commaText = " ,"
               }

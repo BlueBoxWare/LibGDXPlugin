@@ -8,7 +8,7 @@ This unofficial plugin adds a number of LibGDX related tools and features to [In
 
 For running and building the plugin from source, see [FromSource](FromSource.md).
 
-This plugin needs a recent version (1.1.51 or higher) of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
+This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) to be installed (even if
 you only use Java), so please install and/or enable that plugin first. 
 
 To update the Kotlin plugin to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Updates* -> *Check for updates now*.
