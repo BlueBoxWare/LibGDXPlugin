@@ -139,9 +139,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
    */
 
   private fun performUnsafeIteratorInspectionTest(name: String) {
-    val lName = "inspections/unsafeIterators/" + name
-    performInspectionsTest(JavaUnsafeIteratorInspection(), lName + ".java")
-    performInspectionsTest(KotlinUnsafeIteratorInspection(), lName + ".kt")
+    val lName = "inspections/unsafeIterators/$name"
+    performInspectionsTest(JavaUnsafeIteratorInspection(), "$lName.java")
+    performInspectionsTest(KotlinUnsafeIteratorInspection(), "$lName.kt")
   }
 
   fun testUnsafeIteratorInspection() {
@@ -172,12 +172,12 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
    * OpenGL Directive inspection
    */
   private fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
-    val lName = "inspections/missingOpenGLDirective/" + name
+    val lName = "inspections/missingOpenGLDirective/$name"
     val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
 
     for (hightLight in hightLights) {
       if (warningExpected) {
-        if (problemElement != null && !hightLight.text.startsWith("<" + problemElement)) {
+        if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
           UsefulTestCase.fail(name + ": Hightlight starts at wrong element: '" + hightLight.text.substring(0, 30) + "'")
           return
         } else {
@@ -190,7 +190,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
 
     if (warningExpected) {
-      UsefulTestCase.fail(name + ": Expected highlight not found")
+      UsefulTestCase.fail("$name: Expected highlight not found")
     }
 
   }
@@ -281,7 +281,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       file.writeText(content)
     }
 
-    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor."+it) } ?: listOf())
+    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
 
   }
 

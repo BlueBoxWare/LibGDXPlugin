@@ -79,13 +79,13 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun replacePackage(className: String, oldPackage: String, newPackage: String) {
 
-    val oldFqName = if (oldPackage == "") className else oldPackage + "." + className
-    val newFqName = if (newPackage == "") className else newPackage + "." + className
+    val oldFqName = if (oldPackage == "") className else "$oldPackage.$className"
+    val newFqName = if (newPackage == "") className else "$newPackage.$className"
 
     for (classSpecification in getClassSpecifications()) {
       if (classSpecification.name == oldFqName) {
         classSpecification.setName(newFqName)
-      } else if (classSpecification.name?.startsWith(oldFqName + "$") == true) {
+      } else if (classSpecification.name?.startsWith("$oldFqName$") == true) {
         classSpecification.name?.replaceFirst(oldFqName, newFqName)?.let {
           classSpecification.setName(it)
         }

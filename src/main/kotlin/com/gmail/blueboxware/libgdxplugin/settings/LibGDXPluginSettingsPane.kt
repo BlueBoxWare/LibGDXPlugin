@@ -21,9 +21,9 @@ import javax.swing.JPanel
  */
 class LibGDXPluginSettingsPane {
 
-  lateinit private var root: JPanel
-  lateinit private var showPreviewsOfColorCheckBox: JCheckBox
-  lateinit private var neverAskAboutSkinFiles: JCheckBox
+  private lateinit var root: JPanel
+  private lateinit var showPreviewsOfColorCheckBox: JCheckBox
+  private lateinit var neverAskAboutSkinFiles: JCheckBox
 
   private var settings = LibGDXPluginSettings()
 

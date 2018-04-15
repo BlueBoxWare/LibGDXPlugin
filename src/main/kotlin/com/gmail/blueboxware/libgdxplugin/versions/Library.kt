@@ -47,10 +47,10 @@ internal open class Library(
 
     var TEST_URL: String? = null
 
-    val META_DATA_FILE = "maven-metadata.xml"
+    const val META_DATA_FILE = "maven-metadata.xml"
 
-    val PERSISTENT_STATE_KEY_VERSION_PREFIX = "com.gmail.blueboxware.libgdxplugin.versions."
-    val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
+    const val PERSISTENT_STATE_KEY_VERSION_PREFIX = "com.gmail.blueboxware.libgdxplugin.versions."
+    const val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
 
     fun extractVersionsFromMavenMetaData(inputStream: InputStream): List<String>? {
 

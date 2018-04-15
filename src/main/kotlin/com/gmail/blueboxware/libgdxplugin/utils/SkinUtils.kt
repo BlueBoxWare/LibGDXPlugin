@@ -32,9 +32,9 @@ import com.intellij.util.indexing.FileBasedIndex
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-private val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
-private val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
-private val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
+private const val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
+private const val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
+private const val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
 
 val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
 

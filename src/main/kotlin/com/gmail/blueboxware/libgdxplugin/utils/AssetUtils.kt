@@ -48,15 +48,15 @@ internal object Assets {
 
   val TEXTURE_ATLAS_TEXTURE_METHODS = listOf("createPatch", "createSprite", "createSprites", "findRegion", "findRegions")
 
-  val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
+  const val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
 
-  val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
-  val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
-  val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
+  const val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
+  const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
+  const val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
 
-  val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
-  val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
-  val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
+  const val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
+  const val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
+  const val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
   val TARGETS_FOR_GDXANNOTATION = listOf(SKIN_CLASS_NAME, TEXTURE_ATLAS_CLASS_NAME, I18NBUNDLE_CLASS_NAME)
 
   val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")

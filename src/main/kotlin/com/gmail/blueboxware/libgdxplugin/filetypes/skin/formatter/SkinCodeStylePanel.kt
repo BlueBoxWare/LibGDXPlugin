@@ -21,10 +21,10 @@ import javax.swing.JPanel
  */
 class SkinCodeStylePanel(settings: CodeStyleSettings) : CodeStyleAbstractPanel(LibGDXSkinLanguage.INSTANCE, null, settings) {
 
-  lateinit private var myPropertiesAlignmentCombo: JComboBox<SkinCodeStyleSettings.PropertyAlignment>
-  lateinit private var myDontWrapColors: JCheckBox
-  lateinit private var myPreviewPanel: JPanel
-  lateinit private var myPanel: JPanel
+  private lateinit var myPropertiesAlignmentCombo: JComboBox<SkinCodeStyleSettings.PropertyAlignment>
+  private lateinit var myDontWrapColors: JCheckBox
+  private lateinit var myPreviewPanel: JPanel
+  private lateinit var myPanel: JPanel
 
   init {
     addPanelToWatch(myPanel)
