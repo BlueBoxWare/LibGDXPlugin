@@ -17,10 +17,10 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeHighlighting.HighlightDisplayLevel
-import com.intellij.codeInspection.BaseJavaLocalInspectionTool
+import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
 import com.intellij.psi.PsiElement
 
-open class LibGDXJavaBaseInspection : BaseJavaLocalInspectionTool() {
+open class LibGDXJavaBaseInspection : AbstractBaseJavaLocalInspectionTool() {
 
   override fun getGroupPath() = arrayOf("LibGDX", "Java")
 
