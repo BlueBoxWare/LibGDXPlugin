@@ -3,11 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinFiles
 import com.gmail.blueboxware.libgdxplugin.utils.key
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiTreeChangeAdapter
-import com.intellij.psi.PsiTreeChangeEvent
-import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.JavaDummyHolder
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
@@ -40,7 +38,7 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
   }
 
   override fun childRemoved(event: PsiTreeChangeEvent) {
-    (event.oldChild as? KtPackageDirective)?.fqName?.asString()?.let { oldPackage ->
+    (event.child as? KtPackageDirective)?.fqName?.asString()?.let { oldPackage ->
       (event.file as? KtFile)?.let { ktFile ->
         ktFile.putUserData(oldPackageKey, oldPackage)
         ktFile.putUserData(newPackageKey, "")
@@ -68,28 +66,44 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
 
   override fun getListener(element: PsiElement?): RefactoringElementListener? {
 
-    if (element !is KtClass) {
+    if (element !is KtClass && element !is KtFile) {
       return null
     }
 
-    val ktFile = element.containingFile as? KtFile ?: return null
-    val currentPackage = ktFile.packageDirective?.fqName?.asString() ?: ""
-    val oldPackage = ktFile.getUserData(oldPackageKey) ?: return null
-    val newPackage = ktFile.getUserData(newPackageKey) ?: return null
-    val className = element.getKotlinFqName()?.shortName()?.asString() ?: return null
-
-    if (newPackage == currentPackage) {
+    if (true) {
       return object: RefactoringElementListener {
 
-        override fun elementRenamed(newElement: PsiElement) = refactored()
+        override fun elementRenamed(newElement: PsiElement) = refactored(newElement)
 
-        override fun elementMoved(newElement: PsiElement) = refactored()
+        override fun elementMoved(newElement: PsiElement) = refactored(newElement)
 
-        fun refactored() {
+        fun refactored(element: PsiElement) {
 
-          getSkinFiles(project).forEach {
+          val ktFile = element.containingFile as? KtFile ?: element as? KtFile ?: return
+          val oldPackage = ktFile.getUserData(oldPackageKey) ?: return
+          val newPackage = ktFile.getUserData(newPackageKey) ?: return
+          val currentPackage = ktFile.packageFqName.asString()
 
-            (it.toPsiFile(project) as? SkinFile)?.replacePackage(className, oldPackage, newPackage)
+          if (currentPackage == newPackage) {
+
+            val fqNames = if (element is PsiClass || element is KtClass) {
+              element.getKotlinFqName()?.let { listOf(it) } ?: return
+            } else if (element is KtFile) {
+              element.classes.mapNotNull { it.getKotlinFqName() }.toList()
+            } else {
+              return
+            }
+
+            ApplicationManager.getApplication().runWriteAction {
+              for (fqName in fqNames) {
+
+                getSkinFiles(project).forEach {
+
+                  (it.toPsiFile(project) as? SkinFile)?.replacePackage(fqName.shortName().asString(), oldPackage, newPackage)
+
+                }
+              }
+            }
 
           }
 
