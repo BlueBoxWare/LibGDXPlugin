@@ -16,4 +16,7 @@ class KColorArrayHolder {
   var nnc: Array<Color?>? = null
 
   val m = arrayOf(arrayOf(ColorArrayHolder()))
+
+  class StaticInner {}
+  inner class NonStaticInner {}
 }

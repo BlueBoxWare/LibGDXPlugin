@@ -23,4 +23,9 @@ public class ColorArrayHolder {
   public Skin.TintedDrawable[] tds;
 
   public int[] ints;
+
+  class NonStaticInner { }
+
+  static class StaticInner {}
+
 }

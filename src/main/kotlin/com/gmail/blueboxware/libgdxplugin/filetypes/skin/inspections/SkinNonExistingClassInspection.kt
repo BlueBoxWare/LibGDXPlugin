@@ -3,8 +3,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.lang.jvm.JvmModifier
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -34,9 +36,15 @@ class SkinNonExistingClassInspection : SkinFileInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
     override fun visitClassName(o: SkinClassName) {
-      if (o.resolve() == null) {
-        holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value))
+
+      val clazz = o.resolve()
+
+      if (clazz == null) {
+        holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value.removeDollarFromClassName()))
+      } else if (clazz.containingClass != null && !clazz.hasModifier(JvmModifier.STATIC)) {
+        holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.value.removeDollarFromClassName()))
       }
+
     }
   }
 }

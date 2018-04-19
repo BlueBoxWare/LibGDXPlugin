@@ -30,4 +30,21 @@
       over: blue
     }
   }
+
+  <error>com.example.ColorArrayHolder$NonStaticInner</error>: {
+
+  }
+
+  com.example.ColorArrayHolder$StaticInner: {
+
+  }
+
+  com.example.KColorArrayHolder$StaticInner: {
+
+  }
+
+  <error>"com.example.KColorArrayHolder$NonStaticInner"</error>: {
+
+  }
+
 }
