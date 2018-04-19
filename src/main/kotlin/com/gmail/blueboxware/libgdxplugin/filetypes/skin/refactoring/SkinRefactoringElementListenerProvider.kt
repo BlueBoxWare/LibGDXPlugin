@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
-import com.gmail.blueboxware.libgdxplugin.utils.allStaticInnerClasses
+import com.gmail.blueboxware.libgdxplugin.utils.findAllInnerClasses
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -43,7 +43,7 @@ class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvide
     for (clazz in classes) {
       (((clazz as? KtClass)?.toLightClass() ?: clazz) as? PsiClass)?.let { psiClass ->
 
-        for (innerClass in psiClass.allStaticInnerClasses()) {
+        for (innerClass in psiClass.findAllInnerClasses()) {
           ReferencesSearch.search(innerClass).forEach { reference ->
             if (reference is SkinJavaClassReference) {
               refToClassMap[reference] = innerClass

@@ -358,7 +358,7 @@ class SkinCompletionContributor : CompletionContributor() {
                 && (psiClass !is KtLightClass || psiClass.kotlinOrigin !is KtObjectDeclaration)
                 )) {
 
-          for (innerClass in psiClass.allStaticInnerClasses()) {
+          for (innerClass in psiClass.findAllStaticInnerClasses()) {
 
             if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
               val fqName = innerClass.putDollarInInnerClassName()
@@ -385,7 +385,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     for (clazz in currentPackage.getClasses(scope)) {
 
-      for (innerClass in clazz.allStaticInnerClasses()) {
+      for (innerClass in clazz.findAllStaticInnerClasses()) {
 
         if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
 

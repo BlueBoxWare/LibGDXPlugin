@@ -64,12 +64,26 @@ internal fun Project.getPsiFile(filename: String): PsiFile? {
 
 }
 
-internal fun PsiClass.allStaticInnerClasses(): List<PsiClass> {
+internal fun PsiClass.findAllInnerClasses(): List<PsiClass> {
+
+  val result = mutableListOf(this)
+
+  for (innerClass in innerClasses) {
+    if (innerClass !is KtLightClass || innerClass.kotlinOrigin !is KtObjectDeclaration) {
+      result.addAll(innerClass.findAllInnerClasses())
+    }
+  }
+
+  return result
+
+}
+
+internal fun PsiClass.findAllStaticInnerClasses(): List<PsiClass> {
   val result = mutableListOf(this)
 
   for (innerClass in innerClasses) {
     if (innerClass.hasModifierProperty(PsiModifier.STATIC) && (innerClass !is KtLightClass || innerClass.kotlinOrigin !is KtObjectDeclaration)) {
-      result.addAll(innerClass.allStaticInnerClasses())
+      result.addAll(innerClass.findAllStaticInnerClasses())
     }
   }
 
