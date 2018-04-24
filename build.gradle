@@ -1,6 +1,6 @@
 plugins {
     id "org.jetbrains.intellij" version "0.3.1"
-    id "org.jetbrains.kotlin.jvm" version "1.2.31"
+    id "org.jetbrains.kotlin.jvm" version "1.2.40"
     id "java"
     id "maven-publish"
 }
