@@ -1,0 +1,17 @@
+ext {
+
+    pluginVersion = '1.15'
+
+    kotlinVersion = '1.2.41'
+
+    intellijPluginVersion = '0.3.2'
+
+    ideaVersion = '2018.1.4'
+
+    studioVersion = '2017.3.3'
+    studioKotlinPlugin = '1.2.30-release-Studio3.1-1'
+
+    useStudio = false
+    runStudio = false
+
+}

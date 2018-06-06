@@ -1,21 +1,46 @@
+buildscript {
+    apply from: 'versions.gradle'
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            url 'http://dl.bintray.com/jetbrains/intellij-plugin-service'
+        }
+
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "gradle.plugin.org.jetbrains.intellij.plugins:gradle-intellij-plugin:$intellijPluginVersion"
+    }
+}
+
 plugins {
-    id "org.jetbrains.intellij" version "0.3.1"
-    id "org.jetbrains.kotlin.jvm" version "1.2.40"
     id "java"
     id "maven-publish"
 }
+
+apply plugin: 'kotlin'
+apply plugin: "org.jetbrains.intellij"
 
 group 'com.gmail.blueboxware'
 version pluginVersion
 
 intellij {
-    if (Boolean.valueOf(isAndroidStudio)) {
-        version = asVersion
-        plugins = ["org.jetbrains.kotlin:$asKotlinPlugin", 'Groovy', 'properties']
-        alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
+
+    plugins = ['Kotlin', 'Groovy', 'properties']
+
+    if (useStudio) {
+        version = studioVersion
+        if (runStudio) {
+            plugins = ["org.jetbrains.kotlin:$studioKotlinPlugin", 'Groovy', 'properties']
+            alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
+        }
     } else {
         version = ideaVersion
-        plugins = ['Kotlin', 'Groovy', 'properties']
     }
 
     pluginName = 'LibGDX Inspections'
