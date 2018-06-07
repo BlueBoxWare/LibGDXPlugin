@@ -8,6 +8,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiLiteralExpression
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -41,8 +44,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   }
 
-  val isLibGDXProject: Boolean
-    get() = getUsedVersion(Libraries.LIBGDX) != null
+  fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
   fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
 
@@ -54,7 +56,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   override fun projectOpened() {
     updateUsedVersions()
-    if (isLibGDXProject) {
+    if (isLibGDXProject()) {
       Libraries.LIBGDX.library.updateLatestVersion(this, true)
       updateLatestVersions()
       updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
@@ -86,6 +88,15 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
   fun updateUsedVersions() {
     usedVersions.clear()
+
+    JavaPsiFacade.getInstance(myProject).findClasses("com.badlogic.gdx.Version", GlobalSearchScope.allScope(myProject)).forEach { psiClass ->
+      val versionString = (psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String ?: "0.0"
+      val version = MavenComparableVersion(versionString)
+      val previousVersion = usedVersions[Libraries.LIBGDX]
+      if (previousVersion == null || version > previousVersion) {
+        usedVersions[Libraries.LIBGDX] = version
+      }
+    }
 
     ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.libraryIterator?.let { libraryIterator ->
       for (lib in libraryIterator) {
