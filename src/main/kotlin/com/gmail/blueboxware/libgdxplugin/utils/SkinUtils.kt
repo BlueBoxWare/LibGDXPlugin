@@ -35,8 +35,9 @@ import com.intellij.util.indexing.FileBasedIndex
 private const val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
 private const val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
 private const val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
+private const val commonClassNames = """(?:Color|BitmapFont|TintedDrawable|ButtonStyle)"""
 
-val SKIN_SIGNATURE = Regex("""com\.badlogic\.gdx\.$fqClassName\s*["']?\s*:\s*\{""")
+val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$fqClassName|\b$commonClassNames)\s*["']?\s*:\s*\{""")
 
 fun getSkinFiles(project: Project): List<VirtualFile> {
   val result = mutableListOf<VirtualFile>()
