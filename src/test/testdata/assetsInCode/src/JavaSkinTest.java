@@ -9,4 +9,10 @@ public class JavaSkinTest {
   @GDXAssets(skinFiles = {"src/assets/dir/skin.json"}, atlasFiles = "")
   static Skin staticSkin;
 
+  void m() {
+    new com.badlogic.gdx.utils.Json().addClassTag("TagColor", com.badlogic.gdx.graphics.Color.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("TagStyle", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("TagTinted", com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable.class)
+  }
+
 }

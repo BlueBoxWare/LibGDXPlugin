@@ -36,6 +36,18 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
     doTest(6, ext = "atlas")
   }
 
+  fun testFindUsagesWithTags1() {
+    doTest(2)
+  }
+
+  fun testFindUsagesWithTags2() {
+    doTest(4)
+  }
+
+  fun testFindUsagesWithTags3() {
+    doTest(4)
+  }
+
   fun testFindUsages4() {
     myFixture.copyFileToProject("findUsages/findUsages4.skin")
     val vf = myFixture.copyFileToProject("findUsages/findUsages4.atlas")
@@ -69,6 +81,10 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
 
   override fun setUp() {
     super.setUp()
+
+    if (getTestName(true).contains("tags", ignoreCase = true)) {
+      addDummyLibGDX199()
+    }
 
     myFixture.copyFileToProject("findUsages/" + getTestName(false) + ".java")
     myFixture.copyFileToProject("findUsages/" + getTestName(false) + ".kt")

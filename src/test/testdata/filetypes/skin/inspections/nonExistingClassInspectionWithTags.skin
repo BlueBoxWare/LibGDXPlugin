@@ -1,0 +1,61 @@
+{
+  <error>com.badlogic.gdx.scenes.scene2d.ui.TextButton$TetButtonStyle</error>: {
+    blue: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white
+    }
+  }
+  com.badlogic.gdx.graphics.Color: {
+    white: {r: 1, g: 1, b: 1, a: 1},
+    blue: {
+      hex: ""
+    }
+  },
+  <error>'BitmapFont'</error>: {
+    blue: {
+      file: medium.fnt
+    }
+  },
+  BitmapFont: {
+    blue: {
+      file: medium.fnt
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    default: {
+      disabledFontColor: blue
+      font: blue
+    }
+  }
+  <error>"com.badlogic.gdx.scenes.scene2d.TextButton$TextButtonStyle"</error>: {
+    something: {
+      font: blue
+      over: blue
+    }
+  }
+
+  <error>com.example.ColorArrayHolder$NonStaticInner</error>: {
+
+  }
+
+  com.example.ColorArrayHolder$StaticInner: {
+
+  }
+
+  com.example.KColorArrayHolder$StaticInner: {
+
+  }
+
+  <error>"com.example.KColorArrayHolder$NonStaticInner"</error>: {
+
+  }
+
+  Tag1: {}
+
+  Tag2: {}
+
+  <error>Tag</error>: {}
+
+}

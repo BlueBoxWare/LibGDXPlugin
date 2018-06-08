@@ -25,7 +25,15 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinNonExistingClassInspection())
   }
 
+  fun testNonExistingClassInspectionWithTags() {
+    doTest(SkinNonExistingClassInspection())
+  }
+
   fun testNonExistingFieldInspection() {
+    doTest(SkinNonExistingFieldInspection())
+  }
+
+  fun testNonExistingFieldInspectionWithTags() {
     doTest(SkinNonExistingFieldInspection())
   }
 
@@ -34,6 +42,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testNonExistingResourceAliasInspection() {
+    doTest(SkinNonExistingResourceAliasInspection())
+  }
+
+  fun testNonExistingResourceAliasInspectionWithTags() {
     doTest(SkinNonExistingResourceAliasInspection())
   }
 
@@ -49,11 +61,23 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinTypeInspection())
   }
 
+  fun testTypeInspectionWithTags() {
+    doTest(SkinTypeInspection())
+  }
+
   fun testDuplicateResourceNameInspection() {
     doTest(SkinDuplicateResourceNameInspection())
   }
 
+  fun testDuplicateResourceNameInspectionWithTags() {
+    doTest(SkinDuplicateResourceNameInspection())
+  }
+
   fun testMissingPropertyInspection() {
+    doTest(SkinMissingPropertyInspection())
+  }
+
+  fun testMissingPropertyInspectionWithTags() {
     doTest(SkinMissingPropertyInspection())
   }
 
@@ -84,8 +108,14 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
+    myFixture.allowTreeAccessForAllFiles()
+
     addLibGDX()
     addKotlin()
+
+    if (getTestName(true).contains("tags", ignoreCase = true)) {
+      addDummyLibGDX199()
+    }
 
     myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
     myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")

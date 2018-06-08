@@ -25,7 +25,7 @@ abstract class BitmapFontPageDefinitionMixin(node: ASTNode) : BitmapFontPageDefi
 
   override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = AllIcons.FileTypes.Any_type
 

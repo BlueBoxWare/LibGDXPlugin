@@ -1,0 +1,13 @@
+{
+  TintedDrawable: {
+    bar: {}
+  }
+
+  WindowStyle: {
+    dialog: { titleFont: default-font, background: default-window, titleFontColor: white, stageBackground: b<caret>ar }
+  }
+
+
+}
+
+

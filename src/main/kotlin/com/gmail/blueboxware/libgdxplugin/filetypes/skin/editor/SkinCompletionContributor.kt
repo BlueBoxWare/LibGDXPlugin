@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.*
@@ -150,13 +151,13 @@ class SkinCompletionContributor : CompletionContributor() {
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
     val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition, {it is SkinClassSpecification})
-
-    if (classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+    
+    if (classSpec.getRealClassNamesAsString().none { it != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" }) {
       // Aliases for TintedDrawables are not allowed
       return
     }
 
-    (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.classNameAsString)?.forEach { cs ->
+    (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.getRealClassNamesAsString())?.forEach { cs ->
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
           doAdd(LookupElementBuilder.create(res.name.makeSafe()).withPresentableText(res.name.escape()), parameters, result)
@@ -169,10 +170,10 @@ class SkinCompletionContributor : CompletionContributor() {
   private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
     val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
-    val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.classNameAsString)?.map { it.name } ?: listOf()
+    val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.getRealClassNamesAsString())?.map { it.name } ?: listOf()
 
     if (!usedResourceNames.contains("default")) {
-      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 1.0), parameters, result)
+      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 2.0), parameters, result)
     }
 
     val strings = mutableSetOf<String>()
@@ -222,11 +223,11 @@ class SkinCompletionContributor : CompletionContributor() {
     val skinFile = parameters.originalFile as? SkinFile ?: return
     val elementType = stringLiteral.resolveToType()
     val elementClass = (elementType as? PsiClassType)?.resolve()
-    val elementClassName = elementClass?.putDollarInInnerClassName()
+    val elementClassName = elementClass?.qualifiedName
 
     if (elementClassName != null && elementClassName != "java.lang.Boolean") {
 
-      skinFile.getClassSpecifications(elementClassName).forEach { classSpec ->
+      skinFile.getClassSpecifications(elementClassName.singletonOrNull()).forEach { classSpec ->
         classSpec.getResourcesAsList(property).forEach { resource ->
 
           val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
@@ -242,7 +243,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
       if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
 
-        skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable").forEach { classSpec ->
+        skinFile.getClassSpecifications(listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")).forEach { classSpec ->
           classSpec.getResourcesAsList(property).forEach { resource ->
             doAdd(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE), parameters, result)
           }
@@ -279,7 +280,6 @@ class SkinCompletionContributor : CompletionContributor() {
     val usedPropertyNames = containingObject.propertyNames
 
     if (objectType == "com.badlogic.gdx.graphics.Color") {
-
 
       if (!usedPropertyNames.contains("hex")) {
         var addHex = true
@@ -331,6 +331,14 @@ class SkinCompletionContributor : CompletionContributor() {
     val project = parameters.position.project
     val psiFacade = JavaPsiFacade.getInstance(project)
     val rootPackage = psiFacade.findPackage(prefix) ?: return
+
+    project.getSkinTag2ClassMap()?.getTags()?.forEach { tag ->
+      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(tag)
+              .withIcon(ICON_TAG)
+              .withBoldness(true),
+              2.0
+      ), parameters, result)
+    }
 
     for (subpackage in rootPackage.subPackages) {
       val priority = packagePriority(subpackage.qualifiedName)
@@ -441,6 +449,8 @@ class SkinCompletionContributor : CompletionContributor() {
             "com.badlogic.gdx.graphics.Color",
             "com.badlogic.gdx.graphics.g2d.BitmapFont"
     )
+
+    val ICON_TAG: Icon = AllIcons.Ide.Link
     val ICON_CLASS: Icon = PlatformIcons.CLASS_ICON
     val ICON_PACKAGE: Icon = PlatformIcons.PACKAGE_ICON
     val ICON_RESOURCE: Icon = AllIcons.Nodes.KeymapOther
@@ -448,5 +458,6 @@ class SkinCompletionContributor : CompletionContributor() {
     val ICON_BITMAP_FONT: Icon = AllIcons.Nodes.ExtractedFolder
     val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
     val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
+    val ICON_PARENT: Icon = AllIcons.Nodes.UpLevel
   }
 }

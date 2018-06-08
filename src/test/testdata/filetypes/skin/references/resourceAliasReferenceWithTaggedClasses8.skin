@@ -1,0 +1,13 @@
+{
+
+  Tinted: {
+    foo: {}
+  }
+
+  ButtonStyle: {
+    default: {
+      down: fo<caret>o
+    }
+  }
+
+}

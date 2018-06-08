@@ -20,6 +20,9 @@
     inverse: {a: 1, b: 1, g: 1, r: 1 },
     ui: {a: 1, b: 0.9, g: 0.71, r: 0.2 }
   },
+  TagColor: {
+    taggedColor3: {}
+  }
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     dialogDim: {name: white, color: {r: 0, g: 0, b: 0, a: 0.45} },
     lightGrey: {name: white, color: {r: 0.9, g: 0.9, b: 0.9, a: 1} },

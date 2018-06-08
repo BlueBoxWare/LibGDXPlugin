@@ -1,0 +1,17 @@
+{
+
+  tag4: {
+    foo: {}
+  }
+
+  com.example.MyTestClass: {
+    bar: {}
+  }
+
+  Tag1: {
+    default: {
+      testClass: b<caret>ar
+    }
+  }
+
+}

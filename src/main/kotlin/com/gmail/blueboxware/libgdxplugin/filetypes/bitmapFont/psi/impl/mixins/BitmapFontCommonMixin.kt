@@ -25,7 +25,7 @@ abstract class BitmapFontCommonMixin(node: ASTNode) : BitmapFontCommon, Property
 
   override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = AllIcons.General.Information
 

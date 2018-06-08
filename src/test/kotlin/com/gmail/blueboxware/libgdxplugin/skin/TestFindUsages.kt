@@ -53,17 +53,28 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     doTest(6)
   }
 
+  fun testFindUsagesWithTaggedClasses1() {
+    doTest(6)
+  }
+
+  fun testFindUsagesWithTaggedClasses2() {
+    doTest(4)
+  }
+
+  fun testFindUsagesWithTaggedClasses3() {
+    doTest(5)
+  }
+
   fun testFindDrawableUsages() {
     myFixture.copyFileToProject("drawableUsages.skin")
     val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
     val origin = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset), { it is AtlasRegion })
-    assertEquals(6, usagesInfos.size)
+    assertEquals(10, usagesInfos.size)
     usagesInfos.forEach { usagesInfo ->
       assertNotNull(usagesInfo.element)
       assertTrue(usagesInfo.element is SkinStringLiteral)
       assertEquals(origin, usagesInfo.element?.reference?.resolve())
     }
-
   }
 
   fun doTest(nrOfUsages: Int) {
@@ -89,6 +100,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addDummyLibGDX199()
     addKotlin()
 
     myFixture.copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")

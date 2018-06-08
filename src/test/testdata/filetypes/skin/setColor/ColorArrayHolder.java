@@ -7,4 +7,8 @@ class ColorArrayHolder {
 
   public ColorArrayHolder[] m;
 
+  void m() {
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag", com.badlogic.gdx.graphics.Color.class)
+  }
+
 }

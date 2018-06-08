@@ -85,7 +85,7 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
 
   override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = ImagesIcons.ImagesFileType
 

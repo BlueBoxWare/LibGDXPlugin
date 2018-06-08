@@ -133,7 +133,7 @@ private class MyStructureViewElement(
 ) : BitmapFontStructureViewElement(element) {
 
   override fun getPresentation() = object: ItemPresentation {
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = this@MyStructureViewElement.icon
 

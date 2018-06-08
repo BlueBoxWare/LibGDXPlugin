@@ -44,11 +44,54 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
                 static Skin staticSkin;
 
                 void f() {
-                    staticSkin.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java);
+                    staticSkin.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle.class);
                 }
 
             }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
+  )
+
+  fun testJavaResourceReferenceWithTag1() = doTest<SkinResource>(
+          JavaFileType.INSTANCE,
+          PsiLiteralExpression::class.java,
           """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+            class SkinTest {
+
+                @GDXAssets(skinFiles = "src/assets/libgdx.skin")
+                static Skin staticSkin;
+
+                void f() {
+                    staticSkin.get("taggedS<caret>tyle1", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle.class);
+                }
+
+            }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
+  )
+
+  fun testJavaResourceReferenceWithTag2() = doTest<SkinResource>(
+          JavaFileType.INSTANCE,
+          PsiLiteralExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+            class SkinTest {
+
+                @GDXAssets(skinFiles = "src/assets/libgdx.skin")
+                static Skin staticSkin;
+
+                void f() {
+                    staticSkin.get("tagged<caret>Style2", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle.class);
+                }
+
+            }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
   )
 
   fun testKotlinResourceReference() = doTest<SkinResource>(
@@ -65,7 +108,8 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
             fun test() {
                 s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
             }
-          """
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
   )
 
   fun testKotlinResourceReference2() = doTest<SkinResource>(
@@ -82,7 +126,26 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
             fun test() {
                 s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
             }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
+  )
+
+  fun testKotlinResourceReferenceWithTag() = doTest<SkinResource>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
           """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            @GDXAssets(atlasFiles = [""], skinFiles = ["src/assets/libgdx.skin"])
+            val s: Skin = Skin()
+
+
+            fun test() {
+                s.get("tagged<caret>Style2", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle::class.java)
+            }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
   )
 
   fun testKotlinAndJavaResourceReference() = doTest<SkinResource>(
@@ -95,7 +158,22 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
             fun f() {
               JavaSkinTest().skin.getColor("inv<caret>erse")
             }
+          """,
+          expectedType = "com.badlogic.gdx.graphics.Color"
+  )
+
+  fun testKotlinAndJavaResourceReferenceWithTags() = doTest<SkinResource>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
           """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            fun f() {
+              JavaSkinTest().skin.getColor("tagged<caret>Color3")
+            }
+          """,
+          expectedType = "com.badlogic.gdx.graphics.Color"
   )
 
   fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
@@ -112,7 +190,26 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
                 }
 
             }
+          """,
+          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle"
+  )
+
+  fun testJavaAndKotlinResourceReferenceWithTags() = doTest<SkinResource>(
+          JavaFileType.INSTANCE,
+          PsiLiteralExpression::class.java,
           """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+            class SkinTest {
+
+                void f() {
+                    new KotlinSkinTest().getSkin().get("mediu<caret>m", com.badlogic.gdx.graphics.g2d.BitmapFont.class);
+                }
+
+            }
+          """,
+          expectedType = "com.badlogic.gdx.graphics.g2d.BitmapFont"
   )
 
   fun testKotlinSkinFileReferenceInAnnotation() = doTest<SkinFile>(
@@ -198,7 +295,8 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
   private inline fun <reified expectedReferentType: PsiElement>doTest(
           fileType: LanguageFileType,
           referencingElementType: Class<out PsiElement>,
-          content: String
+          content: String,
+          expectedType: String? = null
   ) {
 
     myFixture.configureByText(fileType, content)
@@ -206,14 +304,27 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
       PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
     } ?: throw AssertionError("Referencing element not found")
 
-    val referentElement = referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.resolve() ?: throw AssertionError("Referent not found")
+    val referentElement =
+            referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.resolve()
+                    ?: throw AssertionError("Referent not found")
 
     assertTrue(referentElement is expectedReferentType)
 
     if (referentElement is SkinResource) {
       assertEquals(referentElement.name, StringUtil.stripQuotesAroundValue(referencingElement.text))
+      assertEquals(expectedType, referentElement.classSpecification?.resolveClass()?.qualifiedName)
     }
 
   }
 
+  override fun setUp() {
+    super.setUp()
+
+    if (getTestName(true).contains("tag", ignoreCase = true)) {
+      addDummyLibGDX199()
+      myFixture.copyFileToProject("src/JavaSkinTest.java")
+      myFixture.copyFileToProject("src/KotlinSkinTest.kt")
+    }
+
+  }
 }

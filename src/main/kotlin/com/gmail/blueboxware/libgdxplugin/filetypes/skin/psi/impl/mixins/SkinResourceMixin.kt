@@ -55,7 +55,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   }
 
-  override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.classNameAsString == "com.badlogic.gdx.graphics.Color")
+  override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") == true)
 
   override fun setName(name: String): PsiElement? {
     SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
@@ -70,7 +70,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
     override fun getLocationString(): String? = VfsUtil.getRelativeLocation(containingFile.virtualFile, project.baseDir)
 
     override fun getIcon(unused: Boolean): Icon? {
-      val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
+      val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
       return (value as? SkinObject)?.asColor(force)?.let { ColorIcon(if (UIUtil.isRetina()) 26 else 13, it, true) } ?: AllIcons.FileTypes.Properties
     }
 

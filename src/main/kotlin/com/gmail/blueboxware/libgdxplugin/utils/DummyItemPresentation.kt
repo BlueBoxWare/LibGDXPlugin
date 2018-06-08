@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.navigation.ItemPresentation
+import javax.swing.Icon
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -19,9 +20,9 @@ import com.intellij.navigation.ItemPresentation
  */
 class DummyItemPresentation : ItemPresentation {
 
-  override fun getLocationString() = null
+  override fun getLocationString(): String? = null
 
-  override fun getIcon(unused: Boolean) = null
+  override fun getIcon(unused: Boolean): Icon? = null
 
-  override fun getPresentableText() = null
+  override fun getPresentableText(): String? = null
 }

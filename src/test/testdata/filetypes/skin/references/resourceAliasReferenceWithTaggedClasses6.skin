@@ -1,0 +1,14 @@
+{
+  ColorTag: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    default: red
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
+    alias: yellow
+    alias2: red,
+  },
+
+  TintedDrawable: {
+    default: { color: r<caret>ed }
+  }
+}

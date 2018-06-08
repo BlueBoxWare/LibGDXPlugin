@@ -1,0 +1,26 @@
+{
+  TextButtonStyle: {
+    t1: t2
+    t<caret>2: {
+      fontColor: { hex: "ff0000" }
+    },
+    t3: t2
+  },
+  ListStyle: {
+    t3: {},
+    default: {}
+  }
+  Tag1: {
+    default: {
+      buttonStyles: [ t2 ],
+    }
+  },
+  TextButtonStyle: {
+    default: t2
+  },
+  Tag2: {
+    d: {
+      buttonStyles: [ "t2" ],
+    }
+  },
+}

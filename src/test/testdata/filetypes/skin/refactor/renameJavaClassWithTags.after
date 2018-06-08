@@ -1,0 +1,34 @@
+{
+  JC: {
+    d: {
+      bool: true
+    }
+  }
+  "JC": {
+
+  }
+  No: {
+
+  }
+
+  com.example.MyClass$InnerClass: {
+
+  }
+
+  Inner: {
+
+  }
+
+  com.example.MyClass$NonStatic: {
+
+  }
+
+  "com.example.MyClass$InnerClass$InnerInnerClass": {
+
+  }
+
+  com.example.MyClass$Private: {
+
+  }
+
+}

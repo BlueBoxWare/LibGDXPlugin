@@ -3,8 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 
@@ -34,11 +34,11 @@ class SkinDuplicateResourceNameInspection: SkinFileInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 
     override fun visitResource(skinResource: SkinResource) {
-      val className = skinResource.classSpecification?.classNameAsString ?: return
+      val classNames = skinResource.classSpecification?.getRealClassNamesAsString()
 
-      (skinResource.containingFile as? SkinFile)?.getResources(className, skinResource.name)?.let { resources ->
+      (skinResource.containingFile as? SkinFile)?.getResources(classNames, skinResource.name)?.let { resources ->
         if (resources.size > 1) {
-          holder.registerProblem(skinResource.resourceName, message("skin.inspection.duplicate.resource.message", skinResource.name, className.removeDollarFromClassName()))
+          holder.registerProblem(skinResource.resourceName, message("skin.inspection.duplicate.resource.message", skinResource.name, classNames?.firstOrNull() ?: "<unknown>"))
         }
       }
 

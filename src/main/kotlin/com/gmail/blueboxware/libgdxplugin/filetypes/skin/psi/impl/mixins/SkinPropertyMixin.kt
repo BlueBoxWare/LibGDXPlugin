@@ -69,11 +69,11 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   }
 
   override fun getPresentation() = object : ItemPresentation {
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean): Icon {
 
-      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.classNameAsString == "com.badlogic.gdx.graphics.Color"
+      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
         return ColorIcon(if (UIUtil.isRetina()) 26 else 13, color, true)

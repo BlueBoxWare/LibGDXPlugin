@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
@@ -34,9 +35,9 @@ class SkinFindUsagesProvider : FindUsagesProvider {
     else                -> ""
   }
 
-  override fun getHelpId(psiElement: PsiElement) = null
+  override fun getHelpId(psiElement: PsiElement): String? = null
 
   override fun canFindUsagesFor(psiElement: PsiElement) = psiElement is SkinResource
 
-  override fun getWordsScanner() = null
+  override fun getWordsScanner(): WordsScanner? = null
 }

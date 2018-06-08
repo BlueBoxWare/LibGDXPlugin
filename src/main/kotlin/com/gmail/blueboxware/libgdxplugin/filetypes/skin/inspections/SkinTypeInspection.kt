@@ -75,7 +75,7 @@ class SkinTypeInspection: SkinFileInspection() {
         } else if (propertyName == "scaledSize" && skinValue.text.toIntOrNull() != null) {
           return
         }
-        if ((skinValue.reference?.resolve() as? SkinResource)?.classSpecification?.classNameAsString == expectedType?.canonicalText) {
+        if ((skinValue.reference?.resolve() as? SkinResource)?.classSpecification?.getRealClassNamesAsString()?.contains(expectedType?.canonicalText) == true) {
           return
         }
         if (propertyName == "scaledSize") {

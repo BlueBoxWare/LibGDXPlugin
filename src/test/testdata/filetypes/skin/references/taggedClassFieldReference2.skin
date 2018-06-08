@@ -1,0 +1,8 @@
+{
+  tag4: {
+    foo: {}
+    default: {
+      test<caret>Class: foo
+    }
+  }
+}

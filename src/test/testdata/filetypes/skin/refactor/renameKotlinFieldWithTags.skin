@@ -1,0 +1,34 @@
+{
+
+  Tag2: {
+    default: {
+      bool: true
+    }
+    foo: {
+      "bool": false
+    }
+  }
+
+  Tag1: {
+    bar: {
+      kotlin: {
+        "bool": true
+      }
+      m: [
+        {
+          kotlin: {
+            bool: false
+          }
+        },
+        {
+          kotlin: {
+            'bool': true
+          }
+        }
+      ]
+
+    }
+  }
+
+}
+

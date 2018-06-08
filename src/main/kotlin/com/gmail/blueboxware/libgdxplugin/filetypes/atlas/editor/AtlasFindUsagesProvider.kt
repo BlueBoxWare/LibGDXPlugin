@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
@@ -31,10 +32,10 @@ class AtlasFindUsagesProvider : FindUsagesProvider {
 
   override fun getDescriptiveName(element: PsiElement) = (element as? PsiNamedElement)?.name ?: ""
 
-  override fun getHelpId(psiElement: PsiElement) = null
+  override fun getHelpId(psiElement: PsiElement): String? = null
 
   override fun canFindUsagesFor(psiElement: PsiElement) = psiElement is AtlasRegion
 
-  override fun getWordsScanner() = null
+  override fun getWordsScanner(): WordsScanner? = null
 
 }

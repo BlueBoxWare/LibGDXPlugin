@@ -1,0 +1,87 @@
+{
+  TextButtonStyle: {
+    blue: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white,
+      <error>blue</error>: "no"
+}
+}
+Color: {
+white: {r: 1, g: 1, b: 1, a: 1, <error>z</error>: 1},
+blue: {
+hex: "ff"
+}
+},
+BitmapFont: {
+blue: {
+file: medium.fnt
+},
+medium: {
+file: medium.fnt,
+scaledSize: -1,
+markupEnabled: false,
+<error>markupenabled</error>: false,
+flip : false
+<error>flipped</error>: true
+}
+},
+CheckBoxStyle: {
+default: {
+<error>enabledFontColor</error>: blue
+<error>"enabledFontColor"</error>: blue
+disabledFontColor: blue
+font: blue
+}
+}
+TextButtonStyle: {
+something: {
+font: blue
+over: blue
+<error>checkered</error>: true
+<error>'checkered'</error>: true
+}
+green: {
+down: round-down, up: round,
+font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+}
+}
+"TintedDrawable": {
+round-green: { name: round, color: green }
+round-blue: { <error>title</error>: round, color: green }
+}
+
+Tag4: {
+default: {
+textButtonStyles: [
+{
+fontColor: {},
+<error>something</error>: {}
+}
+] ,
+m: [
+{
+colors: []
+<error>clors</error>: [],
+moreColors: [[{g:1, <error>w</error>: 1}]]
+},
+{
+m: [
+{
+textButtonStyle: {
+font: {
+file: ""
+flip: true,
+<error>flp</error>: false
+}
+}
+}
+]
+}
+],
+c: {}
+<error>d</error>: {}
+}
+}
+}

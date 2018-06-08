@@ -7,12 +7,35 @@
     }
   },
 
+  TextButtonStyle: {
+    ffff: {
+      checked: start-pressed,
+      disabled: start-pressed
+    }
+  },
+
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     default: {
       name: start-pressed,
       color: start-pressed
     }
   },
+
+  TintedDrawable: {
+    default: {
+      name: start-pressed,
+      color: start-pressed
+    }
+  },
+
+  Tag2: {
+    z: {
+      textButtonStyle: {
+        disabled: start-pressed
+        font: start-pressed
+      }
+    }
+  }
 
   com.example.KotlinClass: {
     a: {

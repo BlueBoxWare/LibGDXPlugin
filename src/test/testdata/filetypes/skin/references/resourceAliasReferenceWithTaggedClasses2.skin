@@ -1,0 +1,9 @@
+{
+  com.example.KTestClass: {
+    foo: {}
+  }
+
+  tag2: {
+    bar: f<caret>oo
+  }
+}

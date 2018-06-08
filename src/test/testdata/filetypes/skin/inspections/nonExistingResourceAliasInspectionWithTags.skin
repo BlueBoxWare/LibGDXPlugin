@@ -1,0 +1,95 @@
+{
+  Color: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
+    c: <error>blue</error>,
+d: <error>green</error>,
+y: <error>z</error>
+},
+
+  com.badlogic.gdx.graphics.Color: {
+  a: white,
+  b: red,
+  }
+BitmapFont: {
+medium: { file: medium.fnt }
+},
+TextButtonStyle: {
+default: {
+down: round-down, up: round,
+font: medium, fontColor: white
+},
+toggle: {
+down: round-down, up: round, checked: round-down,
+font: medium, fontColor: white, checkedFontColor: red
+},
+green: {
+down: round-down, up: round,
+font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+},
+standard: toggle,
+non-standard: <error>notoggle</error>,
+x: <error>z</error>
+},
+TintedDrawable: {
+round-green: { name: round, color: <error>green</error> }
+}
+
+Color: {
+blue: { r: 1, g: 1, b: 1, a: 1 },
+f: <error>green</error>,
+e: yellow,
+z: d
+123: b
+},
+TextButtonStyle: {
+yes: green,
+no: <error>yellow</error>,
+z: <error>d</error>
+}
+
+Tag3: {
+a: {
+colors: [red, <error>pink</error> ],
+moreColors: [pink, [<error>pink</error>]],
+m: [
+{
+textButtonStyle: <error>d</error>
+},
+{
+textButtonStyle: no
+}
+{
+textButtonStyle: <error>pink</error>
+}
+]
+textButtonStyles: [
+{
+font: {
+flip: true
+file: sfdsdsf
+}
+},
+{
+font: medium
+},
+{
+font: <error>pink</error>
+}
+]
+  }
+  },
+
+  TextButtonStyle: {
+  d: {
+  fontColor: <error>pink</error>
+}
+e: {
+fontColor: 123
+}
+f: {
+fontColor: <error>456</error>
+}
+}
+}

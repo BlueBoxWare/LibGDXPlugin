@@ -1,0 +1,9 @@
+{
+  Tag3: {
+    foo: {}
+  }
+
+  tag2: {
+    bar: f<caret>oo
+  }
+}

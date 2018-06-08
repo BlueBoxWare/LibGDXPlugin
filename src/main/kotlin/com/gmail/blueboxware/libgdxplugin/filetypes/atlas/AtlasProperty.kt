@@ -44,7 +44,7 @@ abstract class AtlasProperty(node: ASTNode) : AtlasElementImpl(node), Navigation
 
   override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString() = null
+    override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = AllIcons.Nodes.Property
 

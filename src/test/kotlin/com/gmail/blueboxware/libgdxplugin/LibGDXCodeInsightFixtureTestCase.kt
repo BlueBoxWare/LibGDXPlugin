@@ -61,7 +61,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
     super.setUp()
 
-    addDummyLibrary(Libraries.LIBGDX, "1.9.3")
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 
@@ -80,6 +79,8 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
     super.tearDown()
   }
+
+  fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
   fun addDummyLibrary(library: Libraries, version: String) {
 

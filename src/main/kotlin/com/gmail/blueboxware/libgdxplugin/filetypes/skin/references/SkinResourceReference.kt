@@ -4,8 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
-import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
@@ -43,8 +43,9 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
       (element.containingFile as? SkinFile)?.getClassSpecifications()?.let { classSpecifications ->
 
           for (classSpec in classSpecifications) {
-            if (classSpec.classNameAsString.removeDollarFromClassName() == valueType
-                    || ((valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) && classSpec.classNameAsString == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+            val realClassNames = classSpec.getRealClassNamesAsString()
+            if (realClassNames.contains(valueType)
+                    || ((valueType == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) && realClassNames.contains("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"))
                     ) {
               for (resource in classSpec.getResourcesAsList(element)) {
                 if (resource.name == element.value) {

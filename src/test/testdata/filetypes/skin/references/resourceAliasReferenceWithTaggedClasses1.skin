@@ -1,0 +1,9 @@
+{
+  Tag1: {
+    foo: {}
+  }
+
+  com.example.MyTestClass: {
+    bar: f<caret>oo
+  }
+}

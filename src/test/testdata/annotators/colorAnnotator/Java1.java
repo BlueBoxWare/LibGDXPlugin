@@ -30,6 +30,9 @@ public class Java1 {
 
   final String resource = "red";
   final Color ccc1 = <weak_warning descr="#ff0000ff">skin.getColor("red")</weak_warning>;
+  final Color ccca1 = <weak_warning descr="#ff0000ff">skin.getColor("taggedColor1")</weak_warning>;
+  final Color ccca2 = <weak_warning descr="#ff00ffff">skin.getColor("taggedColor2")</weak_warning>;
+  final Color ccca3 = <weak_warning descr="#808000ff">skin.getColor("taggedColor3")</weak_warning>;
   final Color ccc2 = <weak_warning descr="#ff0000ff">skin.get("red", Color.class)</weak_warning>;
   final Drawable ccca = skin.get("red", Drawable.class);
   final Color ccc4 = <weak_warning descr="#ff0000ff">skin.optional(resource, Color.class)</weak_warning>;
@@ -41,6 +44,12 @@ public class Java1 {
     final Color ccccc1 = <weak_warning descr="#ff0000ff">ccc5</weak_warning>;
     final Color ccccc2 = <weak_warning descr="#ff0000ff">ccc6</weak_warning>;
     final Color ccccc4 = <weak_warning descr="#ff0000ff">ccc8</weak_warning>;
+
+    Color zza1 = <weak_warning descr="#ff0000ff">ccca1</weak_warning>;
+    Color zza2 = <weak_warning descr="#ff00ffff">ccca2</weak_warning>;
+    Color zza3 = <weak_warning descr="#808000ff">ccca3</weak_warning>;
+
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag", com.badlogic.gdx.graphics.Color.class);
   }
 
   public static class C {
@@ -89,6 +98,7 @@ public class Java1 {
 
     Color zz1 = <weak_warning descr="#ff0000ff">Color.valueOf(new C().c1)</weak_warning>;
     Color zz2 = Color.valueOf(<weak_warning descr="#00ff00ff">new C().c2</weak_warning>);
+
   }
 
 }

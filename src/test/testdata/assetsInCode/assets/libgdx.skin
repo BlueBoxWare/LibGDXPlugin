@@ -6,6 +6,13 @@
     "\"'\n\r/": {}
     ''\"\u7654: {}
   },
+
+  Color: {
+    taggedColor1: {}
+  }
+  TagColor: {
+    taggedColor2: {}
+  }
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: { file: medium.fnt }
   },
@@ -23,6 +30,12 @@
       font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
     }
   }
+  TextButtonStyle: {
+    taggedStyle1: {}
+  }
+  TagStyle: {
+    taggedStyle2: {}
+  }
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     user-red: {
       name: user
@@ -33,5 +46,12 @@
         a: 1
       }
     }
+  }
+  TintedDrawable: {
+    taggedTinted1: {}
+  }
+
+  TagTinted: {
+    "taggedTinted2": {}
   }
 }

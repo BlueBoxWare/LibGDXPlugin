@@ -4,9 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
@@ -44,20 +42,26 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 
-  override fun getClassSpecifications(className: String?): Collection<SkinClassSpecification> {
+  override fun getClassSpecifications(classNames: Collection<String>?): Collection<SkinClassSpecification> {
     val classSpecs = PsiTreeUtil.findChildrenOfType(this, SkinClassSpecification::class.java)
 
-    if (className != null) {
-      return classSpecs.filter { it.classNameAsString == className }
+    if (classNames != null) {
+      return classSpecs.filter { it.getRealClassNamesAsString().any { classNames.contains(it) } }
     }
 
     return classSpecs
   }
 
-  override fun getResources(className: String?, resourceName: String?, beforeElement: PsiElement?) =
-          getClassSpecifications(className)
+  override fun getClassSpecifications(className: String): Collection<SkinClassSpecification> =
+          getClassSpecifications(listOf(className))
+
+  override fun getResources(classNames: Collection<String>?, resourceName: String?, beforeElement: PsiElement?) =
+          getClassSpecifications(classNames)
                   .flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
                   .filter { beforeElement == null || it.endOffset < beforeElement.startOffset }
+
+  override fun getResources(className: String, resourceName: String?, beforeElement: PsiElement?): List<SkinResource> =
+          getResources(listOf(className), resourceName, beforeElement)
 
   override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
           children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }

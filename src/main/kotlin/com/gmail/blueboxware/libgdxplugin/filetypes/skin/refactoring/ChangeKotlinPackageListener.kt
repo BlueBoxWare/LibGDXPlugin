@@ -70,49 +70,45 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
       return null
     }
 
-    if (true) {
-      return object: RefactoringElementListener {
+    return object: RefactoringElementListener {
 
-        override fun elementRenamed(newElement: PsiElement) = refactored(newElement)
+      override fun elementRenamed(newElement: PsiElement) = refactored(newElement)
 
-        override fun elementMoved(newElement: PsiElement) = refactored(newElement)
+      override fun elementMoved(newElement: PsiElement) = refactored(newElement)
 
-        fun refactored(element: PsiElement) {
+      fun refactored(element: PsiElement) {
 
-          val ktFile = element.containingFile as? KtFile ?: element as? KtFile ?: return
-          val oldPackage = ktFile.getUserData(oldPackageKey) ?: return
-          val newPackage = ktFile.getUserData(newPackageKey) ?: return
-          val currentPackage = ktFile.packageFqName.asString()
+        val ktFile = element.containingFile as? KtFile ?: element as? KtFile ?: return
+        val oldPackage = ktFile.getUserData(oldPackageKey) ?: return
+        val newPackage = ktFile.getUserData(newPackageKey) ?: return
+        val currentPackage = ktFile.packageFqName.asString()
 
-          if (currentPackage == newPackage) {
+        if (currentPackage == newPackage) {
 
-            val fqNames = if (element is PsiClass || element is KtClass) {
-              element.getKotlinFqName()?.let { listOf(it) } ?: return
-            } else if (element is KtFile) {
-              element.classes.mapNotNull { it.getKotlinFqName() }.toList()
-            } else {
-              return
-            }
+          val fqNames = if (element is PsiClass || element is KtClass) {
+            element.getKotlinFqName()?.let { listOf(it) } ?: return
+          } else if (element is KtFile) {
+            element.classes.mapNotNull { it.getKotlinFqName() }.toList()
+          } else {
+            return
+          }
 
-            ApplicationManager.getApplication().runWriteAction {
-              for (fqName in fqNames) {
+          ApplicationManager.getApplication().runWriteAction {
+            for (fqName in fqNames) {
 
-                getSkinFiles(project).forEach {
+              getSkinFiles(project).forEach {
 
-                  (it.toPsiFile(project) as? SkinFile)?.replacePackage(fqName.shortName().asString(), oldPackage, newPackage)
+                (it.toPsiFile(project) as? SkinFile)?.replacePackage(fqName.shortName().asString(), oldPackage, newPackage)
 
-                }
               }
             }
-
           }
 
         }
 
       }
-    }
 
-    return null
+    }
 
   }
 

@@ -47,7 +47,7 @@ class TestRefactor : AssetsInCodeCodeInsightFixtureTestCase() {
   fun testRenameResourceInJava() {
     val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
     val skinFile = PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile ?: throw AssertionError()
-    val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle", "green").firstOrNull() ?: throw AssertionError()
+    val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle", "green").firstOrNull() ?: throw AssertionError()
     myFixture.configureByFile("refactor/JavaClass.java")
     myFixture.renameElement(element, "yellow")
     myFixture.checkResultByFile("refactor/JavaClass.renameResource.after")
@@ -56,7 +56,7 @@ class TestRefactor : AssetsInCodeCodeInsightFixtureTestCase() {
   fun testRenameResourceInKotlin() {
     val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
     val skinFile = PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile ?: throw AssertionError()
-    val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle", "green").firstOrNull() ?: throw AssertionError()
+    val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle", "green").firstOrNull() ?: throw AssertionError()
     myFixture.configureByFile("refactor/KotlinFile.kt")
     myFixture.renameElement(element, "yellow")
     myFixture.checkResultByFile("refactor/KotlinFile.renameResource.after")

@@ -3,8 +3,10 @@ package com.gmail.blueboxware.libgdxplugin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles
+import com.gmail.blueboxware.libgdxplugin.utils.singletonOrNull
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
@@ -40,7 +42,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
     if (className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
       assetFiles.first.forEach {
         if (it.getUserData(Assets.FAKE_FILE_KEY) != true) {
-          it.getResources(if (isDrawable) "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" else className, resourceName).forEach { resource ->
+          it.getResources(if (isDrawable) listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") else className.singletonOrNull(), resourceName).forEach { resource ->
             result.add(PsiElementResolveResult(resource))
           }
         }
@@ -74,13 +76,13 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
     if (className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
       assetFiles.first.forEach { skinFile ->
 
-        skinFile.getResources(if (isDrawable) "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" else className, null).forEach { resource ->
+        skinFile.getResources(if (isDrawable) listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") else className.singletonOrNull(), null).forEach { resource ->
           val lookupElement = LookupElementBuilder
                   .create(resource)
                   .withIcon(resource.asColor(false)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) })
                   .withTypeText(
                           if (className == null)
-                            StringUtil.getShortName(resource.classSpecification?.classNameAsString ?: "")
+                            StringUtil.getShortName(resource.classSpecification?.getRealClassNamesAsString()?.firstOrNull() ?: "")
                           else
                             if (isDrawable)
                               getOriginalFileName(skinFile)

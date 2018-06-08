@@ -1,0 +1,17 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    blue: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white
+    }
+  }
+
+  tag<caret>2: {
+    default: {
+      name: "name"
+    }
+  }
+
+}

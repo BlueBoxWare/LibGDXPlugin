@@ -19,4 +19,10 @@ class KColorArrayHolder {
 
   class StaticInner {}
   inner class NonStaticInner {}
+
+  fun f() {
+    com.badlogic.gdx.utils.Json().addClassTag("Tag2", com.example.ColorArrayHolder::class.java)
+    com.badlogic.gdx.utils.Json().addClassTag("Tag3", com.example.ColorArrayHolder::class.java)
+  }
+
 }

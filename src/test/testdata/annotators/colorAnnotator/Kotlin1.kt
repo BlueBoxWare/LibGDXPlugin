@@ -9,6 +9,10 @@ val skin: Skin = Skin()
 @GDXAssets(skinFiles = ["src/libgdx.skin"])
 val skin2: Skin = Skin()
 
+fun funny() {
+  com.badlogic.gdx.utils.Json().addClassTag("Tag", com.badlogic.gdx.graphics.Color::class.java)
+}
+
 val s = "ff00ff"
 val c1 = <weak_warning descr="#ff0000ff">"#ff0000"</weak_warning>
 val c2 = <weak_warning descr="#00006443">Color(25667)</weak_warning>
@@ -17,6 +21,10 @@ val c4 = <weak_warning descr="#00ffff99">Color.valueOf("00ffff99")</weak_warning
 val c5 = Color.PINK
 val c6 = Color.valueOf(<weak_warning descr="#ff0000ff">c1</weak_warning>)
 val c7 = <weak_warning descr="#ff00ffff">Color.valueOf(s)</weak_warning>
+
+val ooo1 = <weak_warning descr="#ff0000ff">skin2.getColor("taggedColor1")</weak_warning>
+val ooo2 = <weak_warning descr="#ff00ffff">skin2.getColor("taggedColor2")</weak_warning>
+val ooo3 = <weak_warning descr="#808000ff">skin2.getColor("taggedColor3")</weak_warning>
 
 val resource = "red"
 val d1 = <weak_warning descr="#ff0000ff">skin.getColor("red")</weak_warning>
@@ -61,6 +69,10 @@ class C {
   val c5 = Color.PINK
   val c6 = Color.valueOf(<weak_warning descr="#ff0000ff">c1</weak_warning>)
   val c7 = <weak_warning descr="#ff00ffff">Color.valueOf(s)</weak_warning>
+
+  val p1 = <weak_warning descr="#ff0000ff">ooo1</weak_warning>
+  val p2 = <weak_warning descr="#ff00ffff">ooo2</weak_warning>
+  val p3 = <weak_warning descr="#808000ff">ooo3</weak_warning>
 
   companion object {
     val ss = s

@@ -2,10 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiClass
@@ -61,6 +58,18 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
+  fun testResourceReferenceWithTaggedClasses1() {
+    doTestResourceReference("bar", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
+  fun testResourceReferenceWithTaggedClasses2() {
+    doTestResourceReference("foo", "com.example.MyTestClass")
+  }
+
+  fun testResourceReferenceWithTaggedClasses3() {
+    doTestResourceReference("bar", "com.example.MyTestClass")
+  }
+
   fun testResourceAliasReference1() {
     doTestResourceReference("yellow", "com.badlogic.gdx.graphics.Color")
   }
@@ -73,7 +82,44 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("dark-gray", "com.badlogic.gdx.graphics.Color")
   }
 
+  fun testResourceAliasReferenceWithTaggedClasses1() {
+    doTestResourceReference("foo", "com.example.MyTestClass")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses2() {
+    doTestResourceReference("foo", "com.example.KTestClass")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses3() {
+    doTestResourceReference("foo", "com.example.KTestClass")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses4() {
+    doTestResourceReference("foo", "com.example.KTestClass")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses5() {
+    doTestResourceReference("red", "com.badlogic.gdx.graphics.Color")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses6() {
+    doTestResourceReference("red", "com.badlogic.gdx.graphics.Color")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses7() {
+    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses8() {
+    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
   fun testResourceReferenceTintedDrawable() {
+    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
+
+  fun testResourceReferenceTintedDrawableWithTaggedClasses() {
     doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
   }
 
@@ -92,7 +138,25 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertTrue(element!!.multiResolve().isEmpty())
   }
 
+  fun testTaggedClassReference1() {
+    doTestJavaClassReference("com.example.MyTestClass")
+  }
+
+  fun testTaggedClassReference2() {
+    doTestJavaClassReference("com.example.KTestClass")
+  }
+
   fun testBitmapFontReference() {
+    myFixture.copyFileToProject("bitmap.fnt")
+    doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
+  }
+
+  fun testBitmapFontReferenceWithTaggedClasses1() {
+    myFixture.copyFileToProject("bitmap.fnt")
+    doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
+  }
+
+  fun testBitmapFontReferenceWithTaggedClasses2() {
     myFixture.copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
   }
@@ -121,6 +185,14 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checkedOffsetX")
   }
 
+  fun testTaggedClassFieldReference1() {
+    doTestFieldReference("com.example.MyTestClass::name")
+  }
+
+  fun testTaggedClassFieldReference2() {
+    doTestFieldReference("com.example.MyTestClass::testClass")
+  }
+
   fun testFieldReferenceKotlin1() {
     doTestFieldReference("com.example.KTestClass::labelStyles")
   }
@@ -142,6 +214,14 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testDrawableReference3() {
+    doTestDrawableReference()
+  }
+
+  fun testDrawableReferenceWithTaggedClasses1() {
+    doTestDrawableReference()
+  }
+
+  fun testDrawableReferenceWithTaggedClasses2() {
     doTestDrawableReference()
   }
 
@@ -174,7 +254,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     if (resourceName != null) {
       assertNotNull(resource)
       assertEquals(resourceName, resource?.name)
-      assertEquals(resourceType, resource?.classSpecification?.classNameAsString)
+      assertTrue(resource?.classSpecification?.getRealClassNamesAsString()?.contains(resourceType.removeDollarFromClassName()) == true)
     } else {
       assertNull(resource)
     }
@@ -203,12 +283,17 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
 
-    if (getTestName(true).contains("Kotlin")) {
+    myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
+
+    val testName = getTestName(true)
+
+    if (testName.contains("Kotlin") || testName.contains("tagged", ignoreCase = true)) {
       addKotlin()
       myFixture.copyFileToProject("com/example/KTestClass.kt", "com/example/KTestClass.kt")
+      if (testName.contains("tagged", ignoreCase = true)) {
+        addDummyLibGDX199()
+      }
     }
-
-    myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
 
   }
 

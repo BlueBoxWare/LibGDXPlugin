@@ -20,3 +20,7 @@ class KotlinClass {
   object InnerObject
 
 }
+
+fun t() {
+  com.badlogic.gdx.utils.Json().addClassTag("Tag1", com.example.MyTestClass::class.java)
+}

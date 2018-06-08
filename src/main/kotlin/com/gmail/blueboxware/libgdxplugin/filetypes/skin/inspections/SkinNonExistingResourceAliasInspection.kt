@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.application.ApplicationManager
@@ -57,7 +56,7 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
       }
 
       (stringLiteral.containingFile as? SkinFile)?.let { skinFile ->
-        if (skinFile.getResources(clazz.putDollarInInnerClassName(), stringLiteral.value, beforeElement = stringLiteral).isEmpty()) {
+        if (skinFile.getResources(clazz.qualifiedName ?: "", stringLiteral.value, beforeElement = stringLiteral).isEmpty()) {
           holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value))
         }
       }

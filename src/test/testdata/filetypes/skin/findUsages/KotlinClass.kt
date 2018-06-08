@@ -20,4 +20,9 @@ class KotlinClass {
 
   val m = arrayOf<KotlinClass>()
 
+  fun t() {
+    com.badlogic.gdx.utils.Json().addClassTag("Tag1", com.example.KotlinClass::class.java)
+    com.badlogic.gdx.utils.Json().addClassTag("Tag2", com.example.KotlinClass::class.java)
+  }
+
 }

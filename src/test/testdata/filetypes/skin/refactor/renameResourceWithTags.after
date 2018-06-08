@@ -1,0 +1,47 @@
+{
+  Color: {
+    x: blue
+  }
+
+  Color: {
+    "green": {r: 1, g: 1, b: 1, a: 1},
+    red: {r: 1, g: 0, b: 0, a: 1},
+    yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+    color1: green
+    color2: 'blue',
+    color3: "green"
+  },
+  TextButtonStyle: {
+    default: {
+      fontColor: green,
+      checked: blue,
+    }
+  },
+  LabelStyle: {
+    bla: {
+      background: "blue"
+      fontColor: "green"
+    },
+    something: {
+      background: blue
+      fontColor: green
+    }
+  }
+  SelectBoxStyle: {
+    default: {
+      disabledFontColor: 'blue',
+      backgroundOpen: blue
+    }
+  },
+  Tag1: {
+    default: {
+      colors: [
+        [blue],
+        green, green
+      ]
+    },
+    yes: {
+      moreColors: [blue, [green, "green", 'blue']]
+    }
+  }
+}

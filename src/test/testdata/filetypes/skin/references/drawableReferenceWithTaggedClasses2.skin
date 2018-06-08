@@ -1,0 +1,7 @@
+{
+  Tinted: {
+    b: {
+      name: bu<caret>tton-forward
+    }
+  }
+}

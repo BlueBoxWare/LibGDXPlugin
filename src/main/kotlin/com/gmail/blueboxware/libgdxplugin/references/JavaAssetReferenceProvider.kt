@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
@@ -91,7 +90,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
         getClassFromClassObjectExpression(arg2)?.let { clazz ->
           if (clazz in Assets.SKIN_TEXTURE_REGION_CLASSES) {
             return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
+          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
             return AssetReference.createReferences(element, methodCall, wantedClass = clazz)
           }
         }
@@ -107,6 +106,6 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
   }
 
   private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): String? =
-          (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()?.let(PsiClass::putDollarInInnerClassName)
+          (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()?.qualifiedName
 
 }

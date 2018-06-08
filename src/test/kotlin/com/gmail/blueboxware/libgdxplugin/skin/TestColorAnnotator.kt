@@ -33,6 +33,7 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addDummyLibGDX199()
     myFixture.copyFileToProject("ColorArrayHolder.java")
   }
 

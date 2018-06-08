@@ -28,4 +28,14 @@ public class ColorArrayHolder {
 
   static class StaticInner {}
 
+  void t() {
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag1", com.badlogic.gdx.graphics.Color.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag2", com.example.KColorArrayHolder.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag4", com.example.ColorArrayHolder.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag5", com.example.KColorArrayHolder.class)
+
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag6", java.lang.Integer.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("Tag7", java.lang.Boolean.class)
+  }
+
 }

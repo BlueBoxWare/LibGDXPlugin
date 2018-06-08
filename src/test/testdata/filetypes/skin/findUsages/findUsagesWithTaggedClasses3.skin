@@ -1,0 +1,41 @@
+{
+  TextButtonStyle: {
+    blue: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white
+    }
+  }
+  Color: {
+    white: {r: 1, g: 1, b: 1, a: 1},
+    blue: {}
+  },
+  BitmapFont: {
+    <caret>"blue": {
+      file: medium.fnt
+    }
+  },
+  CheckBoxStyle: {
+    default: {
+      disabledFontColor: blue
+      font: blue
+    }
+  }
+  TextButtonStyle: {
+    something: {
+      font: blue
+      over: blue
+    }
+  },
+  Tag2: {
+    default: {
+      bitmapFonts: [
+        blue, selection, "blue", 'blue'
+      ]
+    }
+  },
+  BitmapFont: {
+    z: blue
+  }
+}

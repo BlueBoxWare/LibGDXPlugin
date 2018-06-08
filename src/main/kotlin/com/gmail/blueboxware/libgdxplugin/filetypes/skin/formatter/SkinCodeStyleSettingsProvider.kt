@@ -34,7 +34,7 @@ class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
       }
 
-      override fun getHelpTopic() = null
+      override fun getHelpTopic(): String? = null
     }
 
   }

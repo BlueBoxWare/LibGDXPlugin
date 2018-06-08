@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
+import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -23,6 +24,13 @@ import com.intellij.openapi.util.Key
 
 const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 
+private val GDX198VERSION = MavenComparableVersion("1.9.8")
+
 internal fun Project.isLibGDXProject(): Boolean = getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
 
+internal fun Project.isLibGDX199(): Boolean =
+        getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
+
 fun <T>key(key: String) = Key<T>("$PREFIX.$key")
+
+fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }

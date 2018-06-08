@@ -13,4 +13,9 @@ private class JavaC<caret>lass {
 
   class NonStatic {}
 
+  void m() {
+    new com.badlogic.gdx.utils.Json().addClassTag("JC", com.example.JavaClass.class)
+    new com.badlogic.gdx.utils.Json().addClassTag("Inner", com.example.JavaClass.class)
+  }
+
 }

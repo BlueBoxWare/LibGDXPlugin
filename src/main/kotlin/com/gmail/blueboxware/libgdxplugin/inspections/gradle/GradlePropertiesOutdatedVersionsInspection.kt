@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries.Companion.listOfCheckedLibraries
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.PsiElement
@@ -27,7 +28,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  */
 class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
 
-  override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.Companion.listOfCheckedLibraries())
+  override fun getStaticDescription() = message("outdated.version.inspection.static.description", listOfCheckedLibraries())
 
   override fun getID() = "LibGDXOutdatedVersionGradleProperties"
 

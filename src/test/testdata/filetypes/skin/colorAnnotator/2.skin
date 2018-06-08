@@ -1,4 +1,8 @@
 {
+  Color: {
+    color1: <weak_warning descr="#ff0000ff">{ r: 1, g: 0, b: 0, a: 1}</weak_warning>
+  }
+
   com.badlogic.gdx.graphics.Color: {
     white: <weak_warning descr="#ffffffff">{ r: 1, g: 1, b: 1, a: 1 }</weak_warning>,
     red: <weak_warning descr="#ff0000ff">{ r: 1, g: 0, b: 0, a: 1 }</weak_warning>
@@ -6,7 +10,8 @@
     g: <weak_warning descr="#808000ff">yellow</weak_warning>
     f: <weak_warning descr="#808000ff">g</weak_warning>,
     h: <weak_warning descr="#808000ff">g</weak_warning>,
-    i: <weak_warning descr="#808000ff">h</weak_warning>
+    i: <weak_warning descr="#808000ff">h</weak_warning>,
+    j: <weak_warning descr="#ff0000ff">color1</weak_warning>
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: {
@@ -37,6 +42,8 @@
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-    round-green: { name: round, color: <weak_warning descr="#808000ff">h</weak_warning> }
+    round-green: { name: round, color: <weak_warning descr="#808000ff">h</weak_warning> },
+    t1: { color: <weak_warning descr="#ff0000ff">color1</weak_warning> },
+    t2: { color: <weak_warning descr="#ff0000ff">j</weak_warning> }
   }
 }
