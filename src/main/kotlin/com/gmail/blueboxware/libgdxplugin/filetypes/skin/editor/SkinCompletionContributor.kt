@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.*
@@ -19,8 +19,6 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
-import com.intellij.util.ui.ColorIcon
-import com.intellij.util.ui.UIUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
@@ -41,6 +39,8 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// TODO: use colors as icon for color names
 class SkinCompletionContributor : CompletionContributor() {
 
   init {
@@ -213,7 +213,7 @@ class SkinCompletionContributor : CompletionContributor() {
             }
           }
         }
-      } else if (property.name == "markupEnabled" || property.name == "flip") {
+      } else if (property.name == PROPERTY_NAME_FONT_MARKUP || property.name == PROPERTY_NAME_FONT_FLIP) {
         doAdd(LookupElementBuilder.create("true"), parameters, result)
         doAdd(LookupElementBuilder.create("false"), parameters, result)
       }
@@ -231,7 +231,7 @@ class SkinCompletionContributor : CompletionContributor() {
         classSpec.getResourcesAsList(property).forEach { resource ->
 
           val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
-            resource.asColor(true)?.let { ColorIcon(if (UIUtil.isRetina()) 24 else 12, it, true) }
+            resource.asColor(true)?.let { createColorIcon(it) }
           } else {
             null
           }
@@ -279,6 +279,22 @@ class SkinCompletionContributor : CompletionContributor() {
     val objectType = containingObject.resolveToTypeString()
     val usedPropertyNames = containingObject.propertyNames
 
+    if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT)) {
+      val important = objectType !in listOf(
+              "com.badlogic.gdx.graphics.Color",
+              "com.badlogic.gdx.graphics.g2d.BitmapFont",
+              "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
+      )
+      doAdd(
+              PrioritizedLookupElement.withPriority(
+                      LookupElementBuilder.create(PROPERTY_NAME_PARENT).withBoldness(important).withIcon(ICON_PARENT),
+                      if (important) 2.0 else 0.0
+              ),
+              parameters,
+              result
+      )
+    }
+
     if (objectType == "com.badlogic.gdx.graphics.Color") {
 
       if (!usedPropertyNames.contains("hex")) {
@@ -297,7 +313,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     } else if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
 
-      listOf("file", "scaledSize", "flip", "markupEnabled").forEach {
+      listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).forEach {
         if (!usedPropertyNames.contains(it)) {
           doAdd(LookupElementBuilder.create(it).withIcon(ICON_FIELD), parameters, result)
         }

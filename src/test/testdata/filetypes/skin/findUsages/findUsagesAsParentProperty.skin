@@ -17,22 +17,17 @@
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
-    default: {
+    ma<caret>in: {
       disabledFontColor: blue
-
     }
   },
-  com.example.KotlinClass: {
-    default: {
-      colors: [
-        blue, white, blue
-      ]
-    },
-    a: {
-      moreColors: [[blue], ["blue"], ['blue']]
-    }
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    sub1: { parent: main }
+  },
+  CheckBoxStyle: {
+    sub2: { parent: main }
   }
-  Color: {
-    sub: { parent: blue }
+  TextButtonStyle: {
+    sub3: { parent: main }
   }
 }

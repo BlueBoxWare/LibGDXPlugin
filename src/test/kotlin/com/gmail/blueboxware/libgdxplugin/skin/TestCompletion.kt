@@ -162,22 +162,22 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
           """{ com.example.MyTestClass: {
             default: { <caret> }
             }
-            }""" to (listOf("number", "name") to EMPTY),
+            }""" to (listOf("number", "name", "parent") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { '<caret>' }
             }
-            }""" to (EMPTY to listOf("number", "name")),
+            }""" to (EMPTY to listOf("number", "name", "parent")),
 
           """{ com.example.MyTestClass: {
             default: { "<caret>" }
             }
-            }""" to (listOf("number", "name") to EMPTY),
+            }""" to (listOf("number", "name", "parent") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { "<caret> }
             }
-            }""" to (listOf("number", "name") to EMPTY),
+            }""" to (listOf("number", "name", "parent") to EMPTY),
 
           """{ com.example.MyTestClass: {
             default: { "<caret>": }
@@ -190,7 +190,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   number: 3
                   <caret>
                 }
-            } }""" to (listOf("name") to listOf()),
+            } }""" to (listOf("name", "parent") to listOf()),
 
           """
             { com.example.MyTestClass${'$'}Inner: {
@@ -212,7 +212,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             { com.badlogic.gdx.graphics.Color: {
               default: { <caret>
             } } }
-          """ to (listOf("r", "g", "b", "a") to listOf()),
+          """ to (listOf("r", "g", "b", "a", "parent") to listOf()),
 
           """
             { Color: {
@@ -225,6 +225,12 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               default: { <caret>: 1
             } } }
           """ to (listOf("r", "g", "b", "a") to listOf()),
+
+          """
+            { com.badlogic.gdx.graphics.Color: {
+              default: { parent: foo, <caret>: 1
+            } } }
+          """ to (listOf("r", "g", "b", "a") to listOf("parent")),
 
           """
             { com.badlogic.gdx.graphics.Color: {
@@ -274,6 +280,13 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 b: { fontColor: '<caret>' }
             } }
           """ to (EMPTY to listOf("default", "color", "green")),
+
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                b: { <caret> }
+            } }
+          """ to (listOf("parent") to EMPTY),
 
           """
             { com.badlogic.gdx.graphics.Color: {
@@ -483,7 +496,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                     }
                 }
             }
-          """ to (listOf("r", "g", "b") to listOf("a", "checkedFontColor", "hex")),
+          """ to (listOf("r", "g", "b", "parent") to listOf("a", "checkedFontColor", "hex")),
 
           """
             {

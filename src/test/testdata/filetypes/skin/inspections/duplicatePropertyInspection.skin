@@ -22,10 +22,12 @@
       m: [
         {
           a: 1,
+          parent: parent,
           <warning descr="Property 'a' has already been specified.">a</warning>: 1,
           b: 1,
           c: 1,
           <warning descr="Property 'a' has already been specified.">a</warning>: 1
+          <warning descr="Property 'parent' has already been specified.">parent</warning>: parent
         }
       ]
     }

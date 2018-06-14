@@ -1,7 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FLIP
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_MARKUP
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_SCALED_SIZE
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -13,8 +18,6 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiTypesUtil
 import com.intellij.util.PlatformIcons
-import com.intellij.util.ui.ColorIcon
-import com.intellij.util.ui.UIUtil
 import org.jetbrains.annotations.NonNls
 import javax.swing.Icon
 
@@ -36,19 +39,21 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
   override fun resolveToType(): PsiType? {
-    val field = resolveToField()
+    if (name == PROPERTY_NAME_PARENT) {
+      return containingObject?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
+    }
 
-    if (field != null) {
-      return field.type
+    resolveToField()?.let {
+      return it.type
     }
 
     val objectType = containingObject?.resolveToTypeString()
 
     if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-      if (name == "scaledSize") {
+      if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
         val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Integer", GlobalSearchScope.allScope(project)) ?: return null
         return PsiTypesUtil.getClassType(clazz)
-      } else if (name == "markupEnabled" || name == "flip") {
+      } else if (name == PROPERTY_NAME_FONT_MARKUP || name == PROPERTY_NAME_FONT_FLIP) {
         val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Boolean", GlobalSearchScope.allScope(project)) ?: return null
         return PsiTypesUtil.getClassType(clazz)
       }
@@ -76,7 +81,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
       val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
-        return ColorIcon(if (UIUtil.isRetina()) 26 else 13, color, true)
+        return createColorIcon(color)
       }
 
       if (value is SkinArray) {

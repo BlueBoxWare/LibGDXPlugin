@@ -78,7 +78,7 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
   }
 
   private val myPreviewIcon: Icon? by lazy {
-    image?.let { image ->
+    image?.let { image: BufferedImage ->
       IconUtil.createImageIcon(ImageUtil.toBufferedImage(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT)))
     }
   }

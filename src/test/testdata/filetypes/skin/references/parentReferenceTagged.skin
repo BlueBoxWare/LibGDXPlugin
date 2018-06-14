@@ -1,0 +1,10 @@
+{
+  CBS: {
+    main: {
+      disabledFontColor: blue
+    }
+  },
+  CheckBoxStyle: {
+    sub2: { parent: ma<caret>in }
+  }
+}

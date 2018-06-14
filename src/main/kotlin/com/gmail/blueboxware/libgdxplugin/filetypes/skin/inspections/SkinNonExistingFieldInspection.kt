@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.message
@@ -35,13 +36,18 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
 
     override fun visitPropertyName(propertyName: SkinPropertyName) {
       val name = propertyName.value
+
+      if (name == PROPERTY_NAME_PARENT) {
+        return
+      }
+
       val property = propertyName.property ?: return
       val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
 
       if (typeString == "com.badlogic.gdx.graphics.Color" && name == "hex") {
         return
       } else if (typeString == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-        if (!listOf("file", "scaledSize", "flip", "markupEnabled").contains(name)) {
+        if (!listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).contains(name)) {
           holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message.BitmapFont", name))
         }
         return

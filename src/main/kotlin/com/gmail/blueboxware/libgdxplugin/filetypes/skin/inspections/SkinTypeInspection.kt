@@ -1,5 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FLIP
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_MARKUP
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_SCALED_SIZE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
@@ -69,16 +72,17 @@ class SkinTypeInspection: SkinFileInspection() {
         if (!check) {
           problem(expectedType.getPresentableText())
         }
-      } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont" && listOf("scaledSize", "markupEnabled", "flip").contains(propertyName)) {
-        if ((propertyName == "markupEnabled" || propertyName == "flip") && skinValue.isBoolean) {
+      } else if (containingClassName == "com.badlogic.gdx.graphics.g2d.BitmapFont"
+              && listOf(PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_MARKUP, PROPERTY_NAME_FONT_FLIP).contains(propertyName)) {
+        if ((propertyName == PROPERTY_NAME_FONT_MARKUP || propertyName == PROPERTY_NAME_FONT_FLIP) && skinValue.isBoolean) {
           return
-        } else if (propertyName == "scaledSize" && skinValue.text.toIntOrNull() != null) {
+        } else if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE && skinValue.text.toIntOrNull() != null) {
           return
         }
         if ((skinValue.reference?.resolve() as? SkinResource)?.classSpecification?.getRealClassNamesAsString()?.contains(expectedType?.canonicalText) == true) {
           return
         }
-        if (propertyName == "scaledSize") {
+        if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE) {
           problem("int")
         } else {
           problem("boolean")

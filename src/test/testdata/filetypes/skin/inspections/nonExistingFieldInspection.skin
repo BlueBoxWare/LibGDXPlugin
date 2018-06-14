@@ -1,6 +1,7 @@
 {
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     blue: {
+      parent: parent,
       down: round-down,
       up: round,
       font: medium,
@@ -57,6 +58,7 @@ round-blue: { <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.Skin.Tinte
         textButtonStyles: [
           {
             fontColor: {},
+            parent: parent,
             <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'something'.">something</error>: {}
           }
         ] ,

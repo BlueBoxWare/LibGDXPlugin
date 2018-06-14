@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -9,8 +10,6 @@ import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.util.ui.ColorIcon
-import com.intellij.util.ui.UIUtil
 import java.awt.Color
 import javax.swing.Icon
 
@@ -71,7 +70,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
     override fun getIcon(unused: Boolean): Icon? {
       val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
-      return (value as? SkinObject)?.asColor(force)?.let { ColorIcon(if (UIUtil.isRetina()) 26 else 13, it, true) } ?: AllIcons.FileTypes.Properties
+      return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }
 
     override fun getPresentableText(): String?  = name

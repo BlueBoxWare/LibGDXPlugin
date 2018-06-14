@@ -37,7 +37,14 @@ import org.jetbrains.kotlin.types.checker.isClassType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun Project.getSkinTag2ClassMap(): TagMap? =
+internal const val PROPERTY_NAME_PARENT = "parent"
+
+internal const val PROPERTY_NAME_FONT_FILE = "file"
+internal const val PROPERTY_NAME_FONT_SCALED_SIZE = "scaledSize"
+internal const val PROPERTY_NAME_FONT_MARKUP = "markupEnabled"
+internal const val PROPERTY_NAME_FONT_FLIP = "flip"
+
+internal fun Project.getSkinTag2ClassMap(): TagMap? =
         if (isLibGDX199()) {
           collectCustomTags().apply {
             addAll(DEFAULT_TAGGED_CLASSES_NAMES)

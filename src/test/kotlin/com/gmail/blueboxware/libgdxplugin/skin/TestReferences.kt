@@ -118,9 +118,16 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
   }
 
-
   fun testResourceReferenceTintedDrawableWithTaggedClasses() {
     doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+  }
+
+  fun testParentReference() {
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
+  }
+
+  fun testParentReferenceTagged() {
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
   }
 
   fun testJavaClassReference1() {

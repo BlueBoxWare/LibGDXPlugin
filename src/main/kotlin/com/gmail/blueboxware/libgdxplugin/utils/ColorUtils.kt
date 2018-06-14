@@ -22,7 +22,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun stringToColor(string: String): Color? {
+internal fun stringToColor(string: String): Color? {
 
   if (string.length < 6) return null
 
@@ -46,9 +46,11 @@ fun stringToColor(string: String): Color? {
   }
 }
 
+internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12, color, true)
+
 open class GutterColorRenderer(val color: Color): GutterIconRenderer() {
 
-  override fun getIcon(): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12 , color, true)
+  override fun getIcon(): Icon = createColorIcon(color)
 
   override fun equals(other: Any?) = other is GutterColorRenderer && color == other.color
 

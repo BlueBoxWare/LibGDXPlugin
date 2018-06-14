@@ -26,7 +26,7 @@ import com.intellij.psi.util.PsiTreeUtil
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
-    doTest(5)
+    doTest(6)
   }
 
   fun testFindUsages2() {
@@ -63,6 +63,10 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsagesWithTaggedClasses3() {
     doTest(5)
+  }
+
+  fun testFindUsagesAsParentProperty() {
+    doTest(2)
   }
 
   fun testFindDrawableUsages() {
