@@ -35,6 +35,8 @@
         // @Suppress(DuplicateProperty)
           m: [
             {
+              parent: f
+              parent: f
               a: 1,
               a: 1,
               b: 1,

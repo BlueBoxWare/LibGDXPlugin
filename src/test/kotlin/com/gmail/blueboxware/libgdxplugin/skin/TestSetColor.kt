@@ -73,7 +73,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
 
   fun test10() {
     myFixture.configureByFile("10.skin")
-    val colorElement = PsiTreeUtil.findFirstParent(myFixture.elementAtCaret, { it is SkinObject }) as SkinObject
+    val colorElement = PsiTreeUtil.findFirstParent(myFixture.elementAtCaret) { it is SkinObject } as SkinObject
     colorElement.setColor(Color(128, 128, 128))?.let { newObject ->
       WriteCommandAction.runWriteCommandAction(myFixture.project) {
         colorElement.replace(newObject)

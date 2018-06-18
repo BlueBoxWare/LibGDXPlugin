@@ -1,0 +1,11 @@
+{
+  LabelStyle: {
+    main: {}
+  }
+
+  SubStyle: {
+    main: { parent: ma<caret>in }
+    main: {}
+  }
+
+}

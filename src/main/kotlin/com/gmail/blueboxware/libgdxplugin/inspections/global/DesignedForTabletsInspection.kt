@@ -95,7 +95,7 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
     model.applyExternalVersions(versionsMap)
 
     val versionTag = (model.targetSDK?.element ?: model.minSDK.element ?: model.maxSDK?.element)?.let { attribute ->
-      PsiTreeUtil.findFirstParent(attribute, { it is XmlTag })
+      PsiTreeUtil.findFirstParent(attribute) { it is XmlTag }
     } ?: manifest
     if (model.resolveTargetSDK() < 11 && model.minSDK.value < 11) {
       problems.add(versionTag to message("designed.for.tablets.problem.descriptor.target.or.min"))

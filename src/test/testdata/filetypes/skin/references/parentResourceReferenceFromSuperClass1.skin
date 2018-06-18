@@ -1,0 +1,10 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    main: {}
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    sub: { parent: ma<caret>in }
+  }
+
+}

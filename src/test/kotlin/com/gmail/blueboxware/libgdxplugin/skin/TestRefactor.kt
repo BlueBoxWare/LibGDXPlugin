@@ -52,6 +52,16 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
+  fun testRenameParentResource() {
+    addDummyLibGDX199()
+    addKotlin()
+    myFixture.copyFileToProject("KotlinClass3.kt")
+    myFixture.configureByFile("renameParentResource.skin")
+    doSimpleTest {
+      myFixture.renameElementAtCaret("foo")
+    }
+  }
+
   fun testRenameResourceWithTags() {
     myFixture.configureByFile("ColorArrayHolder.java")
     myFixture.configureByFile("renameResourceWithTags.skin")

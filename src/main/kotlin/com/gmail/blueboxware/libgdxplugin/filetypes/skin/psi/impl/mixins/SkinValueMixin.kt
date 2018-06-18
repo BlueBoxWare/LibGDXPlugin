@@ -27,7 +27,7 @@ import com.intellij.psi.util.PsiTypesUtil
  */
 abstract class SkinValueMixin(node: ASTNode): SkinValue, SkinElementImpl(node) {
 
-  override fun getProperty() = PsiTreeUtil.findFirstParent(this, { it is SkinProperty }) as? SkinProperty
+  override fun getProperty() = PsiTreeUtil.findFirstParent(this) { it is SkinProperty } as? SkinProperty
 
   override fun isBoolean(): Boolean = false
 

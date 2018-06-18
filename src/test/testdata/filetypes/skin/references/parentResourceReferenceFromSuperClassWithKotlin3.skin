@@ -1,0 +1,15 @@
+{
+  TextButtonStyle: {
+    main: {}
+  }
+
+  ButtonStyle: {
+    main: {}
+  }
+
+  SubStyle: {
+    main: { parent: ma<caret>in }
+    main: {}
+  }
+
+}

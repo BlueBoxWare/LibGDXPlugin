@@ -1,10 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FILE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.intellij.lang.ASTNode
+import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.PsiReference
 
 /*
@@ -31,22 +33,30 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
   override fun isBoolean(): Boolean = text == "true" || text == "false"
 
   override fun getReference(): PsiReference? {
+
     if (
-      property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.graphics.g2d.BitmapFont"
-            && property?.name == "file"
+            property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.graphics.g2d.BitmapFont"
+            && property?.name == PROPERTY_NAME_FONT_FILE
     ) {
       return SkinFileReference(this, containingFile)
-    } else  {
-      property?.resolveToTypeString()?.let { type ->
-        if (isBoolean && type == "java.lang.Boolean") {
-          return null
+    } else {
+      property?.let { property ->
+        property.resolveToType().let { type ->
+          if (
+                  isBoolean && type?.canonicalText == "java.lang.Boolean"
+                  || type?.canonicalText == "java.lang.Integer"
+                  || type is PsiPrimitiveType
+                  || type == null
+          ) {
+            return null
+          }
         }
-        if (type == "java.lang.Integer") {
-          return null
-        }
+
       }
-      return SkinResourceReference(this)
+
     }
+
+    return SkinResourceReference(this)
 
   }
 

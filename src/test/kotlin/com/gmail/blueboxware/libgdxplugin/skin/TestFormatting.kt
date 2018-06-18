@@ -50,9 +50,9 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
   fun doTest(before: String, after: String) {
     myFixture.configureByFile(before)
-    WriteCommandAction.runWriteCommandAction(null, {
+    WriteCommandAction.runWriteCommandAction(null) {
       CodeStyleManager.getInstance(myFixture.project).reformat(myFixture.file)
-    })
+    }
     myFixture.checkResultByFile(after)
   }
 

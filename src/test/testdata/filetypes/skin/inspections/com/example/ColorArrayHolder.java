@@ -3,6 +3,7 @@ package com.example;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 public class ColorArrayHolder {
 
@@ -11,6 +12,7 @@ public class ColorArrayHolder {
 
   public TextButton.TextButtonStyle textButtonStyle;
   TextButton.TextButtonStyle[] textButtonStyles;
+  Button.ButtonStyle buttonStyle;
 
   boolean c;
   byte aByte;

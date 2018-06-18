@@ -12,6 +12,7 @@
     h: <weak_warning descr="#808000ff">g</weak_warning>,
     i: <weak_warning descr="#808000ff">h</weak_warning>,
     j: <weak_warning descr="#ff0000ff">color1</weak_warning>
+    pp: <weak_warning descr="#ffffffff">{ parent: <weak_warning descr="#ff0000ff">color1</weak_warning> }</weak_warning>
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: {

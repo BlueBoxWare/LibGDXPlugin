@@ -18,4 +18,12 @@ class SecondClass {
 
   class Inner {}
 
+  fun f() {
+    com.badlogic.gdx.utils.Json().addClassTag("SubStyle", com.example.SubClass::class.java)
+  }
+
 }
+
+
+
+class SubClass: com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle()

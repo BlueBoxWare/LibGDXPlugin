@@ -119,6 +119,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
     myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")
+    myFixture.copyFileToProject("atlas.atlas", getTestName(true) + ".atlas")
 
   }
 

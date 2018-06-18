@@ -153,7 +153,7 @@ class ColorAnnotator : Annotator {
       }
 
     } else if (initialValue is PsiLiteralExpression) {
-      if (initialValue.type == PsiType.getJavaLangString(element.manager, element.resolveScope)) {
+      if (initialValue.type.isStringType(element)) {
         if (initialValue.text.startsWith("\"#")) {
           return stringToColor(initialValue.text)
         }
@@ -272,7 +272,7 @@ class ColorAnnotator : Annotator {
             return rgbaToColor(int)
           }
         }
-      } else if (argument1type == PsiType.getJavaLangString(element.manager, element.resolveScope)) {
+      } else if (argument1type.isStringType(element)) {
         arguments.firstOrNull()?.let { expr ->
           val arg = getRoot(cache, expr)
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {

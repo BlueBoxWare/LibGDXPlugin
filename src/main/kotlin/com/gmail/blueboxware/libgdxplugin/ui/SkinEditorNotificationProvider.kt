@@ -62,20 +62,20 @@ class SkinEditorNotificationProvider(val project: Project, private val notificat
 
     editorNotificationPanel.setText(message("skin.file.detected", file.fileType.description))
 
-    editorNotificationPanel.createActionLabel(message("skin.file.yes"), {
+    editorNotificationPanel.createActionLabel(message("skin.file.yes")) {
       markFileAsSkin(project, file)
       notifications.updateAllNotifications()
-    })
+    }
 
-    editorNotificationPanel.createActionLabel(message("skin.file.no"), {
+    editorNotificationPanel.createActionLabel(message("skin.file.no")) {
       markFileAsNonSkin(project, file)
       notifications.updateAllNotifications()
-    })
+    }
 
-    editorNotificationPanel.createActionLabel(message("skin.file.do.not.bother"), {
+    editorNotificationPanel.createActionLabel(message("skin.file.do.not.bother")) {
       settings.neverAskAboutSkinFiles = true
       notifications.updateAllNotifications()
-    })
+    }
 
     return editorNotificationPanel
 

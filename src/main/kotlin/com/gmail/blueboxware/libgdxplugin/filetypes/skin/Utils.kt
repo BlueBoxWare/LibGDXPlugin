@@ -44,6 +44,9 @@ internal const val PROPERTY_NAME_FONT_SCALED_SIZE = "scaledSize"
 internal const val PROPERTY_NAME_FONT_MARKUP = "markupEnabled"
 internal const val PROPERTY_NAME_FONT_FLIP = "flip"
 
+internal const val PROPERTY_NAME_TINTED_DRAWABLE_NAME = "name"
+internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
+
 internal fun Project.getSkinTag2ClassMap(): TagMap? =
         if (isLibGDX199()) {
           collectCustomTags().apply {

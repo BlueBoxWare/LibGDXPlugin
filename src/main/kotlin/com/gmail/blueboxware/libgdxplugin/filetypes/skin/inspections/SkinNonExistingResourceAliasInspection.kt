@@ -1,11 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.psi.PsiClassType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -43,23 +43,15 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
         return
       }
 
-      val type = stringLiteral.resolveToType() as? PsiClassType ?: return
-      val typeString = type.canonicalText
-      val clazz = type.resolve() ?: return
+      val reference = stringLiteral.reference
 
-      if (typeString == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || typeString == "java.lang.String") {
-        return
-      } else if (typeString == "java.lang.Boolean" && stringLiteral.isBoolean) {
-        return
-      } else if (typeString == "java.lang.Integer") {
-        return
-      }
-
-      (stringLiteral.containingFile as? SkinFile)?.let { skinFile ->
-        if (skinFile.getResources(clazz.qualifiedName ?: "", stringLiteral.value, beforeElement = stringLiteral).isEmpty()) {
+      if (reference is SkinResourceReference) {
+        val referent = reference.resolve()
+        if (referent == null) {
           holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value))
         }
       }
+
     }
 
   }

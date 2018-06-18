@@ -54,7 +54,7 @@ internal fun PsiClass.putDollarInInnerClassName(): String =
           it.putDollarInInnerClassName() + "$" + name
         } ?: qualifiedName ?: ""
 
-internal fun PsiType.isStringType(element: PsiElement) =
+internal fun PsiType?.isStringType(element: PsiElement) =
         this == PsiType.getJavaLangString(element.manager, element.resolveScope)
 
 internal fun Project.getPsiFile(filename: String): PsiFile? {

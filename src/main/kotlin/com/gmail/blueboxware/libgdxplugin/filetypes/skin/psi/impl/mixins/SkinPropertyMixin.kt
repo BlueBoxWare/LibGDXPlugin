@@ -34,7 +34,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
   override fun getNameIdentifier(): SkinPropertyName = propertyName
 
-  override fun getContainingObject(): SkinObject? = PsiTreeUtil.findFirstParent(this, { it is SkinObject }) as? SkinObject
+  override fun getContainingObject(): SkinObject? = PsiTreeUtil.findFirstParent(this) { it is SkinObject } as? SkinObject
 
   override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
@@ -78,7 +78,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     override fun getIcon(unused: Boolean): Icon {
 
-      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
+      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin) { it is SkinClassSpecification } as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
         return createColorIcon(color)

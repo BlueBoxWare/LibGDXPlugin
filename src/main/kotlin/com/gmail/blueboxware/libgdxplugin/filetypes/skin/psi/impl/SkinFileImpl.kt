@@ -11,6 +11,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.TreeUtil
@@ -55,13 +56,55 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   override fun getClassSpecifications(className: String): Collection<SkinClassSpecification> =
           getClassSpecifications(listOf(className))
 
-  override fun getResources(classNames: Collection<String>?, resourceName: String?, beforeElement: PsiElement?) =
+  override fun getResources(classNames: Collection<String>?, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
           getClassSpecifications(classNames)
                   .flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
                   .filter { beforeElement == null || it.endOffset < beforeElement.startOffset }
 
-  override fun getResources(className: String, resourceName: String?, beforeElement: PsiElement?): List<SkinResource> =
+  override fun getResources(className: String, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
           getResources(listOf(className), resourceName, beforeElement)
+
+  override fun getResources(
+          clazz: PsiClass,
+          resourceName: String?,
+          beforeElement: PsiElement?,
+          includingSuperClasses: Boolean,
+          includeAll: Boolean // keep looking up the superclass list after finding resources
+  ): Collection<SkinResource> {
+
+    if (!includingSuperClasses) {
+      return clazz.qualifiedName?.let { getResources(it, resourceName, beforeElement) } ?: listOf()
+    }
+
+    val classesToSearch = generateSequence(clazz) { it.superClass }
+    val classSpecs = getClassSpecifications()
+    val foundResources = mutableListOf<SkinResource>()
+
+    classesToSearch.forEach { clazz ->
+
+      for (classSpec in classSpecs) {
+
+        val realClassNames = classSpec.getRealClassNamesAsString()
+
+        if (realClassNames.contains(clazz.qualifiedName)) {
+          classSpec.getResourcesAsList(beforeElement).forEach { resource ->
+            if (resourceName == null || resource.name == resourceName) {
+              foundResources.add(resource)
+            }
+          }
+        }
+
+      }
+
+      if (!includeAll && !foundResources.isEmpty()) {
+        return foundResources
+      }
+
+    }
+
+    return foundResources
+
+  }
 
   override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
           children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }

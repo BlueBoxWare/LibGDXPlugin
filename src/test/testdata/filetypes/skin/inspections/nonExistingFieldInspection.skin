@@ -55,6 +55,7 @@ round-blue: { <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.Skin.Tinte
 
     com.example.ColorArrayHolder: {
       default: {
+        parent: default
         textButtonStyles: [
           {
             fontColor: {},

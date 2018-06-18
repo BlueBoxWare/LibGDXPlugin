@@ -1,6 +1,7 @@
 package com.example
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Button
 import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -17,6 +18,7 @@ class KotlinClass {
 
   var textButtonStyle: TextButton.TextButtonStyle? = null
   var textButtonStyles: Array<TextButton.TextButtonStyle>? = null
+  var buttonStyle: Button.ButtonStyle? = null
 
   val m = arrayOf<KotlinClass>()
 

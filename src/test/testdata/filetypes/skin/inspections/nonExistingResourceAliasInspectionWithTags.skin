@@ -1,95 +1,135 @@
 {
-  Color: {
-    white: { r: 1, g: 1, b: 1, a: 1 },
-    red: { r: 1, g: 0, b: 0, a: 1 },
-    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
-    c: <error>blue</error>,
-d: <error>green</error>,
-y: <error>z</error>
-},
-
   com.badlogic.gdx.graphics.Color: {
-  a: white,
-  b: red,
-  }
-BitmapFont: {
-medium: { file: medium.fnt }
-},
-TextButtonStyle: {
-default: {
-down: round-down, up: round,
-font: medium, fontColor: white
-},
-toggle: {
-down: round-down, up: round, checked: round-down,
-font: medium, fontColor: white, checkedFontColor: red
-},
-green: {
-down: round-down, up: round,
-font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
-},
-standard: toggle,
-non-standard: <error>notoggle</error>,
-x: <error>z</error>
-},
-TintedDrawable: {
-round-green: { name: round, color: <error>green</error> }
-}
-
-Color: {
-blue: { r: 1, g: 1, b: 1, a: 1 },
-f: <error>green</error>,
-e: yellow,
-z: d
-123: b
-},
-TextButtonStyle: {
-yes: green,
-no: <error>yellow</error>,
-z: <error>d</error>
-}
-
-Tag3: {
-a: {
-colors: [red, <error>pink</error> ],
-moreColors: [pink, [<error>pink</error>]],
-m: [
-{
-textButtonStyle: <error>d</error>
-},
-{
-textButtonStyle: no
-}
-{
-textButtonStyle: <error>pink</error>
-}
-]
-textButtonStyles: [
-{
-font: {
-flip: true
-file: sfdsdsf
-}
-},
-{
-font: medium
-},
-{
-font: <error>pink</error>
-}
-]
-  }
+    white: {r: 1, g: 1, b: 1, a: 1},
+    red: {r: 1, g: 0, b: 0, a: 1},
+    yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+    a: white,
+    b: red,
+    c: <error descr="'blue' does not refer to anything. Resources must be defined before they can be used.">blue</error>,
+    d: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
+    y: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
   },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    medium: {
+      file: medium.fnt
+    }
+  },
+  TextButtonStyle: {
+    default: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white
+    },
+    toggle: {
+      down: round-down,
+      up: round,
+      checked: round-down,
+      font: medium,
+      fontColor: white,
+      checkedFontColor: red
+    },
+    green: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: {r: 0, g: 1, b: 0, a: 1}
+    },
+    standard: toggle,
+    non-standard: <error descr="'notoggle' does not refer to anything. Resources must be defined before they can be used.">notoggle</error>,
+    x: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
+  },
+  TintedDrawable: {
+    round-green: {
+      name: round,
+      color: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>
+    },
+    round-yellow: {
+      name: round,
+      color: yellow
+    }
+}
+  Color: {
+    blue: {r: 1, g: 1, b: 1, a: 1},
+    f: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
+    e: yellow,
+    z: d
+    123: e
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    yes: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
+    no: <error descr="'yellow' does not refer to anything. Resources must be defined before they can be used.">yellow</error>,
+    z: <error descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</error>
+    aa: z
+  }
+
+  Tag4: {
+    a: {
+      colors: [red, <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>],
+      moreColors: [<error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>, [<error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>, yellow]],
+      m: [
+        {
+          buttonStyle: yes
+        },
+        {
+          textButtonStyle: { parent: yes }
+        },
+        {
+          buttonStyle: <error descr="'nope' does not refer to anything. Resources must be defined before they can be used.">nope</error>
+        }
+        {
+          buttonStyle: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+        }
+        {
+          textButtonStyle: <error descr="'yes' does not refer to anything. Resources must be defined before they can be used.">yes</error>
+        }
+      ]
+      textButtonStyles: [
+        {
+          font: {
+            flip: true
+            file: sfdsdsf
+          }
+        },
+        {
+          font: medium
+        },
+        {
+          font: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+        }
+      ]
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    b1: {
+      parent: yes
+    }
+    b2: {
+      parent: <error descr="'round-green' does not refer to anything. Resources must be defined before they can be used.">round-green</error>
+    }
+    b3: {
+      parent: <error descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</error>
+    }
+    b4: {
+      parent: toggle
+    }
+    b5: {
+      parent: <error descr="'foo' does not refer to anything. Resources must be defined before they can be used.">foo</error>
+    }
+  }
 
   TextButtonStyle: {
-  d: {
-  fontColor: <error>pink</error>
-}
-e: {
-fontColor: 123
-}
-f: {
-fontColor: <error>456</error>
-}
-}
+    d: {
+     fontColor: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+    }
+    e: {
+      fontColor: 123
+    }
+    f: {
+      fontColor: <error descr="'456' does not refer to anything. Resources must be defined before they can be used.">456</error>
+    }
+    g: {
+      parent: b1
+    }
+  }
 }

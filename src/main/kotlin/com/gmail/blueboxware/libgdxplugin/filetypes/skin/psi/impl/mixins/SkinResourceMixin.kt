@@ -38,7 +38,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   override fun getString(): SkinStringLiteral? = value as? SkinStringLiteral
 
-  override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this, { it is SkinClassSpecification }) as? SkinClassSpecification
+  override fun getClassSpecification(): SkinClassSpecification? = PsiTreeUtil.findFirstParent(this) { it is SkinClassSpecification } as? SkinClassSpecification
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
 
@@ -69,7 +69,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
     override fun getLocationString(): String? = VfsUtil.getRelativeLocation(containingFile.virtualFile, project.baseDir)
 
     override fun getIcon(unused: Boolean): Icon? {
-      val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin, { it is SkinClassSpecification }) as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
+      val force = (PsiTreeUtil.findFirstParent(this@SkinResourceMixin) { it is SkinClassSpecification } as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
       return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }
 

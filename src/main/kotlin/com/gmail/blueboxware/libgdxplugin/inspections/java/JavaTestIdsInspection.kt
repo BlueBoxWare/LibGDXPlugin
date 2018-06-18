@@ -17,10 +17,10 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isStringType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.PsiType
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 
 class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
@@ -35,7 +35,7 @@ class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 
-      if (expression is PsiLiteralExpressionImpl && expression.type == PsiType.getJavaLangString(expression.manager, expression.resolveScope)) {
+      if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
 
         expression.innerText?.trim().let { value ->
           if (TEST_ID_MAP.containsKey(value)) {

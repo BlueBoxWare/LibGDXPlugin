@@ -2,6 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_COLOR
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.tint
 import com.intellij.codeInsight.preview.PreviewHintProvider
@@ -65,7 +67,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
             val tintedDrawableName = target.name
 
-            var colorElement = target.`object`?.getProperty("color")?.value
+            var colorElement = target.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.value
 
             while (colorElement is SkinStringLiteral) {
               colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
@@ -76,7 +78,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
             var nameTarget: PsiElement? = target
 
             while ((nameTarget as? SkinResource)?.classSpecification?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") == true) {
-              nameTarget = (nameTarget as? SkinResource)?.`object`?.getProperty("name")?.value?.reference?.resolve()
+              nameTarget = (nameTarget as? SkinResource)?.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value?.reference?.resolve()
             }
 
             (nameTarget as? AtlasRegion)?.let { atlasRegion ->

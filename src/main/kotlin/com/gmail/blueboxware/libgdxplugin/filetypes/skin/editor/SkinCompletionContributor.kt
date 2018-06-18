@@ -148,10 +148,10 @@ class SkinCompletionContributor : CompletionContributor() {
 
   private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
-    val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
+    val resource = PsiTreeUtil.findFirstParent(parameters.position) { it is SkinResource } as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
-    val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition, {it is SkinClassSpecification})
-    
+    val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition) {it is SkinClassSpecification}
+
     if (classSpec.getRealClassNamesAsString().none { it != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" }) {
       // Aliases for TintedDrawables are not allowed
       return
@@ -168,7 +168,7 @@ class SkinCompletionContributor : CompletionContributor() {
   }
 
   private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-    val resource = PsiTreeUtil.findFirstParent(parameters.position, { it is SkinResource }) as? SkinResource ?: return
+    val resource = PsiTreeUtil.findFirstParent(parameters.position) { it is SkinResource } as? SkinResource ?: return
     val classSpec = resource.classSpecification ?: return
     val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.getRealClassNamesAsString())?.map { it.name } ?: listOf()
 
@@ -203,7 +203,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val objectType = property.containingObject?.resolveToTypeString()
 
     if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-      if (property.name == "file") {
+      if (property.name == PROPERTY_NAME_FONT_FILE) {
         parameters.originalFile.virtualFile?.let { virtualFile ->
           for (file in virtualFile.getAssociatedFiles()) {
             if (file.extension == "fnt" || file.fileType == BitmapFontFileType.INSTANCE) {
@@ -223,27 +223,26 @@ class SkinCompletionContributor : CompletionContributor() {
     val skinFile = parameters.originalFile as? SkinFile ?: return
     val elementType = stringLiteral.resolveToType()
     val elementClass = (elementType as? PsiClassType)?.resolve()
+    val isParentProperty = stringLiteral.property?.name == PROPERTY_NAME_PARENT
     val elementClassName = elementClass?.qualifiedName
 
-    if (elementClassName != null && elementClassName != "java.lang.Boolean") {
+    if (elementClass != null && elementClassName != "java.lang.Boolean") {
 
-      skinFile.getClassSpecifications(elementClassName.singletonOrNull()).forEach { classSpec ->
-        classSpec.getResourcesAsList(property).forEach { resource ->
+      skinFile.getResources(elementClass, null, stringLiteral, isParentProperty, isParentProperty).forEach { resource ->
 
-          val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
-            resource.asColor(true)?.let { createColorIcon(it) }
-          } else {
-            null
-          }
-
-          doAdd(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE), parameters, result)
-
+        val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
+          resource.asColor(true)?.let { createColorIcon(it) }
+        } else {
+          null
         }
+
+        doAdd(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE), parameters, result)
+
       }
 
       if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
 
-        skinFile.getClassSpecifications(listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")).forEach { classSpec ->
+        skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable").forEach { classSpec ->
           classSpec.getResourcesAsList(property).forEach { resource ->
             doAdd(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE), parameters, result)
           }
@@ -256,7 +255,7 @@ class SkinCompletionContributor : CompletionContributor() {
     }
 
     if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
-            || (objectType == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && property.name == "name")
+            || (objectType == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && property.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME)
     ) {
 
       skinFile.virtualFile?.let { virtualFile ->
@@ -376,11 +375,11 @@ class SkinCompletionContributor : CompletionContributor() {
 
       val prefixMatcher = CamelHumpMatcher(result.prefixMatcher.prefix.substring(if (dummyText.firstOrNull() == '"') 1 else 0).takeWhile { it != '.' && it != '$' })
 
-      AllClassesGetter.processJavaClasses(prefixMatcher, project, scope, { psiClass ->
+      AllClassesGetter.processJavaClasses(prefixMatcher, project, scope) { psiClass ->
 
         if ((psiClass.containingClass == null || psiClass.hasModifierProperty(PsiModifier.STATIC)
-                && (psiClass !is KtLightClass || psiClass.kotlinOrigin !is KtObjectDeclaration)
-                )) {
+                        && (psiClass !is KtLightClass || psiClass.kotlinOrigin !is KtObjectDeclaration)
+                        )) {
 
           for (innerClass in psiClass.findAllStaticInnerClasses()) {
 
@@ -402,7 +401,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
         true
 
-      })
+      }
 
       return
     }

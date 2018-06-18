@@ -1,0 +1,21 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    mai<caret>n: {}
+    sub: main
+    subsub: { parent: main }
+  }
+
+  CheckBoxStyle: {
+    sub: { parent: main }
+  }
+
+  SubStyle: {
+    main: { parent: main }
+    sub1: { parent: main }
+  }
+
+  LabelStyle: {
+    sub: { parent: main }
+  }
+
+}

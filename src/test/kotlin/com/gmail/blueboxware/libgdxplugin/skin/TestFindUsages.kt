@@ -26,7 +26,7 @@ import com.intellij.psi.util.PsiTreeUtil
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
-    doTest(6)
+    doTest(7)
   }
 
   fun testFindUsages2() {
@@ -42,11 +42,11 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindUsages5() {
-    doTest(10)
+    doTest(11)
   }
 
   fun testFindUsages6() {
-    doTest(4)
+    doTest(6)
   }
 
   fun testFindUsages7() {
@@ -72,7 +72,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   fun testFindDrawableUsages() {
     myFixture.copyFileToProject("drawableUsages.skin")
     val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
-    val origin = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset), { it is AtlasRegion })
+    val origin = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset)) { it is AtlasRegion }
     assertEquals(10, usagesInfos.size)
     usagesInfos.forEach { usagesInfo ->
       assertNotNull(usagesInfo.element)

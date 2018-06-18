@@ -1,5 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FILE
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_COLOR
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.message
@@ -39,9 +42,9 @@ class SkinMissingPropertyInspection : SkinFileInspection() {
       val className = skinObject.resolveToTypeString()
 
       val mandatoryProperties = if (className == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
-        setOf("file")
+        setOf(PROPERTY_NAME_FONT_FILE)
       } else if (className == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
-        listOf("name", "color")
+        listOf(PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR)
       } else {
         null
       }

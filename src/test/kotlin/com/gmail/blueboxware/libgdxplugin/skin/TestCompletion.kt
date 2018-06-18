@@ -1469,7 +1469,42 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 u: <caret>
               }
             }
-          """ to (EMPTY to listOf("a", "x", "y"))
+          """ to (EMPTY to listOf("a", "x", "y")),
+
+          """
+            {
+               ListStyle: {
+                 style1: {}
+                 style2: {}
+               }
+               ButtonStyle: {
+                 style3: {}
+               }
+               com.example.MyTestClass${'$'}InnerClass${'$'}MyInnerStyle: {
+                 style4: {}
+                 default: { parent: <caret> }
+                 style5: {}
+               }
+            }
+          """ to (listOf("style1", "style2", "style4") to listOf("style3", "style5")),
+
+          """
+              {
+                ProgressBarStyle: {
+                    default-horizontal: { background: default-slider, knob: default-slider-knob },
+                    default-vertical: { background: default-slider, knob: default-round-large }
+                },
+                SliderStyle: {
+                    default: { parent: default-horizontal },
+                },
+                com.badlogic.gdx.scenes.scene2d.ui.Button${'$'}ButtonStyle: {
+                    button: {}
+                }
+                com.badlogic.gdx.scenes.scene2d.ui.Slider${'$'}SliderStyle: {
+                    foo: { knobOver: foo, parent: <caret> }
+                }
+              }
+          """ to (listOf("default-horizontal", "default-vertical", "default") to listOf("button"))
   )
 
   fun testCompletions() {

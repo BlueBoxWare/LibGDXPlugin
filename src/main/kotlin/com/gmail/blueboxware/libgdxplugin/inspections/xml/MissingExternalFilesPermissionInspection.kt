@@ -81,9 +81,9 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
         // find method usages
         var found = false
         externalFilesMethods.forEach { method ->
-          JavaFindUsagesHelper.processElementUsages(method, JavaMethodFindUsagesOptions(moduleWithDepsScope), { usage ->
+          JavaFindUsagesHelper.processElementUsages(method, JavaMethodFindUsagesOptions(moduleWithDepsScope)) { usage ->
 
-            PsiTreeUtil.findFirstParent(usage.element, { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression })?.let { callExpression ->
+            PsiTreeUtil.findFirstParent(usage.element) { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression }?.let { callExpression ->
 
               val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text ?: (usage.reference?.resolve() as? PsiMethod)?.name
 
@@ -116,7 +116,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
             }
 
             return@processElementUsages true
-          })
+          }
         }
 
         if (found) {

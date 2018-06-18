@@ -1,5 +1,5 @@
 {
-  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
     t1: t2
     t<caret>2: {
       fontColor: { hex: "ff0000" }
@@ -12,15 +12,19 @@
   }
   com.example.KotlinClass: {
     default: {
-      buttonStyles: [ t2 ],
+      buttonStyle: t2,
     }
   },
-  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
     default: t2
   },
   com.example.KotlinClass: {
     d: {
-      buttonStyles: [ "t2" ],
+      buttonStyle: "t2",
+      textButtonStyles: [ {parent: t2} ]
     }
   },
+  TextButtonStyle: {
+    child: { fontColor: { hex: "" }, parent: t2 }
+  }
 }
