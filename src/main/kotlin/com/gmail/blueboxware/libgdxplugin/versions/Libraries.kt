@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
 import com.intellij.openapi.roots.OrderRootType
+import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -156,6 +157,10 @@ enum class Libraries(val library: com.gmail.blueboxware.libgdxplugin.versions.Li
     }
 
     fun extractLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, MavenComparableVersion>? {
+
+      if ((library as? LibraryImpl)?.isDisposed == true) {
+        return null
+      }
 
       for (libGDXLib in values()) {
         for (url in library.getUrls(OrderRootType.CLASSES)) {
