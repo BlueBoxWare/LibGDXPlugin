@@ -52,6 +52,20 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                 CodeStyleSettingsCustomizable.WRAP_OPTIONS,
                 CodeStyleSettingsCustomizable.WRAP_VALUES
         )
+        consumer.showCustomOption(
+                SkinCodeStyleSettings::class.java,
+                "PROPERTY_ALIGNMENT",
+                "Align",
+                "Objects",
+                SkinCodeStyleSettings.PropertyAlignment.values().map { it.description }.toTypedArray(),
+                SkinCodeStyleSettings.PropertyAlignment.values().map { it.id }.toIntArray()
+        )
+        consumer.showCustomOption(
+                SkinCodeStyleSettings::class.java,
+                "DO_NOT_WRAP_COLORS",
+                "Do not wrap colors",
+                "Objects"
+        )
       }
     }
   }

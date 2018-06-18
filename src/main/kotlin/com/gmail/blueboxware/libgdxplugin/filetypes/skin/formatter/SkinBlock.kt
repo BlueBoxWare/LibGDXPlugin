@@ -168,9 +168,9 @@ class SkinBlock(
 
   private fun isInsideBraces(psiElement: PsiElement): Boolean {
 
-    val prevBrace = findPreviousSibling(psiElement, { sibling ->
+    val prevBrace = findPreviousSibling(psiElement) { sibling ->
       (sibling is LeafPsiElement && (sibling.text == "{" || sibling.text == "}"))
-    })
+    }
 
     return prevBrace?.text == "{"
 

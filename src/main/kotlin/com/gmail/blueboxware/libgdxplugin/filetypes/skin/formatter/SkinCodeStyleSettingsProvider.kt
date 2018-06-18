@@ -28,7 +28,6 @@ class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
             addSpacesTab(settings)
             addBlankLinesTab(settings)
             addWrappingAndBracesTab(settings)
-            addTab(SkinCodeStylePanel(settings))
           }
         }
 
