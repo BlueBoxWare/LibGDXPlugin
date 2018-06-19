@@ -1507,8 +1507,34 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
           """ to (listOf("default-horizontal", "default-vertical", "default") to listOf("button"))
   )
 
+  private val testsPre199 = listOf(
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                default: { <caret> }
+              }
+            }
+          """ to (listOf("background", "selection", "font") to listOf("parent")),
+          """
+            {
+              com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {
+                main: {  }
+                child: { parent: <caret> }
+              }
+            }
+          """ to (EMPTY to listOf("main"))
+  )
+
   fun testCompletions() {
+    addDummyLibGDX199()
     for ((content, expected) in tests) {
+      doTest(content, expected.first, expected.second)
+    }
+  }
+
+  fun testCompletionsPre199() {
+    removeDummyLibGDX199()
+    for ((content, expected) in testsPre199) {
       doTest(content, expected.first, expected.second)
     }
   }
@@ -1543,8 +1569,6 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
     addKotlin()
-
-    addDummyLibGDX199()
 
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")

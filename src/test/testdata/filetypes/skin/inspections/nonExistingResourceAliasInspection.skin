@@ -22,6 +22,7 @@
       fontColor: white
     },
     toggle: {
+      parent: default
       down: round-down,
       up: round,
       checked: round-down,
@@ -105,16 +106,16 @@
       parent: yes
     }
     b2: {
-      parent: <error descr="'round-green' does not refer to anything. Resources must be defined before they can be used.">round-green</error>
+      parent: round-green
     }
     b3: {
-      parent: <error descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</error>
+      parent: d
     }
     b4: {
       parent: toggle
     }
     b5: {
-      parent: <error descr="'foo' does not refer to anything. Resources must be defined before they can be used.">foo</error>
+      parent: foo
     }
   }
 

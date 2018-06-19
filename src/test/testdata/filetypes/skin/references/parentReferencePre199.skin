@@ -1,0 +1,10 @@
+{
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    main: {
+      disabledFontColor: blue
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
+    sub2: { parent: ma<caret>in }
+  }
+}

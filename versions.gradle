@@ -9,7 +9,7 @@ ext {
     ideaVersion = '2018.1.5'
 
     studioVersion = '2017.3.3'
-    studioKotlinPlugin = '1.2.30-release-Studio3.1-1'
+    studioKotlinPlugin = '1.2.31-release-Studio3.1-1'
 
     useStudio = false
     runStudio = false

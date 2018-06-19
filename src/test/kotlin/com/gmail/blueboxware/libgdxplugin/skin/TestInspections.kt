@@ -115,6 +115,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     if (getTestName(true).contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
+    } else {
+      removeDummyLibGDX199()
     }
 
     myFixture.copyFileToProject("com/example/ColorArrayHolder.java")

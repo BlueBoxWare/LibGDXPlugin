@@ -82,13 +82,16 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
+  fun removeDummyLibGDX199() = removeLibrary(Libraries.LIBGDX, "1.9.9")
+
   fun addDummyLibrary(library: Libraries, version: String) {
 
     object : WriteCommandAction<Unit>(project) {
 
       override fun run(result: Result<Unit>) {
 
-        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel ?: throw AssertionError()
+        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
+                ?: throw AssertionError()
 
         for (lib in projectModel.libraries) {
           Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
@@ -104,6 +107,31 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
         libraryModel.commit()
         projectModel.commit()
+      }
+
+    }.execute()
+
+  }
+
+  fun removeLibrary(library: Libraries, version: String? = null) {
+
+    object: WriteCommandAction<Unit>(project) {
+
+      override fun run(result: Result<Unit>) {
+
+        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
+          ?: throw AssertionError()
+
+        for (lib in projectModel.libraries) {
+          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
+            if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
+              projectModel.removeLibrary(lib)
+            }
+          }
+        }
+
+        projectModel.commit()
+
       }
 
     }.execute()

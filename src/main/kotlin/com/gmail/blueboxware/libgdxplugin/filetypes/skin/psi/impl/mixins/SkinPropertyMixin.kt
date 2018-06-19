@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -39,7 +40,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
   override fun resolveToType(): PsiType? {
-    if (name == PROPERTY_NAME_PARENT) {
+    if (name == PROPERTY_NAME_PARENT && project.isLibGDX199()) {
       return containingObject?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
     }
 

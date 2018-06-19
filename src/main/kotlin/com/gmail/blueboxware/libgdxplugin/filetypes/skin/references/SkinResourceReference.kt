@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
@@ -43,7 +44,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
       val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
 
       val isTintedDrawableNameProperty = element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
-      val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT
+      val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
 
       if (valueType.canonicalText ==  "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) {
           skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable", element.value, element).forEach {

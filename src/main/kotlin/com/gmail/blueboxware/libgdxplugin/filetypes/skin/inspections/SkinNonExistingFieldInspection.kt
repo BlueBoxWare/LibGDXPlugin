@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 
@@ -37,7 +38,7 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
     override fun visitPropertyName(propertyName: SkinPropertyName) {
       val name = propertyName.value
 
-      if (name == PROPERTY_NAME_PARENT) {
+      if (name == PROPERTY_NAME_PARENT && propertyName.project.isLibGDX199()) {
         return
       }
 

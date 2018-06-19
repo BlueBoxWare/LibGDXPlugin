@@ -1,6 +1,7 @@
 {
   TextButtonStyle: {
     blue: {
+      parent: foo,
       down: round-down,
       up: round,
       font: medium,
@@ -34,6 +35,9 @@ default: {
 disabledFontColor: blue
 font: blue
 }
+  parent: {
+    parent: default
+  }
 }
 TextButtonStyle: {
 something: {
@@ -56,6 +60,7 @@ Tag4: {
 default: {
 textButtonStyles: [
 {
+  parent: parent
 fontColor: {},
 <error>something</error>: {}
 }

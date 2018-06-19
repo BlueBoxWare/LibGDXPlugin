@@ -71,6 +71,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentResourceReferenceFromSuperClass1() {
+    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
   }
 
@@ -146,7 +147,13 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentReference() {
+    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
+  }
+
+  fun testParentReferencePre199() {
+    removeDummyLibGDX199()
+    doTestResourceReference(null, null)
   }
 
   fun testParentReferenceTagged() {
@@ -312,17 +319,15 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addDummyLibGDX199()
 
     myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
 
     val testName = getTestName(true)
 
-    if (testName.contains("Kotlin") || testName.contains("tagged", ignoreCase = true)) {
+    if (testName.contains("Kotlin", ignoreCase = true) || testName.contains("tagged", ignoreCase = true)) {
       addKotlin()
       myFixture.copyFileToProject("com/example/KTestClass.kt", "com/example/KTestClass.kt")
-      if (testName.contains("tagged", ignoreCase = true)) {
-        addDummyLibGDX199()
-      }
     }
 
   }

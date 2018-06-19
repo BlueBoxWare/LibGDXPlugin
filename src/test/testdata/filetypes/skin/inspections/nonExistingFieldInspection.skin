@@ -1,7 +1,7 @@
 {
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     blue: {
-      parent: parent,
+       <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'parent'.">parent</error>: parent,
       down: round-down,
       up: round,
       font: medium,
@@ -55,11 +55,11 @@ round-blue: { <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.Skin.Tinte
 
     com.example.ColorArrayHolder: {
       default: {
-        parent: default
+        <error descr="Class 'com.example.ColorArrayHolder' does not have a property named 'parent'.">parent</error>: default
         textButtonStyles: [
           {
             fontColor: {},
-            parent: parent,
+            <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'parent'.">parent</error>: parent,
             <error descr="Class 'com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle' does not have a property named 'something'.">something</error>: {}
           }
         ] ,

@@ -223,7 +223,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val skinFile = parameters.originalFile as? SkinFile ?: return
     val elementType = stringLiteral.resolveToType()
     val elementClass = (elementType as? PsiClassType)?.resolve()
-    val isParentProperty = stringLiteral.property?.name == PROPERTY_NAME_PARENT
+    val isParentProperty = stringLiteral.property?.name == PROPERTY_NAME_PARENT && parameters.position.project.isLibGDX199()
     val elementClassName = elementClass?.qualifiedName
 
     if (elementClass != null && elementClassName != "java.lang.Boolean") {
@@ -278,7 +278,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val objectType = containingObject.resolveToTypeString()
     val usedPropertyNames = containingObject.propertyNames
 
-    if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT)) {
+    if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT) && parameters.position.project.isLibGDX199()) {
       val important = objectType !in listOf(
               "com.badlogic.gdx.graphics.Color",
               "com.badlogic.gdx.graphics.g2d.BitmapFont",
