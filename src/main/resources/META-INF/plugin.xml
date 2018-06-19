@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.15</version>
+    <version>1.16</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.16</b>
+        <ul>
+            <li>Skins: don't treat parent property as special when using a LibGDX version below 1.9.9 </li>
+        </ul>
+
         <b>1.15</b>
         <ul>
             <li>Skins: support tagged classes and cascading styles (LibGDX 1.9.9, <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/12">https://github.com/BlueBoxWare/LibGDXPlugin/issues/12</a>)</li>
