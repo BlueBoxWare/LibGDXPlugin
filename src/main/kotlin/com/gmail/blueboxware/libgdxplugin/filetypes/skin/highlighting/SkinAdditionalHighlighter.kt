@@ -1,11 +1,14 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_KEYWORD
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_NUMBER
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PARENT_PROPERTY
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
@@ -28,8 +31,13 @@ import com.intellij.psi.PsiElement
 class SkinAdditionalHighlighter : Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+
     if (element is SkinPropertyName) {
-      holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_PROPERTY_NAME }
+      if (element.value == PROPERTY_NAME_PARENT && element.project.isLibGDX199()) {
+        holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_PARENT_PROPERTY }
+      } else {
+        holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_PROPERTY_NAME }
+      }
     } else if (element is SkinResourceName) {
       holder.createInfoAnnotation(element, null).apply { textAttributes = SKIN_RESOURCE_NAME }
     } else if (element is SkinStringLiteral) {
@@ -43,6 +51,7 @@ class SkinAdditionalHighlighter : Annotator {
         }
       }
     }
+
   }
 
 }

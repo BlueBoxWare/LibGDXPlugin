@@ -6,6 +6,7 @@ import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
 import com.intellij.lexer.LayeredLexer
 import com.intellij.lexer.Lexer
 import com.intellij.lexer.StringLiteralLexer
+import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
@@ -48,6 +49,7 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     val SKIN_RESOURCE_NAME = TextAttributesKey.createTextAttributesKey("SKIN.RESOURCENAME", JSON_IDENTIFIER)
 
     val SKIN_PROPERTY_NAME = TextAttributesKey.createTextAttributesKey("SKIN.PROPERTY_NAME", JSON_PROPERTY_KEY)
+    val SKIN_PARENT_PROPERTY = TextAttributesKey.createTextAttributesKey("SKIN.PARENT_PROPERTY", DefaultLanguageHighlighterColors.PREDEFINED_SYMBOL)
 
     val SKIN_VALID_ESCAPE = TextAttributesKey.createTextAttributesKey("SKIN.VALID_ESCAPE", JSON_VALID_ESCAPE)
     val SKIN_INVALID_ESCAPE = TextAttributesKey.createTextAttributesKey("SKIN.INVALID_ESCAPE", JSON_INVALID_ESCAPE)
