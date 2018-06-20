@@ -48,8 +48,6 @@ class ColorAnnotator : Annotator {
     private val annotationsKey = key<MutableList<Pair<Int, Color>>>("annotations")
     private val cacheKey = key<ColorAnnotatorCache>("cache")
 
-    val colorRegex = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
-
   }
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -149,13 +147,13 @@ class ColorAnnotator : Annotator {
     if (initialValue is KtStringTemplateExpression) {
 
       if (initialValue.text.startsWith("\"#")) {
-        return stringToColor(initialValue.text)
+        return color(initialValue.text)
       }
 
     } else if (initialValue is PsiLiteralExpression) {
       if (initialValue.type.isStringType(element)) {
         if (initialValue.text.startsWith("\"#")) {
-          return stringToColor(initialValue.text)
+          return color(initialValue.text)
         }
       }
 
@@ -203,7 +201,7 @@ class ColorAnnotator : Annotator {
             if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
               if (resolvedCall.second == "valueOf") {
                 // Color.valueOf(string)
-                return stringToColor(arg.text)
+                return color(arg.text)
               } else if (resolvedCall.second == "getColor") {
                 // Skin.getColor(string)
                 val resourceName = StringUtil.unquoteString(arg.text)
@@ -255,7 +253,7 @@ class ColorAnnotator : Annotator {
             floats[i] = float
           }
         }
-        return Color(floats[0], floats[1], floats[2], floats[3])
+        return color(floats[0], floats[1], floats[2], floats[3])
       }
 
     } else if (initialValue is PsiCall) {
@@ -280,7 +278,7 @@ class ColorAnnotator : Annotator {
               methodCallExpression.resolveCallToStrings()?.let { resolved ->
                 if (resolved.second == "valueOf") {
                   // Color.valueOf(String)
-                  return stringToColor(arg.text)
+                  return color(arg.text)
                 } else if (resolved.second == "getColor") {
                   // Skin.getColor(string)
                   methodCallExpression.getAssetFiles().let { (skinFiles) ->
@@ -328,7 +326,7 @@ class ColorAnnotator : Annotator {
             }
           }
         }
-        return Color(floats[0], floats[1], floats[2], floats[3])
+        return color(floats[0], floats[1], floats[2], floats[3])
       }
 
     }
@@ -648,12 +646,12 @@ class ColorAnnotator : Annotator {
 
   }
 
-  private fun rgbaToColor(value: Long): Color {
+  private fun rgbaToColor(value: Long): Color? {
     val r = (value and 0xff000000).ushr(24) / 255f
     val g = (value and 0x00ff0000).ushr(16) / 255f
     val b = (value and 0x0000ff00).ushr(8) / 255f
     val a = (value and 0x000000ff) / 255f
-    return Color(r, g, b, a)
+    return color(r, g, b, a)
   }
 
 }

@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
@@ -22,13 +21,21 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal fun stringToColor(string: String): Color? {
+private val COLOR_REGEX = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
+
+internal fun color(r: Float, g: Float, b: Float, a: Float): Color? =
+        if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1 || a < 0 || a > 1)
+          null
+        else
+          Color(r, g, b, a)
+
+internal fun color(string: String): Color? {
 
   if (string.length < 6) return null
 
   var str = if (string[0] == '"') string.substring(1, string.length - 1) else string
 
-  if (!ColorAnnotator.colorRegex.matches(str)) return null
+  if (!COLOR_REGEX.matches(str)) return null
 
   if (str[0] == '#') {
     str = str.substring(1)
@@ -40,7 +47,7 @@ internal fun stringToColor(string: String): Color? {
     val b = Integer.valueOf(str.substring(4, 6), 16)
     val a = if (str.length == 8) Integer.valueOf(str.substring(6, 8), 16) else 255
 
-    Color(r / 255f, g / 255f, b / 255f, a / 255f)
+    color(r / 255f, g / 255f, b / 255f, a / 255f)
   } catch (e: NumberFormatException) {
     null
   }

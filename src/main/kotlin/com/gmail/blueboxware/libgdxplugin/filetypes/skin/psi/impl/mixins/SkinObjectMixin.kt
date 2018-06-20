@@ -2,8 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
-import com.gmail.blueboxware.libgdxplugin.utils.stringToColor
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -101,12 +101,12 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
   override fun asColor(force: Boolean): Color? {
 
-    var color: Color? = null
+    var thisColor: Color? = null
 
     if (propertyList.size == 1 && propertyList.firstOrNull()?.name == "hex") {
 
       (propertyList.firstOrNull()?.value as? SkinStringLiteral)?.value?.let { string ->
-        color = stringToColor(string)
+        thisColor = color(string)
       }
 
     } else if (propertyList.size == 3 || propertyList.size == 4 || force) {
@@ -132,17 +132,13 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
       if (force || (r != null && g != null && b != null)) {
 
-        try {
-          color = Color(r ?: 1f, g ?: 1f, b ?: 1f, a)
-        } catch (e: IllegalArgumentException) {
-          // Do nothing
-        }
+        thisColor = color(r ?: 1f, g ?: 1f, b ?: 1f, a)
 
       }
 
     }
 
-    return color
+    return thisColor
 
   }
 

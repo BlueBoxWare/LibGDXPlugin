@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
+import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.intellij.debugger.engine.evaluation.EvaluationContext
 import com.intellij.debugger.settings.NodeRendererSettings
 import com.intellij.debugger.ui.tree.ValueDescriptor
@@ -9,7 +10,6 @@ import com.intellij.util.ui.ColorIcon
 import com.sun.jdi.ClassNotPreparedException
 import com.sun.jdi.FloatValue
 import com.sun.jdi.ObjectReference
-import java.awt.Color
 import java.lang.IllegalArgumentException
 import javax.swing.Icon
 
@@ -49,9 +49,10 @@ class LibGDXColorObjectRenderer(rendererSettings: NodeRendererSettings): Compoun
     val b = getValue(value, "b")
     val a = getValue(value, "a")
 
-    val color = Color(r, g, b, a)
+    return color(r, g, b, a)?.let {
+      ColorIcon(16, 12, it, true)
+    }
 
-    return ColorIcon(16, 12, color, true)
   }
 
   private fun getValue(objectReference: ObjectReference, fieldName: String): Float {

@@ -1,6 +1,14 @@
 {
   Color: {
     color1: <weak_warning descr="#ff0000ff">{ r: 1, g: 0, b: 0, a: 1}</weak_warning>
+    e1: { r: -1, g: 0, b: 0, a: 0 }
+    e2: { r: 1.01, g: 0, b: 0, a: 0 }
+    e3: { r: 0, g: -0.01, b: 0, a: 0 }
+    e4: { r: 0, g: 1.1, b: 0, a: 0 }
+    e5: { r: 0, g: 0, b: -5, a: 0 }
+    e6: { r: 0, g: 0, b: 5, a: 0 }
+    e7: { r: 0, g: 0, b: 0, a: -2 }
+    e8: { r: 0, g: 0, b: 0, a: 1.22 }
   }
 
   com.badlogic.gdx.graphics.Color: {

@@ -99,6 +99,15 @@ public class Java1 {
     Color zz1 = <weak_warning descr="#ff0000ff">Color.valueOf(new C().c1)</weak_warning>;
     Color zz2 = Color.valueOf(<weak_warning descr="#00ff00ff">new C().c2</weak_warning>);
 
+    Color e1 = new Color(1.1f, 0f, 0f, 0f);
+    Color e2 = new Color(-0.1f, 0f, 0f, 0f);
+    Color e3 = new Color(0f, 2f, 0f, 0f);
+    Color e4 = new Color(0f, -2f, 0f, 0f);
+    Color e5 = new Color(0f, 0f, -0.01f, 0f);
+    Color e6 = new Color(0f, 0f, 1.01f, 0f);
+    Color e7 = new Color(0f, 0f, 0f, -0.001f);
+    Color e8 = new Color(0f, 0f, 0f, 1.001f);
+
   }
 
 }
