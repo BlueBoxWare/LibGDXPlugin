@@ -160,7 +160,13 @@ class SkinCompletionContributor : CompletionContributor() {
     (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.getRealClassNamesAsString())?.forEach { cs ->
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
-          doAdd(LookupElementBuilder.create(res.name.makeSafe()).withPresentableText(res.name.escape()), parameters, result)
+          val icon = res
+                  .takeIf { cs.getRealClassNamesAsString().contains("com.badlogic.gdx.graphics.Color") }
+                  ?.asColor(true)
+                  ?.let { createColorIcon(it) }
+                  ?: ICON_RESOURCE
+
+          doAdd(LookupElementBuilder.create(res.name.makeSafe()).withIcon(icon).withPresentableText(res.name.escape()), parameters, result)
         }
       }
     }
@@ -230,13 +236,11 @@ class SkinCompletionContributor : CompletionContributor() {
 
       skinFile.getResources(elementClass, null, stringLiteral, isParentProperty, isParentProperty).forEach { resource ->
 
-        val icon = if (elementClassName == "com.badlogic.gdx.graphics.Color") {
-          resource.asColor(true)?.let { createColorIcon(it) }
-        } else {
-          null
-        }
+        val icon =
+                resource.takeIf { elementClassName == "com.badlogic.gdx.graphics.Color" }?.asColor(true)?.let { createColorIcon(it) }
+                        ?: ICON_RESOURCE
 
-        doAdd(LookupElementBuilder.create(resource.name).withIcon(icon ?: ICON_RESOURCE), parameters, result)
+        doAdd(LookupElementBuilder.create(resource.name).withIcon(icon), parameters, result)
 
       }
 
