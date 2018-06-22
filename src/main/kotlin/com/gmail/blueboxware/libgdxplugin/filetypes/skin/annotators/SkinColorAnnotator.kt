@@ -1,12 +1,14 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtilBase
@@ -31,6 +33,10 @@ import java.awt.Color
 class SkinColorAnnotator : Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+
+    if (!ServiceManager.getService(element.project, LibGDXPluginSettings::class.java).enableColorAnnotationsInSkin) {
+      return
+    }
 
     if (element is SkinObject) {
 
