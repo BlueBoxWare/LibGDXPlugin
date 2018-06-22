@@ -106,7 +106,11 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
       ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.libraryIterator?.let { libraryIterator ->
         for (lib in libraryIterator) {
           Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
-            usedVersions[libraries] = version
+            usedVersions[libraries].let { registeredVersion ->
+              if (registeredVersion == null || registeredVersion < version) {
+                usedVersions[libraries] = version
+              }
+            }
           }
         }
       }
