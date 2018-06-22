@@ -59,7 +59,8 @@ sourceSets {
     main {
         resources.srcDir 'resources'
         java {
-            srcDir 'gen'
+            srcDirs += 'src/main/kotlin'
+            srcDirs += 'gen'
             exclude 'com/gmail/blueboxware/libgdxplugin/annotations/**'
         }
     }

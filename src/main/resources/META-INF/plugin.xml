@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.15.1</version>
+    <version>1.16</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.15.2</b>
+        <ul>
+            <li>Fix Settings pane (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/14">https://github.com/BlueBoxWare/LibGDXPlugin/issues/14</a>)</li>
+        </ul>
+
         <b>1.15.1</b>
         <ul>
             <li>Don't crash on 'invalid' color values (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/13">https://github.com/BlueBoxWare/LibGDXPlugin/issues/13</a>)</li>
