@@ -39,8 +39,6 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-// TODO: use colors as icon for color names
 class SkinCompletionContributor : CompletionContributor() {
 
   init {

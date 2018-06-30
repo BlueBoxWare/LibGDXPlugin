@@ -4,14 +4,16 @@
 This unofficial plugin adds a number of [LibGDX](https://libgdx.badlogicgames.com/) related features and tools to
 [IntelliJ](https://www.jetbrains.com/idea/) and [Android Studio](https://developer.android.com/studio/index.html).
 
-- [Installation](#installation)
-- [Features](#features)
-  - [Inspections](#inspections)
-  - [Color previews](#color-previews)
-  - [Skin JSON support](#skin-json-support)
-  - [Atlas file support](#atlas-file-support)
-  - [Bitmap Font file support](#bitmap-font-file-support)
-  - [Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)
+<!-- toc -->
+- __[Installation](#installation)__
+- __[Features](#features)__
+  - __[Inspections](#inspections)__
+  - __[Color previews](#color-previews)__
+  - __[Skin JSON support](#skin-json-support)__
+  - __[Atlas file support](#atlas-file-support)__
+  - __[Bitmap Font file support](#bitmap-font-file-support)__
+  - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
+<!-- /toc -->
 
 # Installation
 In IntelliJ or Android Studio go to *Settings* -> *Plugins* -> *Browse repositories...* and search for "LibGDX".
