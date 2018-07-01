@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.psi.JavaPsiFacade
@@ -9,7 +10,6 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.PsiReferenceProvider
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.ProcessingContext
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtClassLiteralExpression
@@ -99,7 +99,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
       if (arg2receiver is KtClassLiteralExpression) {
 
-        getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzeFully())?.let { clazz ->
+        getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzePartial())?.let { clazz ->
           if (clazz in Assets.SKIN_TEXTURE_REGION_CLASSES) {
             return AssetReference.createReferences(element, callExpression, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
           } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {

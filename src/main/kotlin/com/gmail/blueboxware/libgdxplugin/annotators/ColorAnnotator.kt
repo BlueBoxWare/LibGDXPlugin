@@ -13,7 +13,6 @@ import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
@@ -127,7 +126,7 @@ class ColorAnnotator : Annotator {
   private fun findColor(cache: ColorAnnotatorCache, element: PsiElement, isSpecialColorMethod: Boolean): Color? {
 
     val type = if (element is KtExpression) {
-     element.getType(element.analyzeFully())?.getJetTypeFqName(false)
+     element.getType(element.analyzePartial())?.getJetTypeFqName(false)
     } else if (element is PsiExpression) {
       element.type?.getCanonicalText(false)
     } else {
@@ -184,7 +183,7 @@ class ColorAnnotator : Annotator {
       }
 
       val arguments = initialValue.valueArguments
-      val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.getType(initialValue.analyzeFully()) ?: return null
+      val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.getType(initialValue.analyzePartial()) ?: return null
 
       if (arguments.size == 1 && KotlinBuiltIns.isInt(argument1type)) {
         // Color(int)
@@ -214,7 +213,11 @@ class ColorAnnotator : Annotator {
                 }
               } else if ((resolvedCall.second == "get" || resolvedCall.second == "optional") && arguments.size == 2) {
                 ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
-                  (classLiteralExpression.receiverExpression as? KtReferenceExpression ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(initialValue.analyzeFully())?.firstOrNull()?.let { clazz ->
+                  (classLiteralExpression.receiverExpression as? KtReferenceExpression
+                          ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)
+                          ?.getImportableTargets(initialValue.analyzePartial())
+                          ?.firstOrNull()
+                          ?.let { clazz ->
                     JavaPsiFacade.getInstance(element.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(element.project))?.let { psiClass ->
                       if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
                         // Skin.get(string, Color::class.java)
@@ -243,7 +246,7 @@ class ColorAnnotator : Annotator {
       } else if (arguments.size == 4) {
         // Color(float, float, float, float)
         val floats = arrayOf(0f, 0f, 0f, 0f)
-        val context = initialValue.analyzeFully()
+        val context = initialValue.analyzePartial()
         for (i in 0 .. 3) {
           arguments.getOrNull(i)?.getArgumentExpression()?.let { expr ->
             val argType = expr.getType(context)
@@ -521,7 +524,7 @@ class ColorAnnotator : Annotator {
 
     if (expr is KtConstantExpression) {
 
-      expr.getType(expr.analyzeFully())?.let { type ->
+      expr.getType(expr.analyzePartial())?.let { type ->
 
         if (KotlinBuiltIns.isInt(type)) {
 
@@ -565,7 +568,7 @@ class ColorAnnotator : Annotator {
     val context = expr.context
 
     if (context is KtDotQualifiedExpression) {
-      if (context.receiverExpression.getType(context.analyzeFully())?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.Color") {
+      if (context.receiverExpression.getType(context.analyzePartial())?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.Color") {
         getColor(cache, context.receiverExpression, ignoreContext = true)?.let { color ->
           return when(context.selectorExpression?.text) {
             "r" -> color.red /  255f

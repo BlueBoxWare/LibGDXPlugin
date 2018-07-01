@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
 import com.intellij.json.JsonFileType
 import com.intellij.lang.Language
 import com.intellij.lang.properties.PropertiesFileType
@@ -16,7 +17,6 @@ import com.intellij.psi.*
 import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
 import com.jetbrains.jsonSchema.JsonSchemaFileType
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
@@ -81,7 +81,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
                 element.getParentOfType<KtAnnotationEntry>(true)?.let { entry ->
-                  entry.analyzeFully().get(BindingContext.ANNOTATION, entry)?.type?.getJetTypeFqName(false)?.let { fqName ->
+                  entry.analyzePartial().get(BindingContext.ANNOTATION, entry)?.type?.getJetTypeFqName(false)?.let { fqName ->
                     if (fqName == Assets.ASSET_ANNOTATION_NAME) {
                       var valueArgument = element.getParentOfType<KtValueArgument>(true)
                       if (element.context !is KtCollectionLiteralExpression) {

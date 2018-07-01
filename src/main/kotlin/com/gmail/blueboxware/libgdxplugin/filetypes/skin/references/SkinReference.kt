@@ -22,7 +22,7 @@ import com.intellij.psi.PsiPolyVariantReferenceBase
  */
 abstract class SkinReference<T: PsiElement>(element: T) : PsiPolyVariantReferenceBase<T>(element) {
 
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
   override fun getVariants(): Array<out Any> = arrayOf()
 

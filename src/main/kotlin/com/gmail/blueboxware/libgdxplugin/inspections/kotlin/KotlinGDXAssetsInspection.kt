@@ -3,12 +3,12 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaGDXAssetsInspection
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
 import com.gmail.blueboxware.libgdxplugin.utils.supersAndThis
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.impl.VariableDescriptorImpl
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.idea.search.usagesSearch.descriptor
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.*
@@ -43,7 +43,7 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
 
     override fun visitAnnotationEntry(annotationEntry: KtAnnotationEntry) {
 
-      annotationEntry.analyzeFully().get(BindingContext.ANNOTATION, annotationEntry)?.type?.getJetTypeFqName(false)?.let { fqName ->
+      annotationEntry.analyzePartial().get(BindingContext.ANNOTATION, annotationEntry)?.type?.getJetTypeFqName(false)?.let { fqName ->
 
         if (fqName != Assets.ASSET_ANNOTATION_NAME) return
 

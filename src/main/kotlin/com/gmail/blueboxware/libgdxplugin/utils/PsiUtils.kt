@@ -9,13 +9,11 @@ import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.intentions.calleeName
-import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtNameReferenceExpression
-import org.jetbrains.kotlin.psi.KtObjectDeclaration
-import org.jetbrains.kotlin.psi.KtQualifiedExpression
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
+import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -56,6 +54,8 @@ internal fun PsiClass.putDollarInInnerClassName(): String =
 
 internal fun PsiType?.isStringType(element: PsiElement) =
         this == PsiType.getJavaLangString(element.manager, element.resolveScope)
+
+internal fun KtElement.analyzePartial() = analyze(BodyResolveMode.PARTIAL)
 
 internal fun Project.getPsiFile(filename: String): PsiFile? {
 

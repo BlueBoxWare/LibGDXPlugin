@@ -62,6 +62,7 @@ class Class6(val s: SpriteBatch) {
 class Class7() {
   var i: Int
     get() = 1
+    @Suppress("UNUSED_PARAMETER")
     set(value) {
       SpriteBatch().transformMatrix = null
     }

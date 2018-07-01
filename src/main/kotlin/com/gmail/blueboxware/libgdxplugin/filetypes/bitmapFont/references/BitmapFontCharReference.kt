@@ -26,7 +26,7 @@ class BitmapFontCharReference<T: BitmapFontKerning>(element: T) : PsiReferenceBa
 
   override fun resolve(): PsiElement?  = null
 
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 

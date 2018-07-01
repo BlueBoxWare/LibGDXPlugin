@@ -103,5 +103,5 @@ class FileReference(
 
   }
 
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 }

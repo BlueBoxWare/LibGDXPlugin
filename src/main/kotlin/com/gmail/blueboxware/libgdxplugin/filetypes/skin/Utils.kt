@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin
 
+import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.gmail.blueboxware.libgdxplugin.utils.isStringType
@@ -10,7 +11,6 @@ import com.intellij.psi.impl.source.PsiImmediateClassType
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
-import org.jetbrains.kotlin.idea.caches.resolve.analyzeFully
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -120,7 +120,7 @@ private fun Project.collectCustomTags(): TagMap {
 
               arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
-                (secondArgument.getType(secondArgument.analyzeFully()) as? SimpleType)?.takeIf { it.isClassType }?.arguments?.firstOrNull()?.type?.getJetTypeFqName(false)?.let { fqName ->
+                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)?.takeIf { it.isClassType }?.arguments?.firstOrNull()?.type?.getJetTypeFqName(false)?.let { fqName ->
                   tagMap.add(firstArgument.plainContent, fqName)
                 }
 

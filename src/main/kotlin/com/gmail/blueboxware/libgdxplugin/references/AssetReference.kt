@@ -117,7 +117,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
   }
 
-  override fun getRangeInElement(): TextRange? = ElementManipulators.getValueTextRange(element)
+  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
   companion object {
 
