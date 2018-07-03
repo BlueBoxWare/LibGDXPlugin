@@ -531,4 +531,15 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
+  fun testNonExistingAssetInspection() {
+
+    addAnnotations()
+    addDummyLibGDX199()
+    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
+
+    performInspectionsTest(JavaNonExistingAssetInspection(), "inspections/nonExistingAsset/Test.java")
+    performInspectionsTest(KotlinNonExistingAssetInspection(), "inspections/nonExistingAsset/Test.kt")
+
+  }
+
 }

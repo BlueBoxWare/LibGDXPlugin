@@ -44,6 +44,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           JavaLogLevelInspection::class.java,
           JavaGDXAssetsInspection::class.java,
           JavaInvalidPropertyKeyInspection::class.java,
+          JavaNonExistingAssetInspection::class.java,
 
           KotlinUnsafeIteratorInspection::class.java,
           KotlinTestIdsInspection::class.java,
@@ -55,6 +56,7 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           KotlinLogLevelInspection::class.java,
           KotlinGDXAssetsInspection::class.java,
           KotlinInvalidPropertyKeyInspection::class.java,
+          KotlinNonExistingAssetInspection::class.java,
 
           OpenGLESDirectiveInspection::class.java,
           DesignedForTabletsInspection::class.java,

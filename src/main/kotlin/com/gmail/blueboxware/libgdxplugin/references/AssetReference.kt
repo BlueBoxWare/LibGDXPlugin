@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReference(element: PsiElement, val resourceName: String, val className: String?, private val assetFiles: Pair<List<SkinFile>, List<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
+class AssetReference(element: PsiElement, val resourceName: String, val className: String?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 
@@ -119,6 +119,34 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
   override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
+  fun filesPresentableText(withPrefix: Boolean): String {
+    val str = StringBuilder()
+
+    (assetFiles.first + assetFiles.second).let { files ->
+
+      if (withPrefix) {
+        if (files.size == 1) {
+          str.append("file ")
+        } else if (files.size > 1) {
+          str.append("files ")
+        }
+      }
+
+      files.withIndex().forEach { (index, file) ->
+        str.append("\"${file.name}\"")
+        if (index == files.size - 2) {
+          str.append(" or ")
+        } else if (index < files.size - 1 && files.size > 1) {
+          str.append(", ")
+        }
+      }
+    }
+
+    return str.toString()
+
+  }
+
+
   companion object {
 
     fun createReferences(element: PsiElement, callExpression: PsiElement, wantedClass: String? = null, resourceName: String? = null): Array<out PsiReference> {
@@ -132,7 +160,14 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
         listOf<SkinFile>() to listOf()
       }
 
-      return arrayOf(AssetReference(element, resourceName ?: StringUtil.stripQuotesAroundValue(element.text), wantedClass, assetFiles))
+      return arrayOf(
+              AssetReference(
+                      element,
+                      resourceName ?: StringUtil.stripQuotesAroundValue(element.text),
+                      wantedClass,
+                      assetFiles.first.toSet() to assetFiles.second.toSet()
+              )
+      )
 
     }
 

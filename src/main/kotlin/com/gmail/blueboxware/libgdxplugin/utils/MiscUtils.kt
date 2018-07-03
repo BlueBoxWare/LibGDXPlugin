@@ -31,6 +31,6 @@ internal fun Project.isLibGDXProject(): Boolean = getComponent(VersionManager::c
 internal fun Project.isLibGDX199(): Boolean =
         getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
 
-fun <T>key(key: String) = Key<T>("$PREFIX.$key")
+internal fun <T>key(key: String) = Key<T>("$PREFIX.$key")
 
-fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }
+internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }

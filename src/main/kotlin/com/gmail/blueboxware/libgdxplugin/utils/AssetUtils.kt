@@ -61,7 +61,7 @@ internal object Assets {
 
   val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 
-  val FAKE_FILE_KEY = key<Boolean>("fake")
+  val FAKE_FILE_KEY = key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
 
   val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
 
@@ -118,8 +118,8 @@ internal fun VirtualFile.readImageNamesFromAtlas(): List<String> {
   return result
 }
 
-private fun createFakePsiFile(project: Project, original: PsiFile?, language: Language): PsiFile? =
-        PsiFileFactory.getInstance(project).createFileFromText(language, original?.text ?: "")?.apply {
+private fun createFakePsiFile(name: String, project: Project, original: PsiFile?, language: Language): PsiFile? =
+        PsiFileFactory.getInstance(project).createFileFromText(name, language, original?.text ?: "")?.apply {
           putUserData(FAKE_FILE_KEY, true)
           virtualFile.isWritable = false
           original?.let { original ->
@@ -136,7 +136,7 @@ private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atla
     if (skinFileName != "") {
       var skinFile = project.getPsiFile(skinFileName)
       if (skinFile != null && skinFile !is SkinFile) {
-        skinFile = createFakePsiFile(project, skinFile, LibGDXSkinLanguage.INSTANCE)
+        skinFile = createFakePsiFile(skinFileName, project, skinFile, LibGDXSkinLanguage.INSTANCE)
       }
       (skinFile as? SkinFile)?.let { skinFiles.add(it) }
     }
@@ -157,7 +157,7 @@ private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atla
     if (atlasFileName != "") {
       var atlasFile = project.getPsiFile(atlasFileName)
       if (atlasFile != null && atlasFile !is AtlasFile) {
-        atlasFile = createFakePsiFile(project, atlasFile, LibGDXAtlasLanguage.INSTANCE)
+        atlasFile = createFakePsiFile(atlasFile.name, project, atlasFile, LibGDXAtlasLanguage.INSTANCE)
       }
       (atlasFile as? AtlasFile)?.let { atlasFiles.add(it) }
     }
