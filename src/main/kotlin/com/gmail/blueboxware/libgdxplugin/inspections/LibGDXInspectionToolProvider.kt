@@ -31,8 +31,6 @@ import com.intellij.codeInspection.InspectionToolProvider
  */
 class LibGDXInspectionToolProvider : InspectionToolProvider {
 
-  // TODO: assets in code: non existing resource
-
   override fun getInspectionClasses() = arrayOf(
           JavaUnsafeIteratorInspection::class.java,
           JavaTestIdsInspection::class.java,

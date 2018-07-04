@@ -12,6 +12,8 @@ import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
+import org.jetbrains.kotlin.config.MavenComparableVersion
+import java.io.File
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -34,16 +36,18 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   override fun getTestDataPath() =  FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
-  fun addLibGDX() {
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/gdx.jar")
-  }
+  fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
 
-  fun addKotlin() {
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/kotlin-runtime.jar")
-  }
+  fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
   fun addAnnotations() {
-    PsiTestUtil.addLibrary(myFixture.module, getTestDataBasePath() + "/lib/libgdxpluginannotations-1.13.jar")
+    File("build/libs/").listFiles { dir, name ->
+      name.startsWith("libgdxpluginannotations-")
+    }.sortedByDescending { file ->
+      file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")).let { MavenComparableVersion(it) }
+    }.first().let { file ->
+      addLibrary(file.absolutePath)
+    }
   }
 
   private fun assertIdeaHomePath() {
@@ -63,25 +67,9 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 
-  override fun tearDown() {
-
-    WriteCommandAction.runWriteCommandAction(null) {
-      ProjectLibraryTable.getInstance(project).modifiableModel.let { model ->
-        listOf("gdx.jar", "kotlin-runtime.jar", "libgdxpluginannotations-1.13.jar").forEach {
-          model.getLibraryByName(it)?.let { lib ->
-            model.removeLibrary(lib)
-          }
-        }
-        model.commit()
-      }
-    }
-
-    super.tearDown()
-  }
-
   fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
-  fun removeDummyLibGDX199() = removeLibrary(Libraries.LIBGDX, "1.9.9")
+  fun removeDummyLibGDX199() = removeDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
   fun addDummyLibrary(library: Libraries, version: String) {
 
@@ -108,7 +96,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   }
 
-  private fun removeLibrary(library: Libraries, version: String? = null) {
+  private fun removeDummyLibrary(library: Libraries, version: String? = null) {
 
     WriteCommandAction.runWriteCommandAction(project) {
 
@@ -128,5 +116,17 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     }
 
   }
+
+
+  private fun addLibrary(lib: String) =
+          File(lib).let { file ->
+            PsiTestUtil.addLibrary(
+                    myFixture.testRootDisposable,
+                    myFixture.module,
+                    file.name,
+                    file.parent,
+                    file.name
+            )
+          }
 
 }
