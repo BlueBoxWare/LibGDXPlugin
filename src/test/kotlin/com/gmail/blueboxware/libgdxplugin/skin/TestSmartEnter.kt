@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessors
-import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 
 class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
@@ -69,14 +68,14 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
 
     val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXSkinLanguage.INSTANCE)
 
-    object: WriteCommandAction<Unit>(myFixture.project) {
-      override fun run(result: Result<Unit>) {
-        val editor = myFixture.editor
-        for (processor in processors) {
-          processor.process(myFixture.project, editor, myFixture.file)
-        }
+    WriteCommandAction.runWriteCommandAction(project) {
+
+      val editor = myFixture.editor
+      for (processor in processors) {
+        processor.process(myFixture.project, editor, myFixture.file)
       }
-    }.execute()
+
+    }
 
     myFixture.checkResultByFile(getTestName(true) + "_after.skin", true)
   }

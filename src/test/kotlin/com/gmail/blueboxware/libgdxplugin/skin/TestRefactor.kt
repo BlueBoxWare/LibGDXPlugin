@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
+import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.undo.UndoManager
@@ -18,7 +19,6 @@ import com.intellij.refactoring.PackageWrapper
 import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
 import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveDestination
 import com.intellij.refactoring.move.moveFilesOrDirectories.MoveFilesOrDirectoriesProcessor
-import com.intellij.util.ActionRunner
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.idea.refactoring.move.changePackage.KotlinChangePackageRefactoring
 import org.jetbrains.kotlin.name.FqName
@@ -244,7 +244,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
     val dirs = pkg!!.directories
 
-    ActionRunner.runInsideWriteAction {
+    WriteAction.run<Throwable> {
       MoveFilesOrDirectoriesProcessor(
               project,
               arrayOf(file),

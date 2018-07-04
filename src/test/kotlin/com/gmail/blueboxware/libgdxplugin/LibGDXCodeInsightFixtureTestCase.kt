@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.openapi.application.PathManager
-import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.roots.OrderRootType
@@ -86,55 +85,47 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   fun addDummyLibrary(library: Libraries, version: String) {
 
-    object : WriteCommandAction<Unit>(project) {
+    WriteCommandAction.writeCommandAction(project).run<Throwable> {
 
-      override fun run(result: Result<Unit>) {
+      val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
+              ?: throw AssertionError()
 
-        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
-                ?: throw AssertionError()
-
-        for (lib in projectModel.libraries) {
-          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
-            if (libraries == library) {
-              projectModel.removeLibrary(lib)
-            }
+      for (lib in projectModel.libraries) {
+        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
+          if (libraries == library) {
+            projectModel.removeLibrary(lib)
           }
         }
-
-        val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryImpl).modifiableModel
-
-        libraryModel.addRoot("/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/", OrderRootType.CLASSES)
-
-        libraryModel.commit()
-        projectModel.commit()
       }
 
-    }.execute()
+      val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryImpl).modifiableModel
+
+      libraryModel.addRoot("/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/", OrderRootType.CLASSES)
+
+      libraryModel.commit()
+      projectModel.commit()
+    }
 
   }
 
-  fun removeLibrary(library: Libraries, version: String? = null) {
+  private fun removeLibrary(library: Libraries, version: String? = null) {
 
-    object: WriteCommandAction<Unit>(project) {
+    WriteCommandAction.runWriteCommandAction(project) {
 
-      override fun run(result: Result<Unit>) {
+      val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
+              ?: throw AssertionError()
 
-        val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
-          ?: throw AssertionError()
-
-        for (lib in projectModel.libraries) {
-          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
-            if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
-              projectModel.removeLibrary(lib)
-            }
+      for (lib in projectModel.libraries) {
+        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
+          if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
+            projectModel.removeLibrary(lib)
           }
         }
-
-        projectModel.commit()
-
       }
 
-    }.execute()
+      projectModel.commit()
+
+    }
 
   }
 

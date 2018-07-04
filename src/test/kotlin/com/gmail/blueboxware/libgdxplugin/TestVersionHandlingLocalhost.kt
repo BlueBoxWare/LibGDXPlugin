@@ -8,7 +8,6 @@ import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
 import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.util.text.DateFormatUtil
@@ -145,11 +144,9 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     super.setUp()
 
-    object: WriteCommandAction<Unit>(project) {
-      override fun run(result: Result<Unit>) {
-        FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
-      }
-    }.execute()
+    WriteCommandAction.runWriteCommandAction(project) {
+      FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
+    }
 
     versionManager = project.getComponent(VersionManager::class.java)
 

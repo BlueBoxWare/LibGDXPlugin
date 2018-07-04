@@ -126,16 +126,14 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
 
       if (ref is KtInvokeFunctionReference) {
         val element = ref.element
-        if (element is KtCallExpression) {
-          val moreRefs = element.calleeExpression?.references ?: continue
-          for (nextRef in moreRefs) {
-            val functionBody = (nextRef.resolve() as? KtFunction)?.bodyExpression ?: continue
-            if (functionBody is KtLambdaExpression) {
-              val functionLiteral = functionBody.functionLiteral
-              if (allFlushingMethods.contains(functionLiteral)) {
-                registerProblem(expression)
-                break
-              }
+        val moreRefs = element.calleeExpression?.references ?: continue
+        for (nextRef in moreRefs) {
+          val functionBody = (nextRef.resolve() as? KtFunction)?.bodyExpression ?: continue
+          if (functionBody is KtLambdaExpression) {
+            val functionLiteral = functionBody.functionLiteral
+            if (allFlushingMethods.contains(functionLiteral)) {
+              registerProblem(expression)
+              break
             }
           }
         }

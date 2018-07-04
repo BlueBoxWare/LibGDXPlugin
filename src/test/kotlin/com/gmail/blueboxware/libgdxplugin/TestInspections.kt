@@ -29,7 +29,6 @@ import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
-import com.intellij.openapi.application.Result
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -49,11 +48,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     addLibGDX()
     addKotlin()
 
-    object: WriteCommandAction<Unit>(project) {
-      override fun run(result: Result<Unit>) {
-        FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
-      }
-    }.execute()
+    WriteCommandAction.runWriteCommandAction(project) {
+      FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
+    }
 
     ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
 

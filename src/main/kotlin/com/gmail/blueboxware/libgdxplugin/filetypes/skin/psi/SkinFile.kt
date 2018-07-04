@@ -38,7 +38,7 @@ interface SkinFile : SkinElement, PsiFile {
   ): Collection<SkinResource>
 
   fun getResources(
-          clazz: PsiClass,
+          resourceClass: PsiClass,
           resourceName: String?,
           beforeElement: PsiElement? = null,
           includingSuperClasses: Boolean = false,

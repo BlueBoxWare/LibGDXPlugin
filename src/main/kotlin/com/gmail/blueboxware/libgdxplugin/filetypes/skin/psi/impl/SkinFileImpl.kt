@@ -65,7 +65,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
           getResources(listOf(className), resourceName, beforeElement)
 
   override fun getResources(
-          clazz: PsiClass,
+          resourceClass: PsiClass,
           resourceName: String?,
           beforeElement: PsiElement?,
           includingSuperClasses: Boolean,
@@ -73,10 +73,10 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   ): Collection<SkinResource> {
 
     if (!includingSuperClasses) {
-      return clazz.qualifiedName?.let { getResources(it, resourceName, beforeElement) } ?: listOf()
+      return resourceClass.qualifiedName?.let { getResources(it, resourceName, beforeElement) } ?: listOf()
     }
 
-    val classesToSearch = generateSequence(clazz) { it.superClass }
+    val classesToSearch = generateSequence(resourceClass) { it.superClass }
     val classSpecs = getClassSpecifications()
     val foundResources = mutableListOf<SkinResource>()
 

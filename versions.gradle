@@ -2,7 +2,7 @@ ext {
 
     pluginVersion = '1.16'
 
-    kotlinVersion = '1.2.50'
+    kotlinVersion = '1.2.40'
 
     intellijPluginVersion = '0.3.3'
 
