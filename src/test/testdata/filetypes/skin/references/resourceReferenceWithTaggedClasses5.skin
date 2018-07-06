@@ -1,0 +1,13 @@
+{
+
+  javaTag2: {
+    foo: {}
+  }
+
+  javaTag1: {
+    default: {
+      testClass: fo<caret>o
+    }
+  }
+
+}

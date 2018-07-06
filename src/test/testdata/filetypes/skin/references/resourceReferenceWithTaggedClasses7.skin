@@ -1,0 +1,13 @@
+{
+
+  kotlinTag2: {
+    foo: {}
+  }
+
+  kotlinTag1: {
+    default: {
+      tc: fo<caret>o
+    }
+  }
+
+}

@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.util.InheritanceUtil
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -30,6 +31,7 @@ import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
 
 internal fun PsiClass.supersAndThis() = InheritanceUtil.getSuperClasses(this) + this
 

@@ -2,8 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_COLOR
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_TINTED_DRAWABLE_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_COLOR
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.tint
 import com.intellij.codeInsight.preview.PreviewHintProvider

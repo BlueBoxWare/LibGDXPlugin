@@ -30,6 +30,12 @@
       font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
     }
   }
+  javaTag1: {
+    jt1: {}
+  }
+  kotlinTag2: {
+    kt2: {}
+  }
   TextButtonStyle: {
     taggedStyle1: {}
   }

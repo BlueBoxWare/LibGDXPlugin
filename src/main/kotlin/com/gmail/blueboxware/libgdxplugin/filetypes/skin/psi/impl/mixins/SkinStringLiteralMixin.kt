@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FILE
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference

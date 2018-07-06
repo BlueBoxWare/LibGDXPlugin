@@ -2,7 +2,9 @@ package com.example
 
 import com.badlogic.gdx.graphics.Color
 import com.example.ColorArrayHolder
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag
 
+@GDXTag("kotlinTag1", "kotlinTag2")
 class KColorArrayHolder {
 
   val colors = arrayOf(Color.BLACK)

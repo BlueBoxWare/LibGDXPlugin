@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil

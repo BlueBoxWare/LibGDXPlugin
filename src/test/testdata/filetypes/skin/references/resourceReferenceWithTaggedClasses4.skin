@@ -1,0 +1,17 @@
+{
+
+  tag4: {
+    foo: {}
+  }
+
+  javaTag2: {
+    bar: {}
+  }
+
+  javaTag1: {
+    default: {
+      testClass: b<caret>ar
+    }
+  }
+
+}

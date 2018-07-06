@@ -115,6 +115,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     if (getTestName(true).contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
+      addAnnotations()
     } else {
       removeDummyLibGDX199()
     }

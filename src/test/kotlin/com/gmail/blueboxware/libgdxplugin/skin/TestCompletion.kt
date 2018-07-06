@@ -38,7 +38,13 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   "tag2",
                   "BitmapFont",
                   "TreeStyle",
-                  "BM"
+                  "BM",
+                  "javaTag1",
+                  "javaTag2",
+                  "kotlinTag1",
+                  "kotlinTag2",
+                  "kotlinTag3",
+                  "kotlinTag4"
           ) to listOf(
                   "com.example.MyTestClass\$NonStatic",
                   "com.example.KotlinClass\$NonStaticInner",
@@ -160,6 +166,11 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
           ) to listOf()),
 
           """{ com.example.MyTestClass: {
+            default: { <caret> }
+            }
+            }""" to (listOf("number", "name", "parent") to EMPTY),
+
+          """{ javaTag1: {
             default: { <caret> }
             }
             }""" to (listOf("number", "name", "parent") to EMPTY),
@@ -553,6 +564,9 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               com.example.MyTestClass: {
                 testClass: { }
               }
+              javaTag1: {
+                foo: {}
+              }
               com.example.MyOtherClass: {
                 otherClass: { }
               }
@@ -563,7 +577,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
               }
             }
 
-          """ to (listOf("testClass") to listOf("otherClass")),
+          """ to (listOf("testClass", "foo") to listOf("otherClass")),
 
           """
             {
@@ -1522,7 +1536,35 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 child: { parent: <caret> }
               }
             }
-          """ to (EMPTY to listOf("main"))
+          """ to (EMPTY to listOf("main")),
+
+          "{ <caret> }" to (listOf(
+                  "com",
+                  "java",
+                  "com.badlogic.gdx.graphics.g2d.BitmapFont",
+                  "com.example.MyTestClass",
+                  "com.example.MyTestClass\$Inner",
+                  "com.example.MyTestClass\$InnerClass\$MyInnerStyle",
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle",
+                  "com.example.KotlinClass\$StaticInner",
+                  "com.example.KotlinClass\$StaticInner\$InnerInner",
+                  "com.example.KotlinClass\$PrivateInner"
+          ) to listOf(
+                  "com.example.MyTestClass\$NonStatic",
+                  "com.example.KotlinClass\$NonStaticInner",
+                  "com.example.KotlinClass\$InnerObject",
+                  "Tag1",
+                  "tag2",
+                  "BitmapFont",
+                  "TreeStyle",
+                  "BM",
+                  "javaTag1",
+                  "javaTag2",
+                  "kotlinTag1",
+                  "kotlinTag2",
+                  "kotlinTag3",
+                  "kotlinTag4"
+          ))
   )
 
   fun testCompletions() {
@@ -1569,6 +1611,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
     addKotlin()
+    addAnnotations()
 
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")

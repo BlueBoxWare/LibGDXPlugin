@@ -23,4 +23,7 @@
       buttonStyles: [ "t2" ],
     }
   },
+  kotlinTag1: {
+    default: { parent: t2 }
+  }
 }

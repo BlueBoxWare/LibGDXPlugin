@@ -4,7 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Json;
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag;
 
+@GDXTag({"javaTag1", "javaTag2"})
 public class Test {
 
   @GDXAssets(skinFiles = { "src/libgdx.skin"}, atlasFiles = { "src/dir/holo.atlas" })
@@ -18,6 +20,9 @@ public class Test {
 
   void m() {
     new Json().addClassTag("TagStyle", Button.ButtonStyle.class);
+
+    skin.get("jt1", Test.class);
+    skin.get(<error descr="Asset \"jt2\" with type \"Test\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"jt2"</error>, Test.class);
 
     skin.getColor("yellow");
     skin.getColor(<error descr="Asset \"blue\" with type \"com.badlogic.gdx.graphics.Color\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"blue"</error>);

@@ -1,8 +1,11 @@
 package com.example;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag;
 
-
+@GDXTag({"javaTag1", "javaTag2"})
+@GDXTag({"javaTag3"})
+@GDXTag({"javaTag4"})
 class MyTestClass {
 
     int number;

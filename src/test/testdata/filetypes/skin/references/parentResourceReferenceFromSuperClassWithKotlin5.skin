@@ -1,0 +1,15 @@
+{
+  TextButtonStyle: {
+    main: {}
+  }
+
+  ButtonStyle: {
+    main: {}
+  }
+
+  kotlinTag3: {
+    main: { parent: ma<caret>in }
+    main: {}
+  }
+
+}

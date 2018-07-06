@@ -3,6 +3,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag
+
+@GDXTag("kotlinTag1", "kotlinTag2")
+class KotlinClass
 
 @GDXAssets(skinFiles = arrayOf("src/libgdx.skin"), atlasFiles = arrayOf("src/dir/holo.atlas"))
 val skin1 = Skin()
@@ -18,6 +22,9 @@ val c3 = skin1.getColor(<error descr="Asset \"button\" with type \"com.badlogic.
 fun f() {
   @GDXAssets(skinFiles = arrayOf("src/libgdx.skin"))
   val skin2 = Skin()
+
+  skin1.get(<error descr="Asset \"kt1\" with type \"KotlinClass\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"kt1"</error>, KotlinClass::class.java)
+  skin1.get("kt2", KotlinClass::class.java)
 
   skin1.get(TextButton.TextButtonStyle::class.java)
   skin1.get(<error descr="Asset \"\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">""</error>, TextButton.TextButtonStyle::class.java)

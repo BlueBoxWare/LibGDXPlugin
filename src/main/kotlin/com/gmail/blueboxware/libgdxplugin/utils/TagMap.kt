@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin
+package com.gmail.blueboxware.libgdxplugin.utils
 
 
 /*

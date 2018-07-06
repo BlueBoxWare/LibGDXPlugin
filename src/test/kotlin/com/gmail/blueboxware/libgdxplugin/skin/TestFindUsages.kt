@@ -58,7 +58,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindUsagesWithTaggedClasses2() {
-    doTest(4)
+    doTest(5)
   }
 
   fun testFindUsagesWithTaggedClasses3() {
@@ -106,6 +106,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     addLibGDX()
     addDummyLibGDX199()
     addKotlin()
+    addAnnotations()
 
     myFixture.copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
   }

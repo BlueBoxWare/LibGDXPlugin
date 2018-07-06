@@ -1,9 +1,7 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin
+package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
-import com.gmail.blueboxware.libgdxplugin.utils.asString
-import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
-import com.gmail.blueboxware.libgdxplugin.utils.isStringType
+import com.intellij.find.findUsages.JavaClassFindUsagesOptions
+import com.intellij.find.findUsages.JavaFindUsagesHelper
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
@@ -12,7 +10,9 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
+import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
@@ -51,6 +51,7 @@ internal fun Project.getSkinTag2ClassMap(): TagMap? =
         if (isLibGDX199()) {
           collectCustomTags().apply {
             addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+            addAll(collectTagsFromAnnotations())
           }
         } else {
           null
@@ -139,4 +140,43 @@ private fun Project.collectCustomTags(): TagMap {
   return tagMap
 
 }
+
+private fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
+
+  val tagsAnnotation = JavaPsiFacade.getInstance(this)
+          ?.findClass(Assets.TAG_ANNOTATION_NAME, GlobalSearchScope.allScope(this))
+          ?: return listOf()
+
+  val tags = mutableListOf<Pair<String, String>>()
+
+  JavaFindUsagesHelper.processElementUsages(tagsAnnotation, JavaClassFindUsagesOptions(this)) { usageInfo ->
+    usageInfo.element?.let { element ->
+      element.contextOfType<PsiAnnotation>()?.let { annotation ->
+          annotation.contextOfType<PsiClass>()?.qualifiedName?.let { clazz ->
+            PsiAnnotationWrapper(annotation).getValue("value").forEach { tag ->
+              tags.add(tag to clazz)
+            }
+          }
+      }
+      element.contextOfType<KtAnnotationEntry>()?.let { annotationEntry ->
+        annotationEntry.contextOfType<KtClass>()?.fqName?.asString()?.let { clazz ->
+          if (annotationEntry.valueArguments.any { it.getArgumentName()?.asName?.identifier == "value" }) {
+            KtAnnotationWrapper(annotationEntry).getValue("value").forEach { tag ->
+              tags.add(tag to clazz)
+            }
+          } else {
+            annotationEntry.valueArguments.mapNotNull { it.getArgumentExpression() as? KtStringTemplateExpression }.forEach { expression ->
+              tags.add(expression.plainContent to clazz)
+            }
+          }
+        }
+      }
+    }
+    true
+  }
+
+  return tags
+
+}
+
 

@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FLIP
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_MARKUP
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_SCALED_SIZE
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_PARENT
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FLIP
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_MARKUP
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_SCALED_SIZE
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon

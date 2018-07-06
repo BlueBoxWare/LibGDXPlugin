@@ -13,6 +13,18 @@
       hex: ""
     }
   },
+  javaTag2: {
+
+  }
+  <error descr="Class 'javaTag3' does not exist.">javaTag3</error>: {
+
+}
+kotlinTag2: {
+
+}
+<error descr="Class 'kotlinTag3' does not exist.">kotlinTag3</error>: {
+
+}
   <error>'BitmapFont'</error>: {
     blue: {
       file: medium.fnt

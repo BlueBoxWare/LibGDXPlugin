@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag
 
 class KotlinClass {
 
@@ -28,3 +29,6 @@ class KotlinClass {
   }
 
 }
+
+@GDXTag("kotlinTag1", "kotlinTag2")
+class SubClass: com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle()

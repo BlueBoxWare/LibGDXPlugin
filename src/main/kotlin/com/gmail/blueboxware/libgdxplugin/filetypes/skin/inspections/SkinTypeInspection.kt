@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_FLIP
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_MARKUP
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.PROPERTY_NAME_FONT_SCALED_SIZE
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FLIP
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_MARKUP
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_SCALED_SIZE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder

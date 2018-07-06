@@ -70,8 +70,23 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("bar", "com.example.MyTestClass")
   }
 
+  fun testResourceReferenceWithTaggedClasses4() {
+    doTestResourceReference("bar", "com.example.MyTestClass")
+  }
+
+  fun testResourceReferenceWithTaggedClasses5() {
+    doTestResourceReference("foo", "com.example.MyTestClass")
+  }
+
+  fun testResourceReferenceWithTaggedClasses6() {
+    doTestResourceReference("bar", "com.example.KTestClass")
+  }
+
+  fun testResourceReferenceWithTaggedClasses7() {
+    doTestResourceReference("foo", "com.example.KTestClass")
+  }
+
   fun testParentResourceReferenceFromSuperClass1() {
-    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
   }
 
@@ -80,18 +95,19 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin2() {
-    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin3() {
-    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin4() {
-    addDummyLibGDX199()
     doTestResourceReference(null, null)
+  }
+
+  fun testParentResourceReferenceFromSuperClassWithKotlin5() {
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
   }
 
   fun testResourceAliasReference1() {
@@ -147,7 +163,6 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentReference() {
-    addDummyLibGDX199()
     doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
   }
 
@@ -319,6 +334,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
+    addAnnotations()
     addDummyLibGDX199()
 
     myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")

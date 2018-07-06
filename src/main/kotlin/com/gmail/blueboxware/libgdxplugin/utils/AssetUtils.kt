@@ -49,6 +49,7 @@ internal object Assets {
   val TEXTURE_ATLAS_TEXTURE_METHODS = listOf("createPatch", "createSprite", "createSprites", "findRegion", "findRegions")
 
   const val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
+  const val TAG_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXTag"
 
   const val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
   const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"

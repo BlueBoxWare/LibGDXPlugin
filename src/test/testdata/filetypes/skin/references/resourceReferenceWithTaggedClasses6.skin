@@ -1,0 +1,17 @@
+{
+
+  tag4: {
+    foo: {}
+  }
+
+  kotlinTag1: {
+    bar: {}
+  }
+
+  kotlinTag2: {
+    default: {
+      tc: b<caret>ar
+    }
+  }
+
+}

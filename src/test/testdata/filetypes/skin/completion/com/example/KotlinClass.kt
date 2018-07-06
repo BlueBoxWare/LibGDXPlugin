@@ -2,7 +2,10 @@ package com.example
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.ui.List
+import com.gmail.blueboxware.libgdxplugin.annotations.GDXTag
 
+@GDXTag("kotlinTag1", "kotlinTag2")
+@GDXTag(value = ["kotlinTag3", "kotlinTag4"])
 class KotlinClass {
 
   var m: Array<KotlinClass>? = null
