@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
@@ -11,6 +11,9 @@ import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
@@ -37,33 +40,38 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
   override fun multiResolve(): List<PsiClass> {
 
-    val taggedClasses: List<String>? =
-            project.getSkinTag2ClassMap()?.getClassNames(value)?.takeIf { !it.isEmpty() }
+    return CachedValuesManager.getCachedValue(this) {
 
-    val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let { module ->
+      val taggedClasses: List<String>? =
+              project.getSkinTag2ClassMap()?.getClassNames(value)?.takeIf { !it.isEmpty() }
 
-      JavaPsiFacade.getInstance(project)?.let { psiFacade ->
+      val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let { module ->
 
-        @Suppress("IfThenToElvis")
-        if (taggedClasses != null) {
-          taggedClasses.flatMap { className ->
-            psiFacade.findClasses(className, GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
+        JavaPsiFacade.getInstance(project)?.let { psiFacade ->
+
+          @Suppress("IfThenToElvis")
+          if (taggedClasses != null) {
+            taggedClasses.flatMap { className ->
+              psiFacade.findClasses(className, GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
+            }
+          } else {
+            psiFacade.findClasses(value.removeDollarFromClassName(), GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
           }
-        } else {
-          psiFacade.findClasses(value.removeDollarFromClassName(), GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
+
         }
 
+      } ?: listOf()
+
+      classes.filter { clazz ->
+        (clazz !is KtLightClass || clazz.kotlinOrigin !is KtObjectDeclaration) &&
+                ((taggedClasses != null && taggedClasses.contains(clazz.qualifiedName)) || (taggedClasses == null && clazz.putDollarInInnerClassName() == value))
+      }.map {
+        it.navigationElement as? PsiClass ?: it
+      }.let {
+        CachedValueProvider.Result.create(it, PsiModificationTracker.MODIFICATION_COUNT)
       }
 
-    } ?: listOf()
-
-    return classes.filter { clazz ->
-      (clazz !is KtLightClass || clazz.kotlinOrigin !is KtObjectDeclaration) &&
-              ((taggedClasses != null && taggedClasses.contains(clazz.qualifiedName)) || (taggedClasses == null && clazz.putDollarInInnerClassName() == value))
-    }.map {
-      it.navigationElement as? PsiClass ?: it
     }
-
   }
 
   override fun getReference(): SkinJavaClassReference = SkinJavaClassReference(this)

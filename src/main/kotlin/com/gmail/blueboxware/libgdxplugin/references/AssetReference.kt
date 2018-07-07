@@ -13,6 +13,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.resolve.ResolveCache
 import org.jetbrains.kotlin.psi.KtCallExpression
 
 /*
@@ -32,39 +33,8 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  */
 class AssetReference(element: PsiElement, val resourceName: String, val className: String?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-
-    val result = mutableListOf<PsiElementResolveResult>()
-
-    val isDrawable = className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
-
-    if (className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
-      assetFiles.first.forEach {
-        if (it.getUserData(Assets.FAKE_FILE_KEY) != true) {
-          it.getResources(if (isDrawable) listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") else className.singletonOrNull(), resourceName).forEach { resource ->
-            result.add(PsiElementResolveResult(resource))
-          }
-        }
-      }
-    }
-
-    if (isDrawable || className == null || className == "com.badlogic.gdx.graphics.g2d.TextureRegion") {
-      assetFiles.second.forEach { atlasFile ->
-        if (atlasFile.getUserData(Assets.FAKE_FILE_KEY) != true) {
-          atlasFile.getPages().forEach { page ->
-            page.regionList.forEach { region ->
-              if (region.name == resourceName) {
-                result.add(PsiElementResolveResult(region))
-              }
-            }
-          }
-        }
-      }
-    }
-
-    return result.toTypedArray()
-
-  }
+  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
+          ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
   override fun getVariants(): Array<out Any> {
 
@@ -146,8 +116,53 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
   }
 
+  class Resolver: ResolveCache.PolyVariantResolver<AssetReference> {
+
+    override fun resolve(assetReference: AssetReference, incompleteCode: Boolean): Array<ResolveResult> {
+
+      val result = mutableListOf<PsiElementResolveResult>()
+
+      val isDrawable = assetReference.className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+
+      if (assetReference.className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+        assetReference.assetFiles.first.forEach {
+          if (it.getUserData(Assets.FAKE_FILE_KEY) != true) {
+            it.getResources(
+                    if (isDrawable)
+                      listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
+                    else
+                      assetReference.className.singletonOrNull(), assetReference.resourceName
+            ).forEach { resource ->
+              result.add(PsiElementResolveResult(resource))
+            }
+          }
+        }
+      }
+
+      if (isDrawable || assetReference.className == null || assetReference.className == "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+        assetReference.assetFiles.second.forEach { atlasFile ->
+          if (atlasFile.getUserData(Assets.FAKE_FILE_KEY) != true) {
+            atlasFile.getPages().forEach { page ->
+              page.regionList.forEach { region ->
+                if (region.name == assetReference.resourceName) {
+                  result.add(PsiElementResolveResult(region))
+                }
+              }
+            }
+          }
+        }
+      }
+
+      return result.toTypedArray()
+
+
+    }
+
+  }
 
   companion object {
+
+    private val RESOLVER = Resolver()
 
     fun createReferences(element: PsiElement, callExpression: PsiElement, wantedClass: String? = null, resourceName: String? = null): Array<out PsiReference> {
 

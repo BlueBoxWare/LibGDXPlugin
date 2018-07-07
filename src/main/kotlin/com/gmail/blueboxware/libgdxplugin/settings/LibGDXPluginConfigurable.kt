@@ -29,7 +29,7 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
   private var form: LibGDXPluginSettingsPane? = null
 
-  override fun isModified() = getForm()?.isModified() == true
+  override fun isModified() = getForm()?.isModified == true
 
   override fun disposeUIResources() {
     form = null
