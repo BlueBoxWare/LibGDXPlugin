@@ -33,4 +33,5 @@ abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }
+
 }

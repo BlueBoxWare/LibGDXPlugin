@@ -2,8 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isInGradleBuildFile
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.util.io.FileUtilRt
 import com.intellij.psi.PsiElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
@@ -34,13 +34,13 @@ class GradleTestIdsInspection: LibGDXGradleBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    if (!FileUtilRt.extensionEquals(holder.file.name, "gradle")) {
-      return super.buildVisitor(holder, isOnTheFly)
-    }
-
     return GroovyPsiElementVisitor(object : GroovyElementVisitor() {
 
       override fun visitLiteralExpression(literal: GrLiteral) {
+
+        if (!literal.isInGradleBuildFile()) {
+          return
+        }
 
         (literal.value as? String)?.let { value ->
           if (TEST_ID_MAP.containsKey(value)) {

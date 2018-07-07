@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.PsiElement
@@ -32,15 +33,11 @@ class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() 
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    if (holder.file.name != "gradle.properties") {
-      return super.buildVisitor(holder, isOnTheFly)
-    }
-
     return object : PsiElementVisitor() {
 
       override fun visitElement(element: PsiElement?) {
 
-        if (element !is Property) {
+        if (element !is Property || !element.isInGradlePropertiesFile()) {
           return
         }
 

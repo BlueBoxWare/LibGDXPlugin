@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries.Companion.listOfCheckedLibraries
@@ -39,15 +40,11 @@ class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseIns
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    if (holder.file.name != "gradle.properties") {
-      return super.buildVisitor(holder, isOnTheFly)
-    }
-
     return object : PsiElementVisitor() {
 
       override fun visitElement(element: PsiElement?) {
 
-        if (element is Property) {
+        if (element is Property && element.isInGradlePropertiesFile()) {
 
           element.name?.let { extKey ->
             Libraries.fromExtKey(extKey)?.let { lib ->

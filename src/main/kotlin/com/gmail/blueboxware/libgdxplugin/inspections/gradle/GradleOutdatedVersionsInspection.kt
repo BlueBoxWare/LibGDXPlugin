@@ -17,9 +17,9 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.isInGradleBuildFile
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.util.io.FileUtilRt
 import org.jetbrains.plugins.groovy.lang.psi.GroovyElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElement
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
@@ -53,7 +53,7 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
     private fun process(element: GroovyPsiElement) {
 
-      if (versionManager == null || !FileUtilRt.extensionEquals(element.containingFile.name, "gradle")) return
+      if (versionManager == null || !element.isInGradleBuildFile()) return
 
       Libraries.extractLibraryInfoFromGroovyConstruct(element)?.let { (lib, usedVersion) ->
         val latestVersion = versionManager.getLatestVersion(lib) ?: return
