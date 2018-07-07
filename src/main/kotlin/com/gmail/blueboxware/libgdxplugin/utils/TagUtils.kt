@@ -9,6 +9,9 @@ import com.intellij.psi.impl.source.PsiImmediateClassType
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -48,13 +51,17 @@ internal const val PROPERTY_NAME_TINTED_DRAWABLE_NAME = "name"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
 internal fun Project.getSkinTag2ClassMap(): TagMap? =
-        if (isLibGDX199()) {
-          collectCustomTags().apply {
-            addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-            addAll(collectTagsFromAnnotations())
+        CachedValuesManager.getManager(this).getCachedValue(this) {
+          val tagMap = if (isLibGDX199()) {
+            collectCustomTags().apply {
+              addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+              addAll(collectTagsFromAnnotations())
+            }
+          } else {
+            null
           }
-        } else {
-          null
+
+          CachedValueProvider.Result.create(tagMap, PsiModificationTracker.MODIFICATION_COUNT)
         }
 
 private val DEFAULT_TAGGED_CLASSES_NAMES: Collection<Pair<String, String>> = listOf(
