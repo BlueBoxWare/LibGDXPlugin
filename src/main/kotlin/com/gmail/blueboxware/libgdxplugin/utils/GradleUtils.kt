@@ -22,14 +22,8 @@ import com.intellij.psi.PsiElement
 internal fun PsiElement.isInGradleBuildFile() =
         FileUtilRt.extensionEquals(containingFile.name, "gradle")
 
-internal fun PsiElement.isInGradleSettingsFile() =
-        containingFile.name == "settings.gradle"
-
 internal fun PsiElement.isInGradleKotlinBuildFile() =
         FileUtilRt.extensionEquals(containingFile.name, "gradle.kts")
-
-internal fun PsiElement.isInGradleKotlinSettingsFile() =
-        containingFile.name == "settings.gradle.kts"
 
 internal fun PsiElement.isInGradlePropertiesFile() =
         containingFile.name == "gradle.properties"

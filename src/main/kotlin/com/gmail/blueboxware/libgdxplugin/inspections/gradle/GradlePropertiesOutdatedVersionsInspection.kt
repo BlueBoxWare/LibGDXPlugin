@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.getLibraryFromExtKey
 import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries.Companion.listOfCheckedLibraries
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
@@ -47,7 +47,7 @@ class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseIns
         if (element is Property && element.isInGradlePropertiesFile()) {
 
           element.name?.let { extKey ->
-            Libraries.fromExtKey(extKey)?.let { lib ->
+            getLibraryFromExtKey(extKey)?.let { lib ->
               element.project.getComponent(VersionManager::class.java)?.getLatestVersion(lib)?.let { latestVersion ->
                 element.value?.let { value ->
                   if (MavenComparableVersion(value) < latestVersion) {

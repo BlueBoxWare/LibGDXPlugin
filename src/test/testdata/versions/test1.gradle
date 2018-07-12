@@ -29,11 +29,11 @@ allprojects {
     ext {
         appName = "the-name-of-your-game"
         //Versions of the libgdx dependencies (used further below on those 'compile' lines)
-        <warning descr="There is a newer version of LibGDX available (version 1.9.5)">gdxVersion = "1.9.3"</warning>
+        <warning descr="A newer version of LibGDX is available (version 1.9.5)">gdxVersion = "1.9.3"</warning>
         roboVMVersion = '2.1.0'
         box2DLightsVersion = '1.4'
-        <warning descr="There is a newer version of Ashley available (version 1.7.3)">ashleyVersion = '1.7.0'</warning>
-        <warning descr="There is a newer version of Gdx AI available (version 1.8.1)">aiVersion = '1.8.0'</warning>
+        <warning descr="A newer version of Ashley is available (version 1.7.3)">ashleyVersion = '1.7.0'</warning>
+        <warning descr="A newer version of Gdx AI is available (version 1.8.1)">aiVersion = '1.8.0'</warning>
     }
 
     //Defines all repositories needed for all projects
@@ -57,7 +57,7 @@ allprojects {
             compile project(":core")
             compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
             compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-            compile <warning descr="There is a newer version of LibGDX Annotations available (version 1.0)">'com.gmail.blueboxware:libgdxpluginannotations:0.9'</warning>
+            compile <warning descr="A newer version of LibGDX Annotations is available (version 1.0)">'com.gmail.blueboxware:libgdxpluginannotations:0.9'</warning>
             compile 'com.gmail.blueboxware:libgdxpluginannotations:1.0'
             compile "com.gmail.blueboxware:libgdxpluginannotations:1.1"
         }
@@ -91,6 +91,6 @@ allprojects {
 
         dependencies {
             //Defines dependencies for the :core project, in this example the gdx dependency
-            compile <warning descr="There is a newer version of LibGDX available (version 1.9.5)">"com.badlogicgames.gdx:gdx:1.9.4"</warning>
+            compile <warning descr="A newer version of LibGDX is available (version 1.9.5)">"com.badlogicgames.gdx:gdx:1.9.4"</warning>
     }
 }

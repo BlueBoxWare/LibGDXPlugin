@@ -1,0 +1,49 @@
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+eclipse.project.name = appName + '-core'
+
+dependencies {
+    compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+            compile <warning descr="A newer version of Gdx AI is available (version 1.8.1)">"com.badlogicgames.gdx:gdx-ai:$aiVersion"</warning>
+            compile <warning descr="A newer version of Box2dLights is available (version 1.4)">"com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"</warning>
+            compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+            compile <warning descr="A newer version of Ashley is available (version 1.7.3)">"com.badlogicgames.ashley:ashley:$ashleyVersion"</warning>
+            compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
+            compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+            compile <warning descr="A newer version of KTX math is available (version 1.9.5-b1)">"com.github.czyzby:ktx-math:$ktxMathVersion"</warning>
+            compile "com.github.czyzby:ktx-i18n:$ktxI18nVersion"
+    compile <warning descr="A newer version of KTX vis is available (version 1.9.5-b1)">"com.github.czyzby:ktx-vis:$ktxVisVersion"</warning>
+    compile "com.github.czyzby:ktx-inject:$ktxInjectVersion"
+            compile <warning descr="A newer version of KTX app is available (version 1.9.5-b1)">"com.github.czyzby:ktx-app:$ktxAppVersion"</warning>
+            compile <warning descr="A newer version of gdx-facebook is available (version 1.2.4)">"de.tomgrill.gdxfacebook:gdx-facebook-core:$facebookVersion"</warning>
+            compile "com.github.tommyettinger:regexodus:$regExodusVersion"
+    compile <warning descr="A newer version of gdx-dialogs is available (version 1.2.0)">"de.tomgrill.gdxdialogs:gdx-dialogs-core:$dialogsVersion"</warning>
+            compile "com.github.czyzby:ktx-log:$ktxLogVersion"
+    compile "com.github.czyzby:ktx-actors:$ktxActorsVersion"
+    compile "com.github.czyzby:ktx-assets:$ktxAssetsVersion"
+    compile "com.github.ykrasik:jaci-libgdx-cli-gwt:$jaciGwtVersion"
+    compile "com.github.czyzby:gdx-autumn-mvc:$autumnMvcVersion"
+    compile "com.github.czyzby:gdx-lml:$lmlVersion"
+    compile "com.github.czyzby:gdx-kiwi:$kiwiVersion"
+    compile "com.github.czyzby:gdx-autumn:$autumnVersion"
+    compile "com.kotcrab.vis:vis-runtime:$visRuntimeVersion"
+    compile "net.onedaybeard.artemis:artemis-odb:$artemisOdbVersion"
+    compile "com.squidpony:squidlib:$squidLibVersion"
+    compile "com.sudoplay.joise:joise:$joiseVersion"
+    compile <warning descr="A newer version of libgdx-utils is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils:$utilsVersion"</warning>
+            compile <warning descr="A newer version of KTX style is available (version 1.9.5-b1)">"com.github.czyzby:ktx-style:$ktxStyleVersion"</warning>
+            compile "com.strongjoshua:libgdx-inGameConsole:$inGameConsoleVersion"
+    compile "com.github.czyzby:gdx-lml-vis:$lmlVisVersion"
+    compile <warning descr="A newer version of VisUI is available (version 1.2.5)">"com.kotcrab.vis:vis-ui:$visUiVersion"</warning>
+            compile "com.github.czyzby:ktx-collections:$ktxCollectionsVersion"
+            compile "com.github.czyzby:gdx-websocket-serialization:$websocketSerializationVersion"
+            compile "com.github.czyzby:gdx-websocket:$websocketVersion"
+            compile <warning descr="A newer version of Overlap2D is available (version 0.1.1)">"com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"</warning>
+            compile "com.github.czyzby:ktx-vis-style:$ktxVisStyleVersion"
+    compile "com.github.czyzby:noise4j:$noise4jVersion"
+    compile "com.github.czyzby:ktx-scene2d:$ktxScene2DVersion"
+    compile "com.bladecoder.ink:blade-ink:$bladeInkVersion"
+    compile "com.github.ykrasik:jaci-libgdx-cli-java:$jaciVersion"
+    compile <warning descr="A newer version of libgdx-utils-box2d is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>
+}

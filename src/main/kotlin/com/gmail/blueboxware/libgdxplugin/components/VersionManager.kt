@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
+import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.AbstractProjectComponent
 import com.intellij.openapi.components.ServiceManager
@@ -33,18 +34,6 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  */
 class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
-  companion object {
-
-    val LOG = Logger.getInstance("#" + VersionManager::class.java.name)
-
-    var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
-
-    var BATCH_SIZE = 7
-
-    var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
-
-  }
-
   fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
   fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
@@ -56,11 +45,12 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
   private val updateLatestVersionsAlarm = Alarm(Alarm.ThreadToUse.POOLED_THREAD, project)
 
   override fun projectOpened() {
-    updateUsedVersions()
-    if (isLibGDXProject()) {
-      Libraries.LIBGDX.library.updateLatestVersion(this, true)
-      updateLatestVersions()
-      updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
+    updateUsedVersions {
+      if (isLibGDXProject()) {
+        Libraries.LIBGDX.library.updateLatestVersion(this, true)
+        updateLatestVersions()
+        updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
+      }
     }
 
     ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.addListener(libraryListener)
@@ -79,33 +69,25 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
     Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
       val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
-      VersionManager.LOG.debug("Updating latest version of ${lib.library.name}. Network allowed: $networkAllowed.")
       if (lib.library.updateLatestVersion(this, networkAllowed)) {
+        VersionManager.LOG.debug("Updated latest version of ${lib.library.name}.")
         networkCount++
       }
     }
 
   }
 
-  fun updateUsedVersions() {
+  fun updateUsedVersions(doAfterUpdate: (() -> Unit)? = null) {
 
     DumbService.getInstance(myProject).runWhenSmart {
 
-      usedVersions.clear()
+      LOG.debug("Updating used library versions")
 
-      JavaPsiFacade.getInstance(myProject).findClasses("com.badlogic.gdx.Version", GlobalSearchScope.allScope(myProject)).forEach { psiClass ->
-        val versionString = (psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String
-                ?: "0.0"
-        val version = MavenComparableVersion(versionString)
-        val previousVersion = usedVersions[Libraries.LIBGDX]
-        if (previousVersion == null || version > previousVersion) {
-          usedVersions[Libraries.LIBGDX] = version
-        }
-      }
+      usedVersions.clear()
 
       ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.libraryIterator?.let { libraryIterator ->
         for (lib in libraryIterator) {
-          Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
+          getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
             usedVersions[libraries].let { registeredVersion ->
               if (registeredVersion == null || registeredVersion < version) {
                 usedVersions[libraries] = version
@@ -114,6 +96,22 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
           }
         }
       }
+
+      if (usedVersions[Libraries.LIBGDX] == null) {
+        JavaPsiFacade.getInstance(myProject).findClasses("com.badlogic.gdx.Version", GlobalSearchScope.allScope(myProject)).forEach { psiClass ->
+          ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
+                  ?.let(::MavenComparableVersion)
+                  ?.let { usedVersions[Libraries.LIBGDX] = it}
+        }
+      }
+
+      if (isLibGDXProject()) {
+        LOG.debug("LibGDX detected")
+      } else {
+        LOG.debug("No LibGDX detected")
+      }
+
+      doAfterUpdate?.invoke()
 
     }
 
@@ -133,7 +131,6 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     }
 
     override fun afterLibraryRenamed(library: Library) {
-      updateUsedVersions()
     }
 
     override fun afterLibraryAdded(newLibrary: Library) {
@@ -147,5 +144,16 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
     }
   }
 
+  companion object {
+
+    val LOG = Logger.getInstance("#" + VersionManager::class.java.name)
+
+    var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
+
+    var BATCH_SIZE = 7
+
+    var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
+
+  }
 
 }

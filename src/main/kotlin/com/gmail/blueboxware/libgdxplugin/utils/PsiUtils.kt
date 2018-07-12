@@ -15,6 +15,11 @@ import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
 import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrString
+import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literals.GrLiteralImpl
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -45,9 +50,20 @@ internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElemen
   return element
 }
 
+internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression? =
+        namedArguments.find { trimQuotes(it.labelName) == name }?.expression
+
+internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
+        arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
+
 internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
 
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
+
+internal fun GrLiteral.asString(): String? =
+        takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
+        ?: takeIf { (it as? GrString)?.isPlainString == true }?.text?.let(::trimQuotes)
+
 
 internal fun PsiClass.putDollarInInnerClassName(): String =
         containingClass?.let {

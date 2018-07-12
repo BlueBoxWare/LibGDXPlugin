@@ -1,69 +1,61 @@
-<warning descr="There is a newer version of Gdx AI available (version 1.8.1)">aiVersion = '1.8.0'</warning>
-compile <warning descr="There is a newer version of Gdx AI available (version 1.8.1)">"com.badlogicgames.gdx:gdx-ai:1.7"</warning>
+<warning>aiVersion = '1.8.0'</warning>
+compile <warning>"com.badlogicgames.gdx:gdx-ai:1.7"</warning>
 
-<warning descr="There is a newer version of Ashley available (version 1.7.3)">ashleyVersion="1.7"</warning>
-compile <warning descr="There is a newer version of Ashley available (version 1.7.3)">group: 'com.badlogicgames.ashley', name: 'ashley', version: '1.7.2'</warning>
+<warning>ashleyVersion="1.7"</warning>
+compile <warning>group: 'com.badlogicgames.ashley', name: 'ashley', version: '1.7.2'</warning>
 
-compile <warning descr="There is a newer version of Box2d available (version 1.9.5)">group: 'com.badlogicgames.gdx', name: "gdx-box2d", version: '1.9.4'</warning>
+compile <warning>group: 'com.badlogicgames.gdx', name: "gdx-box2d", version: '1.9.4'</warning>
 
-<warning descr="There is a newer version of Box2dLights available (version 1.4)">box2DLightsVersion = '1.3'</warning>
-compile <warning descr="There is a newer version of Box2dLights available (version 1.4)">group: 'com.badlogicgames.box2dlights', name: "box2dlights", version: '1.3'</warning>
+<warning>box2DLightsVersion = '1.3'</warning>
+compile <warning>group: 'com.badlogicgames.box2dlights', name: "box2dlights", version: '1.3'</warning>
 
-<warning descr="There is a newer version of LibGDX available (version 1.9.5)">gdxVersion = "1.9.4"</warning>
-compile <warning descr="There is a newer version of LibGDX available (version 1.9.5)">group: 'com.badlogicgames.gdx', name: "gdx", version: '1.9.4'</warning>
+<warning>gdxVersion = "1.9.4"</warning>
+compile <warning>group: 'com.badlogicgames.gdx', name: "gdx", version: '1.9.4'</warning>
 
-compile <warning descr="There is a newer version of Overlap2D available (version 0.1.1)">group: "com.underwaterapps.overlap2druntime",
+compile <warning>group: "com.underwaterapps.overlap2druntime",
 name: 'overlap2d-runtime-libgdx', version: "0.1.0.1", d: "1"</warning>
 
-compile <warning descr="There is a newer version of GDX FreeType available (version 1.9.5)">'com.badlogicgames.gdx:gdx-freetype:1.9.4.99:sources'</warning>
+compile <warning>'com.badlogicgames.gdx:gdx-freetype:1.9.4.99:sources'</warning>
 
-compile <warning descr="There is a newer version of GDX Controllers available (version 1.9.5)">"com.badlogicgames.gdx:gdx-controllers:1.9.4.9.9a"</warning>
+compile <warning>"com.badlogicgames.gdx:gdx-controllers:1.9.4.9.9a"</warning>
 
-compile <warning descr="There is a newer version of GDX Bullet available (version 1.9.5)">group: 'com.badlogicgames.gdx', name: "gdx-bullet", version: "0.1.9.5"</warning>
+compile <warning>group: 'com.badlogicgames.gdx', name: "gdx-bullet", version: "0.1.9.5"</warning>
 
-compile <warning descr="There is a newer version of VisUI available (version 1.2.5)">group: 'com.kotcrab.vis', name: "vis-ui", version: "1.1"</warning>
-compile <warning descr="There is a newer version of Vis Runtime available (version 0.3.4)">group: 'com.kotcrab.vis', name: "vis-runtime", version: "0.3.3a"</warning>
+compile <warning>group: 'com.kotcrab.vis', name: "vis-ui", version: "1.1"</warning>
+compile <warning>group: 'com.kotcrab.vis', name: "vis-runtime", version: "0.3.3a"</warning>
 
-<warning descr="There is a newer version of libgdx-utils available (version 0.13.4)">gdxUtilsVersion = "0.13.3"</warning>
+<warning>gdxUtilsVersion = "0.13.3"</warning>
 gdxUtilsVersion = "0.13.4"
 
-compile <warning descr="There is a newer version of libgdx-utils available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils:0.13.3"</warning>
+compile <warning>"net.dermetfan.libgdx-utils:libgdx-utils:0.13.3"</warning>
 compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"
-compile <warning descr="There is a newer version of libgdx-utils-box2d available (version 0.13.4)">'net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.3'</warning>
+compile <warning>'net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.3'</warning>
 
-test <warning descr="There is a newer version of gdx-facebook available (version 1.2.4)">group: "de.tomgrill.gdxfacebook", name: "gdx-facebook-core", version: '1.2'</warning>
-test <warning descr="There is a newer version of gdx-dialogs available (version 1.2.0)">group: "de.tomgrill.gdxdialogs", name: "gdx-dialogs-core", version: '1.1.1'</warning>
+test <warning>group: "de.tomgrill.gdxfacebook", name: "gdx-facebook-core", version: '1.2'</warning>
+test <warning>group: "de.tomgrill.gdxdialogs", name: "gdx-dialogs-core", version: '1.1.1'</warning>
 
 compile group: "com.github.czyzby", name: 'gdx-kiwi', version: '1.7.1.9.3'
-compile <warning descr="There is a newer version of Kiwi available (version 1.7.1.9.3)">group: "com.github.czyzby", name: 'gdx-kiwi', version: '1.7.1.9.3-b1'</warning>
-compile <warning descr="There is a newer version of Kiwi available (version 1.7.1.9.3)">group: "com.github.czyzby", name: 'gdx-kiwi', version: '1.6.1.9.3'</warning>
+compile <warning>group: "com.github.czyzby", name: 'gdx-kiwi', version: '1.7.1.9.3-b1'</warning>
+compile <warning>group: "com.github.czyzby", name: 'gdx-kiwi', version: '1.6.1.9.3'</warning>
 
-compile <warning descr="There is a newer version of Autumn available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn:1.6.1.9.3-b1"</warning>
-compile <warning descr="There is a newer version of Autumn available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn:1.7.1.9.3-b1"</warning>
+compile <warning>"com.github.czyzby:gdx-autumn:1.6.1.9.3-b1"</warning>
+compile <warning>"com.github.czyzby:gdx-autumn:1.7.1.9.3-b1"</warning>
 compile "com.github.czyzby:gdx-autumn:1.7.1.9.3"
 
-compile <warning descr="There is a newer version of Web Sockets Serialization available (version 1.7.1.9.3)">"com.github.czyzby:gdx-websocket-serialization:1.6.1.9.3"</warning>
+compile <warning>"com.github.czyzby:gdx-websocket-serialization:1.6.1.9.3"</warning>
 
-compile <warning descr="There is a newer version of Gdx-Pay available (version 0.10.3)">'com.badlogicgames.gdxpay:gdx-pay-client:0.10.2'</warning>
+compile <warning>'com.badlogicgames.gdxpay:gdx-pay-client:0.10.2'</warning>
 ext {
     gdxPayVersion = '0.10.3'
 }
 ext {
-    <warning descr="There is a newer version of Gdx-Pay available (version 0.10.3)">gdxPayVersion = '0.10.2'</warning>
+    <warning>gdxPayVersion = '0.10.2'</warning>
 }
 
-compile <warning descr="There is a newer version of KTX style available (version 1.9.5-b1)">"com.github.czyzby:ktx-style:1.9.4-b1"</warning>
-compile <warning descr="There is a newer version of KTX style available (version 1.9.5-b1)">"com.github.czyzby:ktx-style:1.9.4-b2"</warning>
+compile <warning>"com.github.czyzby:ktx-style:1.9.4-b1"</warning>
+compile <warning>"com.github.czyzby:ktx-style:1.9.4-b2"</warning>
 compile "com.github.czyzby:ktx-style:1.9.5-b1"
 
-test group:
-'com.github.czyzby', name:
-"ktx-app",
-version:
-'1.9.5-b1'
+test group: 'com.github.czyzby', name: "ktx-app", version: '1.9.5-b1'
 
-test <warning descr="There is a newer version of KTX app available (version 1.9.5-b1)">group:
-'com.github.czyzby', name:
-"ktx-app",
-version:
-'1.9.4-b2'</warning>
+test <warning>group: 'com.github.czyzby', name: "ktx-app", version: '1.9.4-b2'</warning>

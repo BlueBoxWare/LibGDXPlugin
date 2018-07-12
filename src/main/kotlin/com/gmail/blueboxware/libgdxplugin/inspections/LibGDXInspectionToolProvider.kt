@@ -3,10 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesTestIdsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleTestIdsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.*
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection
@@ -61,7 +58,9 @@ class LibGDXInspectionToolProvider : InspectionToolProvider {
           MissingExternalFilesPermissionInspection::class.java,
 
           OutdatedVersionsInspection::class.java,
+
           GradleOutdatedVersionsInspection::class.java,
+          GradleKotlinOutdatedVersionInspection::class.java,
           GradlePropertiesOutdatedVersionsInspection::class.java,
           GradleTestIdsInspection::class.java,
           GradlePropertiesTestIdsInspection::class.java,

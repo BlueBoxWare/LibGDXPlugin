@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.openapi.application.PathManager
@@ -41,7 +42,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
   fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
   fun addAnnotations() {
-    File("build/libs/").listFiles { dir, name ->
+    File("build/libs/").listFiles { _, name ->
       name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
     }.sortedByDescending { file ->
       file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")).let { MavenComparableVersion(it) }
@@ -79,7 +80,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
               ?: throw AssertionError()
 
       for (lib in projectModel.libraries) {
-        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
+        getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
           if (libraries == library) {
             projectModel.removeLibrary(lib)
           }
@@ -104,7 +105,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
               ?: throw AssertionError()
 
       for (lib in projectModel.libraries) {
-        Libraries.extractLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
+        getLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
           if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
             projectModel.removeLibrary(lib)
           }

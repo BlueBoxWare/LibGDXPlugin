@@ -2,48 +2,48 @@
 eclipse.project.name = appName + '-core'
 
 dependencies {
-    compile <warning descr="There is a newer version of LibGDX available (version 1.9.5)">"com.badlogicgames.gdx:gdx:$gdxVersion"</warning>
+    compile <warning descr="A newer version of LibGDX is available (version 1.9.5)">"com.badlogicgames.gdx:gdx:$gdxVersion"</warning>
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-    compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-    compile <warning descr="There is a newer version of Gdx AI available (version 1.8.1)">"com.badlogicgames.gdx:gdx-ai:$aiVersion"</warning>
-            compile <warning descr="There is a newer version of Box2dLights available (version 1.4)">"com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"</warning>
-    compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-    compile <warning descr="There is a newer version of Ashley available (version 1.7.3)">"com.badlogicgames.ashley:ashley:$ashleyVersion"</warning>
-            compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
-    compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-    compile <warning descr="There is a newer version of KTX math available (version 1.9.5-b1)">"com.github.czyzby:ktx-math:$ktxMathVersion"</warning>
-    compile <warning descr="There is a newer version of KTX i18n available (version 1.9.5-b1)">"com.github.czyzby:ktx-i18n:$ktxI18nVersion"</warning>
-            compile <warning descr="There is a newer version of KTX vis available (version 1.9.5-b1)">"com.github.czyzby:ktx-vis:$ktxVisVersion"</warning>
-    compile <warning descr="There is a newer version of KTX inject available (version 1.9.5-b1)">"com.github.czyzby:ktx-inject:$ktxInjectVersion"</warning>
-            compile "com.github.czyzby:ktx-app:$ktxAppVersion"
-    compile <warning descr="There is a newer version of gdx-facebook available (version 1.2.4)">"de.tomgrill.gdxfacebook:gdx-facebook-core:$facebookVersion"</warning>
+compile <warning descr="A newer version of GDX Controllers is available (version 1.9.5)">"com.badlogicgames.gdx:gdx-controllers:$gdxVersion"</warning>
+    compile <warning descr="A newer version of Gdx AI is available (version 1.8.1)">"com.badlogicgames.gdx:gdx-ai:$aiVersion"</warning>
+            compile <warning descr="A newer version of Box2dLights is available (version 1.4)">"com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"</warning>
+    compile <warning descr="A newer version of Box2d is available (version 1.9.5)">"com.badlogicgames.gdx:gdx-box2d:$gdxVersion"</warning>
+    compile <warning descr="A newer version of Ashley is available (version 1.7.3)">"com.badlogicgames.ashley:ashley:$ashleyVersion"</warning>
+           compile <warning descr="A newer version of GDX Bullet is available (version 1.9.5)">"com.badlogicgames.gdx:gdx-bullet:$gdxVersion"</warning>
+    compile <warning descr="A newer version of GDX FreeType is available (version 1.9.5)">"com.badlogicgames.gdx:gdx-freetype:$gdxVersion"</warning>
+    compile <warning descr="A newer version of KTX math is available (version 1.9.5-b1)">"com.github.czyzby:ktx-math:$ktxMathVersion"</warning>
+    compile <warning descr="A newer version of KTX i18n is available (version 1.9.5-b1)">"com.github.czyzby:ktx-i18n:$ktxI18nVersion"</warning>
+            compile <warning descr="A newer version of KTX vis is available (version 1.9.5-b1)">"com.github.czyzby:ktx-vis:$ktxVisVersion"</warning>
+    compile <warning descr="A newer version of KTX inject is available (version 1.9.5-b1)">"com.github.czyzby:ktx-inject:$ktxInjectVersion"</warning>
+            compile <warning descr="A newer version of KTX app is available (version 1.9.5-b1)">"com.github.czyzby:ktx-app:$ktxAppVersion"</warning>
+    compile <warning descr="A newer version of gdx-facebook is available (version 1.2.4)">"de.tomgrill.gdxfacebook:gdx-facebook-core:$facebookVersion"</warning>
     compile "com.github.tommyettinger:regexodus:$regExodusVersion"
-    compile <warning descr="There is a newer version of gdx-dialogs available (version 1.2.0)">"de.tomgrill.gdxdialogs:gdx-dialogs-core:$dialogsVersion"</warning>
-            compile <warning descr="There is a newer version of KTX log available (version 1.9.5-b1)">"com.github.czyzby:ktx-log:$ktxLogVersion"</warning>
-    compile <warning descr="There is a newer version of KTX actors available (version 1.9.5-b1)">"com.github.czyzby:ktx-actors:$ktxActorsVersion"</warning>
-            compile <warning descr="There is a newer version of KTX assets available (version 1.9.5-b1)">"com.github.czyzby:ktx-assets:$ktxAssetsVersion"</warning>
+    compile <warning descr="A newer version of gdx-dialogs is available (version 1.2.0)">"de.tomgrill.gdxdialogs:gdx-dialogs-core:$dialogsVersion"</warning>
+            compile <warning descr="A newer version of KTX log is available (version 1.9.5-b1)">"com.github.czyzby:ktx-log:$ktxLogVersion"</warning>
+    compile <warning descr="A newer version of KTX actors is available (version 1.9.5-b1)">"com.github.czyzby:ktx-actors:$ktxActorsVersion"</warning>
+            compile <warning descr="A newer version of KTX assets is available (version 1.9.5-b1)">"com.github.czyzby:ktx-assets:$ktxAssetsVersion"</warning>
     compile "com.github.ykrasik:jaci-libgdx-cli-gwt:$jaciGwtVersion"
-    compile <warning descr="There is a newer version of Autumn MVC available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn-mvc:$autumnMvcVersion"</warning>
-            compile <warning descr="There is a newer version of gdx-lml available (version 1.7.1.9.3)">"com.github.czyzby:gdx-lml:$lmlVersion"</warning>
-    compile <warning descr="There is a newer version of Kiwi available (version 1.7.1.9.3)">"com.github.czyzby:gdx-kiwi:$kiwiVersion"</warning>
-            compile <warning descr="There is a newer version of Autumn available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn:$autumnVersion"</warning>
-    compile <warning descr="There is a newer version of Vis Runtime available (version 0.3.4)">"com.kotcrab.vis:vis-runtime:$visRuntimeVersion"</warning>
+    compile <warning descr="A newer version of Autumn MVC is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn-mvc:$autumnMvcVersion"</warning>
+            compile <warning descr="A newer version of gdx-lml is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-lml:$lmlVersion"</warning>
+    compile <warning descr="A newer version of Kiwi is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-kiwi:$kiwiVersion"</warning>
+            compile <warning descr="A newer version of Autumn is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-autumn:$autumnVersion"</warning>
+    compile <warning descr="A newer version of Vis Runtime is available (version 0.3.4)">"com.kotcrab.vis:vis-runtime:$visRuntimeVersion"</warning>
             compile "net.onedaybeard.artemis:artemis-odb:$artemisOdbVersion"
     compile "com.squidpony:squidlib:$squidLibVersion"
     compile "com.sudoplay.joise:joise:$joiseVersion"
-    compile <warning descr="There is a newer version of libgdx-utils available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils:$utilsVersion"</warning>
-    compile <warning descr="There is a newer version of KTX style available (version 1.9.5-b1)">"com.github.czyzby:ktx-style:$ktxStyleVersion"</warning>
+    compile <warning descr="A newer version of libgdx-utils is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils:$utilsVersion"</warning>
+    compile <warning descr="A newer version of KTX style is available (version 1.9.5-b1)">"com.github.czyzby:ktx-style:$ktxStyleVersion"</warning>
             compile "com.strongjoshua:libgdx-inGameConsole:$inGameConsoleVersion"
-    compile <warning descr="There is a newer version of gdx-lml-vis available (version 1.7.1.9.3)">"com.github.czyzby:gdx-lml-vis:$lmlVisVersion"</warning>
-    compile <warning descr="There is a newer version of VisUI available (version 1.2.5)">"com.kotcrab.vis:vis-ui:$visUiVersion"</warning>
-            compile <warning descr="There is a newer version of KTX collections available (version 1.9.5-b1)">"com.github.czyzby:ktx-collections:$ktxCollectionsVersion"</warning>
-    compile <warning descr="There is a newer version of Web Sockets Serialization available (version 1.7.1.9.3)">"com.github.czyzby:gdx-websocket-serialization:$websocketSerializationVersion"</warning>
-            compile <warning descr="There is a newer version of Web Sockets available (version 1.7.1.9.3)">"com.github.czyzby:gdx-websocket:$websocketVersion"</warning>
-    compile <warning descr="There is a newer version of Overlap2D available (version 0.1.1)">"com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"</warning>
-            compile <warning descr="There is a newer version of KTX vis-style available (version 1.9.5-b1)">"com.github.czyzby:ktx-vis-style:$ktxVisStyleVersion"</warning>
+    compile <warning descr="A newer version of gdx-lml-vis is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-lml-vis:$lmlVisVersion"</warning>
+    compile <warning descr="A newer version of VisUI is available (version 1.2.5)">"com.kotcrab.vis:vis-ui:$visUiVersion"</warning>
+            compile <warning descr="A newer version of KTX collections is available (version 1.9.5-b1)">"com.github.czyzby:ktx-collections:$ktxCollectionsVersion"</warning>
+    compile <warning descr="A newer version of Web Sockets Serialization is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-websocket-serialization:$websocketSerializationVersion"</warning>
+            compile <warning descr="A newer version of Web Sockets is available (version 1.7.1.9.3)">"com.github.czyzby:gdx-websocket:$websocketVersion"</warning>
+    compile <warning descr="A newer version of Overlap2D is available (version 0.1.1)">"com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:$overlap2dVersion"</warning>
+            compile <warning descr="A newer version of KTX vis-style is available (version 1.9.5-b1)">"com.github.czyzby:ktx-vis-style:$ktxVisStyleVersion"</warning>
     compile "com.github.czyzby:noise4j:$noise4jVersion"
-    compile <warning descr="There is a newer version of KTX scene2d available (version 1.9.5-b1)">"com.github.czyzby:ktx-scene2d:$ktxScene2DVersion"</warning>
+    compile <warning descr="A newer version of KTX scene2d is available (version 1.9.5-b1)">"com.github.czyzby:ktx-scene2d:$ktxScene2DVersion"</warning>
             compile "com.bladecoder.ink:blade-ink:$bladeInkVersion"
     compile "com.github.ykrasik:jaci-libgdx-cli-java:$jaciVersion"
-    compile <warning descr="There is a newer version of libgdx-utils-box2d available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>
+    compile <warning descr="A newer version of libgdx-utils-box2d is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>
 }

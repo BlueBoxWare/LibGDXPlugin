@@ -3,14 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.libraries.Library
 import com.intellij.util.io.HttpRequests
 import org.jetbrains.kotlin.config.MavenComparableVersion
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.arguments.GrNamedArgument
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 import org.w3c.dom.DOMException
 import org.w3c.dom.Element
 import org.xml.sax.SAXException
@@ -42,45 +36,6 @@ internal open class Library(
         private val repository: Repository = Repository.MAVEN_CENTRAL,
         val extKeys: List<String>? = null
 ) {
-
-  companion object {
-
-    var TEST_URL: String? = null
-
-    const val META_DATA_FILE = "maven-metadata.xml"
-
-    const val PERSISTENT_STATE_KEY_VERSION_PREFIX = "com.gmail.blueboxware.libgdxplugin.versions."
-    const val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
-
-    fun extractVersionsFromMavenMetaData(inputStream: InputStream): List<String>? {
-
-      try {
-
-        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-        val document = builder.parse(inputStream)
-        val versionElements = (document.getElementsByTagName("versioning").item(0) as? Element)?.getElementsByTagName("version") ?: return null
-
-        val result = mutableListOf<String>()
-
-        for (index in 0 until versionElements.length) {
-          val content = (versionElements.item(index) as? Element)?.textContent ?: continue
-          result.add(content)
-        }
-
-        return result
-
-      } catch (e: Exception) {
-        if (e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException) {
-          VersionManager.LOG.info(e)
-          return null
-        } else {
-          throw e
-        }
-      }
-
-    }
-
-  }
 
   private var latestVersion: MavenComparableVersion? = null
 
@@ -140,73 +95,6 @@ internal open class Library(
 
   }
 
-  fun extractVersionFromIdeaLibrary(library: Library): MavenComparableVersion? {
-
-    val regex = Regex("""[/\\]$groupId[/\\]$artifactId[/\\]([^/]+\.[^/]+)/""")
-
-    for (url in library.getUrls(OrderRootType.CLASSES)) {
-      regex.find(url)?.let { matchResult ->
-        matchResult.groupValues.getOrNull(1)?.let { versionString ->
-          return MavenComparableVersion(versionString)
-        }
-      }
-    }
-
-    return null
-  }
-
-  fun extractVersionFromLiteral(groovyLiteral: GrLiteral): MavenComparableVersion? {
-
-    val regex = Regex("""$groupId:$artifactId:([^:@"']+\.[^:@"']+)""")
-
-    regex.find(groovyLiteral.text)?.let { matchResult ->
-      matchResult.groupValues.getOrNull(1)?.let { versionString ->
-        return MavenComparableVersion(versionString)
-      }
-    }
-
-
-    return null
-  }
-
-  fun extractVersionFromArgumentList(groovyCommandArgumentList: GrCommandArgumentList): MavenComparableVersion? {
-
-    if (trimQuotes(getNamedArgument(groovyCommandArgumentList, "group")?.expression?.text) == groupId &&
-            trimQuotes(getNamedArgument(groovyCommandArgumentList, "name")?.expression?.text) == artifactId
-    ) {
-      getNamedArgument(groovyCommandArgumentList, "version")?.let { namedArgument ->
-        namedArgument.expression?.text?.let { versionText ->
-          return MavenComparableVersion(trimQuotes(versionText))
-        }
-      }
-    }
-
-    return null
-
-  }
-
-  fun extractVersionFromAssignment(grAssignmentExpression: GrAssignmentExpression): MavenComparableVersion? {
-
-    if (extKeys == null || extKeys.isEmpty()) return null
-
-    if (extKeys.contains(grAssignmentExpression.lValue.text)) {
-
-      grAssignmentExpression.rValue?.let { rValue ->
-        (rValue as? GrLiteral)?.text?.let { text ->
-          return MavenComparableVersion(trimQuotes(text))
-        }
-      }
-
-    }
-
-    return null
-
-  }
-
-  private fun getNamedArgument(groovyCommandArgumentList: GrCommandArgumentList, name: String): GrNamedArgument? = groovyCommandArgumentList.namedArguments.find { trimQuotes(it.labelName) == name }
-
-  private fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
-
   protected fun fetchVersions(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
 
     val url = (TEST_URL ?: repository.baseUrl) + groupId.replace('.', '/') + "/" + artifactId + "/" + META_DATA_FILE
@@ -233,6 +121,45 @@ internal open class Library(
       } catch (e: IOException) {
         VersionManager.LOG.warn("Could not fetch $url", e)
         onFailure()
+      }
+
+    }
+
+  }
+
+  companion object {
+
+    var TEST_URL: String? = null
+
+    const val META_DATA_FILE = "maven-metadata.xml"
+
+    const val PERSISTENT_STATE_KEY_VERSION_PREFIX = "com.gmail.blueboxware.libgdxplugin.versions."
+    const val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
+
+    fun extractVersionsFromMavenMetaData(inputStream: InputStream): List<String>? {
+
+      try {
+
+        val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+        val document = builder.parse(inputStream)
+        val versionElements = (document.getElementsByTagName("versioning").item(0) as? Element)?.getElementsByTagName("version") ?: return null
+
+        val result = mutableListOf<String>()
+
+        for (index in 0 until versionElements.length) {
+          val content = (versionElements.item(index) as? Element)?.textContent ?: continue
+          result.add(content)
+        }
+
+        return result
+
+      } catch (e: Exception) {
+        if (e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException) {
+          VersionManager.LOG.info(e)
+          return null
+        } else {
+          throw e
+        }
       }
 
     }

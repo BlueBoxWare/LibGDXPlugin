@@ -2,14 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
-import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.impl.libraries.LibraryImpl
-import com.intellij.openapi.roots.libraries.Library
-import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.config.MavenComparableVersion
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -138,78 +130,12 @@ enum class Libraries(val library: com.gmail.blueboxware.libgdxplugin.versions.Li
   )
   ;
 
+  override fun toString() = library.name
+
   companion object {
-
-    fun extractLibraryInfoFromGroovyConstruct(psiElement: PsiElement): Pair<Libraries, MavenComparableVersion>? {
-
-      for (lib in values()) {
-        when (psiElement) {
-          is GrLiteral -> lib.library.extractVersionFromLiteral(psiElement)
-          is GrCommandArgumentList -> lib.library.extractVersionFromArgumentList(psiElement)
-          is GrAssignmentExpression -> lib.library.extractVersionFromAssignment(psiElement)
-          else -> null
-        }?.let { version ->
-          return Pair(lib, version)
-        }
-      }
-
-      return null
-    }
-
-    fun extractLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, MavenComparableVersion>? {
-
-      if ((library as? LibraryImpl)?.isDisposed == true) {
-        return null
-      }
-
-      for (libGDXLib in values()) {
-        for (url in library.getUrls(OrderRootType.CLASSES)) {
-          libGDXLib.library.extractVersionFromIdeaLibrary(library)?.let { version ->
-            return Pair(libGDXLib, version)
-          }
-        }
-      }
-
-      return null
-
-    }
 
     fun listOfCheckedLibraries() = values().map { it.library.name }.sortedBy(String::toLowerCase).joinToString(", ")
 
-
-    fun fromExtKey(extKey: String): Libraries? {
-
-      for (lib in values()) {
-        lib.library.extKeys?.let { extKeys ->
-          for (key in extKeys) {
-            if (key == extKey) {
-              return lib
-            }
-          }
-        }
-      }
-
-      return null
-
-    }
-
-    fun fromGroovyLiteral(literal: GrLiteral): Libraries? {
-
-      for (lib in values()) {
-
-        for (extKey in lib.library.extKeys ?: listOf()) {
-          val regex = Regex("""${lib.library.groupId}:${lib.library.artifactId}:\$$extKey""")
-          if (literal.text.contains(regex)) {
-            return lib
-          }
-        }
-      }
-
-      return null
-    }
-
   }
-
-  override fun toString() = library.name
 
 }

@@ -1,8 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleKotlinOutdatedVersionInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
+import com.gmail.blueboxware.libgdxplugin.utils.getLibraryFromExtKey
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
@@ -15,6 +17,9 @@ import org.apache.log4j.Level
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.GroovyFileType
 import org.junit.Before
+import java.io.File
+import java.io.StringReader
+import java.util.*
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -33,7 +38,7 @@ import org.junit.Before
  */
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = false
+  private val RUN_TESTS = true
 
   private lateinit var versionManager: VersionManager
 
@@ -68,6 +73,29 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.enableInspections(GradleOutdatedVersionsInspection())
     myFixture.testHighlightingAllFiles(true, false, false, "test3.gradle")
+
+  }
+
+  fun testOutdatedVersionsGradleInspection4() {
+
+    addLibsFromProperties()
+    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.testHighlightingAllFiles(true, false, false, "test4.gradle")
+
+  }
+
+  fun testOutdatedVersionsGradleKotlinInspection1() {
+
+    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
+    myFixture.testHighlightingAllFiles(true, false, false, "test1.gradle.kts")
+
+  }
+
+  fun testOutdatedVersionsGradleKotlinInspection2() {
+
+    addLibsFromProperties()
+    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
+    myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle.kts")
 
   }
 
@@ -163,5 +191,30 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
   }
 
   override fun getBasePath() = "versions/"
+
+  private fun addLibsFromProperties() {
+
+    val properties = StringReader(
+            File(testDataPath + "gradle.properties")
+            .readText()
+            .replace(Regex("<.?warning.*?>"), "")
+    ).let { input ->
+      Properties().apply { load(input) }
+    }
+
+    val gdxVersion = properties.getProperty("gdxVersion")!!
+
+    properties.propertyNames().iterator().forEach { name ->
+      getLibraryFromExtKey(name as String)?.let { lib ->
+        val version = if (lib.library is LibGDXLibrary) {
+          gdxVersion
+        } else {
+          properties.getProperty(name)!!
+        }
+        addDummyLibrary(lib, version)
+      }
+    }
+
+  }
 
 }

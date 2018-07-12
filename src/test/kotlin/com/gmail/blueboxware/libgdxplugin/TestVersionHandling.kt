@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin
 
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.openapi.command.WriteCommandAction
@@ -7,8 +8,13 @@ import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
 import org.jetbrains.kotlin.config.MavenComparableVersion
+import org.jetbrains.kotlin.idea.KotlinFileType
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import org.jetbrains.kotlin.psi.KtValueArgumentList
 import org.jetbrains.plugins.groovy.GroovyFileType
-import org.jetbrains.plugins.groovy.lang.psi.GroovyFile
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
+import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 import java.io.File
 
 /*
@@ -37,29 +43,40 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testGradleBuildScriptVersionDetection() {
-    for ((content, second) in gradleVersionTests) {
-      val expectedLib = second.first
-      val expectedVersion = MavenComparableVersion(second.second)
-      var result: Pair<Libraries, MavenComparableVersion>? = null
+    val tests =
+           groovyGradleVersionTests.map { it to GroovyFileType.GROOVY_FILE_TYPE } + kotlinGradleVersionTests.map { it to KotlinFileType.INSTANCE}
 
-      myFixture.configureByText(GroovyFileType.GROOVY_FILE_TYPE, content)
+    for ((test, fileType) in tests) {
+      val expectedLib = test.second.first
+      val expectedVersion = MavenComparableVersion(test.second.second)
+      var result: Pair<Libraries, MavenComparableVersion?>? = null
 
-      (myFixture.file as? GroovyFile)?.accept(object: PsiRecursiveElementVisitor() {
+      myFixture.configureByText(fileType, test.first)
+
+      myFixture.file.accept(object: PsiRecursiveElementVisitor() {
         override fun visitElement(element: PsiElement) {
           super.visitElement(element)
-          Libraries.extractLibraryInfoFromGroovyConstruct(element)?.let {
-            result = it
+          if (result != null) {
+            return
+          }
+          result = when (element) {
+            is GrLiteral -> getLibraryInfoFromGroovyLiteral(element)
+            is GrCommandArgumentList -> getLibraryInfoFromGroovyArgumentList(element)
+            is GrAssignmentExpression -> getLibraryInfoFromGroovyAssignment(element)
+            is KtStringTemplateExpression -> getLibraryInfoFromKotlinString(element)
+            is KtValueArgumentList -> getLibraryInfoFromKotlinArgumentList(element)
+            else -> null
           }
         }
       })
 
-      assertNotNull(result)
+      assertNotNull("Input: '${test.first}'", result)
       assertEquals(expectedLib, result!!.first)
       assertEquals(expectedVersion, result!!.second)
     }
   }
 
-  private val gradleVersionTests = listOf(
+  private val groovyGradleVersionTests = listOf(
           """gdxVersion = "1.9.3"""" to (Libraries.LIBGDX to "1.9.3"),
           """gdxVersion = '1.9.3'""" to (Libraries.LIBGDX to "1.9.3"),
           """ashleyVersion = '1.7.0a-beta'""" to (Libraries.ASHLEY to "1.7.0a-beta"),
@@ -69,6 +86,14 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
           """compile 'group': 'com.underwaterapps.overlap2druntime', name: 'overlap2d-runtime-libgdx', version: '1.0a'""" to (Libraries.OVERLAP2D to "1.0a"),
           """compile 'group': 'com.badlogicgames.gdx', name: "gdx-ai", version: '99.a', d: '1'""" to (Libraries.AI to "99.a"),
           """natives "com.badlogicgames.gdx:gdx:1.2:natives-x86_64"""" to (Libraries.LIBGDX to "1.2")
+  )
+
+  private val kotlinGradleVersionTests = listOf(
+          """val s = "com.badlogicgames.gdx:gdx:1.9.7"""" to (Libraries.LIBGDX to "1.9.7"),
+          """
+            fun f(group: String, name: String, version: String? = null) {}
+            val s = f(group = "com.underwaterapps.overlap2druntime", name = "overlap2d-runtime-libgdx", version = "1.9a-BETA")
+          """.trimIndent() to (Libraries.OVERLAP2D to "1.9a-BETA")
   )
 
   private fun doTestExtractVersionsFromMavenMetaData(fileName: String) {

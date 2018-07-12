@@ -34,3 +34,5 @@ internal fun Project.isLibGDX199(): Boolean =
 internal fun <T>key(key: String) = Key<T>("$PREFIX.$key")
 
 internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }
+
+internal fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
