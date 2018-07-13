@@ -7,9 +7,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnno
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
@@ -18,7 +17,6 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
@@ -111,22 +109,16 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   }
 
   override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
-          children.flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }.filter { if (annotation != null) it.first == annotation else true }
+          children
+                  .flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }
+                  .filter { if (annotation != null) it.first == annotation else true }
 
   override fun isInspectionSuppressed(inspectionId: String): Boolean =
           getActiveAnnotations(SkinAnnotations.SUPPRESS).any { it.second == inspectionId }
 
   override fun getUseScope() = GlobalSearchScope.allScope(project)
 
-  override fun addComment(comment: PsiComment) {
-    firstChild?.node?.let { firstNode ->
-      TreeUtil.skipWhitespaceAndComments(firstNode, true)?.let { anchor ->
-        SkinElementFactory(project).createNewLine()?.let { newLine ->
-          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
-        }
-      }
-    }
-  }
+  override fun addComment(comment: PsiComment) = addCommentExt(comment)
 
   override fun replacePackage(className: String, oldPackage: String, newPackage: String) {
 

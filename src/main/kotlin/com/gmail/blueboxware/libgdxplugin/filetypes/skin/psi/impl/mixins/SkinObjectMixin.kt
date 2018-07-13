@@ -6,16 +6,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addPropertyExt
 import com.gmail.blueboxware.libgdxplugin.utils.color
-import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiField
 import com.intellij.psi.codeStyle.CodeStyleManager
-import com.intellij.psi.impl.source.tree.TreeUtil
-import com.intellij.psi.util.PsiTreeUtil
 import java.awt.Color
 import javax.swing.Icon
 
@@ -29,29 +28,9 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
   override fun resolveToField(property: SkinProperty): PsiField? = resolveToClass()?.findFieldByName(property.name, true)
 
-  override fun addProperty(property: SkinProperty) {
-    if (firstChild?.text == "{") {
-      addAfter(property, firstChild)?.let {
-        if (propertyList.size > 1) {
-          SkinElementFactory(project).createComma()?.let { comma ->
-            addAfter(comma, it)
-          }
-        }
-      }
-    }
-  }
+  override fun addProperty(property: SkinProperty) = addPropertyExt(property)
 
-  override fun addComment(comment: PsiComment) {
-    if (firstChild?.text == "{") {
-      PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
-        TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
-          SkinElementFactory(project).createNewLine()?.let { newLine ->
-            addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
-          }
-        }
-      }
-    }
-  }
+  override fun addComment(comment: PsiComment) = addCommentExt(comment)
 
   override fun getPresentation() = object : ItemPresentation {
     override fun getPresentableText(): String? = "object"

@@ -20,9 +20,19 @@ import org.jetbrains.annotations.NonNls
 import javax.swing.Icon
 
 /*
+ * Copyright 2017 Blue Box Ware
  *
- * Adapted from https://github.com/JetBrains/intellij-community/blob/306d705e1829bd3c74afc2489bfb7ed59d686b84/json/src/com/intellij/json/psi/impl/JsonPropertyMixin.java
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(node) {
 
@@ -49,10 +59,14 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
       if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
-        val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Integer", GlobalSearchScope.allScope(project)) ?: return null
+        val clazz =
+                JavaPsiFacade.getInstance(project).findClass("java.lang.Integer", GlobalSearchScope.allScope(project))
+                        ?: return null
         return PsiTypesUtil.getClassType(clazz)
       } else if (name == PROPERTY_NAME_FONT_MARKUP || name == PROPERTY_NAME_FONT_FLIP) {
-        val clazz = JavaPsiFacade.getInstance(project).findClass("java.lang.Boolean", GlobalSearchScope.allScope(project)) ?: return null
+        val clazz =
+                JavaPsiFacade.getInstance(project).findClass("java.lang.Boolean", GlobalSearchScope.allScope(project))
+                        ?: return null
         return PsiTypesUtil.getClassType(clazz)
       }
     }
@@ -76,7 +90,9 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     override fun getIcon(unused: Boolean): Icon {
 
-      val force = (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin) { it is SkinClassSpecification } as? SkinClassSpecification)?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
+      val force =
+              (PsiTreeUtil.findFirstParent(this@SkinPropertyMixin) { it is SkinClassSpecification } as? SkinClassSpecification)
+                      ?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
         return createColorIcon(color)
