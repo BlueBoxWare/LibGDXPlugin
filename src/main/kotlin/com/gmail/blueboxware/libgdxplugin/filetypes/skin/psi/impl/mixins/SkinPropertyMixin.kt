@@ -1,13 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FLIP
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_MARKUP
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_SCALED_SIZE
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
-import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
-import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -66,7 +63,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
   override fun setName(@NonNls name: String): PsiElement? {
-    SkinElementFactory.createPropertyName(project, name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
+    SkinElementFactory(project).createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
       propertyName.replace(newPropertyName)
       return newPropertyName
     }

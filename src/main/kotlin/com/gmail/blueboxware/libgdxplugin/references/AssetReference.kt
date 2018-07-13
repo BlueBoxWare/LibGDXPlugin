@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.references
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles

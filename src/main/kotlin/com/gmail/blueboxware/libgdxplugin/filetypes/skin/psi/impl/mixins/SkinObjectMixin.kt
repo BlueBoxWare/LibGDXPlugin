@@ -1,7 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.icons.AllIcons
@@ -29,7 +33,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
     if (firstChild?.text == "{") {
       addAfter(property, firstChild)?.let {
         if (propertyList.size > 1) {
-          SkinElementFactory.createComma(project)?.let { comma ->
+          SkinElementFactory(project).createComma()?.let { comma ->
             addAfter(comma, it)
           }
         }
@@ -41,7 +45,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
     if (firstChild?.text == "{") {
       PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
         TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
-          SkinElementFactory.createNewLine(project)?.let { newLine ->
+          SkinElementFactory(project).createNewLine()?.let { newLine ->
             addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
           }
         }
@@ -61,7 +65,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
   override fun setColor(color: Color): SkinObject? {
 
-    val newObject = SkinElementFactory.createObject(project) ?: return null
+    val newObject = SkinElementFactory(project).createObject() ?: return null
 
     if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
 
@@ -71,7 +75,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
         quotationChar = if (oldValue.isQuoted) "\"" else ""
       }
 
-      newObject.addProperty(SkinElementFactory.createProperty(project, "hex", quotationChar + colorToString(color) + quotationChar))
+      newObject.addProperty(SkinElementFactory(project).createProperty("hex", quotationChar + colorToString(color) + quotationChar))
 
     } else {
 
@@ -85,7 +89,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
           "b" -> components[2]
           else -> components[3]
         }
-        val property = SkinElementFactory.createProperty(project, rgb, value.toString())
+        val property = SkinElementFactory(project).createProperty(rgb, value.toString())
 
         newObject.addProperty(property)
 

@@ -6,6 +6,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_COLON
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_VALUE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.findPreviousSibling
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.hasElementType
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange

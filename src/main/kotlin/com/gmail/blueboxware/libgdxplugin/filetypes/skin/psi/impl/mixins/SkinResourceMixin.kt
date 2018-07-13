@@ -1,7 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
@@ -57,7 +62,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
   override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") == true)
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createResourceName(project, name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
+    SkinElementFactory(project).createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
       resourceName.replace(newResourceName)
       return newResourceName
     }

@@ -2,10 +2,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.icons.AllIcons
@@ -44,7 +44,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
   override fun resolveClass(): PsiClass? = className.resolve()
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory.createStringLiteral(project, name, nameIdentifier.isQuoted)?.let { newClassName ->
+    SkinElementFactory(project).createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
       className.stringLiteral.replace(newClassName)
       return newClassName
     }
@@ -70,7 +70,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
     leaf?.nextLeaf()?.node?.let { curlyNode ->
       TreeUtil.skipWhitespaceAndComments(curlyNode, true)?.let { anchor ->
-        SkinElementFactory.createNewLine(project)?.let { newLine ->
+        SkinElementFactory(project).createNewLine()?.let { newLine ->
           addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
         }
       }

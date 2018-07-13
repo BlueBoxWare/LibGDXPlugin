@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.findFurthestSiblingOfSameType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.findFurthestSiblingOfSameType
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor

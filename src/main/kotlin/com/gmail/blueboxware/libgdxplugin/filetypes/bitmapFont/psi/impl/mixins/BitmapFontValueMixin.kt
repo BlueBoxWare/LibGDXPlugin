@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.stripQuotes
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.stripQuotes
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
 

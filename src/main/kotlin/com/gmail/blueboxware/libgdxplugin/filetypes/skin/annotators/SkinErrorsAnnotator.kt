@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.isEscapedChar
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.unescape
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.isEscapedChar
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.unescape
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator

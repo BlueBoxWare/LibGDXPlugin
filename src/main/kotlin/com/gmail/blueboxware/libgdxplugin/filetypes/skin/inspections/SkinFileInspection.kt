@@ -1,6 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ContainerBasedSuppressQuickFix
@@ -100,7 +104,7 @@ open class SkinFileInspection : LocalInspectionTool() {
     )
 
     private fun suppress(element: PsiElement, id: String) {
-      SkinElementFactory.createSuppressionComment(element.project, id)?.let { comment ->
+      SkinElementFactory(element).createSuppressionComment(id)?.let { comment ->
         when (element) {
           is SkinObject   -> element.addComment(comment)
           is SkinClassSpecification -> element.addComment(comment)

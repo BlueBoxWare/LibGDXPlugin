@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FLIP
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_MARKUP
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_SCALED_SIZE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*

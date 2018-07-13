@@ -4,7 +4,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
@@ -117,7 +121,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   override fun addComment(comment: PsiComment) {
     firstChild?.node?.let { firstNode ->
       TreeUtil.skipWhitespaceAndComments(firstNode, true)?.let { anchor ->
-        SkinElementFactory.createNewLine(project)?.let { newLine ->
+        SkinElementFactory(project).createNewLine()?.let { newLine ->
           addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
         }
       }
