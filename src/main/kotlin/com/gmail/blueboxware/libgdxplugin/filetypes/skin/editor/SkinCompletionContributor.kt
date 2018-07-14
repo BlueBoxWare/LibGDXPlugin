@@ -17,8 +17,6 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
@@ -148,9 +146,9 @@ class SkinCompletionContributor : CompletionContributor() {
 
   private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
-    val resource = PsiTreeUtil.findFirstParent(parameters.position) { it is SkinResource } as? SkinResource ?: return
+    val resource = parameters.position.firstParent<SkinResource>() ?: return
     val classSpec = resource.classSpecification ?: return
-    val originalClassSpec = PsiTreeUtil.findFirstParent(parameters.originalPosition) {it is SkinClassSpecification}
+    val originalClassSpec = parameters.originalPosition?.firstParent<SkinClassSpecification>()
 
     if (classSpec.getRealClassNamesAsString().none { it != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" }) {
       // Aliases for TintedDrawables are not allowed
@@ -174,7 +172,7 @@ class SkinCompletionContributor : CompletionContributor() {
   }
 
   private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-    val resource = PsiTreeUtil.findFirstParent(parameters.position) { it is SkinResource } as? SkinResource ?: return
+    val resource = parameters.position.firstParent<SkinResource>() ?: return
     val classSpec = resource.classSpecification ?: return
     val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.getRealClassNamesAsString())?.map { it.name } ?: listOf()
 
@@ -372,7 +370,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val currentPackage = psiFacade.findPackage(prefix)
 
     val scope = ModuleUtilCore.findModuleForPsiElement(parameters.position)?.let {
-      GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(it)
+      it.getModuleWithDependenciesAndLibrariesScope(true)
     } ?: return
 
     if (currentPackage == null || currentPackage.name == null) {

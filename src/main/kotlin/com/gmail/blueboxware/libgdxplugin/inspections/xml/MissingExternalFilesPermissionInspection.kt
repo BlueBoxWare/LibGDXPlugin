@@ -2,13 +2,12 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.JavaFindUsagesHelper
 import com.intellij.find.findUsages.JavaMethodFindUsagesOptions
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.xml.XmlFile
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
@@ -56,8 +55,8 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
         }
 
         val module = ModuleUtilCore.findModuleForPsiElement(file) ?: return
-        val moduleWithDepsScope = GlobalSearchScope.moduleWithDependenciesScope(module)
-        val moduleWithDepsAndLibsScope = GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)
+        val moduleWithDepsScope = module.moduleWithDependenciesScope
+        val moduleWithDepsAndLibsScope = module.getModuleWithDependenciesAndLibrariesScope(false)
         val psiFacade = JavaPsiFacade.getInstance(file.project) ?: return
 
         val externalFilesMethods = mutableListOf<PsiMethod>()
@@ -83,7 +82,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
         externalFilesMethods.forEach { method ->
           JavaFindUsagesHelper.processElementUsages(method, JavaMethodFindUsagesOptions(moduleWithDepsScope)) { usage ->
 
-            PsiTreeUtil.findFirstParent(usage.element) { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression }?.let { callExpression ->
+            usage.element?.firstParent { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression }?.let { callExpression ->
 
               val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text ?: (usage.reference?.resolve() as? PsiMethod)?.name
 

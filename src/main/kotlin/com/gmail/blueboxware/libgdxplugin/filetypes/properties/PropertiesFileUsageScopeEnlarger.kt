@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
+import org.jetbrains.kotlin.idea.search.projectScope
 
 
 /*
@@ -26,7 +26,7 @@ class PropertiesFileUsageScopeEnlarger: UseScopeEnlarger() {
 
   override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
     if (element is PropertiesFileImpl) {
-      return GlobalSearchScope.projectScope(element.project)
+      return element.project.projectScope()
     }
     return null
   }

@@ -1,6 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.utils.childOfType
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.command.CommandProcessor
@@ -12,8 +14,6 @@ import com.intellij.psi.JavaDirectoryService
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiDocumentManager
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.refactoring.BaseRefactoringProcessor
 import com.intellij.refactoring.PackageWrapper
 import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
@@ -21,6 +21,7 @@ import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveD
 import com.intellij.refactoring.move.moveFilesOrDirectories.MoveFilesOrDirectoriesProcessor
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.idea.refactoring.move.changePackage.KotlinChangePackageRefactoring
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
@@ -90,7 +91,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameKotlinField() {
     myFixture.configureByFile("KotlinClass.kt")
-    val property = PsiTreeUtil.findChildOfType(myFixture.file, KtProperty::class.java) as KtProperty
+    val property = myFixture.file.childOfType<KtProperty>()!!
     myFixture.configureByFile("ColorArrayHolder.java")
     myFixture.configureByFile("renameKotlinField.skin")
     doSimpleTest {
@@ -100,7 +101,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameKotlinFieldWithTags() {
     myFixture.configureByFile("KotlinClass.kt")
-    val property = PsiTreeUtil.findChildOfType(myFixture.file, KtProperty::class.java) as KtProperty
+    val property = myFixture.file.childOfType<KtProperty>()!!
     myFixture.configureByFile("ColorArrayHolder.java")
     myFixture.configureByFile("renameKotlinFieldWithTags.skin")
     doSimpleTest {
@@ -264,7 +265,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
     BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
 
-    val clazz = JavaPsiFacade.getInstance(project).findClass(className, GlobalSearchScope.projectScope(project)) ?: throw AssertionError()
+    val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
     val pkg = JavaPsiFacade.getInstance(project).findPackage(newPackageName) ?: throw AssertionError()
     val dirs = pkg.directories
 

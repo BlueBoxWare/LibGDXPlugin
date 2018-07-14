@@ -16,12 +16,11 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiField
 import com.intellij.psi.impl.source.PsiClassReferenceType
-import com.intellij.psi.search.GlobalSearchScope
 
 class JavaStaticResourceInspection: LibGDXJavaBaseInspection() {
 
@@ -33,7 +32,7 @@ class JavaStaticResourceInspection: LibGDXJavaBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
-    val disposableClass = JavaPsiFacade.getInstance(holder.project).findClass("com.badlogic.gdx.utils.Disposable", GlobalSearchScope.allScope(holder.project))
+    val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 
     override fun visitField(field: PsiField?) {
 

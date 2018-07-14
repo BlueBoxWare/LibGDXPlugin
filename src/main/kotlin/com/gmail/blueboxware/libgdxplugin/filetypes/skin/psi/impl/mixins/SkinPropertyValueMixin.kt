@@ -3,8 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.lang.ASTNode
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -23,6 +23,6 @@ import com.intellij.psi.util.PsiTreeUtil
  */
 abstract class SkinPropertyValueMixin(node: ASTNode) : SkinPropertyValue, SkinElementImpl(node) {
 
-  override fun getProperty(): SkinProperty? = PsiTreeUtil.findFirstParent(this) { it is SkinProperty } as? SkinProperty
+  override fun getProperty(): SkinProperty? = firstParent()
 
 }

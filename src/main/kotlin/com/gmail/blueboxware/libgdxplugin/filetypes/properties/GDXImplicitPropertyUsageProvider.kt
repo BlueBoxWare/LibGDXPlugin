@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
 import com.intellij.codeInspection.unused.ImplicitPropertyUsageProvider
 import com.intellij.lang.properties.psi.Property
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.PsiSearchHelper
 import com.intellij.psi.search.searches.ReferencesSearch
+import org.jetbrains.kotlin.idea.search.allScope
 
 
 /*
@@ -32,7 +32,7 @@ class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
 
     val project = property.project
     val name = property.name ?: return false
-    val scope = GlobalSearchScope.allScope(project)
+    val scope = project.allScope()
     val psiSearchHelper = PsiSearchHelper.SERVICE.getInstance(property.project)
     val cheapEnough = psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)
 

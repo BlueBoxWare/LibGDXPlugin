@@ -17,10 +17,10 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.fqName
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.config.MavenComparableVersion
-import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
@@ -35,7 +35,7 @@ class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitCallExpression(expression: KtCallExpression) {
-      if (getClassIfConstructorCall(expression)?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
+      if (getClassIfConstructorCall(expression)?.fqName() == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
         expression.project.getComponent(VersionManager::class.java)?.let { versionManager ->
           val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return

@@ -2,11 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.properties
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
 import com.gmail.blueboxware.libgdxplugin.utils.asString
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.lang.properties.psi.Property
 import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
@@ -158,7 +158,7 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
     myFixture.configureByText(fileType, content)
 
     val referencingElement = myFixture.file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
-      PsiTreeUtil.findFirstParent(elementAtCaret) { it is KtStringTemplateExpression || it is PsiLiteralExpression }
+      elementAtCaret.firstParent { it is KtStringTemplateExpression || it is PsiLiteralExpression }
     } ?: throw AssertionError("Referencing element not found")
 
     var found = false

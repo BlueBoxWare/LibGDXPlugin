@@ -2,13 +2,13 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.util.PsiUtil
 import org.jetbrains.kotlin.asJava.elements.KtLightAnnotationForSourceEntry
 import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.asJava.elements.KtLightMember
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.idea.util.findAnnotation
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.*
@@ -90,7 +90,7 @@ internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): A
     }
 
     (((qualifierExpression as? PsiMethodCallExpression)?.methodExpression?.resolve() as? KtLightMethod)?.kotlinOrigin as? KtProperty)?.let { ktProperty ->
-      AnnotatedElementsSearch.searchElements(annotationClass, GlobalSearchScope.projectScope(project), KtLightField::class.java).forEach { member ->
+      AnnotatedElementsSearch.searchElements(annotationClass, project.projectScope(), KtLightField::class.java).forEach { member ->
         if (member.kotlinOrigin == ktProperty) {
           return ktProperty.getAnnotation(annotationClass)
         }
@@ -136,7 +136,7 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
           }
         }
 
-        AnnotatedElementsSearch.searchElements(annotationClass, GlobalSearchScope.projectScope(project), PsiMember::class.java).forEach { member ->
+        AnnotatedElementsSearch.searchElements(annotationClass, project.projectScope(), PsiMember::class.java).forEach { member ->
           if (member in origins || (member as? KtLightMember<*>)?.kotlinOrigin?.let { it in origins } == true) {
             AnnotationUtil.findAnnotation(member, annotationClass.qualifiedName)?.let {
               return PsiAnnotationWrapper(it)

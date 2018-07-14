@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
 import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.idea.search.allScope
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -32,11 +32,11 @@ class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyDirectoryToProject("assets/", "assets/")
 
-    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.json", GlobalSearchScope.allScope(myFixture.project))?.firstOrNull()?.let { file ->
+    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.json", myFixture.project.allScope())?.firstOrNull()?.let { file ->
       skinFile = file
     }
 
-    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.atlas", GlobalSearchScope.allScope(myFixture.project))?.firstOrNull()?.let { file ->
+    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.atlas", myFixture.project.allScope())?.firstOrNull()?.let { file ->
       atlasFile = file
     }
 

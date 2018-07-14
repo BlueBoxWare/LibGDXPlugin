@@ -18,7 +18,6 @@ import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileVisitor
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiFileImpl
-import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.psi.KtCallExpression
 import java.io.IOException
 
@@ -182,7 +181,7 @@ private fun getAssetFilesFromAnnotation(project: Project, annotation: Annotation
 }
 
 private fun findAssetsAnnotationClass(context: PsiElement): PsiClass? =
-  JavaPsiFacade.getInstance(context.project).findClass(ASSET_ANNOTATION_NAME, GlobalSearchScope.allScope(context.project))
+  context.findClass(ASSET_ANNOTATION_NAME)
 
 internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 

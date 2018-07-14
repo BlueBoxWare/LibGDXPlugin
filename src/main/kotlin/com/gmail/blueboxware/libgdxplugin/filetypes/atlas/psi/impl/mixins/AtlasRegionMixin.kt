@@ -8,12 +8,12 @@ import com.intellij.codeInsight.preview.ImagePreviewComponent
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IconUtil
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.ui.ImageUtil
 import icons.ImagesIcons
+import org.jetbrains.kotlin.idea.search.allScope
 import java.awt.image.BufferedImage
 import java.awt.image.RasterFormatException
 import java.io.IOException
@@ -56,7 +56,7 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
 
   override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 
-  override fun getUseScope() = GlobalSearchScope.allScope(project)
+  override fun getUseScope() = project.allScope()
 
   override fun getPreviewIcon(): Icon? = myPreviewIcon
 

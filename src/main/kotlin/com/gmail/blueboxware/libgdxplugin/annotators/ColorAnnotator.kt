@@ -10,7 +10,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
-import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
@@ -19,7 +18,6 @@ import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.idea.refactoring.getLineNumber
 import org.jetbrains.kotlin.idea.references.AbstractKtReference
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
-import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
@@ -126,7 +124,7 @@ class ColorAnnotator : Annotator {
   private fun findColor(cache: ColorAnnotatorCache, element: PsiElement, isSpecialColorMethod: Boolean): Color? {
 
     val type = if (element is KtExpression) {
-     element.getType(element.analyzePartial())?.getJetTypeFqName(false)
+     element.getType(element.analyzePartial())?.fqName()
     } else if (element is PsiExpression) {
       element.type?.getCanonicalText(false)
     } else {
@@ -218,7 +216,7 @@ class ColorAnnotator : Annotator {
                           ?.getImportableTargets(initialValue.analyzePartial())
                           ?.firstOrNull()
                           ?.let { clazz ->
-                    JavaPsiFacade.getInstance(element.project).findClass(clazz.fqNameSafe.asString(), GlobalSearchScope.allScope(element.project))?.let { psiClass ->
+                    element.findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
                       if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
                         // Skin.get(string, Color::class.java)
                         val resourceName = StringUtil.unquoteString(arg.text)
@@ -568,7 +566,7 @@ class ColorAnnotator : Annotator {
     val context = expr.context
 
     if (context is KtDotQualifiedExpression) {
-      if (context.receiverExpression.getType(context.analyzePartial())?.getJetTypeFqName(false) == "com.badlogic.gdx.graphics.Color") {
+      if (context.receiverExpression.getType(context.analyzePartial())?.fqName() == "com.badlogic.gdx.graphics.Color") {
         getColor(cache, context.receiverExpression, ignoreContext = true)?.let { color ->
           return when(context.selectorExpression?.text) {
             "r" -> color.red /  255f

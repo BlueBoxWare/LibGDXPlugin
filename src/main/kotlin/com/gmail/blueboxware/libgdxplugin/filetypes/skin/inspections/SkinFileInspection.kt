@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ContainerBasedSuppressQuickFix
 import com.intellij.codeInspection.LocalInspectionTool
@@ -14,7 +15,6 @@ import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -62,7 +62,7 @@ open class SkinFileInspection : LocalInspectionTool() {
   open class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
 
     override fun getContainer(context: PsiElement?): PsiElement? =
-            PsiTreeUtil.findFirstParent(context, true) { it is SkinClassSpecification || it is SkinObject }
+            context?.firstParent(false) { it is SkinClassSpecification || it is SkinObject }
 
     override fun getFamilyName(): String = message("suppress.object")
 

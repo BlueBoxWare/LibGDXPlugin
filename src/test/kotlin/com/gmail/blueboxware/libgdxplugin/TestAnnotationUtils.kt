@@ -1,11 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin
 
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.getAnnotation
 import com.intellij.ide.highlighter.JavaFileType
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiMethodCallExpression
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import junit.framework.TestCase
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -388,9 +387,9 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
 
   fun doTest(expectedResult: List<String>?, msg: String, parameter: String) {
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.let {
-      PsiTreeUtil.findFirstParent(it) { it is PsiMethodCallExpression || it is KtCallExpression }
+      it.firstParent { it is PsiMethodCallExpression || it is KtCallExpression }
     } ?: throw AssertionError(msg)
-    val annotationClass = JavaPsiFacade.getInstance(project).findClass("MyAnnotation", GlobalSearchScope.allScope(project)) ?: throw AssertionError()
+    val annotationClass = project.findClass("MyAnnotation") ?: throw AssertionError()
     val annotation = (element as? PsiMethodCallExpression)?.getAnnotation(annotationClass) ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)
     if (annotation == null) {
       if (expectedResult != null) {

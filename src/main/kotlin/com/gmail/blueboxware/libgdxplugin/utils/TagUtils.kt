@@ -6,13 +6,11 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiImmediateClassType
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
-import org.jetbrains.kotlin.js.descriptorUtils.getJetTypeFqName
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtClass
@@ -95,7 +93,7 @@ private fun Project.collectCustomTags(): TagMap {
 
   val tagMap = TagMap()
 
-  JavaPsiFacade.getInstance(this).findClasses("com.badlogic.gdx.utils.Json", GlobalSearchScope.allScope(this)).forEach { jsonClass ->
+  findClasses("com.badlogic.gdx.utils.Json").forEach { jsonClass ->
 
     ClassInheritorsSearch.search(jsonClass).toMutableList().apply { add(jsonClass) }.forEach { jsonSubClass ->
 
@@ -128,7 +126,7 @@ private fun Project.collectCustomTags(): TagMap {
 
               arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
-                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)?.takeIf { it.isClassType }?.arguments?.firstOrNull()?.type?.getJetTypeFqName(false)?.let { fqName ->
+                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)?.takeIf { it.isClassType }?.arguments?.firstOrNull()?.type?.fqName()?.let { fqName ->
                   tagMap.add(firstArgument.plainContent, fqName)
                 }
 
@@ -150,9 +148,7 @@ private fun Project.collectCustomTags(): TagMap {
 
 private fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
 
-  val tagsAnnotation = JavaPsiFacade.getInstance(this)
-          ?.findClass(Assets.TAG_ANNOTATION_NAME, GlobalSearchScope.allScope(this))
-          ?: return listOf()
+  val tagsAnnotation = findClass(Assets.TAG_ANNOTATION_NAME) ?: return listOf()
 
   val tags = mutableListOf<Pair<String, String>>()
 

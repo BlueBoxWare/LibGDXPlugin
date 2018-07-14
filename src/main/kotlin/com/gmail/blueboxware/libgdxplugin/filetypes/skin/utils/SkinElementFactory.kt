@@ -3,13 +3,13 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -43,7 +43,7 @@ class SkinElementFactory(private val project: Project) {
       }
     }
     """) as SkinFile
-    return PsiTreeUtil.findChildOfType(file, SkinProperty::class.java)
+    return file.childOfType()
   }
 
   fun createComma(): PsiElement? {
@@ -102,9 +102,7 @@ class SkinElementFactory(private val project: Project) {
   }
 
   private inline fun <reified T: SkinElement> createElement(content: String): T? =
-          createFile(content).let {
-            PsiTreeUtil.findChildOfType(it, T::class.java)
-          }
+          createFile(content).childOfType()
 
   private fun createFile(content: String) =
           PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile

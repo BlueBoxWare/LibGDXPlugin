@@ -10,7 +10,6 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
@@ -52,10 +51,10 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
           @Suppress("IfThenToElvis")
           if (taggedClasses != null) {
             taggedClasses.flatMap { className ->
-              psiFacade.findClasses(className, GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
+              psiFacade.findClasses(className, module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
             }
           } else {
-            psiFacade.findClasses(value.removeDollarFromClassName(), GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(module)).toList()
+            psiFacade.findClasses(value.removeDollarFromClassName(), module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
           }
 
         }

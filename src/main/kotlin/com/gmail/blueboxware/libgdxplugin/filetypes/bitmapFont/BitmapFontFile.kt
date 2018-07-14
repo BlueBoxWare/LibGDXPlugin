@@ -1,9 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.childOfType
+import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.psi.FileViewProvider
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -26,7 +27,7 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
 
     val map = mutableMapOf<Int, BitmapFontFontChar>()
 
-    PsiTreeUtil.findChildrenOfType(this, BitmapFontFontChar::class.java).forEach { fontChar ->
+    childrenOfType<BitmapFontFontChar>().forEach { fontChar ->
       fontChar.character?.let { id ->
         map.put(id, fontChar)
       }
@@ -36,19 +37,19 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
 
   }
 
-  fun getKernings(): Collection<BitmapFontKerning> = PsiTreeUtil.findChildrenOfType(this, BitmapFontKerning::class.java)
+  fun getKernings(): Collection<BitmapFontKerning> = childrenOfType()
 
   override fun getFileType() = viewProvider.fileType
 
-  fun getInfoElement(): BitmapFontInfo? = PsiTreeUtil.findChildOfType(this, BitmapFontInfo::class.java)
+  fun getInfoElement(): BitmapFontInfo? = childOfType()
 
-  fun getCommonElement(): BitmapFontCommon? = PsiTreeUtil.findChildOfType(this, BitmapFontCommon::class.java)
+  fun getCommonElement(): BitmapFontCommon? = childOfType()
 
-  fun getCharsElement(): BitmapFontChars? = PsiTreeUtil.findChildOfType(this, BitmapFontChars::class.java)
+  fun getCharsElement(): BitmapFontChars? = childOfType()
 
-  fun getKerningsElement(): BitmapFontKernings? = PsiTreeUtil.findChildOfType(this, BitmapFontKernings::class.java)
+  fun getKerningsElement(): BitmapFontKernings? = childOfType()
 
-  fun getPages(): MutableCollection<BitmapFontPageDefinition> = PsiTreeUtil.findChildrenOfType(this, BitmapFontPageDefinition::class.java)
+  fun getPages(): MutableCollection<BitmapFontPageDefinition> = childrenOfType<BitmapFontPageDefinition>().toMutableList()
 
   fun getCharacters() = getCharacterMap().values
 

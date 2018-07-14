@@ -15,9 +15,9 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.*
 import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PathUtil
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 /*
@@ -47,7 +47,7 @@ class FileReference(
   override fun getVariants(): Array<out Any> {
 
     val result = mutableListOf<LookupElement>()
-    val searchScope = GlobalSearchScope.projectScope(myElement.project)
+    val searchScope = myElement.project.projectScope()
     val psiManager = PsiManager.getInstance(myElement.project)
     val baseDir = myElement.project.getProjectBaseDir() ?: return arrayOf()
 

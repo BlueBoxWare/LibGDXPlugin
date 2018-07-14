@@ -12,10 +12,10 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.LanguageSubstitutors
 import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.FileContentUtilCore
 import com.intellij.util.indexing.FileBasedIndex
+import org.jetbrains.kotlin.idea.search.allScope
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -41,7 +41,7 @@ val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$fqClassName|\b$commonClass
 
 fun getSkinFiles(project: Project): List<VirtualFile> {
   val result = mutableListOf<VirtualFile>()
-  result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, GlobalSearchScope.allScope(project)))
+  result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, project.allScope()))
   project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
   return result.filter { it.isValid }.toList()
 }

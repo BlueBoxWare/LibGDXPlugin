@@ -6,7 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.intellij.psi.util.PsiTreeUtil
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -72,7 +72,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   fun testFindDrawableUsages() {
     myFixture.copyFileToProject("drawableUsages.skin")
     val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
-    val origin = PsiTreeUtil.findFirstParent(myFixture.file.findElementAt(myFixture.caretOffset)) { it is AtlasRegion }
+    val origin = myFixture.file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
     assertEquals(10, usagesInfos.size)
     usagesInfos.forEach { usagesInfo ->
       assertNotNull(usagesInfo.element)

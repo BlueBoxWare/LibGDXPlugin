@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
@@ -17,9 +18,8 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import icons.Icons
+import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
@@ -46,7 +46,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 
   override fun getClassSpecifications(classNames: Collection<String>?): Collection<SkinClassSpecification> {
-    val classSpecs = PsiTreeUtil.findChildrenOfType(this, SkinClassSpecification::class.java)
+    val classSpecs = childrenOfType<SkinClassSpecification>()
 
     if (classNames != null) {
       return classSpecs.filter { it.getRealClassNamesAsString().any { classNames.contains(it) } }
@@ -116,7 +116,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
   override fun isInspectionSuppressed(inspectionId: String): Boolean =
           getActiveAnnotations(SkinAnnotations.SUPPRESS).any { it.second == inspectionId }
 
-  override fun getUseScope() = GlobalSearchScope.allScope(project)
+  override fun getUseScope() = project.allScope()
 
   override fun addComment(comment: PsiComment) = addCommentExt(comment)
 

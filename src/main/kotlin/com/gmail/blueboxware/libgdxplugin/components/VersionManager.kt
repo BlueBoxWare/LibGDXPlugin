@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.components
 
+import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.AbstractProjectComponent
@@ -10,9 +11,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -98,7 +97,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
       }
 
       if (usedVersions[Libraries.LIBGDX] == null) {
-        JavaPsiFacade.getInstance(myProject).findClasses("com.badlogic.gdx.Version", GlobalSearchScope.allScope(myProject)).forEach { psiClass ->
+        myProject.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
           ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
                   ?.let(::MavenComparableVersion)
                   ?.let { usedVersions[Libraries.LIBGDX] = it}

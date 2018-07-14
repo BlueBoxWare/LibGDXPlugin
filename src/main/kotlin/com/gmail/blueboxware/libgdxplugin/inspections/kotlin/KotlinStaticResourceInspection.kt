@@ -16,10 +16,9 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.impl.source.PsiClassReferenceType
-import com.intellij.psi.search.GlobalSearchScope
 import org.jetbrains.kotlin.asJava.LightClassUtil
 import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.psi.KtDeclaration
@@ -37,7 +36,7 @@ class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    val disposableClass = JavaPsiFacade.getInstance(holder.project).findClass("com.badlogic.gdx.utils.Disposable", GlobalSearchScope.allScope(holder.project))
+    val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 
     override fun visitDeclaration(dcl: KtDeclaration) {
 

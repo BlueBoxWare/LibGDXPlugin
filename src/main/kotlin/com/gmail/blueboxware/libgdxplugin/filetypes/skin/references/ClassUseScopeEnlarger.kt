@@ -4,7 +4,6 @@ import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifier
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
 
@@ -32,7 +31,7 @@ class ClassUseScopeEnlarger: UseScopeEnlarger() {
     if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
 
     ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
-      return GlobalSearchScope.moduleWithDependentsScope(module)
+      return module.moduleWithDependentsScope
     }
 
     return null

@@ -8,7 +8,7 @@ import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.references.PropertyReferenceBase
 import com.intellij.psi.ElementManipulators
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.idea.search.allScope
 
 
 /*
@@ -51,7 +51,7 @@ class GDXPropertyReference(key: String, element: PsiElement, private val bundleN
     bundleName?.let { bundleName ->
       element.project.let { project ->
         PropertiesReferenceManager.getInstance(project)?.let { refManager ->
-          return refManager.findPropertiesFiles(GlobalSearchScope.allScope(project), bundleName, BundleNameEvaluator.DEFAULT)
+          return refManager.findPropertiesFiles(project.allScope(), bundleName, BundleNameEvaluator.DEFAULT)
         }
       }
     }

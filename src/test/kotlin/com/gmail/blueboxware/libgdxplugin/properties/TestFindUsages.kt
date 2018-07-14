@@ -6,7 +6,7 @@ import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.idea.search.projectScope
 
 
 /*
@@ -35,7 +35,7 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
   }
 
   fun testFindPropertiesFileUsagesInAnnotation() {
-    FilenameIndex.getFilesByName(project, "messages.properties", GlobalSearchScope.projectScope(project)).first().let { psiFile ->
+    FilenameIndex.getFilesByName(project, "messages.properties", project.projectScope()).first().let { psiFile ->
       val usages = myFixture.findUsages(psiFile)
       assertEquals(4, usages.size)
       usages.forEach { usage ->
@@ -50,7 +50,7 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
 
   fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {
 
-    val property = FilenameIndex.getFilesByName(project, propertiesFileName, GlobalSearchScope.projectScope(project)).first().let { file ->
+    val property = FilenameIndex.getFilesByName(project, propertiesFileName, project.projectScope()).first().let { file ->
       (file as PropertiesFile).findPropertyByKey(key)!!.let {
         it as Property
       }

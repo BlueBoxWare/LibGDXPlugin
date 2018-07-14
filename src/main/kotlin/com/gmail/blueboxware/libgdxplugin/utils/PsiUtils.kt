@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
 import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
+import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
@@ -37,6 +38,28 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * limitations under the License.
  */
 internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
+
+internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? = PsiTreeUtil.findChildOfType(this, T::class.java)
+
+internal inline fun <reified T: PsiElement> PsiElement.childrenOfType(): Collection<T> = PsiTreeUtil.findChildrenOfType(this, T::class.java)
+
+internal inline fun <reified T: PsiElement> PsiElement.firstParent(): T? = firstParent { it is T } as? T
+
+internal fun PsiElement.firstParent(condition: (PsiElement) -> Boolean) = firstParent(true, condition)
+
+internal fun PsiElement.firstParent(includeSelf: Boolean, condition: (PsiElement) -> Boolean): PsiElement? {
+
+  var element = if (includeSelf) this else this.parent
+
+  while (element != null) {
+    if (condition(element)) {
+      return element
+    }
+    element = element.parent
+  }
+
+  return null
+}
 
 internal fun PsiClass.supersAndThis() = InheritanceUtil.getSuperClasses(this) + this
 
@@ -184,3 +207,5 @@ internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
         resolveCall()?.let {
           Pair(it.first.fqNameSafe.asString(), it.second.getReferencedName())
         }
+
+internal fun KotlinType.fqName() = constructor.declarationDescriptor?.fqNameSafe?.asString()

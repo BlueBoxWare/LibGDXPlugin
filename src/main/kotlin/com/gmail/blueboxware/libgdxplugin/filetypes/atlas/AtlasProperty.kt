@@ -2,11 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.navigation.NavigationItem
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -40,7 +40,7 @@ abstract class AtlasProperty(node: ASTNode) : AtlasElementImpl(node), Navigation
     else -> "<unknown>"
   }
 
-  fun getValueAsString() = (PsiTreeUtil.findChildrenOfType(this, AtlasValueElement::class.java)).joinToString(separator = ", ") { it.text }
+  fun getValueAsString() = childrenOfType<AtlasValueElement>().joinToString(separator = ", ") { it.text }
 
   override fun getPresentation() = object : ItemPresentation {
 

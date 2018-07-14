@@ -16,12 +16,15 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.openapi.project.Project
-import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiMethod
+import com.intellij.psi.PsiMethodCallExpression
+import com.intellij.psi.PsiReference
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.util.Query
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.psi.*
 
 object FlushingMethodsUtils {
@@ -30,27 +33,65 @@ object FlushingMethodsUtils {
     mapOf(
             "com.badlogic.gdx.graphics.g2d.Batch" to
                     listOf(
-                            "disableBlending", "enableBlending", "end", "flush", "flushAndSyncTransformMatrix", "setBlendFunction", "setProjectionMatrix", "setShader"
+                            "disableBlending",
+                            "enableBlending",
+                            "end",
+                            "flush",
+                            "flushAndSyncTransformMatrix",
+                            "setBlendFunction",
+                            "setProjectionMatrix",
+                            "setShader"
                     ),
             "com.badlogic.gdx.graphics.g2d.SpriteBatch" to
                     listOf(
-                            "disableBlending", "enableBlending", "end", "flush", "setBlendFunction", "setProjectionMatrix", "setShader", "setTransformMatrix"
+                            "disableBlending",
+                            "enableBlending",
+                            "end",
+                            "flush",
+                            "setBlendFunction",
+                            "setProjectionMatrix",
+                            "setShader",
+                            "setTransformMatrix"
                     ),
             "com.badlogic.gdx.graphics.g2d.CpuSpriteBatch" to
                     listOf(
-                            "disableBlending", "enableBlending", "end", "flush", "flushAndSyncTransformMatrix", "setBlendFunction", "setProjectionMatrix", "setShader"
+                            "disableBlending",
+                            "enableBlending",
+                            "end",
+                            "flush",
+                            "flushAndSyncTransformMatrix",
+                            "setBlendFunction",
+                            "setProjectionMatrix",
+                            "setShader"
                     ),
             "com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch" to
                     listOf(
-                            "disableBlending", "enableBlending", "end", "flush", "setBlendFunction", "setProjectionMatrix", "setShader", "setTransformMatrix"
+                            "disableBlending",
+                            "enableBlending",
+                            "end",
+                            "flush",
+                            "setBlendFunction",
+                            "setProjectionMatrix",
+                            "setShader",
+                            "setTransformMatrix"
                     ),
             "com.badlogic.gdx.graphics.glutils.ShapeRenderer" to
                     listOf(
-                            "end", "flush", "updateMatrices", "setProjectionMatrix", "setTransformMatrix", "identity", "translate", "rotate", "scale", "set"
+                            "end",
+                            "flush",
+                            "updateMatrices",
+                            "setProjectionMatrix",
+                            "setTransformMatrix",
+                            "identity",
+                            "translate",
+                            "rotate",
+                            "scale",
+                            "set"
                     ),
             "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20" to
                     listOf(
-                            "end", "flush"
+                            "end",
+                            "flush"
                     ),
             "com.badlogic.gdx.graphics.g3d.decals.DecalBatch" to
                     listOf(
@@ -58,7 +99,9 @@ object FlushingMethodsUtils {
                     ),
             "com.badlogic.gdx.graphics.g3d.ModelBatch" to
                     listOf(
-                            "flush", "end", "setCamera"
+                            "flush",
+                            "end",
+                            "setCamera"
                     )
     )
   }
@@ -68,7 +111,7 @@ object FlushingMethodsUtils {
     val result = mutableSetOf<PsiMethod>()
 
     for ((className, methodNames) in flushingMethodsMap) {
-      val clazz = JavaPsiFacade.getInstance(project).findClass(className, GlobalSearchScope.allScope(project)) ?: continue
+      val clazz = project.findClass(className) ?: continue
       for (methodName in methodNames) {
         val methods = clazz.findMethodsByName(methodName, false)
         result.addAll(methods)
@@ -85,7 +128,7 @@ object FlushingMethodsUtils {
     val queue = mutableSetOf<PsiElement>()
     val seeds = getFlushingMethods(project)
 
-    val scope = GlobalSearchScope.projectScope(project)
+    val scope = project.projectScope()
 
     queue.addAll(seeds)
 
@@ -111,7 +154,12 @@ object FlushingMethodsUtils {
           if (!ref.isReferenceTo(method)) {
             continue // Workaround for https://youtrack.jetbrains.com/issue/IDEA-90019
           }
-          if (ref.element.context is PsiMethodCallExpression || ref.element.context is KtProperty || ref.element.context is KtCallExpression || ref is SyntheticPropertyAccessorReference) {
+          if (
+                  ref.element.context is PsiMethodCallExpression
+                  || ref.element.context is KtProperty
+                  || ref.element.context is KtCallExpression
+                  || ref is SyntheticPropertyAccessorReference
+          ) {
             val functionalParent = getFunctionalParent(ref.element)
             functionalParent?.let { parent ->
               if (!result.contains(parent)) {

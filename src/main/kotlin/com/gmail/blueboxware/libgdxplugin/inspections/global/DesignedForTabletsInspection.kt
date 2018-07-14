@@ -3,15 +3,15 @@ package com.gmail.blueboxware.libgdxplugin.inspections.global
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SdkVersionType
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.plugins.groovy.lang.psi.GroovyFileBase
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyRecursiveElementVisitor
@@ -51,12 +51,18 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
 
   override fun getShortName() = "LibGDXDesignedForTablets"
 
-  override fun runInspection(scope: AnalysisScope, manager: InspectionManager, globalContext: GlobalInspectionContext, problemDescriptionsProcessor: ProblemDescriptionsProcessor) {
+  override fun runInspection(
+          scope: AnalysisScope,
+          manager: InspectionManager,
+          globalContext: GlobalInspectionContext,
+          problemDescriptionsProcessor: ProblemDescriptionsProcessor
+  ) {
 
     val problems = mutableListOf<Pair<PsiElement, String>>()
     val versionsMap = mutableMapOf<SdkVersionType, Int>()
 
-    val gradleFiles = FilenameIndex.getFilesByName(globalContext.project, "build.gradle", GlobalSearchScope.projectScope(globalContext.project))
+    val gradleFiles =
+            FilenameIndex.getFilesByName(globalContext.project, "build.gradle", globalContext.project.projectScope())
 
     gradleFiles.sortBy { it.virtualFile.path }
 
@@ -64,7 +70,8 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
       gradleFile.accept(GroovyPsiElementVisitor(DesignedForTabletsGradleVisitor(problems, versionsMap)))
     }
 
-    val manifests = FilenameIndex.getFilesByName(globalContext.project, "AndroidManifest.xml", GlobalSearchScope.projectScope(globalContext.project))
+    val manifests =
+            FilenameIndex.getFilesByName(globalContext.project, "AndroidManifest.xml", globalContext.project.projectScope())
 
     for (manifest in manifests) {
       (manifest as? XmlFile)?.let {
@@ -95,7 +102,7 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
     model.applyExternalVersions(versionsMap)
 
     val versionTag = (model.targetSDK?.element ?: model.minSDK.element ?: model.maxSDK?.element)?.let { attribute ->
-      PsiTreeUtil.findFirstParent(attribute) { it is XmlTag }
+      attribute.firstParent { it is XmlTag }
     } ?: manifest
     if (model.resolveTargetSDK() < 11 && model.minSDK.value < 11) {
       problems.add(versionTag to message("designed.for.tablets.problem.descriptor.target.or.min"))
@@ -108,9 +115,14 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
     } else {
       val supportScreens = model.resolveSupportsScreens()
       val supportScreensElement = model.supportScreens?.element ?: manifest
-      if ((model.hasLargeScreensSupportAttribute && supportScreens.largeScreens != true) || (model.hasXLargeScreenSupportAttribute && supportScreens.xlargeScreens != true)) {
+
+      if (
+              (model.hasLargeScreensSupportAttribute && supportScreens.largeScreens != true)
+              || (model.hasXLargeScreenSupportAttribute && supportScreens.xlargeScreens != true)
+      ) {
         problems.add(supportScreensElement to message("designed.for.tablets.problem.descriptor.large.false"))
       }
+
       if (model.minSDK.value < 13 && (!model.hasLargeScreensSupportAttribute || !model.hasXLargeScreenSupportAttribute)) {
         problems.add(supportScreensElement to message("designed.for.tablets.problem.descriptor.large.missing"))
       }
@@ -120,7 +132,10 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
 
 }
 
-private class DesignedForTabletsGradleVisitor(val problems: MutableList<Pair<PsiElement, String>>, val versionsMap: MutableMap<SdkVersionType, Int>): GroovyRecursiveElementVisitor() {
+private class DesignedForTabletsGradleVisitor(
+        val problems: MutableList<Pair<PsiElement, String>>,
+        val versionsMap: MutableMap<SdkVersionType, Int>
+): GroovyRecursiveElementVisitor() {
 
   private var foundElementMap: MutableMap<SdkVersionType, GrMethodCall> = mutableMapOf()
 

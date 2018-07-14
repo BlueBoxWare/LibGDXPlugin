@@ -16,12 +16,11 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.psi.*
@@ -34,7 +33,7 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
     private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
       if (preferencesSubClasses == null) {
-        val preferenceClass = JavaPsiFacade.getInstance(project).findClass("com.badlogic.gdx.Preferences", GlobalSearchScope.allScope(project))
+        val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
         if (preferenceClass != null) {
           val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
           cs.add(preferenceClass)

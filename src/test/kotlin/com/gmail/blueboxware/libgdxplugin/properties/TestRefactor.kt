@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.properties
 import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.search.FilenameIndex
-import com.intellij.psi.search.GlobalSearchScope
+import org.jetbrains.kotlin.idea.search.projectScope
 
 
 /*
@@ -24,7 +24,7 @@ import com.intellij.psi.search.GlobalSearchScope
 class TestRefactor: PropertiesCodeInsightFixtureTestCase() {
 
   fun testRename() {
-    FilenameIndex.getFilesByName(project, "messages_en_GB.properties", GlobalSearchScope.projectScope(project)).first().let { propertiesFile ->
+    FilenameIndex.getFilesByName(project, "messages_en_GB.properties", project.projectScope()).first().let { propertiesFile ->
       val property = (propertiesFile as PropertiesFile).findPropertyByKey("oldName") as Property
       myFixture.configureByFile("refactor/JavaClass.java")
       myFixture.renameElement(property, "newName1")
