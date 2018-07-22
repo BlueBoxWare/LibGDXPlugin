@@ -44,7 +44,7 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
       val property = propertyName.property ?: return
       val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
 
-      if (typeString == "com.badlogic.gdx.graphics.Color" && name == "hex") {
+      if (typeString == Assets.COLOR_CLASS_NAME && name == "hex") {
         return
       } else if (typeString == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
         if (!listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).contains(name)) {

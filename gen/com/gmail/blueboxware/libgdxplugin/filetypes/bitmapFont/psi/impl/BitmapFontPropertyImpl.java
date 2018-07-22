@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontPropertyImpl extends BitmapFontPropertyMixin implements BitmapFontProperty {
 
-  public BitmapFontPropertyImpl(ASTNode node) {
+  public BitmapFontPropertyImpl(@NotNull ASTNode node) {
     super(node);
   }
 

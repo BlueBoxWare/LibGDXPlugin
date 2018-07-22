@@ -4,10 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
-import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
-import com.gmail.blueboxware.libgdxplugin.utils.getAssetFiles
-import com.gmail.blueboxware.libgdxplugin.utils.singletonOrNull
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.util.TextRange
@@ -31,7 +28,16 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReference(element: PsiElement, val resourceName: String, val className: String?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>) : PsiPolyVariantReferenceBase<PsiElement>(element) {
+class AssetReference(element: PsiElement, val resourceName: String, val classNameWithDollar: String?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>): PsiPolyVariantReferenceBase<PsiElement>(element) {
+
+  val className
+    get() = classNameWithDollar?.removeDollarFromClassName()
+
+  val skinFiles: Set<SkinFile>
+    get() = assetFiles.first
+
+  val atlasFiles: Set<AtlasFile>
+    get() = assetFiles.second
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
           ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)

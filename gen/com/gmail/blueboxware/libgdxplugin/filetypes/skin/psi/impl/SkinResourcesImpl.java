@@ -12,7 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinResourcesImpl extends SkinElementImpl implements SkinResources {
 
-  public SkinResourcesImpl(ASTNode node) {
+  public SkinResourcesImpl(@NotNull ASTNode node) {
     super(node);
   }
 

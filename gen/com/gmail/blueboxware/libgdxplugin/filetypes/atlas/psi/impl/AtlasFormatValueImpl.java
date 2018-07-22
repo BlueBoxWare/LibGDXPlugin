@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasFormatValueImpl extends ASTWrapperPsiElement implements AtlasFormatValue {
 
-  public AtlasFormatValueImpl(ASTNode node) {
+  public AtlasFormatValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 

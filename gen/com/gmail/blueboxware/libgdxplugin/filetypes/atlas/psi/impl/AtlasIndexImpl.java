@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasIndexImpl extends AtlasProperty implements AtlasIndex {
 
-  public AtlasIndexImpl(ASTNode node) {
+  public AtlasIndexImpl(@NotNull ASTNode node) {
     super(node);
   }
 

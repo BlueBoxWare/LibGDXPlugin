@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasOffsetImpl extends AtlasProperty implements AtlasOffset {
 
-  public AtlasOffsetImpl(ASTNode node) {
+  public AtlasOffsetImpl(@NotNull ASTNode node) {
     super(node);
   }
 

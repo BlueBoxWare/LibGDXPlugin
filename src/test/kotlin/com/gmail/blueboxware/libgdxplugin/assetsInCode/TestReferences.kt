@@ -4,6 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.references.FileReference
+import com.gmail.blueboxware.libgdxplugin.testname
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -159,7 +161,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("inv<caret>erse")
             }
           """,
-          expectedType = "com.badlogic.gdx.graphics.Color"
+          expectedType = Assets.COLOR_CLASS_NAME
   )
 
   fun testKotlinAndJavaResourceReferenceWithTags() = doTest<SkinResource>(
@@ -173,7 +175,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("tagged<caret>Color3")
             }
           """,
-          expectedType = "com.badlogic.gdx.graphics.Color"
+          expectedType = Assets.COLOR_CLASS_NAME
   )
 
   fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
@@ -320,7 +322,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    if (getTestName(true).contains("tag", ignoreCase = true)) {
+    if (testname().contains("tag", ignoreCase = true)) {
       addDummyLibGDX199()
       myFixture.copyFileToProject("src/JavaSkinTest.java")
       myFixture.copyFileToProject("src/KotlinSkinTest.kt")

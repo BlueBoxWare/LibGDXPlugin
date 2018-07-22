@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
@@ -233,9 +234,9 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
       markFileAsSkin(project, file.virtualFile)
     }
     runCommand(f)
-    myFixture.checkResultByFile(getTestName(true) + ".after")
+    myFixture.checkResultByFile(testname() + ".after")
     undo()
-    myFixture.checkResultByFile(getTestName(true) + ".$extension")
+    myFixture.checkResultByFile(testname() + ".$extension")
   }
 
   private fun moveKotlinFile(file: KtFile, newPackageName: String) {
@@ -355,7 +356,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     super.setUp()
 
     addLibGDX()
-    if (getTestName(true).contains("tags", ignoreCase = true)) {
+    if (testname().contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
     }
 

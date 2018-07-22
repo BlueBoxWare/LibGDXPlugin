@@ -131,7 +131,7 @@ class ColorAnnotator : Annotator {
       null
     }
 
-    if (type != "com.badlogic.gdx.graphics.Color"
+    if (type != Assets.COLOR_CLASS_NAME
       && type != "java.lang.String"
       && type != "kotlin.String"
       && !isSpecialColorMethod
@@ -156,7 +156,7 @@ class ColorAnnotator : Annotator {
 
     }
 
-    if (type != "com.badlogic.gdx.graphics.Color" && !isSpecialColorMethod) return null
+    if (type != Assets.COLOR_CLASS_NAME && !isSpecialColorMethod) return null
 
     if (initialValue is KtCallExpression) {
 
@@ -204,7 +204,7 @@ class ColorAnnotator : Annotator {
                 val resourceName = StringUtil.unquoteString(arg.text)
                 initialValue.getAssetFiles().let { (skinFiles) ->
                   for (skinFile in skinFiles) {
-                    skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
+                    skinFile.getResources(Assets.COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
                       return it.asColor(true)
                     }
                   }
@@ -217,12 +217,12 @@ class ColorAnnotator : Annotator {
                           ?.firstOrNull()
                           ?.let { clazz ->
                     element.findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
-                      if (psiClass.qualifiedName == "com.badlogic.gdx.graphics.Color") {
+                      if (psiClass.qualifiedName == Assets.COLOR_CLASS_NAME) {
                         // Skin.get(string, Color::class.java)
                         val resourceName = StringUtil.unquoteString(arg.text)
                         initialValue.getAssetFiles().let { (skinFiles) ->
                           for (skinFile in skinFiles) {
-                            skinFile.getResources("com.badlogic.gdx.graphics.Color", resourceName).firstOrNull()?.let {
+                            skinFile.getResources(Assets.COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
                               return it.asColor(true)
                             }
                           }
@@ -284,7 +284,7 @@ class ColorAnnotator : Annotator {
                   // Skin.getColor(string)
                   methodCallExpression.getAssetFiles().let { (skinFiles) ->
                     for (skinFile in skinFiles) {
-                      skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
+                      skinFile.getResources(Assets.COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
                       }
                     }
@@ -292,7 +292,7 @@ class ColorAnnotator : Annotator {
                 } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
                   methodCallExpression.getAssetFiles().let { (skinFiles) ->
                     for (skinFile in skinFiles) {
-                      skinFile.getResources("com.badlogic.gdx.graphics.Color", StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
+                      skinFile.getResources(Assets.COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
                       }
                     }
@@ -566,7 +566,7 @@ class ColorAnnotator : Annotator {
     val context = expr.context
 
     if (context is KtDotQualifiedExpression) {
-      if (context.receiverExpression.getType(context.analyzePartial())?.fqName() == "com.badlogic.gdx.graphics.Color") {
+      if (context.receiverExpression.getType(context.analyzePartial())?.fqName() == Assets.COLOR_CLASS_NAME) {
         getColor(cache, context.receiverExpression, ignoreContext = true)?.let { color ->
           return when(context.selectorExpression?.text) {
             "r" -> color.red /  255f
@@ -579,7 +579,7 @@ class ColorAnnotator : Annotator {
       }
 
     } else if (expr is PsiReferenceExpression) {
-      if ((expr.qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == "com.badlogic.gdx.graphics.Color") {
+      if ((expr.qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == Assets.COLOR_CLASS_NAME) {
         expr.qualifierExpression?.let { qualifierExpr ->
           getColor(cache, qualifierExpr, ignoreContext = true)?.let { color ->
             return when(expr.referenceName) {

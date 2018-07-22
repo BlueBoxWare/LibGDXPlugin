@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInspection.LocalInspectionTool
 
 /*
@@ -102,7 +103,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTest(inspection: LocalInspectionTool) {
     myFixture.enableInspections(inspection)
-    myFixture.testHighlighting(true, false, false, getTestName(true) + ".skin")
+    myFixture.testHighlighting(true, false, false, testname() + ".skin")
   }
 
   override fun setUp() {
@@ -113,7 +114,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     addLibGDX()
     addKotlin()
 
-    if (getTestName(true).contains("tags", ignoreCase = true)) {
+    if (testname().contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
       addAnnotations()
     } else {
@@ -122,7 +123,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
     myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")
-    myFixture.copyFileToProject("atlas.atlas", getTestName(true) + ".atlas")
+    myFixture.copyFileToProject("atlas.atlas", testname() + ".atlas")
 
   }
 

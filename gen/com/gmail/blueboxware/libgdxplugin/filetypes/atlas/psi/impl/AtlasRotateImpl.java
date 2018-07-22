@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasRotateImpl extends AtlasProperty implements AtlasRotate {
 
-  public AtlasRotateImpl(ASTNode node) {
+  public AtlasRotateImpl(@NotNull ASTNode node) {
     super(node);
   }
 

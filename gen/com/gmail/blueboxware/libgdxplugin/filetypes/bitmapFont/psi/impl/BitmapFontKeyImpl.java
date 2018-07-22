@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontKeyImpl extends ASTWrapperPsiElement implements BitmapFontKey {
 
-  public BitmapFontKeyImpl(ASTNode node) {
+  public BitmapFontKeyImpl(@NotNull ASTNode node) {
     super(node);
   }
 

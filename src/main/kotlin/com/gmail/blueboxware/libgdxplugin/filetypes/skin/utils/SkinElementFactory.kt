@@ -4,12 +4,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
+import com.gmail.blueboxware.libgdxplugin.utils.findElement
 import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
+import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -33,50 +36,79 @@ class SkinElementFactory(private val project: Project) {
   fun createSuppressionComment(inspectionId: String): PsiComment? =
           createComment(project, " @Suppress($inspectionId)", LibGDXSkinLanguage.INSTANCE)
 
-  fun createProperty(name: String, value: String): SkinProperty? {
-    val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, """
-    {
-      class: {
-        resource: {
-          $name: $value
-        }
-      }
-    }
-    """) as SkinFile
-    return file.childOfType()
-  }
+  fun createProperty(name: String, value: String): SkinProperty? =
+          createElement("""
+            {
+              class: {
+                resource: {
+                  $name: $value
+                }
+              }
+            }
+          """)
 
-  fun createComma(): PsiElement? {
-    val content = """
-    {
-      class: {
-        resource: {
-          a: a, b: b
-        }
-      }
-    }
-    """
-    val file = PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+  fun createComma(): LeafPsiElement? =
+          createElement("""
+            {
+              class: {
+                resource: {
+                  a: a, b: b
+                }
+              }
+            }
+          """, ',')
 
-    return file.findElementAt(content.indexOf(','))
-  }
+  fun createNewLine(): PsiWhiteSpace? =
+          createElement("""
+            {
 
-  fun createNewLine(): PsiElement? {
-    val content = """
-    {
+            }
+          """, '\n')
 
-    }
-    """
-    val file = PsiFileFactory.getInstance(project)
-            .createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+  fun createWhitespace(str: String): PsiWhiteSpace? =
+          createElement("{$str}", 1)
 
-    return file.findElementAt(content.indexOf('\n'))
-  }
+  fun createLeftBrace(): LeafPsiElement? =
+          createElement("{}", '{')
+
+  fun createRightBrace(): LeafPsiElement? =
+          createElement("{}", '}')
 
   fun createClassSpec(name: String): SkinClassSpecification? =
           createElement("""
             {
-              $name: { }
+              $name: {
+              }
+            }
+          """)
+
+  fun createResource(name: String): SkinResource? =
+          createElement("""
+            {
+              className: {
+                $name: {  }
+              }
+            }
+          """)
+
+  fun createColorResource(name: String): SkinResource? =
+          createElement("""
+            {
+              className: {
+                $name: { hex: "#" }
+              }
+            }
+          """)
+
+  fun createTintedDrawableResource(name: String): SkinResource? =
+          createElement("""
+            {
+              className: {
+                $name: {
+                  color: { hex: "#ffffff" }
+                  name:${" "}
+                }
+              }
             }
           """.trimIndent())
 
@@ -94,18 +126,40 @@ class SkinElementFactory(private val project: Project) {
             it.value as? SkinStringLiteral
           }
 
-  private inline fun <reified T: SkinElement> createElement(replace: String, with: String, quote: Boolean): T? {
+  inline fun <reified FIRST, reified SECOND, reified THIRD> createElementsOrNull(
+          first: () -> FIRST?,
+          second: () -> SECOND?,
+          third: () -> THIRD?
+  ): Triple<FIRST, SECOND, THIRD>? =
+          first()?.let { f ->
+            second()?.let { s ->
+              third()?.let { t ->
+                Triple(f, s, t)
+              }
+            }
+          }
+
+  private inline fun <reified T: PsiElement> createElement(replace: String, with: String, quote: Boolean): T? {
     val quoteChar = if (quote) "\"" else ""
     val replacement = if (quote) StringUtil.escapeStringCharacters(with) else with
     val content = DUMMY_CONTENT.replace(replace, quoteChar + replacement + quoteChar)
     return createElement(content)
   }
 
-  private inline fun <reified T: SkinElement> createElement(content: String): T? =
-          createFile(content).childOfType()
+  private inline fun <reified T: PsiElement> createElement(content: String): T? =
+          createFile(content)?.childOfType()
+
+  private inline fun <reified T: PsiElement> createElement(content: String, noinline selector: (PsiElement) -> Boolean): T? =
+          createFile(content)?.findElement(selector) as? T
+
+  private inline fun <reified T: PsiElement> createElement(content: String, position: Int): T? =
+          createFile(content)?.findElementAt(position) as? T
+
+  private inline fun <reified T: PsiElement> createElement(content: String, character: Char): T? =
+          createElement(content, content.indexOf(character))
 
   private fun createFile(content: String) =
-          PsiFileFactory.getInstance(project).createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as SkinFile
+          PsiFileFactory.getInstance(project)?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
 
   companion object {
 

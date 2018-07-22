@@ -1,9 +1,9 @@
 {
   com.badlogic.gdx.graphics.Color: {
-    white: {r: 1, g: 1, b: 1, a: 1},
-    red: {r: 1, g: 0, b: 0, a: 1},
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
     default: red
-    yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
     alias: yellow
     alias2: red,
   },
@@ -31,9 +31,10 @@
       down: round-down,
       up: round,
       font: medium,
-      fontColor: {r: 0, g: 1, b: 0, a: 1}
+      fontColor: { r: 0, g: 1, b: 0, a: 1 }
     },
-    something: default
+    something:
+    default
   },
   com.mygdx.game.colorTests.KotlinClass: {
     default: {
@@ -43,7 +44,7 @@
         yellow
       ],
       colorss: [
-        [red], [{r: 1, g: 0, b: 1, a: 0}],
+        [red], [{ r: 1, g: 0, b: 1, a: 0 }],
         [
           yellow
         ]
@@ -56,11 +57,11 @@
   com.mygdx.game.ColorArrayHolder: {
     f: {
       moreColors: [
-        [{hex: "ff0000"}, gray], [
+        [{ hex: "ff0000" }, gray], [
           {
             g: 0
           }
-        ], [{}, {}, gray, {r: 1, g: 0, b: 1, a: 0}]
+        ], [{ }, { }, gray, { r: 1, g: 0, b: 1, a: 0 }]
       ],
       m: [
         {
@@ -76,7 +77,7 @@
               fontColor: gray
             },
             {
-              fontColor: {r: 1, g: 0, b: 1, a: 0}
+              fontColor: { r: 1, g: 0, b: 1, a: 0 }
             }
           ]
         }

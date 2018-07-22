@@ -14,27 +14,27 @@
     }
   },
   com.badlogic.gdx.graphics.Color: {
-    green: {a: 1, b: 0, g: 1, r: 0},
-    white: {a: 1, b: 1, g: 1, r: 1},
-    red: {a: 1, b: 0, g: 0, r: 1},
-    black: {a: 1, b: 0, g: 0, r: 0},
-    grey: {a: 1, b: 0.5, g: 0.5, r: 0.5},
-    default: {a: 1, b: 0, g: 0, r: 0},
-    inverse: {a: 1, b: 1, g: 1, r: 1},
-    ui: {a: 1, b: 0.9, g: 0.71, r: 0.2}
+    green: { a: 1, b: 0, g: 1, r: 0 },
+    white: { a: 1, b: 1, g: 1, r: 1 },
+    red: { a: 1, b: 0, g: 0, r: 1 },
+    black: { a: 1, b: 0, g: 0, r: 0 },
+    grey: { a: 1, b: 0.5, g: 0.5, r: 0.5 },
+    default: { a: 1, b: 0, g: 0, r: 0 },
+    inverse: { a: 1, b: 1, g: 1, r: 1 },
+    ui: { a: 1, b: 0.9, g: 0.71, r: 0.2 }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     dialogDim: {
       name: white,
-      color: {r: 0, g: 0, b: 0, a: 0.45}
+      color: { r: 0, g: 0, b: 0, a: 0.45 }
     },
     lightGrey: {
       name: white,
-      color: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+      color: { r: 0.9, g: 0.9, b: 0.9, a: 1 }
     },
     darkGrey: {
       name: white,
-      color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+      color: { r: 0.8, g: 0.8, b: 0.8, a: 1 }
     }
   },
   com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {

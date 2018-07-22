@@ -9,7 +9,7 @@ public interface SkinStringLiteral extends SkinValue {
   @NotNull
   String getValue();
 
-  void setValue(String string);
+  void setValue(@NotNull String string);
 
   @Nullable
   SkinPropertyName asPropertyName();

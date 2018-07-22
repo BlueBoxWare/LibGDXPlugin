@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasSplitImpl extends AtlasProperty implements AtlasSplit {
 
-  public AtlasSplitImpl(ASTNode node) {
+  public AtlasSplitImpl(@NotNull ASTNode node) {
     super(node);
   }
 

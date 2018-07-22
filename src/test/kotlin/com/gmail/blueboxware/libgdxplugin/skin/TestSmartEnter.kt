@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessors
 import com.intellij.openapi.command.WriteCommandAction
 
@@ -64,7 +65,7 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest() {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
 
     val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXSkinLanguage.INSTANCE)
 
@@ -77,7 +78,7 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
 
     }
 
-    myFixture.checkResultByFile(getTestName(true) + "_after.skin", true)
+    myFixture.checkResultByFile(testname() + "_after.skin", true)
   }
 
   override fun setUp() {

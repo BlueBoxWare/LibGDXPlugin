@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasRepeatValueImpl extends ASTWrapperPsiElement implements AtlasRepeatValue {
 
-  public AtlasRepeatValueImpl(ASTNode node) {
+  public AtlasRepeatValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 

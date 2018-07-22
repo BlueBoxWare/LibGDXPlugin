@@ -62,7 +62,7 @@ internal fun Project.getSkinTag2ClassMap(): TagMap? =
           CachedValueProvider.Result.create(tagMap, PsiModificationTracker.MODIFICATION_COUNT)
         }
 
-private val DEFAULT_TAGGED_CLASSES_NAMES: Collection<Pair<String, String>> = listOf(
+internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
         "graphics.g2d.BitmapFont",
         "graphics.Color",
         "scenes.scene2d.ui.Skin.TintedDrawable",
@@ -87,7 +87,7 @@ private val DEFAULT_TAGGED_CLASSES_NAMES: Collection<Pair<String, String>> = lis
         "scenes.scene2d.ui.Touchpad.TouchpadStyle",
         "scenes.scene2d.ui.Tree.TreeStyle",
         "scenes.scene2d.ui.Window.WindowStyle"
-).map { StringUtil.getShortName(it) to  "com.badlogic.gdx.$it" }
+).map { StringUtil.getShortName(it) to  "com.badlogic.gdx.$it" }.toMap()
 
 private fun Project.collectCustomTags(): TagMap {
 

@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontCommonImpl extends BitmapFontCommonMixin implements BitmapFontCommon {
 
-  public BitmapFontCommonImpl(ASTNode node) {
+  public BitmapFontCommonImpl(@NotNull ASTNode node) {
     super(node);
   }
 

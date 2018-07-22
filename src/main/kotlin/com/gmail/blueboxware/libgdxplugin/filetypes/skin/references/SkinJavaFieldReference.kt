@@ -32,7 +32,7 @@ class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinProp
 
   override fun handleElementRename(newElementName: String?): PsiElement {
     element.stringLiteral.let { stringLiteral ->
-      stringLiteral.setValue(newElementName)
+      newElementName?.let(stringLiteral::setValue)
       return element
     }
   }

@@ -15,7 +15,7 @@ import com.intellij.psi.PsiComment;
 
 public class SkinClassSpecificationImpl extends SkinClassSpecificationMixin implements SkinClassSpecification {
 
-  public SkinClassSpecificationImpl(ASTNode node) {
+  public SkinClassSpecificationImpl(@NotNull ASTNode node) {
     super(node);
   }
 

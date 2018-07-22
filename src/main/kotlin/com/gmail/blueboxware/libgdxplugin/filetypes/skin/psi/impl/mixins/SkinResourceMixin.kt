@@ -5,8 +5,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.icons.AllIcons
@@ -59,10 +60,12 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   }
 
-  override fun asColor(force: Boolean): Color? = (findDefinition()?.value as? SkinObject)?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") == true)
+  override fun asColor(force: Boolean): Color? =
+          (findDefinition()?.value as? SkinObject)
+                  ?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains(Assets.COLOR_CLASS_NAME) == true)
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory(project).createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
+    factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
       resourceName.replace(newResourceName)
       return newResourceName
     }
@@ -77,7 +80,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
       val force = this@SkinResourceMixin
               .firstParent<SkinClassSpecification>()
               ?.getRealClassNamesAsString()
-              ?.contains("com.badlogic.gdx.graphics.Color")
+              ?.contains(Assets.COLOR_CLASS_NAME)
               ?: false
       return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }

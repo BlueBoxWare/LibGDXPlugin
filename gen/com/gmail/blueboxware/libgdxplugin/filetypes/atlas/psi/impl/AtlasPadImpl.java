@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasPadImpl extends AtlasProperty implements AtlasPad {
 
-  public AtlasPadImpl(ASTNode node) {
+  public AtlasPadImpl(@NotNull ASTNode node) {
     super(node);
   }
 

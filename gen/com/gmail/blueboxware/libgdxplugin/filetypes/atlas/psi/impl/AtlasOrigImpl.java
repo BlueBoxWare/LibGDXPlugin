@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasOrigImpl extends AtlasProperty implements AtlasOrig {
 
-  public AtlasOrigImpl(ASTNode node) {
+  public AtlasOrigImpl(@NotNull ASTNode node) {
     super(node);
   }
 

@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiNamedElement
@@ -59,7 +60,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
   }
 
   fun doTest(nrOfUsages: Int, ext: String? = "skin") {
-    val usagesInfos = myFixture.testFindUsages("findUsages/" + getTestName(true) + "." + ext)
+    val usagesInfos = myFixture.testFindUsages("findUsages/" + testname() + "." + ext)
     assertEquals(nrOfUsages, usagesInfos.size)
     checkUsages(usagesInfos, myFixture.elementAtCaret as PsiNamedElement)
   }
@@ -82,7 +83,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    if (getTestName(true).contains("tags", ignoreCase = true)) {
+    if (testname().contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
     }
 

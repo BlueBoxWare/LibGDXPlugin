@@ -4,8 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecificat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
@@ -41,7 +41,7 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
   override fun resolveClass(): PsiClass? = className.resolve()
 
   override fun setName(name: String): PsiElement? {
-    SkinElementFactory(project).createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
+    factory()?.createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
       className.stringLiteral.replace(newClassName)
       return newClassName
     }
@@ -51,8 +51,10 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
   override fun getResourcesAsList(): List<SkinResource> = resources?.resourceList ?: listOf()
 
-  override fun getResourcesAsList(beforeElement: PsiElement): List<SkinResource> =
-          resourcesAsList.filter { it.endOffset < beforeElement.startOffset }
+  override fun getResourcesAsList(beforeElement: PsiElement?): List<SkinResource> =
+          beforeElement?.let { beforeElementNotNull ->
+            resourcesAsList.filter { it.endOffset < beforeElementNotNull.startOffset }
+          } ?: resourcesAsList
 
   override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
 

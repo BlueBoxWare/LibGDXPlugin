@@ -41,7 +41,7 @@ skin ::= '{'  class_specification? (separator class_specification)* optionalComm
     pin = 1
 }
 
-class_specification ::= class_name ':' '{' resources optionalComma '}' {
+class_specification ::= class_name class_spec_colon class_spec_lbrace resources '}' {
     methods=[
         resolveClass
         getClassNameAsString
@@ -49,12 +49,20 @@ class_specification ::= class_name ':' '{' resources optionalComma '}' {
         getResourceNames
         getResource
         addComment
-        className="string_literal"
     ]
+    pin = 1
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin"
-    pin(".*") = 1
 }
 
+private class_spec_colon ::= ':' {
+    recoverWhile = recover_class_colon
+}
+private recover_class_colon ::= !'{'
+
+private class_spec_lbrace ::= '{' {
+    recoverWhile = recover_class_lbrace
+}
+private recover_class_lbrace ::= !(string_literal | '}')
 
 class_name ::= string_literal {
     methods=[
@@ -65,9 +73,11 @@ class_name ::= string_literal {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin"
 }
 
-resources ::= resource? (separator resource)* {
+resources ::= resource? (separator resource)* optionalComma {
     pin = 1
+    recoverWhile = recover_class
 }
+private recover_class ::= !'}'
 
 resource ::= resource_name ':' (object | string_literal) {
     methods = [
@@ -79,7 +89,7 @@ resource ::= resource_name ':' (object | string_literal) {
         asColor
     ]
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin"
-    pin(".*") = 1
+    pin = 1
 }
 
 resource_name ::= string_literal {
@@ -89,7 +99,7 @@ resource_name ::= string_literal {
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceNameMixin"
 }
 
-object ::= '{' property? (separator property)* optionalComma '}' {
+object ::= '{' resource_list '}' {
     methods = [
         asColor
         asResource
@@ -104,6 +114,11 @@ object ::= '{' property? (separator property)* optionalComma '}' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
 }
 
+private resource_list ::= property? (separator property)* optionalComma {
+    recoverWhile = recover_object
+}
+private recover_object ::= !'}'
+
 property ::= property_name ':' property_value {
       methods=[
         getName
@@ -114,8 +129,10 @@ property ::= property_name ':' property_value {
         resolveToTypeString
       ]
       mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyMixin"
-      pin(".*") = 1
+      pin = 1
+      recoverWhile = recover_property
 }
+private recover_property ::= !(separator | '}')
 
 property_name ::= string_literal {
         methods=[
@@ -124,7 +141,6 @@ property_name ::= string_literal {
         ]
         mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyNameMixin"
 }
-
 
 property_value ::= value {
     methods = [

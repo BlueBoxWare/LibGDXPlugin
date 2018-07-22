@@ -1,15 +1,17 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
@@ -18,8 +20,10 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.tree.TreeUtil
 import icons.Icons
 import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
@@ -39,7 +43,9 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, LibGDXSkinLanguage.INSTANCE), SkinFile {
+class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, LibGDXSkinLanguage.INSTANCE), SkinFile {
+
+  val factory = SkinElementFactory(project)
 
   override fun getFileType(): FileType = viewProvider.fileType
 
@@ -118,7 +124,19 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
 
   override fun getUseScope() = project.allScope()
 
-  override fun addComment(comment: PsiComment) = addCommentExt(comment)
+  override fun addComment(comment: PsiComment) {
+
+    firstChild?.node?.let { firstNode ->
+
+      TreeUtil.skipWhitespaceAndComments(firstNode, true)?.let { anchor ->
+        factory.createNewLine()?.let { newLine ->
+          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+        }
+      }
+
+    }
+
+  }
 
   override fun replacePackage(className: String, oldPackage: String, newPackage: String) {
 
@@ -136,6 +154,65 @@ class SkinFileImpl(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewPro
     }
 
   }
+
+  fun getOpeningBrace(): PsiElement? =
+          allChildren.firstOrNull { it.isLeaf(SkinElementTypes.L_CURLY) }
+
+  fun getClosingBrace(): PsiElement? =
+          allChildren.lastOrNull { it.isLeaf(SkinElementTypes.R_CURLY) }
+
+  fun isEmpty(): Boolean =
+          allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY) || it.isLeaf(SkinElementTypes.R_CURLY) }
+
+  fun insertBraces() =
+          factory.let {
+            it.createElementsOrNull(it::createLeftBrace, it::createNewLine, it::createRightBrace)
+                    ?.let { (lbrace, newline, rbrache) ->
+                      add(lbrace)
+                      add(newline)
+                      add(rbrache)
+                    }
+          }
+
+  fun addClassSpec(classNameWithDollar: String): SkinClassSpecification? {
+    if (isEmpty()) {
+      insertBraces()
+    }
+
+    val closingBrace = getClosingBrace() ?: return null
+
+    val actualClassName =
+            if (project.isLibGDX199()) {
+              DEFAULT_TAGGED_CLASSES_NAMES.getKey(classNameWithDollar.removeDollarFromClassName()) ?: classNameWithDollar
+            } else {
+              classNameWithDollar
+            }
+
+    return factory.createClassSpec(actualClassName)?.let { classSpec ->
+      addBefore(classSpec, closingBrace) as? SkinClassSpecification
+    }
+
+  }
+
+  fun addResource(classNameWithDollar: String, resourceName: String): SkinResource? =
+          classNameWithDollar.removeDollarFromClassName().let { className ->
+            getClassSpecifications(className).lastOrNull()?.addResource(resourceName)
+                    ?: addClassSpec(classNameWithDollar)?.addResource(resourceName)
+          }
+
+  fun addResource(classNameWithDollar: String, resource: SkinResource): SkinResource? =
+          getClassSpecifications(classNameWithDollar.removeDollarFromClassName()).lastOrNull()?.addResource(resource)
+                  ?: addClassSpec(classNameWithDollar)?.addResource(resource)
+
+  fun addColor(name: String): SkinResource? =
+          factory.createColorResource(name)?.let { resource ->
+            addResource(Assets.COLOR_CLASS_NAME, resource)
+          }
+
+  fun addTintedDrawable(name: String): SkinResource? =
+          factory.createTintedDrawableResource(name)?.let { resource ->
+            addResource("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable", resource)
+          }
 
   override fun getPresentation() = object: ItemPresentation {
 

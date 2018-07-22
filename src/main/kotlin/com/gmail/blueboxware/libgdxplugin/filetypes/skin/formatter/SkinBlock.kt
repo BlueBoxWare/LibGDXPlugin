@@ -43,23 +43,25 @@ class SkinBlock(
 
   private val psiElement = node.psi
 
-  private val childWrap: Wrap? = if (psiElement is SkinObject) {
-    if (psiElement.asColor(false) != null && getCustomSettings().DO_NOT_WRAP_COLORS) {
-      null
-    } else {
-      Wrap.createWrap(getCustomSettings().OBJECT_WRAPPING, true)
-    }
-  } else if (psiElement is SkinArray) {
-    Wrap.createWrap(getCustomSettings().ARRAY_WRAPPING, true)
-  } else {
-    null
-  }
+  private val childWrap: Wrap? =
+          if (psiElement is SkinObject) {
+            if (psiElement.asColor(false) != null && getCustomSettings().DO_NOT_WRAP_COLORS) {
+              null
+            } else {
+              Wrap.createWrap(getCustomSettings().OBJECT_WRAPPING, true)
+            }
+          } else if (psiElement is SkinArray) {
+            Wrap.createWrap(getCustomSettings().ARRAY_WRAPPING, true)
+          } else {
+            null
+          }
 
-  private val propertyValueAlignment = if (psiElement is SkinObject) {
-    Alignment.createAlignment(true)
-  } else {
-    null
-  }
+  private val propertyValueAlignment =
+          if (psiElement is SkinObject) {
+            Alignment.createAlignment(true)
+          } else {
+            null
+          }
 
   private var subBlocks: List<Block>? = null
 
@@ -85,20 +87,21 @@ class SkinBlock(
     return subBlocks?.toMutableList() ?: listOf()
   }
 
-  override fun getChildAttributes(newChildIndex: Int) = if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-          || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION
-          || myNode.elementType == SkinElementTypes.RESOURCE
-  ) {
-    ChildAttributes(Indent.getNormalIndent(), null)
-  } else if (myNode.psi is PsiFile) {
-    if (isInsideBraces(newChildIndex)) {
-      ChildAttributes(Indent.getNormalIndent(), null)
-    } else {
-      ChildAttributes(Indent.getNoneIndent(), null)
-    }
-  } else {
-    ChildAttributes(null, null)
-  }
+  override fun getChildAttributes(newChildIndex: Int) =
+          if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
+                  || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION
+                  || myNode.elementType == SkinElementTypes.RESOURCE
+          ) {
+            ChildAttributes(Indent.getNormalIndent(), null)
+          } else if (myNode.psi is PsiFile) {
+            if (isInsideBraces(newChildIndex)) {
+              ChildAttributes(Indent.getNormalIndent(), null)
+            } else {
+              ChildAttributes(Indent.getNoneIndent(), null)
+            }
+          } else {
+            ChildAttributes(null, null)
+          }
 
   override fun isLeaf() = myNode.firstChildNode == null
 
@@ -114,7 +117,12 @@ class SkinBlock(
 
   private fun getCustomSettings() = settings.getCustomSettings(SkinCodeStyleSettings::class.java)
 
-  override fun getSpacing(child1: Block?, child2: Block) = spacingBuilder.getSpacing(this, child1, child2)
+  override fun getSpacing(child1: Block?, child2: Block) =
+          if (child1?.isIncomplete == true) {
+            Spacing.getReadOnlySpacing()
+          } else {
+            spacingBuilder.getSpacing(this, child1, child2)
+          }
 
   private fun isWhiteSpaceOrEmpty(node: ASTNode) = node.elementType == TokenType.WHITE_SPACE || node.textLength == 0
 
@@ -177,4 +185,5 @@ class SkinBlock(
     return prevBrace?.text == "{"
 
   }
+
 }

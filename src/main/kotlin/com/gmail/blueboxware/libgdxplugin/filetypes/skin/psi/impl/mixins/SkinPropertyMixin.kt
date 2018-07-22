@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.icons.AllIcons
@@ -70,7 +70,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
   override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
   override fun setName(@NonNls name: String): PsiElement? {
-    SkinElementFactory(project).createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
+    factory()?.createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
       propertyName.replace(newPropertyName)
       return newPropertyName
     }
@@ -85,7 +85,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
       val force =
               this@SkinPropertyMixin.firstParent<SkinClassSpecification>()
-                      ?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") ?: false
+                      ?.getRealClassNamesAsString()?.contains(Assets.COLOR_CLASS_NAME) ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
         return createColorIcon(color)

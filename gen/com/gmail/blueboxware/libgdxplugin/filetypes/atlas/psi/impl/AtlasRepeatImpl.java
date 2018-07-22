@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasRepeatImpl extends AtlasProperty implements AtlasRepeat {
 
-  public AtlasRepeatImpl(ASTNode node) {
+  public AtlasRepeatImpl(@NotNull ASTNode node) {
     super(node);
   }
 

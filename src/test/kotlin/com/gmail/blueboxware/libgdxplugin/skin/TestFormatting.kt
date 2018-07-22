@@ -23,37 +23,199 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsManager
  */
 class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
+  fun testWithError1() = doTest(
+          """
+            {
+            Color {
+            c: {}
+            }
+            Color: {
+            default: {}
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color {
+                c: { }
+              }
+              Color: {
+                default: { }
+              }
+            }
+          """.trimIndent()
+  )
+
+  fun testWithError2() = doTest(
+          """
+            {
+            Color:
+            c: {}
+            }
+            Color: {
+            default: {}
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color:
+              c: {
+              }
+            }
+            Color: {
+              default: {
+            }
+            }
+            }
+          """.trimIndent()
+  )
+
+  fun testWithError3() = doTest(
+          """
+            {
+            Color
+            c: {}
+            }
+            Color: {
+            default: {}
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color
+              c: {
+              }
+            }
+            Color: {
+              default: {
+            }
+            }
+            }
+          """.trimIndent()
+  )
+
+  fun testWithError4() = doTest(
+          """
+            {
+            Color: {
+            c: {
+            a:
+            b: 1,
+            r: 1,
+            g: 1
+            }
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color: {
+                c: {
+                  a:
+                  b: 1,
+                  r: 1,
+                  g: 1
+                }
+              }
+            }
+          """.trimIndent()
+  )
+
+  fun testWithError5() = doTest(
+          """
+            {
+            Color: {
+            c: {
+            a: 1
+            b
+            r: 1,
+            g: 1
+            }
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color: {
+                c: {
+                  a: 1
+                  b
+                  r: 1,
+                  g: 1
+                }
+              }
+            }
+          """.trimIndent()
+  )
+
+  fun testWithError6() = doTest(
+          """
+            {
+            Color: {
+            c: {
+            a: 1
+            b 1
+            r: 1,
+            g: 1
+            }
+            }
+            }
+          """.trimIndent(),
+          """
+            {
+              Color: {
+                c: {
+                  a: 1
+                  b 1
+                  r: 1,
+                  g: 1
+                }
+              }
+            }
+          """.trimIndent()
+  )
+
   fun testDefaultStyle() {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
-    doTest("test.skin", "test_after.skin")
+    doFileTest("test.skin", "test_after.skin")
   }
 
   fun testWrapColors() {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
-    doTest("test.skin", "test_wrap_colors_after.skin")
+    doFileTest("test.skin", "test_wrap_colors_after.skin")
   }
 
   fun test2DefaultStyle() {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
-    doTest("test2.skin", "test2_after.skin")
+    doFileTest("test2.skin", "test2_after.skin")
   }
 
 
   fun test2WrapColors() {
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
-    doTest("test2.skin", "test2_wrap_colors_after.skin")
+    doFileTest("test2.skin", "test2_wrap_colors_after.skin")
   }
 
   fun testComments() {
-    doTest("test_comments.skin", "test_comments_after.skin")
+    doFileTest("test_comments.skin", "test_comments_after.skin")
   }
 
-  fun doTest(before: String, after: String) {
+  private fun doFileTest(before: String, after: String) {
     myFixture.configureByFile(before)
     WriteCommandAction.runWriteCommandAction(null) {
       CodeStyleManager.getInstance(myFixture.project).reformat(myFixture.file)
     }
     myFixture.checkResultByFile(after)
+  }
+
+  private fun doTest(before: String, after: String) {
+    myFixture.configureByText("skin.skin", before)
+    WriteCommandAction.runWriteCommandAction(null) {
+      CodeStyleManager.getInstance(myFixture.project).reformat(myFixture.file)
+    }
+    myFixture.checkResult(after)
   }
 
   override fun getBasePath() = "/filetypes/skin/formatting/"

@@ -8,6 +8,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.testname
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiClass
@@ -32,14 +34,14 @@ import com.intellij.psi.PsiFile
 class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testResourceReference1() {
-    doTestResourceReference("white", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("white", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceReference2() {
     doTestResourceReference("white", "com.badlogic.gdx.graphics.g2d.BitmapFont")
   }
   fun testResourceReference3() {
-    doTestResourceReference("blue", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("blue", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceReference4() {
@@ -47,7 +49,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceReference5() {
-    doTestResourceReference("blue", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("blue", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceReference6() {
@@ -115,7 +117,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceAliasReference1() {
-    doTestResourceReference("yellow", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("yellow", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReference2() {
@@ -123,7 +125,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceAliasReference3() {
-    doTestResourceReference("dark-gray", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("dark-gray", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses1() {
@@ -143,11 +145,11 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceAliasReferenceWithTaggedClasses5() {
-    doTestResourceReference("red", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("red", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses6() {
-    doTestResourceReference("red", "com.badlogic.gdx.graphics.Color")
+    doTestResourceReference("red", Assets.COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses7() {
@@ -282,7 +284,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestFieldReference(expectedFieldName: String? = null) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
     val sourceElement = elementAtCaret?.firstParent<SkinPropertyName>()
     assertNotNull(sourceElement)
@@ -293,7 +295,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
     val sourceElement = elementAtCaret?.firstParent { sourceElementClass.isInstance(it) }
     assertNotNull(sourceElement)
@@ -303,7 +305,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestResourceReference(resourceName: String?, resourceType: String?) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent
     assertNotNull(element)
     val resource = element?.reference?.resolve() as? SkinResource
@@ -317,7 +319,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestJavaClassReference(className: String) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
     assertNotNull(element)
     val clazz = (element?.reference as? SkinJavaClassReference)?.multiResolve(false)?.firstOrNull()?.element as? PsiClass
@@ -326,8 +328,8 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestDrawableReference() {
-    myFixture.copyFileToProject(getTestName(true) + ".atlas")
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.copyFileToProject(testname() + ".atlas")
+    myFixture.configureByFile(testname() + ".skin")
     val element = myFixture.file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
     val reference = element.reference ?: throw AssertionError()
     val target = reference.resolve() as AtlasRegion
@@ -343,7 +345,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
 
-    val testName = getTestName(true)
+    val testName = testname()
 
     if (testName.contains("Kotlin", ignoreCase = true) || testName.contains("tagged", ignoreCase = true)) {
       addKotlin()

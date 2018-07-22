@@ -15,7 +15,7 @@ import javax.swing.Icon;
 
 public class AtlasRegionImpl extends AtlasRegionMixin implements AtlasRegion {
 
-  public AtlasRegionImpl(ASTNode node) {
+  public AtlasRegionImpl(@NotNull ASTNode node) {
     super(node);
   }
 

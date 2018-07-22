@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasRotateValueImpl extends ASTWrapperPsiElement implements AtlasRotateValue {
 
-  public AtlasRotateValueImpl(ASTNode node) {
+  public AtlasRotateValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 

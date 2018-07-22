@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
+import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
@@ -67,7 +68,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
     if (methodName == "getColor") {
 
-      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.Color")
+      return AssetReference.createReferences(element, methodCall, Assets.COLOR_CLASS_NAME)
 
     } else if (methodName == "getDrawable" || methodName == "newDrawable") {
 
@@ -88,10 +89,10 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
       if (arg2 is PsiClassObjectAccessExpression) {
 
         getClassFromClassObjectExpression(arg2)?.let { clazz ->
-          if (clazz in Assets.SKIN_TEXTURE_REGION_CLASSES) {
+          if (clazz.qualifiedName in Assets.SKIN_TEXTURE_REGION_CLASSES) {
             return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
-            return AssetReference.createReferences(element, methodCall, wantedClass = clazz)
+          } else if (clazz.qualifiedName != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
+            return AssetReference.createReferences(element, methodCall, wantedClass = clazz.putDollarInInnerClassName())
           }
         }
 
@@ -105,7 +106,7 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
   }
 
-  private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): String? =
-          (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()?.qualifiedName
+  private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): PsiClass? =
+          (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()
 
 }

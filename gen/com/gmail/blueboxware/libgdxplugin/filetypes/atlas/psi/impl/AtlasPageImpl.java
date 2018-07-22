@@ -14,7 +14,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public class AtlasPageImpl extends AtlasPageMixin implements AtlasPage {
 
-  public AtlasPageImpl(ASTNode node) {
+  public AtlasPageImpl(@NotNull ASTNode node) {
     super(node);
   }
 

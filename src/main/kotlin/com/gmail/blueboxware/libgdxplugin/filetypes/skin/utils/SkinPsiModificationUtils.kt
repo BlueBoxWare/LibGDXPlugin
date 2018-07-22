@@ -1,15 +1,15 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
+import com.gmail.blueboxware.libgdxplugin.utils.isNewline
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
 
 
@@ -28,13 +28,15 @@ import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+fun SkinElement.factory() = (containingFile as? SkinFileImpl)?.factory
+
 fun SkinObject.addCommentExt(comment: PsiComment) {
 
   if (firstChild?.text == "{") {
 
     PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
       TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
-        SkinElementFactory(project).createNewLine()?.let { newLine ->
+        factory()?.createNewLine()?.let { newLine ->
           addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
         }
       }
@@ -55,7 +57,7 @@ fun SkinClassSpecification.addCommentExt(comment: PsiComment) {
   leaf?.nextLeaf()?.node?.let { curlyNode ->
 
     TreeUtil.skipWhitespaceAndComments(curlyNode, true)?.let { anchor ->
-      SkinElementFactory(project).createNewLine()?.let { newLine ->
+      factory()?.createNewLine()?.let { newLine ->
         addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
       }
     }
@@ -64,19 +66,22 @@ fun SkinClassSpecification.addCommentExt(comment: PsiComment) {
 
 }
 
-fun SkinFile.addCommentExt(comment: PsiComment) {
+fun SkinClassSpecification.addResource(name: String): SkinResource? =
+          factory()?.createResource(name)?.let { resource ->
+            addResource(resource)
+          }
 
-  firstChild?.node?.let { firstNode ->
-
-    TreeUtil.skipWhitespaceAndComments(firstNode, true)?.let { anchor ->
-      SkinElementFactory(project).createNewLine()?.let { newLine ->
-        addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
-      }
-    }
-
-  }
-
-}
+fun SkinClassSpecification.addResource(resource: SkinResource): SkinResource? =
+        resources?.let { resources ->
+          resources.allChildren.lastOrNull()?.let { lastChild ->
+            if (!lastChild.isNewline()) {
+              factory()?.createNewLine()?.let {
+                resources.add(it)
+              }
+            }
+          }
+          resources.add(resource) as? SkinResource
+        }
 
 fun SkinObject.addPropertyExt(property: SkinProperty) {
 
@@ -84,7 +89,7 @@ fun SkinObject.addPropertyExt(property: SkinProperty) {
 
     addAfter(property, firstChild)?.let {
       if (propertyList.size > 1) {
-        SkinElementFactory(project).createComma()?.let { comma ->
+        factory()?.createComma()?.let { comma ->
           addAfter(comma, it)
         }
       }

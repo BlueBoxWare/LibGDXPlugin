@@ -159,7 +159,7 @@ class SkinCompletionContributor : CompletionContributor() {
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
           val icon = res
-                  .takeIf { cs.getRealClassNamesAsString().contains("com.badlogic.gdx.graphics.Color") }
+                  .takeIf { cs.getRealClassNamesAsString().contains(Assets.COLOR_CLASS_NAME) }
                   ?.asColor(true)
                   ?.let { createColorIcon(it) }
                   ?: ICON_RESOURCE
@@ -235,7 +235,7 @@ class SkinCompletionContributor : CompletionContributor() {
       skinFile.getResources(elementClass, null, stringLiteral, isParentProperty, isParentProperty).forEach { resource ->
 
         val icon =
-                resource.takeIf { elementClassName == "com.badlogic.gdx.graphics.Color" }?.asColor(true)?.let { createColorIcon(it) }
+                resource.takeIf { elementClassName == Assets.COLOR_CLASS_NAME }?.asColor(true)?.let { createColorIcon(it) }
                         ?: ICON_RESOURCE
 
         doAdd(LookupElementBuilder.create(resource.name).withIcon(icon), parameters, result)
@@ -282,7 +282,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT) && parameters.position.project.isLibGDX199()) {
       val important = objectType !in listOf(
-              "com.badlogic.gdx.graphics.Color",
+              Assets.COLOR_CLASS_NAME,
               "com.badlogic.gdx.graphics.g2d.BitmapFont",
               "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
       )
@@ -296,7 +296,7 @@ class SkinCompletionContributor : CompletionContributor() {
       )
     }
 
-    if (objectType == "com.badlogic.gdx.graphics.Color") {
+    if (objectType == Assets.COLOR_CLASS_NAME) {
 
       if (!usedPropertyNames.contains("hex")) {
         var addHex = true
@@ -369,9 +369,9 @@ class SkinCompletionContributor : CompletionContributor() {
     val dummyText = parameters.position.text
     val currentPackage = psiFacade.findPackage(prefix)
 
-    val scope = ModuleUtilCore.findModuleForPsiElement(parameters.position)?.let {
-      it.getModuleWithDependenciesAndLibrariesScope(true)
-    } ?: return
+    val scope =
+            ModuleUtilCore.findModuleForPsiElement(parameters.position)?.getModuleWithDependenciesAndLibrariesScope(true)
+            ?: return
 
     if (currentPackage == null || currentPackage.name == null) {
 
@@ -463,7 +463,7 @@ class SkinCompletionContributor : CompletionContributor() {
   companion object {
     val prioritizedClasses = listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
-            "com.badlogic.gdx.graphics.Color",
+            Assets.COLOR_CLASS_NAME,
             "com.badlogic.gdx.graphics.g2d.BitmapFont"
     )
 

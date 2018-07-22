@@ -119,15 +119,17 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
   }
 
 
-  private fun addLibrary(lib: String) =
-          File(lib).let { file ->
-            PsiTestUtil.addLibrary(
-                    myFixture.testRootDisposable,
-                    myFixture.module,
-                    file.name,
-                    file.parent,
-                    file.name
-            )
-          }
+  private fun addLibrary(lib: String) {
+    File(lib).let { file ->
+      PsiTestUtil.addLibrary(
+              myFixture.testRootDisposable,
+              myFixture.module,
+              file.name,
+              file.parent,
+              file.name
+      )
+    }
+    project.getComponent(VersionManager::class.java).updateUsedVersions()
+  }
 
 }

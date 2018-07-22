@@ -5,9 +5,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addPropertyExt
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
@@ -44,7 +44,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
   override fun setColor(color: Color): SkinObject? {
 
-    val newObject = SkinElementFactory(project).createObject() ?: return null
+    val newObject = factory()?.createObject() ?: return null
 
     if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
 
@@ -54,7 +54,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
         quotationChar = if (oldValue.isQuoted) "\"" else ""
       }
 
-      newObject.addProperty(SkinElementFactory(project).createProperty("hex", quotationChar + colorToString(color) + quotationChar))
+      factory()?.createProperty("hex", quotationChar + colorToString(color) + quotationChar)?.let(newObject::addProperty)
 
     } else {
 
@@ -68,17 +68,13 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
           "b" -> components[2]
           else -> components[3]
         }
-        val property = SkinElementFactory(project).createProperty(rgb, value.toString())
-
-        newObject.addProperty(property)
+        factory()?.createProperty(rgb, value.toString())?.let(newObject::addProperty)
 
       }
 
     }
 
-    CodeStyleManager.getInstance(project).reformat(newObject)
-
-    return newObject
+    return CodeStyleManager.getInstance(project).reformat(newObject) as? SkinObject
 
   }
 

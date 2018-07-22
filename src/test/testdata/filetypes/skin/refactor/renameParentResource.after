@@ -2,15 +2,15 @@
   com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
     foo: {}
     sub: foo
-    subsub: { parent: foo}
+    subsub: { parent: foo }
   }
 
   CheckBoxStyle: {
-    sub: { parent: foo}
+    sub: { parent: foo }
   }
 
   SubStyle: {
-    main: { parent: foo}
+    main: { parent: foo }
     sub1: { parent: main }
   }
 

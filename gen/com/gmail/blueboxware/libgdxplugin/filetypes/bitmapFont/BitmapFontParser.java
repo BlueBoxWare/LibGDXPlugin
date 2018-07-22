@@ -83,11 +83,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // page_definition*
   private static boolean bitmapFont_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitmapFont_2")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!page_definition(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "bitmapFont_2", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -102,11 +101,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // font_char*
   private static boolean bitmapFont_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitmapFont_4")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!font_char(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "bitmapFont_4", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -121,11 +119,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // kerning*
   private static boolean bitmapFont_6(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bitmapFont_6")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!kerning(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "bitmapFont_6", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -146,11 +143,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean chars_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "chars_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "chars_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -171,11 +167,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean common_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "common_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "common_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -198,11 +193,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, EOL);
-    int c = current_position_(b);
     while (r) {
+      int c = current_position_(b);
       if (!consumeToken(b, EOL)) break;
       if (!empty_element_parsed_guard_(b, "endofline_0", c)) break;
-      c = current_position_(b);
     }
     exit_section_(b, m, null, r);
     return r;
@@ -222,11 +216,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // EOL*
   private static boolean endofline_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "endofline_1_0")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!consumeToken(b, EOL)) break;
       if (!empty_element_parsed_guard_(b, "endofline_1_0", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -247,11 +240,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean font_char_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "font_char_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "font_char_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -272,11 +264,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean info_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "info_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "info_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -297,11 +288,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean kerning_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kerning_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "kerning_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -322,11 +312,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean kernings_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "kernings_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "kernings_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -359,11 +348,10 @@ public class BitmapFontParser implements PsiParser, LightPsiParser {
   // property*
   private static boolean page_definition_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "page_definition_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!property(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "page_definition_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }

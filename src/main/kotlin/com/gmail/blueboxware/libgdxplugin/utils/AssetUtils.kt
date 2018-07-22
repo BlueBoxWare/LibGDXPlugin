@@ -54,6 +54,8 @@ internal object Assets {
   const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
   const val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
 
+  const val COLOR_CLASS_NAME = "com.badlogic.gdx.graphics.Color"
+
   const val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
   const val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
   const val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"

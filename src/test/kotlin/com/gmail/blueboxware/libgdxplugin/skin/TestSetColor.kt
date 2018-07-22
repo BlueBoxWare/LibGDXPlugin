@@ -4,6 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.testname
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
@@ -99,20 +101,20 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest() {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     (myFixture.file as? SkinFile).let { skinFile ->
       assertNotNull(skinFile)
       val newColor = skinFile!!.getClassSpecifications("newColor").firstOrNull()?.getResource("color")?.`object`?.asColor(true)
       assertNotNull(newColor)
-      val colorObject = skinFile.getClassSpecifications("com.badlogic.gdx.graphics.Color").firstOrNull()?.getResource("color")?.`object`
+      val colorObject = skinFile.getClassSpecifications(Assets.COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
       assertNotNull(colorObject)
-      colorObject!!.setColor(newColor)?.let { newObject ->
+      colorObject!!.setColor(newColor!!)?.let { newObject ->
         WriteCommandAction.runWriteCommandAction(myFixture.project) {
           colorObject.replace(newObject)
         }
       }
     }
-    myFixture.checkResultByFile(getTestName(true) + ".after")
+    myFixture.checkResultByFile(testname() + ".after")
   }
 
   override fun setUp() {

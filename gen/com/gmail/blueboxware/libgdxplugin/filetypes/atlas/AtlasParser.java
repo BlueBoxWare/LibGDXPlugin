@@ -116,11 +116,10 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // (EOL page)*
   private static boolean atlas_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atlas_2")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!atlas_2_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "atlas_2", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -139,11 +138,10 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // EOL*
   private static boolean atlas_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "atlas_3")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!consumeToken(b, EOL)) break;
       if (!empty_element_parsed_guard_(b, "atlas_3", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -320,11 +318,10 @@ public class AtlasParser implements PsiParser, LightPsiParser {
   // region*
   private static boolean page_9(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "page_9")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!region(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "page_9", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -418,11 +415,10 @@ public class AtlasParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b);
     r = value(b, l + 1);
-    int c = current_position_(b);
     while (r) {
+      int c = current_position_(b);
       if (!value(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "regionName", c)) break;
-      c = current_position_(b);
     }
     exit_section_(b, m, REGION_NAME, r);
     return r;

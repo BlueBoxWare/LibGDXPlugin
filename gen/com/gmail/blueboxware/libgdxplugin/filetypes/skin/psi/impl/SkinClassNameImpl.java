@@ -14,7 +14,7 @@ import com.intellij.psi.PsiClass;
 
 public class SkinClassNameImpl extends SkinClassNameMixin implements SkinClassName {
 
-  public SkinClassNameImpl(ASTNode node) {
+  public SkinClassNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 

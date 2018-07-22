@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
 import com.intellij.psi.PsiReferenceProvider
@@ -74,7 +75,7 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
     if (methodName == "getColor") {
 
-      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.Color")
+      return AssetReference.createReferences(element, callExpression, Assets.COLOR_CLASS_NAME)
 
     } else if (methodName == "getDrawable" || methodName == "newDrawable") {
 
@@ -95,10 +96,10 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
       if (arg2receiver is KtClassLiteralExpression) {
 
         getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzePartial())?.let { clazz ->
-          if (clazz in Assets.SKIN_TEXTURE_REGION_CLASSES) {
+          if (clazz.qualifiedName in Assets.SKIN_TEXTURE_REGION_CLASSES) {
             return AssetReference.createReferences(element, callExpression, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-          } else if (clazz != "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable") {
-            return AssetReference.createReferences(element, callExpression, wantedClass = clazz)
+          } else if (clazz.qualifiedName != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
+            return AssetReference.createReferences(element, callExpression, wantedClass = clazz.putDollarInInnerClassName())
           }
         }
 
@@ -111,9 +112,9 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
     return arrayOf()
   }
 
-  private fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): String? =
+  private fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): PsiClass? =
     (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
-      ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())?.qualifiedName
+      ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
     }
 
 }

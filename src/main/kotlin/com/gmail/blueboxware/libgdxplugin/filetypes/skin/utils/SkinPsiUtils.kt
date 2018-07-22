@@ -4,7 +4,10 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.utils.findElement
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
@@ -156,3 +159,4 @@ fun SkinClassSpecification.getRealClassNamesAsString() =
           file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString)
         } ?: listOf(classNameAsString.removeDollarFromClassName())
 
+fun SkinObject.getOpeningBrace() = findElement { it.isLeaf(SkinElementTypes.L_CURLY) }

@@ -12,7 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontCharsImpl extends PropertyContainerImpl implements BitmapFontChars {
 
-  public BitmapFontCharsImpl(ASTNode node) {
+  public BitmapFontCharsImpl(@NotNull ASTNode node) {
     super(node);
   }
 

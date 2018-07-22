@@ -35,6 +35,11 @@ class TagMap {
             add(tagName, className)
           }
 
+  fun addAll(tags: Map<String, String>) =
+          tags.forEach { tagName, className ->
+            add(tagName, className)
+          }
+
   fun getClassNames(tag: String): List<String>? = map[tag]
 
   fun getTags(className: String? = null): Set<String> =

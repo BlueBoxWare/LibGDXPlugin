@@ -100,11 +100,10 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // (separator value)*
   private static boolean array_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "array_2")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!array_2_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "array_2", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -133,7 +132,29 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // class_name ':' '{' resources optionalComma '}'
+  // ':'
+  static boolean class_spec_colon(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "class_spec_colon")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_);
+    r = consumeToken(b, COLON);
+    exit_section_(b, l, m, r, false, recover_class_colon_parser_);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // '{'
+  static boolean class_spec_lbrace(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "class_spec_lbrace")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_);
+    r = consumeToken(b, L_CURLY);
+    exit_section_(b, l, m, r, false, recover_class_lbrace_parser_);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // class_name class_spec_colon class_spec_lbrace resources '}'
   public static boolean class_specification(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "class_specification")) return false;
     if (!nextTokenIs(b, "<class specification>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
@@ -141,73 +162,40 @@ public class SkinParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, CLASS_SPECIFICATION, "<class specification>");
     r = class_name(b, l + 1);
     p = r; // pin = 1
-    r = r && report_error_(b, consumeTokens(b, -1, COLON, L_CURLY));
+    r = r && report_error_(b, class_spec_colon(b, l + 1));
+    r = p && report_error_(b, class_spec_lbrace(b, l + 1)) && r;
     r = p && report_error_(b, resources(b, l + 1)) && r;
-    r = p && report_error_(b, parseOtionalComma(b, l + 1)) && r;
     r = p && consumeToken(b, R_CURLY) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   /* ********************************************************** */
-  // '{' property? (separator property)* optionalComma '}'
+  // '{' resource_list '}'
   public static boolean object(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "object")) return false;
     if (!nextTokenIs(b, L_CURLY)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, OBJECT, null);
     r = consumeToken(b, L_CURLY);
-    r = r && object_1(b, l + 1);
+    r = r && resource_list(b, l + 1);
     p = r; // pin = 2
-    r = r && report_error_(b, object_2(b, l + 1));
-    r = p && report_error_(b, parseOtionalComma(b, l + 1)) && r;
-    r = p && consumeToken(b, R_CURLY) && r;
+    r = r && consumeToken(b, R_CURLY);
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  // property?
-  private static boolean object_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "object_1")) return false;
-    property(b, l + 1);
-    return true;
-  }
-
-  // (separator property)*
-  private static boolean object_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "object_2")) return false;
-    int c = current_position_(b);
-    while (true) {
-      if (!object_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "object_2", c)) break;
-      c = current_position_(b);
-    }
-    return true;
-  }
-
-  // separator property
-  private static boolean object_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "object_2_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = parseSeparator(b, l + 1);
-    r = r && property(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
   }
 
   /* ********************************************************** */
   // property_name ':' property_value
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, "<property>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
     r = property_name(b, l + 1);
     p = r; // pin = 1
     r = r && report_error_(b, consumeToken(b, COLON));
     r = p && property_value(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
+    exit_section_(b, l, m, r, p, recover_property_parser_);
     return r || p;
   }
 
@@ -235,6 +223,83 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // !'}'
+  static boolean recover_class(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_class")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, R_CURLY);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !'{'
+  static boolean recover_class_colon(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_class_colon")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, L_CURLY);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(string_literal | '}')
+  static boolean recover_class_lbrace(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_class_lbrace")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !recover_class_lbrace_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // string_literal | '}'
+  private static boolean recover_class_lbrace_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_class_lbrace_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = string_literal(b, l + 1);
+    if (!r) r = consumeToken(b, R_CURLY);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !'}'
+  static boolean recover_object(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_object")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !consumeToken(b, R_CURLY);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // !(separator | '}')
+  static boolean recover_property(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_property")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NOT_);
+    r = !recover_property_0(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // separator | '}'
+  private static boolean recover_property_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "recover_property_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = parseSeparator(b, l + 1);
+    if (!r) r = consumeToken(b, R_CURLY);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // resource_name ':' (object | string_literal)
   public static boolean resource(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resource")) return false;
@@ -253,9 +318,49 @@ public class SkinParser implements PsiParser, LightPsiParser {
   private static boolean resource_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resource_2")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = object(b, l + 1);
     if (!r) r = string_literal(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // property? (separator property)* optionalComma
+  static boolean resource_list(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "resource_list")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_);
+    r = resource_list_0(b, l + 1);
+    r = r && resource_list_1(b, l + 1);
+    r = r && parseOtionalComma(b, l + 1);
+    exit_section_(b, l, m, r, false, recover_object_parser_);
+    return r;
+  }
+
+  // property?
+  private static boolean resource_list_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "resource_list_0")) return false;
+    property(b, l + 1);
+    return true;
+  }
+
+  // (separator property)*
+  private static boolean resource_list_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "resource_list_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!resource_list_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "resource_list_1", c)) break;
+    }
+    return true;
+  }
+
+  // separator property
+  private static boolean resource_list_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "resource_list_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = parseSeparator(b, l + 1);
+    r = r && property(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -273,15 +378,16 @@ public class SkinParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // resource? (separator resource)*
+  // resource? (separator resource)* optionalComma
   public static boolean resources(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resources")) return false;
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, RESOURCES, "<resources>");
     r = resources_0(b, l + 1);
     p = r; // pin = 1
-    r = r && resources_1(b, l + 1);
-    exit_section_(b, l, m, r, p, null);
+    r = r && report_error_(b, resources_1(b, l + 1));
+    r = p && parseOtionalComma(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, recover_class_parser_);
     return r || p;
   }
 
@@ -295,11 +401,10 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // (separator resource)*
   private static boolean resources_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "resources_1")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!resources_1_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "resources_1", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -342,11 +447,10 @@ public class SkinParser implements PsiParser, LightPsiParser {
   // (separator class_specification)*
   private static boolean skin_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "skin_2")) return false;
-    int c = current_position_(b);
     while (true) {
+      int c = current_position_(b);
       if (!skin_2_0(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "skin_2", c)) break;
-      c = current_position_(b);
     }
     return true;
   }
@@ -388,4 +492,29 @@ public class SkinParser implements PsiParser, LightPsiParser {
     return r;
   }
 
+  final static Parser recover_class_colon_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover_class_colon(b, l + 1);
+    }
+  };
+  final static Parser recover_class_lbrace_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover_class_lbrace(b, l + 1);
+    }
+  };
+  final static Parser recover_class_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover_class(b, l + 1);
+    }
+  };
+  final static Parser recover_object_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover_object(b, l + 1);
+    }
+  };
+  final static Parser recover_property_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return recover_property(b, l + 1);
+    }
+  };
 }

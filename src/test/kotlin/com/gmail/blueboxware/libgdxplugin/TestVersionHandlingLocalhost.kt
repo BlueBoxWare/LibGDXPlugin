@@ -38,16 +38,16 @@ import java.util.*
  */
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = true
+  private val RUN_TESTS = false
 
   private lateinit var versionManager: VersionManager
 
   override fun shouldRunTest(): Boolean {
     @Suppress("ConstantConditionIf")
     if (RUN_TESTS) {
-      return getTestName(true) != "testingAgainstLocalHostIsDisabled"
+      return testname() != "testingAgainstLocalHostIsDisabled"
     } else {
-      return getTestName(true) == "testingAgainstLocalHostIsDisabled"
+      return testname() == "testingAgainstLocalHostIsDisabled"
     }
   }
 
@@ -184,7 +184,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     addDummyLibrary(Libraries.LIBGDX, "1.9.3")
 
-    if (getTestName(true) !in listOf("usedVersions", "testingAgainstLocalHostIsDisabled")) {
+    if (testname() !in listOf("usedVersions", "testingAgainstLocalHostIsDisabled")) {
       Thread.sleep(2 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
     }
 

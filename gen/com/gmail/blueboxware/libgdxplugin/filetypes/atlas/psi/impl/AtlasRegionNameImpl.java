@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasRegionNameImpl extends ASTWrapperPsiElement implements AtlasRegionName {
 
-  public AtlasRegionNameImpl(ASTNode node) {
+  public AtlasRegionNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 

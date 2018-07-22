@@ -35,7 +35,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
           ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
   override fun handleElementRename(newElementName: String?): PsiElement {
-    element.setValue(newElementName)
+    newElementName?.let(element::setValue)
     return element
   }
 

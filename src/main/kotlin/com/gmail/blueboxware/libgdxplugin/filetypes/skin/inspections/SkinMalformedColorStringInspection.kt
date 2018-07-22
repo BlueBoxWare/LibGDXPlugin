@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 
@@ -39,7 +40,7 @@ class SkinMalformedColorStringInspection : SkinFileInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
     override fun visitPropertyValue(o: SkinPropertyValue) {
-      if (o.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.graphics.Color" && o.property?.name == "hex") {
+      if (o.property?.containingObject?.resolveToTypeString() == Assets.COLOR_CLASS_NAME && o.property?.name == "hex") {
         (o.value as? SkinStringLiteral)?.value?.let { str ->
           if (!colorRegex.matches(str)) {
             holder.registerProblem(o, message("skin.inspection.malformed.color.display.name"))

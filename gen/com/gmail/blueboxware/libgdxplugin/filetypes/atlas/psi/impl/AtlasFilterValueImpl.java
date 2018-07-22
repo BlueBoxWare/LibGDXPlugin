@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasFilterValueImpl extends ASTWrapperPsiElement implements AtlasFilterValue {
 
-  public AtlasFilterValueImpl(ASTNode node) {
+  public AtlasFilterValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 

@@ -37,6 +37,7 @@ public interface AtlasRegion extends AtlasNamedElement {
   @NotNull
   AtlasXy getXy();
 
+  @NotNull
   String getName();
 
   @Nullable

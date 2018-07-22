@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 
 /*
@@ -82,7 +83,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(nrOfUsages: Int) {
-    val usagesInfos = myFixture.testFindUsages(getTestName(true) + ".skin")
+    val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)
     val classType = (myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
     assertNotNull(classType)

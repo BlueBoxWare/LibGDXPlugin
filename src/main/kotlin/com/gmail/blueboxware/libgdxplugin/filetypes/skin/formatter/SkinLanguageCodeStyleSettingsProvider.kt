@@ -102,6 +102,7 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
     val indentOptions = commonSettings.initIndentOptions()
     indentOptions.INDENT_SIZE = 2
     commonSettings.KEEP_BLANK_LINES_IN_CODE = 0
+    commonSettings.SPACE_WITHIN_BRACES = true
     return commonSettings
   }
 

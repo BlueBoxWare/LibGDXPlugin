@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasValueImpl extends AtlasValueMixin implements AtlasValue {
 
-  public AtlasValueImpl(ASTNode node) {
+  public AtlasValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 

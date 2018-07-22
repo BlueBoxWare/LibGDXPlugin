@@ -20,7 +20,7 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface SkinFile : SkinElement, PsiFile {
+interface SkinFile: SkinElement, PsiFile {
 
   fun getClassSpecifications(classNames: Collection<String>? = null): Collection<SkinClassSpecification>
 

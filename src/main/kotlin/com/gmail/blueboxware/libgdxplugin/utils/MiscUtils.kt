@@ -52,3 +52,5 @@ internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = pro
 
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClasses(fqName, scope)
+
+internal fun <K, V> Map<K, V>.getKey(value: V): K? = keys.find { get(it) == value }

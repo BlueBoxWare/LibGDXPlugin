@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
+import com.gmail.blueboxware.libgdxplugin.utils.Assets
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.lang.annotation.AnnotationHolder
@@ -44,8 +45,8 @@ class SkinColorAnnotator : Annotator {
 
     if (element is SkinObject) {
 
-      val force = element.firstParent<SkinClassSpecification>()?.getRealClassNamesAsString()?.contains("com.badlogic.gdx.graphics.Color") == true
-        || element.resolveToTypeString() == "com.badlogic.gdx.graphics.Color"
+      val force = element.firstParent<SkinClassSpecification>()?.getRealClassNamesAsString()?.contains(Assets.COLOR_CLASS_NAME) == true
+        || element.resolveToTypeString() == Assets.COLOR_CLASS_NAME
 
       element.asColor(force)?.let { color ->
 
@@ -83,7 +84,7 @@ class SkinColorAnnotator : Annotator {
 
       }
 
-      if (element.resolveToTypeString() == "com.badlogic.gdx.graphics.Color") {
+      if (element.resolveToTypeString() == Assets.COLOR_CLASS_NAME) {
 
         (element.reference?.resolve() as? SkinResource)?.asColor(false)?.let { color ->
           createAnnotation(color, element, holder)

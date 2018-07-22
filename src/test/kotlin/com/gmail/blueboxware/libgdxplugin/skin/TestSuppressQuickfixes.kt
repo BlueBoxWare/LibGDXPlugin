@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.testname
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -84,11 +85,11 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(familyName: String) {
-    myFixture.configureByFile(getTestName(true) + ".skin")
+    myFixture.configureByFile(testname() + ".skin")
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName == familyName) {
         myFixture.launchAction(intention)
-        myFixture.checkResultByFile(getTestName(true) + ".after")
+        myFixture.checkResultByFile(testname() + ".after")
         return
       }
     }

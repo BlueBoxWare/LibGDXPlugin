@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.*;
 
 public class AtlasXyImpl extends AtlasProperty implements AtlasXy {
 
-  public AtlasXyImpl(ASTNode node) {
+  public AtlasXyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
