@@ -3,9 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
-import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.JavaPsiFacade
@@ -33,7 +32,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
  */
 abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl(node) {
 
-  override fun getValue() = stringLiteral.value
+  override fun getValue() = DollarClassName(stringLiteral.value)
 
   override fun resolve(): PsiClass? = multiResolve().firstOrNull()
 
@@ -42,7 +41,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
     return CachedValuesManager.getCachedValue(this) {
 
       val taggedClasses: List<String>? =
-              project.getSkinTag2ClassMap()?.getClassNames(value)?.takeIf { !it.isEmpty() }
+              project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { !it.isEmpty() }
 
       val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let { module ->
 
@@ -54,7 +53,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
               psiFacade.findClasses(className, module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
             }
           } else {
-            psiFacade.findClasses(value.removeDollarFromClassName(), module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
+            psiFacade.findClasses(value.plainName, module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
           }
 
         }
@@ -63,7 +62,10 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
       classes.filter { clazz ->
         (clazz !is KtLightClass || clazz.kotlinOrigin !is KtObjectDeclaration) &&
-                ((taggedClasses != null && taggedClasses.contains(clazz.qualifiedName)) || (taggedClasses == null && clazz.putDollarInInnerClassName() == value))
+                (
+                        (taggedClasses != null && taggedClasses.contains(clazz.qualifiedName))
+                                || (taggedClasses == null && DollarClassName(clazz) == value)
+                        )
       }.map {
         it.navigationElement as? PsiClass ?: it
       }.let {

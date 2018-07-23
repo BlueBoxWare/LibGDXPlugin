@@ -1,9 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
-import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
-import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.util.ProcessingContext
@@ -35,11 +32,11 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
       methodCall.resolveCallToStrings()?.let { (className, methodName) ->
 
-        if (className == Assets.SKIN_CLASS_NAME) {
+        if (className == SKIN_CLASS_NAME) {
 
           return createSkinReferences(element, methodCall, methodName)
 
-        } else if (className == Assets.TEXTURE_ATLAS_CLASS_NAME) {
+        } else if (className == TEXTURE_ATLAS_CLASS_NAME) {
 
           return createAtlasReferences(element, methodCall, methodName)
 
@@ -54,9 +51,9 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
   private fun createAtlasReferences(element: PsiElement, methodCall: PsiMethodCallExpression, methodName: String): Array<out PsiReference> {
 
-    if (methodName in Assets.TEXTURE_ATLAS_TEXTURE_METHODS) {
+    if (methodName in TEXTURE_ATLAS_TEXTURE_METHODS) {
 
-      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+      return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
 
     }
 
@@ -68,19 +65,19 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
 
     if (methodName == "getColor") {
 
-      return AssetReference.createReferences(element, methodCall, Assets.COLOR_CLASS_NAME)
+      return AssetReference.createReferences(element, methodCall, COLOR_CLASS_NAME)
 
     } else if (methodName == "getDrawable" || methodName == "newDrawable") {
 
-      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
+      return AssetReference.createReferences(element, methodCall, DRAWABLE_CLASS_NAME)
 
-    } else if (methodName in Assets.SKIN_TEXTURE_REGION_METHODS) {
+    } else if (methodName in SKIN_TEXTURE_REGION_METHODS) {
 
-      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+      return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
 
     } else if (methodName == "getFont") {
 
-      return AssetReference.createReferences(element, methodCall, "com.badlogic.gdx.graphics.g2d.BitmapFont")
+      return AssetReference.createReferences(element, methodCall, BITMAPFONT_CLASS_NAME)
 
     } else if (methodName in listOf("get", "optional", "has", "remove")) {
 
@@ -89,10 +86,10 @@ class JavaAssetReferenceProvider : PsiReferenceProvider() {
       if (arg2 is PsiClassObjectAccessExpression) {
 
         getClassFromClassObjectExpression(arg2)?.let { clazz ->
-          if (clazz.qualifiedName in Assets.SKIN_TEXTURE_REGION_CLASSES) {
-            return AssetReference.createReferences(element, methodCall, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-          } else if (clazz.qualifiedName != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
-            return AssetReference.createReferences(element, methodCall, wantedClass = clazz.putDollarInInnerClassName())
+          if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
+            return AssetReference.createReferences(element, methodCall, wantedClass = TEXTURE_REGION_CLASS_NAME)
+          } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
+            return AssetReference.createReferences(element, methodCall, wantedClass = DollarClassName(clazz))
           }
         }
 

@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.utils.putDollarInInnerClassName
+import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
@@ -29,7 +29,7 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
   override fun bindToElement(target: PsiElement): PsiElement {
     if (target is PsiClass) {
-      element.stringLiteral.value = target.putDollarInInnerClassName()
+      element.stringLiteral.value = DollarClassName(target).dollarName
     } else {
       super.bindToElement(target)
     }

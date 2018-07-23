@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.testname
+import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 
 /*
@@ -92,7 +93,10 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
       (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
         val type = propertyValue.property?.resolveToTypeString()
         assertNotNull(type)
-        assertTrue(classType == type || (classType == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"))
+        assertTrue(
+                classType?.dollarName == type
+                        || (classType?.dollarName == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == DRAWABLE_CLASS_NAME)
+        )
       }
       (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
         assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)

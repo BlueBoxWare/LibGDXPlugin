@@ -174,7 +174,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
                     }
           }
 
-  fun addClassSpec(classNameWithDollar: String): SkinClassSpecification? {
+  fun addClassSpec(className: DollarClassName): SkinClassSpecification? {
     if (isEmpty()) {
       insertBraces()
     }
@@ -183,9 +183,9 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
     val actualClassName =
             if (project.isLibGDX199()) {
-              DEFAULT_TAGGED_CLASSES_NAMES.getKey(classNameWithDollar.removeDollarFromClassName()) ?: classNameWithDollar
+              DEFAULT_TAGGED_CLASSES_NAMES.getKey(className.plainName) ?: className.dollarName
             } else {
-              classNameWithDollar
+              className.dollarName
             }
 
     return factory.createClassSpec(actualClassName)?.let { classSpec ->
@@ -194,24 +194,23 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   }
 
-  fun addResource(classNameWithDollar: String, resourceName: String): SkinResource? =
-          classNameWithDollar.removeDollarFromClassName().let { className ->
-            getClassSpecifications(className).lastOrNull()?.addResource(resourceName)
-                    ?: addClassSpec(classNameWithDollar)?.addResource(resourceName)
-          }
+  fun addResource(className: DollarClassName, resourceName: String): SkinResource? =
+          getClassSpecifications(className.plainName).lastOrNull()?.addResource(resourceName)
+                  ?: addClassSpec(className)?.addResource(resourceName)
 
-  fun addResource(classNameWithDollar: String, resource: SkinResource): SkinResource? =
-          getClassSpecifications(classNameWithDollar.removeDollarFromClassName()).lastOrNull()?.addResource(resource)
-                  ?: addClassSpec(classNameWithDollar)?.addResource(resource)
+
+  fun addResource(className: DollarClassName, resource: SkinResource): SkinResource? =
+          getClassSpecifications(className.plainName).lastOrNull()?.addResource(resource)
+                  ?: addClassSpec(className)?.addResource(resource)
 
   fun addColor(name: String): SkinResource? =
           factory.createColorResource(name)?.let { resource ->
-            addResource(Assets.COLOR_CLASS_NAME, resource)
+            addResource(DollarClassName(COLOR_CLASS_NAME), resource)
           }
 
   fun addTintedDrawable(name: String): SkinResource? =
           factory.createTintedDrawableResource(name)?.let { resource ->
-            addResource("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable", resource)
+            addResource(DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"), resource)
           }
 
   override fun getPresentation() = object: ItemPresentation {

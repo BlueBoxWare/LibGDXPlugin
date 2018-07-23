@@ -4,9 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
-import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
-import com.gmail.blueboxware.libgdxplugin.utils.fqName
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.json.JsonFileType
 import com.intellij.lang.Language
 import com.intellij.lang.properties.PropertiesFileType
@@ -52,21 +50,21 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
     createAssetAnnotationProvider(
             registrar,
-            Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME,
+            ASSET_ANNOTATION_SKIN_PARAM_NAME,
             listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE, JsonSchemaFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXSkinLanguage.INSTANCE)
     )
 
     createAssetAnnotationProvider(
             registrar,
-            Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
+            ASSET_ANNOTATION_ATLAS_PARAM_NAME,
             listOf(LibGDXAtlasFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXAtlasLanguage.INSTANCE)
     )
 
     createAssetAnnotationProvider(
             registrar,
-            Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME,
+            ASSET_ANNOTATION_PROPERTIES_PARAM_NAME,
             listOf(PropertiesFileType.INSTANCE),
             listOf(PropertiesLanguage.INSTANCE)
     )
@@ -82,7 +80,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
                 element.getParentOfType<KtAnnotationEntry>(true)?.let { entry ->
                   entry.analyzePartial().get(BindingContext.ANNOTATION, entry)?.type?.fqName()?.let { fqName ->
-                    if (fqName == Assets.ASSET_ANNOTATION_NAME) {
+                    if (fqName == ASSET_ANNOTATION_NAME) {
                       var valueArgument = element.getParentOfType<KtValueArgument>(true)
                       if (element.context !is KtCollectionLiteralExpression) {
                         valueArgument = valueArgument?.getParentOfType(true)

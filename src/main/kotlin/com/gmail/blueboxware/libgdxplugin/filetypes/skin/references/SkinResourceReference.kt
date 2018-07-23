@@ -4,10 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_PARENT
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
-import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
@@ -48,18 +45,20 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
       element.resolveToType()?.let { valueType ->
 
-        if (valueType.canonicalText == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && element.parent is SkinResource) {
+        if (valueType.canonicalText == TINTED_DRAWABLE_CLASS_NAME && element.parent is SkinResource) {
           // Aliases for TintedDrawables are not allowed
           return PsiElementResolveResult.EMPTY_ARRAY
         }
 
         val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
 
-        val isTintedDrawableNameProperty = element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME && element.property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
+        val isTintedDrawableNameProperty =
+                element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
+                        && element.property?.containingObject?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
         val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
 
-        if (valueType.canonicalText ==  "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) {
-          skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable", element.value, element).forEach {
+        if (valueType.canonicalText ==  DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+          skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
             result.add(PsiElementResolveResult(it))
           }
         } else {
@@ -70,7 +69,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
           }
         }
 
-        if (valueType.canonicalText == "com.badlogic.gdx.scenes.scene2d.utils.Drawable" || isTintedDrawableNameProperty) {
+        if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
           element.containingFile.virtualFile?.let { virtualFile ->
             virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
               (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->

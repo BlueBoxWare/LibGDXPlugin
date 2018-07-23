@@ -1,10 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 
@@ -41,7 +42,7 @@ class SkinNonExistingFontFileInspection: SkinFileInspection() {
       val property = propertyValue.property ?: return
       val className = property.containingObject?.resolveToTypeString() ?: return
 
-      if (className == "com.badlogic.gdx.graphics.g2d.BitmapFont" && property.name == PROPERTY_NAME_FONT_FILE) {
+      if (className == BITMAPFONT_CLASS_NAME && property.name == PROPERTY_NAME_FONT_FILE) {
         if (string.reference?.resolve() == null) {
           holder.registerProblem(propertyValue, message("skin.inspection.non.existing.file.message", string.value))
         }

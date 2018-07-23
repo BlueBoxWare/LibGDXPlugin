@@ -1596,7 +1596,11 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
       assertNotNull(strings)
       strings?.let { results ->
         for (expected in expectedCompletionStrings) {
-          assertTrue("'$expected' expected but not found, Content:\n'$content'", results.contains(expected))
+          assertTrue(
+                  "'$expected' expected but not found, Content:\n\t'$content'\nResults: \n\t"
+                          + results.joinToString(separator = "\n\t") + "\n\n",
+                  results.contains(expected)
+          )
         }
         for (notExpectedCompletionString in notExpectedCompletionStrings) {
           val msg2 = "Not expected to find '$notExpectedCompletionString'. Content:\n '$content'"

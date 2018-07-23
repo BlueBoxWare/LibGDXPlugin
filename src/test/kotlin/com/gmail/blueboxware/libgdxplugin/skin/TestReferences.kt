@@ -9,9 +9,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
-import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
@@ -34,14 +34,14 @@ import com.intellij.psi.PsiFile
 class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testResourceReference1() {
-    doTestResourceReference("white", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("white", COLOR_CLASS_NAME)
   }
 
   fun testResourceReference2() {
-    doTestResourceReference("white", "com.badlogic.gdx.graphics.g2d.BitmapFont")
+    doTestResourceReference("white", BITMAPFONT_CLASS_NAME)
   }
   fun testResourceReference3() {
-    doTestResourceReference("blue", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("blue", COLOR_CLASS_NAME)
   }
 
   fun testResourceReference4() {
@@ -49,23 +49,23 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceReference5() {
-    doTestResourceReference("blue", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("blue", COLOR_CLASS_NAME)
   }
 
   fun testResourceReference6() {
-    doTestResourceReference("ddd", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
+    doTestResourceReference("ddd", "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
   }
 
   fun testResourceReference7() {
-    doTestResourceReference(null, "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference(null, "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testResourceReference8() {
-    doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
+    doTestResourceReference("d1", "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
   }
 
   fun testResourceReferenceWithTaggedClasses1() {
-    doTestResourceReference("bar", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference("bar", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testResourceReferenceWithTaggedClasses2() {
@@ -93,19 +93,19 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentResourceReferenceFromSuperClass1() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin1() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin2() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button\$ButtonStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin3() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin4() {
@@ -113,19 +113,19 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentResourceReferenceFromSuperClassWithKotlin5() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle")
   }
 
   fun testResourceAliasReference1() {
-    doTestResourceReference("yellow", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("yellow", COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReference2() {
-    doTestResourceReference("yellow", "com.badlogic.gdx.scenes.scene2d.ui.TextField\$TextFieldStyle")
+    doTestResourceReference("yellow", "com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle")
   }
 
   fun testResourceAliasReference3() {
-    doTestResourceReference("dark-gray", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("dark-gray", COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses1() {
@@ -145,31 +145,31 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testResourceAliasReferenceWithTaggedClasses5() {
-    doTestResourceReference("red", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("red", COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses6() {
-    doTestResourceReference("red", Assets.COLOR_CLASS_NAME)
+    doTestResourceReference("red", COLOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses7() {
-    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testResourceAliasReferenceWithTaggedClasses8() {
-    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testResourceReferenceTintedDrawable() {
-    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testResourceReferenceTintedDrawableWithTaggedClasses() {
-    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable")
+    doTestResourceReference("round-down", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
   }
 
   fun testParentReference() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle")
   }
 
   fun testParentReferencePre199() {
@@ -178,7 +178,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testParentReferenceTagged() {
-    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox\$CheckBoxStyle")
+    doTestResourceReference("main", "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle")
   }
 
   fun testJavaClassReference1() {
@@ -290,7 +290,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
-    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString()!!.removeDollarFromClassName() + "::" + field?.name
+    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString() + "::" + field?.name
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 
@@ -312,7 +312,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     if (resourceName != null) {
       assertNotNull(resource)
       assertEquals(resourceName, resource?.name)
-      assertTrue(resource?.classSpecification?.getRealClassNamesAsString()?.contains(resourceType?.removeDollarFromClassName()) == true)
+      assertTrue(resource?.classSpecification?.getRealClassNamesAsString()?.contains(resourceType) == true)
     } else {
       assertNull(resource)
     }

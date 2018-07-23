@@ -5,7 +5,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.references.FileReference
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.fileTypes.LanguageFileType
@@ -161,7 +162,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("inv<caret>erse")
             }
           """,
-          expectedType = Assets.COLOR_CLASS_NAME
+          expectedType = COLOR_CLASS_NAME
   )
 
   fun testKotlinAndJavaResourceReferenceWithTags() = doTest<SkinResource>(
@@ -175,7 +176,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("tagged<caret>Color3")
             }
           """,
-          expectedType = Assets.COLOR_CLASS_NAME
+          expectedType = COLOR_CLASS_NAME
   )
 
   fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
@@ -211,7 +212,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = "com.badlogic.gdx.graphics.g2d.BitmapFont"
+          expectedType = BITMAPFONT_CLASS_NAME
   )
 
   fun testKotlinSkinFileReferenceInAnnotation() = doTest<SkinFile>(

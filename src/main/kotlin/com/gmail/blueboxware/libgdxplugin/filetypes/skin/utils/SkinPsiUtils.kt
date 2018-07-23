@@ -8,7 +8,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.utils.findElement
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
-import com.gmail.blueboxware.libgdxplugin.utils.removeDollarFromClassName
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
@@ -156,7 +155,7 @@ fun hasElementType(node: ASTNode, vararg types: IElementType) = hasElementType(n
 
 fun SkinClassSpecification.getRealClassNamesAsString() =
         (containingFile as? SkinFile)?.let { file ->
-          file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString)
-        } ?: listOf(classNameAsString.removeDollarFromClassName())
+          file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString.plainName)
+        } ?: listOf(classNameAsString.plainName)
 
 fun SkinObject.getOpeningBrace() = findElement { it.isLeaf(SkinElementTypes.L_CURLY) }

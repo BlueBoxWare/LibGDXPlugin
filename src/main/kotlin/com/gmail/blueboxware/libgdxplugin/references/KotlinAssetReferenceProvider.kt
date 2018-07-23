@@ -41,11 +41,11 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
       methodCall.resolveCallToStrings()?.let { (className, methodName) ->
 
-        if (className == Assets.SKIN_CLASS_NAME) {
+        if (className == SKIN_CLASS_NAME) {
 
           return createSkinReferences(element, methodCall, methodName)
 
-        } else if (className == Assets.TEXTURE_ATLAS_CLASS_NAME) {
+        } else if (className == TEXTURE_ATLAS_CLASS_NAME) {
 
           return createAtlasReferences(element, methodCall, methodName)
 
@@ -61,9 +61,9 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
   private fun createAtlasReferences(element: PsiElement, callExpression: KtCallExpression, methodName: String): Array<out PsiReference> {
 
-    if (methodName in Assets.TEXTURE_ATLAS_TEXTURE_METHODS) {
+    if (methodName in TEXTURE_ATLAS_TEXTURE_METHODS) {
 
-      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+      return AssetReference.createReferences(element, callExpression, TEXTURE_REGION_CLASS_NAME)
 
     }
 
@@ -75,19 +75,19 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
 
     if (methodName == "getColor") {
 
-      return AssetReference.createReferences(element, callExpression, Assets.COLOR_CLASS_NAME)
+      return AssetReference.createReferences(element, callExpression, COLOR_CLASS_NAME)
 
     } else if (methodName == "getDrawable" || methodName == "newDrawable") {
 
-      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.scenes.scene2d.utils.Drawable")
+      return AssetReference.createReferences(element, callExpression, DRAWABLE_CLASS_NAME)
 
-    } else if (methodName in Assets.SKIN_TEXTURE_REGION_METHODS) {
+    } else if (methodName in SKIN_TEXTURE_REGION_METHODS) {
 
-      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.TextureRegion")
+      return AssetReference.createReferences(element, callExpression, TEXTURE_REGION_CLASS_NAME)
 
     } else if (methodName == "getFont") {
 
-      return AssetReference.createReferences(element, callExpression, "com.badlogic.gdx.graphics.g2d.BitmapFont")
+      return AssetReference.createReferences(element, callExpression, BITMAPFONT_CLASS_NAME)
 
     } else if (methodName in listOf("get", "optional", "has", "remove")) {
 
@@ -96,10 +96,10 @@ class KotlinAssetReferenceProvider : PsiReferenceProvider() {
       if (arg2receiver is KtClassLiteralExpression) {
 
         getClassFromClassLiteralExpression(arg2receiver, callExpression.analyzePartial())?.let { clazz ->
-          if (clazz.qualifiedName in Assets.SKIN_TEXTURE_REGION_CLASSES) {
-            return AssetReference.createReferences(element, callExpression, wantedClass = "com.badlogic.gdx.graphics.g2d.TextureRegion")
-          } else if (clazz.qualifiedName != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") {
-            return AssetReference.createReferences(element, callExpression, wantedClass = clazz.putDollarInInnerClassName())
+          if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
+            return AssetReference.createReferences(element, callExpression, wantedClass = TEXTURE_REGION_CLASS_NAME)
+          } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
+            return AssetReference.createReferences(element, callExpression, wantedClass = DollarClassName(clazz))
           }
         }
 

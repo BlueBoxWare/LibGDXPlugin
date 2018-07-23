@@ -28,7 +28,7 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
       SkinElementTypes.LINE_COMMENT -> return "//..."
       SkinElementTypes.BLOCK_COMMENT -> return "/*...*/"
       SkinElementTypes.RESOURCE -> return "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
-      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString ?: "") + " ...}"
+      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName ?: "") + " ...}"
       else -> return "..."
     }
 

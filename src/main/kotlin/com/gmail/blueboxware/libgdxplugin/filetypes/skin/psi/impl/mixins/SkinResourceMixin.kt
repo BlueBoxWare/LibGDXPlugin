@@ -7,7 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.icons.AllIcons
@@ -62,7 +62,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
   override fun asColor(force: Boolean): Color? =
           (findDefinition()?.value as? SkinObject)
-                  ?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains(Assets.COLOR_CLASS_NAME) == true)
+                  ?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true)
 
   override fun setName(name: String): PsiElement? {
     factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
@@ -80,7 +80,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
       val force = this@SkinResourceMixin
               .firstParent<SkinClassSpecification>()
               ?.getRealClassNamesAsString()
-              ?.contains(Assets.COLOR_CLASS_NAME)
+              ?.contains(COLOR_CLASS_NAME)
               ?: false
       return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }

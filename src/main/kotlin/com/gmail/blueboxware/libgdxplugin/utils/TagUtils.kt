@@ -148,7 +148,7 @@ private fun Project.collectCustomTags(): TagMap {
 
 private fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
 
-  val tagsAnnotation = findClass(Assets.TAG_ANNOTATION_NAME) ?: return listOf()
+  val tagsAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
 
   val tags = mutableListOf<Pair<String, String>>()
 

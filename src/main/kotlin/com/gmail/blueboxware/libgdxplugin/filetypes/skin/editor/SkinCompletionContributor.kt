@@ -150,7 +150,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val classSpec = resource.classSpecification ?: return
     val originalClassSpec = parameters.originalPosition?.firstParent<SkinClassSpecification>()
 
-    if (classSpec.getRealClassNamesAsString().none { it != "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" }) {
+    if (classSpec.getRealClassNamesAsString().none { it != TINTED_DRAWABLE_CLASS_NAME }) {
       // Aliases for TintedDrawables are not allowed
       return
     }
@@ -159,7 +159,7 @@ class SkinCompletionContributor : CompletionContributor() {
       cs.getResourcesAsList(resource).forEach { res ->
         if (res.name != resource.name || cs != originalClassSpec) {
           val icon = res
-                  .takeIf { cs.getRealClassNamesAsString().contains(Assets.COLOR_CLASS_NAME) }
+                  .takeIf { cs.getRealClassNamesAsString().contains(COLOR_CLASS_NAME) }
                   ?.asColor(true)
                   ?.let { createColorIcon(it) }
                   ?: ICON_RESOURCE
@@ -206,7 +206,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val property = stringLiteral.property ?: return
     val objectType = property.containingObject?.resolveToTypeString()
 
-    if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+    if (objectType == BITMAPFONT_CLASS_NAME) {
       if (property.name == PROPERTY_NAME_FONT_FILE) {
         parameters.originalFile.virtualFile?.let { virtualFile ->
           for (file in virtualFile.getAssociatedFiles()) {
@@ -235,16 +235,16 @@ class SkinCompletionContributor : CompletionContributor() {
       skinFile.getResources(elementClass, null, stringLiteral, isParentProperty, isParentProperty).forEach { resource ->
 
         val icon =
-                resource.takeIf { elementClassName == Assets.COLOR_CLASS_NAME }?.asColor(true)?.let { createColorIcon(it) }
+                resource.takeIf { elementClassName == COLOR_CLASS_NAME }?.asColor(true)?.let { createColorIcon(it) }
                         ?: ICON_RESOURCE
 
         doAdd(LookupElementBuilder.create(resource.name).withIcon(icon), parameters, result)
 
       }
 
-      if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
+      if (elementClassName == DRAWABLE_CLASS_NAME) {
 
-        skinFile.getClassSpecifications("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable").forEach { classSpec ->
+        skinFile.getClassSpecifications(TINTED_DRAWABLE_CLASS_NAME).forEach { classSpec ->
           classSpec.getResourcesAsList(property).forEach { resource ->
             doAdd(LookupElementBuilder.create(resource.name).withIcon(ICON_TINTED_DRAWABLE), parameters, result)
           }
@@ -256,8 +256,8 @@ class SkinCompletionContributor : CompletionContributor() {
       doAdd(LookupElementBuilder.create("false"), parameters, result)
     }
 
-    if (elementClassName == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
-            || (objectType == "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable" && property.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME)
+    if (elementClassName == DRAWABLE_CLASS_NAME
+            || (objectType == TINTED_DRAWABLE_CLASS_NAME && property.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME)
     ) {
 
       skinFile.virtualFile?.let { virtualFile ->
@@ -282,9 +282,9 @@ class SkinCompletionContributor : CompletionContributor() {
 
     if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT) && parameters.position.project.isLibGDX199()) {
       val important = objectType !in listOf(
-              Assets.COLOR_CLASS_NAME,
-              "com.badlogic.gdx.graphics.g2d.BitmapFont",
-              "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
+              COLOR_CLASS_NAME,
+              BITMAPFONT_CLASS_NAME,
+              TINTED_DRAWABLE_CLASS_NAME
       )
       doAdd(
               PrioritizedLookupElement.withPriority(
@@ -296,7 +296,7 @@ class SkinCompletionContributor : CompletionContributor() {
       )
     }
 
-    if (objectType == Assets.COLOR_CLASS_NAME) {
+    if (objectType == COLOR_CLASS_NAME) {
 
       if (!usedPropertyNames.contains("hex")) {
         var addHex = true
@@ -312,7 +312,7 @@ class SkinCompletionContributor : CompletionContributor() {
         }
       }
 
-    } else if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+    } else if (objectType == BITMAPFONT_CLASS_NAME) {
 
       listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).forEach {
         if (!usedPropertyNames.contains(it)) {
@@ -386,11 +386,11 @@ class SkinCompletionContributor : CompletionContributor() {
           for (innerClass in psiClass.findAllStaticInnerClasses()) {
 
             if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
-              val fqName = innerClass.putDollarInInnerClassName()
-              val priority = classPriority(fqName)
-              doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName)
-                      .withPresentableText(fqName)
-                      .withLookupString(StringUtil.getShortName(fqName))
+              val fqName = DollarClassName(innerClass)
+              val priority = classPriority(fqName.dollarName)
+              doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName.dollarName)
+                      .withPresentableText(fqName.dollarName)
+                      .withLookupString(StringUtil.getShortName(fqName.dollarName))
                       .withIcon(ICON_CLASS)
                       .withBoldness(priority > 0.0),
                       priority
@@ -414,19 +414,17 @@ class SkinCompletionContributor : CompletionContributor() {
 
         if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
 
-          innerClass.putDollarInInnerClassName().let { fqName ->
+          val fqName = DollarClassName(innerClass)
 
-            val priority = classPriority(fqName)
-            doAdd(
-                    PrioritizedLookupElement.withPriority(
-                            LookupElementBuilder.create(innerClass, fqName).withIcon(ICON_CLASS).withBoldness(priority > 0.0),
-                            priority
-                    ),
-                    parameters,
-                    result
-            )
-
-          }
+          val priority = classPriority(fqName.dollarName)
+          doAdd(
+                  PrioritizedLookupElement.withPriority(
+                          LookupElementBuilder.create(innerClass, fqName.dollarName).withIcon(ICON_CLASS).withBoldness(priority > 0.0),
+                          priority
+                  ),
+                  parameters,
+                  result
+          )
 
         }
       }
@@ -463,8 +461,8 @@ class SkinCompletionContributor : CompletionContributor() {
   companion object {
     val prioritizedClasses = listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
-            Assets.COLOR_CLASS_NAME,
-            "com.badlogic.gdx.graphics.g2d.BitmapFont"
+            COLOR_CLASS_NAME,
+            BITMAPFONT_CLASS_NAME
     )
 
     val ICON_TAG: Icon = AllIcons.Ide.Link

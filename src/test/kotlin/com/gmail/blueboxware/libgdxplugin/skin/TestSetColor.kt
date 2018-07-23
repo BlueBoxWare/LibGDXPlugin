@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyle
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
@@ -106,7 +106,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
       assertNotNull(skinFile)
       val newColor = skinFile!!.getClassSpecifications("newColor").firstOrNull()?.getResource("color")?.`object`?.asColor(true)
       assertNotNull(newColor)
-      val colorObject = skinFile.getClassSpecifications(Assets.COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
+      val colorObject = skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
       assertNotNull(colorObject)
       colorObject!!.setColor(newColor!!)?.let { newObject ->
         WriteCommandAction.runWriteCommandAction(myFixture.project) {

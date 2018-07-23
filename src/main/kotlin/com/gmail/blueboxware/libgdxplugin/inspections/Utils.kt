@@ -5,7 +5,10 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getOpeningBrace
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
+import com.gmail.blueboxware.libgdxplugin.utils.TEXTURE_REGION_CLASS_NAME
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
@@ -48,7 +51,7 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
             val files = reference.filesPresentableText(true).takeIf { it != "" }?.let { "in $it" } ?: ""
             val fixes =
                     if (!elementName.isBlank())
-                      reference.classNameWithDollar?.takeIf { it != "com.badlogic.gdx.graphics.g2d.TextureRegion" }?.let { className ->
+                      reference.className?.takeIf { it.plainName != TEXTURE_REGION_CLASS_NAME }?.let { className ->
                         reference.skinFiles.let { skinFiles ->
                           skinFiles.mapNotNull { skinFile ->
                             (skinFile.virtualFile as? VirtualFileImpl)?.id?.let { id ->
@@ -68,7 +71,7 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
 
 private class CreateAssetQuickFix(
         val assetName: String,
-        val className: String,
+        val className: DollarClassName,
         val fileName: String,
         val fileId: Int,
         val showFileName: Boolean
@@ -85,9 +88,9 @@ private class CreateAssetQuickFix(
 
     val editors = FileEditorManager.getInstance(project).openFile(virtualFile, true)
 
-    val element = if (className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
+    val element = if (className.plainName == DRAWABLE_CLASS_NAME) {
       skinFile.addTintedDrawable(assetName)
-    } else if (className == Assets.COLOR_CLASS_NAME ) {
+    } else if (className.plainName == COLOR_CLASS_NAME ) {
       skinFile.addColor(assetName)
     } else {
       skinFile.addResource(className, assetName)
@@ -98,7 +101,7 @@ private class CreateAssetQuickFix(
       return
     }
 
-    var position = if (className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable") {
+    var position = if (className.plainName == DRAWABLE_CLASS_NAME) {
       element.text?.let { innerText ->
         val regex = Regex("""name\s*:""")
         regex.find(innerText)?.range?.endInclusive?.let { end ->
@@ -109,7 +112,7 @@ private class CreateAssetQuickFix(
           }
         }
       }
-    } else if (className == Assets.COLOR_CLASS_NAME) {
+    } else if (className.plainName == COLOR_CLASS_NAME) {
       element.text?.indexOf('#')?.let { index ->
         element.startOffset + index
       }

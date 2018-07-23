@@ -3,10 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.java
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
-import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
-import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
-import com.gmail.blueboxware.libgdxplugin.utils.supersAndThis
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
@@ -38,12 +35,12 @@ internal class JavaGDXAssetsInspection: LibGDXJavaBaseInspection() {
 
     override fun visitAnnotation(annotation: PsiAnnotation?) {
 
-      if (annotation == null || annotation.qualifiedName != Assets.ASSET_ANNOTATION_NAME) {
+      if (annotation == null || annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
         return
       }
 
       if ((annotation.owner as? PsiModifierList)?.context is PsiVariable) {
-        if (annotation.getClassNamesOfOwningVariable().none { it in Assets.TARGETS_FOR_GDXANNOTATION }) {
+        if (annotation.getClassNamesOfOwningVariable().none { it in TARGETS_FOR_GDXANNOTATION }) {
           holder.registerProblem(annotation, message("gdxassets.annotation.problem.descriptor.wrong.target"), ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
         }
       }
@@ -53,63 +50,63 @@ internal class JavaGDXAssetsInspection: LibGDXJavaBaseInspection() {
     override fun visitAnnotationParameterList(list: PsiAnnotationParameterList?) {
       (list?.context as? PsiAnnotation)?.let { annotation ->
 
-        if (annotation.qualifiedName != Assets.ASSET_ANNOTATION_NAME) {
+        if (annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
           return
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+        (annotation.findAttributeValue(ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
           ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
             checkSkinFilename(it, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+        (annotation.findAttributeValue(ASSET_ANNOTATION_SKIN_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
           (literal.value as? String)?.let { value ->
             checkSkinFilename(literal, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+        (annotation.findAttributeValue(ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
           ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
             checkFilename(it, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+        (annotation.findAttributeValue(ASSET_ANNOTATION_ATLAS_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
           (literal.value as? String)?.let { value ->
             checkFilename(literal, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
+        (annotation.findAttributeValue(ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiArrayInitializerMemberValue)?.initializers?.forEach {
           ((it as? PsiLiteralExpression)?.value as? String)?.let { value ->
             checkFilename(it, value, holder)
           }
         }
 
-        (annotation.findAttributeValue(Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
+        (annotation.findAttributeValue(ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) as? PsiLiteralExpression)?.let { literal ->
           (literal.value as? String)?.let { value ->
             checkFilename(literal, value, holder)
           }
         }
 
         annotation.parameterList.attributes.forEach { psiNameValuePair ->
-          if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
-            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.SKIN_CLASS_NAME }) {
-              registerUselessParameterProblem(holder, psiNameValuePair, Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME, Assets.SKIN_CLASS_NAME)
+          if (psiNameValuePair.name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == SKIN_CLASS_NAME }) {
+              registerUselessParameterProblem(holder, psiNameValuePair, ASSET_ANNOTATION_SKIN_PARAM_NAME, SKIN_CLASS_NAME)
             }
-          } else if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
-            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.TEXTURE_ATLAS_CLASS_NAME || it == Assets.SKIN_CLASS_NAME }) {
+          } else if (psiNameValuePair.name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == TEXTURE_ATLAS_CLASS_NAME || it == SKIN_CLASS_NAME }) {
               registerUselessParameterProblem(
                       holder,
                       psiNameValuePair,
-                      Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
-                      Assets.SKIN_CLASS_NAME + " or " + Assets.TEXTURE_ATLAS_CLASS_NAME
+                      ASSET_ANNOTATION_ATLAS_PARAM_NAME,
+                      "$SKIN_CLASS_NAME or $TEXTURE_ATLAS_CLASS_NAME"
               )
             }
-          } else if (psiNameValuePair.name == Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
-            if (annotation.getClassNamesOfOwningVariable().none { it == Assets.I18NBUNDLE_CLASS_NAME }) {
-              registerUselessParameterProblem(holder, psiNameValuePair, Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, Assets.I18NBUNDLE_CLASS_NAME)
+          } else if (psiNameValuePair.name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
+            if (annotation.getClassNamesOfOwningVariable().none { it == I18NBUNDLE_CLASS_NAME }) {
+              registerUselessParameterProblem(holder, psiNameValuePair, ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, I18NBUNDLE_CLASS_NAME)
             }
           }
         }

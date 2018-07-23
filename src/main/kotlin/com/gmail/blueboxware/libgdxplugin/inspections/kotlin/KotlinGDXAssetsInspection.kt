@@ -2,10 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaGDXAssetsInspection
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
-import com.gmail.blueboxware.libgdxplugin.utils.analyzePartial
-import com.gmail.blueboxware.libgdxplugin.utils.fqName
-import com.gmail.blueboxware.libgdxplugin.utils.supersAndThis
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -45,7 +42,7 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
 
       annotationEntry.analyzePartial().get(BindingContext.ANNOTATION, annotationEntry)?.type?.fqName()?.let { fqName ->
 
-        if (fqName != Assets.ASSET_ANNOTATION_NAME) return
+        if (fqName != ASSET_ANNOTATION_NAME) return
 
         val classNamesOfOwningVariable = annotationEntry.getClassNamesOfOwningVariable()
 
@@ -61,33 +58,33 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
             }
           }
 
-          if (name == Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
-            if (Assets.SKIN_CLASS_NAME !in classNamesOfOwningVariable) {
-              registerUselessParameterProblem(holder, ktValueArgument, Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME, Assets.SKIN_CLASS_NAME)
+          if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
+            if (SKIN_CLASS_NAME !in classNamesOfOwningVariable) {
+              registerUselessParameterProblem(holder, ktValueArgument, ASSET_ANNOTATION_SKIN_PARAM_NAME, SKIN_CLASS_NAME)
             }
-          } else if (name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
-            if (Assets.SKIN_CLASS_NAME !in classNamesOfOwningVariable && Assets.TEXTURE_ATLAS_CLASS_NAME !in classNamesOfOwningVariable) {
+          } else if (name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
+            if (SKIN_CLASS_NAME !in classNamesOfOwningVariable && TEXTURE_ATLAS_CLASS_NAME !in classNamesOfOwningVariable) {
               registerUselessParameterProblem(
                       holder,
                       ktValueArgument,
-                      Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME,
-                      Assets.SKIN_CLASS_NAME + " or " + Assets.TEXTURE_ATLAS_CLASS_NAME
+                      ASSET_ANNOTATION_ATLAS_PARAM_NAME,
+                      "$SKIN_CLASS_NAME or $TEXTURE_ATLAS_CLASS_NAME"
               )
             }
-          } else if (name == Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
-            if (Assets.I18NBUNDLE_CLASS_NAME !in classNamesOfOwningVariable) {
-              registerUselessParameterProblem(holder, ktValueArgument, Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, Assets.I18NBUNDLE_CLASS_NAME)
+          } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
+            if (I18NBUNDLE_CLASS_NAME !in classNamesOfOwningVariable) {
+              registerUselessParameterProblem(holder, ktValueArgument, ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, I18NBUNDLE_CLASS_NAME)
             }
           }
 
           arguments?.forEach { argument ->
             (argument as? KtStringTemplateExpression)?.plainContent?.let { value ->
 
-              if (name == Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME) {
+              if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
                 JavaGDXAssetsInspection.checkSkinFilename(argument, value, holder)
-              } else if (name == Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
+              } else if (name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
                 JavaGDXAssetsInspection.checkFilename(argument, value, holder)
-              } else if (name == Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
+              } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
                 JavaGDXAssetsInspection.checkFilename(argument, value, holder)
               } else {
                 null
@@ -99,7 +96,7 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
         }
 
         if ((annotationEntry.context as? KtModifierList)?.owner is KtVariableDeclaration) {
-          if (classNamesOfOwningVariable.none { it in Assets.TARGETS_FOR_GDXANNOTATION }) {
+          if (classNamesOfOwningVariable.none { it in TARGETS_FOR_GDXANNOTATION }) {
             holder.registerProblem(annotationEntry, message("gdxassets.annotation.problem.descriptor.wrong.target"), ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
           }
         }

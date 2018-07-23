@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
-import com.gmail.blueboxware.libgdxplugin.utils.Assets
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.intellij.debugger.engine.evaluation.EvaluationContext
 import com.intellij.debugger.settings.NodeRendererSettings
@@ -37,7 +37,7 @@ class LibGDXColorObjectRenderer(rendererSettings: NodeRendererSettings): Compoun
 ) {
 
   init {
-    className = Assets.COLOR_CLASS_NAME
+    className = COLOR_CLASS_NAME
     isEnabled = true
   }
 

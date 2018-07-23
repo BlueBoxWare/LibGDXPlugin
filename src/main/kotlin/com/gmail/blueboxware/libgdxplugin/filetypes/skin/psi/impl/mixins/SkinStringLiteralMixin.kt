@@ -8,6 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.stripQuotes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.unescape
+import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiPrimitiveType
@@ -39,7 +40,7 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
   override fun getReference(): PsiReference? {
 
     if (
-            property?.containingObject?.resolveToTypeString() == "com.badlogic.gdx.graphics.g2d.BitmapFont"
+            property?.containingObject?.resolveToTypeString() == BITMAPFONT_CLASS_NAME
             && property?.name == PROPERTY_NAME_FONT_FILE
     ) {
       return SkinFileReference(this, containingFile)

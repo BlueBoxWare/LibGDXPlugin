@@ -28,10 +28,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReference(element: PsiElement, val resourceName: String, val classNameWithDollar: String?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>): PsiPolyVariantReferenceBase<PsiElement>(element) {
-
-  val className
-    get() = classNameWithDollar?.removeDollarFromClassName()
+class AssetReference(element: PsiElement, val resourceName: String, val className: DollarClassName?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>): PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   val skinFiles: Set<SkinFile>
     get() = assetFiles.first
@@ -46,12 +43,12 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     val result = mutableListOf<LookupElement>()
 
-    val isDrawable = className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+    val isDrawable = className?.plainName == DRAWABLE_CLASS_NAME
 
-    if (className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+    if (className?.plainName != TEXTURE_REGION_CLASS_NAME) {
       assetFiles.first.forEach { skinFile ->
 
-        skinFile.getResources(if (isDrawable) listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable") else className.singletonOrNull(), null).forEach { resource ->
+        skinFile.getResources(if (isDrawable) listOf(TINTED_DRAWABLE_CLASS_NAME) else className?.plainName.singletonOrNull(), null).forEach { resource ->
           val lookupElement = LookupElementBuilder
                   .create(resource)
                   .withIcon(resource.asColor(false)?.let { createColorIcon(it) })
@@ -72,7 +69,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
       }
     }
 
-    if (isDrawable || className == null || className == "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+    if (isDrawable || className == null || className.plainName == TEXTURE_REGION_CLASS_NAME) {
       assetFiles.second.forEach { atlasFile ->
         atlasFile.getPages().forEach { page ->
           page.regionList.forEach { region ->
@@ -128,16 +125,16 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
       val result = mutableListOf<PsiElementResolveResult>()
 
-      val isDrawable = assetReference.className == "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+      val isDrawable = assetReference.className?.plainName == DRAWABLE_CLASS_NAME
 
-      if (assetReference.className != "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+      if (assetReference.className?.plainName != TEXTURE_REGION_CLASS_NAME) {
         assetReference.assetFiles.first.forEach {
-          if (it.getUserData(Assets.FAKE_FILE_KEY) != true) {
+          if (it.getUserData(FAKE_FILE_KEY) != true) {
             it.getResources(
                     if (isDrawable)
-                      listOf("com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
+                      listOf(TINTED_DRAWABLE_CLASS_NAME)
                     else
-                      assetReference.className.singletonOrNull(), assetReference.resourceName
+                      assetReference.className?.plainName.singletonOrNull(), assetReference.resourceName
             ).forEach { resource ->
               result.add(PsiElementResolveResult(resource))
             }
@@ -145,9 +142,9 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
         }
       }
 
-      if (isDrawable || assetReference.className == null || assetReference.className == "com.badlogic.gdx.graphics.g2d.TextureRegion") {
+      if (isDrawable || assetReference.className == null || assetReference.className.plainName == TEXTURE_REGION_CLASS_NAME) {
         assetReference.assetFiles.second.forEach { atlasFile ->
-          if (atlasFile.getUserData(Assets.FAKE_FILE_KEY) != true) {
+          if (atlasFile.getUserData(FAKE_FILE_KEY) != true) {
             atlasFile.getPages().forEach { page ->
               page.regionList.forEach { region ->
                 if (region.name == assetReference.resourceName) {
@@ -170,7 +167,12 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     private val RESOLVER = Resolver()
 
-    fun createReferences(element: PsiElement, callExpression: PsiElement, wantedClass: String? = null, resourceName: String? = null): Array<out PsiReference> {
+    fun createReferences(
+            element: PsiElement,
+            callExpression: PsiElement,
+            wantedClass: DollarClassName? = null,
+            resourceName: String? = null
+    ): Array<out PsiReference> {
 
       @Suppress("IfThenToElvis")
       val assetFiles = if (callExpression is PsiMethodCallExpression) {
@@ -192,8 +194,15 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
 
     }
 
+    fun createReferences(
+            element: PsiElement,
+            callExpression: PsiElement,
+            wantedClass: String,
+            resourceName: String? = null
+    ): Array<out PsiReference> = createReferences(element, callExpression, DollarClassName(wantedClass), resourceName)
+
     fun getOriginalFileName(psiFile: PsiFile): String =
-            if (psiFile.getUserData(Assets.FAKE_FILE_KEY) == true) {
+            if (psiFile.getUserData(FAKE_FILE_KEY) == true) {
               psiFile.originalFile.name
             } else {
               psiFile.name

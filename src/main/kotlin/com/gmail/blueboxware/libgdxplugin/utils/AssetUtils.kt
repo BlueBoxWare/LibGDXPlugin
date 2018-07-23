@@ -4,12 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_ATLAS_PARAM_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_PROPERTIES_PARAM_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.ASSET_ANNOTATION_SKIN_PARAM_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.FAKE_FILE_KEY
-import com.gmail.blueboxware.libgdxplugin.utils.Assets.NO_ASSET_FILES
 import com.intellij.lang.Language
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.project.Project
@@ -36,44 +30,47 @@ import java.io.IOException
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal object Assets {
 
-  val SKIN_TEXTURE_REGION_CLASSES = listOf(
-          "com.badlogic.gdx.graphics.g2d.TextureRegion",
-          "com.badlogic.gdx.graphics.g2d.NinePatch",
-          "com.badlogic.gdx.graphics.g2d.Sprite"
-  )
-  val SKIN_TEXTURE_REGION_METHODS = listOf("getRegion", "getRegions", "getPatch", "getSprite", "getTiledDrawable")
+val SKIN_TEXTURE_REGION_METHODS = listOf("getRegion", "getRegions", "getPatch", "getSprite", "getTiledDrawable")
 
-  val TEXTURE_ATLAS_TEXTURE_METHODS = listOf("createPatch", "createSprite", "createSprites", "findRegion", "findRegions")
+val TEXTURE_ATLAS_TEXTURE_METHODS = listOf("createPatch", "createSprite", "createSprites", "findRegion", "findRegions")
 
-  const val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
-  const val TAG_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXTag"
+const val ASSET_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets"
+const val TAG_ANNOTATION_NAME = "com.gmail.blueboxware.libgdxplugin.annotations.GDXTag"
 
-  const val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
-  const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
-  const val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
+const val ASSET_ANNOTATION_SKIN_PARAM_NAME = "skinFiles"
+const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
+const val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
 
-  const val COLOR_CLASS_NAME = "com.badlogic.gdx.graphics.Color"
+const val COLOR_CLASS_NAME = "com.badlogic.gdx.graphics.Color"
+const val DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
+const val TINTED_DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
+const val TEXTURE_REGION_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureRegion"
+const val BITMAPFONT_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.BitmapFont"
 
-  const val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
-  const val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
-  const val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
-  val TARGETS_FOR_GDXANNOTATION = listOf(SKIN_CLASS_NAME, TEXTURE_ATLAS_CLASS_NAME, I18NBUNDLE_CLASS_NAME)
+const val SKIN_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin"
+const val TEXTURE_ATLAS_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureAtlas"
+const val I18NBUNDLE_CLASS_NAME = "com.badlogic.gdx.utils.I18NBundle"
 
-  val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
+val TARGETS_FOR_GDXANNOTATION = listOf(SKIN_CLASS_NAME, TEXTURE_ATLAS_CLASS_NAME, I18NBUNDLE_CLASS_NAME)
 
-  val FAKE_FILE_KEY = key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
+val SKIN_TEXTURE_REGION_CLASSES = listOf(
+        TEXTURE_REGION_CLASS_NAME,
+        "com.badlogic.gdx.graphics.g2d.NinePatch",
+        "com.badlogic.gdx.graphics.g2d.Sprite"
+)
 
-  val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
+val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 
-}
+val FAKE_FILE_KEY = key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
+
+val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
 
 internal fun VirtualFile.getAssociatedFiles(): List<VirtualFile> {
 
   val result = mutableListOf<VirtualFile>()
 
-  VfsUtil.visitChildrenRecursively(parent, object : VirtualFileVisitor<Unit>() {
+  VfsUtil.visitChildrenRecursively(parent, object: VirtualFileVisitor<Unit>() {
     override fun visitFile(file: VirtualFile): Boolean {
       if (!file.isDirectory && file != this@getAssociatedFiles) {
         result.add(file)
@@ -183,7 +180,7 @@ private fun getAssetFilesFromAnnotation(project: Project, annotation: Annotation
 }
 
 private fun findAssetsAnnotationClass(context: PsiElement): PsiClass? =
-  context.findClass(ASSET_ANNOTATION_NAME)
+        context.findClass(ASSET_ANNOTATION_NAME)
 
 internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
 

@@ -54,7 +54,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     val objectType = containingObject?.resolveToTypeString()
 
-    if (objectType == "com.badlogic.gdx.graphics.g2d.BitmapFont") {
+    if (objectType == BITMAPFONT_CLASS_NAME) {
       if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
         val clazz = project.findClass("java.lang.Integer") ?: return null
         return PsiTypesUtil.getClassType(clazz)
@@ -85,7 +85,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
       val force =
               this@SkinPropertyMixin.firstParent<SkinClassSpecification>()
-                      ?.getRealClassNamesAsString()?.contains(Assets.COLOR_CLASS_NAME) ?: false
+                      ?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) ?: false
 
       (value as? SkinObject)?.asColor(force)?.let { color ->
         return createColorIcon(color)

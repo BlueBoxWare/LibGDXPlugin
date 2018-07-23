@@ -87,19 +87,12 @@ internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression?
 internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
         arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
 
-internal fun String.removeDollarFromClassName(): String = split(".", "$").joinToString(".")
-
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
 
 internal fun GrLiteral.asString(): String? =
         takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
         ?: takeIf { (it as? GrString)?.isPlainString == true }?.text?.let(::trimQuotes)
 
-
-internal fun PsiClass.putDollarInInnerClassName(): String =
-        containingClass?.let {
-          it.putDollarInInnerClassName() + "$" + name
-        } ?: qualifiedName ?: ""
 
 internal fun PsiType?.isStringType(element: PsiElement) =
         this == PsiType.getJavaLangString(element.manager, element.resolveScope)
