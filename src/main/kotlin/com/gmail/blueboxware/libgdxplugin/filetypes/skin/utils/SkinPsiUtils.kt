@@ -5,9 +5,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Co
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.utils.findElement
+import com.gmail.blueboxware.libgdxplugin.utils.findLeaf
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
-import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
@@ -158,4 +157,4 @@ fun SkinClassSpecification.getRealClassNamesAsString() =
           file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString.plainName)
         } ?: listOf(classNameAsString.plainName)
 
-fun SkinObject.getOpeningBrace() = findElement { it.isLeaf(SkinElementTypes.L_CURLY) }
+fun SkinObject.getOpeningBrace() = findLeaf(SkinElementTypes.L_CURLY)

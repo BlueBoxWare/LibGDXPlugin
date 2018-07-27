@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.findElement
@@ -12,7 +13,9 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -82,26 +85,34 @@ class SkinElementFactory(private val project: Project) {
             }
           """)
 
-  fun createResource(name: String): SkinResource? =
-          createElement("""
+  fun createResource(name: String): Pair<SkinResource, Int>? =
+          createElement<SkinResource>("""
             {
               className: {
                 $name: {  }
               }
             }
-          """)
+          """)?.let { element ->
+            element.`object`?.getOpeningBrace()?.startOffset?.let {
+              Pair(element, it - element.startOffset + 1)
+            }
+          }
 
-  fun createColorResource(name: String): SkinResource? =
-          createElement("""
+  fun createColorResource(name: String): Pair<SkinResource, Int>? =
+          createElement<SkinResource>("""
             {
               className: {
                 $name: { hex: "#" }
               }
             }
-          """)
+          """)?.let { element ->
+            element.text.indexOf('#').let { index ->
+              Pair(element, index + 1)
+            }
+          }
 
-  fun createTintedDrawableResource(name: String): SkinResource? =
-          createElement("""
+  fun createTintedDrawableResource(name: String): Pair<SkinResource, Int>? =
+          createElement<SkinResource>("""
             {
               className: {
                 $name: {
@@ -110,7 +121,23 @@ class SkinElementFactory(private val project: Project) {
                 }
               }
             }
-          """.trimIndent())
+          """.trimIndent())?.let { element ->
+
+            Regex("""name\s*:""").find(element.text)?.range?.endInclusive?.let { end ->
+
+              if (
+                      CodeStyleSettingsManager
+                              .getSettings(project)
+                              .getCustomSettings(SkinCodeStyleSettings::class.java)
+                              ?.SPACE_AFTER_COLON != false
+              ) {
+                end + 2
+              } else {
+                end + 1
+              }
+            }?.let { Pair(element, it) }
+
+          }
 
   fun createObject(): SkinObject? =
           createElement("propertyName: propertyValue", "", false)

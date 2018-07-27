@@ -1,0 +1,35 @@
+{
+  <warning descr="Short name 'Color' can be used instead of the fully qualified name.">com.badlogic.gdx.graphics.Color</warning>: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+  },
+  <warning descr="Short name 'BitmapFont' can be used instead of the fully qualified name.">com.badlogic.gdx.graphics.g2d.BitmapFont</warning>: {
+    medium: { file: medium.fnt }
+  },
+  <warning descr="Short name 'TextButtonStyle' can be used instead of the fully qualified name.">com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle</warning>: {
+    default: {
+      down: round-down, up: round,
+      font: medium, fontColor: white
+    },
+  }
+  <warning descr="Short name 'TintedDrawable' can be used instead of the fully qualified name.">com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable</warning>: {
+
+  }
+  scenes.scene2d.ui.Skin$TintedDrawable: {
+
+  }
+  TintedDrawable: {}
+  Color: {
+
+  },
+  BitmapFont: {
+
+  },
+  TextButton$TextButtonStyle: {
+
+  }
+  TextButtonStyle: {
+
+  }
+}

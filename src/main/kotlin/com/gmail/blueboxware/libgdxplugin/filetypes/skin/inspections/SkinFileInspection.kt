@@ -100,7 +100,8 @@ open class SkinFileInspection : LocalInspectionTool() {
             "NonExistingFile",
             "NonExistingResourceInAlias",
             "NonExistingInspection",
-            "TypeError"
+            "TypeError",
+            "AbbrClass"
     )
 
     private fun suppress(element: PsiElement, id: String) {

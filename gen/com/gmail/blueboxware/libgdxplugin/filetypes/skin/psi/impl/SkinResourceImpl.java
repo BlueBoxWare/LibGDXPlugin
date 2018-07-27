@@ -14,7 +14,7 @@ import java.awt.Color;
 
 public class SkinResourceImpl extends SkinResourceMixin implements SkinResource {
 
-  public SkinResourceImpl(@NotNull ASTNode node) {
+  public SkinResourceImpl(ASTNode node) {
     super(node);
   }
 

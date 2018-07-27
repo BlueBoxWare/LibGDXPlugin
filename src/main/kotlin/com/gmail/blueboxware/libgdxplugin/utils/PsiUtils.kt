@@ -1,12 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
+import com.intellij.lang.ASTNode
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.PsiElementProcessor
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.InheritanceUtil
-import com.intellij.psi.util.PsiElementFilter
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
@@ -15,6 +15,7 @@ import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
@@ -41,7 +42,12 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal fun PsiElement.isNewline() = this is PsiWhiteSpace && text.contains("\n")
+internal fun PsiElement.isFollowByNewLine() = node.treeNext?.isNewline() ?: false
+
+internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: false
+
+internal fun ASTNode.isNewline() =
+        elementType == TokenType.WHITE_SPACE && text.contains('\n')
 
 internal fun PsiElement.isLeaf(type: IElementType) = (this as? LeafPsiElement)?.elementType == type
 
@@ -211,12 +217,21 @@ internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
 
 internal fun KotlinType.fqName() = constructor.declarationDescriptor?.fqNameSafe?.asString()
 
+internal fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? =
+        allChildren.firstOrNull { it is LeafPsiElement && it.elementType == elementType } as? LeafPsiElement
+
 internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElement? {
 
-  val processor =
-          PsiElementProcessor.FindFilteredElement<PsiElement>(
-                  PsiElementFilter { element -> element != null && condition(element) }
-          )
+  val processor = object: PsiElementProcessor.FindElement<PsiElement>() {
+    override fun execute(element: PsiElement): Boolean {
+      if (condition(element)) {
+        setFound(element)
+        return false
+      } else {
+        return true
+      }
+    }
+  }
   PsiTreeUtil.processElements(this, processor)
   return processor.foundElement
 

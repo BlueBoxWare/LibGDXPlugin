@@ -67,6 +67,7 @@ private recover_class_lbrace ::= !(string_literal | '}')
 class_name ::= string_literal {
     methods=[
         getValue
+        setValue
         resolve
         multiResolve
     ]

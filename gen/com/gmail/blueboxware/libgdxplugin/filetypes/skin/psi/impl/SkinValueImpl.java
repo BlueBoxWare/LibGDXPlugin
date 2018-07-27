@@ -15,7 +15,7 @@ import com.intellij.psi.PsiType;
 
 public abstract class SkinValueImpl extends SkinValueMixin implements SkinValue {
 
-  public SkinValueImpl(@NotNull ASTNode node) {
+  public SkinValueImpl(ASTNode node) {
     super(node);
   }
 

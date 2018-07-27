@@ -15,7 +15,7 @@ import com.intellij.psi.PsiType;
 
 public class SkinPropertyImpl extends SkinPropertyMixin implements SkinProperty {
 
-  public SkinPropertyImpl(@NotNull ASTNode node) {
+  public SkinPropertyImpl(ASTNode node) {
     super(node);
   }
 

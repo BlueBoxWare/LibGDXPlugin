@@ -16,6 +16,8 @@ public interface SkinClassName extends SkinElement {
   @NotNull
   DollarClassName getValue();
 
+  void setValue(DollarClassName className);
+
   @Nullable
   PsiClass resolve();
 

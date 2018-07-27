@@ -152,8 +152,9 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
                  hex: "#123456"
                }
                yellow: {
-                 hex: "#<caret>"
+                 hex: "#"
                }
+
                /*
                 * Comments
                 */
@@ -430,7 +431,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
     myFixture.configureByText("Test.$extension", codeFileContent)
 
     for (intention in myFixture.availableIntentions) {
-      if (intention.familyName.startsWith("Create asset")) {
+      if (intention.familyName.startsWith("Create resource")) {
         myFixture.launchAction(intention)
         myFixture.openFileInEditor(skinFile.virtualFile)
         myFixture.checkResult(expectedSkinContent, true)

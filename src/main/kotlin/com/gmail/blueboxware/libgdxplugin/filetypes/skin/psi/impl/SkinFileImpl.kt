@@ -6,10 +6,12 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.extapi.psi.PsiFileBase
@@ -155,16 +157,18 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   }
 
+  @Suppress("unused")
   fun getOpeningBrace(): PsiElement? =
           allChildren.firstOrNull { it.isLeaf(SkinElementTypes.L_CURLY) }
 
+  @Suppress("MemberVisibilityCanBePrivate")
   fun getClosingBrace(): PsiElement? =
           allChildren.lastOrNull { it.isLeaf(SkinElementTypes.R_CURLY) }
 
   fun isEmpty(): Boolean =
           allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY) || it.isLeaf(SkinElementTypes.R_CURLY) }
 
-  fun insertBraces() =
+  private fun insertBraces() =
           factory.let {
             it.createElementsOrNull(it::createLeftBrace, it::createNewLine, it::createRightBrace)
                     ?.let { (lbrace, newline, rbrache) ->
@@ -174,12 +178,10 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
                     }
           }
 
-  fun addClassSpec(className: DollarClassName): SkinClassSpecification? {
+  private fun addClassSpec(className: DollarClassName, cause: SkinElement? = null): SkinClassSpecification? {
     if (isEmpty()) {
       insertBraces()
     }
-
-    val closingBrace = getClosingBrace() ?: return null
 
     val actualClassName =
             if (project.isLibGDX199()) {
@@ -188,29 +190,59 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
               className.dollarName
             }
 
-    return factory.createClassSpec(actualClassName)?.let { classSpec ->
-      addBefore(classSpec, closingBrace) as? SkinClassSpecification
+    val addBefore = cause?.firstParent<SkinClassSpecification>()
+            ?: getClosingBrace() ?: return null
+
+    val result = factory.createClassSpec(actualClassName)?.let { classSpec ->
+      addBefore(classSpec, addBefore) as? SkinClassSpecification
     }
+
+    result?.let { actualResult ->
+      if (!actualResult.isPrecededByNewline()) {
+        factory()?.createNewLine()?.let { newline ->
+          addBefore(newline, actualResult)
+        }
+      }
+      if (!actualResult.isFollowByNewLine()) {
+        factory()?.createNewLine()?.let { newline ->
+          addAfter(newline, actualResult)
+        }
+      }
+    }
+
+    return result
 
   }
 
-  fun addResource(className: DollarClassName, resourceName: String): SkinResource? =
-          getClassSpecifications(className.plainName).lastOrNull()?.addResource(resourceName)
-                  ?: addClassSpec(className)?.addResource(resourceName)
+  private fun getClassSpecToInsertInto(className: DollarClassName, cause: SkinElement?): SkinClassSpecification? {
+    val classSpecs =
+            getClassSpecifications(className.plainName).takeIf { !it.isEmpty() }
+                ?: addClassSpec(className, cause)?.let(::listOf) ?: return null
 
+    return cause?.firstParent<SkinClassSpecification>()?.let { causingClassSpec ->
+      classSpecs.find { it == causingClassSpec }
+    } ?: classSpecs.lastOrNull()
 
-  fun addResource(className: DollarClassName, resource: SkinResource): SkinResource? =
-          getClassSpecifications(className.plainName).lastOrNull()?.addResource(resource)
-                  ?: addClassSpec(className)?.addResource(resource)
+  }
 
-  fun addColor(name: String): SkinResource? =
-          factory.createColorResource(name)?.let { resource ->
-            addResource(DollarClassName(COLOR_CLASS_NAME), resource)
+  fun addResource(className: DollarClassName, resourceName: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
+          getClassSpecToInsertInto(className, cause)?.addResource(resourceName, cause)
+
+  private fun addResource(className: DollarClassName, resource: SkinResource, cause: SkinElement? = null): SkinResource? =
+          getClassSpecToInsertInto(className, cause)?.addResource(resource, cause)
+
+  fun addColor(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
+          factory.createColorResource(name)?.let { (resource, position) ->
+            addResource(DollarClassName(COLOR_CLASS_NAME), resource, cause)?.let {
+              Pair(it, it.startOffset + position)
+            }
           }
 
-  fun addTintedDrawable(name: String): SkinResource? =
-          factory.createTintedDrawableResource(name)?.let { resource ->
-            addResource(DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"), resource)
+  fun addTintedDrawable(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
+          factory.createTintedDrawableResource(name)?.let { (resource, position) ->
+            addResource(DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"), resource, cause)?.let {
+              Pair(it, it.startOffset + position)
+            }
           }
 
   override fun getPresentation() = object: ItemPresentation {

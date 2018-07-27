@@ -23,16 +23,16 @@ public interface SkinObject extends SkinValue {
   List<String> getPropertyNames();
 
   @Nullable
-  SkinObject setColor(@NotNull Color color);
+  SkinObject setColor(Color color);
 
-  void addProperty(@NotNull SkinProperty property);
+  void addProperty(SkinProperty property);
 
-  void addComment(@NotNull PsiComment comment);
-
-  @Nullable
-  SkinProperty getProperty(@NotNull String name);
+  void addComment(PsiComment comment);
 
   @Nullable
-  PsiField resolveToField(@NotNull SkinProperty property);
+  SkinProperty getProperty(String name);
+
+  @Nullable
+  PsiField resolveToField(SkinProperty property);
 
 }

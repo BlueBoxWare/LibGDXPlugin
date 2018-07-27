@@ -1,11 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
+import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.fileEditor.FileEditorManager
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -48,12 +53,41 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
       if (reference is SkinResourceReference) {
         val referent = reference.resolve()
         if (referent == null) {
-          holder.registerProblem(stringLiteral, message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value))
+          val quickfix = stringLiteral.resolveToClass()?.let { clazz ->
+
+            if (clazz.qualifiedName == "java.lang.String") {
+              null
+            } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
+              null
+            } else {
+              MyQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
+            }
+
+          }
+          holder.registerProblem(
+                  stringLiteral,
+                  message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value),
+                  quickfix
+          )
         }
       }
 
     }
 
+  }
+
+  private class MyQuickFix(
+          element: SkinElement,
+          assetName: String,
+          className: DollarClassName
+  ): CreateAssetQuickFix(element, assetName, className) {
+
+    override fun updateCaret(file: SkinFile, position: Int): Unit?=
+            FileEditorManager.getInstance(file.project).selectedTextEditor?.let { editor ->
+              if (FileDocumentManager.getInstance().getFile(editor.document) == file.virtualFile) {
+                editor.caretModel.moveToOffset(position)
+              }
+            }
   }
 
 }

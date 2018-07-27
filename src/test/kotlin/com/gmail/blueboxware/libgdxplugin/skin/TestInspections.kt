@@ -2,8 +2,16 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.testname
+import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
+import com.intellij.profile.codeInspection.InspectionProjectProfileManager
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiRecursiveElementVisitor
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -88,6 +96,35 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   fun testInspectionNameInspection() {
     doTest(SkinInspectionNameInspection())
+  }
+
+  fun testAbbrClassInspectionWithTags() {
+    myFixture.enableInspections(SkinAbbrClassInspection())
+    InspectionProjectProfileManager.getInstance(project).currentProfile.allTools.forEach {
+      if (it.tool.displayName == message("skin.inspection.abbr.class.display.name")) {
+        it.level = HighlightDisplayLevel.WARNING
+      }
+    }
+    myFixture.testHighlighting(true, false, false, testname() + ".skin")
+  }
+
+  fun testAbbrClassInspectionWithTagsQuickfixes() {
+    myFixture.enableInspections(SkinAbbrClassInspection())
+    myFixture.configureByFile("abbrClassInspectionFixes.skin")
+    (myFixture.file as? SkinFile)?.accept(object : PsiRecursiveElementVisitor() {
+      override fun visitElement(element: PsiElement?) {
+        super.visitElement(element)
+        (element as? SkinClassName)?.let { skinClassName ->
+          myFixture.editor.caretModel.moveToOffset(skinClassName.startOffset)
+          myFixture.availableIntentions.forEach {
+            if (it.familyName == SkinAbbrClassInspection.FAMILY_NAME) {
+              myFixture.launchAction(it)
+            }
+          }
+        }
+      }
+    })
+    myFixture.checkResultByFile("abbrClassInspectionFixes.after")
   }
 
   fun testSuppression() {

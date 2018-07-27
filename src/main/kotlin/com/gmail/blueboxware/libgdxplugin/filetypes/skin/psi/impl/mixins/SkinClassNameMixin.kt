@@ -9,6 +9,7 @@ import com.intellij.lang.ASTNode
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
@@ -34,6 +35,10 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
   override fun getValue() = DollarClassName(stringLiteral.value)
 
+  override fun setValue(className: DollarClassName) {
+    stringLiteral.value = className.dollarName
+  }
+
   override fun resolve(): PsiClass? = multiResolve().firstOrNull()
 
   override fun multiResolve(): List<PsiClass> {
@@ -50,10 +55,10 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
           @Suppress("IfThenToElvis")
           if (taggedClasses != null) {
             taggedClasses.flatMap { className ->
-              psiFacade.findClasses(className, module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
+              psiFacade.findClasses(className, GlobalSearchScope.allScope(project)).toList()
             }
           } else {
-            psiFacade.findClasses(value.plainName, module.getModuleWithDependenciesAndLibrariesScope(true)).toList()
+            psiFacade.findClasses(value.plainName, GlobalSearchScope.allScope(project)).toList()
           }
 
         }

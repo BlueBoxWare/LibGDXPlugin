@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinResourceNameImpl extends SkinResourceNameMixin implements SkinResourceName {
 
-  public SkinResourceNameImpl(@NotNull ASTNode node) {
+  public SkinResourceNameImpl(ASTNode node) {
     super(node);
   }
 

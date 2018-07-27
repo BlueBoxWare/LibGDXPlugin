@@ -12,11 +12,11 @@ import com.intellij.codeInsight.completion.impl.CamelHumpMatcher
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
-import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
@@ -369,9 +369,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val dummyText = parameters.position.text
     val currentPackage = psiFacade.findPackage(prefix)
 
-    val scope =
-            ModuleUtilCore.findModuleForPsiElement(parameters.position)?.getModuleWithDependenciesAndLibrariesScope(true)
-            ?: return
+    val scope = GlobalSearchScope.allScope(project)
 
     if (currentPackage == null || currentPackage.name == null) {
 

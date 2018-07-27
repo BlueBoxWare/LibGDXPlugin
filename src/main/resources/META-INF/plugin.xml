@@ -35,7 +35,9 @@
             <li>Inspection to highlight references in Java/Kotlin to assets which don't exist. @GDXAssets annotated fields and variables only.</li>
             <li>Warn about outdated libraries in Gradle Kotlin DSL too</li>
             <li>Performance improvements</li>
-            <li></li>
+            <li>Skins: inspection to inform about the ability to use short class names instead of qualified names</li>
+            <li>Skins: Quickfix to create non existing resources</li>
+            <li>Skins: Use @GDXTag annotation to inform the plugin about custom short names for classes</li>
         </ul>
 
         <b>1.15.2</b>

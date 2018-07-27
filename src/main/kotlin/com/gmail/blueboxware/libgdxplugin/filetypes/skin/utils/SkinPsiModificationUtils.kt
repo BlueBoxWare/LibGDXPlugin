@@ -4,13 +4,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
-import com.gmail.blueboxware.libgdxplugin.utils.isNewline
+import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.utils.isFollowByNewLine
+import com.gmail.blueboxware.libgdxplugin.utils.isPrecededByNewline
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 
 /*
@@ -66,22 +68,42 @@ fun SkinClassSpecification.addCommentExt(comment: PsiComment) {
 
 }
 
-fun SkinClassSpecification.addResource(name: String): SkinResource? =
-          factory()?.createResource(name)?.let { resource ->
-            addResource(resource)
-          }
-
-fun SkinClassSpecification.addResource(resource: SkinResource): SkinResource? =
-        resources?.let { resources ->
-          resources.allChildren.lastOrNull()?.let { lastChild ->
-            if (!lastChild.isNewline()) {
-              factory()?.createNewLine()?.let {
-                resources.add(it)
-              }
+fun SkinClassSpecification.addResource(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
+          factory()?.createResource(name)?.let { (resource, position) ->
+            addResource(resource, cause)?.let {
+              Pair(it, it.startOffset + position)
             }
           }
-          resources.add(resource) as? SkinResource
-        }
+
+fun SkinClassSpecification.addResource(resource: SkinResource, cause: SkinElement? = null): SkinResource? {
+
+  val resources = resources ?: return null
+
+  val addBefore = cause?.firstParent<SkinResource>()?.let { targetResource ->
+    resourcesAsList.firstOrNull { it == targetResource }
+  }
+
+  val result = if (addBefore == null) {
+    resources.add(resource) as? SkinResource
+  } else {
+    resources.addBefore(resource, addBefore) as? SkinResource
+  }
+
+  result?.let { actualResult ->
+    if (!actualResult.isPrecededByNewline()) {
+      factory()?.createNewLine()?.let { newline ->
+        resources.addBefore(newline, actualResult)
+      }
+    }
+    if (!actualResult.isFollowByNewLine()) {
+      factory()?.createNewLine()?.let { newline ->
+        resources.addAfter(newline, actualResult)
+      }
+    }
+  }
+
+  return result
+}
 
 fun SkinObject.addPropertyExt(property: SkinProperty) {
 

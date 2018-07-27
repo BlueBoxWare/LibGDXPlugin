@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinStringLiteralImpl extends SkinStringLiteralMixin implements SkinStringLiteral {
 
-  public SkinStringLiteralImpl(@NotNull ASTNode node) {
+  public SkinStringLiteralImpl(ASTNode node) {
     super(node);
   }
 
