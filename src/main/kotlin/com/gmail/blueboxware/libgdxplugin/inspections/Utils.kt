@@ -1,14 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
-import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.TEXTURE_REGION_CLASS_NAME
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.fileEditor.FileEditorManager
-import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.psi.PsiElement
 
 
@@ -42,7 +38,7 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
                     if (!elementName.isBlank()) {
                       reference.className?.takeIf { it.plainName != TEXTURE_REGION_CLASS_NAME }?.let { className ->
                         reference.skinFiles.map { skinFile ->
-                          MyQuickFix(skinFile, elementName, className, skinFile.name)
+                          CreateAssetQuickFix(skinFile, elementName, className, skinFile.name)
                         }.toTypedArray()
                       }
                     } else {
@@ -52,24 +48,5 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
             holder.registerProblem(element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes ?: arrayOf())
 
           }
-
-}
-
-private class MyQuickFix(
-        element: SkinFile,
-        assetName: String,
-        className: DollarClassName,
-        fileName: String? = null
-): CreateAssetQuickFix(element, assetName, className, fileName) {
-
-  override fun updateCaret(file: SkinFile, position: Int) =
-    FileEditorManager
-            .getInstance(file.project)
-            .openFile(file.virtualFile, true)
-            .filterIsInstance<TextEditor>()
-            .firstOrNull()
-            ?.editor
-            ?.caretModel
-            ?.moveToOffset(position)
 
 }

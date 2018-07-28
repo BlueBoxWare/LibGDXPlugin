@@ -1,0 +1,188 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: {r: 1, g: 1, b: 1, a: 1},
+    red: {r: 1, g: 0, b: 0, a: 1},
+    yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+    a: white,
+    b: red,
+    blue: {
+      hex: "#"
+    }
+    c: blue,
+    green: {
+      hex: "#"
+    }
+    d: green,
+    z: {
+      hex: "#"
+    }
+    y: z
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    medium: {
+      file: medium.fnt
+    }
+    pink: {   }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: white
+    },
+    toggle: {
+      parent: default
+      down: round-down,
+      up: round,
+      checked: round-down,
+      font: medium,
+      fontColor: white,
+      checkedFontColor: red
+    },
+    green: {
+      down: round-down,
+      up: round,
+      font: medium,
+      fontColor: {r: 0, g: 1, b: 0, a: 1}
+    },
+    standard: toggle,
+    notoggle: {   }
+    non-standard: notoggle,
+    z: {   }
+    x: z
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    round-green: {
+      name: round,
+      color: green
+    },
+    round-yellow: {
+      name: round,
+      color: yellow
+    }
+    round-down: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round-down: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round-down: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round-down: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+    round: {
+      color: { hex: "#ffffff" }
+      name:
+    }
+  }
+  com.badlogic.gdx.graphics.Color: {
+    blue: {r: 1, g: 1, b: 1, a: 1},
+    f: green,
+    e: yellow,
+    z: d
+    123: e
+    pink: {
+      hex: "#"
+    }
+    456: {
+      hex: "#"
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+    green: {   }
+    yes: green,
+    yellow: {   }
+    no: yellow,
+    d: {   }
+    z: d
+    aa: z
+    nope: {   }
+    pink: {   }
+  }
+
+  com.example.ColorArrayHolder: {
+    a: {
+      colors: [red, pink],
+      moreColors: [pink, [pink, yellow]],
+      m: [
+        {
+          buttonStyle: yes
+        },
+        {
+          textButtonStyle: { parent: yes }
+        },
+        {
+          buttonStyle: nope
+        }
+        {
+          buttonStyle: pink
+        }
+        {
+          textButtonStyle: yes
+        }
+      ]
+      textButtonStyles: [
+        {
+          font: {
+            flip: true
+            file: sfdsdsf
+          }
+        },
+        {
+          font: medium
+        },
+        {
+          font: pink
+        }
+      ]
+    }
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    b1: {
+      parent: yes
+    }
+    b2: {
+      parent: round-green
+    }
+    b3: {
+      parent: d
+    }
+    b4: {
+      parent: toggle
+    }
+    b5: {
+      parent: foo
+    }
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    d: {
+     fontColor: pink
+    }
+    e: {
+      fontColor: 123
+    }
+    f: {
+      fontColor: 456
+    }
+    g: {
+      parent: b1
+    }
+    yes: {   }
+  }
+}

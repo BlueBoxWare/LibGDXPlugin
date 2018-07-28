@@ -9,8 +9,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.openapi.fileEditor.FileEditorManager
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -60,7 +58,7 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
             } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
               null
             } else {
-              MyQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
+              CreateAssetQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
             }
 
           }
@@ -74,20 +72,6 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
 
     }
 
-  }
-
-  private class MyQuickFix(
-          element: SkinElement,
-          assetName: String,
-          className: DollarClassName
-  ): CreateAssetQuickFix(element, assetName, className) {
-
-    override fun updateCaret(file: SkinFile, position: Int): Unit?=
-            FileEditorManager.getInstance(file.project).selectedTextEditor?.let { editor ->
-              if (FileDocumentManager.getInstance().getFile(editor.document) == file.virtualFile) {
-                editor.caretModel.moveToOffset(position)
-              }
-            }
   }
 
 }

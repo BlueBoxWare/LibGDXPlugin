@@ -4,6 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeHighlighting.HighlightDisplayLevel
@@ -106,6 +108,25 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       }
     }
     myFixture.testHighlighting(true, false, false, testname() + ".skin")
+  }
+
+  fun testNonExistingResourceAliasQuickfixes() {
+    myFixture.enableInspections(SkinNonExistingResourceAliasInspection())
+    myFixture.configureByFile("nonExistingResourceAliasFixes.skin")
+    (myFixture.file as? SkinFile)?.accept(object: PsiRecursiveElementVisitor() {
+      override fun visitElement(element: PsiElement?) {
+        super.visitElement(element)
+        (element as? SkinStringLiteral)?.let { literal ->
+          myFixture.editor.caretModel.moveToOffset(literal.startOffset)
+          myFixture.availableIntentions.forEach {
+            if (it.familyName.startsWith(CreateAssetQuickFix.FAMILY_NAME)) {
+              myFixture.launchAction(it)
+            }
+          }
+        }
+      }
+    })
+    myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
   }
 
   fun testAbbrClassInspectionWithTagsQuickfixes() {

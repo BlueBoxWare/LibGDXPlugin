@@ -33,7 +33,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
-                foo: {<caret> }
+                foo: { <caret>  }
                 default: foo
               }
             }
@@ -53,7 +53,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 bar: { }
-                foo: {<caret> }
+                foo: { <caret>  }
                 default: foo
               }
             }
@@ -79,7 +79,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 bar: { }
-                foo: {<caret> }
+                foo: { <caret>  }
                 default: foo
               }
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
@@ -210,7 +210,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
-                foo: {<caret> }
+                foo: { <caret>  }
                 default: { parent: foo }
               }
             }

@@ -1,15 +1,19 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
+import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 
 
 /*
@@ -27,16 +31,14 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class CreateAssetQuickFix(
+class CreateAssetQuickFix(
         element: SkinElement,
         private val assetName: String,
         val className: DollarClassName,
         val filename: String? = null
 ): LocalQuickFixOnPsiElement(element) {
 
-  abstract fun updateCaret(file: SkinFile, position: Int): Unit?
-
-  override fun getFamilyName(): String = "Create resource"
+  override fun getFamilyName(): String = FAMILY_NAME
 
   override fun getText(): String = "Create resource '$assetName'" + if (filename != null) " in '$filename'" else ""
 
@@ -44,16 +46,41 @@ abstract class CreateAssetQuickFix(
 
     val skinFile = startElement.containingFile as? SkinFileImpl ?: return
 
-    (if (className.plainName == DRAWABLE_CLASS_NAME) {
+    FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
+
+    val (resource, position) = (if (className.plainName == DRAWABLE_CLASS_NAME) {
       skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
     } else if (className.plainName == COLOR_CLASS_NAME ) {
       skinFile.addColor(assetName, startElement as? SkinElement)
     } else {
       skinFile.addResource(className, assetName, startElement as? SkinElement)
-    })?.let { (resource, position) ->
-      updateCaret(skinFile, position)
+    }) ?: return
+
+    FileEditorManager.getInstance(project).selectedTextEditor?.let { editor ->
+      FileDocumentManager.getInstance().let { fileDocumentManager ->
+        if (fileDocumentManager.getFile(editor.document) == file.virtualFile) {
+          editor.caretModel.moveToOffset(position)
+          if (
+                  className.plainName != DRAWABLE_CLASS_NAME
+                  && className.plainName != COLOR_CLASS_NAME
+                  && CodeStyleSettingsManager
+                          .getSettings(project)
+                          .getCommonSettings(LibGDXSkinLanguage.INSTANCE)
+                          .SPACE_WITHIN_BRACES
+          ) {
+            PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
+            editor.document.insertString(editor.caretModel.offset, "  ")
+            editor.caretModel.moveToOffset(editor.caretModel.offset - 2)
+          }
+        }
+      }
     }
 
+  }
+
+  companion object {
+
+    val FAMILY_NAME = "Create resource"
 
   }
 

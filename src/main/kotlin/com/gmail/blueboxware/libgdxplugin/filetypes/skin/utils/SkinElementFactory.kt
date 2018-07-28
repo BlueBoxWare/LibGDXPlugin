@@ -89,12 +89,12 @@ class SkinElementFactory(private val project: Project) {
           createElement<SkinResource>("""
             {
               className: {
-                $name: {  }
+                $name: {   }
               }
             }
           """)?.let { element ->
             element.`object`?.getOpeningBrace()?.startOffset?.let {
-              Pair(element, it - element.startOffset + 1)
+              Pair(element, it - element.startOffset + 2)
             }
           }
 
