@@ -105,7 +105,6 @@ object ::= '{' resource_list '}' {
         asColor
         asResource
         getPropertyNames
-        setColor
         addProperty
         addComment
         getProperty

@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.changeColor
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
@@ -76,7 +77,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
   fun test10() {
     myFixture.configureByFile("10.skin")
     val colorElement = myFixture.elementAtCaret.firstParent<SkinObject>()!!
-    colorElement.setColor(Color(128, 128, 128))?.let { newObject ->
+    colorElement.changeColor(Color(128, 128, 128))?.let { newObject ->
       WriteCommandAction.runWriteCommandAction(myFixture.project) {
         colorElement.replace(newObject)
       }
@@ -108,7 +109,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
       assertNotNull(newColor)
       val colorObject = skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
       assertNotNull(colorObject)
-      colorObject!!.setColor(newColor!!)?.let { newObject ->
+      colorObject!!.changeColor(newColor!!)?.let { newObject ->
         WriteCommandAction.runWriteCommandAction(myFixture.project) {
           colorObject.replace(newObject)
         }

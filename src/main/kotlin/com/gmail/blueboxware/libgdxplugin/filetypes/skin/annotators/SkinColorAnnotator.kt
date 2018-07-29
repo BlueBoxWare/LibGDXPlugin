@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecificat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.changeColor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
@@ -62,7 +63,7 @@ class SkinColorAnnotator : Annotator {
 
               if (newColor != null) {
                 ApplicationManager.getApplication().runWriteAction {
-                  element.setColor(newColor)?.let {
+                  element.changeColor(newColor)?.let {
                     element.replace(it)
                   }
                 }

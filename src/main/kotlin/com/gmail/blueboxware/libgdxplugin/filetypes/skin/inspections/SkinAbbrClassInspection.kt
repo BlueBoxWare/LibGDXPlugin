@@ -80,7 +80,7 @@ class SkinAbbrClassInspection: SkinFileInspection() {
 
   companion object {
 
-    val FAMILY_NAME = "Change to short class name"
+    const val FAMILY_NAME = "Change to short class name"
 
   }
 

@@ -80,7 +80,7 @@ class CreateAssetQuickFix(
 
   companion object {
 
-    val FAMILY_NAME = "Create resource"
+    const val FAMILY_NAME = "Create resource"
 
   }
 

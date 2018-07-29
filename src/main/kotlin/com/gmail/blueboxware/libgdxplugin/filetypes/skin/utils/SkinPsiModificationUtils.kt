@@ -13,6 +13,7 @@ import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import java.awt.Color
 
 
 /*
@@ -118,5 +119,43 @@ fun SkinObject.addPropertyExt(property: SkinProperty) {
     }
 
   }
+
+}
+
+private fun colorToString(color: Color) = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
+
+fun SkinObject.changeColor(color: Color): SkinObject? {
+
+  val newObject = factory()?.createObject() ?: return null
+
+  if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
+
+    var quotationChar = "\""
+
+    (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
+      quotationChar = if (oldValue.isQuoted) "\"" else ""
+    }
+
+    factory()?.createProperty("hex", quotationChar + colorToString(color) + quotationChar)?.let(newObject::addProperty)
+
+  } else {
+
+    val components = color.getRGBComponents(null)
+
+    for (rgb in listOf("r", "g", "b", "a")) {
+
+      val value = when (rgb) {
+        "r" -> components[0]
+        "g" -> components[1]
+        "b" -> components[2]
+        else -> components[3]
+      }
+      factory()?.createProperty(rgb, value.toString())?.let(newObject::addProperty)
+
+    }
+
+  }
+
+  return newObject
 
 }

@@ -7,14 +7,12 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addPropertyExt
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiField
-import com.intellij.psi.codeStyle.CodeStyleManager
 import java.awt.Color
 import javax.swing.Icon
 
@@ -38,44 +36,6 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
     override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Object
-  }
-
-  private fun colorToString(color: Color) = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
-
-  override fun setColor(color: Color): SkinObject? {
-
-    val newObject = factory()?.createObject() ?: return null
-
-    if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
-
-      var quotationChar = "\""
-
-      (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
-        quotationChar = if (oldValue.isQuoted) "\"" else ""
-      }
-
-      factory()?.createProperty("hex", quotationChar + colorToString(color) + quotationChar)?.let(newObject::addProperty)
-
-    } else {
-
-      val components = color.getRGBComponents(null)
-
-      for (rgb in listOf("r", "g", "b", "a")) {
-
-        val value = when (rgb) {
-          "r" -> components[0]
-          "g" -> components[1]
-          "b" -> components[2]
-          else -> components[3]
-        }
-        factory()?.createProperty(rgb, value.toString())?.let(newObject::addProperty)
-
-      }
-
-    }
-
-    return CodeStyleManager.getInstance(project).reformat(newObject) as? SkinObject
-
   }
 
   override fun asColor(force: Boolean): Color? {
