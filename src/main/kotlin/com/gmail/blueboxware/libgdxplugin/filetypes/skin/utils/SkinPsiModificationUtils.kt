@@ -3,14 +3,12 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
-import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
-import com.gmail.blueboxware.libgdxplugin.utils.firstParent
-import com.gmail.blueboxware.libgdxplugin.utils.isFollowByNewLine
-import com.gmail.blueboxware.libgdxplugin.utils.isPrecededByNewline
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.util.PsiTreeUtil
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.nextLeaf
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.awt.Color
@@ -32,6 +30,12 @@ import java.awt.Color
  * limitations under the License.
  */
 fun SkinElement.factory() = (containingFile as? SkinFileImpl)?.factory
+
+fun SkinObject.removeAllProperties() =
+        allChildren.filter { it is SkinProperty || it.isLeaf(SkinElementTypes.COMMA) }.toList().forEach {
+          removeChild(it)
+        }
+
 
 fun SkinObject.addCommentExt(comment: PsiComment) {
 
@@ -122,8 +126,6 @@ fun SkinObject.addPropertyExt(property: SkinProperty) {
 
 }
 
-private fun colorToString(color: Color) = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
-
 fun SkinObject.changeColor(color: Color): SkinObject? {
 
   val newObject = factory()?.createObject() ?: return null
@@ -136,7 +138,7 @@ fun SkinObject.changeColor(color: Color): SkinObject? {
       quotationChar = if (oldValue.isQuoted) "\"" else ""
     }
 
-    factory()?.createProperty("hex", quotationChar + colorToString(color) + quotationChar)?.let(newObject::addProperty)
+    factory()?.createProperty("hex", quotationChar + color.toHexString() + quotationChar)?.let(newObject::addProperty)
 
   } else {
 
@@ -157,5 +159,34 @@ fun SkinObject.changeColor(color: Color): SkinObject? {
   }
 
   return newObject
+
+}
+
+fun SkinObject.setColor(color: Color, useHex: Boolean) {
+
+  if (useHex) {
+
+    factory()?.createProperty("hex", "\"" + color.toHexString() + "\"")?.let { property ->
+      removeAllProperties()
+      addProperty(property)
+    }
+
+  } else {
+
+    val propertiesToAdd = mutableListOf<SkinProperty>()
+
+    color.toRGBComponents().reversed().forEach { (component, value) ->
+      factory()?.createProperty(component, value.toString())?.let {
+        propertiesToAdd.add(it)
+      } ?: return
+    }
+
+    removeAllProperties()
+
+    propertiesToAdd.forEach { property ->
+      addProperty(property)
+    }
+
+  }
 
 }

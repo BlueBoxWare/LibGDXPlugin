@@ -53,6 +53,19 @@ internal fun color(string: String): Color? {
   }
 }
 
+internal fun Color.toHexString() =
+        String.format("#%02x%02x%02x%02x", red, green, blue, alpha)
+
+internal fun Color.toRGBComponents(): List<Pair<String, Float>> {
+  val components = getRGBComponents(null)
+  return listOf(
+          "r" to components[0],
+          "g" to components[1],
+          "b" to components[2],
+          "a" to components[3]
+  )
+}
+
 internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12, color, true)
 
 open class GutterColorRenderer(val color: Color): GutterIconRenderer() {

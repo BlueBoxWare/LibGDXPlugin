@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinValueImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addCommentExt
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addPropertyExt
+import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
@@ -37,6 +38,16 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
     override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Object
   }
+
+  fun isHexColor() =
+          resolveToTypeString() == COLOR_CLASS_NAME
+                  && propertyNames.contains("hex")
+                  && propertyList.size == 1
+
+  fun isComponentColor() =
+          resolveToTypeString() == COLOR_CLASS_NAME
+                  && propertyList.size > 0
+                  && propertyNames.all { it in listOf("r", "g", "b", "a") }
 
   override fun asColor(force: Boolean): Color? {
 

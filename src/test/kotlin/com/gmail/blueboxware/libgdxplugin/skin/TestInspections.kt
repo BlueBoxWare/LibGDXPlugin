@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.message
@@ -11,9 +10,6 @@ import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiRecursiveElementVisitor
-import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -113,38 +109,14 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
   fun testNonExistingResourceAliasQuickfixes() {
     myFixture.enableInspections(SkinNonExistingResourceAliasInspection())
     myFixture.configureByFile("nonExistingResourceAliasFixes.skin")
-    (myFixture.file as? SkinFile)?.accept(object: PsiRecursiveElementVisitor() {
-      override fun visitElement(element: PsiElement?) {
-        super.visitElement(element)
-        (element as? SkinStringLiteral)?.let { literal ->
-          myFixture.editor.caretModel.moveToOffset(literal.startOffset)
-          myFixture.availableIntentions.forEach {
-            if (it.familyName.startsWith(CreateAssetQuickFix.FAMILY_NAME)) {
-              myFixture.launchAction(it)
-            }
-          }
-        }
-      }
-    })
+    doAllIntentions<SkinStringLiteral>(CreateAssetQuickFix.FAMILY_NAME)
     myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
   }
 
   fun testAbbrClassInspectionWithTagsQuickfixes() {
     myFixture.enableInspections(SkinAbbrClassInspection())
     myFixture.configureByFile("abbrClassInspectionFixes.skin")
-    (myFixture.file as? SkinFile)?.accept(object : PsiRecursiveElementVisitor() {
-      override fun visitElement(element: PsiElement?) {
-        super.visitElement(element)
-        (element as? SkinClassName)?.let { skinClassName ->
-          myFixture.editor.caretModel.moveToOffset(skinClassName.startOffset)
-          myFixture.availableIntentions.forEach {
-            if (it.familyName == SkinAbbrClassInspection.FAMILY_NAME) {
-              myFixture.launchAction(it)
-            }
-          }
-        }
-      }
-    })
+    doAllIntentions<SkinClassName>(SkinAbbrClassInspection.FAMILY_NAME)
     myFixture.checkResultByFile("abbrClassInspectionFixes.after")
   }
 

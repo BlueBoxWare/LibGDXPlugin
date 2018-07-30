@@ -1,0 +1,18 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: { hex: "#ffffffff" }
+    red: { hex: "#ff0000ff" }
+    transparant: { hex: "#00000000" }
+    foo: white
+  }
+  Color: {
+    black: { r: 0.0, g: 0.0, b: 0.0, a: 1.0 }
+    bar: {}
+  }
+  TextButtonStyle: {
+    default: {
+      disabledFontColor: { hex: "#123456ff" }
+      disabledFontColor: { r: 1.0, g: 1.0, b: 1.0, a: 1.0 }
+    }
+  }
+}

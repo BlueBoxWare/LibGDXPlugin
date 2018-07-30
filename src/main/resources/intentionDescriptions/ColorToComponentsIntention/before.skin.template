@@ -1,0 +1,3 @@
+com.badlogic.gdx.graphics.Color: {
+  red: { hex: "#ff0000" }
+}

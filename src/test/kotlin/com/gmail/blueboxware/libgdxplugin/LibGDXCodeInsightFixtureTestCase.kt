@@ -11,9 +11,12 @@ import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.util.io.FileUtil
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiRecursiveElementVisitor
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
 import org.jetbrains.kotlin.config.MavenComparableVersion
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
 
 /*
@@ -51,23 +54,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
     }
   }
 
-  private fun assertIdeaHomePath() {
-    val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
-    if (path == null || path == "") {
-      throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
-    }
-  }
-
-  override fun setUp() {
-    assertIdeaHomePath()
-
-    Library.TEST_URL = "http://127.0.0.1/maven/"
-
-    super.setUp()
-
-    project.getComponent(VersionManager::class.java).updateUsedVersions()
-  }
-
   fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
   fun removeDummyLibGDX199() = removeDummyLibrary(Libraries.LIBGDX, "1.9.9")
@@ -97,6 +83,37 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   }
 
+  inline fun <reified T: PsiElement> doAllIntentions(familyNamePrefix: String) =
+          doAllIntentions(familyNamePrefix, T::class.java)
+
+  fun <T: PsiElement> doAllIntentions(familyNamePrefix: String, elementType: Class<T>) {
+
+    myFixture.file?.accept(object: PsiRecursiveElementVisitor() {
+
+      override fun visitElement(element: PsiElement?) {
+        super.visitElement(element)
+
+        if (element != null && elementType.isInstance(element)) {
+          myFixture.editor.caretModel.moveToOffset(element.startOffset)
+          myFixture.availableIntentions.forEach {
+            if (it.familyName.startsWith(familyNamePrefix)) {
+              myFixture.launchAction(it)
+            }
+          }
+        }
+
+      }
+    })
+
+  }
+
+  private fun assertIdeaHomePath() {
+    val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
+    if (path == null || path == "") {
+      throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
+    }
+  }
+
   private fun removeDummyLibrary(library: Libraries, version: String? = null) {
 
     WriteCommandAction.runWriteCommandAction(project) {
@@ -118,7 +135,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   }
 
-
   private fun addLibrary(lib: String) {
     File(lib).let { file ->
       PsiTestUtil.addLibrary(
@@ -129,6 +145,16 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
               file.name
       )
     }
+    project.getComponent(VersionManager::class.java).updateUsedVersions()
+  }
+
+  override fun setUp() {
+    assertIdeaHomePath()
+
+    Library.TEST_URL = "http://127.0.0.1/maven/"
+
+    super.setUp()
+
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 

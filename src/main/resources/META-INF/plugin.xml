@@ -32,12 +32,13 @@
     <change-notes><![CDATA[
         <b>1.16</b>
         <ul>
-            <li>Inspection to highlight references in Java/Kotlin to assets which don't exist. @GDXAssets annotated fields and variables only.</li>
+            <li>Inspection to highlight references in Java/Kotlin to resources which don't exist. @GDXAssets annotated fields and variables only.</li>
             <li>Warn about outdated libraries in Gradle Kotlin DSL too</li>
             <li>Performance improvements</li>
-            <li>Skins: inspection to inform about the ability to use short class names instead of qualified names</li>
+            <li>Skins: Inspection to inform about the ability to use short class names instead of qualified names when using LibGDX >= 1.9.9</li>
             <li>Skins: Quickfix to create non existing resources</li>
-            <li>Skins: Use @GDXTag annotation to inform the plugin about custom short names for classes</li>
+            <li>Skins: Use the @GDXTag annotation to inform the plugin about custom short names for classes</li>
+            <li>Skins: Intentions to convert color resources to hex and to float components</li>
         </ul>
 
         <b>1.15.2</b>
@@ -243,6 +244,17 @@
         <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
         <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
         <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.ClassUseScopeEnlarger" />
+
+        <intentionAction>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention</className>
+            <category>LibGDX/Skin</category>
+            <descriptionDirectoryName>ColorToComponentsIntention</descriptionDirectoryName>
+        </intentionAction>
+        <intentionAction>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToHexIntention</className>
+            <category>LibGDX/Skin</category>
+            <descriptionDirectoryName>ColorToHexIntention</descriptionDirectoryName>
+        </intentionAction>
 
         <!--Atlas files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />

@@ -13,6 +13,7 @@ import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
+import org.jetbrains.kotlin.idea.core.deleteSingle
 import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
@@ -42,6 +43,8 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+internal fun PsiElement.removeChild(child: PsiElement) = child.deleteSingle()
+
 internal fun PsiElement.isFollowByNewLine() = node.treeNext?.isNewline() ?: false
 
 internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: false
