@@ -43,6 +43,7 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("unused")
 internal fun PsiElement.removeChild(child: PsiElement) = child.deleteSingle()
 
 internal fun PsiElement.isFollowByNewLine() = node.treeNext?.isNewline() ?: false

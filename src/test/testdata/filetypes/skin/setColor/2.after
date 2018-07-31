@@ -1,8 +1,6 @@
 {
   com.badlogic.gdx.graphics.Color: {
-    color: {
-      hex: "#ff0000ff"
-    }
+    color: { hex: "#ff0000ff" }
   },
   newColor: {
     color: { hex: ff0000 }

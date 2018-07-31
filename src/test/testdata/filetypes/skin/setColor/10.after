@@ -3,11 +3,7 @@
     d: {
       m: [
         {
-          moreColors: [[
-            {
-              hex: "#808080ff"
-            }
-          ]]
+          moreColors: [[{ hex: "#808080ff" }]]
         }
       ],
     }

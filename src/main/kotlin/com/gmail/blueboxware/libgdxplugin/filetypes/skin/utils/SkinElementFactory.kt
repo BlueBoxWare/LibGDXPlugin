@@ -101,7 +101,7 @@ class SkinElementFactory(private val project: Project) {
             }
           }
 
-  fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
+  private fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
           createElement<SkinResource>("""
             {
               className: {
@@ -114,7 +114,7 @@ class SkinElementFactory(private val project: Project) {
             }
           }
 
-  fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
+  private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
     val c = (color ?: Color.WHITE ).toRGBComponents().toMap()
     return createElement<SkinResource>("""
             {
@@ -165,7 +165,15 @@ class SkinElementFactory(private val project: Project) {
           }
 
   fun createObject(): SkinObject? =
-          createElement("propertyName: propertyValue", "", false)
+          createElement(
+                  """
+                    {
+                      className: {
+                        default: { }
+                      }
+                    }
+                  """.trimIndent()
+          )
 
   fun createPropertyName(name: String, quote: Boolean): SkinPropertyName? =
           createElement("propertyName", name, quote)
