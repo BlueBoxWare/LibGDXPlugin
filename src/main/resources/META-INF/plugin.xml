@@ -36,9 +36,10 @@
             <li>Warn about outdated libraries in Gradle Kotlin DSL too</li>
             <li>Performance improvements</li>
             <li>Skins: Inspection to inform about the ability to use short class names instead of qualified names when using LibGDX >= 1.9.9</li>
-            <li>Skins: Quickfix to create non existing resources</li>
+            <li>Skins: Inspection to highlight usage of deprecated classes and fields</li>
+            <li>Skins: Quickfix to create resources which don't exist</li>
             <li>Skins: Use the @GDXTag annotation to inform the plugin about custom short names for classes</li>
-            <li>Skins: Intentions to convert color resources to hex and to float components</li>
+            <li>Skins: Intentions to convert color resources to hex or to float components</li>
         </ul>
 
         <b>1.15.2</b>

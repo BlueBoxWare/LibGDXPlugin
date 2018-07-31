@@ -96,6 +96,11 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinInspectionNameInspection())
   }
 
+  fun testDeprecatedInspection() {
+    myFixture.copyFileToProject("com/example/DeprecatedClass.java")
+    doTest(SkinDeprecatedInspection())
+  }
+
   fun testAbbrClassInspectionWithTags() {
     myFixture.enableInspections(SkinAbbrClassInspection())
     InspectionProjectProfileManager.getInstance(project).currentProfile.allTools.forEach {

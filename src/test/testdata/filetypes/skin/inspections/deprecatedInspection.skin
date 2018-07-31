@@ -1,0 +1,13 @@
+{
+  <warning>com.example.DeprecatedClass</warning>: {
+    r1: {}
+    r2: {
+        <warning>c1</warning>: {},
+        c2: {}
+    }
+  }
+
+  com.badlogic.gdx.graphics.g3d.Environment: {
+    foo: { <warning>shadowMap</warning>: {} }
+  }
+}
