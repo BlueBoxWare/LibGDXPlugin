@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotation
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotations
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 

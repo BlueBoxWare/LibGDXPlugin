@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.openapi.util.text.StringUtil

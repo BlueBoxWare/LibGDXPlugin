@@ -6,6 +6,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyle
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.findElement
+import com.gmail.blueboxware.libgdxplugin.utils.toHexString
+import com.gmail.blueboxware.libgdxplugin.utils.toRGBComponents
 import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
@@ -16,6 +18,7 @@ import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import java.awt.Color
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -98,17 +101,39 @@ class SkinElementFactory(private val project: Project) {
             }
           }
 
-  fun createColorResource(name: String): Pair<SkinResource, Int>? =
+  fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
           createElement<SkinResource>("""
             {
               className: {
-                $name: { hex: "#" }
+                $name: { hex: "${color?.toHexString() ?: "#"}" }
               }
             }
           """)?.let { element ->
             element.text.indexOf('#').let { index ->
               Pair(element, index + 1)
             }
+          }
+
+  fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
+    val c = (color ?: Color.WHITE ).toRGBComponents().toMap()
+    return createElement<SkinResource>("""
+            {
+              className: {
+                $name: { r: ${c["r"]}, g: ${c["g"]}, b: ${c["b"]}, a: ${c["a"]} }
+              }
+            }
+          """)?.let { element ->
+      element.text.indexOf('r').let { index ->
+        Pair(element, index + 3)
+      }
+    }
+  }
+
+  fun createColorResource(name: String, color: Color?, useComponents: Boolean) =
+          if (useComponents) {
+            createColorResourceWithComponents(name, color)
+          } else {
+            createColorResource(name, color)
           }
 
   fun createTintedDrawableResource(name: String): Pair<SkinResource, Int>? =

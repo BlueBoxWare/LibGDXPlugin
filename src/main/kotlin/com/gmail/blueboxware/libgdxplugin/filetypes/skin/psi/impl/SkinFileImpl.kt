@@ -2,17 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.*
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.navigation.ItemPresentation
@@ -28,6 +22,7 @@ import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import java.awt.Color
 import java.io.File
 
 /*
@@ -231,8 +226,8 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
   private fun addResource(className: DollarClassName, resource: SkinResource, cause: SkinElement? = null): SkinResource? =
           getClassSpecToInsertInto(className, cause)?.addResource(resource, cause)
 
-  fun addColor(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
-          factory.createColorResource(name)?.let { (resource, position) ->
+  fun addColor(name: String, cause: SkinElement? = null, color: Color? = null, useComponents: Boolean = false): Pair<SkinResource, Int>? =
+          factory.createColorResource(name, color, useComponents)?.let { (resource, position) ->
             addResource(DollarClassName(COLOR_CLASS_NAME), resource, cause)?.let {
               Pair(it, it.startOffset + position)
             }

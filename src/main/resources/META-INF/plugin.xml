@@ -40,6 +40,7 @@
             <li>Skins: Quickfix to create resources which don't exist</li>
             <li>Skins: Use the @GDXTag annotation to inform the plugin about custom short names for classes</li>
             <li>Skins: Intentions to convert color resources to hex or to float components</li>
+            <li>Skins: Create new color wizard (<i>Code</i> -> <i>Generate</i> or <i>Alt-Insert</i>, <i>Command-N</i>)</li>
         </ul>
 
         <b>1.15.2</b>
@@ -305,6 +306,12 @@
         </action>
         <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX skin">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
+        </action>
+
+        <action class="com.gmail.blueboxware.libgdxplugin.filetypes.skin.actions.CreateColorAction" id="LibGDXPlugin.Skin.CreateColor"
+                text="New color"
+                description="Create a new color specification">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
       </actions>
 

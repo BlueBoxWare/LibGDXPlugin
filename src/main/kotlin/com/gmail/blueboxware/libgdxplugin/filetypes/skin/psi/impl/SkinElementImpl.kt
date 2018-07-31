@@ -1,13 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.NO_ANNOTATIONS
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.SkinAnnotations
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.getSkinAnnotations
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.NO_ANNOTATIONS
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotation
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotations
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getSkinAnnotations
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil

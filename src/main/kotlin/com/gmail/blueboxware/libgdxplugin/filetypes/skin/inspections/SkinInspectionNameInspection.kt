@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotations.ANNOTATION_REGEX
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.ANNOTATION_REGEX
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
