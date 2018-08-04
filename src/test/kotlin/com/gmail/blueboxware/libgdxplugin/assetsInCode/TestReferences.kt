@@ -55,6 +55,26 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
   )
 
+  fun testJavaResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
+          JavaFileType.INSTANCE,
+          PsiLiteralExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+
+            class SkinTest {
+
+                static Skin staticSkin;
+
+                void f() {
+                    staticSkin.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle.class);
+                }
+
+            }
+          """,
+          shouldBeFound = false
+  )
+
   fun testJavaResourceReferenceWithTag1() = doTest<SkinResource>(
           JavaFileType.INSTANCE,
           PsiLiteralExpression::class.java,
@@ -95,6 +115,23 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """,
           expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
+  )
+
+  fun testKotlinResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
+          KotlinFileType.INSTANCE,
+          KtStringTemplateExpression::class.java,
+          """
+            import com.badlogic.gdx.scenes.scene2d.ui.Skin
+            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
+
+            val s: Skin = Skin()
+
+
+            fun test() {
+                s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
+            }
+          """,
+          shouldBeFound = false
   )
 
   fun testKotlinResourceReference() = doTest<SkinResource>(
@@ -142,7 +179,6 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
 
             @GDXAssets(atlasFiles = [""], skinFiles = ["src/assets/libgdx.skin"])
             val s: Skin = Skin()
-
 
             fun test() {
                 s.get("tagged<caret>Style2", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle::class.java)
@@ -299,7 +335,8 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           fileType: LanguageFileType,
           referencingElementType: Class<out PsiElement>,
           content: String,
-          expectedType: String? = null
+          expectedType: String? = null,
+          shouldBeFound: Boolean = true
   ) {
 
     myFixture.configureByText(fileType, content)
@@ -308,8 +345,16 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
     } ?: throw AssertionError("Referencing element not found")
 
     val referentElement =
-            referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.resolve()
-                    ?: throw AssertionError("Referent not found")
+            referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.let {
+              if (!shouldBeFound) {
+                throw AssertionError("Unexpected reference found")
+              }
+              it.resolve()
+            }
+
+    if (!shouldBeFound && referentElement == null) {
+      return
+    }
 
     assertTrue(referentElement is expectedReferentType)
 

@@ -18,6 +18,10 @@ public class Test {
   @GDXAssets(atlasFiles = "src/dir/holo.atlas")
   TextureAtlas atlas;
 
+  TextureAtlas atlas2;
+
+  Skin skin3;
+
   void m() {
     new Json().addClassTag("TagStyle", Button.ButtonStyle.class);
 
@@ -25,6 +29,7 @@ public class Test {
     skin.get(<error descr="Resource \"jt2\" with type \"Test\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"jt2"</error>, Test.class);
 
     skin.getColor("yellow");
+    skin3.getColor("yellow");
     skin.getColor(<error descr="Resource \"blue\" with type \"com.badlogic.gdx.graphics.Color\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"blue"</error>);
     skin.getColor(<error descr="Resource \"button\" with type \"com.badlogic.gdx.graphics.Color\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"button"</error>);
     skin.get(TextButton.TextButtonStyle.class);
@@ -35,6 +40,7 @@ public class Test {
     skin.get(<error descr="Resource \"taggedStyle2\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"taggedStyle2"</error>, TextButton.TextButtonStyle.class);
     //noinspection LibGDXNonExistingAsset
     skin.get("taggedStyle2", TextButton.TextButtonStyle.class);
+    skin3.get("taggedStyle2", TextButton.TextButtonStyle.class);
     skin.get("user-red", Skin.TintedDrawable.class);
     skin.getDrawable("button-left");
     skin.getDrawable("user-red");
@@ -44,6 +50,7 @@ public class Test {
     skin.get(<error descr="Resource \"taggedStyle1\" with type \"com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"taggedStyle1"</error>, Button.ButtonStyle.class);
 
     atlas.findRegion("button-left");
+    atlas2.findRegion("foo");
     atlas.findRegion(<error descr="Resource \"button-foo\" with type \"com.badlogic.gdx.graphics.g2d.TextureRegion\" does not exist in file \"holo.atlas\"">"button-foo"</error>);
 
     skin2.getRegion("button-back-disabled");

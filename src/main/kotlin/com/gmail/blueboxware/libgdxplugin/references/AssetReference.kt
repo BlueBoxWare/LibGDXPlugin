@@ -183,6 +183,10 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
         listOf<SkinFile>() to listOf()
       }
 
+      if (assetFiles.first.isEmpty() && assetFiles.second.isEmpty()) {
+        return arrayOf()
+      }
+
       return arrayOf(
               AssetReference(
                       element,
