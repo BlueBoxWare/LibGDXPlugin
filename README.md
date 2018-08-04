@@ -13,6 +13,7 @@ This unofficial plugin adds a number of [LibGDX](https://libgdx.badlogicgames.co
   - __[Atlas file support](#atlas-file-support)__
   - __[Bitmap Font file support](#bitmap-font-file-support)__
   - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
+    - __[@GDXTag and short names in Skins](#gdxtag-and-short-names-in-skins)__
 <!-- /toc -->
 
 # Installation
@@ -43,7 +44,7 @@ The following inspections are included:
 * Missing OpenGL declaration in AndroidManifest.xml \[1]
 * Invalid property keys for I18NBundle.get() and I18NBundle.format()
 * Missing WRITE_EXTERNAL_STORAGE permission in AndroidManifest.xml when using external files
-* Using outdated versions of LibGDX and related libraries \[1] \[2]
+* Using outdated versions of LibGDX and related libraries \[1]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
 
 \[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-setup`](https://github.com/czyzby/gdx-setup).
@@ -79,6 +80,9 @@ given class or using malformed color strings
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
 * With *Shift* pressed, hover over a Drawable/Texture name to view a preview of the Drawable
+* Use *Code* -> *Generate* or *Alt-Ins* (*Cmd-N*) to create a new color using a color pick dialog
+* QuickFixes to create missing resources and convert colors between hex and floats
+* Several inspections to highlight problems and possible issues
 
 \[1]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
 annotation (see below)
@@ -104,7 +108,7 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 
 ## Skin resources and Atlas region names in Java and Kotlin code
 
-To get code completion, Go to Definition, Find Usages, Rename Refactoring, Diagnostics and Image previews (with *Shift* pressed, hover over a Drawable name to get a preview) for:
+To get code completion, Go to Definition, Find Usages, Rename Refactoring, Diagnostics and Image previews for:
 * Skin resource names
 * Region names from Atlas files in Skin.get*() and TextureAtlas.get*()
 * Property keys in I18NBundle.get() and I18NBundle.format()
@@ -122,12 +126,12 @@ repositories {
 
 dependencies {
     // ...
-    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.13'
+    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.16'
 }
 
 ```
 
-Then annotate Java fields and Kotlin properties where appropriate. Specify file names **relative to the Project Root**!
+Then annotate Java fields and Kotlin properties where appropriate. Specify file names **relative to the Project Root**.
 
 **Java:**
 ```java
@@ -171,10 +175,37 @@ Then annotate Java fields and Kotlin properties where appropriate. Specify file 
 ```
 
 **NOTES**
-* Specify file names **relative to the Project Root**!
+* Specify file names relative to the Project Root
 * Multiple files can be specified for both the `skinFiles`, `atlasFiles` and `propertiesFiles` parameters
 * When *no* atlasFiles are specified and a file with the same name as the specified Skin file and the
 ".atlas" extension exist, that file is used as Atlas file (just like the Skin class itself does). This also
 works if you specify multiple Skin files.
 * Go To Definition and Find Usages are only available if the specified files are registered as Skin or Atlas file, not
 when they are registered as JSON or Plain Text files.
+
+### @GDXTag and short names in Skins
+Since version 1.9.9 LibGDX Skins support tagged classes: the ability to use short names for names of classes
+in Skin files. In addition to the standard, "built-in" short class names it is also possible to define custom
+short names for your own classes by overriding `Skin.getJsonLoader()` and calling `Json.addClassTag()`.
+
+LibGDXPlugin understands the default short names. It also tries to determine any custom short names by looking
+for calls to `addClassTag()`, but there is only so much it can do.
+
+To explicitly tell the plugin to recognize one (or more) short names for one of your own classes, you can
+use the `@GDXTag` annotation on that class.
+
+```java
+package com.something.ui;
+
+@GDXTag({"Widget"})
+class MyCustomWidget {
+  // ...
+}
+```
+
+After this, the plugin will recognize `Widget` as a short name for `com.something.ui.MyCustomWidget` in
+Skin files. It is off course still up to you to make LibGDX recognize this short name by subclassing Skin or
+by some other means.
+
+Note that at the moment there is no way to tell the plugin a short name is only valid in specific Skin files,
+instead of all Skin files.

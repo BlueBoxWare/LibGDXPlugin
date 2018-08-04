@@ -54,7 +54,7 @@ class SkinColorAnnotator : Annotator {
         val annotation = createAnnotation(color, element, holder, createIcon = false)
         annotation.gutterIconRenderer = object : GutterColorRenderer(color) {
           override fun getClickAction() = object : AnAction() {
-            override fun actionPerformed(e: AnActionEvent?) {
+            override fun actionPerformed(e: AnActionEvent) {
               if (!element.isWritable) return
 
               val editor = PsiUtilBase.findEditor(element) ?: return

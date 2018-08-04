@@ -35,7 +35,7 @@ class CreateColorAction: SimpleCodeInsightAction() {
 
   override fun startInWriteAction(): Boolean = false
 
-  override fun update(e: AnActionEvent?) {
+  override fun update(e: AnActionEvent) {
     super.update(e)
 
     templatePresentation.icon = AllIcons.Gutter.Colors

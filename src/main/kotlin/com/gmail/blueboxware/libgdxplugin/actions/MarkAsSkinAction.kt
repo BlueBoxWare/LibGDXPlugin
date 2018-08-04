@@ -31,7 +31,7 @@ import icons.Icons
  */
 class MarkAsSkinAction : AnAction() {
 
-  override fun update(event: AnActionEvent?) {
+  override fun update(event: AnActionEvent) {
 
     if (event == null) return
 
@@ -71,7 +71,7 @@ class MarkAsSkinAction : AnAction() {
 
   }
 
-  override fun actionPerformed(event: AnActionEvent?) {
+  override fun actionPerformed(event: AnActionEvent) {
 
     if (event == null) return
 

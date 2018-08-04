@@ -144,7 +144,7 @@ publishing {
             version pluginVersion
             pom.withXml {
                 def root = asNode()
-                root.appendNode('description', 'An annotation for use with LibGDXPlugin for IntelliJ')
+                root.appendNode('description', 'Annotations for use with LibGDXPlugin for IntelliJ')
                 root.appendNode('name', tasks.getByName("annotationsJar").property('baseName'))
                 root.appendNode('url', 'https://github.com/BlueBoxWare/LibGDXPlugin')
                 root.children().last() + pomConfig
