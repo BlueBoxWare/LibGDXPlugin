@@ -43,7 +43,7 @@ import java.lang.annotation.*;
  * </pre></blockquote><p>
  *
  * After this, the plugin will recognize "Widget" as a short name for "com.something.ui.MyCustomWidget" in
- * Skin files. It is off course still up to you to make LibGDX recognize this short name by subclassing Skin or
+ * Skin files. It is of course still up to you to make LibGDX recognize this short name by subclassing Skin or
  * by some other means.
  *
  * Note that at the moment there is no way to tell the plugin a short name is only valid in specific Skin files,
