@@ -251,6 +251,7 @@
         <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
         <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
         <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.ClassUseScopeEnlarger" />
+        <referencesSearch implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.TaggedClassUsagesSearcher" order="first" />
 
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention</className>

@@ -46,7 +46,7 @@ class SkinCompletionContributor : CompletionContributor() {
     extend(CompletionType.BASIC,
             PlatformPatterns.psiComment(),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 annotationCompletion(parameters, result)
               }
             }
@@ -57,7 +57,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinResource::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 resourceAliasNameCompletion(parameters, result)
               }
             }
@@ -68,7 +68,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinResourceName::class.java),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 resourceNameCompletion(parameters, result)
               }
             }
@@ -79,7 +79,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinClassName::class.java),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 classNameCompletion(parameters, result)
               }
             }
@@ -90,7 +90,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinPropertyName::class.java),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 propertyNameCompletion(parameters, result)
               }
             }
@@ -101,7 +101,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinPropertyValue::class.java),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 propertyValueCompletion(parameters, result)
               }
             }
@@ -112,7 +112,7 @@ class SkinCompletionContributor : CompletionContributor() {
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinArray::class.java),
             object : CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
+              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
                 propertyValueCompletion(parameters, result)
               }
             }

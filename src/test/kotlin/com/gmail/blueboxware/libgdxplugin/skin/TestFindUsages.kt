@@ -2,13 +2,13 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.intellij.psi.PsiClass
+import org.jetbrains.kotlin.asJava.toLightClass
+import org.jetbrains.kotlin.psi.KtClass
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -80,6 +80,30 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
       assertNotNull(usagesInfo.element)
       assertTrue(usagesInfo.element is SkinStringLiteral)
       assertEquals(origin, usagesInfo.element?.reference?.resolve())
+    }
+  }
+
+  fun testFindJavaClassUsagesWithTags() {
+    myFixture.copyFileToProject("findJavaClassUsagesWithTags.skin")
+    myFixture.configureByFile("FindJavaClassUsagesWithTags.java")
+    val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
+    assertEquals(4, usagesInfos.size)
+    usagesInfos.forEach { usageInfo ->
+      (usageInfo.element as SkinClassName).resolve().let { psiClass ->
+        assertEquals(myFixture.elementAtCaret, psiClass)
+      }
+    }
+  }
+
+  fun testFindKotlinClassUsagesWithTags() {
+    myFixture.copyFileToProject("findKotlinClassUsagesWithTags.skin")
+    myFixture.configureByFile("FindKotlinClassUsagesWithTags.kt")
+    val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
+    assertEquals(4, usagesInfos.size)
+    usagesInfos.forEach { usageInfo ->
+      (usageInfo.element as SkinClassName).resolve().let { psiClass ->
+        assertEquals((myFixture.elementAtCaret as KtClass).toLightClass(), psiClass)
+      }
     }
   }
 

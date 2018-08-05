@@ -23,7 +23,8 @@ import com.intellij.psi.PsiElementResolveResult
  */
 class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassName>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean) = element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
+  override fun multiResolve(incompleteCode: Boolean) =
+          element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
 
   override fun handleElementRename(newElementName: String?): PsiElement = element
 
@@ -36,4 +37,5 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
     return element
   }
+
 }

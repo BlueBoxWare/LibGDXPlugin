@@ -4,7 +4,7 @@ ext {
 
     kotlinVersion = '1.2.40'
 
-    intellijPluginVersion = '0.3.3'
+    intellijPluginVersion = '0.3.5'
 
 //    ideaVersion = 'LATEST-TRUNK-SNAPSHOT'
     ideaVersion = '2018.2'
