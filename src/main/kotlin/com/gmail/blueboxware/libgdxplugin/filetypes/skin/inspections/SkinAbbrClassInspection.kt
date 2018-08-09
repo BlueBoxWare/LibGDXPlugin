@@ -39,7 +39,7 @@ class SkinAbbrClassInspection: SkinFileInspection() {
 
   override fun getDisplayName() = message("skin.inspection.abbr.class.display.name")
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.INFO
+  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WEAK_WARNING
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object : SkinElementVisitor() {
 

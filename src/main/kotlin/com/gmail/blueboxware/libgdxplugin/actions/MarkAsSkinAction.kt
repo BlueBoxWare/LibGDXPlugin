@@ -11,7 +11,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.util.IconLoader
-import com.intellij.openapi.vfs.VirtualFile
 import icons.Icons
 
 /*
@@ -33,16 +32,13 @@ class MarkAsSkinAction : AnAction() {
 
   override fun update(event: AnActionEvent) {
 
-    if (event == null) return
-
-    // T getData(@NotNull DataKey<T> key) was added in 162.426: not yet available in Android Studio
-    val file = event.dataContext.getData(PlatformDataKeys.VIRTUAL_FILE.name) ?: return
+    val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
 
     val presentation = event.presentation
 
     presentation.isEnabled = false
 
-    if (file is VirtualFile && !file.isDirectory) {
+    if (!file.isDirectory) {
 
       event.project?.let { project ->
         val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
@@ -73,13 +69,9 @@ class MarkAsSkinAction : AnAction() {
 
   override fun actionPerformed(event: AnActionEvent) {
 
-    if (event == null) return
-
     val project = event.project ?: return
-    val file = event.dataContext.getData(PlatformDataKeys.VIRTUAL_FILE.name) ?: return
+    val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
     val text = event.presentation.text ?: return
-
-    if (file !is VirtualFile) return
 
     if (text == message("context.menu.mark.as.skin")) {
 

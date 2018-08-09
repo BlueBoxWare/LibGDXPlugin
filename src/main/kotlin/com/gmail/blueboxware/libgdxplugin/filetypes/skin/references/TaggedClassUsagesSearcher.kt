@@ -43,7 +43,7 @@ class TaggedClassUsagesSearcher: QueryExecutorBaseCompat() {
       return
     }
 
-    if (queryParameters.scope is LocalSearchScope) {
+    if (queryParameters.effectiveSearchScope is LocalSearchScope) {
       return
     }
 
