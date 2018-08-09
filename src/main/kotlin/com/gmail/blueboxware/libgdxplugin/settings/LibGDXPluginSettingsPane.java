@@ -32,6 +32,7 @@ public class LibGDXPluginSettingsPane {
 
   private LibGDXPluginSettings settings = new LibGDXPluginSettings();
 
+  @SuppressWarnings("UnusedReturnValue")
   JComponent createPanel(@NotNull LibGDXPluginSettings settings) {
     this.settings = settings;
     return root;
@@ -49,6 +50,7 @@ public class LibGDXPluginSettingsPane {
     neverAskAboutSkinFiles.setSelected(settings.getNeverAskAboutSkinFiles());
   }
 
+  @SuppressWarnings("UnusedReturnValue")
   boolean isModified() {
     return showPreviewsOfColorCheckBox.isSelected() != settings.getEnableColorAnnotations()
             || showPreviewsOfColorInSkinCheckBox.isSelected() != settings.getEnableColorAnnotationsInSkin()

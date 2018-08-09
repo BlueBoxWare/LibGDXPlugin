@@ -5,7 +5,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
-import com.gmail.blueboxware.libgdxplugin.utils.findElement
 import com.gmail.blueboxware.libgdxplugin.utils.toHexString
 import com.gmail.blueboxware.libgdxplugin.utils.toRGBComponents
 import com.intellij.codeInspection.SuppressionUtil.createComment
@@ -71,6 +70,7 @@ class SkinElementFactory(private val project: Project) {
             }
           """, '\n')
 
+  @Suppress("unused")
   fun createWhitespace(str: String): PsiWhiteSpace? =
           createElement("{$str}", 1)
 
@@ -109,9 +109,7 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """)?.let { element ->
-            element.text.indexOf('#').let { index ->
-              Pair(element, index + 1)
-            }
+            Pair(element, element.text.indexOf('#') + 1)
           }
 
   private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
@@ -123,9 +121,7 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """)?.let { element ->
-      element.text.indexOf('r').let { index ->
-        Pair(element, index + 3)
-      }
+      Pair(element, element.text.indexOf('r') + 3)
     }
   }
 
@@ -208,9 +204,6 @@ class SkinElementFactory(private val project: Project) {
 
   private inline fun <reified T: PsiElement> createElement(content: String): T? =
           createFile(content)?.childOfType()
-
-  private inline fun <reified T: PsiElement> createElement(content: String, noinline selector: (PsiElement) -> Boolean): T? =
-          createFile(content)?.findElement(selector) as? T
 
   private inline fun <reified T: PsiElement> createElement(content: String, position: Int): T? =
           createFile(content)?.findElementAt(position) as? T

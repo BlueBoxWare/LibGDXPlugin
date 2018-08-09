@@ -89,9 +89,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
     assertEquals(4, usagesInfos.size)
     usagesInfos.forEach { usageInfo ->
-      (usageInfo.element as SkinClassName).resolve().let { psiClass ->
-        assertEquals(myFixture.elementAtCaret, psiClass)
-      }
+      assertEquals(myFixture.elementAtCaret, (usageInfo.element as SkinClassName).resolve())
     }
   }
 
@@ -101,9 +99,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
     assertEquals(4, usagesInfos.size)
     usagesInfos.forEach { usageInfo ->
-      (usageInfo.element as SkinClassName).resolve().let { psiClass ->
-        assertEquals((myFixture.elementAtCaret as KtClass).toLightClass(), psiClass)
-      }
+      assertEquals((myFixture.elementAtCaret as KtClass).toLightClass(), (usageInfo.element as SkinClassName).resolve())
     }
   }
 

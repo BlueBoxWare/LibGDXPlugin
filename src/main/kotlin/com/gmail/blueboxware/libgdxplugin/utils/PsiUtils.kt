@@ -55,6 +55,7 @@ internal fun ASTNode.isNewline() =
 
 internal fun PsiElement.isLeaf(type: IElementType) = (this as? LeafPsiElement)?.elementType == type
 
+@Suppress("unused")
 internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
 
 internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? = PsiTreeUtil.findChildOfType(this, T::class.java)
@@ -224,6 +225,7 @@ internal fun KotlinType.fqName() = constructor.declarationDescriptor?.fqNameSafe
 internal fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? =
         allChildren.firstOrNull { it is LeafPsiElement && it.elementType == elementType } as? LeafPsiElement
 
+@Suppress("unused")
 internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElement? {
 
   val processor = object: PsiElementProcessor.FindElement<PsiElement>() {

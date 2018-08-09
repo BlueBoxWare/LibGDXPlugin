@@ -99,9 +99,7 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
     } else {
       return propertiesFiles.mapNotNull { propertiesFileName ->
         (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
-          propertiesFile.resourceBundle.baseName.let { bundleName ->
-            GDXPropertyReference(key, element, bundleName)
-          }
+          GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
         }
       }.toTypedArray()
     }

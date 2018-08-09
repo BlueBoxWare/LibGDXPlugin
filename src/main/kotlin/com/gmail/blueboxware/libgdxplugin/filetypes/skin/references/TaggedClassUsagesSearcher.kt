@@ -2,11 +2,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.QueryExecutorBaseCompat
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
-import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.openapi.application.ReadAction
-import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiManager
@@ -34,18 +33,22 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TaggedClassUsagesSearcher: QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
+class TaggedClassUsagesSearcher: QueryExecutorBaseCompat() {
 
-  override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<in PsiReference>) {
+  override fun doProcessQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<PsiReference>) {
+
+    val element = queryParameters.elementToSearch
+
+    if (element !is PsiClass && element !is KtClass) {
+      return
+    }
 
     if (queryParameters.scope is LocalSearchScope) {
       return
     }
 
-    val element = queryParameters.elementToSearch
-
     val qualifiedName = if (element is PsiClass) {
-      ReadAction.compute<String, Throwable> {  element.qualifiedName }
+      ReadAction.compute<String, Throwable> { element.qualifiedName }
     } else if (element is KtClass) {
       ReadAction.compute<String, Throwable> { element.fqName?.asString() }
     } else {
@@ -56,14 +59,13 @@ class TaggedClassUsagesSearcher: QueryExecutorBase<PsiReference, ReferencesSearc
       return
     }
 
-    DumbService.getInstance(queryParameters.project).runReadActionInSmartMode {
-
+    ReadAction.run<Throwable> {
       val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)?.filter { tag ->
         StringUtil.getShortName(qualifiedName) != tag
-      } ?: return@runReadActionInSmartMode
+      } ?: return@run
 
       if (tagsToFind.isEmpty()) {
-        return@runReadActionInSmartMode
+        return@run
       }
 
       val psiManager = PsiManager.getInstance(queryParameters.project)

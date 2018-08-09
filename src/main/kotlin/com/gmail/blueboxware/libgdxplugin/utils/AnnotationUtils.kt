@@ -32,12 +32,19 @@ import org.jetbrains.kotlin.types.expressions.ExpressionTypingUtils
  * limitations under the License.
  */
 abstract class AnnotationWrapper {
-  abstract fun getValue(key: String): List<String>
+  abstract fun getValue(key: String = "value"): List<String>
 }
 
 class KtAnnotationWrapper(private val ktAnnotationEntry: KtAnnotationEntry): AnnotationWrapper() {
 
   override fun getValue(key: String): List<String> {
+
+    if (key == "value" && ktAnnotationEntry.valueArguments.firstOrNull()?.getArgumentName() == null) {
+      return ktAnnotationEntry.valueArguments.mapNotNull {
+        (it.getArgumentExpression() as? KtStringTemplateExpression)?.plainContent
+      }
+    }
+
     ktAnnotationEntry.valueArguments.forEach { argument ->
       val name = argument.getArgumentName()?.asName?.identifier
       if (name == key) {

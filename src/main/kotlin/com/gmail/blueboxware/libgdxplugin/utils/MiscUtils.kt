@@ -2,6 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.intellij.openapi.progress.EmptyProgressIndicator
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.psi.JavaPsiFacade
@@ -50,7 +52,20 @@ internal fun Project.findClasses(fqName: String, scope: GlobalSearchScope = allS
 internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClass(fqName, scope)
 
+@Suppress("unused")
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClasses(fqName, scope)
 
 internal fun <K, V> Map<K, V>.getKey(value: V): K? = keys.find { get(it) == value }
+
+@Suppress("unused")
+internal fun runUnderProgressIfNecessary(action: () -> Unit) {
+
+  if (ProgressManager.getGlobalProgressIndicator() == null) {
+    ProgressManager.getInstance().runProcess(action, EmptyProgressIndicator())
+    return
+  }
+
+  action()
+
+}

@@ -34,6 +34,7 @@ class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
             ReferencesSearch.SearchParameters(element, GlobalSearchScope.allScope(element.project), true)
 
     var found = false
+
     TaggedClassUsagesSearcher().execute(parameters) { reference ->
       found = true
       return@execute false

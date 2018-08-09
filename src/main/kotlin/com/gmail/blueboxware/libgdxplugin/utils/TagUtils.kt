@@ -1,19 +1,23 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.intellij.find.findUsages.JavaClassFindUsagesOptions
-import com.intellij.find.findUsages.JavaFindUsagesHelper
+import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.*
+import com.intellij.psi.PsiClassObjectAccessExpression
+import com.intellij.psi.PsiClassType
+import com.intellij.psi.PsiLiteralExpression
+import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.impl.source.PsiImmediateClassType
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
+import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
@@ -109,11 +113,13 @@ private fun Project.collectCustomTags(): TagMap {
 
 
               (argumentsList.expressions.getOrNull(0) as? PsiLiteralExpression)?.asString()?.let { tag ->
-                ((argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.operand?.type as? PsiClassType)?.resolve()?.let { clazz ->
-                  clazz.qualifiedName?.let { fqName ->
-                    tagMap.add(tag, fqName)
-                  }
-                }
+                ((argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.operand?.type as? PsiClassType)
+                        ?.resolve()
+                        ?.let { clazz ->
+                          clazz.qualifiedName?.let { fqName ->
+                            tagMap.add(tag, fqName)
+                          }
+                        }
               }
 
             }
@@ -126,9 +132,15 @@ private fun Project.collectCustomTags(): TagMap {
 
               arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
-                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)?.takeIf { it.isClassType }?.arguments?.firstOrNull()?.type?.fqName()?.let { fqName ->
-                  tagMap.add(firstArgument.plainContent, fqName)
-                }
+                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
+                        ?.takeIf { it.isClassType }
+                        ?.arguments
+                        ?.firstOrNull()
+                        ?.type
+                        ?.fqName()
+                        ?.let { fqName ->
+                          tagMap.add(firstArgument.plainContent, fqName)
+                        }
 
               }
 
@@ -148,34 +160,23 @@ private fun Project.collectCustomTags(): TagMap {
 
 private fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
 
-  val tagsAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
+  val tagAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
 
   val tags = mutableListOf<Pair<String, String>>()
 
-  JavaFindUsagesHelper.processElementUsages(tagsAnnotation, JavaClassFindUsagesOptions(this)) { usageInfo ->
-    usageInfo.element?.let { element ->
-      element.contextOfType<PsiAnnotation>()?.let { annotation ->
-          annotation.contextOfType<PsiClass>()?.qualifiedName?.let { clazz ->
-            PsiAnnotationWrapper(annotation).getValue("value").forEach { tag ->
-              tags.add(tag to clazz)
-            }
-          }
+  AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, GlobalSearchScope.allScope(this)).forEach { psiClass ->
+    AnnotationUtil.findAnnotation(psiClass, TAG_ANNOTATION_NAME)?.let { annotation ->
+      val wrapper = if (annotation is KtLightElement<*, *>) {
+        (annotation.kotlinOrigin as? KtAnnotationEntry)?.let(::KtAnnotationWrapper)
+      } else {
+        PsiAnnotationWrapper(annotation)
       }
-      element.contextOfType<KtAnnotationEntry>()?.let { annotationEntry ->
-        annotationEntry.contextOfType<KtClass>()?.fqName?.asString()?.let { clazz ->
-          if (annotationEntry.valueArguments.any { it.getArgumentName()?.asName?.identifier == "value" }) {
-            KtAnnotationWrapper(annotationEntry).getValue("value").forEach { tag ->
-              tags.add(tag to clazz)
-            }
-          } else {
-            annotationEntry.valueArguments.mapNotNull { it.getArgumentExpression() as? KtStringTemplateExpression }.forEach { expression ->
-              tags.add(expression.plainContent to clazz)
-            }
-          }
+      wrapper?.getValue()?.forEach { tag ->
+        psiClass.qualifiedName?.let { fqName ->
+          tags.add(tag to fqName)
         }
       }
     }
-    true
   }
 
   return tags
