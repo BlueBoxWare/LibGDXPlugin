@@ -1,0 +1,34 @@
+{
+  com.example.MyClass: {
+    d: {
+      bool: true
+    }
+  }
+  "com.example.MyClass": {
+
+  }
+  No: {
+
+  }
+
+  "com.example.MyClass$Inner": {
+
+
+  }
+
+  com.example.MyClass$Inner$Inner: {
+
+  }
+
+  "com.example.MyClass$Private": {
+
+  }
+
+  com.example.MyClass$NonStatic: {
+
+  }
+
+  ktag: {}
+
+  innerkotlin: {}
+}

@@ -123,8 +123,8 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
   fun testRenameJavaClassWithTags() {
     myFixture.configureByFile("JavaClass.java")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaClassWithTags.json")
-    doSimpleTest("json") {
+    myFixture.configureByFile("renameJavaClassWithTags.skin")
+    doSimpleTest("skin") {
       myFixture.renameElement(classToRename, "MyClass")
     }
   }
@@ -143,6 +143,15 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     myFixture.configureByFile("KotlinClass.kt")
     val classToRename = myFixture.elementAtCaret
     myFixture.configureByFile("renameKotlinClass.skin")
+    doSimpleTest {
+      myFixture.renameElement(classToRename, "MyClass")
+    }
+  }
+
+  fun testRenameKotlinClassWithTags() {
+    myFixture.configureByFile("KotlinClass.kt")
+    val classToRename = myFixture.elementAtCaret
+    myFixture.configureByFile("renameKotlinClassWithTags.skin")
     doSimpleTest {
       myFixture.renameElement(classToRename, "MyClass")
     }
@@ -357,6 +366,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
     if (testname().contains("tags", ignoreCase = true)) {
+      addAnnotations()
       addDummyLibGDX199()
     }
 

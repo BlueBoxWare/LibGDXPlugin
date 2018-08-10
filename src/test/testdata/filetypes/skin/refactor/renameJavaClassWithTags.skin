@@ -29,6 +29,12 @@
 
   com.example.JavaClass$Private: {
 
-  }
+  },
+
+  tag1: {},
+
+  tag2: {},
+
+  javainner: {}
 
 }

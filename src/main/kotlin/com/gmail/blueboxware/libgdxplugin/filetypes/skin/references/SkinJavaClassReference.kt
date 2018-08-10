@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
+import com.gmail.blueboxware.libgdxplugin.utils.collectTagsFromAnnotations
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
@@ -21,7 +22,7 @@ import com.intellij.psi.PsiElementResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassName>(element) {
+class SkinJavaClassReference(element: SkinClassName): SkinReference<SkinClassName>(element) {
 
   override fun multiResolve(incompleteCode: Boolean) =
           element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
@@ -30,7 +31,9 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
   override fun bindToElement(target: PsiElement): PsiElement {
     if (target is PsiClass) {
-      element.stringLiteral.value = DollarClassName(target).dollarName
+      if (element.project.collectTagsFromAnnotations().none { it.first == element.value.plainName }) {
+        element.stringLiteral.value = DollarClassName(target).dollarName
+      }
     } else {
       super.bindToElement(target)
     }

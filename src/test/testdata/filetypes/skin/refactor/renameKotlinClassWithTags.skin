@@ -1,0 +1,34 @@
+{
+  com.example.KotlinClass: {
+    d: {
+      bool: true
+    }
+  }
+  "com.example.KotlinClass": {
+
+  }
+  No: {
+
+  }
+
+  "com.example.KotlinClass$Inner": {
+
+
+  }
+
+  com.example.KotlinClass$Inner$Inner: {
+
+  }
+
+  "com.example.KotlinClass$Private": {
+
+  }
+
+  com.example.KotlinClass$NonStatic: {
+
+  }
+
+  ktag: {}
+
+  innerkotlin: {}
+}

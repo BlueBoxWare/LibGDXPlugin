@@ -1,10 +1,10 @@
 {
-  JC: {
+  com.example.MyClass: {
     d: {
       bool: true
     }
   }
-  "JC": {
+  "com.example.MyClass": {
 
   }
   No: {
@@ -15,7 +15,7 @@
 
   }
 
-  Inner: {
+  com.example.MyClass$InnerClass: {
 
   }
 
@@ -29,6 +29,12 @@
 
   com.example.MyClass$Private: {
 
-  }
+  },
+
+  tag1: {},
+
+  tag2: {},
+
+  javainner: {}
 
 }

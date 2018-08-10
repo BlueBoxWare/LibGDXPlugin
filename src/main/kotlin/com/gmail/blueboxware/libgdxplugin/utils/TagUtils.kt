@@ -158,7 +158,7 @@ private fun Project.collectCustomTags(): TagMap {
 
 }
 
-private fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
+internal fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
 
   val tagAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
 
