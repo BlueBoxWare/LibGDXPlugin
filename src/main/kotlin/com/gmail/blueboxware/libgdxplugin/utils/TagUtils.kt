@@ -3,10 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.PsiClassObjectAccessExpression
-import com.intellij.psi.PsiClassType
-import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.PsiMethodCallExpression
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiImmediateClassType
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
@@ -91,7 +88,7 @@ internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
         "scenes.scene2d.ui.Touchpad.TouchpadStyle",
         "scenes.scene2d.ui.Tree.TreeStyle",
         "scenes.scene2d.ui.Window.WindowStyle"
-).map { StringUtil.getShortName(it) to  "com.badlogic.gdx.$it" }.toMap()
+).map { StringUtil.getShortName(it) to "com.badlogic.gdx.$it" }.toMap()
 
 private fun Project.collectCustomTags(): TagMap {
 
@@ -165,21 +162,30 @@ internal fun Project.collectTagsFromAnnotations(): Collection<Pair<String, Strin
   val tags = mutableListOf<Pair<String, String>>()
 
   AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, GlobalSearchScope.allScope(this)).forEach { psiClass ->
-    AnnotationUtil.findAnnotation(psiClass, TAG_ANNOTATION_NAME)?.let { annotation ->
-      val wrapper = if (annotation is KtLightElement<*, *>) {
-        (annotation.kotlinOrigin as? KtAnnotationEntry)?.let(::KtAnnotationWrapper)
-      } else {
-        PsiAnnotationWrapper(annotation)
-      }
-      wrapper?.getValue()?.forEach { tag ->
-        psiClass.qualifiedName?.let { fqName ->
-          tags.add(tag to fqName)
-        }
+    psiClass.getSkinTagsFromAnnotation()?.forEach { tag ->
+      psiClass.qualifiedName?.let { fqName ->
+        tags.add(tag to fqName)
       }
     }
   }
 
+
   return tags
+
+}
+
+internal fun PsiClass.getSkinTagsFromAnnotation(): Collection<String>? {
+
+  AnnotationUtil.findAnnotation(this, TAG_ANNOTATION_NAME)?.let { annotation ->
+    val wrapper = if (annotation is KtLightElement<*, *>) {
+      (annotation.kotlinOrigin as? KtAnnotationEntry)?.let(::KtAnnotationWrapper)
+    } else {
+      PsiAnnotationWrapper(annotation)
+    }
+    return wrapper?.getValue()
+  }
+
+  return listOf()
 
 }
 

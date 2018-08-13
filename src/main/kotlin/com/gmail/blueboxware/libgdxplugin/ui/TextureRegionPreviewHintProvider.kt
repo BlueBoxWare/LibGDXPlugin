@@ -7,16 +7,12 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_COLOR
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.tint
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.preview.PreviewHintProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ui.ImageUtil
 import org.imgscalr.Scalr
 import org.jetbrains.kotlin.psi.KtFile
@@ -49,7 +45,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
     if (element.containingFile is AtlasFile) {
 
-      PsiTreeUtil.getParentOfType(element, AtlasRegion::class.java)?.let { atlasRegion ->
+      element.getParentOfType<AtlasRegion>()?.let { atlasRegion ->
         atlasRegion.image?.let { image ->
           return createPreviewComponent(image, atlasRegion.name)
         }
@@ -58,10 +54,10 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
     } else {
 
       when (element.containingFile) {
-        is SkinFile     -> PsiTreeUtil.getParentOfType(element, SkinStringLiteral::class.java)
-        is PsiJavaFile  -> PsiTreeUtil.getParentOfType(element, PsiLiteralExpression::class.java)
-        is KtFile -> PsiTreeUtil.getParentOfType(element, KtStringTemplateExpression::class.java)
-        else             -> null
+        is SkinFile     -> element.getParentOfType<SkinStringLiteral>()
+        is PsiJavaFile  -> element.getParentOfType<PsiLiteralExpression>()
+        is KtFile       -> element.getParentOfType<KtStringTemplateExpression>()
+        else            -> null
       }?.references?.forEach { reference ->
         reference.resolve()?.let { target ->
           if (target is AtlasRegion) {

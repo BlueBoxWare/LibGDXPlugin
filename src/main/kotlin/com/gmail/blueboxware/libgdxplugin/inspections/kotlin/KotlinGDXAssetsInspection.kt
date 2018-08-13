@@ -86,10 +86,9 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
                 JavaGDXAssetsInspection.checkFilename(argument, value, holder)
               } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
                 JavaGDXAssetsInspection.checkFilename(argument, value, holder)
-              } else {
-                null
               }
 
+              Unit
             }
           }
 

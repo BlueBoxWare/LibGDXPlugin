@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
 import com.intellij.codeInsight.daemon.ImplicitUsageProvider
 import com.intellij.psi.PsiClass

@@ -4,11 +4,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.getValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasPage
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.codeInsight.preview.ImagePreviewComponent
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.IconUtil
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.ui.ImageUtil
@@ -52,7 +52,7 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
 
   override fun getOriginalSize() = originalWidth * originalHeight
 
-  override fun getPage(): AtlasPage? = PsiTreeUtil.getParentOfType(this, AtlasPage::class.java)
+  override fun getPage(): AtlasPage? = getParentOfType()
 
   override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 

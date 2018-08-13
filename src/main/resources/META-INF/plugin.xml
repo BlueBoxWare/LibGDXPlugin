@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Inspections</name>
-    <version>1.16.1</version>
+    <version>1.17</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.17</b>
+        <ul>
+            <li>Find Usages for tags in @GDXTag annotation</li>
+            <li></li>
+        </ul>
+
         <b>1.16.1</b>
         <ul>
             <li>Fix non existing resource inspection: it should only look at annotated elements</li>
@@ -246,13 +252,17 @@
         <refactoring.elementListenerProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringElementListenerProvider" />
         <refactoring.elementListenerProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener" />
 
-        <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFindUsagesProvider" />
+        <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinFindUsagesProvider" />
 
         <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
         <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
-        <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.ClassUseScopeEnlarger" />
-        <referencesSearch implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.TaggedClassUsagesSearcher" />
-        <implicitUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.TaggedClassImplicitUsageProvider" />
+        <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassUseScopeEnlarger" />
+        <referencesSearch implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassUsagesSearcher" />
+
+        <implicitUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassImplicitUsageProvider" />
+        <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagUsageTargetProvider" />
+        <usageTypeProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinUsageTypeProvider" />
+        <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory" />
 
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention</className>

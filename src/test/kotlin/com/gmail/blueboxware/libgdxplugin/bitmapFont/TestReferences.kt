@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.bitmapFont
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasValue
+import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.psi.PsiFile
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -26,7 +26,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   fun testImageFileReference() {
     myFixture.configureByFile("assets/test1.atlas")
 
-    val atlasValue = PsiTreeUtil.getParentOfType(myFixture.file.findElementAt(myFixture.caretOffset), AtlasValue::class.java)
+    val atlasValue = myFixture.file.findElementAt(myFixture.caretOffset)?.getParentOfType<AtlasValue>()
     assertNotNull(atlasValue)
     val reference = atlasValue!!.reference
     assertNotNull(reference)

@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.intellij.lang.cacheBuilder.WordsScanner

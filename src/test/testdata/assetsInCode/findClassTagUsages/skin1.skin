@@ -1,0 +1,60 @@
+{
+  com.badlogic.gdx.graphics.Color: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+  },
+
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    default: {
+      down: round-down, up: round,
+      font: medium, fontColor: white
+    },
+    toggle: {
+      down: round-down, up: round, checked: round-down,
+      font: medium, fontColor: white, checkedFontColor: red
+    },
+    green: {
+      down: round-down, up: round,
+      font: medium, fontColor: { r: 0, g: 1, b: 0, a: 1 }
+    }
+  }
+  java1: {
+    jt1: {}
+  }
+  java2: {
+    kt2: {}
+  }
+
+  java3: {
+
+  }
+
+  kotlin1: {
+    jt1: {}
+  }
+  kotlin2: {
+    kt2: {}
+  }
+
+  kotlin3: {
+
+  }
+
+  TextButtonStyle: {
+    taggedStyle1: {}
+  }
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    user-red: {
+      name: user
+      color: {
+        r: 1
+        g: 0
+        b: 0
+        a: 1
+      }
+    }
+  }, java2: {}, kotlin2: {}
+
+}

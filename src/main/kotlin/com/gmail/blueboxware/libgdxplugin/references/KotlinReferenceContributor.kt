@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
-import org.jetbrains.kotlin.psi.psiUtil.getParentOfType
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.BindingContext
 
@@ -78,12 +77,12 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
             object : PsiReferenceProvider() {
 
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
-                element.getParentOfType<KtAnnotationEntry>(true)?.let { entry ->
+                element.getParentOfType<KtAnnotationEntry>()?.let { entry ->
                   entry.analyzePartial().get(BindingContext.ANNOTATION, entry)?.type?.fqName()?.let { fqName ->
                     if (fqName == ASSET_ANNOTATION_NAME) {
-                      var valueArgument = element.getParentOfType<KtValueArgument>(true)
+                      var valueArgument = element.getParentOfType<KtValueArgument>()
                       if (element.context !is KtCollectionLiteralExpression) {
-                        valueArgument = valueArgument?.getParentOfType(true)
+                        valueArgument = valueArgument?.getParentOfType()
                       }
                       valueArgument?.getArgumentName()?.asName?.identifier?.let { arg ->
                         if (arg == paramName) {
