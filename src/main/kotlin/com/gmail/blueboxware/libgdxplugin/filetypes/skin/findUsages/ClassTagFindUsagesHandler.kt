@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.allScope
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesOptions
@@ -54,14 +55,16 @@ class ClassTagFindUsagesHandler(element: PsiElement): FindUsagesHandler(element)
           skinFile.getClassSpecifications().forEach { classSpec ->
             classSpec.className.let { className ->
               if (className.value.plainName == text) {
-                processor.process(UsageInfo(className))
+                if (!processor.process(UsageInfo(className))) {
+                  return@processFiles false
+                }
               }
             }
           }
         }
 
         true
-      }, GlobalSearchScope.allScope(psiElement.project))
+      }, (options.searchScope as? GlobalSearchScope) ?: element.allScope())
 
     }
 

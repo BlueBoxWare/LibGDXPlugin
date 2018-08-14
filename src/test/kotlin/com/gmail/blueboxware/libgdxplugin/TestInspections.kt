@@ -539,4 +539,15 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   }
 
+  fun testUnusedClassTagInspection() {
+
+    addAnnotations()
+    addDummyLibGDX199()
+    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
+
+    performInspectionsTest(JavaUnusedClassTagInspection(), "inspections/unusedClassTag/Test.java")
+    performInspectionsTest(KotlinUnusedClassTagInspection(), "inspections/unusedClassTag/Test.kt")
+
+  }
+
 }

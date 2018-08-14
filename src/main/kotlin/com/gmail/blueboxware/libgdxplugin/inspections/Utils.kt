@@ -1,12 +1,18 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandler
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.utils.TEXTURE_REGION_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.allScope
+import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.psi.PsiElement
-
+import com.intellij.psi.PsiLiteralExpression
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 /*
  * Copyright 2018 Blue Box Ware
@@ -48,5 +54,28 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
             holder.registerProblem(element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes ?: arrayOf())
 
           }
+
+}
+
+internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder) {
+
+  val tagName =
+          (element as? PsiLiteralExpression)?.asString()
+                  ?: (element as? KtStringTemplateExpression)?.plainContent
+                  ?: return
+  var found = false
+
+  ClassTagFindUsagesHandler(element).processElementUsages(
+          element,
+          {
+            found = true
+            false
+          },
+          FindUsagesOptions(element.allScope())
+  )
+
+  if (!found) {
+    holder.registerProblem(element, message("unused.class.tag.problem.descriptor", tagName))
+  }
 
 }

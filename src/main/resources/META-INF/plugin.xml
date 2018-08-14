@@ -33,6 +33,7 @@
         <b>1.17</b>
         <ul>
             <li>Find Usages for tags in @GDXTag annotation</li>
+            <li>Unused tag inspection for @GDXTag annotation</li>
             <li></li>
         </ul>
 

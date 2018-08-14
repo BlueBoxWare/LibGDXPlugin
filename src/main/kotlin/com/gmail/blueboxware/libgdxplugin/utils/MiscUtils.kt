@@ -69,3 +69,5 @@ internal fun runUnderProgressIfNecessary(action: () -> Unit) {
   action()
 
 }
+
+internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()

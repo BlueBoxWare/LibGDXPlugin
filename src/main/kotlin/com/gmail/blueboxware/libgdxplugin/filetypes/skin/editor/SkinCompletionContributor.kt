@@ -16,10 +16,10 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
+import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import javax.swing.Icon
@@ -369,7 +369,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val dummyText = parameters.position.text
     val currentPackage = psiFacade.findPackage(prefix)
 
-    val scope = GlobalSearchScope.allScope(project)
+    val scope = project.allScope()
 
     if (currentPackage == null || currentPackage.name == null) {
 

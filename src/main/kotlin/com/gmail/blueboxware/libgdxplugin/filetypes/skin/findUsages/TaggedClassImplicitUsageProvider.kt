@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
+import com.gmail.blueboxware.libgdxplugin.utils.allScope
 import com.intellij.codeInsight.daemon.ImplicitUsageProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 
 
@@ -31,7 +31,7 @@ class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
     }
 
     val parameters =
-            ReferencesSearch.SearchParameters(element, GlobalSearchScope.allScope(element.project), true)
+            ReferencesSearch.SearchParameters(element, element.allScope(), true)
 
     var found = false
 

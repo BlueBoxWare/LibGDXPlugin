@@ -11,10 +11,10 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiReference
 import com.intellij.psi.search.FileTypeIndex
-import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.LocalSearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.util.Processor
+import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtClass
 
 
@@ -70,7 +70,7 @@ class TaggedClassUsagesSearcher: QueryExecutorBaseCompat() {
 
       val psiManager = PsiManager.getInstance(queryParameters.project)
 
-      FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, GlobalSearchScope.allScope(queryParameters.project)).forEach { virtualFile ->
+      FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, queryParameters.project.allScope()).forEach { virtualFile ->
         (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
           skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
             if (classSpec.className.stringLiteral.value in tagsToFind) {
