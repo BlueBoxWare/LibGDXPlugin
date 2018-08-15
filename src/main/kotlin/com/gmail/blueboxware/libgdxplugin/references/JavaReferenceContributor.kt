@@ -42,7 +42,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
 
     registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()),
-            JavaAssetReferenceProvider()
+            AssetReferenceProvider()
     )
 
     createAssetAnnotationProvider(

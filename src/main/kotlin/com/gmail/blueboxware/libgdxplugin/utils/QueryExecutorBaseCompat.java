@@ -23,11 +23,11 @@ import org.jetbrains.annotations.NotNull;
  */
 
 // https://youtrack.jetbrains.com/issue/IDEA-193208
+@SuppressWarnings("unchecked")
 abstract public class QueryExecutorBaseCompat extends QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters> {
 
   @Override
   final public void processQuery(@NotNull ReferencesSearch.SearchParameters queryParameters, @NotNull Processor processor) {
-    //noinspection unchecked
     doProcessQuery(queryParameters, processor);
   }
 

@@ -6,9 +6,9 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.intellij.find.findUsages.DefaultUsageTargetProvider
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
 import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.usages.UsageTarget
+import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -50,7 +50,7 @@ class ClassTagUsageTargetProvider: DefaultUsageTargetProvider() {
       } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART)) {
 
         sourceElement.getParentOfType<KtAnnotationEntry>().let { ktAnnotationEntry ->
-          if (ktAnnotationEntry == null || ktAnnotationEntry.shortName?.asString() != StringUtil.getShortName(TAG_ANNOTATION_NAME)) {
+          if (ktAnnotationEntry == null || ktAnnotationEntry.toLightAnnotation()?.qualifiedName != TAG_ANNOTATION_NAME) {
             return UsageTarget.EMPTY_ARRAY
           }
         }

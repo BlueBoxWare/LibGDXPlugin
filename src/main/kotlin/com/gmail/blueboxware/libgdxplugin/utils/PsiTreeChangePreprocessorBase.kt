@@ -21,11 +21,6 @@ import com.intellij.psi.impl.PsiTreeChangePreprocessor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-//
-// com.intellij.psi.impl.PsiTreeChangePreprocessorBase(PsiManager) is not yet available in Android Studio
-// was introduced in 2017.1
-//
 abstract class PsiTreeChangePreprocessorBase(val language: Language): PsiTreeChangePreprocessor {
 
   override fun treeChanged(event: PsiTreeChangeEventImpl) {

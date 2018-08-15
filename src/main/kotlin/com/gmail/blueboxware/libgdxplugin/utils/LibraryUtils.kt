@@ -184,4 +184,4 @@ private fun KtValueArgumentList.getNamedArgumentPlainContent(name: String): Stri
         (getNamedArgument(name) as? KtStringTemplateExpression)?.plainContent
 
 private fun String.toVersion() =
-        takeIf { contains('.') && !any { it in listOf('$', '"', '\'') } }?.let(::MavenComparableVersion)
+        takeIf { contains('.') && !any { char -> char in listOf('$', '"', '\'') } }?.let(::MavenComparableVersion)

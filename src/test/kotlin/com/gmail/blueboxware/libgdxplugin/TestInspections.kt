@@ -42,105 +42,6 @@ import java.io.File
 
 class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
-  override fun setUp() {
-    super.setUp()
-
-    addLibGDX()
-    addKotlin()
-
-    WriteCommandAction.runWriteCommandAction(project) {
-      FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
-    }
-
-    ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
-
-  }
-
-  private fun performInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
-    myFixture.enableInspections(inspection)
-    myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
-  }
-
-  private fun performInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
-
-    myFixture.configureByText(fileName, text)
-    myFixture.enableInspections(inspection)
-    myFixture.checkHighlighting(true, false, false)
-
-  }
-
-  private fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
-
-    myFixture.configureByFiles(*fileNames)
-    myFixture.enableInspections(inspection)
-    return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) == true }
-
-  }
-
-  private fun getGlobalInspectionResults(testDir: String, inspection: GlobalInspectionTool): Collection<CommonProblemDescriptor> {
-
-    val toolWrapper = GlobalInspectionToolWrapper(inspection)
-
-    val sourceDir = myFixture.copyDirectoryToProject(File(testDir, "src").path, "src")
-    val psiDirectory = myFixture.psiManager.findDirectory(sourceDir) ?: throw AssertionError("Could not find $sourceDir")
-
-    val scope = AnalysisScope(psiDirectory)
-    scope.invalidate()
-
-    val globalContext = createGlobalContextForTool(scope, project, listOf(toolWrapper))
-
-    InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
-
-    (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.deleteAll()
-
-    return globalContext.getPresentation(toolWrapper).problemDescriptors
-  }
-
-  private fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
-    val expectedWarnings = warnings.toMutableList()
-    val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
-
-    for (problem in problemDescriptors) {
-      val msg = problem.descriptionTemplate
-      if (!expectedWarnings.remove(msg)) {
-        fail("Unexpected warning $msg in:\n" + ppDirContents(testDir))
-      }
-    }
-
-    if (!expectedWarnings.isEmpty()) {
-      fail("Expected warning(s) not found: " + expectedWarnings.joinToString("\n") + " in:\n" + ppDirContents(testDir))
-    }
-
-  }
-
-  private fun ppDirContents(testDir: String): String {
-    val dirName = testDataPath + testDir + "src/"
-    val dir = File(dirName)
-    val stringBuilder = StringBuilder()
-
-    val files = dir.listFiles().flatMap { if (it.isDirectory) it.listFiles().toList() else listOf(it) }.sortedBy { it.absolutePath }
-
-    for (file in files) {
-      if (file.isFile) {
-        val name = file.path.removePrefix(dirName)
-        stringBuilder.append("\t[" + name + "]: \"" + file.readText() + "\"\n")
-      }
-    }
-
-    return stringBuilder.toString()
-  }
-
-
-  /*
-   * Unsafe iterators inspection
-   */
-
-  private fun performUnsafeIteratorInspectionTest(name: String) {
-    val lName = "inspections/unsafeIterators/$name"
-    performInspectionsTest(JavaUnsafeIteratorInspection(), "$lName.java")
-    performInspectionsTest(KotlinUnsafeIteratorInspection(), "$lName.kt")
-  }
-
   fun testUnsafeIteratorInspection() {
     for (clazz in listOf(
             "Array",
@@ -161,61 +62,31 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             "Queue",
             "SortedIntList"
     )) {
-      performUnsafeIteratorInspectionTest(clazz)
+      doUnsafeIteratorInspectionTest(clazz)
     }
-  }
-
-  /*
-   * OpenGL Directive inspection
-   */
-  private fun performOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
-    val lName = "inspections/missingOpenGLDirective/$name"
-    val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
-
-    for (hightLight in hightLights) {
-      if (warningExpected) {
-        if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
-          UsefulTestCase.fail(name + ": Hightlight starts at wrong element: '" + hightLight.text.substring(0, 30) + "'")
-          return
-        } else {
-          return
-        }
-      } else {
-        UsefulTestCase.fail(name + ": Unexpected highlight starting at '" + hightLight.text.substring(0, 30) + "'")
-        return
-      }
-    }
-
-    if (warningExpected) {
-      UsefulTestCase.fail("$name: Expected highlight not found")
-    }
-
   }
 
   fun testOpenGLDirectiveInspectionWrongFilename() {
-    performOpenGLDirectiveInspectionTest("wrongFilename1/Androidmanifest.xml", false)
+    doOpenGLDirectiveInspectionTest("wrongFilename1/Androidmanifest.xml", false)
   }
 
   fun testOpenGLDirectiveInspectionDirectiveIsMissing() {
-    performOpenGLDirectiveInspectionTest("missingDirective1/AndroidManifest.xml", true, problemElement = null)
-    performOpenGLDirectiveInspectionTest("missingDirective2/AndroidManifest.xml", true)
-    performOpenGLDirectiveInspectionTest("missingDirective3/AndroidManifest.xml", true)
-    performOpenGLDirectiveInspectionTest("missingDirective4/AndroidManifest.xml", true, problemElement = null)
+    doOpenGLDirectiveInspectionTest("missingDirective1/AndroidManifest.xml", true, problemElement = null)
+    doOpenGLDirectiveInspectionTest("missingDirective2/AndroidManifest.xml", true)
+    doOpenGLDirectiveInspectionTest("missingDirective3/AndroidManifest.xml", true)
+    doOpenGLDirectiveInspectionTest("missingDirective4/AndroidManifest.xml", true, problemElement = null)
   }
 
   fun testOpenGLDirectiveInspectionDirectiveIsPresent() {
-    performOpenGLDirectiveInspectionTest("directiveIsPresent1/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent2/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent3/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent4/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent5/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent6/AndroidManifest.xml", false)
-    performOpenGLDirectiveInspectionTest("directiveIsPresent7/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent1/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent2/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent3/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent4/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent5/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent6/AndroidManifest.xml", false)
+    doOpenGLDirectiveInspectionTest("directiveIsPresent7/AndroidManifest.xml", false)
   }
 
-  /*
-   * Test ids inspection
-   */
   fun testTestIdsInspectionWithIdMap() {
     val stringBuilderKotlin = StringBuilder()
     val stringBuilderJava = StringBuilder("class Test {\n")
@@ -244,41 +115,11 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     stringBuilderJava.append("}")
     stringBuilderXml.append("</resources>")
 
-    performInspectionTestWithString(stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "Test.kt")
-    performInspectionTestWithString(stringBuilderJava.toString(), JavaTestIdsInspection(), "Test.java")
-    performInspectionTestWithString(stringBuilderXml.toString(), XmlTestIdsInspection(), "Test.xml")
-    performInspectionTestWithString(stringBuilderBuildGradle.toString(), GradleTestIdsInspection(), "build.gradle")
-    performInspectionTestWithString(stringBuilderGradleProperties.toString(), GradlePropertiesTestIdsInspection(), "gradle.properties")
-
-  }
-
-  /*
-   *  Designed for Tablets inspection
-   */
-
-  private fun cleanUp(dirName: String) {
-    val dir = File(dirName)
-
-    for (file in dir.listFiles().flatMap { if (it.isDirectory) it.listFiles().toList() else listOf(it) }) {
-      if (file.isFile) {
-        file.delete()
-      }
-    }
-  }
-
-  private fun doDesignedForTabletsTest(files: Map<String, String>, warnings: List<String>?) {
-
-    val fakeProjectDir = "/inspections/designedForTablets/"
-    val fullDir = testDataPath + fakeProjectDir + "src/"
-
-    cleanUp(fullDir)
-
-    for ((fileName, content) in files.entries) {
-      val file = File(fullDir + fileName)
-      file.writeText(content)
-    }
-
-    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
+    doInspectionTestWithString(stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "Test.kt")
+    doInspectionTestWithString(stringBuilderJava.toString(), JavaTestIdsInspection(), "Test.java")
+    doInspectionTestWithString(stringBuilderXml.toString(), XmlTestIdsInspection(), "Test.xml")
+    doInspectionTestWithString(stringBuilderBuildGradle.toString(), GradleTestIdsInspection(), "build.gradle")
+    doInspectionTestWithString(stringBuilderGradleProperties.toString(), GradlePropertiesTestIdsInspection(), "gradle.properties")
 
   }
 
@@ -400,9 +241,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  /*
-   * External files permission inspection
-   */
   private val externalFilesPermissionJavaTests = arrayOf(
           true to """Gdx.files.external("");""",
           true to """Gdx.files.absolute("");""",
@@ -430,8 +268,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         }
       """
       myFixture.configureByText("Test.java", fileContents)
-      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
-      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
+      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
     }
   }
 
@@ -460,12 +298,213 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         }
       """
       myFixture.configureByText("Test.kt", fileContents)
-      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
-      doTestExternalFilesPermissionInspection("inspections/missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
+      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
     }
   }
 
-  private fun doTestExternalFilesPermissionInspection(manifestFileName: String, warningExpected: Boolean) {
+  fun testStaticResourceInspection() {
+
+    doInspectionsTest(JavaStaticResourceInspection(), "staticResources/Test1.java")
+    doInspectionsTest(KotlinStaticResourceInspection(), "staticResources/Test1.kt")
+
+  }
+
+
+  fun testMissingFlushInspection() {
+
+    doInspectionsTest(KotlinMissingFlushInspection(), "missingFlush/Test.kt")
+    doInspectionsTest(JavaMissingFlushInspection(), "missingFlush/Test.java")
+
+  }
+
+  fun testProfilingCodeInspection() {
+
+    doInspectionsTest(KotlinProfilingCodeInspection(), "profilingCode/Test.kt")
+    doInspectionsTest(JavaProfilingCodeInspection(), "profilingCode/Test.java")
+
+  }
+
+  fun testLogLevelInspection() {
+
+    doInspectionsTest(JavaLogLevelInspection(), "logLevel/Test.java")
+    doInspectionsTest(KotlinLogLevelInspection(), "logLevel/Test.kt")
+
+  }
+
+  fun testFlushInsideLoopInspection() {
+
+    doInspectionsTest(KotlinFlushInsideLoopInspection(), "flushInsideLoop/Test1.kt")
+    doInspectionsTest(JavaFlushInsideLoopInspection(), "flushInsideLoop/Test2.kt", "flushInsideLoop/Test2.java")
+    doInspectionsTest(KotlinFlushInsideLoopInspection(), "flushInsideLoop/Test3.java", "flushInsideLoop/Test3.kt")
+    doInspectionsTest(KotlinFlushInsideLoopInspection(), "flushInsideLoop/Test4.kt")
+    doInspectionsTest(JavaFlushInsideLoopInspection(), "flushInsideLoop/Test5.java")
+
+  }
+
+  fun testGDXAssetsAnnotationInspection() {
+
+    addAnnotations()
+    myFixture.copyDirectoryToProject("assets", "/")
+
+    doInspectionsTest(JavaGDXAssetsInspection(), "GDXAssetsAnnotation/Test.java")
+    doInspectionsTest(KotlinGDXAssetsInspection(), "GDXAssetsAnnotation/Test.kt")
+
+  }
+
+  fun testNonExistingAssetInspection() {
+
+    addAnnotations()
+    addDummyLibGDX199()
+    myFixture.copyDirectoryToProject("assets", "/")
+
+    doInspectionsTest(JavaNonExistingAssetInspection(), "nonExistingAsset/Test.java")
+    doInspectionsTest(KotlinNonExistingAssetInspection(), "nonExistingAsset/Test.kt")
+
+  }
+
+  fun testUnusedClassTagInspection() {
+
+    addAnnotations()
+    addDummyLibGDX199()
+    myFixture.copyDirectoryToProject("assets", "/")
+
+    doInspectionsTest(JavaUnusedClassTagInspection(), "unusedClassTag/Test.java")
+    doInspectionsTest(KotlinUnusedClassTagInspection(), "unusedClassTag/Test.kt")
+
+  }
+
+  private fun doInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
+    myFixture.enableInspections(inspection)
+    myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
+  }
+
+  private fun doInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
+
+    myFixture.configureByText(fileName, text)
+    myFixture.enableInspections(inspection)
+    myFixture.checkHighlighting(true, false, false)
+
+  }
+
+  private fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
+
+    myFixture.configureByFiles(*fileNames)
+    myFixture.enableInspections(inspection)
+    return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) == true }
+
+  }
+
+  private fun getGlobalInspectionResults(testDir: String, inspection: GlobalInspectionTool): Collection<CommonProblemDescriptor> {
+
+    val toolWrapper = GlobalInspectionToolWrapper(inspection)
+
+    val sourceDir = myFixture.copyDirectoryToProject(File(testDir, "src").path, "src")
+    val psiDirectory = myFixture.psiManager.findDirectory(sourceDir) ?: throw AssertionError("Could not find $sourceDir")
+
+    val scope = AnalysisScope(psiDirectory)
+    scope.invalidate()
+
+    val globalContext = createGlobalContextForTool(scope, project, listOf(toolWrapper))
+
+    InspectionTestUtil.runTool(toolWrapper, scope, globalContext)
+
+    (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.deleteAll()
+
+    return globalContext.getPresentation(toolWrapper).problemDescriptors
+  }
+
+  private fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
+    val expectedWarnings = warnings.toMutableList()
+    val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
+
+    for (problem in problemDescriptors) {
+      val msg = problem.descriptionTemplate
+      if (!expectedWarnings.remove(msg)) {
+        fail("Unexpected warning $msg in:\n" + ppDirContents(testDir))
+      }
+    }
+
+    if (!expectedWarnings.isEmpty()) {
+      fail("Expected warning(s) not found: " + expectedWarnings.joinToString("\n") + " in:\n" + ppDirContents(testDir))
+    }
+
+  }
+
+  private fun ppDirContents(testDir: String): String {
+    val dirName = testDataPath + testDir + "src/"
+    val dir = File(dirName)
+    val stringBuilder = StringBuilder()
+
+    val files = dir.listFiles().flatMap { if (it.isDirectory) it.listFiles().toList() else listOf(it) }.sortedBy { it.absolutePath }
+
+    for (file in files) {
+      if (file.isFile) {
+        val name = file.path.removePrefix(dirName)
+        stringBuilder.append("\t[" + name + "]: \"" + file.readText() + "\"\n")
+      }
+    }
+
+    return stringBuilder.toString()
+  }
+
+  private fun doUnsafeIteratorInspectionTest(name: String) {
+    val lName = "unsafeIterators/$name"
+    doInspectionsTest(JavaUnsafeIteratorInspection(), "$lName.java")
+    doInspectionsTest(KotlinUnsafeIteratorInspection(), "$lName.kt")
+  }
+
+  private fun doOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
+    val lName = "missingOpenGLDirective/$name"
+    val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
+
+    for (hightLight in hightLights) {
+      if (warningExpected) {
+        if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
+          UsefulTestCase.fail(name + ": Hightlight starts at wrong element: '" + hightLight.text.substring(0, 30) + "'")
+          return
+        } else {
+          return
+        }
+      } else {
+        UsefulTestCase.fail(name + ": Unexpected highlight starting at '" + hightLight.text.substring(0, 30) + "'")
+        return
+      }
+    }
+
+    if (warningExpected) {
+      UsefulTestCase.fail("$name: Expected highlight not found")
+    }
+
+  }
+
+  private fun cleanUp(dirName: String) {
+    val dir = File(dirName)
+
+    for (file in dir.listFiles().flatMap { if (it.isDirectory) it.listFiles().toList() else listOf(it) }) {
+      if (file.isFile) {
+        file.delete()
+      }
+    }
+  }
+
+  private fun doDesignedForTabletsTest(files: Map<String, String>, warnings: List<String>?) {
+
+    val fakeProjectDir = "/designedForTablets/"
+    val fullDir = testDataPath + fakeProjectDir + "src/"
+
+    cleanUp(fullDir)
+
+    for ((fileName, content) in files.entries) {
+      val file = File(fullDir + fileName)
+      file.writeText(content)
+    }
+
+    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
+
+  }
+
+  private fun doExternalFilesPermissionInspectionTest(manifestFileName: String, warningExpected: Boolean) {
     myFixture.enableInspections(MissingExternalFilesPermissionInspection())
     myFixture.configureByFile(manifestFileName)
     val hasWarning = myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }
@@ -476,77 +515,19 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  /*
-   * Other inspections
-   */
-  fun testStaticResourceInspection() {
+  override fun getBasePath() = "inspections"
 
-    performInspectionsTest(JavaStaticResourceInspection(), "inspections/staticResources/Test1.java")
-    performInspectionsTest(KotlinStaticResourceInspection(), "inspections/staticResources/Test1.kt")
+  override fun setUp() {
+    super.setUp()
 
-  }
+    addLibGDX()
+    addKotlin()
 
+    WriteCommandAction.runWriteCommandAction(project) {
+      FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
+    }
 
-  fun testMissingFlushInspection() {
-
-    performInspectionsTest(KotlinMissingFlushInspection(), "inspections/missingFlush/Test.kt")
-    performInspectionsTest(JavaMissingFlushInspection(), "inspections/missingFlush/Test.java")
-
-  }
-
-  fun testProfilingCodeInspection() {
-
-    performInspectionsTest(KotlinProfilingCodeInspection(), "inspections/profilingCode/Test.kt")
-    performInspectionsTest(JavaProfilingCodeInspection(), "inspections/profilingCode/Test.java")
-
-  }
-
-  fun testLogLevelInspection() {
-
-    performInspectionsTest(JavaLogLevelInspection(), "inspections/logLevel/Test.java")
-    performInspectionsTest(KotlinLogLevelInspection(), "inspections/logLevel/Test.kt")
-
-  }
-
-  fun testFlushInsideLoopInspection() {
-
-    performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test1.kt")
-    performInspectionsTest(JavaFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test2.kt", "inspections/flushInsideLoop/Test2.java")
-    performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test3.java", "inspections/flushInsideLoop/Test3.kt")
-    performInspectionsTest(KotlinFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test4.kt")
-    performInspectionsTest(JavaFlushInsideLoopInspection(), "inspections/flushInsideLoop/Test5.java")
-
-  }
-
-  fun testGDXAssetsAnnotationInspection() {
-
-    addAnnotations()
-    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
-
-    performInspectionsTest(JavaGDXAssetsInspection(), "inspections/GDXAssetsAnnotation/Test.java")
-    performInspectionsTest(KotlinGDXAssetsInspection(), "inspections/GDXAssetsAnnotation/Test.kt")
-
-  }
-
-  fun testNonExistingAssetInspection() {
-
-    addAnnotations()
-    addDummyLibGDX199()
-    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
-
-    performInspectionsTest(JavaNonExistingAssetInspection(), "inspections/nonExistingAsset/Test.java")
-    performInspectionsTest(KotlinNonExistingAssetInspection(), "inspections/nonExistingAsset/Test.kt")
-
-  }
-
-  fun testUnusedClassTagInspection() {
-
-    addAnnotations()
-    addDummyLibGDX199()
-    myFixture.copyDirectoryToProject("assetsInCode/assets", "/")
-
-    performInspectionsTest(JavaUnusedClassTagInspection(), "inspections/unusedClassTag/Test.java")
-    performInspectionsTest(KotlinUnusedClassTagInspection(), "inspections/unusedClassTag/Test.kt")
+    ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
 
   }
 

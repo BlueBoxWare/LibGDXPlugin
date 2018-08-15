@@ -9,6 +9,7 @@ import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
@@ -50,39 +51,39 @@ class BitmapFontFoldingBuilder : FoldingBuilder, DumbAware {
 
     val descriptors = mutableListOf<FoldingDescriptor>()
 
-    val characters = fontFile.getCharacters()
-
-    val firstChar = characters.firstOrNull()
-    val lastChar = characters.lastOrNull()
-
-    if (firstChar != null && lastChar != null && firstChar != lastChar) {
-      var end = lastChar.endOffset
-      while (end > firstChar.startOffset && text[end - 1] == '\n') {
-        end--
-      }
-      descriptors.add(FoldingDescriptor(
-              firstChar,
-              TextRange(firstChar.startOffset, end)
-      ))
+    getFoldingDescriptorForCollection(fontFile.getCharacters(), text)?.let {
+      descriptors.add(it)
     }
 
-    val kernings = fontFile.getKernings()
-
-    val firstKerning = kernings.firstOrNull()
-    val lastKerning = kernings.lastOrNull()
-
-    if (firstKerning != null && lastKerning != null && firstKerning != lastKerning) {
-      var end = lastKerning.endOffset
-      while (end > firstKerning.startOffset && text[end - 1] == '\n') {
-        end--
-      }
-      descriptors.add(FoldingDescriptor(
-              firstKerning,
-              TextRange(firstKerning.startOffset, end)
-      ))
+    getFoldingDescriptorForCollection(fontFile.getKernings(), text)?.let {
+      descriptors.add(it)
     }
 
     return descriptors.toTypedArray()
+
+  }
+
+  private fun getFoldingDescriptorForCollection(collection: Collection<PsiElement>, text: String): FoldingDescriptor? {
+
+    val firstElement = collection.firstOrNull() ?: return null
+    val lastElement = collection.lastOrNull() ?: return null
+
+    if (firstElement != lastElement) {
+
+      var end = lastElement.endOffset
+
+      while (end > firstElement.startOffset && text[end - 1] == '\n') {
+        end --
+      }
+
+      return FoldingDescriptor(
+              firstElement,
+              TextRange(firstElement.startOffset, end)
+      )
+
+    }
+
+    return null
 
   }
 

@@ -35,7 +35,7 @@ class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
 
     var found = false
 
-    TaggedClassUsagesSearcher().execute(parameters) { reference ->
+    TaggedClassUsagesSearcher().execute(parameters) {
       found = true
       return@execute false
     }

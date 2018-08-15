@@ -178,22 +178,30 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
   )
 
   fun testDefaultStyle() {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
     doFileTest("test.skin", "test_after.skin")
   }
 
   fun testWrapColors() {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
     doFileTest("test.skin", "test_wrap_colors_after.skin")
   }
 
   fun test2DefaultStyle() {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
     doFileTest("test2.skin", "test2_after.skin")
   }
 
 
   fun test2WrapColors() {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
     doFileTest("test2.skin", "test2_wrap_colors_after.skin")
   }

@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.util.text.StringUtil
+import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
@@ -38,7 +38,7 @@ class KotlinUnusedClassTagInspection: LibGDXKotlinBaseInspection() {
 
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      if (expression.getParentOfType<KtAnnotationEntry>()?.shortName?.asString() == StringUtil.getShortName(TAG_ANNOTATION_NAME)) {
+      if (expression.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME) {
 
         checkForUnusedClassTag(expression, holder)
 

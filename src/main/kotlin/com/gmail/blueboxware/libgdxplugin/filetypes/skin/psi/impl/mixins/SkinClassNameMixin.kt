@@ -48,7 +48,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
       val taggedClasses: List<String>? =
               project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { !it.isEmpty() }
 
-      val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let { module ->
+      val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
 
         JavaPsiFacade.getInstance(project)?.let { psiFacade ->
 
@@ -81,5 +81,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
   }
 
   override fun getReference(): SkinJavaClassReference = SkinJavaClassReference(this)
+
+  override fun toString(): String = "SkinClassName(${value.plainName})"
 
 }

@@ -37,6 +37,8 @@ class BitmapFontParserDefinition : ParserDefinition {
 
   override fun createFile(viewProvider: FileViewProvider) = BitmapFontFile(viewProvider)
 
+  @Suppress("OverridingDeprecatedMember")
+  // COMPAT: Deprecated in 182
   override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 
   override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY

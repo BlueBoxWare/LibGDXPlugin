@@ -1,16 +1,24 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandler
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQuickFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
-import com.gmail.blueboxware.libgdxplugin.utils.TEXTURE_REGION_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.allScope
-import com.gmail.blueboxware.libgdxplugin.utils.asString
+import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.intellij.codeInspection.LocalInspectionToolSession
+import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.FindUsagesOptions
+import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiLiteralExpression
+import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
@@ -78,4 +86,79 @@ internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder)
     holder.registerProblem(element, message("unused.class.tag.problem.descriptor", tagName))
   }
 
+}
+
+internal fun isValidProperty(element: PsiElement): Boolean {
+
+  element.references.filter { it is GDXPropertyReference }.let { references ->
+    if (references.isEmpty()) {
+      return true
+    }
+    references.forEach { reference ->
+      if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
+        return true
+      }
+    }
+  }
+
+  return false
+
+}
+
+internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean {
+
+  project.getComponent(VersionManager::class.java)?.let { versionManager ->
+    val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return false
+
+    if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
+      return true
+    }
+  }
+
+  return false
+}
+
+internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
+
+  checkFilename(element, fileName, holder)?.let { psiFile ->
+    if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
+      holder.registerProblem(element, message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
+    }
+  }
+
+}
+
+internal fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
+
+  if (fileName == "") return null
+
+  val psiFile = element.project.getPsiFile(fileName)
+
+  if (psiFile == null) {
+    holder.registerProblem(element,
+            message(
+                    "gdxassets.annotation.problem.descriptor.nofile",
+                    fileName,
+                    element.project.getProjectBaseDir()?.path ?: ""
+            ),
+            ProblemHighlightType.ERROR
+    )
+  }
+
+  return psiFile
+
+}
+
+private val keyMethods = key<Pair<Set<PsiElement>, Set<PsiElement>>>("flushingmethods")
+private val keyPreviousProject = key<Project>("previousproject")
+
+internal fun getFlushingMethods(project: Project, session: LocalInspectionToolSession): Set<PsiElement>? {
+
+  if (session.getUserData(keyMethods) == null || session.getUserData(keyPreviousProject) != project) {
+    val methods = FlushingMethodsUtils.getAllFlushingMethods(project)
+    session.putUserData(keyMethods, methods)
+    session.putUserData(keyPreviousProject, project)
+  }
+
+  return session.getUserData(keyMethods)?.second
 }

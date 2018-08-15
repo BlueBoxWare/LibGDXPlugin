@@ -1,4 +1,4 @@
-package inspections.flushInsideLoop;
+package flushInsideLoop;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;

@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
+import com.gmail.blueboxware.libgdxplugin.inspections.isValidProperty
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
@@ -38,18 +38,9 @@ class KotlinInvalidPropertyKeyInspection: LibGDXKotlinBaseInspection() {
 
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      expression.references.filter { it is GDXPropertyReference }.let { references ->
-        if (references.isEmpty()) {
-          return
-        }
-        references.forEach { reference ->
-          if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
-            return
-          }
-        }
+      if (!isValidProperty(expression)) {
+        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.plainContent))
       }
-
-      holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.plainContent))
 
     }
 

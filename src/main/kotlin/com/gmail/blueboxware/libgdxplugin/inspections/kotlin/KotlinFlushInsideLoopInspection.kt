@@ -15,12 +15,10 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
+import com.gmail.blueboxware.libgdxplugin.inspections.getFlushingMethods
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.FlushingMethodsUtils
-import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.idea.references.KtInvokeFunctionReference
@@ -49,22 +47,6 @@ class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
 }
 
 private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspectionToolSession): KtTreeVisitorVoid() {
-
-  companion object {
-    private val keyMethods = key<Pair<Set<PsiElement>, Set<PsiElement>>>("flushingmethods")
-    private val keyPreviousProject = key<Project>("previousproject")
-
-    fun getFlushingMethods(project: Project, session: LocalInspectionToolSession): Set<PsiElement>? {
-
-      if (session.getUserData(keyMethods) == null || session.getUserData(keyPreviousProject) != project) {
-        val methods = FlushingMethodsUtils.getAllFlushingMethods(project)
-        session.putUserData(keyMethods, methods)
-        session.putUserData(keyPreviousProject, project)
-      }
-
-      return session.getUserData(keyMethods)?.second
-    }
-  }
 
   val allFlushingMethods = getFlushingMethods(holder.project, session)
 

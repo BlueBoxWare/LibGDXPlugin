@@ -146,6 +146,8 @@ class SkinElementFactory(private val project: Project) {
 
             Regex("""name\s*:""").find(element.text)?.range?.endInclusive?.let { end ->
 
+              @Suppress("SimplifyBooleanWithConstants", "UNNECESSARY_SAFE_CALL", "DEPRECATION")
+              // COMPAT: CodeStyle#getCustomSettings() introduced in 181
               if (
                       CodeStyleSettingsManager
                               .getSettings(project)

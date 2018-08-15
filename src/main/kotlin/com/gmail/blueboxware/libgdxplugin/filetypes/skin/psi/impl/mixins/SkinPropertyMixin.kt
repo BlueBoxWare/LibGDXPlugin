@@ -103,4 +103,6 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
     override fun getPresentableText() = (value as? SkinStringLiteral)?.value?.let { "$name: $it" } ?: name
   }
 
+  override fun toString(): String = "SkinProperty($name)"
+
 }

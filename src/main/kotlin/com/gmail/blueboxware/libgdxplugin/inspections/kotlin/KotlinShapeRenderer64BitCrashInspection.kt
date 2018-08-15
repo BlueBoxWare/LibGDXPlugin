@@ -15,12 +15,10 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.inspections.isProblematicGDXVersionFor64Bit
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.fqName
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.codeInspection.ProblemsHolder
-import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
@@ -37,12 +35,8 @@ class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
     override fun visitCallExpression(expression: KtCallExpression) {
       if (getClassIfConstructorCall(expression)?.fqName() == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-        expression.project.getComponent(VersionManager::class.java)?.let { versionManager ->
-          val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return
-
-          if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
-            holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
-          }
+        if (isProblematicGDXVersionFor64Bit(expression.project)) {
+          holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
         }
 
       }

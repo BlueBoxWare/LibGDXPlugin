@@ -88,11 +88,11 @@ internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): A
   PsiUtil.deparenthesizeExpression(methodExpression.qualifierExpression)?.let { qualifierExpression ->
 
     ((qualifierExpression as? PsiReference)?.resolve() as? PsiVariable)?.let { variable ->
-      AnnotationUtil.findAnnotation(variable, annotationClass.qualifiedName)?.let {
-        ((it as? KtLightAnnotationForSourceEntry)?.navigationElement as? KtAnnotationEntry)?.let {
-          return KtAnnotationWrapper(it)
+      AnnotationUtil.findAnnotation(variable, annotationClass.qualifiedName)?.let { psiAnnotation ->
+        ((psiAnnotation as? KtLightAnnotationForSourceEntry)?.navigationElement as? KtAnnotationEntry)?.let { ktAnnotationEntry ->
+          return KtAnnotationWrapper(ktAnnotationEntry)
         }
-        return PsiAnnotationWrapper(it)
+        return PsiAnnotationWrapper(psiAnnotation)
       }
     }
 

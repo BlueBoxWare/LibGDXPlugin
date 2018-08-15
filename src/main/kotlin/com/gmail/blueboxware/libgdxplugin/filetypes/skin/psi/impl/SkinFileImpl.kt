@@ -9,9 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.*
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.extapi.psi.PsiFileBase
-import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.fileTypes.FileType
-import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiComment
@@ -23,7 +21,6 @@ import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.awt.Color
-import java.io.File
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -52,7 +49,9 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
     val classSpecs = childrenOfType<SkinClassSpecification>()
 
     if (classNames != null) {
-      return classSpecs.filter { it.getRealClassNamesAsString().any { classNames.contains(it) } }
+      return classSpecs.filter { classSpec ->
+        classSpec.getRealClassNamesAsString().any { classNames.contains(it) }
+      }
     }
 
     return classSpecs
@@ -63,8 +62,11 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   override fun getResources(classNames: Collection<String>?, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
           getClassSpecifications(classNames)
-                  .flatMap { it.resourcesAsList.filter { resourceName == null || resourceName == it.name } }
-                  .filter { beforeElement == null || it.endOffset < beforeElement.startOffset }
+                  .flatMap { skinClassSpecification ->
+                    skinClassSpecification.resourcesAsList.filter { resourceName == null || resourceName == it.name }
+                  }.filter {
+                    beforeElement == null || it.endOffset < beforeElement.startOffset
+                  }
 
   override fun getResources(className: String, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
           getResources(listOf(className), resourceName, beforeElement)
@@ -240,20 +242,6 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
             }
           }
 
-  override fun getPresentation() = object: ItemPresentation {
+  override fun getPresentation() = FilePresentation(project, virtualFile, name, Icons.SKIN_FILETYPE)
 
-    override fun getLocationString(): String {
-      project.baseDir?.let { baseDir ->
-        virtualFile?.let { virtualFile ->
-          return VfsUtil.getPath(baseDir, virtualFile, File.separatorChar) ?: ""
-        }
-      }
-
-      return ""
-    }
-
-    override fun getIcon(unused: Boolean) = Icons.SKIN_FILETYPE
-
-    override fun getPresentableText() = name
-  }
 }

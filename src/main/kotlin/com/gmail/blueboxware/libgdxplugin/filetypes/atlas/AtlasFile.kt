@@ -2,12 +2,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.atlas
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasPage
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.utils.FilePresentation
 import com.intellij.extapi.psi.PsiFileBase
-import com.intellij.navigation.ItemPresentation
-import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.FileViewProvider
 import icons.Icons
-import java.io.File
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -29,7 +27,10 @@ class AtlasFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvid
   fun getPages(): List<AtlasPage> = children.mapNotNull { it as? AtlasPage }
 
   @Suppress("unused")
-  fun getRegions(name: String? = null): List<AtlasRegion> = getPages().flatMap { it.regionList.filter { name == null || it.name == name } }
+  fun getRegions(name: String? = null): List<AtlasRegion> =
+          getPages().flatMap { page ->
+            page.regionList.filter { name == null || it.name == name }
+          }
 
   @Suppress("unused")
   fun getRegion(name: String): AtlasRegion? {
@@ -50,20 +51,6 @@ class AtlasFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvid
 
   override fun toString() = "AtlasFile: " + (virtualFile?.name ?: "<unknown>")
 
-  override fun getPresentation() = object: ItemPresentation {
+  override fun getPresentation() = FilePresentation(project, virtualFile, name, Icons.ATLAS_FILETYPE)
 
-    override fun getLocationString(): String {
-      project.baseDir?.let { baseDir ->
-        virtualFile?.let { virtualFile ->
-          return VfsUtil.getPath(baseDir, virtualFile, File.separatorChar) ?: ""
-        }
-      }
-
-      return ""
-    }
-
-    override fun getIcon(unused: Boolean) = Icons.ATLAS_FILETYPE
-
-    override fun getPresentableText() = name
-  }
 }

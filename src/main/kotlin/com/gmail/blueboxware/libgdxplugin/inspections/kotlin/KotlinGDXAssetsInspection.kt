@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaGDXAssetsInspection
+import com.gmail.blueboxware.libgdxplugin.inspections.checkFilename
+import com.gmail.blueboxware.libgdxplugin.inspections.checkSkinFilename
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInspection.ProblemHighlightType
@@ -81,11 +82,11 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
             (argument as? KtStringTemplateExpression)?.plainContent?.let { value ->
 
               if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
-                JavaGDXAssetsInspection.checkSkinFilename(argument, value, holder)
+                checkSkinFilename(argument, value, holder)
               } else if (name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
-                JavaGDXAssetsInspection.checkFilename(argument, value, holder)
+                checkFilename(argument, value, holder)
               } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
-                JavaGDXAssetsInspection.checkFilename(argument, value, holder)
+                checkFilename(argument, value, holder)
               }
 
               Unit

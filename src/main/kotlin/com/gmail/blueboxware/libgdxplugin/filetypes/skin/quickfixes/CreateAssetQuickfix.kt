@@ -48,7 +48,7 @@ class CreateAssetQuickFix(
 
     FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
 
-    val (resource, position) = (if (className.plainName == DRAWABLE_CLASS_NAME) {
+    val (_, position) = (if (className.plainName == DRAWABLE_CLASS_NAME) {
       skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
     } else if (className.plainName == COLOR_CLASS_NAME ) {
       skinFile.addColor(assetName, startElement as? SkinElement)
@@ -60,6 +60,8 @@ class CreateAssetQuickFix(
       FileDocumentManager.getInstance().let { fileDocumentManager ->
         if (fileDocumentManager.getFile(editor.document) == file.virtualFile) {
           editor.caretModel.moveToOffset(position)
+          @Suppress("DEPRECATION")
+          // COMPAT: CodeStyle#getLanuageSettings() introduced in 181
           if (
                   className.plainName != DRAWABLE_CLASS_NAME
                   && className.plainName != COLOR_CLASS_NAME

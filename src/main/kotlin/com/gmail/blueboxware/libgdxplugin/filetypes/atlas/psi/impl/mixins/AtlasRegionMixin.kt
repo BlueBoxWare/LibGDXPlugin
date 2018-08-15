@@ -79,6 +79,8 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
 
   private val myPreviewIcon: Icon? by lazy {
     image?.let { image: BufferedImage ->
+      @Suppress("DEPRECATION")
+      // COMPAT: createImageIcon() deprecated in 181
       IconUtil.createImageIcon(ImageUtil.toBufferedImage(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT)))
     }
   }

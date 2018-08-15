@@ -66,6 +66,8 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
           val keyEndOffset = key.textRange.endOffset
           if (!isFollowedByTerminal(key, SkinElementTypes.COLON)) {
             var colonText = ":"
+            @Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
+            // COMPAT: CodeStyle#getCustomSettings() introduced in 181
             CodeStyleSettingsManager.getSettings(key.project).getCustomSettings(SkinCodeStyleSettings::class.java)?.let { settings ->
               if (settings.SPACE_BEFORE_COLON) {
                 colonText = " :"
@@ -88,6 +90,8 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
           if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
 
             var commaText = ","
+            @Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
+            // COMPAT: CodeStyle#getCustomSettings() introduced in 181
             CodeStyleSettingsManager.getSettings(parent.project).getCommonSettings(LibGDXSkinLanguage.INSTANCE).let { settings ->
               if (settings.SPACE_BEFORE_COMMA) {
                 commaText = " ,"

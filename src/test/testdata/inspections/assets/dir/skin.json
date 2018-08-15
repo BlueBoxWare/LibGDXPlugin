@@ -1,0 +1,21 @@
+{
+
+
+  Color: {
+    tagColor: {}
+  }
+
+  com.badlogic.gdx.graphics.Color: {
+  white: {  },
+  red: { r: 1, g: 0, b: 0, a: 1 },
+  c1: { r: 0.2, a: .5  }
+  c2: {  hex: 00ff00 }
+  c3: { hex: "#0000ff00" }
+  __4z/*#\: { b: 0,  }
+  }
+
+
+  com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+    round-green: { name: round, color: red }
+  }
+}

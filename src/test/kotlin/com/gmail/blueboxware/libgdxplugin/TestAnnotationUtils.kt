@@ -386,8 +386,8 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(expectedResult: List<String>?, msg: String, parameter: String) {
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.let {
-      it.firstParent { it is PsiMethodCallExpression || it is KtCallExpression }
+    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.let { psiElement ->
+      psiElement.firstParent { it is PsiMethodCallExpression || it is KtCallExpression }
     } ?: throw AssertionError(msg)
     val annotationClass = project.findClass("MyAnnotation") ?: throw AssertionError()
     val annotation = (element as? PsiMethodCallExpression)?.getAnnotation(annotationClass) ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)

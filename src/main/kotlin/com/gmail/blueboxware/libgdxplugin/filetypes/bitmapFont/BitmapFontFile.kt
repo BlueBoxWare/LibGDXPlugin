@@ -1,10 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.FilePresentation
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
 import com.intellij.extapi.psi.PsiFileBase
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.FileViewProvider
+import icons.Icons
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -54,5 +57,7 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
   fun getCharacters() = getCharacterMap().values
 
   fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap()[id]
+
+  override fun getPresentation(): ItemPresentation = FilePresentation(project, virtualFile, name, Icons.FONT_FILETYPE)
 
 }

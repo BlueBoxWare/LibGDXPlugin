@@ -1,0 +1,85 @@
+
+test.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+abstractClass
+  rotate: false
+  xy: 1, 37
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+copyOfFolder
+  rotate: false
+  xy: 1, 19
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+classInitializer
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+collapseNode
+  rotate: false
+  xy: 19, 44
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+
+test2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+advice
+  rotate: false
+  xy: 1, 37
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+annotationtype
+  rotate: false
+  xy: 1, 19
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+artifact
+  rotate: false
+  xy: 1, 1
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+
+test3.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+compiledClassesFolder
+  rotate: false
+  xy: 1, 35
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+class
+  rotate: false
+  xy: 1, 17
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+aspect
+  rotate: false
+  xy: 1, 1
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1

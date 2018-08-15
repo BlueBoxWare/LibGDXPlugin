@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.inspections.checkFilename
+import com.gmail.blueboxware.libgdxplugin.inspections.checkSkinFilename
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInspection.ProblemHighlightType
@@ -117,69 +117,34 @@ internal class JavaGDXAssetsInspection: LibGDXJavaBaseInspection() {
 
   }
 
-  companion object {
+  private fun PsiAnnotation.getClassNamesOfOwningVariable(): List<String> {
 
-    internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
-
-      checkFilename(element, fileName, holder)?.let { psiFile ->
-        if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
-          holder.registerProblem(element, message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
-        }
+    ((owner as? PsiModifierList)?.context as? PsiVariable)?.type?.let { type ->
+      if (type is PsiClassType) {
+        return type.resolve()?.supersAndThis()?.mapNotNull { it.qualifiedName } ?: listOf()
       }
-
     }
 
-    internal fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
+    return listOf()
 
-      if (fileName == "") return null
+  }
 
-      val psiFile = element.project.getPsiFile(fileName)
+  private fun registerUselessParameterProblem(
+          holder: ProblemsHolder,
+          psiNameValuePair: PsiNameValuePair,
+          parameterName: String,
+          className: String
+  ) {
 
-      if (psiFile == null) {
-        holder.registerProblem(element,
-                message(
-                        "gdxassets.annotation.problem.descriptor.nofile",
-                        fileName,
-                        element.project.getProjectBaseDir()?.path ?: ""
-                ),
-                ProblemHighlightType.ERROR
-        )
-      }
-
-      return psiFile
-
-    }
-
-    private fun PsiAnnotation.getClassNamesOfOwningVariable(): List<String> {
-
-      ((owner as? PsiModifierList)?.context as? PsiVariable)?.type?.let { type ->
-        if (type is PsiClassType) {
-          return type.resolve()?.supersAndThis()?.mapNotNull { it.qualifiedName } ?: listOf()
-        }
-      }
-
-      return listOf()
-
-    }
-
-    private fun registerUselessParameterProblem(
-            holder: ProblemsHolder,
-            psiNameValuePair: PsiNameValuePair,
-            parameterName: String,
-            className: String
-    ) {
-
-      psiNameValuePair.nameIdentifier?.let { identifier ->
-        holder.registerProblem(
-                identifier,
-                message(
-                        "gdxassets.annotation.problem.descriptor.useless.parameter",
-                        parameterName,
-                        className
-                )
-        )
-      }
-
+    psiNameValuePair.nameIdentifier?.let { identifier ->
+      holder.registerProblem(
+              identifier,
+              message(
+                      "gdxassets.annotation.problem.descriptor.useless.parameter",
+                      parameterName,
+                      className
+              )
+      )
     }
 
   }

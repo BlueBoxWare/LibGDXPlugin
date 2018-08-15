@@ -98,6 +98,8 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun keepColorOnOneLine(yesOrNo: Boolean) {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
   }
 

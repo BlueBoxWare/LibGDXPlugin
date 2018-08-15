@@ -1,4 +1,4 @@
-package LibGDXPlugin.testdata.inspections.flushInsideLoop
+package LibGDXPlugin.testdata.flushInsideLoop
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch

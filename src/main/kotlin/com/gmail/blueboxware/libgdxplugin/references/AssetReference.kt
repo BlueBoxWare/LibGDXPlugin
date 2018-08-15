@@ -172,7 +172,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
             callExpression: PsiElement,
             wantedClass: DollarClassName? = null,
             resourceName: String? = null
-    ): Array<out PsiReference> {
+    ): Array<PsiReference> {
 
       @Suppress("IfThenToElvis")
       val assetFiles = if (callExpression is PsiMethodCallExpression) {
@@ -203,7 +203,7 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
             callExpression: PsiElement,
             wantedClass: String,
             resourceName: String? = null
-    ): Array<out PsiReference> = createReferences(element, callExpression, DollarClassName(wantedClass), resourceName)
+    ): Array<PsiReference> = createReferences(element, callExpression, DollarClassName(wantedClass), resourceName)
 
     fun getOriginalFileName(psiFile: PsiFile): String =
             if (psiFile.getUserData(FAKE_FILE_KEY) == true) {

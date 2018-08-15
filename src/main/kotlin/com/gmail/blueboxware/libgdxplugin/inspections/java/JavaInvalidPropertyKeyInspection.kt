@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
+import com.gmail.blueboxware.libgdxplugin.inspections.isValidProperty
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.codeHighlighting.HighlightDisplayLevel
@@ -42,18 +42,9 @@ class JavaInvalidPropertyKeyInspection : LibGDXJavaBaseInspection() {
         return
       }
 
-      expression.references.filter { it is GDXPropertyReference }.let { references ->
-        if (references.isEmpty()) {
-          return
-        }
-        references.forEach { reference ->
-          if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
-            return
-          }
-        }
+      if (!isValidProperty(expression)) {
+        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asString() ?: ""))
       }
-
-      holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asString() ?: ""))
 
     }
   }

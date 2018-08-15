@@ -1,4 +1,4 @@
-package inspections.flushInsideLoop;
+package flushInsideLoop;
 
 import com.badlogic.gdx.graphics.g2d.CpuSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

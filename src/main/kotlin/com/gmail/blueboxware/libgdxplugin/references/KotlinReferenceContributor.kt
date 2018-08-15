@@ -44,7 +44,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java),
-            KotlinAssetReferenceProvider()
+            AssetReferenceProvider()
     )
 
     createAssetAnnotationProvider(

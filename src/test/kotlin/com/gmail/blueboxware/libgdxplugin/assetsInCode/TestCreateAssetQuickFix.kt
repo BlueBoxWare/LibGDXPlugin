@@ -273,6 +273,8 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
   )
 
   fun testCreateTintedDrawable2() {
+    @Suppress("DEPRECATION")
+    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
     CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
     doJavaTest(
             "",
