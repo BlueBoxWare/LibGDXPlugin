@@ -47,7 +47,7 @@ class ClassTagUsageTargetProvider: DefaultUsageTargetProvider() {
           return arrayOf(PsiElement2UsageTargetAdapter(it))
         }
 
-      } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART)) {
+      } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART, KtTokens.CLOSING_QUOTE, KtTokens.OPEN_QUOTE)) {
 
         sourceElement.getParentOfType<KtAnnotationEntry>().let { ktAnnotationEntry ->
           if (ktAnnotationEntry == null || ktAnnotationEntry.toLightAnnotation()?.qualifiedName != TAG_ANNOTATION_NAME) {

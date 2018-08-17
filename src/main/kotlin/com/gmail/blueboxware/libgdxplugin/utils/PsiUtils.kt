@@ -53,7 +53,7 @@ internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: fa
 internal fun ASTNode.isNewline() =
         elementType == TokenType.WHITE_SPACE && text.contains('\n')
 
-internal fun PsiElement.isLeaf(type: IElementType) = (this as? LeafPsiElement)?.elementType == type
+internal fun PsiElement.isLeaf(vararg types: IElementType) = (this as? LeafPsiElement)?.elementType in types
 
 @Suppress("unused")
 internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
