@@ -34,6 +34,7 @@
         <ul>
             <li>Find Usages for tags in @GDXTag annotation</li>
             <li>Unused tag inspection for @GDXTag annotation</li>
+            <li>Show color previews in decompiled classes too</li>
             <li></li>
         </ul>
 
@@ -345,6 +346,9 @@
         </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory</implementation-class>
         </component>
     </project-components>
 

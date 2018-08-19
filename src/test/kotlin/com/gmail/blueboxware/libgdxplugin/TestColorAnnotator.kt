@@ -20,8 +20,12 @@ import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
  */
 class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testJava() {
+  fun testJava1() {
     doTest("Java1.java")
+  }
+
+  fun testJava2() {
+    doTest("Java2.java")
   }
 
   fun testKotlin() {

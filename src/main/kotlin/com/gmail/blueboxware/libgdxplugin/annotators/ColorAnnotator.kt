@@ -9,6 +9,7 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
+import com.intellij.psi.impl.compiled.ClsElementImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
@@ -38,7 +39,7 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorAnnotator : Annotator {
+class ColorAnnotator: Annotator {
 
   companion object {
 
@@ -489,7 +490,7 @@ class ColorAnnotator : Annotator {
 
   private fun getInitializer(cache: ColorAnnotatorCache, element: PsiElement): PsiElement? {
 
-    var origin = element
+    var origin = (element as? ClsElementImpl)?.mirror ?: element
 
     if (origin is KtLightMethod) {
       origin = origin.navigationElement
@@ -543,7 +544,7 @@ class ColorAnnotator : Annotator {
 
   private fun javaInt(expr: PsiElement): Long? {
 
-    if (expr is PsiLiteralExpression && expr.type == PsiType.INT) {
+    if (expr is PsiExpression && expr.type == PsiType.INT) {
 
       try {
         if (expr.text.startsWith("0x")) {

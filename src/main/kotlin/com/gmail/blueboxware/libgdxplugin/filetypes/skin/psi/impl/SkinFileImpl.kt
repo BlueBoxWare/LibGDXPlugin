@@ -163,7 +163,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
           allChildren.lastOrNull { it.isLeaf(SkinElementTypes.R_CURLY) }
 
   fun isEmpty(): Boolean =
-          allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY) || it.isLeaf(SkinElementTypes.R_CURLY) }
+          allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY, SkinElementTypes.R_CURLY) }
 
   private fun insertBraces() =
           factory.let {

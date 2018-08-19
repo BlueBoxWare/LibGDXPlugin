@@ -41,6 +41,4 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
 
   override fun getDefaultExtension() = "skin"
 
-
-
 }
