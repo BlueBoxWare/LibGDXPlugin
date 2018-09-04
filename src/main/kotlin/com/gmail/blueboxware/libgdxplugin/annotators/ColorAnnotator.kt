@@ -479,6 +479,10 @@ class ColorAnnotator: Annotator {
       origin = origin.navigationElement
     }
 
+    if (origin is ClsElementImpl) {
+      origin = origin.mirror ?: origin
+    }
+
     if (origin is PsiField) {
       if (origin.modifierList?.hasModifierProperty(PsiModifier.FINAL) == true) {
         (origin.navigationElement as? PsiField)?.initializer?.let { initializer ->
