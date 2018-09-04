@@ -32,9 +32,11 @@
     <change-notes><![CDATA[
         <b>1.17</b>
         <ul>
+            <li>Support for com.badlogic.gdx.graphics.Colors</li>
             <li>Find Usages for tags in @GDXTag annotation</li>
             <li>Unused tag inspection for @GDXTag annotation</li>
             <li>Show color previews in decompiled classes too</li>
+            <li>Always show completion popup when there is something useful to show</li>
             <li></li>
         </ul>
 
@@ -216,6 +218,12 @@
 
         <elementDescriptionProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXElementDescriptionProvider" />
 
+        <completion.confidence language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.completion.LibGDXCompletionConfidence" order="before javaSkipAutopopupInStrings" />
+        <completion.confidence language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.completion.LibGDXCompletionConfidence" order="first" />
+
+        <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider" />
+        <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory" />
+
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />
@@ -256,13 +264,15 @@
 
         <lang.findUsagesProvider language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinFindUsagesProvider" />
 
+        <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsReferenceContributor" />
+        <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsReferenceContributor" />
+
         <psi.referenceContributor language="JAVA" implementation="com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor" />
         <psi.referenceContributor language="kotlin" implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor" />
         <useScopeEnlarger implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassUseScopeEnlarger" />
         <referencesSearch implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassUsagesSearcher" />
 
         <implicitUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassImplicitUsageProvider" />
-        <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagUsageTargetProvider" />
         <usageTypeProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinUsageTypeProvider" />
         <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory" />
 

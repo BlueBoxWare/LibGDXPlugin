@@ -52,6 +52,13 @@ intellij {
     instrumentCode = false
 }
 
+runIde {
+    maxHeapSize = "2g"
+    systemProperties = [
+            'idea.ProcessCanceledException': 'disabled'
+    ]
+}
+
 tocme {
     doc("README.md")
 }

@@ -1,14 +1,13 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
+package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
+import com.gmail.blueboxware.libgdxplugin.utils.isColorsPutCall
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesHandlerFactory
-import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLiteralExpression
-import org.jetbrains.kotlin.asJava.toLightAnnotation
-import org.jetbrains.kotlin.psi.KtAnnotationEntry
+import com.intellij.psi.PsiMethodCallExpression
+import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 
@@ -27,17 +26,19 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
+class ColorsFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
 
   override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
           if (!forHighlightUsages) {
-            (element as? PsiLiteralExpression)?.let(::ClassTagFindUsagesHandler)
-                    ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
+            (element as? PsiLiteralExpression)?.let(::ColorsFindUsagesHandler)
+                    ?: (element as? KtStringTemplateExpression)?.let(::ColorsFindUsagesHandler)
           } else {
             null
           }
 
+
   override fun canFindUsages(element: PsiElement): Boolean =
-          (element as? PsiLiteralExpression)?.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
-                  || (element as? KtStringTemplateExpression)?.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
+          (element as? PsiLiteralExpression)?.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+                  || (element as? KtStringTemplateExpression)?.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+
 }

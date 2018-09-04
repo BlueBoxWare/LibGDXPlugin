@@ -17,7 +17,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AssetsInCodeCodeInsightFixtureTestCase : LibGDXCodeInsightFixtureTestCase() {
+abstract class AssetsInCodeCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureTestCase() {
 
   override fun setUp() {
     super.setUp()

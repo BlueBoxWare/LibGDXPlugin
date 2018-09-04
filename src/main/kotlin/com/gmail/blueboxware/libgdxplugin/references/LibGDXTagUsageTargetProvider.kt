@@ -1,7 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
+package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
+import com.gmail.blueboxware.libgdxplugin.utils.isColorsPutCall
 import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.intellij.find.findUsages.DefaultUsageTargetProvider
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
@@ -11,6 +12,7 @@ import com.intellij.usages.UsageTarget
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.lexer.KtTokens
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
+import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 
@@ -29,7 +31,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagUsageTargetProvider: DefaultUsageTargetProvider() {
+class LibGDXTagUsageTargetProvider: DefaultUsageTargetProvider() {
 
   override fun getTargets(editor: Editor, file: PsiFile): Array<UsageTarget>? {
 
@@ -37,26 +39,29 @@ class ClassTagUsageTargetProvider: DefaultUsageTargetProvider() {
 
       if (sourceElement.isLeaf(JavaTokenType.STRING_LITERAL)) {
 
-        sourceElement.getParentOfType<PsiAnnotation>().let { psiAnnotation ->
-          if (psiAnnotation == null || psiAnnotation.qualifiedName != TAG_ANNOTATION_NAME) {
-            return UsageTarget.EMPTY_ARRAY
+        if (
+                sourceElement.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
+                || (sourceElement.parent.parent is PsiExpressionList && sourceElement.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true)
+        ) {
+
+          sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
+            return arrayOf(PsiElement2UsageTargetAdapter(it))
           }
+
         }
 
-        sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
-          return arrayOf(PsiElement2UsageTargetAdapter(it))
-        }
 
       } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART, KtTokens.CLOSING_QUOTE, KtTokens.OPEN_QUOTE)) {
 
-        sourceElement.getParentOfType<KtAnnotationEntry>().let { ktAnnotationEntry ->
-          if (ktAnnotationEntry == null || ktAnnotationEntry.toLightAnnotation()?.qualifiedName != TAG_ANNOTATION_NAME) {
-            return UsageTarget.EMPTY_ARRAY
-          }
-        }
+        if (
+                sourceElement.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
+                || sourceElement.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+        ) {
 
-        sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {
-          return arrayOf(PsiElement2UsageTargetAdapter(it))
+          sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {
+            return arrayOf(PsiElement2UsageTargetAdapter(it))
+          }
+
         }
 
       }

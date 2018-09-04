@@ -1,7 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
-import com.intellij.codeInsight.completion.CompletionType
-
 /*
  * Copyright 2017 Blue Box Ware
  *
@@ -665,7 +663,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             $content
       """
 
-      doTest("Test.java", source, expected.first, expected.second)
+      doTestCompletion("Test.java", source, expected.first, expected.second)
     }
   }
 
@@ -680,32 +678,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             $content
       """
 
-      doTest("Test.kt", source, expected.first, expected.second)
-    }
-  }
-
-  fun doTest(testFileName: String, content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String>) {
-    myFixture.configureByText(testFileName, content)
-    val result = myFixture.complete(CompletionType.BASIC, 0)
-    if (result == null) {
-      // the only item was auto-completed?
-      assertEquals(expectedCompletionStrings.size, 1)
-      val text = myFixture.editor.document.text
-      val expectedString = expectedCompletionStrings.first()
-      val msg = "\nExpected string '$expectedString' not found. Content: '$content'"
-      assertTrue(msg, text.contains(expectedString))
-    } else {
-      val strings = myFixture.lookupElementStrings
-      assertNotNull(strings)
-      strings?.let { results ->
-        for (exp in expectedCompletionStrings) {
-          assertTrue("Expected to find $exp, content:\n$content\nFound: $strings", exp in results)
-        }
-        for (notExpectedCompletionString in notExpectedCompletionStrings) {
-          val msg2 = "Not expected to find '$notExpectedCompletionString'. Content: '$content'"
-          assertFalse(msg2, strings.contains(notExpectedCompletionString))
-        }
-      }
+      doTestCompletion("Test.kt", source, expected.first, expected.second)
     }
   }
 

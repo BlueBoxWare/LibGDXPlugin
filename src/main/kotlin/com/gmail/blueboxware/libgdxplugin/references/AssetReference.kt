@@ -7,7 +7,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNames
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.resolve.ResolveCache
@@ -28,7 +27,12 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReference(element: PsiElement, val resourceName: String, val className: DollarClassName?, private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>): PsiPolyVariantReferenceBase<PsiElement>(element) {
+class AssetReference(
+        element: PsiElement,
+        val resourceName: String,
+        val className: DollarClassName?,
+        private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>
+): PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   val skinFiles: Set<SkinFile>
     get() = assetFiles.first
@@ -89,8 +93,6 @@ class AssetReference(element: PsiElement, val resourceName: String, val classNam
     return result.toTypedArray()
 
   }
-
-  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
   fun filesPresentableText(withPrefix: Boolean): String {
     val str = StringBuilder()

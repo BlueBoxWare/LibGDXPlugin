@@ -59,7 +59,6 @@ class GDXPropertyReference(key: String, element: PsiElement, private val bundleN
     return mutableListOf()
   }
 
-
   private fun PsiElement.getResourceBundle(): ResourceBundle? = (this as? Property)?.propertiesFile?.resourceBundle
 
 }

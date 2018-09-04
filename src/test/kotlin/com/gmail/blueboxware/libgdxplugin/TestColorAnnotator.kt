@@ -28,6 +28,10 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
     doTest("Java2.java")
   }
 
+  fun testJava3() {
+    doTest("Java3.java")
+  }
+
   fun testKotlin() {
     doTest("Kotlin1.kt")
   }
@@ -50,6 +54,7 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
     addAnnotations()
     addLibGDX()
+    addLibGDXSources()
     addDummyLibGDX199()
     addKotlin()
 

@@ -11,6 +11,8 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.compiled.ClsElementImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
+import com.siyeh.ig.psiutils.MethodCallUtils
+import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
@@ -20,6 +22,7 @@ import org.jetbrains.kotlin.idea.refactoring.getLineNumber
 import org.jetbrains.kotlin.idea.references.AbstractKtReference
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import java.awt.Color
@@ -41,20 +44,16 @@ import java.awt.Color
  */
 class ColorAnnotator: Annotator {
 
-  companion object {
-
-    private val annotationsKey = key<MutableList<Pair<Int, Color>>>("annotations")
-    private val cacheKey = key<ColorAnnotatorCache>("cache")
-
-  }
+  private val ANNOTATIONS_KEY = key<MutableList<Pair<Int, Color>>>("annotations")
+  private val CACHE_KEY = key<ColorAnnotatorCache>("cache")
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (holder.currentAnnotationSession.getUserData(cacheKey) == null) {
-      holder.currentAnnotationSession.putUserData(cacheKey, ColorAnnotatorCache(element.project))
+    if (holder.currentAnnotationSession.getUserData(CACHE_KEY) == null) {
+      holder.currentAnnotationSession.putUserData(CACHE_KEY, ColorAnnotatorCache(element.project))
     }
 
-    holder.currentAnnotationSession.getUserData(cacheKey)?.let { cache ->
+    holder.currentAnnotationSession.getUserData(CACHE_KEY)?.let { cache ->
 
       if (cache.colorAnnotationsEnabled) {
         getColor(cache, element)?.let { color ->
@@ -70,11 +69,11 @@ class ColorAnnotator: Annotator {
 
     val annotationSessions = holder.currentAnnotationSession
 
-    if (annotationSessions.getUserData(annotationsKey) == null) {
-      annotationSessions.putUserData(annotationsKey, mutableListOf())
+    if (annotationSessions.getUserData(ANNOTATIONS_KEY) == null) {
+      annotationSessions.putUserData(ANNOTATIONS_KEY, mutableListOf())
     }
 
-    annotationSessions.getUserData(annotationsKey)?.let { currentAnnotations ->
+    annotationSessions.getUserData(ANNOTATIONS_KEY)?.let { currentAnnotations ->
       for ((first, second) in currentAnnotations) {
         if (first == element.getLineNumber() && second == color) {
           return
@@ -94,9 +93,10 @@ class ColorAnnotator: Annotator {
 
   }
 
-  private fun getColor(cache: ColorAnnotatorCache, element: PsiElement, ignoreContext: Boolean = false): Color? {
+  internal fun getColor(cache: ColorAnnotatorCache, element: PsiElement, ignoreContext: Boolean = false): Color? {
 
-    val isSpecialColorMethod =  if (element is KtCallExpression || element is PsiMethodCallExpression) isSpecialColorMethod(cache, element) else false
+    val isSpecialColorMethod =
+            if (element is KtCallExpression || element is KtDotQualifiedExpression || element is PsiMethodCallExpression) isSpecialColorMethod(cache, element) else false
 
     if (!ignoreContext) {
       if (element.context is PsiMethodCallExpression
@@ -173,6 +173,9 @@ class ColorAnnotator: Annotator {
                   || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor"
                   || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get"
                   || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional"
+                  || targetName == "com.badlogic.gdx.graphics.Colors.get"
+                  || targetName == "com.badlogic.gdx.graphics.Colors.put"
+                  || targetName == "com.badlogic.gdx.utils.ObjectMap.get"
           ) {
             isColorCall = true
           }
@@ -198,15 +201,31 @@ class ColorAnnotator: Annotator {
             val arg = getRoot(cache, expr)
             if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
               if (resolvedCall.second == "valueOf") {
-                // Color.valueOf(string)
+                // Color.valueOf(String)
                 return color(arg.text)
               } else if (resolvedCall.second == "getColor") {
-                // Skin.getColor(string)
+                // Skin.getColor(String)
                 val resourceName = StringUtil.unquoteString(arg.text)
                 initialValue.getAssetFiles().let { (skinFiles) ->
                   for (skinFile in skinFiles) {
                     skinFile.getResources(COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
                       return it.asColor(true)
+                    }
+                  }
+                }
+              } else if (resolvedCall.first == COLORS_CLASS_NAME && resolvedCall.second == "get") {
+                // Colors.get(String)
+                ((arg as? PsiLiteralExpression)?.asString()
+                        ?: (arg as? KtStringTemplateExpression)?.plainContent)?.let { str ->
+                  return initialValue.project.getColorsMap()[str]?.valueElement?.let { getColor(cache, it) }
+                }
+              } else if (resolvedCall.first == OBJECT_MAP_CLASS_NAME && resolvedCall.second == "get") {
+                // Colors.getColors.get(String)
+                ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()?.let { (clazz, method) ->
+                  if (clazz == COLORS_CLASS_NAME && method == "getColors") {
+                    ((arg as? PsiLiteralExpression)?.asString()
+                            ?: (arg as? KtStringTemplateExpression)?.plainContent)?.let { str ->
+                      return initialValue.project.getColorsMap()[str]?.valueElement?.let { getColor(cache, it) }
                     }
                   }
                 }
@@ -282,11 +301,29 @@ class ColorAnnotator: Annotator {
                   // Color.valueOf(String)
                   return color(arg.text)
                 } else if (resolved.second == "getColor") {
-                  // Skin.getColor(string)
+                  // Skin.getColor(String)
                   methodCallExpression.getAssetFiles().let { (skinFiles) ->
                     for (skinFile in skinFiles) {
                       skinFile.getResources(COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text)).firstOrNull()?.let {
                         return it.asColor(true)
+                      }
+                    }
+                  }
+                } else if (resolved.first == COLORS_CLASS_NAME && resolved.second == "get") {
+                  // Colors.get(String)
+                  ((arg as? PsiLiteralExpression)?.asString()
+                          ?: (arg as? KtStringTemplateExpression)?.plainContent)?.let { str ->
+                    return initialValue.project.getColorsMap()[str]?.valueElement?.let { getColor(cache, it) }
+                  }
+                } else if (resolved.first == OBJECT_MAP_CLASS_NAME && resolved.second == "get") {
+                  // Colors.getColors().get(String)
+                  (initialValue as? PsiMethodCallExpression)?.let { methodCall ->
+                    MethodCallUtils.getQualifierMethodCall(methodCall)?.resolveCallToStrings()?.let { (clazz, method) ->
+                      if (clazz == COLORS_CLASS_NAME && method == "getColors") {
+                        ((arg as? PsiLiteralExpression)?.asString()
+                                ?: (arg as? KtStringTemplateExpression)?.plainContent)?.let { str ->
+                          return initialValue.project.getColorsMap()[str]?.valueElement?.let { getColor(cache, it) }
+                        }
                       }
                     }
                   }
@@ -299,6 +336,8 @@ class ColorAnnotator: Annotator {
                     }
                   }
                 }
+
+                Unit
               }
             }
           }
@@ -338,71 +377,15 @@ class ColorAnnotator: Annotator {
 
   private fun isSpecialColorMethod(cache: ColorAnnotatorCache, element: PsiElement): Boolean {
 
-    val colorMethods = listOf(
-            "com.badlogic.gdx.graphics.GL20.glClearColor",
-            "com.badlogic.gdx.graphics.GL20.glBlendColor",
-            "com.badlogic.gdx.graphics.GL30.glClearColor",
-            "com.badlogic.gdx.graphics.GL30.glBlendColor",
-            "com.badlogic.gdx.graphics.g2d.SpriteBatch.setColor",
-            "com.badlogic.gdx.graphics.g2d.Batch.setColor",
-            "com.badlogic.gdx.graphics.g2d.CpuSpriteBatch.setColor",
-            "com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch.setColor",
-            "com.badlogic.gdx.graphics.Color.set",
-            "com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo.setCol",
-            "com.badlogic.gdx.graphics.g2d.BitmapFont.setColor",
-            "com.badlogic.gdx.graphics.g2d.BitmapFontCache.setColor",
-            "com.badlogic.gdx.graphics.g2d.BitmapFontCache.setColors",
-            "com.badlogic.gdx.graphics.g2d.PolygonSprite.setColor",
-            "com.badlogic.gdx.graphics.g2d.Sprite.setColor",
-            "com.badlogic.gdx.graphics.g2d.ParticleEmitter.Particle.setColor",
-            "com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite.setColor",
-            "com.badlogic.gdx.graphics.g2d.SpriteCache.setColor",
-            "com.badlogic.gdx.graphics.g3d.environment.BaseLight.setColor",
-            "com.badlogic.gdx.graphics.g3d.environment.DirectionalLight.setColor",
-            "com.badlogic.gdx.graphics.g3d.environment.PointLight.setColor",
-            "com.badlogic.gdx.graphics.g3d.environment.SpotLight.setColor",
-            "com.badlogic.gdx.graphics.g3d.utils.MeshBuilder.setColor",
-            "com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.setColor",
-            "com.badlogic.gdx.graphics.glutils.ShapeRenderer.setColor",
-            "com.badlogic.gdx.graphics.Pixmap.setColor",
-            "com.badlogic.gdx.scenes.scene2d.Actor.setColor",
-            "com.badlogic.gdx.scenes.scene2d.Group.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Widget.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Image.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Label.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.List.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Slider.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.SelectBox.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.TextField.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.TextArea.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Touchpad.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Container.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Stack.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Table.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Button.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.ImageButton.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.TextButton.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Window.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Dialog.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.Tree.setColor",
-            "com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup.setColor",
-            "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer.color",
-            "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20.color"
-    )
 
-    if (element is KtCallExpression) {
+    if (element is KtElement) {
 
-      element.calleeExpression?.references?.let { references ->
+      val actualElement = (element as? KtCallExpression) ?: ((element as? KtDotQualifiedExpression)?.selectorExpression as? KtCallExpression)
+
+      actualElement?.calleeExpression?.references?.let { references ->
         for (reference in references) {
           resolve(cache, reference)?.getKotlinFqName()?.asString()?.let { fqName ->
-            if (fqName in colorMethods) {
+            if (fqName in COLOR_METHODS) {
               return true
             }
           }
@@ -412,7 +395,7 @@ class ColorAnnotator: Annotator {
     } else if (element is PsiMethodCallExpression) {
 
       element.resolveMethod()?.getKotlinFqName()?.asString()?.let { fqName ->
-        if (fqName in colorMethods) {
+        if (fqName in COLOR_METHODS) {
           return true
         }
       }
@@ -490,9 +473,9 @@ class ColorAnnotator: Annotator {
 
   private fun getInitializer(cache: ColorAnnotatorCache, element: PsiElement): PsiElement? {
 
-    var origin = (element as? ClsElementImpl)?.mirror ?: element
+    var origin = (element as? ClsElementImpl)?.navigationElement ?: element
 
-    if (origin is KtLightMethod) {
+    if (origin is KtLightElement<*, *>) {
       origin = origin.navigationElement
     }
 
@@ -656,9 +639,73 @@ class ColorAnnotator: Annotator {
     return color(r, g, b, a)
   }
 
+  private val COLOR_METHODS = listOf(
+          "com.badlogic.gdx.graphics.GL20.glClearColor",
+          "com.badlogic.gdx.graphics.GL20.glBlendColor",
+          "com.badlogic.gdx.graphics.GL30.glClearColor",
+          "com.badlogic.gdx.graphics.GL30.glBlendColor",
+          "com.badlogic.gdx.graphics.g2d.SpriteBatch.setColor",
+          "com.badlogic.gdx.graphics.g2d.Batch.setColor",
+          "com.badlogic.gdx.graphics.g2d.CpuSpriteBatch.setColor",
+          "com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch.setColor",
+          "com.badlogic.gdx.graphics.Color.set",
+          "com.badlogic.gdx.graphics.Colors.get",
+          "com.badlogic.gdx.graphics.Colors.put",
+          "com.badlogic.gdx.graphics.Colors.getColors",
+          "com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.VertexInfo.setCol",
+          "com.badlogic.gdx.graphics.g2d.BitmapFont.setColor",
+          "com.badlogic.gdx.graphics.g2d.BitmapFontCache.setColor",
+          "com.badlogic.gdx.graphics.g2d.BitmapFontCache.setColors",
+          "com.badlogic.gdx.graphics.g2d.PolygonSprite.setColor",
+          "com.badlogic.gdx.graphics.g2d.Sprite.setColor",
+          "com.badlogic.gdx.graphics.g2d.ParticleEmitter.Particle.setColor",
+          "com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite.setColor",
+          "com.badlogic.gdx.graphics.g2d.SpriteCache.setColor",
+          "com.badlogic.gdx.graphics.g3d.environment.BaseLight.setColor",
+          "com.badlogic.gdx.graphics.g3d.environment.DirectionalLight.setColor",
+          "com.badlogic.gdx.graphics.g3d.environment.PointLight.setColor",
+          "com.badlogic.gdx.graphics.g3d.environment.SpotLight.setColor",
+          "com.badlogic.gdx.graphics.g3d.utils.MeshBuilder.setColor",
+          "com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder.setColor",
+          "com.badlogic.gdx.graphics.glutils.ShapeRenderer.setColor",
+          "com.badlogic.gdx.graphics.Pixmap.setColor",
+          "com.badlogic.gdx.scenes.scene2d.Actor.setColor",
+          "com.badlogic.gdx.scenes.scene2d.Group.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Widget.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Image.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Label.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.List.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Slider.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.SelectBox.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.TextField.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.TextArea.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Touchpad.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Container.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Stack.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Table.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Button.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.ImageButton.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.TextButton.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Window.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Dialog.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.Tree.setColor",
+          "com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup.setColor",
+          "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer.color",
+          "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20.color",
+          "com.badlogic.gdx.utils.ObjectMap.get"
+  )
+
+
 }
 
-private class ColorAnnotatorCache(project: Project) {
+internal class ColorAnnotatorCache(project: Project) {
 
   val colorCache = mutableMapOf<PsiElement, Color?>()
   val rootCache = mutableMapOf<PsiElement, PsiElement?>()

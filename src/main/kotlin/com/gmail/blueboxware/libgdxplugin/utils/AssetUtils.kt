@@ -43,6 +43,9 @@ const val ASSET_ANNOTATION_ATLAS_PARAM_NAME = "atlasFiles"
 const val ASSET_ANNOTATION_PROPERTIES_PARAM_NAME = "propertiesFiles"
 
 const val COLOR_CLASS_NAME = "com.badlogic.gdx.graphics.Color"
+const val COLORS_CLASS_NAME = "com.badlogic.gdx.graphics.Colors"
+const val OBJECT_MAP_CLASS_NAME = "com.badlogic.gdx.utils.ObjectMap"
+
 const val DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
 const val TINTED_DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
 const val TEXTURE_REGION_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureRegion"

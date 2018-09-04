@@ -38,7 +38,11 @@ import org.jetbrains.kotlin.psi.psiUtil.plainContent
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandler(element: PsiElement): FindUsagesHandler(element) {
+class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
+
+  constructor(element: PsiLiteralExpression): this(element as PsiElement)
+
+  constructor(element: KtStringTemplateExpression): this(element as PsiElement)
 
   override fun processElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
 
@@ -52,10 +56,12 @@ class ClassTagFindUsagesHandler(element: PsiElement): FindUsagesHandler(element)
         null
       }
 
-      val usages = CachedValuesManager.getManager(element.project).getCachedValue(
-              element,
-              MyCachedValueProvider(project, text, (options.searchScope as? GlobalSearchScope) ?: project.allScope())
-      )
+      val usages =
+              CachedValuesManager.getManager(element.project).getCachedValue(
+                      element,
+                      MyCachedValueProvider(project, text, (options.searchScope as? GlobalSearchScope)
+                              ?: project.allScope())
+              )
 
       usages?.forEach { usage ->
         processor.process(UsageInfo(usage))

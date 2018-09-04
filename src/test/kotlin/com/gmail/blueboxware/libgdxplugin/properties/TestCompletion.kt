@@ -1,10 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.properties
 
-import com.intellij.codeInsight.completion.CompletionType
-import com.intellij.ide.highlighter.JavaFileType
-import com.intellij.openapi.fileTypes.LanguageFileType
-import org.jetbrains.kotlin.idea.KotlinFileType
-
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -98,7 +93,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           $text
         }
         """
-      doTest(KotlinFileType.INSTANCE, content, expectedResults)
+      doTestCompletion("Test.kt", content, expectedResults.first, expectedResults.second)
     }
   }
 
@@ -122,30 +117,7 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           }
         }
       """
-      doTest(JavaFileType.INSTANCE, content, expectedResults)
-    }
-  }
-
-  fun doTest(fileType: LanguageFileType, content: String, expectedResults: Pair<List<String>, List<String>>) {
-    myFixture.configureByText(fileType, content)
-    val result = myFixture.complete(CompletionType.BASIC, 1)
-    if (result == null) {
-      assertEquals(expectedResults.first.size, 1)
-      val text = myFixture.editor.document.text
-      val expectedString = expectedResults.first.first()
-      val msg = "\nExpected string '$expectedString' not found. Content:\n$content"
-      assertTrue(msg, text.contains("\"$expectedString\""))
-    } else {
-      val strings = myFixture.lookupElementStrings
-      assertNotNull(strings)
-      strings?.let {
-        for (exp in expectedResults.first) {
-          assertTrue("Expected to find $exp\nContent:\n$content\nFound: $strings", exp in strings)
-        }
-        for (exp in expectedResults.second) {
-          assertFalse("Not expected to find '$exp'\nContent:\n$content", exp in strings)
-        }
-      }
+      doTestCompletion("Test.java", content, expectedResults.first, expectedResults.second)
     }
   }
 

@@ -50,6 +50,7 @@ internal const val PROPERTY_NAME_TINTED_DRAWABLE_NAME = "name"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
 internal fun Project.getSkinTag2ClassMap(): TagMap? =
+
         CachedValuesManager.getManager(this).getCachedValue(this) {
           val tagMap = if (isLibGDX199()) {
             collectCustomTags().apply {

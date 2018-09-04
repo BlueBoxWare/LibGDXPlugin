@@ -71,9 +71,15 @@ internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder)
           (element as? PsiLiteralExpression)?.asString()
                   ?: (element as? KtStringTemplateExpression)?.plainContent
                   ?: return
+
   var found = false
 
-  ClassTagFindUsagesHandler(element).processElementUsages(
+  val findUsagesHandler =
+          (element as? PsiLiteralExpression)?.let(::ClassTagFindUsagesHandler)
+                  ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
+                  ?: return
+
+  findUsagesHandler.processElementUsages(
           element,
           {
             found = true

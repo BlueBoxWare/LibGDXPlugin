@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
 import com.gmail.blueboxware.libgdxplugin.utils.allScope
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.codeInsight.daemon.ImplicitUsageProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -26,7 +27,7 @@ class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
 
   override fun isImplicitUsage(element: PsiElement): Boolean {
 
-    if (element !is PsiClass) {
+    if (element !is PsiClass || !element.project.isLibGDX199()) {
       return false
     }
 

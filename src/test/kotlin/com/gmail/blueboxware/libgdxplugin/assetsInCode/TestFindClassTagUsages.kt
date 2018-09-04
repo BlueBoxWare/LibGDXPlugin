@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagUsageTargetProvider
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
+import com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
 import junit.framework.TestCase
 
@@ -43,7 +43,7 @@ class TestFindClassTagUsages: LibGDXCodeInsightFixtureTestCase() {
   ) {
 
     myFixture.configureByFile(filename)
-    ClassTagUsageTargetProvider().getTargets(myFixture.editor, myFixture.file)?.firstOrNull()?.let { usageTarget ->
+    LibGDXTagUsageTargetProvider().getTargets(myFixture.editor, myFixture.file)?.firstOrNull()?.let { usageTarget ->
       (usageTarget as? PsiElement2UsageTargetAdapter)?.element?.let { targetElement ->
         val usages = myFixture.findUsages(targetElement)
         TestCase.assertEquals(numberOfUsagesToFind, usages.size)

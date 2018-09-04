@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.QueryExecutorBaseCompat
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiClass
@@ -40,6 +41,10 @@ class TaggedClassUsagesSearcher: QueryExecutorBaseCompat() {
     val element = queryParameters.elementToSearch
 
     if (element !is PsiClass && element !is KtClass) {
+      return
+    }
+
+    if (!element.project.isLibGDX199()) {
       return
     }
 

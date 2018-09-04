@@ -11,9 +11,11 @@ import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.openapi.fileTypes.FileType
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.VfsUtil
-import com.intellij.psi.*
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiLiteralExpression
+import com.intellij.psi.PsiManager
+import com.intellij.psi.PsiReferenceBase
 import com.intellij.psi.search.FileTypeIndex
 import com.intellij.util.IncorrectOperationException
 import com.intellij.util.PathUtil
@@ -103,5 +105,4 @@ class FileReference(
 
   }
 
-  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 }

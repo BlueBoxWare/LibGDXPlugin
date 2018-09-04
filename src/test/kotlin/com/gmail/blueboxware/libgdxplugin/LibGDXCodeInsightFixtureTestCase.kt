@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
+import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
@@ -11,6 +12,7 @@ import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.util.io.FileUtil
+import com.intellij.openapi.vfs.JarFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveElementVisitor
 import com.intellij.testFramework.PsiTestUtil
@@ -41,6 +43,16 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
   override fun getTestDataPath() =  FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
   fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+
+  fun addLibGDXSources() =
+          WriteCommandAction.runWriteCommandAction(project) {
+            ProjectLibraryTable.getInstance(project).libraries.find { it.name == "gdx.jar" }?.let { library ->
+              library.modifiableModel.let {
+                it.addRoot(JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!, OrderRootType.SOURCES)
+                it.commit()
+              }
+            }
+          }
 
   fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
@@ -144,6 +156,43 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
       )
     }
     project.getComponent(VersionManager::class.java).updateUsedVersions()
+  }
+
+  fun doTestCompletion(
+          fileName: String,
+          content: String,
+          expectedCompletionStrings: List<String>,
+          notExpectedCompletionStrings: List<String> = listOf()
+  ) {
+
+    myFixture.configureByText(fileName, content)
+
+    val completionResults = myFixture.complete(CompletionType.BASIC, 0)
+
+    if (completionResults == null) {
+
+      // the only item was auto-completed?
+      assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", 1, expectedCompletionStrings.size)
+      val text = myFixture.editor.document.text
+      val expectedString = expectedCompletionStrings.first()
+      val msg = "\nExpected string '$expectedString' not found. Content: '$content'"
+      assertTrue(msg, text.contains(expectedString))
+
+    } else {
+
+      val strings = myFixture.lookupElementStrings
+      assertNotNull(strings)
+
+      for (expected in expectedCompletionStrings) {
+        assertTrue("Expected to find $expected, content:\n$content\nFound: $strings", expected in strings!!)
+      }
+
+      for (notExpected in notExpectedCompletionStrings) {
+        assertFalse("Not expected to find '$notExpected'. Content: '$content'", strings!!.contains(notExpected))
+      }
+
+    }
+
   }
 
   override fun setUp() {

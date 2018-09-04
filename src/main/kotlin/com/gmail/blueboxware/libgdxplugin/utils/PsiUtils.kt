@@ -243,5 +243,5 @@ internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElem
 
 }
 
-inline fun <reified T: PsiElement> PsiElement.getParentOfType(): T? =
-        PsiTreeUtil.getParentOfType(this, T::class.java, true)
+inline fun <reified T: PsiElement> PsiElement.getParentOfType(strict: Boolean = true): T? =
+        PsiTreeUtil.getParentOfType(this, T::class.java, strict)
