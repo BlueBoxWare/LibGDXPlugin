@@ -20,7 +20,6 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiLiteralExpression
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 /*
  * Copyright 2018 Blue Box Ware
@@ -69,7 +68,7 @@ internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder)
 
   val tagName =
           (element as? PsiLiteralExpression)?.asString()
-                  ?: (element as? KtStringTemplateExpression)?.plainContent
+                  ?: (element as? KtStringTemplateExpression)?.asPlainString()
                   ?: return
 
   var found = false

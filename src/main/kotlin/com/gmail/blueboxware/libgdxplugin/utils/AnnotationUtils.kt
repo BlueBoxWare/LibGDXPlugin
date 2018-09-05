@@ -12,7 +12,6 @@ import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.idea.util.findAnnotation
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.types.expressions.ExpressionTypingUtils
 
 
@@ -41,7 +40,7 @@ class KtAnnotationWrapper(private val ktAnnotationEntry: KtAnnotationEntry): Ann
 
     if (key == "value" && ktAnnotationEntry.valueArguments.firstOrNull()?.getArgumentName() == null) {
       return ktAnnotationEntry.valueArguments.mapNotNull {
-        (it.getArgumentExpression() as? KtStringTemplateExpression)?.plainContent
+        (it.getArgumentExpression() as? KtStringTemplateExpression)?.asPlainString()
       }
     }
 
@@ -58,7 +57,7 @@ class KtAnnotationWrapper(private val ktAnnotationEntry: KtAnnotationEntry): Ann
         } else {
           listOf()
         }
-        return arguments.mapNotNull { (it as? KtStringTemplateExpression)?.plainContent }
+        return arguments.mapNotNull { (it as? KtStringTemplateExpression)?.asPlainString() }
       }
     }
     return listOf()

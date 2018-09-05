@@ -1,15 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator
-import com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotatorCache
-import com.gmail.blueboxware.libgdxplugin.utils.asString
-import com.gmail.blueboxware.libgdxplugin.utils.createColorIcon
-import com.gmail.blueboxware.libgdxplugin.utils.getColorsMap
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.icons.AllIcons
 import com.intellij.psi.*
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -30,20 +25,17 @@ import org.jetbrains.kotlin.psi.psiUtil.plainContent
 class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
-    ((element as? PsiLiteralExpression)?.asString() ?: (element as? KtStringTemplateExpression)?.plainContent)?.let { colorName ->
+    ((element as? PsiLiteralExpression)?.asString() ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
       element.project.getColorsMap()[colorName]?.nameElements()?.map(::PsiElementResolveResult)?.toTypedArray<ResolveResult>()
     } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 
   override fun getVariants(): Array<Any> = element.project.getColorsMap().let { colorsMap ->
 
-    val cache = ColorAnnotatorCache(element.project)
-    val annotator = ColorAnnotator()
-
     colorsMap.entries.map { (colorName, colorDef) ->
 
       val icon = colorDef?.valueElement?.let {
-        annotator.getColor(cache, it, true)?.let(::createColorIcon)
+        it.getColor(ignoreContext = true)?.let(::createColorIcon)
       } ?: AllIcons.FileTypes.Properties
 
       LookupElementBuilder

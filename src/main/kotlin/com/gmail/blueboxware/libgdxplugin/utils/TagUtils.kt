@@ -8,9 +8,6 @@ import com.intellij.psi.impl.source.PsiImmediateClassType
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
-import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
@@ -18,7 +15,6 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import org.jetbrains.kotlin.types.SimpleType
 import org.jetbrains.kotlin.types.checker.isClassType
@@ -49,20 +45,18 @@ internal const val PROPERTY_NAME_FONT_FLIP = "flip"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_NAME = "name"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
-internal fun Project.getSkinTag2ClassMap(): TagMap? =
+internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue("tag2classMap") {
 
-        CachedValuesManager.getManager(this).getCachedValue(this) {
-          val tagMap = if (isLibGDX199()) {
-            collectCustomTags().apply {
-              addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-              addAll(collectTagsFromAnnotations())
-            }
-          } else {
-            null
-          }
+  if (isLibGDX199()) {
+    collectCustomTags().apply {
+      addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+      addAll(collectTagsFromAnnotations())
+    }
+  } else {
+    null
+  }
 
-          CachedValueProvider.Result.create(tagMap, PsiModificationTracker.MODIFICATION_COUNT)
-        }
+}
 
 internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
         "graphics.g2d.BitmapFont",
@@ -126,7 +120,7 @@ private fun Project.collectCustomTags(): TagMap {
 
           (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
 
-            (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }?.let { firstArgument ->
+            (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }?.asPlainString()?.let { firstArgument ->
 
               arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
@@ -137,7 +131,7 @@ private fun Project.collectCustomTags(): TagMap {
                         ?.type
                         ?.fqName()
                         ?.let { fqName ->
-                          tagMap.add(firstArgument.plainContent, fqName)
+                          tagMap.add(firstArgument, fqName)
                         }
 
               }

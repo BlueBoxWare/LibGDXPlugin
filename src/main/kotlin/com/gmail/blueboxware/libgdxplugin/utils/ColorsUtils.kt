@@ -4,16 +4,12 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
-import com.intellij.psi.util.CachedValueProvider
-import com.intellij.psi.util.CachedValuesManager
-import com.intellij.psi.util.PsiModificationTracker
 import com.siyeh.ig.psiutils.MethodCallUtils
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 /*
  * Copyright 2018 Blue Box Ware
@@ -113,17 +109,10 @@ internal class ColorsDefinition(
 
 }
 
-internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> =
-        CachedValuesManager.getManager(this).getCachedValue(this) {
-
-          CachedValueProvider.Result.create(collectColors(true), PsiModificationTracker.MODIFICATION_COUNT)
-
-        }
-
-private fun Project.collectColors(includeColor: Boolean): Map<String, ColorsDefinition?> {
+internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue("colorsMap") {
 
   if (!isLibGDXProject()) {
-    return mapOf()
+    mapOf<String, ColorsDefinition>()
   }
 
   val colorsClasses = JavaPsiFacade.getInstance(this).findClasses(COLORS_CLASS_NAME, allScope())
@@ -184,7 +173,7 @@ private fun Project.collectColors(includeColor: Boolean): Map<String, ColorsDefi
   callExpressions.forEach { callExpression ->
 
     val colorName: String = getColorNameFromArgs(callExpression)?.second ?: return@forEach
-    val colorDef = if (includeColor) getColorDefFromArgs(callExpression) else null
+    val colorDef = getColorDefFromArgs(callExpression)
 
     colors[colorName]?.let {
       it.addNameElement(colorDef?.first)
@@ -199,9 +188,9 @@ private fun Project.collectColors(includeColor: Boolean): Map<String, ColorsDefi
 
   }
 
-  return colors.toMap()
+  colors.toMap()
 
-}
+} ?: mapOf()
 
 
 internal fun getColorNameFromArgs(callExpression: PsiElement): Pair<PsiElement, String?>? =
@@ -211,7 +200,7 @@ internal fun getColorNameFromArgs(callExpression: PsiElement): Pair<PsiElement, 
           }
         } ?: (callExpression as? KtCallExpression)?.let { ktCallExpression ->
           (ktCallExpression.valueArguments.firstOrNull()?.getArgumentExpression() as? KtStringTemplateExpression)?.let {
-            it to it.plainContent
+            it to it.asPlainString()
           }
         }
 

@@ -10,7 +10,6 @@ import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.impl.VariableDescriptorImpl
 import org.jetbrains.kotlin.idea.search.usagesSearch.descriptor
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
@@ -79,7 +78,7 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
           }
 
           arguments?.forEach { argument ->
-            (argument as? KtStringTemplateExpression)?.plainContent?.let { value ->
+            (argument as? KtStringTemplateExpression)?.asPlainString()?.let { value ->
 
               if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
                 checkSkinFilename(argument, value, holder)

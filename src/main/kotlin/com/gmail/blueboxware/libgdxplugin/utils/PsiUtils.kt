@@ -17,6 +17,8 @@ import org.jetbrains.kotlin.idea.core.deleteSingle
 import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
+import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
+import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
@@ -99,6 +101,8 @@ internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
         arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
 
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
+
+internal fun KtStringTemplateExpression.asPlainString(): String? = if (isPlainWithEscapes()) plainContent else null
 
 internal fun GrLiteral.asString(): String? =
         takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String

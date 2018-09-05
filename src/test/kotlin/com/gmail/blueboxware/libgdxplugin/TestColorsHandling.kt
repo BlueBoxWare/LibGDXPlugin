@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.references.ColorsReference
+import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.openapi.fileTypes.FileType
@@ -10,7 +11,6 @@ import junit.framework.TestCase
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 
 
@@ -223,7 +223,7 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
 
   private fun plainText(element: PsiElement) =
           (element as? PsiLiteralExpression)?.asString()
-                  ?: (element as? KtStringTemplateExpression)?.plainContent
+                  ?: (element as? KtStringTemplateExpression)?.asPlainString()
                   ?: throw AssertionError()
 
   override fun setUp() {

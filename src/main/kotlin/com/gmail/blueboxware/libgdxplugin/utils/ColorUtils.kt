@@ -66,6 +66,14 @@ internal fun Color.toRGBComponents(): List<Pair<String, Float>> {
   )
 }
 
+internal fun rgbaToColor(value: Long): Color? {
+  val r = (value and 0xff000000).ushr(24) / 255f
+  val g = (value and 0x00ff0000).ushr(16) / 255f
+  val b = (value and 0x0000ff00).ushr(8) / 255f
+  val a = (value and 0x000000ff) / 255f
+  return color(r, g, b, a)
+}
+
 internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12, color, true)
 
 open class GutterColorRenderer(val color: Color): GutterIconRenderer() {

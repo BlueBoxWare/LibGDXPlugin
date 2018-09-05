@@ -2,11 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.checkForNonExistingAssetReference
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -38,7 +38,9 @@ class KotlinNonExistingAssetInspection: LibGDXKotlinBaseInspection() {
 
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      checkForNonExistingAssetReference(expression, expression.plainContent, holder)
+      expression.asPlainString()?.let { str ->
+        checkForNonExistingAssetReference(expression, str, holder)
+      }
 
     }
 

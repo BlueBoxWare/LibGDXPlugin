@@ -9,8 +9,13 @@ import com.intellij.openapi.util.Key
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.util.CachedValue
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.search.projectScope
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -71,3 +76,22 @@ internal fun runUnderProgressIfNecessary(action: () -> Unit) {
 }
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
+
+internal fun PsiElement.projectScope(): GlobalSearchScope = project.projectScope()
+
+internal fun <R> PsiElement.getCachedValue(key: String, f: () -> R): R? =
+        getCachedValue(key(key), f)
+
+internal fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R? =
+        CachedValuesManager.getCachedValue(this, key) {
+          CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
+        }
+
+internal fun <R> Project.getCachedValue(key: String, f: () -> R): R? =
+        getCachedValue(key(key), f)
+
+internal fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R? =
+        CachedValuesManager.getManager(this).getCachedValue(this, key, {
+          CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
+        }, false)
+

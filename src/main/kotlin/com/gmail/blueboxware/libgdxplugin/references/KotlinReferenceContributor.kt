@@ -20,7 +20,6 @@ import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.BindingContext
 
 /*
@@ -86,7 +85,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
                       }
                       valueArgument?.getArgumentName()?.asName?.identifier?.let { arg ->
                         if (arg == paramName) {
-                          (element as? KtStringTemplateExpression)?.plainContent?.let { path ->
+                          (element as? KtStringTemplateExpression)?.asPlainString()?.let { path ->
                             return arrayOf(
                                     FileReference(
                                             element,

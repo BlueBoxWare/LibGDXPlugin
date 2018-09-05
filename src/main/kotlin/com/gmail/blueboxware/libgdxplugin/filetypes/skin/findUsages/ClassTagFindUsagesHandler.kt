@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesOptions
@@ -20,7 +21,6 @@ import com.intellij.usageView.UsageInfo
 import com.intellij.util.Processor
 import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -51,7 +51,7 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUs
       val text = if (element is PsiLiteralExpression) {
         element.asString()
       } else if (element is KtStringTemplateExpression) {
-        element.plainContent
+        element.asPlainString()
       } else {
         null
       }

@@ -44,7 +44,7 @@ class LibGDXCompletionConfidence: CompletionConfidence() {
           if (methodCall.isColorsGetCall()) {
             return ThreeState.NO
           } else {
-            val (clazz, method) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
+            val (clazz, _) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
             // Skin.*() and TextureAtlas.*()
             if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
               return ThreeState.NO
@@ -72,7 +72,7 @@ class LibGDXCompletionConfidence: CompletionConfidence() {
             // Colors.get() and Colors.getColors().get()
             return ThreeState.NO
           } else {
-            val (clazz, method) = call.resolveCallToStrings() ?: return ThreeState.UNSURE
+            val (clazz, _) = call.resolveCallToStrings() ?: return ThreeState.UNSURE
 
             // Skin.*() and TextureAtlas.*()
             if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {

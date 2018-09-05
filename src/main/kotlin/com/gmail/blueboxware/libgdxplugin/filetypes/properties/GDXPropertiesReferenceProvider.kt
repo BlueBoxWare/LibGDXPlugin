@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
 import org.jetbrains.kotlin.psi.KtValueArgumentList
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -62,7 +61,7 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
 
       if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {
 
-        val key = (element as? KtStringTemplateExpression)?.plainContent ?: return arrayOf()
+        val key = (element as? KtStringTemplateExpression)?.asPlainString() ?: return arrayOf()
         val propertiesFiles = callExpression.getPropertiesFiles()
 
         return createReferences(key, element, propertiesFiles)

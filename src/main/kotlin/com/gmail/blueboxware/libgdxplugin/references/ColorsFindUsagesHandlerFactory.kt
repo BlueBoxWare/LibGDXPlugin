@@ -9,6 +9,7 @@ import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.PsiMethodCallExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 
 
 /*
@@ -38,7 +39,13 @@ class ColorsFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
 
 
   override fun canFindUsages(element: PsiElement): Boolean =
-          (element as? PsiLiteralExpression)?.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
-                  || (element as? KtStringTemplateExpression)?.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+          if (element is PsiLiteralExpression) {
+            element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+          } else if (element is KtStringTemplateExpression) {
+            element.isPlainWithEscapes() && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+          } else {
+            false
+          }
+
 
 }

@@ -2,11 +2,11 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.isValidProperty
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -39,7 +39,7 @@ class KotlinInvalidPropertyKeyInspection: LibGDXKotlinBaseInspection() {
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
       if (!isValidProperty(expression)) {
-        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.plainContent))
+        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asPlainString() ?: ""))
       }
 
     }

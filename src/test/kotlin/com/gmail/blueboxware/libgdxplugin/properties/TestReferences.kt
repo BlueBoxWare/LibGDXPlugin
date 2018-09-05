@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.properties
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
+import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.ide.highlighter.JavaFileType
@@ -9,7 +10,6 @@ import com.intellij.openapi.fileTypes.LanguageFileType
 import com.intellij.psi.PsiLiteralExpression
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -169,7 +169,7 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
                 if (referencingElement is PsiLiteralExpression)
                   referencingElement.asString()
                 else if (referencingElement is KtStringTemplateExpression)
-                  referencingElement.plainContent
+                  referencingElement.asPlainString()
                 else throw AssertionError()
         assertEquals((resolveResult.element as? Property)?.name, text)
         found = true

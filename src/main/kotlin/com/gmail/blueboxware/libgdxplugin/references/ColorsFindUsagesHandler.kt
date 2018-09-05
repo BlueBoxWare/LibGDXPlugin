@@ -18,7 +18,6 @@ import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
 
 
 /*
@@ -46,7 +45,7 @@ class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsag
 
     val colorNameToFind = ReadAction.compute<String, Throwable> {
       (element as? PsiLiteralExpression)?.asString()
-              ?: (element as? KtStringTemplateExpression)?.plainContent
+              ?: (element as? KtStringTemplateExpression)?.asPlainString()
     } ?: return true
 
     ReadAction.run<Throwable> {
@@ -113,7 +112,7 @@ private class MyCachedValueProvider(
     colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }.forEach { method ->
       MethodReferencesSearch.search(method, allScope, true).forEach { reference ->
         reference.element.getParentOfType<KtDotQualifiedExpression>()?.getParentOfType<KtDotQualifiedExpression>()?.callExpression?.let { call ->
-          call.resolveCallToStrings()?.let { (clazz, methodName) ->
+          call.resolveCallToStrings()?.let { (_, methodName) ->
             if (methodName == "get") {
               process(call)
             }
