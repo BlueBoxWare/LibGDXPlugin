@@ -85,7 +85,7 @@ class FileReference(
 
   }
 
-  override fun handleElementRename(newElementName: String?): PsiElement {
+  override fun handleElementRename(newElementName: String): PsiElement {
 
     if (element is AtlasValue) {
 

@@ -27,7 +27,7 @@ class SkinJavaClassReference(element: SkinClassName): SkinReference<SkinClassNam
   override fun multiResolve(incompleteCode: Boolean) =
           element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
 
-  override fun handleElementRename(newElementName: String?): PsiElement = element
+  override fun handleElementRename(newElementName: String): PsiElement = element
 
   override fun bindToElement(target: PsiElement): PsiElement {
     if (target is PsiClass) {

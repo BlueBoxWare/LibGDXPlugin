@@ -64,7 +64,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   private val documentListener = object : DocumentListener {
 
-    override fun documentChanged(event: DocumentEvent?) {
+    override fun documentChanged(event: DocumentEvent) {
 
       if (project.isDisposed) return
 
@@ -79,7 +79,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
       }
     }
 
-    override fun beforeDocumentChange(event: DocumentEvent?) {
+    override fun beforeDocumentChange(event: DocumentEvent) {
     }
 
   }

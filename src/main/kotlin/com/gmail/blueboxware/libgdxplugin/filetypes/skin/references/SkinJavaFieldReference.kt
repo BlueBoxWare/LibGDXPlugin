@@ -30,7 +30,7 @@ class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinProp
     return ResolveResult.EMPTY_ARRAY
   }
 
-  override fun handleElementRename(newElementName: String?): PsiElement {
+  override fun handleElementRename(newElementName: String): PsiElement {
     element.stringLiteral.let { stringLiteral ->
       newElementName?.let(stringLiteral::setValue)
       return element

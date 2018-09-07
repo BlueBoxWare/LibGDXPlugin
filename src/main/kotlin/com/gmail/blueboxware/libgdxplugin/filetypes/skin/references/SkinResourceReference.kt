@@ -31,8 +31,8 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
           ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
-  override fun handleElementRename(newElementName: String?): PsiElement {
-    newElementName?.let(element::setValue)
+  override fun handleElementRename(newElementName: String): PsiElement {
+    newElementName.let(element::setValue)
     return element
   }
 

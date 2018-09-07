@@ -55,7 +55,7 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
     ((event.newChild.context as? KtPackageDirective) ?: (event.newChild as? KtPackageDirective))?.fqName?.asString()?.let { newPackage ->
 
       val ktFile = event.file as? KtFile ?: return
-      val oldPackage = event.oldChild?.text ?: return
+      val oldPackage = (event.oldChild as? KtPackageDirective)?.qualifiedName ?: return
 
       ktFile.putUserData(oldPackageKey, oldPackage)
       ktFile.putUserData(newPackageKey, newPackage)
