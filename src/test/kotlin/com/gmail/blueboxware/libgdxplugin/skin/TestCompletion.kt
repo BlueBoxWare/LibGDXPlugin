@@ -165,6 +165,27 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                   "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
           ) to listOf()),
 
+          "{ TextButto<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton",
+                  "TextButtonStyle"
+          ) to listOf()),
+
+          "{ TextButton.<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          ) to listOf()),
+
+          "{ TextButton\$<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          ) to listOf()),
+
+          "{ TextButton.Tex<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          ) to listOf()),
+
+          "{ TextButton\$Tex<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          ) to listOf()),
+
           """{ com.example.MyTestClass: {
             default: { <caret> }
             }
@@ -1522,6 +1543,12 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
   )
 
   private val testsPre199 = listOf(
+
+          "{ TextButto<caret> }" to (listOf(
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton",
+                  "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
+          ) to listOf("TextButton", "TextButtonStyle")),
+
           """
             {
               com.badlogic.gdx.scenes.scene2d.ui.List${'$'}ListStyle: {

@@ -15,7 +15,10 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.patterns.PlatformPatterns
-import com.intellij.psi.*
+import com.intellij.psi.PsiClassType
+import com.intellij.psi.PsiField
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiType
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
@@ -177,7 +180,7 @@ class SkinCompletionContributor : CompletionContributor() {
     val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.getRealClassNamesAsString())?.map { it.name } ?: listOf()
 
     if (!usedResourceNames.contains("default")) {
-      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), 2.0), parameters, result)
+      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), HIGH_PRIORITY), parameters, result)
     }
 
     val strings = mutableSetOf<String>()
@@ -289,7 +292,7 @@ class SkinCompletionContributor : CompletionContributor() {
       doAdd(
               PrioritizedLookupElement.withPriority(
                       LookupElementBuilder.create(PROPERTY_NAME_PARENT).withBoldness(important).withIcon(ICON_PARENT),
-                      if (important) 2.0 else 0.0
+                      if (important) HIGH_PRIORITY else 0.0
               ),
               parameters,
               result
@@ -346,14 +349,14 @@ class SkinCompletionContributor : CompletionContributor() {
       }
     }
     val project = parameters.position.project
-    val psiFacade = JavaPsiFacade.getInstance(project)
-    val rootPackage = psiFacade.findPackage(prefix) ?: return
+    val psiFacade = project.psiFacade()
+    val rootPackage = psiFacade.findPackage(prefix) ?: psiFacade.findPackage("") ?: return
 
     project.getSkinTag2ClassMap()?.getTags()?.forEach { tag ->
       doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(tag)
               .withIcon(ICON_TAG)
               .withBoldness(true),
-              2.0
+              HIGHEST_PRIORITY
       ), parameters, result)
     }
 
@@ -377,7 +380,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
       AllClassesGetter.processJavaClasses(prefixMatcher, project, scope) { psiClass ->
 
-        if ((psiClass.containingClass == null || psiClass.hasModifierProperty(PsiModifier.STATIC)
+        if ((psiClass.containingClass == null
                         && (psiClass !is KtLightClass || psiClass.kotlinOrigin !is KtObjectDeclaration)
                         )) {
 
@@ -389,6 +392,7 @@ class SkinCompletionContributor : CompletionContributor() {
               doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName.dollarName)
                       .withPresentableText(fqName.dollarName)
                       .withLookupString(StringUtil.getShortName(fqName.dollarName))
+                      .withLookupString(fqName.plainName)
                       .withIcon(ICON_CLASS)
                       .withBoldness(priority > 0.0),
                       priority
@@ -417,7 +421,10 @@ class SkinCompletionContributor : CompletionContributor() {
           val priority = classPriority(fqName.dollarName)
           doAdd(
                   PrioritizedLookupElement.withPriority(
-                          LookupElementBuilder.create(innerClass, fqName.dollarName).withIcon(ICON_CLASS).withBoldness(priority > 0.0),
+                          LookupElementBuilder.create(innerClass, fqName.dollarName)
+                                  .withIcon(ICON_CLASS)
+                                  .withLookupString(fqName.plainName)
+                                  .withBoldness(priority > 0.0),
                           priority
                   ),
                   parameters,
@@ -433,30 +440,36 @@ class SkinCompletionContributor : CompletionContributor() {
 
   private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {
     val dummyText = parameters.position.text
-    if (dummyText.firstOrNull() == '"') {
-      result.withPrefixMatcher(result.prefixMatcher.prefix.substring(1)).addElement(element)
-      return
+    val prefix = if (dummyText.firstOrNull() == '"') {
+      result.prefixMatcher.prefix.substring(1)
+    } else {
+      result.prefixMatcher.prefix
     }
-    result.addElement(element)
+    result.withPrefixMatcher(PlainPrefixMatcher(prefix)).addElement(element)
   }
 
   private fun packagePriority(packageName: String): Double {
     if ("com.badlogic.gdx.scenes.scene2d.ui".contains(packageName) || "com.badlogic.gdx.graphics".contains(packageName)) {
-      return 1.0
+      return MEDIUM_PRIORITY
     }
     return 0.0
   }
 
   private fun classPriority(className: String): Double {
     if (prioritizedClasses.contains(className)) {
-      return 1.0
+      return MEDIUM_PRIORITY
     } else if (className.contains("com.badlogic.gdx.scenes.scene2d.ui") && className.endsWith("Style")) {
-      return 1.0
+      return MEDIUM_PRIORITY
     }
     return 0.0
   }
 
   companion object {
+
+    const val MEDIUM_PRIORITY = 50.0
+    const val HIGH_PRIORITY = 75.0
+    const val HIGHEST_PRIORITY = 100.0
+
     val prioritizedClasses = listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
             COLOR_CLASS_NAME,
