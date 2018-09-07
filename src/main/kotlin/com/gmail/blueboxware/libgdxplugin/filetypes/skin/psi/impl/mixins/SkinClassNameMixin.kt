@@ -5,9 +5,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImp
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.module.ModuleUtilCore
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
@@ -50,7 +50,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
       val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
 
-        JavaPsiFacade.getInstance(project)?.let { psiFacade ->
+        project.psiFacade()?.let { psiFacade ->
 
           @Suppress("IfThenToElvis")
           if (taggedClasses != null) {

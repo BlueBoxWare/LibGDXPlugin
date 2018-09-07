@@ -115,7 +115,7 @@ internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedV
     mapOf<String, ColorsDefinition>()
   }
 
-  val colorsClasses = JavaPsiFacade.getInstance(this).findClasses(COLORS_CLASS_NAME, allScope())
+  val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, allScope())
 
   val callExpressions = mutableListOf<PsiElement>()
 

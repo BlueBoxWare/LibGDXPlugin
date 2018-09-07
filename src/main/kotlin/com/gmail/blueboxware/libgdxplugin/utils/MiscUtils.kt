@@ -6,7 +6,6 @@ import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValue
@@ -15,7 +14,6 @@ import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.idea.search.allScope
-import org.jetbrains.kotlin.idea.search.projectScope
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -49,10 +47,10 @@ internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this)
 internal fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
 
 internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = allScope()) =
-        JavaPsiFacade.getInstance(this).findClass(fqName, scope)
+        psiFacade().findClass(fqName, scope)
 
 internal fun Project.findClasses(fqName: String, scope: GlobalSearchScope = allScope()) =
-        JavaPsiFacade.getInstance(this).findClasses(fqName, scope)
+        psiFacade().findClasses(fqName, scope)
 
 internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClass(fqName, scope)
@@ -76,8 +74,6 @@ internal fun runUnderProgressIfNecessary(action: () -> Unit) {
 }
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
-
-internal fun PsiElement.projectScope(): GlobalSearchScope = project.projectScope()
 
 internal fun <R> PsiElement.getCachedValue(key: String, f: () -> R): R? =
         getCachedValue(key(key), f)

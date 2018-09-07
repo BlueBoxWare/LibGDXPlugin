@@ -30,20 +30,16 @@ class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiEleme
     } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 
-  override fun getVariants(): Array<Any> = element.project.getColorsMap().let { colorsMap ->
+  override fun getVariants(): Array<Any> = element.project.getColorsMap().entries.map { (colorName, colorDef) ->
 
-    colorsMap.entries.map { (colorName, colorDef) ->
+    val icon = colorDef?.valueElement?.let {
+      it.getColor(ignoreContext = true)?.let(::createColorIcon)
+    } ?: AllIcons.FileTypes.Properties
 
-      val icon = colorDef?.valueElement?.let {
-        it.getColor(ignoreContext = true)?.let(::createColorIcon)
-      } ?: AllIcons.FileTypes.Properties
+    LookupElementBuilder
+            .create(colorName)
+            .withIcon(icon)
 
-      LookupElementBuilder
-              .create(colorName)
-              .withIcon(icon)
-
-    }.toTypedArray()
-
-  }
+  }.toTypedArray()
 
 }

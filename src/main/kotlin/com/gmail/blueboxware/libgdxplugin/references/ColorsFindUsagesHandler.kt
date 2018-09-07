@@ -6,7 +6,10 @@ import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
-import com.intellij.psi.*
+import com.intellij.psi.PsiCallExpression
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiLiteralExpression
+import com.intellij.psi.PsiMethodCallExpression
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
@@ -99,7 +102,7 @@ private class MyCachedValueProvider(
     }
 
     val allScope = project.allScope()
-    val colorsClasses = JavaPsiFacade.getInstance(project).findClasses(COLORS_CLASS_NAME, allScope)
+    val colorsClasses = project.psiFacade().findClasses(COLORS_CLASS_NAME, allScope)
 
     // Colors.get(String)
     colorsClasses.mapNotNull { it.findMethodsByName("get", false).firstOrNull() }.forEach { method ->

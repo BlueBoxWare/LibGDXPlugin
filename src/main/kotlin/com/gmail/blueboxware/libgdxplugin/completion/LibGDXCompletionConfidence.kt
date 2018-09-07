@@ -44,20 +44,23 @@ class LibGDXCompletionConfidence: CompletionConfidence() {
           if (methodCall.isColorsGetCall()) {
             return ThreeState.NO
           } else {
-            val (clazz, _) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
-            // Skin.*() and TextureAtlas.*()
+            val (clazz, method) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
+
             if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
+              // Skin.*() and TextureAtlas.*()
+              return ThreeState.NO
+            } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
+              // I18NBundle.get()
               return ThreeState.NO
             }
+
           }
         }
 
         // GDXAssets annotation
-        if (contextElement.parent.parent.parent is PsiAnnotationParameterList) {
-          contextElement.getParentOfType<PsiAnnotation>()?.let { annotation ->
-            if (annotation.qualifiedName == ASSET_ANNOTATION_NAME) {
-              return ThreeState.NO
-            }
+        contextElement.getParentOfType<PsiAnnotation>()?.let { annotation ->
+          if (annotation.qualifiedName == ASSET_ANNOTATION_NAME) {
+            return ThreeState.NO
           }
         }
       }
@@ -72,12 +75,17 @@ class LibGDXCompletionConfidence: CompletionConfidence() {
             // Colors.get() and Colors.getColors().get()
             return ThreeState.NO
           } else {
-            val (clazz, _) = call.resolveCallToStrings() ?: return ThreeState.UNSURE
+            call.resolveCallToStrings()?.let { (clazz, method) ->
 
-            // Skin.*() and TextureAtlas.*()
-            if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
-              return ThreeState.NO
+              if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
+                // Skin.*() and TextureAtlas.*()
+                return ThreeState.NO
+              } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
+                // I18NBundle.get()
+                return ThreeState.NO
+              }
             }
+
           }
 
           // GDXAssets annotation

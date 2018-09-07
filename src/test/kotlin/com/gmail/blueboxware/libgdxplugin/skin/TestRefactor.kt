@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
+import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.openapi.application.WriteAction
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
@@ -12,7 +13,6 @@ import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.psi.JavaDirectoryService
-import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.refactoring.BaseRefactoringProcessor
@@ -169,7 +169,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
   fun testRenamePackage() {
     myFixture.copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
     myFixture.configureByFiles("renamePackage.skin", "KotlinClass.kt")
-    val pkg = JavaPsiFacade.getInstance(project).findPackage("com.example") ?: throw AssertionError()
+    val pkg = project.psiFacade().findPackage("com.example") ?: throw AssertionError()
     doSimpleTest {
       myFixture.renameElement(pkg, "foo")
     }
@@ -250,7 +250,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   private fun moveKotlinFile(file: KtFile, newPackageName: String) {
 
-    val pkg = JavaPsiFacade.getInstance(project).findPackage(newPackageName)
+    val pkg = project.psiFacade().findPackage(newPackageName)
     assertNotNull(pkg)
 
     val dirs = pkg!!.directories
@@ -276,7 +276,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
 
     val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
-    val pkg = JavaPsiFacade.getInstance(project).findPackage(newPackageName) ?: throw AssertionError()
+    val pkg = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
     val dirs = pkg.directories
 
     MoveClassesOrPackagesProcessor(
@@ -301,8 +301,8 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
     BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
 
-    val oldPackage = JavaPsiFacade.getInstance(project).findPackage(packageName) ?: throw AssertionError()
-    val newPackage = JavaPsiFacade.getInstance(project).findPackage(newPackageName) ?: throw AssertionError()
+    val oldPackage = project.psiFacade().findPackage(packageName) ?: throw AssertionError()
+    val newPackage = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
     val dirs = newPackage.directories
 
     MoveClassesOrPackagesProcessor(

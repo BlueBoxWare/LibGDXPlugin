@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.JavaFindUsagesHelper
 import com.intellij.find.findUsages.JavaMethodFindUsagesOptions
@@ -57,7 +58,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
         val module = ModuleUtilCore.findModuleForPsiElement(file) ?: return
         val moduleWithDepsScope = module.moduleWithDependenciesScope
         val moduleWithDepsAndLibsScope = module.getModuleWithDependenciesAndLibrariesScope(false)
-        val psiFacade = JavaPsiFacade.getInstance(file.project) ?: return
+        val psiFacade = file.project.psiFacade()
 
         val externalFilesMethods = mutableListOf<PsiMethod>()
 

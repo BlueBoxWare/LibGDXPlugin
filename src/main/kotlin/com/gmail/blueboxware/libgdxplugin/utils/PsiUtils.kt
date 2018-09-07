@@ -45,6 +45,8 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
+
 @Suppress("unused")
 internal fun PsiElement.removeChild(child: PsiElement) = child.deleteSingle()
 

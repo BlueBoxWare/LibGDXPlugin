@@ -278,7 +278,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
     } else if (arguments.size == 1) {
       // new Color(Color)
       arguments.firstOrNull()?.let { expr ->
-        return@getCachedValue expr.findRoot()?.getColor()
+        return@getCachedValue expr.findRoot().getColor()
       }
     } else if (arguments.size == 4) {
       // new Color(float, float, float, float)
