@@ -21,7 +21,7 @@
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
-      This unofficial plugin adds a number of LibGDX related inspections and features to IntelliJ and Android Studio.
+      This unofficial plugin adds a number of LibGDX related features to IntelliJ and Android Studio.
         <br/><br/>
       This plugin needs a recent version of the official Kotlin plugin to be installed (even if you don't use Kotlin), so please install and/or enable that plugin first.
         <br/><br/>
@@ -37,6 +37,7 @@
             <li>Unused tag inspection for @GDXTag annotation</li>
             <li>Show color previews in decompiled classes too</li>
             <li>Always show completion popup when there is something useful to show</li>
+            <li>Miscellaneous small improvements</li>
         </ul>
 
         <b>1.16.1</b>
