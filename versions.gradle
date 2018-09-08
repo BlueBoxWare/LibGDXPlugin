@@ -7,7 +7,8 @@ ext {
     intellijPluginVersion = '0.3.5'
 
 //    ideaVersion = 'LATEST-TRUNK-SNAPSHOT'
-    ideaVersion = '2018.2.1'
+//    ideaVersion = '183.2153.8'
+    ideaVersion = '182.4505.7'
 
     studioVersion = '2017.3.3'
     studioKotlinPlugin = '1.2.31-release-Studio3.1-1'

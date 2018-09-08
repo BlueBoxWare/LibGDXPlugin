@@ -68,7 +68,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
       if (project.isDisposed) return
 
-      val document = event?.document ?: return
+      val document = event.document
 
       val virtualFile = FileDocumentManager.getInstance().getFile(document) ?: return
       val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return
