@@ -48,9 +48,11 @@ internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue("tag2classMap") {
 
   if (isLibGDX199()) {
-    collectCustomTags().apply {
-      addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-      addAll(collectTagsFromAnnotations())
+    computeUnderProgressIfNecessary {
+      collectCustomTags().apply {
+        addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+        addAll(collectTagsFromAnnotations())
+      }
     }
   } else {
     null

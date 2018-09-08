@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Computable
 import com.intellij.openapi.util.Key
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.GlobalSearchScope
@@ -72,6 +73,14 @@ internal fun runUnderProgressIfNecessary(action: () -> Unit) {
   action()
 
 }
+
+internal fun <T> computeUnderProgressIfNecessary(f: () -> T): T =
+        if (ProgressManager.getGlobalProgressIndicator() == null) {
+          ProgressManager.getInstance().runProcess(Computable { f() }, EmptyProgressIndicator())
+        } else {
+          f()
+        }
+
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
 
