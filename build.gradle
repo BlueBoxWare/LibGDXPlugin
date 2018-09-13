@@ -44,7 +44,7 @@ intellij {
         version = ideaVersion
     }
 
-    pluginName = 'LibGDX Inspections'
+    pluginName = 'LibGDX Plugin'
     updateSinceUntilBuild = false
     downloadSources =  true
 

@@ -1,6 +1,6 @@
 ext {
 
-    pluginVersion = '1.17'
+    pluginVersion = '1.18'
 
     kotlinVersion = '1.2.40'
 

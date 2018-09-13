@@ -16,8 +16,8 @@
 <!--suppress XmlUnboundNsPrefix -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
-    <name>LibGDX Inspections</name>
-    <version>1.17</version>
+    <name>LibGDX Plugin</name>
+    <version>1.18</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.18</b>
+        <ul>
+            <li></li>
+        </ul>
+
         <b>1.17</b>
         <ul>
             <li>Support for com.badlogic.gdx.graphics.Colors</li>
