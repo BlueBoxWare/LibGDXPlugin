@@ -19,7 +19,9 @@ val atlas2 = TextureAtlas()
 val c1 = skin1.getColor("yellow")
 val c2 = skin1.getColor(<error descr="Resource \"blue\" with type \"com.badlogic.gdx.graphics.Color\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"blue"</error>)
 val c3 = skin1.getColor(<error descr="Resource \"button\" with type \"com.badlogic.gdx.graphics.Color\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"button"</error>)
-
+val blue = ""
+val c4 = skin1.getColor("$blue")
+val c5 = skin1.getColor("${"blue"}")
 
 fun f() {
   @GDXAssets(skinFiles = arrayOf("src/libgdx.skin"))
@@ -34,6 +36,10 @@ fun f() {
   skin3.get(TextButton.TextButtonStyle::class.java)
   skin1.get(<error descr="Resource \"\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">""</error>, TextButton.TextButtonStyle::class.java)
   skin1.get("toggle", TextButton.TextButtonStyle::class.java)
+  val userred = ""
+  skin1.get("$userred", TextButton.TextButtonStyle::class.java)
+  skin1.get("${userred}", TextButton.TextButtonStyle::class.java)
+  skin1.get("${"userred"}", TextButton.TextButtonStyle::class.java)
   skin1.get(<error descr="Resource \"user-red\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"user-red"</error>, TextButton.TextButtonStyle::class.java)
   skin1.get("taggedStyle1", TextButton.TextButtonStyle::class.java)
   skin1.get(<error descr="Resource \"taggedStyle2\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"taggedStyle2"</error>, TextButton.TextButtonStyle::class.java)
