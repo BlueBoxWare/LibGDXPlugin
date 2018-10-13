@@ -273,53 +273,57 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
 
   private fun moveJavaClass(className: String, newPackageName: String) {
 
-    BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
+    BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
 
-    val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
-    val pkg = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
-    val dirs = pkg.directories
+      val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
+      val pkg = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
+      val dirs = pkg.directories
 
-    MoveClassesOrPackagesProcessor(
-            project,
-            arrayOf(clazz),
-            SingleSourceRootMoveDestination(
-                    PackageWrapper.create(
-                            JavaDirectoryService.getInstance().getPackage(dirs[0])
-                    ),
-                    dirs[0]
-            ),
-            true,
-            false,
-            null
-    ).run()
+      MoveClassesOrPackagesProcessor(
+              project,
+              arrayOf(clazz),
+              SingleSourceRootMoveDestination(
+                      PackageWrapper.create(
+                              JavaDirectoryService.getInstance().getPackage(dirs[0])
+                      ),
+                      dirs[0]
+              ),
+              true,
+              false,
+              null
+      ).run()
 
-    commit()
+      commit()
+
+    }
 
   }
 
   private fun movePackage(packageName: String, newPackageName: String) {
 
-    BaseRefactoringProcessor.ConflictsInTestsException.setTestIgnore(true)
+    BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
 
-    val oldPackage = project.psiFacade().findPackage(packageName) ?: throw AssertionError()
-    val newPackage = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
-    val dirs = newPackage.directories
+      val oldPackage = project.psiFacade().findPackage(packageName) ?: throw AssertionError()
+      val newPackage = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
+      val dirs = newPackage.directories
 
-    MoveClassesOrPackagesProcessor(
-            project,
-            arrayOf(oldPackage),
-            SingleSourceRootMoveDestination(
-                    PackageWrapper.create(
-                            JavaDirectoryService.getInstance().getPackage(dirs[0])
-                    ),
-                    dirs[0]
-            ),
-            true,
-            false,
-            null
-    ).run()
+      MoveClassesOrPackagesProcessor(
+              project,
+              arrayOf(oldPackage),
+              SingleSourceRootMoveDestination(
+                      PackageWrapper.create(
+                              JavaDirectoryService.getInstance().getPackage(dirs[0])
+                      ),
+                      dirs[0]
+              ),
+              true,
+              false,
+              null
+      ).run()
 
-    commit()
+      commit()
+
+    }
 
   }
 

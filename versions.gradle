@@ -1,17 +1,16 @@
 ext {
 
-    pluginVersion = '1.18'
+    pluginVersion = '1.17.1'
 
     kotlinVersion = '1.2.40'
 
-    intellijPluginVersion = '0.3.5'
+    intellijPluginVersion = '0.3.11'
 
-//    ideaVersion = 'LATEST-TRUNK-SNAPSHOT'
-//    ideaVersion = '183.2153.8'
-    ideaVersion = '182.4505.7'
+//    ideaVersion = 'LATEST-EAP-SNAPSHOT'
+    ideaVersion = '2018.2.4'
 
-    studioVersion = '2017.3.3'
-    studioKotlinPlugin = '1.2.31-release-Studio3.1-1'
+    studioVersion = '2018.1.6'
+    studioKotlinPlugin = '1.2.71-release-Studio3.2-1'
 
     useStudio = false
     runStudio = false

@@ -167,7 +167,9 @@ private class DesignedForTabletsGradleVisitor(
     }
 
     if (invokedText == "maxSdkVersion" && versionsMap[SdkVersionType.MAX] ?: 11 < 11) {
-      problems.add(call to message("designed.for.tablets.problem.descriptor.max"))
+      if (problems.none { it.first == call }) {
+        problems.add(call to message("designed.for.tablets.problem.descriptor.max"))
+      }
     }
 
   }

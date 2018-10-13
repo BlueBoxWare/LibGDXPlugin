@@ -441,7 +441,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     for (file in files) {
       if (file.isFile) {
         val name = file.path.removePrefix(dirName)
-        stringBuilder.append("\t[" + name + "]: \"" + file.readText() + "\"\n")
+        stringBuilder.append("\t[" + name + "]: \n\"" + file.readText() + "\"\n")
       }
     }
 

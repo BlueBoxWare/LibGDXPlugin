@@ -4,13 +4,12 @@ import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.openapi.components.AbstractProjectComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
+import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
@@ -52,14 +51,14 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
       }
     }
 
-    ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.addListener(libraryListener)
+    LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).addListener(libraryListener)
 
   }
 
   override fun projectClosed() {
     updateLatestVersionsAlarm.cancelAllRequests()
 
-    ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.removeListener(libraryListener)
+    LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).removeListener(libraryListener)
   }
 
 
@@ -84,7 +83,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
 
       usedVersions.clear()
 
-      ServiceManager.getService(myProject, ProjectLibraryTable::class.java)?.libraryIterator?.let { libraryIterator ->
+      LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).libraryIterator.let { libraryIterator ->
         for (lib in libraryIterator) {
           getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
             usedVersions[libraries].let { registeredVersion ->

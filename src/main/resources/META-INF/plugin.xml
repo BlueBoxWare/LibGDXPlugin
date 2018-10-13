@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Plugin</name>
-    <version>1.18</version>
+    <version>1.17.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,9 +30,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>1.18</b>
+        <b>1.17.1</b>
         <ul>
-            <li></li>
+            <li>Fix issues with IntelliJ 2018.3 EAP</li>
         </ul>
 
         <b>1.17</b>
@@ -186,7 +186,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="173.0"/>
+    <idea-version since-build="181"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
