@@ -6,6 +6,7 @@ import com.intellij.lang.properties.ResourceBundle
 import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.references.PropertyReferenceBase
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.ElementManipulators
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.search.allScope
@@ -60,5 +61,7 @@ class GDXPropertyReference(key: String, element: PsiElement, private val bundleN
   }
 
   private fun PsiElement.getResourceBundle(): ResourceBundle? = (this as? Property)?.propertiesFile?.resourceBundle
+
+  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
 }
