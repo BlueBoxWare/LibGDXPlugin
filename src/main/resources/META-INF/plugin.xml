@@ -30,6 +30,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.17.2</b>
+        <ul>
+            <li>Fix issue https://github.com/BlueBoxWare/LibGDXPlugin/issues/17</li>
+        </ul>
+
         <b>1.17.1</b>
         <ul>
             <li>Fix issues with IntelliJ 2018.3 EAP</li>
