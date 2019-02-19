@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.global
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeHighlighting.HighlightDisplayLevel
@@ -42,6 +43,10 @@ class OutdatedVersionsInspection : GlobalInspectionTool() {
   override fun getShortName() = "LibGDXOutdatedVersion"
 
   override fun runInspection(scope: AnalysisScope, manager: InspectionManager, globalContext: GlobalInspectionContext, problemDescriptionsProcessor: ProblemDescriptionsProcessor) {
+
+    if (!globalContext.project.isLibGDXProject()) {
+      return
+    }
 
     val versionManager = globalContext.project.getComponent(VersionManager::class.java) ?: return
 

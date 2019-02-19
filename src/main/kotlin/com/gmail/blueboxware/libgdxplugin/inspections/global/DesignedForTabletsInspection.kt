@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SdkVersionType
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.*
@@ -57,6 +58,10 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
           globalContext: GlobalInspectionContext,
           problemDescriptionsProcessor: ProblemDescriptionsProcessor
   ) {
+
+    if (!globalContext.project.isLibGDXProject()) {
+      return
+    }
 
     val problems = mutableListOf<Pair<PsiElement, String>>()
     val versionsMap = mutableMapOf<SdkVersionType, Int>()
