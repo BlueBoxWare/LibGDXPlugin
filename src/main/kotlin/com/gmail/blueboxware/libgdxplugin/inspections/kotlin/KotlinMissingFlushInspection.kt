@@ -56,6 +56,7 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitBlockExpression(expression: KtBlockExpression) {
+
       super.visitBlockExpression(expression)
 
       if (
@@ -70,7 +71,9 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
       methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
 
+        if (holder.results.none { it.psiElement == lastPreferenceChange }) {
           holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
+        }
 
       }
     }
@@ -98,4 +101,5 @@ private class MissingFlushInspectionMethodChecker(val preferencesSubClasses: Col
     }
 
   }
+
 }
