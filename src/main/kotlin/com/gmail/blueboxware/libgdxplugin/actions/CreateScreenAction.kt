@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.idea.KotlinFileType
  */
 class CreateScreenAction: CreateFileFromTemplateAction("LibGDX Screen", "Creates new LibGDX Screen", IconLoader.getIcon("/runConfigurations/application.png")) {
 
-  override fun getActionName(directory: PsiDirectory?, newName: String?, templateName: String?) = "LibGDX Screen"
+  override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = "LibGDX Screen"
 
   override fun buildDialog(project: Project?, directory: PsiDirectory?, builder: CreateFileFromTemplateDialog.Builder) {
     builder.setTitle("New LibGDX Screen")
