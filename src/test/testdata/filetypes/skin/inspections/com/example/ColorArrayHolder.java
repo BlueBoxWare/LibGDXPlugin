@@ -40,6 +40,8 @@ public class ColorArrayHolder {
 
     new com.badlogic.gdx.utils.Json().addClassTag("Tag6", java.lang.Integer.class)
     new com.badlogic.gdx.utils.Json().addClassTag("Tag7", java.lang.Boolean.class)
+
+    new com.badlogic.gdx.utils.Json().addClassTag("FTF", com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.class)
   }
 
 }

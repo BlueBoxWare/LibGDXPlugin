@@ -1,0 +1,9 @@
+{
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: {
+    }
+  }
+  FTF: {
+    bar: f<caret>oo
+  }
+}

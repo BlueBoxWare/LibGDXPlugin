@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.ApplicationInfo
+import com.intellij.openapi.application.PathManager
 
 
 /*
@@ -24,12 +25,17 @@ class ShowInfo: LibGDXCodeInsightFixtureTestCase() {
   fun testShowInfo() {
     println("IntelliJ version: " + ApplicationInfo.getInstance().fullVersion)
     println("IntelliJ build: " + ApplicationInfo.getInstance().build)
-    println("Kotlin version: " + KotlinVersion.CURRENT)
+    println("Kotlin version: " + KotlinVersion.CURRENT + "\n")
 
-    println("Plugins:")
+    println("PLUGINS:")
     PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->
-      println("\t" + plugin.name + ": " + plugin.version)
+      println("\t${plugin.name}: ${plugin.version} (enabled: ${plugin.isEnabled})")
     }
+
+    println("\nPATHS:")
+    println("\tSystem: " + PathManager.getSystemPath())
+    println("\tConfig: " + PathManager.getConfigPath())
+    println("\tIndex: " + PathManager.getIndexRoot())
   }
 
 }

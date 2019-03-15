@@ -9,6 +9,7 @@ import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementResolveResult
 import com.intellij.psi.ResolveResult
+import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.impl.source.resolve.ResolveCache
 
 /*
@@ -26,7 +27,7 @@ import com.intellij.psi.impl.source.resolve.ResolveCache
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStringLiteral>(element) {
+class SkinResourceReference(element: SkinStringLiteral): SkinReference<SkinStringLiteral>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
           ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
@@ -56,10 +57,18 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                 element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
                         && element.property?.containingObject?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
         val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
+        val isFreeTypeFontGeneratorEnum = element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
+                && (valueType as? PsiClassType)?.resolve()?.isEnum == true
 
-        if (valueType.canonicalText ==  DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+        if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
           skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
             result.add(PsiElementResolveResult(it))
+          }
+        } else if (isFreeTypeFontGeneratorEnum) {
+          (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
+            clazz.findFieldByName(element.value, false)?.navigationElement?.let {
+              result.add(PsiElementResolveResult(it))
+            }
           }
         } else {
           (valueType as? PsiClassType)?.resolve()?.let { psiClass ->
@@ -87,7 +96,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
       }
 
-      return  result.toTypedArray()
+      return result.toTypedArray()
 
     }
 

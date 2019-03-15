@@ -9,9 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
@@ -128,6 +126,11 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("dark-gray", COLOR_CLASS_NAME)
   }
 
+  fun testResourceAliasReference4() {
+    addFreeType()
+    doTestResourceReference("foo", FREETYPE_GENERATOR_CLASS_NAME)
+  }
+
   fun testResourceAliasReferenceWithTaggedClasses1() {
     doTestResourceReference("foo", "com.example.MyTestClass")
   }
@@ -158,6 +161,11 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testResourceAliasReferenceWithTaggedClasses8() {
     doTestResourceReference("foo", "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable")
+  }
+
+  fun testResourceAliasReferenceWithTaggedClasses9() {
+    addFreeType()
+    doTestResourceReference("foo", "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator")
   }
 
   fun testResourceReferenceTintedDrawable() {
@@ -241,6 +249,22 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFieldReference6() {
     doTestFieldReference("com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle::checkedOffsetX")
+  }
+
+  fun testFieldReferenceFTF() {
+    addFreeType()
+    doTestFieldReference("$FREETYPE_FONT_PARAMETER_CLASS_NAME::mono")
+  }
+
+  fun testFTFGeneratorEnumReference() {
+    addFreeType()
+    myFixture.configureByFile("FTFGeneratorEnumReference.skin")
+    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    val sourceElement = elementAtCaret?.firstParent<SkinStringLiteral>()
+    assertNotNull(sourceElement)
+    val field = sourceElement?.reference?.resolve() as PsiField
+    assertEquals(FREETYPE_HINTING_CLASS_NAME, field.containingClass?.qualifiedName)
+    assertEquals("AutoMedium", field.text)
   }
 
   fun testTaggedClassFieldReference1() {

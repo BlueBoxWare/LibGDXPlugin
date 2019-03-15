@@ -1,0 +1,35 @@
+{
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: {
+      font: font.ttf
+      size: 80
+      mono: false
+      color: white
+      gamma: 1.8
+      renderCount: 4
+      borderWidth: 0
+      borderColor: green
+      borderStraight: false
+      borderGamma: 1.8
+      shadowOffsetX: 0
+      shadowOffsetY: 0
+      shadowColor: red
+      spaceX: 0
+      spaceY: 0
+      kerning: true
+      flip: false
+      genMipMaps: false
+      incremental: false
+      hinting: None
+      minFilter: Linear
+      magFilter: Linear
+      characters: "abc"
+    }
+    bar: {
+      size: <warning>80.0</warning>
+      mono: <warning>3</warning>
+      gamma: <warning>false</warning>
+      characters: 3
+    }
+  }
+}

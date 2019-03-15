@@ -51,6 +51,8 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
           holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message.BitmapFont", name))
         }
         return
+      } else if (typeString == FREETYPE_FONT_PARAMETER_CLASS_NAME && name == "font") {
+        return
       }
 
       if (property.resolveToField() == null) {

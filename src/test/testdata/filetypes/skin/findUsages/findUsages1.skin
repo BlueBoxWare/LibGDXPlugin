@@ -8,9 +8,11 @@
     }
   }
   com.badlogic.gdx.graphics.Color: {
-    white: {r: 1, g: 1, b: 1, a: 1},
-    bl<caret>ue: {}
-    blue2: { parent: blue }
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    bl<caret>ue: { }
+    blue2: {
+      parent: blue
+    }
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     blue: {
@@ -20,7 +22,6 @@
   com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle: {
     default: {
       disabledFontColor: blue
-
     }
   },
   com.example.KotlinClass: {
@@ -34,6 +35,16 @@
     }
   }
   Color: {
-    sub: { parent: blue }
+    sub: {
+      parent: blue
+    }
+  }
+
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: {
+      color: blue
+      shadowColor: blue
+      foo: blue
+    }
   }
 }

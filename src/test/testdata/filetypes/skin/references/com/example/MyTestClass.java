@@ -30,6 +30,7 @@ class MyTestClass {
             new com.badlogic.gdx.utils.Json().addClassTag("Tinted", com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable.class);
             new com.badlogic.gdx.utils.Json().addClassTag("BM", com.badlogic.gdx.graphics.g2d.BitmapFont.class);
             new com.badlogic.gdx.utils.Json().addClassTag("CBS", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle.class);
+            new com.badlogic.gdx.utils.Json().addClassTag("FTF", com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.class);
         }
 
     }

@@ -8,8 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.stripQuotes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.unescape
-import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.PsiReference
@@ -39,9 +38,11 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
 
   override fun getReference(): PsiReference? {
 
+    val containingObjectType = property?.containingObject?.resolveToTypeString()
+
     if (
-            property?.containingObject?.resolveToTypeString() == BITMAPFONT_CLASS_NAME
-            && property?.name == PROPERTY_NAME_FONT_FILE
+            (containingObjectType == BITMAPFONT_CLASS_NAME && property?.name == PROPERTY_NAME_FONT_FILE)
+            || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME && property?.name == "font")
     ) {
       return SkinFileReference(this, containingFile)
     } else {
@@ -54,6 +55,10 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
                   || type == null
           ) {
             return null
+          } else if (type.isStringType(property)) {
+            if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
+              return null
+            }
           }
         }
 

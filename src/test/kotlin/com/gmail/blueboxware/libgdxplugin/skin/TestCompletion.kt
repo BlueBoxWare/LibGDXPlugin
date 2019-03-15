@@ -1539,7 +1539,46 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                     foo: { knobOver: foo, parent: <caret> }
                 }
               }
-          """ to (listOf("default-horizontal", "default-vertical", "default") to listOf("button"))
+          """ to (listOf("default-horizontal", "default-vertical", "default") to listOf("button")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                foo: {
+                  <caret>
+                }
+              }
+            }
+          """ to (listOf("borderGamma", "genMipMaps", "size", "mono", "color") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                foo: {
+                  mono: <caret>
+                }
+              }
+            }
+          """ to (listOf("true", "false") to listOf()),
+
+          """
+            {
+
+              com.badlogic.gdx.graphics.Color: {
+
+                red: {hex: "ff0000"},
+                green: {hex: "00ff00"},
+                blue: {r: 0, g: 0, b: 1}
+
+              }
+
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                foo: {
+                  color: <caret>
+                }
+              }
+            }
+          """ to (listOf("green", "red", "blue") to listOf())
   )
 
   private val testsPre199 = listOf(
@@ -1596,6 +1635,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
   fun testCompletions() {
     addDummyLibGDX199()
+    addFreeType()
     for ((content, expected) in tests) {
       doTest(content, expected.first, expected.second)
     }

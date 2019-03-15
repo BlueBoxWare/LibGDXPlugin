@@ -24,6 +24,10 @@
       font: blue
     }
   }
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: {
+    }
+  }
   <error>"com.badlogic.gdx.scenes.scene2d.TextButton$TextButtonStyle"</error>: {
     something: {
       font: blue

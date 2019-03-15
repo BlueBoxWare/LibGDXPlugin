@@ -1,0 +1,11 @@
+{
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: {
+      font: font.ttf
+      size: 80
+      mo<caret>no: false
+      color: white
+      gamma: 1.8
+    }
+  }
+}

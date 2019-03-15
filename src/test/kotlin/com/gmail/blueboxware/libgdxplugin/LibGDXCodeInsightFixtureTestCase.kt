@@ -56,12 +56,14 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
   fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
+  fun addFreeType() = addLibrary(getTestDataBasePath() + "/lib/gdx-freetype.jar")
+
   fun addAnnotations() {
     addLibrary(File("build/libs/").listFiles { _, name ->
-    name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
-  }.sortedByDescending { file ->
+      name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
+    }.sortedByDescending { file ->
       MavenComparableVersion(file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")))
-  }.first().absolutePath)
+    }.first().absolutePath)
   }
 
   fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
@@ -202,7 +204,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCas
 
     super.setUp()
 
-    project.getComponent(VersionManager::class.java).updateUsedVersions()
+    project.getComponent(VersionManager::class.java)?.updateUsedVersions()
   }
 
 }

@@ -1,13 +1,13 @@
 {
   com.badlogic.gdx.graphics.Color: {
-    white: {r: 1, g: 1, b: 1, a: 1},
-    red: {r: 1, g: 0, b: 0, a: 1},
-    yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 },
     a: white,
     b: red,
     c: <error descr="'blue' does not refer to anything. Resources must be defined before they can be used.">blue</error>,
-    d: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
-    y: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
+  d: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
+  y: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: {
@@ -33,11 +33,11 @@
       down: round-down,
       up: round,
       font: medium,
-      fontColor: {r: 0, g: 1, b: 0, a: 1}
+      fontColor: { r: 0, g: 1, b: 0, a: 1 }
     },
     standard: toggle,
     non-standard: <error descr="'notoggle' does not refer to anything. Resources must be defined before they can be used.">notoggle</error>,
-    x: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
+  x: <error descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</error>
   },
   TintedDrawable: {
     round-green: {
@@ -48,55 +48,63 @@
       name: round,
       color: yellow
     }
-}
+  }
   Color: {
-    blue: {r: 1, g: 1, b: 1, a: 1},
+    blue: { r: 1, g: 1, b: 1, a: 1 },
     f: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
-    e: yellow,
-    z: d
+  e: yellow,
+  z: d
     123: e
   },
   com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
     yes: <error descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</error>,
-    no: <error descr="'yellow' does not refer to anything. Resources must be defined before they can be used.">yellow</error>,
-    z: <error descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</error>
+  no: <error descr="'yellow' does not refer to anything. Resources must be defined before they can be used.">yellow</error>,
+  z: <error descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</error>
     aa: z
   }
 
   Tag4: {
     a: {
-      colors: [red, <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>],
-      moreColors: [<error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>, [<error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>, yellow]],
-      m: [
-        {
-          buttonStyle: yes
-        },
-        {
-          textButtonStyle: { parent: yes }
-        },
-        {
-          buttonStyle: <error descr="'nope' does not refer to anything. Resources must be defined before they can be used.">nope</error>
-        }
-        {
-          buttonStyle: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
-        }
-        {
-          textButtonStyle: <error descr="'yes' does not refer to anything. Resources must be defined before they can be used.">yes</error>
-        }
+      colors: [
+        red,
+        <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+      ],
+      moreColors: [
+        <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>,
+      [<error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>, yellow]
+      ],
+      m:
+      [
+      {
+      buttonStyle: yes
+      },
+      {
+      textButtonStyle: { parent: yes }
+      },
+      {
+      buttonStyle: <error descr="'nope' does not refer to anything. Resources must be defined before they can be used.">nope</error>
+      }
+      {
+      buttonStyle: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+      }
+      {
+      textButtonStyle: <error descr="'yes' does not refer to anything. Resources must be defined before they can be used.">yes</error>
+      }
       ]
-      textButtonStyles: [
-        {
-          font: {
-            flip: true
-            file: sfdsdsf
-          }
-        },
-        {
-          font: medium
-        },
-        {
-          font: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
-        }
+      textButtonStyles:
+      [
+      {
+      font: {
+      flip: true
+      file: sfdsdsf
+      }
+      },
+      {
+      font: medium
+      },
+      {
+      font: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+      }
       ]
     }
   },
@@ -120,7 +128,7 @@
 
   TextButtonStyle: {
     d: {
-     fontColor: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
+      fontColor: <error descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</error>
     }
     e: {
       fontColor: 123
@@ -131,5 +139,25 @@
     g: {
       parent: b1
     }
+  }
+
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    foo: { }
+  }
+
+  FTF: {
+    ftf: { }
+  }
+
+  com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+    bar1: foo
+    bar2: ftf
+    err1: <error>toggle</error>
+  }
+
+  FTF: {
+    bar3: foo
+    bar4: ftf
+    err2: <error>b1</error>
   }
 }

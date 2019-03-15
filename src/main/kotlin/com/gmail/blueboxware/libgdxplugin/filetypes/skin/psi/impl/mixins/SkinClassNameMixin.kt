@@ -3,9 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
-import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
-import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
-import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.PsiClass
@@ -48,7 +46,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
       val taggedClasses: List<String>? =
               project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { !it.isEmpty() }
 
-      val classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
+      var classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
 
         project.psiFacade()?.let { psiFacade ->
 
@@ -65,11 +63,23 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
       } ?: listOf()
 
+      var isFreeTypeFontGenerator = false
+
+      if (classes.firstOrNull()?.qualifiedName == FREETYPE_GENERATOR_CLASS_NAME) {
+        isFreeTypeFontGenerator = true
+        project.psiFacade()?.let { psiFacade ->
+          classes = psiFacade.findClasses(FREETYPE_FONT_PARAMETER_CLASS_NAME, project.allScope()).toList()
+        }
+      }
+
       classes.filter { clazz ->
         (clazz !is KtLightClass || clazz.kotlinOrigin !is KtObjectDeclaration) &&
                 (
                         (taggedClasses != null && taggedClasses.contains(clazz.qualifiedName))
                                 || (taggedClasses == null && DollarClassName(clazz) == value)
+                                || (isFreeTypeFontGenerator && taggedClasses != null && taggedClasses.contains(FREETYPE_GENERATOR_CLASS_NAME))
+                                || (taggedClasses == null && clazz.qualifiedName == FREETYPE_FONT_PARAMETER_CLASS_NAME)
+
                         )
       }.map {
         it.navigationElement as? PsiClass ?: it

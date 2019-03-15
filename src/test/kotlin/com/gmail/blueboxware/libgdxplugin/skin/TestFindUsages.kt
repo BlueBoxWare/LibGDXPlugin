@@ -28,7 +28,8 @@ import org.jetbrains.kotlin.psi.KtClass
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
-    doTest(7)
+    addFreeType()
+    doTest(9)
   }
 
   fun testFindUsages2() {

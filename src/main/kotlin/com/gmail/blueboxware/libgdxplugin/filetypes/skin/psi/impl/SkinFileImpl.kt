@@ -47,10 +47,16 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   override fun getClassSpecifications(classNames: Collection<String>?): Collection<SkinClassSpecification> {
     val classSpecs = childrenOfType<SkinClassSpecification>()
+    val classNamesToSearch = classNames?.toMutableSet()
 
-    if (classNames != null) {
+    if (classNamesToSearch != null) {
+
+      if (classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME)) {
+        classNamesToSearch.add(FREETYPE_GENERATOR_CLASS_NAME)
+      }
+
       return classSpecs.filter { classSpec ->
-        classSpec.getRealClassNamesAsString().any { classNames.contains(it) }
+        classSpec.getRealClassNamesAsString().any { classNamesToSearch.contains(it) }
       }
     }
 

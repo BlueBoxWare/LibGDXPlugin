@@ -68,6 +68,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinTypeInspection())
   }
 
+  fun testTypeInspection4() {
+    doTest(SkinTypeInspection())
+  }
+
   fun testTypeInspectionWithTags() {
     doTest(SkinTypeInspection())
   }
@@ -148,6 +152,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
     addKotlin()
+    addFreeType()
 
     if (testname().contains("tags", ignoreCase = true)) {
       addDummyLibGDX199()
