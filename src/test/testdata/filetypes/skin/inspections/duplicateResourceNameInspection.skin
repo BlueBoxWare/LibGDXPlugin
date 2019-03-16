@@ -42,13 +42,18 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
   <warning descr="A resource with name 'zz' and type 'com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle' is defined more than once in this file.">zz</warning>: {}
 }
 com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
-<warning>foo</warning>: {
-}
+<warning descr="A font with name 'foo' is defined more than once in this file.">foo</warning>: {}
+<warning descr="A font with name 'ttf' is defined more than once in this file.">ttf</warning>: {}
 }
 
 com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
-  <warning>foo</warning>: {
+<warning descr="A font with name 'foo' is defined more than once in this file.">foo</warning>: { }
+default: {}
 }
+
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+<warning descr="A font with name 'ttf' is defined more than once in this file.">ttf</warning>: {}
+color1: {}
 }
 
 }
