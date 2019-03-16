@@ -51,7 +51,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
     if (classNamesToSearch != null) {
 
-      if (classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME)) {
+      if (classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME) || classNamesToSearch.contains(BITMAPFONT_CLASS_NAME)) {
         classNamesToSearch.add(FREETYPE_GENERATOR_CLASS_NAME)
       }
 

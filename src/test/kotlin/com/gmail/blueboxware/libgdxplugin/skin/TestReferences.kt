@@ -126,9 +126,14 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     doTestResourceReference("dark-gray", COLOR_CLASS_NAME)
   }
 
-  fun testResourceAliasReference4() {
+  fun testResourceAliasReferenceFTF1() {
     addFreeType()
     doTestResourceReference("foo", FREETYPE_GENERATOR_CLASS_NAME)
+  }
+
+  fun testResourceAliasReferenceFTF2() {
+    addFreeType()
+    doTestResourceReference("ttf", FREETYPE_GENERATOR_CLASS_NAME)
   }
 
   fun testResourceAliasReferenceWithTaggedClasses1() {
