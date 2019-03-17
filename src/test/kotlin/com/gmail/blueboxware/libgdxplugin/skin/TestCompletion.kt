@@ -18,7 +18,7 @@ import com.intellij.codeInsight.completion.CompletionType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
+class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
 
   private val EMPTY = listOf<String>()
 
@@ -474,7 +474,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("font1.fnt", "assets/font2.fnt") to listOf("ui.atlas", "assets/somefile")),
+          """ to (listOf("font1.fnt", "assets/font2.fnt", "assets/font.ttf") to listOf()),
 
           """
             {
@@ -484,7 +484,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("font1.fnt", "assets/font2.fnt") to listOf("ui.atlas", "assets/somefile")),
+          """ to (listOf("font1.fnt", "assets/font2.fnt") to listOf()),
 
           """
             {
@@ -494,7 +494,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("font1.fnt", "assets/font2.fnt") to listOf("ui.atlas", "assets/somefile")),
+          """ to (listOf("font1.fnt", "assets/font2.fnt") to listOf()),
 
           """
             {
@@ -538,7 +538,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                     }
                 }
             }
-          """ to (listOf("file", "scaledSize",  "markupEnabled") to listOf("flip")),
+          """ to (listOf("file", "scaledSize", "markupEnabled") to listOf("flip")),
 
           """
             {
@@ -548,7 +548,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                     }
                 }
             }
-          """ to (listOf("file", "scaledSize",  "markupEnabled") to listOf("flip")),
+          """ to (listOf("file", "scaledSize", "markupEnabled") to listOf("flip")),
 
           """
             {
@@ -1369,7 +1369,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 default: { file: <caret> }
               }
             }
-          """ to (listOf("assets/font2.fnt", "assets/somedir/font.fnt") to listOf("assets/ui.atlas", "assets/somedir/anotherfile")),
+          """ to (listOf("assets/font2.fnt", "assets/somedir/font.fnt") to listOf("assets/somedir")),
 
           """
             {
@@ -1377,7 +1377,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 default: { file: assets/some<caret> }
               }
             }
-          """ to (listOf("assets/somedir/font.fnt") to listOf("assets/font2.fnt", "assets/ui.atlas", "assets/somedir/anotherfile")),
+          """ to (listOf("assets/somedir/font.fnt") to listOf("assets/font2.fnt", "assets/ui.atlas", "assets/somedir")),
 
           """
             {
@@ -1391,7 +1391,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("assets/somedir/font.fnt", "assets/font2.fnt") to listOf("assets/ui.atlas", "assets/somedir/anotherfile")),
+          """ to (listOf("assets/somedir/font.fnt", "assets/font2.fnt") to listOf("assets/somedir")),
 
           """
             {
@@ -1578,7 +1578,101 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("green", "red", "blue") to listOf())
+          """ to (listOf("green", "red", "blue") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                ttf: {}
+              }
+
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+                foo: {
+                  font: <caret>
+                }
+              }
+            }
+          """ to (listOf("ttf") to listOf("foo")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                ttf: {
+                  font: <caret>
+                }
+              }
+            }
+          """ to (listOf("assets/font.ttf", "assets/somefile") to listOf("assets/somedir")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                ttf: {
+                  font: "<caret>"
+                }
+              }
+            }
+          """ to (listOf("assets/font.ttf", "assets/somefile") to listOf("assets/somedir")),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                ttf: {
+                  hinting: "<caret>"
+                }
+              }
+            }
+          """ to (listOf("None", "Slight", "Medium", "Full", "AutoSlight", "AutoMedium", "AutoFull") to listOf()),
+
+          """
+            {
+              com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
+                ttf: {
+                  minFilter: <caret>
+                }
+              }
+            }
+          """ to (listOf("Nearest", "Linear", "MipMap", "MipMapNearestNearest", "MipMapLinearLinear") to listOf("glEnum")),
+
+          """
+            {
+              com.example.MyTestClass: {
+                default: {
+                  javaEnum: <caret>
+                }
+              }
+            }
+          """ to (listOf("ONE", "TWO", "THREE") to listOf("foo")),
+
+          """
+            {
+              com.example.KotlinClass: {
+                default: {
+                  javaEnum: <caret>
+                }
+              }
+            }
+          """ to (listOf("ONE", "TWO", "THREE") to listOf("foo")),
+
+          """
+            {
+              com.example.KotlinClass: {
+                default: {
+                  kotlinEnum: <caret>
+                }
+              }
+            }
+          """ to (listOf("RED", "GREEN", "BLUE") to listOf("s")),
+
+          """
+            {
+              com.example.MyTestClass: {
+                default: {
+                  kotlinEnum: <caret>
+                }
+              }
+            }
+          """ to (listOf("RED", "GREEN", "BLUE") to listOf("s"))
   )
 
   private val testsPre199 = listOf(
@@ -1685,9 +1779,11 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     addAnnotations()
 
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/JavaEnum.java", "com/example/JavaEnum.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
     myFixture.copyFileToProject("filetypes/skin/completion/com/example/KotlinClass.kt", "com/example/KotlinClass.kt")
+    myFixture.copyFileToProject("filetypes/skin/completion/com/example/KotlinEnum.kt", "com/example/KotlinEnum.kt")
     myFixture.copyFileToProject("ui.atlas")
     myFixture.copyFileToProject("font1.fnt")
     myFixture.copyDirectoryToProject("assets", "assets")

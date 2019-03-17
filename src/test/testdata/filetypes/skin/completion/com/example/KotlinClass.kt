@@ -12,6 +12,9 @@ class KotlinClass {
   val buttonStyles = arrayOf<TextButton.TextButtonStyle>()
   val listStyles = arrayOf(arrayOf<List.ListStyle>())
 
+  val javaEnum: JavaEnum? = null
+  val kotlinEnum: KotlinEnum? = null
+
   val bools = arrayOf(true)
 
   class StaticInner {

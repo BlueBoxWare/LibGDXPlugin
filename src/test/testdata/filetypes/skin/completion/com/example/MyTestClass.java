@@ -14,6 +14,9 @@ class MyTestClass {
     boolean[] bools;
     String name;
 
+    JavaEnum javaEnum;
+    KotlinEnum kotlinEnum;
+
     Color[] colors;
     Color[][] moreColors;
 
