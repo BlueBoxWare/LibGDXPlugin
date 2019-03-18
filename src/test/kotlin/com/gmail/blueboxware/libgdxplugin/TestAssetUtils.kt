@@ -32,11 +32,11 @@ class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.copyDirectoryToProject("assets/", "assets/")
 
-    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.json", myFixture.project.allScope())?.firstOrNull()?.let { file ->
+    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.json", myFixture.project.allScope()).firstOrNull()?.let { file ->
       skinFile = file
     }
 
-    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.atlas", myFixture.project.allScope())?.firstOrNull()?.let { file ->
+    FilenameIndex.getVirtualFilesByName(myFixture.project, "ui.atlas", myFixture.project.allScope()).firstOrNull()?.let { file ->
       atlasFile = file
     }
 

@@ -46,7 +46,7 @@ class SkinDuplicateResourceNameInspection: SkinFileInspection() {
       (skinResource.containingFile as? SkinFile)?.getResources(classNames, skinResource.name)?.let { resources ->
         if (resources.size > 1) {
           val msg = if (classNames.all { it in listOf(FREETYPE_GENERATOR_CLASS_NAME, FREETYPE_FONT_PARAMETER_CLASS_NAME, BITMAPFONT_CLASS_NAME) }) "skin.inspection.duplicate.font.message" else "skin.inspection.duplicate.resource.message"
-          holder.registerProblem(skinResource.resourceName, message(msg, skinResource.name, classNames?.firstOrNull() ?: "<unknown>"))
+          holder.registerProblem(skinResource.resourceName, message(msg, skinResource.name, classNames.firstOrNull() ?: "<unknown>"))
         }
       }
 
