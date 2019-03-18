@@ -26,7 +26,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureViewTreeElement, SortableTreeElement {
+open class BitmapFontStructureViewElement(val element: PsiElement?): StructureViewTreeElement, SortableTreeElement {
 
   override fun getPresentation() = (element as? NavigationItem)?.presentation ?: DummyItemPresentation()
 
@@ -83,7 +83,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
 
   override fun canNavigateToSource() = (element as? NavigationItem)?.canNavigateToSource() == true
 
-  override fun navigate(requestFocus: Boolean)  = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
+  override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
 
   override fun getValue() = element
 
@@ -130,7 +130,7 @@ private class MyStructureViewElement(
         val sortKey: String,
         val icon: Icon? = null,
         val myChildren: List<BitmapFontStructureViewElement> = listOf()
-) : BitmapFontStructureViewElement(element) {
+): BitmapFontStructureViewElement(element) {
 
   override fun getPresentation() = object: ItemPresentation {
     override fun getLocationString(): String? = null
@@ -146,7 +146,7 @@ private class MyStructureViewElement(
 
   override fun canNavigateToSource() = (element as? NavigationItem)?.canNavigateToSource() == true
 
-  override fun navigate(requestFocus: Boolean)  = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
+  override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
 
   override fun getValue() = element
 

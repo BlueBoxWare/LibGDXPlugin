@@ -1,4 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.utils
+
 /*
  * Copyright 2016 Blue Box Ware
  *
@@ -32,7 +33,7 @@ fun isProfilingCall(fqClassName: String, methodName: String): Boolean {
     return true
 
   } else if (
-  fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
+          fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
           || fqClassName == "com.badlogic.gdx.graphics.profiling.GL20Profiler"
           || fqClassName == "com.badlogic.gdx.graphics.profiling.GL30Profiler"
   ) {

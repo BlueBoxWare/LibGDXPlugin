@@ -28,7 +28,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasFoldingBuilder : FoldingBuilder, DumbAware {
+class AtlasFoldingBuilder: FoldingBuilder, DumbAware {
 
   override fun getPlaceholderText(node: ASTNode): String {
 
@@ -63,7 +63,7 @@ class AtlasFoldingBuilder : FoldingBuilder, DumbAware {
     } else if (element is AtlasRegion) {
       val start = element.startOffset
       var end = element.endOffset
-      while (end > start && element.text[end-start-1] == '\n') {
+      while (end > start && element.text[end - start - 1] == '\n') {
         end--
       }
       descriptors.add(FoldingDescriptor(element, TextRange(start, end)))

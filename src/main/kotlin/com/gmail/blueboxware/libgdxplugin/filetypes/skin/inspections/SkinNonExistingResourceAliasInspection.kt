@@ -25,7 +25,7 @@ import com.intellij.openapi.application.ApplicationManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
+class SkinNonExistingResourceAliasInspection: SkinFileInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.resource.alias.description")
 
@@ -35,14 +35,14 @@ class SkinNonExistingResourceAliasInspection : SkinFileInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = if (ApplicationManager.getApplication().isUnitTestMode) HighlightDisplayLevel.ERROR else HighlightDisplayLevel.WARNING
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitStringLiteral(stringLiteral: SkinStringLiteral) {
 
       if (stringLiteral.parent is SkinPropertyName
               || stringLiteral.parent is SkinClassName
               || stringLiteral.parent is SkinResourceName
-              ) {
+      ) {
         return
       }
 

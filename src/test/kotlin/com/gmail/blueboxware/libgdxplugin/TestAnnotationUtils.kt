@@ -391,7 +391,8 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
       psiElement.firstParent { it is PsiMethodCallExpression || it is KtCallExpression }
     } ?: throw AssertionError(msg)
     val annotationClass = project.findClass("MyAnnotation") ?: throw AssertionError()
-    val annotation = (element as? PsiMethodCallExpression)?.getAnnotation(annotationClass) ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)
+    val annotation = (element as? PsiMethodCallExpression)?.getAnnotation(annotationClass)
+            ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)
     if (annotation == null) {
       if (expectedResult != null) {
         TestCase.fail("Annotation not found. $msg")

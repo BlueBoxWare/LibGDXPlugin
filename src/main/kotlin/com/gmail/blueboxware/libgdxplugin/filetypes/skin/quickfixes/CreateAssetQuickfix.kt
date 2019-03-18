@@ -50,7 +50,7 @@ class CreateAssetQuickFix(
 
     val (_, position) = (if (className.plainName == DRAWABLE_CLASS_NAME) {
       skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
-    } else if (className.plainName == COLOR_CLASS_NAME ) {
+    } else if (className.plainName == COLOR_CLASS_NAME) {
       skinFile.addColor(assetName, startElement as? SkinElement)
     } else {
       skinFile.addResource(className, assetName, startElement as? SkinElement)

@@ -22,7 +22,7 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasSyntaxHighlighter : SyntaxHighlighterBase() {
+class AtlasSyntaxHighlighter: SyntaxHighlighterBase() {
 
   companion object {
     val COLON = createTextAttributesKey("ATLAS.COLON", DefaultLanguageHighlighterColors.SEMICOLON)
@@ -36,10 +36,10 @@ class AtlasSyntaxHighlighter : SyntaxHighlighterBase() {
   }
 
   override fun getTokenHighlights(tokenType: IElementType?) = arrayOf(
-          when(tokenType) {
+          when (tokenType) {
             AtlasElementTypes.COMMA -> COMMA
             AtlasElementTypes.COLON -> COLON
-            else                    -> VALUE
+            else -> VALUE
           }
   )
 

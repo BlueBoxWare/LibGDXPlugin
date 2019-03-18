@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
+class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
     addFreeType()

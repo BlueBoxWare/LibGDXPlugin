@@ -51,7 +51,7 @@ internal open class Library(
 
     val currentTime = System.currentTimeMillis()
 
-    if (latestVersion != null &&  currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL * 2) {
+    if (latestVersion != null && currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL * 2) {
       return false
     }
 
@@ -142,7 +142,8 @@ internal open class Library(
 
         val builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
         val document = builder.parse(inputStream)
-        val versionElements = (document.getElementsByTagName("versioning").item(0) as? Element)?.getElementsByTagName("version") ?: return null
+        val versionElements = (document.getElementsByTagName("versioning").item(0) as? Element)?.getElementsByTagName("version")
+                ?: return null
 
         val result = mutableListOf<String>()
 

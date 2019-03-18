@@ -29,7 +29,7 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences : LibGDXCodeInsightFixtureTestCase() {
+class TestReferences: LibGDXCodeInsightFixtureTestCase() {
 
   fun testResourceReference1() {
     doTestResourceReference("white", COLOR_CLASS_NAME)
@@ -38,6 +38,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
   fun testResourceReference2() {
     doTestResourceReference("white", BITMAPFONT_CLASS_NAME)
   }
+
   fun testResourceReference3() {
     doTestResourceReference("blue", COLOR_CLASS_NAME)
   }
@@ -319,7 +320,8 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
-    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString() + "::" + field?.name
+    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString() + "::"
+    + field?.name
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 

@@ -25,7 +25,7 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssign
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 
-class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
+class GradleOutdatedVersionsInspection: LibGDXGradleBaseInspection() {
 
   override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
@@ -33,7 +33,7 @@ class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = GroovyPsiElementVisitor(object : GroovyElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = GroovyPsiElementVisitor(object: GroovyElementVisitor() {
 
     override fun visitLiteralExpression(literal: GrLiteral) {
 

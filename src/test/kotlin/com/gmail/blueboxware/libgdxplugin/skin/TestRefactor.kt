@@ -44,7 +44,7 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
+class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameResource() {
     myFixture.configureByFile("ColorArrayHolder.java")

@@ -1,4 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin
+
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.testFramework.FileTreeAccessFilter
 import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
@@ -18,7 +19,7 @@ import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
+class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
   fun testJava1() {
     doTest("Java1.java")

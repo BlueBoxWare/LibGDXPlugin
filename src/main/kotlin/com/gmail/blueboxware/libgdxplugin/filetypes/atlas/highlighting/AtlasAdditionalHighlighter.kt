@@ -26,7 +26,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasAdditionalHighlighter : Annotator {
+class AtlasAdditionalHighlighter: Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

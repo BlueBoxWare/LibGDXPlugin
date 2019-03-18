@@ -21,7 +21,7 @@ import com.intellij.navigation.ItemPresentation
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontFontCharMixin(node: ASTNode) : BitmapFontFontChar, PropertyContainerImpl(node) {
+abstract class BitmapFontFontCharMixin(node: ASTNode): BitmapFontFontChar, PropertyContainerImpl(node) {
 
   override fun getCharacter(): Int? = getValue("id")?.toIntOrNull()
 
@@ -49,7 +49,7 @@ abstract class BitmapFontFontCharMixin(node: ASTNode) : BitmapFontFontChar, Prop
 
   }
 
-  override fun getPresentation() = object : ItemPresentation {
+  override fun getPresentation() = object: ItemPresentation {
 
     override fun getLocationString() = ""
 

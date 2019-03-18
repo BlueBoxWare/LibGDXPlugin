@@ -110,7 +110,7 @@ class AssetReferenceProvider: PsiReferenceProvider() {
 
         return AssetReference.createReferences(element, methodCall)
 
-      } else if (methodCall is KtCallExpression)  {
+      } else if (methodCall is KtCallExpression) {
 
         val arg2receiver = (methodCall.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression
 

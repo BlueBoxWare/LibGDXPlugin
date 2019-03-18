@@ -17,7 +17,7 @@ import com.intellij.psi.PsiField
 import java.awt.Color
 import javax.swing.Icon
 
-abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) {
+abstract class SkinObjectMixin(node: ASTNode): SkinObject, SkinValueImpl(node) {
 
   override fun getPropertyNames() = propertyList.mapNotNull { it.name }
 
@@ -31,7 +31,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
   override fun addComment(comment: PsiComment) = addCommentExt(comment)
 
-  override fun getPresentation() = object : ItemPresentation {
+  override fun getPresentation() = object: ItemPresentation {
     override fun getPresentableText(): String? = "object"
 
     override fun getLocationString(): String? = null

@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getCalleeExpressionIfAny
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
+class MissingExternalFilesPermissionInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("missing.files.permissions.html.desciption")
 
@@ -46,7 +46,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
       return super.buildVisitor(holder, isOnTheFly)
     }
 
-    return object : XmlElementVisitor() {
+    return object: XmlElementVisitor() {
 
       override fun visitXmlFile(file: XmlFile?) {
         if (file == null) return
@@ -85,7 +85,8 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
 
             usage.element?.firstParent { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression }?.let { callExpression ->
 
-              val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text ?: (usage.reference?.resolve() as? PsiMethod)?.name
+              val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text
+                      ?: (usage.reference?.resolve() as? PsiMethod)?.name
 
               if (methodName == "getFileHandle") {
                 ((callExpression as? PsiMethodCallExpression)?.argumentList?.expressions?.getOrNull(1)?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()?.let { fqName ->

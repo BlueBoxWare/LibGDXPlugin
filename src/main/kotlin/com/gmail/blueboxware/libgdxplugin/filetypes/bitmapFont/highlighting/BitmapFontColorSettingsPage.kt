@@ -23,7 +23,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontColorSettingsPage : ColorSettingsPage {
+class BitmapFontColorSettingsPage: ColorSettingsPage {
 
   companion object {
     val EQUALS_SIGN = createTextAttributesKey("LIBGDX.FONT.EQUALS", DefaultLanguageHighlighterColors.OPERATION_SIGN)

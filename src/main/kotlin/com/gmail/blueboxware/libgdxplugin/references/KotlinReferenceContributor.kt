@@ -37,7 +37,7 @@ import org.jetbrains.kotlin.resolve.BindingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinReferenceContributor : PsiReferenceContributor() {
+class KotlinReferenceContributor: PsiReferenceContributor() {
 
   override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
@@ -73,7 +73,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
 
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java).inside(KtAnnotationEntry::class.java),
-            object : PsiReferenceProvider() {
+            object: PsiReferenceProvider() {
 
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
                 element.getParentOfType<KtAnnotationEntry>()?.let { entry ->

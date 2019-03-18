@@ -15,7 +15,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface PropertyContainer : BitmapFontElement {
+interface PropertyContainer: BitmapFontElement {
 
   fun getPropertyList(): List<BitmapFontProperty>
 

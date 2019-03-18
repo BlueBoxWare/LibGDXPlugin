@@ -32,7 +32,7 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
+class SkinSyntaxHighlighterFactory: SyntaxHighlighterFactory() {
 
   companion object {
     val SKIN_BRACKETS = TextAttributesKey.createTextAttributesKey("SKIN.BRACKETS", JSON_BRACKETS)
@@ -58,7 +58,7 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
   override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = SkinHighlighter()
 
-  class SkinHighlighter : SyntaxHighlighterBase() {
+  class SkinHighlighter: SyntaxHighlighterBase() {
 
     companion object {
       val attributes = mapOf(
@@ -89,7 +89,7 @@ class SkinSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
     }
 
     override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> {
-        return pack(attributes[tokenType])
+      return pack(attributes[tokenType])
     }
 
     override fun getHighlightingLexer(): Lexer {

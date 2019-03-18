@@ -105,7 +105,7 @@ private fun isLogLevelArgument(expression: KtExpression?): Boolean {
 
       val target = ref.resolve()?.getKotlinFqName()?.asString() ?: continue
       if (
-      target == "com.badlogic.gdx.Application.LOG_DEBUG"
+              target == "com.badlogic.gdx.Application.LOG_DEBUG"
               || target == "com.badlogic.gdx.Application.LOG_INFO"
               || target == "com.badlogic.gdx.utils.Logger.DEBUG"
               || target == "com.badlogic.gdx.utils.Logger.INFO"

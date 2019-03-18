@@ -22,7 +22,7 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlFile
 
-class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
+class OpenGLESDirectiveInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("no.opengl.html.description")
 
@@ -38,14 +38,15 @@ class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
       return super.buildVisitor(holder, isOnTheFly)
     }
 
-    return object : XmlElementVisitor() {
+    return object: XmlElementVisitor() {
 
       override fun visitXmlFile(file: XmlFile?) {
         if (file == null) return
 
         ManifestModel.fromFile(file).openGLESVersion.let { (value, element) ->
           if (value < 0x00020000) {
-            holder.registerProblem(element ?: file, message("no.opengl.directive.problem.descriptor") + (if (element == null) ". " + message("no.opengl.html.description") else "" ))
+            holder.registerProblem(element
+                    ?: file, message("no.opengl.directive.problem.descriptor") + (if (element == null) ". " + message("no.opengl.html.description") else ""))
           }
         }
       }

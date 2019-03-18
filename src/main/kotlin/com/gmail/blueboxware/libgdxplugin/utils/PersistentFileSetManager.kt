@@ -15,7 +15,7 @@ import java.util.*
  * Adapted from https://github.com/JetBrains/intellij-community/blob/306d705e1829bd3c74afc2489bfb7ed59d686b84/platform/lang-impl/src/com/intellij/openapi/file/exclude/PersistentFileSetManager.java
  *
  */
-open class PersistentFileSetManager : PersistentStateComponent<Element> {
+open class PersistentFileSetManager: PersistentStateComponent<Element> {
 
   val files = THashSet<VirtualFile>()
 
@@ -32,7 +32,7 @@ open class PersistentFileSetManager : PersistentStateComponent<Element> {
       return false
     }
     files.remove(file)
-    return  true
+    return true
   }
 
   fun contains(file: VirtualFile) = files.contains(file)

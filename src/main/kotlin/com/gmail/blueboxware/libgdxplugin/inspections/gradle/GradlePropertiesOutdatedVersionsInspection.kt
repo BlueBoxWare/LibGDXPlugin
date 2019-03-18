@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
+class GradlePropertiesOutdatedVersionsInspection: LibGDXGradlePropertiesBaseInspection() {
 
   override fun getStaticDescription() = message("outdated.version.inspection.static.description", listOfCheckedLibraries())
 
@@ -40,7 +40,7 @@ class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseIns
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return object : PsiElementVisitor() {
+    return object: PsiElementVisitor() {
 
       override fun visitElement(element: PsiElement?) {
 

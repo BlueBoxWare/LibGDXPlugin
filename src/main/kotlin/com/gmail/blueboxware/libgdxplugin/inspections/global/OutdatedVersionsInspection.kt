@@ -26,7 +26,7 @@ import com.intellij.codeInspection.ProblemDescriptionsProcessor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class OutdatedVersionsInspection : GlobalInspectionTool() {
+class OutdatedVersionsInspection: GlobalInspectionTool() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 

@@ -13,7 +13,7 @@ ext {
     studioVersion = '2018.2.2'
     studioKotlinPlugin = '1.2.71-release-Studio3.3-1'
 
-    useStudio = false
+    useStudio = true
     runStudio = false
 
 }

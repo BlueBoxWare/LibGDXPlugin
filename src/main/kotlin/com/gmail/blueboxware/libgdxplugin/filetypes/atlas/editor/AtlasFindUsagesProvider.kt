@@ -21,11 +21,11 @@ import com.intellij.psi.PsiNamedElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasFindUsagesProvider : FindUsagesProvider {
+class AtlasFindUsagesProvider: FindUsagesProvider {
 
-  override fun getType(element: PsiElement) = when(element) {
-    is AtlasRegion    -> "atlas region"
-    else              -> ""
+  override fun getType(element: PsiElement) = when (element) {
+    is AtlasRegion -> "atlas region"
+    else -> ""
   }
 
   override fun getNodeText(element: PsiElement, useFullName: Boolean) = (element as? PsiNamedElement)?.name ?: ""

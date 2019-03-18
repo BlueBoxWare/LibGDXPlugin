@@ -50,8 +50,8 @@ class JavaLogLevelInspection: LibGDXJavaBaseInspection() {
           if (resolved is ClsFieldImpl) {
             val containingClassName = resolved.containingClass?.qualifiedName
             if (
-            (containingClassName == "com.badlogic.gdx.Application" && (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO"))
-            || (containingClassName == "com.badlogic.gdx.utils.Logger" && (resolved.name == "DEBUG" || resolved.name == "INFO"))) {
+                    (containingClassName == "com.badlogic.gdx.Application" && (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO"))
+                    || (containingClassName == "com.badlogic.gdx.utils.Logger" && (resolved.name == "DEBUG" || resolved.name == "INFO"))) {
               holder.registerProblem(expression, message("log.level.problem.descriptor"))
             }
           }

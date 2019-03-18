@@ -36,7 +36,7 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
+class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
   private val RUN_TESTS = false
 
@@ -196,8 +196,8 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     val properties = StringReader(
             File(testDataPath + "gradle.properties")
-            .readText()
-            .replace(Regex("<.?warning.*?>"), "")
+                    .readText()
+                    .replace(Regex("<.?warning.*?>"), "")
     ).let { input ->
       Properties().apply { load(input) }
     }

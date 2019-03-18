@@ -23,7 +23,7 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMalformedColorStringInspection : SkinFileInspection() {
+class SkinMalformedColorStringInspection: SkinFileInspection() {
 
   companion object {
     val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
@@ -37,7 +37,7 @@ class SkinMalformedColorStringInspection : SkinFileInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitPropertyValue(o: SkinPropertyValue) {
       if (o.property?.containingObject?.resolveToTypeString() == COLOR_CLASS_NAME && o.property?.name == "hex") {

@@ -23,7 +23,7 @@ import com.intellij.usageView.UsageInfo
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
+class TestFindUsages: AssetsInCodeCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {
     doTest(2)
@@ -67,7 +67,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
 
   private fun checkUsages(usagesInfos: Collection<UsageInfo>, target: PsiNamedElement) {
     for (usageInfo in usagesInfos) {
-        usageInfo.element?.let { element ->
+      usageInfo.element?.let { element ->
         assertEquals(target.name, StringUtil.stripQuotesAroundValue(element.text))
 
         val references = element.references.filter { it is AssetReference }

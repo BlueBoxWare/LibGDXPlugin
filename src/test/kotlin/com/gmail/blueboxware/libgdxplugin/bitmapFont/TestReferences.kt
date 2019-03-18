@@ -21,7 +21,7 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences : LibGDXCodeInsightFixtureTestCase() {
+class TestReferences: LibGDXCodeInsightFixtureTestCase() {
 
   fun testImageFileReference() {
     myFixture.configureByFile("assets/test1.atlas")

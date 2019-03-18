@@ -40,7 +40,7 @@ class FileReference(
         val path: String,
         val fileTypes: List<FileType>,
         val preferableLanguages: List<Language> = listOf()
-) : PsiReferenceBase<PsiElement>(element) {
+): PsiReferenceBase<PsiElement>(element) {
 
   override fun resolve(): PsiElement? = myElement.project.getPsiFile(path)
 
@@ -69,7 +69,7 @@ class FileReference(
                             ?.withBoldness(prioritized),
                     if (prioritized) Double.MAX_VALUE else 0.0
             )?.let {
-                      result.add(it)
+              result.add(it)
             }
 
           }

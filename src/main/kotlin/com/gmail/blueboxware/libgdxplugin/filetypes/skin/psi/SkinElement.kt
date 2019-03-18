@@ -20,7 +20,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface SkinElement : PsiElement, NavigatablePsiElement {
+interface SkinElement: PsiElement, NavigatablePsiElement {
 
   fun getActiveAnnotations(annotation: SkinAnnotations? = null): List<SkinAnnotation>
 

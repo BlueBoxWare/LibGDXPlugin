@@ -59,11 +59,11 @@ internal fun String.isQuoted(): Boolean = length > 1 && firstOrNull() == '\"' &&
 internal fun String.escape(): String = StringUtil.escapeStringCharacters(this)
 
 internal fun String.makeSafe(): String =
-  if (!isQuoted() && this.any { listOf('{', '}', ':', '[', ']', ',').contains(it) }) {
-    "\"" + this.escape() + "\""
-  } else {
-    this.escape()
-  }
+        if (!isQuoted() && this.any { listOf('{', '}', ':', '[', ']', ',').contains(it) }) {
+          "\"" + this.escape() + "\""
+        } else {
+          this.escape()
+        }
 
 
 internal fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {

@@ -52,7 +52,8 @@ class ColorsReferenceContributor: PsiReferenceContributor() {
             object: PsiReferenceProvider() {
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
 
-                val ktStringTemplateExpression = element as? KtStringTemplateExpression ?: return PsiReference.EMPTY_ARRAY
+                val ktStringTemplateExpression = element as? KtStringTemplateExpression
+                        ?: return PsiReference.EMPTY_ARRAY
                 element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
                   if (ktCallExpression.isColorsGetCall()) {
                     return arrayOf(ColorsReference(ktStringTemplateExpression))

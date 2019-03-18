@@ -18,4 +18,4 @@ import org.jetbrains.annotations.NonNls
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasElementType(@NonNls debugName: String) : IElementType(debugName, LibGDXAtlasLanguage.INSTANCE)
+class AtlasElementType(@NonNls debugName: String): IElementType(debugName, LibGDXAtlasLanguage.INSTANCE)

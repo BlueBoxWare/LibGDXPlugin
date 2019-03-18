@@ -1,4 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin/*
+package com.gmail.blueboxware.libgdxplugin
+
+/*
  * Copyright 2016 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +42,7 @@ import org.jetbrains.plugins.groovy.GroovyFileType
 import org.junit.Assert
 import java.io.File
 
-class TestInspections : LibGDXCodeInsightFixtureTestCase() {
+class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testUnsafeIteratorInspection() {
     for (clazz in listOf(
@@ -179,10 +181,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
   fun testDesignedForTabletsMultipleFiles() {
     val tests: Map<Map<String, String>, List<String>?> = mapOf(
-           mapOf(
-                   "build.gradle" to "minSdkVersion 11",
-                   "a/build.gradle" to "targetSdkVersion 11"
-           ) to null,
+            mapOf(
+                    "build.gradle" to "minSdkVersion 11",
+                    "a/build.gradle" to "targetSdkVersion 11"
+            ) to null,
             mapOf(
                     "build.gradle" to "minSdkVersion 10",
                     "a/build.gradle" to "targetSdkVersion 10"
@@ -400,7 +402,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     val toolWrapper = GlobalInspectionToolWrapper(inspection)
 
     val sourceDir = myFixture.copyDirectoryToProject(File(testDir, "src").path, "src")
-    val psiDirectory = myFixture.psiManager.findDirectory(sourceDir) ?: throw AssertionError("Could not find $sourceDir")
+    val psiDirectory = myFixture.psiManager.findDirectory(sourceDir)
+            ?: throw AssertionError("Could not find $sourceDir")
 
     val scope = AnalysisScope(psiDirectory)
     scope.invalidate()
@@ -500,7 +503,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       file.writeText(content)
     }
 
-    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
+    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") }
+            ?: listOf())
 
   }
 

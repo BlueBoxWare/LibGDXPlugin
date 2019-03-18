@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.idea.references.KtInvokeFunctionReference
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.psi.*
 
-class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
+class KotlinFlushInsideLoopInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("flushing.inside.loop.html.description")
 
@@ -33,7 +33,7 @@ class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
 
   override fun getDisplayName() = message("flushing.inside.loop.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = object : KtVisitorVoid() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = object: KtVisitorVoid() {
 
     override fun visitBlockExpression(expression: KtBlockExpression) {
 

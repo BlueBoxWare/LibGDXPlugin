@@ -26,7 +26,7 @@ import com.intellij.profile.codeInspection.InspectionProjectProfileManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestInspections : LibGDXCodeInsightFixtureTestCase() {
+class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testNonExistingClassInspection() {
     doTest(SkinNonExistingClassInspection())

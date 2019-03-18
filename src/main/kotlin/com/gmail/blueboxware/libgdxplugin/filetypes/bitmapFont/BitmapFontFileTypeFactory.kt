@@ -18,7 +18,7 @@ import com.intellij.openapi.fileTypes.FileTypeFactory
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFileTypeFactory : FileTypeFactory() {
+class BitmapFontFileTypeFactory: FileTypeFactory() {
 
   override fun createFileTypes(consumer: FileTypeConsumer) {
 

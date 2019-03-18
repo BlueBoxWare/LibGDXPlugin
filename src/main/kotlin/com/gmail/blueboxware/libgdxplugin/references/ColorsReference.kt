@@ -25,9 +25,10 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiElement>(element) {
 
   override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
-    ((element as? PsiLiteralExpression)?.asString() ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
-      element.project.getColorsMap()[colorName]?.nameElements()?.map(::PsiElementResolveResult)?.toTypedArray<ResolveResult>()
-    } ?: PsiElementResolveResult.EMPTY_ARRAY
+          ((element as? PsiLiteralExpression)?.asString()
+                  ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
+            element.project.getColorsMap()[colorName]?.nameElements()?.map(::PsiElementResolveResult)?.toTypedArray<ResolveResult>()
+          } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 
   override fun getVariants(): Array<Any> = element.project.getColorsMap().entries.map { (colorName, colorDef) ->

@@ -113,7 +113,7 @@ class SkinElementFactory(private val project: Project) {
           }
 
   private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
-    val c = (color ?: Color.WHITE ).toRGBComponents().toMap()
+    val c = (color ?: Color.WHITE).toRGBComponents().toMap()
     return createElement<SkinResource>("""
             {
               className: {

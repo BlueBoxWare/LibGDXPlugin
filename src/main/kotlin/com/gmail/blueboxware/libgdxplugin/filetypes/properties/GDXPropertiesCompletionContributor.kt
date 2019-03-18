@@ -28,7 +28,7 @@ import com.intellij.util.ProcessingContext
 class GDXPropertiesCompletionContributor: CompletionContributor() {
 
   init {
-    extend(null, PlatformPatterns.psiElement(), object : CompletionProvider<CompletionParameters>() {
+    extend(null, PlatformPatterns.psiElement(), object: CompletionProvider<CompletionParameters>() {
 
       override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
 

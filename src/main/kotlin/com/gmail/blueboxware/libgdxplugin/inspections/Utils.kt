@@ -58,7 +58,8 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
                       null
                     }
 
-            holder.registerProblem(element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes ?: arrayOf())
+            holder.registerProblem(element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes
+                    ?: arrayOf())
 
           }
 

@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontHighlighter : Annotator {
+class BitmapFontHighlighter: Annotator {
 
   companion object {
     val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")

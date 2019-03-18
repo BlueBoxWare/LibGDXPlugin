@@ -23,7 +23,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMissingPropertyInspection : SkinFileInspection() {
+class SkinMissingPropertyInspection: SkinFileInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.missing.property.description")
 
@@ -33,7 +33,7 @@ class SkinMissingPropertyInspection : SkinFileInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 
     override fun visitObject(skinObject: SkinObject) {
 

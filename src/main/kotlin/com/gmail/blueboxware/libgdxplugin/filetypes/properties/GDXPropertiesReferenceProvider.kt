@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.psi.KtValueArgumentList
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
+class GDXPropertiesReferenceProvider: PsiReferenceProvider() {
 
   override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
 

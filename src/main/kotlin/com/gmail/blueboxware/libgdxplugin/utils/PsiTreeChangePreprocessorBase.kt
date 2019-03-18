@@ -62,13 +62,13 @@ abstract class PsiTreeChangePreprocessorBase(val language: Language): PsiTreeCha
       PsiTreeChangeEventImpl.PsiEventType.CHILD_REMOVED,
       PsiTreeChangeEventImpl.PsiEventType.BEFORE_CHILD_MOVEMENT,
       PsiTreeChangeEventImpl.PsiEventType.CHILD_REPLACED
-        -> changedInsideCodeBlock = isInsideCodeBlock(event.parent)
+      -> changedInsideCodeBlock = isInsideCodeBlock(event.parent)
       PsiTreeChangeEventImpl.PsiEventType.BEFORE_PROPERTY_CHANGE,
       PsiTreeChangeEventImpl.PsiEventType.PROPERTY_CHANGED
-              -> changedInsideCodeBlock = false
+      -> changedInsideCodeBlock = false
       PsiTreeChangeEventImpl.PsiEventType.CHILD_MOVED,
       PsiTreeChangeEventImpl.PsiEventType.BEFORE_CHILD_REPLACEMENT
-              -> changedInsideCodeBlock = isInsideCodeBlock(event.oldParent) && isInsideCodeBlock(event.newParent)
+      -> changedInsideCodeBlock = isInsideCodeBlock(event.oldParent) && isInsideCodeBlock(event.newParent)
     }
 
     if (!changedInsideCodeBlock) {

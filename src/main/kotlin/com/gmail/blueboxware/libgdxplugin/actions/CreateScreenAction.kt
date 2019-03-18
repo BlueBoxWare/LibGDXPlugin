@@ -34,8 +34,8 @@ class CreateScreenAction: CreateFileFromTemplateAction("LibGDX Screen", "Creates
 
   override fun buildDialog(project: Project?, directory: PsiDirectory?, builder: CreateFileFromTemplateDialog.Builder) {
     builder.setTitle("New LibGDX Screen")
-      .addKind("Java", JavaFileType.INSTANCE.icon, "LibGDX Screen (Java)")
-      .addKind("Kotlin", KotlinFileType.INSTANCE.icon, "LibGDX Screen (Kotlin)")
+            .addKind("Java", JavaFileType.INSTANCE.icon, "LibGDX Screen (Java)")
+            .addKind("Kotlin", KotlinFileType.INSTANCE.icon, "LibGDX Screen (Kotlin)")
   }
 
   override fun isAvailable(dataContext: DataContext): Boolean {

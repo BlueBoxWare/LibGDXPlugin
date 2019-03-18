@@ -21,7 +21,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
 
-class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
+class XmlTestIdsInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 

@@ -15,7 +15,7 @@ package com.gmail.blueboxware.libgdxplugin.assetsInCode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
+class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
   private val javaResourceCompletionTests = listOf(
           """
@@ -316,13 +316,13 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             fun f() {
               JavaSkinTest().skin.getColor("<caret>")
             }
-          """  to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
+          """ to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
 
           """
             fun f() {
               JavaSkinTest.staticSkin.getColor("<caret>")
             }
-          """  to (listOf("c1", "c2") to listOf("grey", "black")),
+          """ to (listOf("c1", "c2") to listOf("grey", "black")),
 
           """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
@@ -508,7 +508,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
             fun f() {
               JavaSkinTest()?.skin?.getColor("<caret>")
             }
-          """  to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
+          """ to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
 
           """
             class Test {
@@ -568,7 +568,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
                 I18NBundle bundle;
 
             }
-          """ to (listOf("src/assets/test.properties",  "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties")),
+          """ to (listOf("src/assets/test.properties", "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties")),
 
           """
             class Test {
@@ -633,7 +633,7 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
           """
             @GDXAssets(skinFiles = arrayOf("test"), atlasFiles = arrayOf("", ""), propertiesFiles = arrayOf("<caret>"))
             val s = I18NBundle()
-          """ to (listOf("src/assets/test.properties",  "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties"))
+          """ to (listOf("src/assets/test.properties", "src/assets/dir/foo.properties") to listOf("src/assets/test_en.properties", "src/assets/test_en_GB.properties", "src/assets/dir/foo_es.properties"))
   )
 
   fun testJavaAssetFileNameCompletion() {

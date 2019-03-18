@@ -26,7 +26,7 @@ class LibGDXElementDescriptionProvider: ElementDescriptionProvider {
   override fun getElementDescription(element: PsiElement, location: ElementDescriptionLocation): String? =
           when (element) {
             is SkinResource -> element.name
-            is AtlasRegion  -> element.name
-            else            -> null
+            is AtlasRegion -> element.name
+            else -> null
           }
 }

@@ -60,9 +60,9 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
       super.visitBlockExpression(expression)
 
       if (
-            expression.parent !is KtNamedFunction
-         && expression.parent !is KtClassInitializer
-         && expression.parent !is KtFunctionLiteral
+              expression.parent !is KtNamedFunction
+              && expression.parent !is KtClassInitializer
+              && expression.parent !is KtFunctionLiteral
       ) return
 
       val methodChecker = MissingFlushInspectionMethodChecker(getPreferenceSubClasses(holder.project))

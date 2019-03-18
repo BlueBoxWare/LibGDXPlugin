@@ -34,7 +34,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(node) {
+abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(node) {
 
   override fun getName() = resourceName.stringLiteral.value
 
@@ -73,7 +73,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
     return null
   }
 
-  override fun getPresentation(): ItemPresentation  = object : ItemPresentation {
+  override fun getPresentation(): ItemPresentation = object: ItemPresentation {
     override fun getLocationString(): String? = VfsUtil.getRelativeLocation(containingFile.virtualFile, project.baseDir)
 
     override fun getIcon(unused: Boolean): Icon? {
@@ -85,7 +85,7 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
       return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }
 
-    override fun getPresentableText(): String?  = name
+    override fun getPresentableText(): String? = name
   }
 
   override fun toString(): String = "SkinResource($name)"

@@ -29,7 +29,7 @@ class SkinDuplicatePropertyInspection: SkinFileInspection() {
 
   override fun getDisplayName() = message("skin.inspection.duplicate.property.display.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 
     override fun visitObject(o: SkinObject) {
 

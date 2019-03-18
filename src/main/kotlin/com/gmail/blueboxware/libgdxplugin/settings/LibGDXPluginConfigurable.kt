@@ -25,7 +25,7 @@ import javax.swing.JComponent
  */
 
 @State(name = "LibGDXPluginConfigurable")
-class LibGDXPluginConfigurable(val project: Project) : Configurable {
+class LibGDXPluginConfigurable(val project: Project): Configurable {
 
   private var form: LibGDXPluginSettingsPane? = null
 

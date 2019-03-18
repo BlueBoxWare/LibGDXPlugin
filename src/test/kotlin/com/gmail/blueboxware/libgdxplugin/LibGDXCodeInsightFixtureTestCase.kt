@@ -36,11 +36,11 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class LibGDXCodeInsightFixtureTestCase : LightCodeInsightFixtureTestCase() {
+abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase() {
 
   private fun getTestDataBasePath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
-  override fun getTestDataPath() =  FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
+  override fun getTestDataPath() = FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
   fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
 

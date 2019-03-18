@@ -20,7 +20,7 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestParsing : ParsingTestCase("", "atlas", AtlasParserDefinition()) {
+class TestParsing: ParsingTestCase("", "atlas", AtlasParserDefinition()) {
 
   fun test1() {
     doTest(listOf(3, 9, 13))

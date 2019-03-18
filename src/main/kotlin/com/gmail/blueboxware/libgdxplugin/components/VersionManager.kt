@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class VersionManager(project: Project) : AbstractProjectComponent(project) {
+class VersionManager(project: Project): AbstractProjectComponent(project) {
 
   fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
@@ -99,7 +99,7 @@ class VersionManager(project: Project) : AbstractProjectComponent(project) {
         myProject.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
           ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
                   ?.let(::MavenComparableVersion)
-                  ?.let { usedVersions[Libraries.LIBGDX] = it}
+                  ?.let { usedVersions[Libraries.LIBGDX] = it }
         }
       }
 

@@ -47,5 +47,4 @@ abstract class AtlasValueMixin(node: ASTNode): AtlasValue, AtlasElementImpl(node
   }
 
 
-
 }

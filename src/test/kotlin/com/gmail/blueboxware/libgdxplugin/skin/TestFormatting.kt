@@ -21,7 +21,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
+class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
 
   fun testWithError1() = doTest(
           """

@@ -58,7 +58,8 @@ class AssetReference(
                   .withIcon(resource.asColor(false)?.let { createColorIcon(it) })
                   .withTypeText(
                           if (className == null)
-                            StringUtil.getShortName(resource.classSpecification?.getRealClassNamesAsString()?.firstOrNull() ?: "")
+                            StringUtil.getShortName(resource.classSpecification?.getRealClassNamesAsString()?.firstOrNull()
+                                    ?: "")
                           else
                             if (isDrawable)
                               getOriginalFileName(skinFile)
@@ -78,7 +79,7 @@ class AssetReference(
         atlasFile.getPages().forEach { page ->
           page.regionList.forEach { region ->
 
-            if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name} == true } == null) {
+            if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name } == true } == null) {
               val lookupElement = LookupElementBuilder
                       .create(region)
                       .withTypeText(getOriginalFileName(atlasFile), true)

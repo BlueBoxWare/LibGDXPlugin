@@ -37,7 +37,7 @@ import javax.swing.JComponent
 class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
   override fun isSupportedFile(file: PsiFile?): Boolean =
-    file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
+          file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
 
   override fun getPreviewComponent(element: PsiElement): JComponent? {
 
@@ -52,10 +52,10 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
     } else {
 
       when (element.containingFile) {
-        is SkinFile     -> element.getParentOfType<SkinStringLiteral>()
-        is PsiJavaFile  -> element.getParentOfType<PsiLiteralExpression>()
-        is KtFile       -> element.getParentOfType<KtStringTemplateExpression>()
-        else            -> null
+        is SkinFile -> element.getParentOfType<SkinStringLiteral>()
+        is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
+        is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
+        else -> null
       }?.references?.forEach { reference ->
         reference.resolve()?.let { target ->
           if (target is AtlasRegion) {
@@ -100,19 +100,19 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
   private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent? {
 
-      var previewImage = image
-      var scale = 1
+    var previewImage = image
+    var scale = 1
 
-      if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
-        previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0))
-        scale = 4
-      } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
-        previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0))
-        scale = 2
-      }
+    if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
+      previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0))
+      scale = 4
+    } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
+      previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0))
+      scale = 2
+    }
 
-      val txt = (name ?: "<unknown>" )+ " (" + image.width + " x " + image.height +
-              (if (scale != 1) ", shown at scale ${scale}x" else "" ) + ")"
+    val txt = (name ?: "<unknown>") + " (" + image.width + " x " + image.height +
+            (if (scale != 1) ", shown at scale ${scale}x" else "") + ")"
 
     return ImagePreviewComponent(previewImage, txt)
 

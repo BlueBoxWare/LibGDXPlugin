@@ -27,5 +27,5 @@ class LibGDXAtlasLanguage private constructor(): Language("LibGDXAtlas") {
 
   override fun getDisplayName() = "LibGDX Texture Atlas"
 
-  override fun getID(): String  = "LibGDXAtlas"
+  override fun getID(): String = "LibGDXAtlas"
 }

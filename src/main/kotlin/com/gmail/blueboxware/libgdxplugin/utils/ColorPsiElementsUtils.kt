@@ -118,7 +118,8 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
     }
 
     val arguments = initialValue.valueArguments
-    val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.getType(initialValue.analyzePartial()) ?: return@getCachedValue null
+    val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.getType(initialValue.analyzePartial())
+            ?: return@getCachedValue null
 
     if (arguments.size == 1 && KotlinBuiltIns.isInt(argument1type)) {
       // Color(int)
@@ -197,7 +198,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
       // Color(float, float, float, float)
       val floats = arrayOf(0f, 0f, 0f, 0f)
       val context = initialValue.analyzePartial()
-      for (i in 0 .. 3) {
+      for (i in 0..3) {
         arguments.getOrNull(i)?.getArgumentExpression()?.let { expr ->
           val argType = expr.getType(context)
           if (argType == null || !KotlinBuiltIns.isFloat(argType)) return@getCachedValue null
@@ -283,7 +284,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
     } else if (arguments.size == 4) {
       // new Color(float, float, float, float)
       val floats = arrayOf(0f, 0f, 0f, 0f)
-      for (i in 0 .. 3) {
+      for (i in 0..3) {
         arguments[i]?.let { expr ->
           if (expr.type == PsiType.FLOAT) {
             val root = expr.findRoot()
@@ -311,7 +312,8 @@ private fun PsiElement.isSpecialColorMethod(): Boolean {
 
   if (this is KtElement) {
 
-    val actualElement = (this as? KtCallExpression) ?: ((this as? KtDotQualifiedExpression)?.selectorExpression as? KtCallExpression)
+    val actualElement = (this as? KtCallExpression)
+            ?: ((this as? KtDotQualifiedExpression)?.selectorExpression as? KtCallExpression)
 
     actualElement?.calleeExpression?.references?.let { references ->
       for (reference in references) {
@@ -498,8 +500,8 @@ private fun PsiElement.psiFloat(): Float? {
   if (context is KtDotQualifiedExpression) {
     if (context.receiverExpression.getType(context.analyzePartial())?.fqName() == COLOR_CLASS_NAME) {
       context.receiverExpression.getColor(ignoreContext = true)?.let { color ->
-        return when(context.selectorExpression?.text) {
-          "r" -> color.red /  255f
+        return when (context.selectorExpression?.text) {
+          "r" -> color.red / 255f
           "g" -> color.green / 255f
           "b" -> color.blue / 255f
           "a" -> color.alpha / 255f
@@ -512,8 +514,8 @@ private fun PsiElement.psiFloat(): Float? {
     if ((qualifierExpression?.type as? PsiClassReferenceType)?.canonicalText == COLOR_CLASS_NAME) {
       qualifierExpression?.let { qualifierExpr ->
         qualifierExpr.getColor(ignoreContext = true)?.let { color ->
-          return when(referenceName) {
-            "r" -> color.red /  255f
+          return when (referenceName) {
+            "r" -> color.red / 255f
             "g" -> color.green / 255f
             "b" -> color.blue / 255f
             "a" -> color.alpha / 255f

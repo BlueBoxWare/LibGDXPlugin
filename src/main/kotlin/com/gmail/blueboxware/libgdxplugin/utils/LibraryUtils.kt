@@ -81,20 +81,22 @@ internal fun getLibraryFromGroovyLiteral(grLiteral: GrLiteral): Libraries? =
         grLiteral.asString()?.let(::getLibraryFromMavenCoordString)
 
 internal fun getLibraryInfoFromGroovyLiteral(grLiteral: GrLiteral): Pair<Libraries, MavenComparableVersion?>? =
-          getLibraryFromGroovyLiteral(grLiteral)?.let { lib ->
-            grLiteral.asString()?.let { string ->
-              lib.getVersionFromMavenCoordString(string).let { version ->
-                lib to version
-              }
+        getLibraryFromGroovyLiteral(grLiteral)?.let { lib ->
+          grLiteral.asString()?.let { string ->
+            lib.getVersionFromMavenCoordString(string).let { version ->
+              lib to version
             }
           }
+        }
 
 internal fun getLibraryFromGroovyArgumentList(groovyCommandArgumentList: GrCommandArgumentList): Libraries? {
 
   val groupArgument =
-          (groovyCommandArgumentList.getNamedArgument("group") as? GrLiteral)?.asString()?.let(::trimQuotes) ?: return null
+          (groovyCommandArgumentList.getNamedArgument("group") as? GrLiteral)?.asString()?.let(::trimQuotes)
+                  ?: return null
   val nameArgument =
-          (groovyCommandArgumentList.getNamedArgument("name") as? GrLiteral)?.asString()?.let(::trimQuotes) ?: return null
+          (groovyCommandArgumentList.getNamedArgument("name") as? GrLiteral)?.asString()?.let(::trimQuotes)
+                  ?: return null
 
   return Libraries.values().find {
     it.library.groupId == groupArgument && it.library.artifactId == nameArgument

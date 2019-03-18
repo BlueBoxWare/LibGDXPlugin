@@ -31,7 +31,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(node) {
+abstract class SkinPropertyMixin(node: ASTNode): SkinProperty, SkinElementImpl(node) {
 
   override fun getName(): String = propertyName.stringLiteral.value
 
@@ -78,7 +78,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
     return null
   }
 
-  override fun getPresentation() = object : ItemPresentation {
+  override fun getPresentation() = object: ItemPresentation {
     override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean): Icon {

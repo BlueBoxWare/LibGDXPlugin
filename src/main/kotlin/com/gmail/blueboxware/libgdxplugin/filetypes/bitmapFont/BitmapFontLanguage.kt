@@ -17,7 +17,7 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontLanguage : Language("LibGDXBitmapFont") {
+class BitmapFontLanguage: Language("LibGDXBitmapFont") {
 
   companion object {
     val INSTANCE = BitmapFontLanguage()
@@ -27,6 +27,6 @@ class BitmapFontLanguage : Language("LibGDXBitmapFont") {
 
   override fun getDisplayName() = "LibGDX Bitmap Font"
 
-  override fun getID(): String  = "LibGDXBitmapFont"
+  override fun getID(): String = "LibGDXBitmapFont"
 
 }

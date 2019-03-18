@@ -31,7 +31,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-open class SkinFileInspection : LocalInspectionTool() {
+open class SkinFileInspection: LocalInspectionTool() {
 
   init {
     if (ApplicationManager.getApplication().isUnitTestMode) {
@@ -53,11 +53,11 @@ open class SkinFileInspection : LocalInspectionTool() {
           (element as? SkinElement)?.isInspectionSuppressed(getShortID()) ?: super.isSuppressedFor(element)
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-    if (this !is SkinInspectionNameInspection) {
-      arrayOf(SuppressFix(getShortID()), SuppressForFileFix(getShortID()))
-    } else {
-      arrayOf()
-    }
+          if (this !is SkinInspectionNameInspection) {
+            arrayOf(SuppressFix(getShortID()), SuppressForFileFix(getShortID()))
+          } else {
+            arrayOf()
+          }
 
   open class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
 
@@ -108,7 +108,7 @@ open class SkinFileInspection : LocalInspectionTool() {
     private fun suppress(element: PsiElement, id: String) {
       SkinElementFactory(element).createSuppressionComment(id)?.let { comment ->
         when (element) {
-          is SkinObject   -> element.addComment(comment)
+          is SkinObject -> element.addComment(comment)
           is SkinClassSpecification -> element.addComment(comment)
           is SkinFile -> element.addComment(comment)
         }

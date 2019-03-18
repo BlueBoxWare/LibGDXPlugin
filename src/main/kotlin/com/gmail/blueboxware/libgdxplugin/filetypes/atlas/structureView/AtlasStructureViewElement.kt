@@ -25,17 +25,17 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasStructureViewElement(val element: PsiElement) : StructureViewTreeElement, SortableTreeElement {
+class AtlasStructureViewElement(val element: PsiElement): StructureViewTreeElement, SortableTreeElement {
 
   override fun getPresentation() = (element as? NavigationItem)?.presentation ?: DummyItemPresentation()
 
   override fun getChildren(): Array<out TreeElement> {
 
-    val items = when(element) {
-      is AtlasFile    -> element.getPages()
-      is AtlasPage    -> mutableListOf(element.size, element.format, element.filter, element.repeat).apply { addAll(element.regionList) }.filterNotNull()
-      is AtlasRegion  -> listOfNotNull(element.rotate, element.xy, element.size, element.split, element.pad, element.orig, element.offset, element.index)
-      else            -> listOf()
+    val items = when (element) {
+      is AtlasFile -> element.getPages()
+      is AtlasPage -> mutableListOf(element.size, element.format, element.filter, element.repeat).apply { addAll(element.regionList) }.filterNotNull()
+      is AtlasRegion -> listOfNotNull(element.rotate, element.xy, element.size, element.split, element.pad, element.orig, element.offset, element.index)
+      else -> listOf()
     }
 
     return items.map(::AtlasStructureViewElement).toTypedArray()

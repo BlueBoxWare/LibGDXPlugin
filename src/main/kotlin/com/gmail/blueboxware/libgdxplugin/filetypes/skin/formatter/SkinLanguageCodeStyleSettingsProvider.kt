@@ -12,7 +12,7 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonLanguageCodeStyleSettingsProvider.java
  *
  */
-class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
+class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider() {
 
   override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
     @Suppress("NON_EXHAUSTIVE_WHEN")

@@ -28,7 +28,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFoldingBuilder : FoldingBuilder, DumbAware {
+class BitmapFontFoldingBuilder: FoldingBuilder, DumbAware {
 
   override fun getPlaceholderText(node: ASTNode): String? {
 
@@ -73,7 +73,7 @@ class BitmapFontFoldingBuilder : FoldingBuilder, DumbAware {
       var end = lastElement.endOffset
 
       while (end > firstElement.startOffset && text[end - 1] == '\n') {
-        end --
+        end--
       }
 
       return FoldingDescriptor(

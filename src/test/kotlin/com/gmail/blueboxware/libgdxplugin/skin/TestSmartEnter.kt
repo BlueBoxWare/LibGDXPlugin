@@ -6,7 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInsight.editorActions.smartEnter.SmartEnterProcessors
 import com.intellij.openapi.command.WriteCommandAction
 
-class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
+class TestSmartEnter: LibGDXCodeInsightFixtureTestCase() {
 
   fun testColonInsertedAfterClassname() {
     doTest()

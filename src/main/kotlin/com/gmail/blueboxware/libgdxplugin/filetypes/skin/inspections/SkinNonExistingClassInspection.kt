@@ -22,7 +22,7 @@ import com.intellij.lang.jvm.JvmModifier
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingClassInspection : SkinFileInspection() {
+class SkinNonExistingClassInspection: SkinFileInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.class.description")
 
@@ -32,7 +32,7 @@ class SkinNonExistingClassInspection : SkinFileInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitClassName(o: SkinClassName) {
 

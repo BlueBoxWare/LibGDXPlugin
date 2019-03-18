@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvider {
+class SkinRefactoringElementListenerProvider: RefactoringElementListenerProvider {
 
   override fun getListener(element: PsiElement?): RefactoringElementListener? {
     val classes = if (element is PsiClass || element is KtClass) {
@@ -62,7 +62,7 @@ class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvide
 
   }
 
-  class MyRefactoringElementListener(private val refToClassMap: Map<SkinJavaClassReference, PsiClass>) : RefactoringElementListener {
+  class MyRefactoringElementListener(private val refToClassMap: Map<SkinJavaClassReference, PsiClass>): RefactoringElementListener {
 
     override fun elementRenamed(newElement: PsiElement) = refactored()
 

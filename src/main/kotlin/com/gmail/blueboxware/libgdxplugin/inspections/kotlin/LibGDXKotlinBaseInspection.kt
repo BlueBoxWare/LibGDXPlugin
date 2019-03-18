@@ -39,7 +39,7 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
   override val suppressionKey = id
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
-      return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
+    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }
 
   companion object {
@@ -56,7 +56,6 @@ open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
       return null
     }
   }
-
 
 
 }

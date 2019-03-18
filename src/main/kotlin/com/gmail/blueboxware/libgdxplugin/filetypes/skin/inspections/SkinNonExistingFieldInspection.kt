@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingFieldInspection : SkinFileInspection() {
+class SkinNonExistingFieldInspection: SkinFileInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.field.description")
 
@@ -32,7 +32,7 @@ class SkinNonExistingFieldInspection : SkinFileInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitPropertyName(propertyName: SkinPropertyName) {
       val name = propertyName.value

@@ -22,7 +22,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXIconProvider : IconProvider() {
+class LibGDXIconProvider: IconProvider() {
 
   override fun getIcon(element: PsiElement, flags: Int): Icon? {
 

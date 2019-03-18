@@ -25,7 +25,7 @@ import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPropertyAccessor
 
-class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
+class JavaFlushInsideLoopInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("flushing.inside.loop.html.description")
 

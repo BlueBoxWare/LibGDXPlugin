@@ -19,7 +19,7 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSkinParsing : ParsingTestCase("", "json", SkinParserDefinition()) {
+class TestSkinParsing: ParsingTestCase("", "json", SkinParserDefinition()) {
 
   fun doTest() {
     doTest(true)

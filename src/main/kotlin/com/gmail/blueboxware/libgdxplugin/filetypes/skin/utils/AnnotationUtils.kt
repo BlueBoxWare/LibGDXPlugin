@@ -28,10 +28,10 @@ typealias SkinAnnotation = Pair<SkinAnnotations, String>
 val NO_ANNOTATIONS = listOf<SkinAnnotation>()
 
 val ANNOTATION_REGEX =
-  Regex(
-    "@\\s*(" + SkinAnnotations.values().joinToString("|") + ")\\s*\\(([^)]*)\\)",
-          RegexOption.IGNORE_CASE
-  )
+        Regex(
+                "@\\s*(" + SkinAnnotations.values().joinToString("|") + ")\\s*\\(([^)]*)\\)",
+                RegexOption.IGNORE_CASE
+        )
 
 fun PsiComment.getSkinAnnotations(): List<SkinAnnotation> {
 

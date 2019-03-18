@@ -24,7 +24,7 @@ import com.intellij.psi.PsiLiteralExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaInvalidPropertyKeyInspection : LibGDXJavaBaseInspection() {
+class JavaInvalidPropertyKeyInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
 
@@ -43,7 +43,8 @@ class JavaInvalidPropertyKeyInspection : LibGDXJavaBaseInspection() {
       }
 
       if (!isValidProperty(expression)) {
-        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asString() ?: ""))
+        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asString()
+                ?: ""))
       }
 
     }

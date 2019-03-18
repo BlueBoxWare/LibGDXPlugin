@@ -33,7 +33,7 @@ class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() 
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return object : PsiElementVisitor() {
+    return object: PsiElementVisitor() {
 
       override fun visitElement(element: PsiElement?) {
 

@@ -20,10 +20,10 @@ import com.intellij.openapi.vfs.VirtualFileManager
  * limitations under the License.
  */
 internal fun Project.getProjectBaseDir() =
-          if (ApplicationManager.getApplication().isUnitTestMode) {
-            VirtualFileManager.getInstance().findFileByUrl("temp:///")
-          } else {
-            baseDir
-          }
+        if (ApplicationManager.getApplication().isUnitTestMode) {
+          VirtualFileManager.getInstance().findFileByUrl("temp:///")
+        } else {
+          baseDir
+        }
 
 internal fun fileNameToPathList(fileName: String): Array<String> = fileName.replace('\\', '/').split("/").toTypedArray()

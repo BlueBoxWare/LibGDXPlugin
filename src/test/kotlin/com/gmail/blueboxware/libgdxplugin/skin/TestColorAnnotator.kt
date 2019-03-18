@@ -17,7 +17,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
+class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
   fun testHighlighting1() {
     myFixture.configureByFile("1.skin")

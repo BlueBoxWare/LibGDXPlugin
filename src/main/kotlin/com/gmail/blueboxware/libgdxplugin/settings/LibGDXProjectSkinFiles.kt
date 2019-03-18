@@ -19,7 +19,7 @@ import com.intellij.openapi.components.State
  * limitations under the License.
  */
 @State(name = "LibGDXSkins")
-class LibGDXProjectSkinFiles : PersistentFileSetManager()
+class LibGDXProjectSkinFiles: PersistentFileSetManager()
 
 @State(name = "LibGDXNonSkins")
-class LibGDXProjectNonSkinFiles : PersistentFileSetManager()
+class LibGDXProjectNonSkinFiles: PersistentFileSetManager()

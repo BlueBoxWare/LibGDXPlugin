@@ -74,11 +74,11 @@ fun SkinClassSpecification.addCommentExt(comment: PsiComment) {
 }
 
 fun SkinClassSpecification.addResource(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
-          factory()?.createResource(name)?.let { (resource, position) ->
-            addResource(resource, cause)?.let {
-              Pair(it, it.startOffset + position)
-            }
+        factory()?.createResource(name)?.let { (resource, position) ->
+          addResource(resource, cause)?.let {
+            Pair(it, it.startOffset + position)
           }
+        }
 
 fun SkinClassSpecification.addResource(resource: SkinResource, cause: SkinElement? = null): SkinResource? {
 

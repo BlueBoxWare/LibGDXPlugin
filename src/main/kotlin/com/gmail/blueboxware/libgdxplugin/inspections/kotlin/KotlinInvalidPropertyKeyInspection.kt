@@ -39,7 +39,8 @@ class KotlinInvalidPropertyKeyInspection: LibGDXKotlinBaseInspection() {
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
       if (!isValidProperty(expression)) {
-        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asPlainString() ?: ""))
+        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asPlainString()
+                ?: ""))
       }
 
     }

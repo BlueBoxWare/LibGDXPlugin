@@ -16,7 +16,7 @@ import com.intellij.openapi.util.TextRange
  * Adapted from https://github.com/JetBrains/intellij-community/tree/ab08c979a5826bf293ae03cd67463941b0066eb8/json
  *
  */
-class SkinFoldingBuilder : FoldingBuilder, DumbAware {
+class SkinFoldingBuilder: FoldingBuilder, DumbAware {
 
   override fun getPlaceholderText(node: ASTNode): String? {
 
@@ -28,7 +28,8 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
       SkinElementTypes.LINE_COMMENT -> return "//..."
       SkinElementTypes.BLOCK_COMMENT -> return "/*...*/"
       SkinElementTypes.RESOURCE -> return "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
-      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName ?: "") + " ...}"
+      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName
+              ?: "") + " ...}"
       else -> return "..."
     }
 
@@ -51,11 +52,11 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
     val type = node.elementType
 
     if ((type == SkinElementTypes.OBJECT
-            || type == SkinElementTypes.ARRAY
-            || type == SkinElementTypes.BLOCK_COMMENT
-            || type == SkinElementTypes.CLASS_SPECIFICATION
-            || type == SkinElementTypes.RESOURCE
-            ) && spansMultipleLines(node, document)) {
+                    || type == SkinElementTypes.ARRAY
+                    || type == SkinElementTypes.BLOCK_COMMENT
+                    || type == SkinElementTypes.CLASS_SPECIFICATION
+                    || type == SkinElementTypes.RESOURCE
+                    ) && spansMultipleLines(node, document)) {
       descriptors.add(FoldingDescriptor(node, node.textRange))
     } else if (type == SkinElementTypes.LINE_COMMENT) {
       val firstNode = findFurthestSiblingOfSameType(node.psi, false)

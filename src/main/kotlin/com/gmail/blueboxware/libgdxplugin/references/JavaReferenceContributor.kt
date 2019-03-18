@@ -36,7 +36,7 @@ import com.jetbrains.jsonSchema.JsonSchemaFileType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaReferenceContributor : PsiReferenceContributor() {
+class JavaReferenceContributor: PsiReferenceContributor() {
 
   override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
@@ -72,7 +72,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
 
     registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()).insideAnnotationParam(StandardPatterns.string().equalTo(ASSET_ANNOTATION_NAME), paramName),
-            object : PsiReferenceProvider() {
+            object: PsiReferenceProvider() {
               override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
                 ((element as? PsiLiteralExpression)?.value as? String)?.let { path ->
                   return arrayOf(

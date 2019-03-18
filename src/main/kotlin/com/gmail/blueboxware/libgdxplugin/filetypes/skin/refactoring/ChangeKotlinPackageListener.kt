@@ -31,7 +31,7 @@ import org.jetbrains.kotlin.psi.KtPackageDirective
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter(), RefactoringElementListenerProvider {
+class ChangeKotlinPackageListener(val project: Project): PsiTreeChangeAdapter(), RefactoringElementListenerProvider {
 
   companion object {
     val oldPackageKey = key<String>("oldPackage")
@@ -53,7 +53,8 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
       return
     }
 
-    ((event.newChild.context as? KtPackageDirective) ?: (event.newChild as? KtPackageDirective))?.fqName?.asString()?.let { newPackage ->
+    ((event.newChild.context as? KtPackageDirective)
+            ?: (event.newChild as? KtPackageDirective))?.fqName?.asString()?.let { newPackage ->
 
       val ktFile = event.file as? KtFile ?: return
       val oldPackage =

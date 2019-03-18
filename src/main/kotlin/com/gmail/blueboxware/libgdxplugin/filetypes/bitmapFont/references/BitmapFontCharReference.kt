@@ -20,11 +20,11 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontCharReference<T: BitmapFontKerning>(element: T) : PsiReferenceBase<T>(element, element.textRange), PsiPolyVariantReference {
+class BitmapFontCharReference<T: BitmapFontKerning>(element: T): PsiReferenceBase<T>(element, element.textRange), PsiPolyVariantReference {
 
   override fun getVariants(): Array<out Any> = arrayOf()
 
-  override fun resolve(): PsiElement?  = null
+  override fun resolve(): PsiElement? = null
 
   override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 

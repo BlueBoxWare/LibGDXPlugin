@@ -34,9 +34,9 @@ class KotlinTestIdsInspection: LibGDXKotlinBaseInspection() {
     override fun visitLiteralStringTemplateEntry(entry: KtLiteralStringTemplateEntry) {
 
       entry.text.trim().let { value ->
-          if (TEST_ID_MAP.containsKey(value)) {
-            holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
-          }
+        if (TEST_ID_MAP.containsKey(value)) {
+          holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
+        }
       }
 
     }

@@ -22,7 +22,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasColorSettingsPage : ColorSettingsPage {
+class AtlasColorSettingsPage: ColorSettingsPage {
 
   override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = mutableMapOf(
           "fileName" to AtlasSyntaxHighlighter.FILE_NAME,

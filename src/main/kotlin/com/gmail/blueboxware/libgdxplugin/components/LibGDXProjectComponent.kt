@@ -37,9 +37,9 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   override fun getComponentName() = "LibGDXProjectComponent"
 
-  override fun initComponent() { }
+  override fun initComponent() {}
 
-  override fun projectClosed() { }
+  override fun projectClosed() {}
 
   override fun projectOpened() {
 
@@ -62,7 +62,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   }
 
-  private val documentListener = object : DocumentListener {
+  private val documentListener = object: DocumentListener {
 
     override fun documentChanged(event: DocumentEvent) {
 

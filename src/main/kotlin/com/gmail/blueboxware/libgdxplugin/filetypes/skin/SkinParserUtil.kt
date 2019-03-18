@@ -18,7 +18,7 @@ import com.intellij.lang.parser.GeneratedParserUtilBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object SkinParserUtil : GeneratedParserUtilBase() {
+object SkinParserUtil: GeneratedParserUtilBase() {
 
   @JvmStatic
   fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
@@ -31,7 +31,7 @@ object SkinParserUtil : GeneratedParserUtilBase() {
 
     var separatorFound = false
 
-    while (i < builder.originalText.length && builder.originalText[i] in listOf(' ', '\t', '\r', '\n', ',') ) {
+    while (i < builder.originalText.length && builder.originalText[i] in listOf(' ', '\t', '\r', '\n', ',')) {
       if (builder.originalText[i] == '\r' || builder.originalText[i] == '\n' || builder.originalText[i] == ',') {
         separatorFound = true
         break

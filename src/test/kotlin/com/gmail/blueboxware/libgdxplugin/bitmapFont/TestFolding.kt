@@ -17,7 +17,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFolding : LibGDXCodeInsightFixtureTestCase() {
+class TestFolding: LibGDXCodeInsightFixtureTestCase() {
 
   fun testFolding() {
     myFixture.testFolding(testDataPath + "filetypes/bitmapFont/folding/1.fnt")

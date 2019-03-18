@@ -13,7 +13,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonCodeStyleSettingsProvider.java
  *
  */
-class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
+class SkinCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
 
   override fun createSettingsPage(settings: CodeStyleSettings, originalSettings: CodeStyleSettings?): Configurable {
 
@@ -21,7 +21,7 @@ class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
       override fun createPanel(settings: CodeStyleSettings?): CodeStyleAbstractPanel {
 
-        return object : TabbedLanguageCodeStylePanel(LibGDXSkinLanguage.INSTANCE, currentSettings, settings) {
+        return object: TabbedLanguageCodeStylePanel(LibGDXSkinLanguage.INSTANCE, currentSettings, settings) {
 
           override fun initTabs(settings: CodeStyleSettings) {
             addIndentOptionsTab(settings)

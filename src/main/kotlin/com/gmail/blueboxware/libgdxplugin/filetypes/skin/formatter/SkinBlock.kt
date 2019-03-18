@@ -31,7 +31,7 @@ class SkinBlock(
         private val myAlignment: Alignment?,
         private val myIndent: Indent,
         private val myWrap: Wrap?
-) : ASTBlock {
+): ASTBlock {
 
   companion object {
     val SKIN_OPEN_BRACES = TokenSet.create(L_BRACKET, L_CURLY)

@@ -17,15 +17,15 @@ import com.intellij.lang.Commenter
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinCommenter : Commenter {
+class SkinCommenter: Commenter {
 
   override fun getLineCommentPrefix(): String? = "//"
 
-  override fun getCommentedBlockCommentPrefix(): String?  = null
+  override fun getCommentedBlockCommentPrefix(): String? = null
 
-  override fun getCommentedBlockCommentSuffix(): String?  = null
+  override fun getCommentedBlockCommentSuffix(): String? = null
 
-  override fun getBlockCommentPrefix(): String?  = "/*"
+  override fun getBlockCommentPrefix(): String? = "/*"
 
-  override fun getBlockCommentSuffix(): String?  = "*/"
+  override fun getBlockCommentSuffix(): String? = "*/"
 }

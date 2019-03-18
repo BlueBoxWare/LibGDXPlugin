@@ -19,7 +19,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinRefactoringSupportProvider : RefactoringSupportProvider() {
+class SkinRefactoringSupportProvider: RefactoringSupportProvider() {
 
   override fun isMemberInplaceRenameAvailable(element: PsiElement, context: PsiElement?) =
           element is SkinResource && !element.resourceName.stringLiteral.isQuoted

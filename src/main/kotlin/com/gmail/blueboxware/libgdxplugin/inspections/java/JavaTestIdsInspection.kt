@@ -23,7 +23,7 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 
-class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
+class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
@@ -31,7 +31,7 @@ class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
   override fun getDisplayName() = message("testid.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 

@@ -13,7 +13,7 @@ import com.intellij.psi.codeStyle.CustomCodeStyleSettings
  */
 
 
-class SkinCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(LibGDXSkinLanguage.INSTANCE.id, container) {
+class SkinCodeStyleSettings(container: CodeStyleSettings): CustomCodeStyleSettings(LibGDXSkinLanguage.INSTANCE.id, container) {
 
   companion object {
     val DO_NOT_ALIGN_PROPERTY = PropertyAlignment.DO_NOT_ALIGN.id

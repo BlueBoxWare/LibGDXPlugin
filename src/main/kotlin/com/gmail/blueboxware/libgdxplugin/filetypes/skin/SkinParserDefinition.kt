@@ -27,7 +27,7 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinParserDefinition : ParserDefinition {
+class SkinParserDefinition: ParserDefinition {
 
   companion object {
     val FILE = IFileElementType(LibGDXSkinLanguage.INSTANCE)
@@ -52,9 +52,9 @@ class SkinParserDefinition : ParserDefinition {
 
   override fun getWhitespaceTokens(): TokenSet = WHITE_SPACES
 
-  override fun createLexer(project: Project?): Lexer  = SkinLexer()
+  override fun createLexer(project: Project?): Lexer = SkinLexer()
 
   override fun createElement(node: ASTNode?): PsiElement = SkinElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet  = SKIN_COMMENTARIES
+  override fun getCommentTokens(): TokenSet = SKIN_COMMENTARIES
 }

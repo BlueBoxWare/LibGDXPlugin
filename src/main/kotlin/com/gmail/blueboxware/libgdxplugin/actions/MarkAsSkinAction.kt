@@ -28,7 +28,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MarkAsSkinAction : AnAction() {
+class MarkAsSkinAction: AnAction() {
 
   override fun update(event: AnActionEvent) {
 

@@ -18,7 +18,7 @@ import com.intellij.psi.util.PsiTreeUtil
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/editor/smartEnter/JsonSmartEnterProcessor.java
  *
  */
-class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
+class SkinSmartEnterProcessor: SmartEnterProcessorWithFixers() {
 
   private var shouldAddNewline = false
 
@@ -27,7 +27,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
     addEnterProcessors(SkinEnterProcessor())
   }
 
-  private inner class SkinEnterProcessor : SmartEnterProcessorWithFixers.FixEnterProcessor() {
+  private inner class SkinEnterProcessor: SmartEnterProcessorWithFixers.FixEnterProcessor() {
 
     override fun doEnter(atCaret: PsiElement?, file: PsiFile?, editor: Editor, modified: Boolean): Boolean {
       if (shouldAddNewline) {
@@ -43,8 +43,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
   }
 
 
-
-  private class SkinFixer : SmartEnterProcessorWithFixers.Fixer<SkinSmartEnterProcessor>() {
+  private class SkinFixer: SmartEnterProcessorWithFixers.Fixer<SkinSmartEnterProcessor>() {
 
     override fun apply(editor: Editor, processor: SkinSmartEnterProcessor, element: PsiElement) {
 
@@ -54,7 +53,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
               || parent is SkinClassName
               || parent is SkinResourceName
               || parent is SkinPropertyValue
-              ) {
+      ) {
 
         val key = if (parent is SkinPropertyValue) {
           parent.property?.propertyName

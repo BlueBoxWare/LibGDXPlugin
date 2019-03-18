@@ -119,7 +119,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   }
 
-  override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation>  =
+  override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation> =
           children
                   .flatMap { (it as? PsiComment)?.getSkinAnnotations() ?: listOf() }
                   .filter { if (annotation != null) it.first == annotation else true }
@@ -220,7 +220,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
   private fun getClassSpecToInsertInto(className: DollarClassName, cause: SkinElement?): SkinClassSpecification? {
     val classSpecs =
             getClassSpecifications(className.plainName).takeIf { !it.isEmpty() }
-                ?: addClassSpec(className, cause)?.let(::listOf) ?: return null
+                    ?: addClassSpec(className, cause)?.let(::listOf) ?: return null
 
     return cause?.firstParent<SkinClassSpecification>()?.let { causingClassSpec ->
       classSpecs.find { it == causingClassSpec }

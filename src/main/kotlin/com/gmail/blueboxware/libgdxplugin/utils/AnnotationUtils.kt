@@ -133,23 +133,24 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
 
   (context as? KtQualifiedExpression)?.receiverExpression?.unwrap()?.let { receiverExpression ->
 
-     val annotationTarget = (receiverExpression as? KtQualifiedExpression)?.selectorExpression?.unwrap() ?: receiverExpression
+    val annotationTarget = (receiverExpression as? KtQualifiedExpression)?.selectorExpression?.unwrap()
+            ?: receiverExpression
 
-      annotationTarget.references.mapNotNull { it.resolve() }.filter { it is KtProperty || it is PsiField }.let { origins ->
-        origins.forEach { origin ->
-          (origin as? KtProperty)?.getAnnotation(annotationClass)?.let {
-            return it
-          }
+    annotationTarget.references.mapNotNull { it.resolve() }.filter { it is KtProperty || it is PsiField }.let { origins ->
+      origins.forEach { origin ->
+        (origin as? KtProperty)?.getAnnotation(annotationClass)?.let {
+          return it
         }
+      }
 
-        AnnotatedElementsSearch.searchElements(annotationClass, project.projectScope(), PsiMember::class.java).forEach { member ->
-          if (member in origins || (member as? KtLightMember<*>)?.kotlinOrigin?.let { it in origins } == true) {
-            AnnotationUtil.findAnnotation(member, annotationClass.qualifiedName)?.let {
-              return PsiAnnotationWrapper(it)
-            }
+      AnnotatedElementsSearch.searchElements(annotationClass, project.projectScope(), PsiMember::class.java).forEach { member ->
+        if (member in origins || (member as? KtLightMember<*>)?.kotlinOrigin?.let { it in origins } == true) {
+          AnnotationUtil.findAnnotation(member, annotationClass.qualifiedName)?.let {
+            return PsiAnnotationWrapper(it)
           }
         }
       }
+    }
 
   }
 

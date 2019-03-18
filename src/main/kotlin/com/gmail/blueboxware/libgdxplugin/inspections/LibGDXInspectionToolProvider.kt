@@ -26,7 +26,7 @@ import com.intellij.codeInspection.InspectionToolProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXInspectionToolProvider : InspectionToolProvider {
+class LibGDXInspectionToolProvider: InspectionToolProvider {
 
   override fun getInspectionClasses() = arrayOf(
           JavaUnsafeIteratorInspection::class.java,

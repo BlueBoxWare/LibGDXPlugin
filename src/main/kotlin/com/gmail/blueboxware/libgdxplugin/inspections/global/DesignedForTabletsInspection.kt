@@ -159,7 +159,7 @@ private class DesignedForTabletsGradleVisitor(
     var type: SdkVersionType? = null
 
     when (invokedText) {
-      "maxSdkVersion" ->  type = SdkVersionType.MAX
+      "maxSdkVersion" -> type = SdkVersionType.MAX
       "minSdkVersion" -> type = SdkVersionType.MIN
       "targetSdkVersion" -> type = SdkVersionType.TARGET
     }

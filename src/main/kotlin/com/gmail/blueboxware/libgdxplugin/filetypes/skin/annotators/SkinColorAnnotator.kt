@@ -36,7 +36,7 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinColorAnnotator : Annotator {
+class SkinColorAnnotator: Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
@@ -47,13 +47,13 @@ class SkinColorAnnotator : Annotator {
     if (element is SkinObject) {
 
       val force = element.firstParent<SkinClassSpecification>()?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
-        || element.resolveToTypeString() == COLOR_CLASS_NAME
+              || element.resolveToTypeString() == COLOR_CLASS_NAME
 
       element.asColor(force)?.let { color ->
 
         val annotation = createAnnotation(color, element, holder, createIcon = false)
-        annotation.gutterIconRenderer = object : GutterColorRenderer(color) {
-          override fun getClickAction() = object : AnAction() {
+        annotation.gutterIconRenderer = object: GutterColorRenderer(color) {
+          override fun getClickAction() = object: AnAction() {
             override fun actionPerformed(e: AnActionEvent) {
               if (!element.isWritable) return
 

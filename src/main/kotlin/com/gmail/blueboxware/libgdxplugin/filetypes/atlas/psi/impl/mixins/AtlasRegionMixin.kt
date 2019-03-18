@@ -34,7 +34,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(node) {
+abstract class AtlasRegionMixin(node: ASTNode): AtlasRegion, AtlasElementImpl(node) {
 
   override fun getName(): String = regionName.text
 
@@ -85,13 +85,13 @@ abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(n
     }
   }
 
-  override fun getPresentation() = object : ItemPresentation {
+  override fun getPresentation() = object: ItemPresentation {
 
     override fun getLocationString(): String? = null
 
     override fun getIcon(unused: Boolean) = ImagesIcons.ImagesFileType
 
-    override fun getPresentableText() = name + index.value?.getValue()?.let { if (it != "-1") " ($it)" else ""}
+    override fun getPresentableText() = name + index.value?.getValue()?.let { if (it != "-1") " ($it)" else "" }
 
   }
 

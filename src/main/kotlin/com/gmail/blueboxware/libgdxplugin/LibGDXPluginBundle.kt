@@ -13,13 +13,12 @@ private var ourBundle: Reference<ResourceBundle>? = null
 
 private const val BUNDLE = "libgdxplugin"
 
-fun message(@PropertyKey(resourceBundle = BUNDLE)key: String, vararg params: Any, default: String? = null): String {
+fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any, default: String? = null): String {
 
   getBundle()?.let { bundle ->
     if (default == null) {
       return CommonBundle.message(bundle, key, *params)
-    }
-    else {
+    } else {
       return CommonBundle.messageOrDefault(bundle, key, default, *params)
     }
   }

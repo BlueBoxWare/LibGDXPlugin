@@ -14,7 +14,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonFormattingBuilderModel.java
  *
  */
-class SkinFormattingBuilderModel : FormattingModelBuilder {
+class SkinFormattingBuilderModel: FormattingModelBuilder {
 
   override fun getRangeAffectingIndent(file: PsiFile?, offset: Int, elementAtOffset: ASTNode?): TextRange? = null
 

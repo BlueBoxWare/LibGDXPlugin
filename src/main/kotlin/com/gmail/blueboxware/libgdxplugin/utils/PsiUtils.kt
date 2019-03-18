@@ -60,7 +60,7 @@ internal fun ASTNode.isNewline() =
 internal fun PsiElement.isLeaf(vararg types: IElementType) = (this as? LeafPsiElement)?.elementType in types
 
 @Suppress("unused")
-internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
+internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
 
 internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? = PsiTreeUtil.findChildOfType(this, T::class.java)
 
@@ -108,7 +108,7 @@ internal fun KtStringTemplateExpression.asPlainString(): String? = if (isPlainWi
 
 internal fun GrLiteral.asString(): String? =
         takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
-        ?: takeIf { (it as? GrString)?.isPlainString == true }?.text?.let(::trimQuotes)
+                ?: takeIf { (it as? GrString)?.isPlainString == true }?.text?.let(::trimQuotes)
 
 
 internal fun PsiType?.isStringType(element: PsiElement) =
@@ -208,7 +208,8 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferen
 
     if (receiverType == null) {
       // static method call?
-      receiverType = dotExpression.receiverExpression.getReferenceTargets(dotExpression.analyze()).firstOrNull() as? ClassDescriptor ?: return null
+      receiverType = dotExpression.receiverExpression.getReferenceTargets(dotExpression.analyze()).firstOrNull() as? ClassDescriptor
+              ?: return null
     }
 
     val methodName = calleeExpression as? KtNameReferenceExpression ?: return null

@@ -34,7 +34,7 @@ class GradleTestIdsInspection: LibGDXGradleBaseInspection() {
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return GroovyPsiElementVisitor(object : GroovyElementVisitor() {
+    return GroovyPsiElementVisitor(object: GroovyElementVisitor() {
 
       override fun visitLiteralExpression(literal: GrLiteral) {
 

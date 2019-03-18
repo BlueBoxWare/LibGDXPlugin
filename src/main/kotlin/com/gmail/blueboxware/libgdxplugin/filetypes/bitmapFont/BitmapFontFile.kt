@@ -24,7 +24,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
+class BitmapFontFile(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
 
   private fun getCharacterMap(): Map<Int, BitmapFontFontChar> {
 

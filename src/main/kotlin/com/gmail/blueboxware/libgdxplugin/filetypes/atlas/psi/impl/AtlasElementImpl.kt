@@ -19,4 +19,4 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), AtlasElement
+abstract class AtlasElementImpl(node: ASTNode): ASTWrapperPsiElement(node), AtlasElement

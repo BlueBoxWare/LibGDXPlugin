@@ -70,7 +70,7 @@ class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
       if (method.name.startsWith("put") || method.name == "remove") {
         lastPreferenceChange = expression
       } else if (method.name == "flush") {
-         lastPreferenceChange = null
+        lastPreferenceChange = null
       }
 
     }

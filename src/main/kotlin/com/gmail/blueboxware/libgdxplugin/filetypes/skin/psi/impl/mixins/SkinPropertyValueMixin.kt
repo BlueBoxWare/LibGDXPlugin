@@ -21,7 +21,7 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinPropertyValueMixin(node: ASTNode) : SkinPropertyValue, SkinElementImpl(node) {
+abstract class SkinPropertyValueMixin(node: ASTNode): SkinPropertyValue, SkinElementImpl(node) {
 
   override fun getProperty(): SkinProperty? = firstParent()
 

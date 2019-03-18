@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
+class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
 
@@ -34,7 +34,7 @@ class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
   override fun getDisplayName() = message("static.resources.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 

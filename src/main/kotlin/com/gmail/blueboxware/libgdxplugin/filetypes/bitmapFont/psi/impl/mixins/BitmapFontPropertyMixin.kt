@@ -21,13 +21,13 @@ import com.intellij.navigation.ItemPresentation
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontPropertyMixin(node: ASTNode) : BitmapFontProperty, BitmapFontElementImpl(node) {
+abstract class BitmapFontPropertyMixin(node: ASTNode): BitmapFontProperty, BitmapFontElementImpl(node) {
 
   override fun getKey(): String = keyElement.unquotedString.text
 
   override fun getValue(): String? = valueElement?.value
 
-  override fun getPresentation() = object : ItemPresentation {
+  override fun getPresentation() = object: ItemPresentation {
 
     override fun getLocationString(): String? = null
 

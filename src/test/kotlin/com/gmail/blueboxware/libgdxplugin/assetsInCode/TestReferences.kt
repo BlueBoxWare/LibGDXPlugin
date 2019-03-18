@@ -32,7 +32,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
+class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
   fun testJavaResourceReference() = doTest<SkinResource>(
           JavaFileType.INSTANCE,
@@ -331,7 +331,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
           """
   )
 
-  private inline fun <reified expectedReferentType: PsiElement>doTest(
+  private inline fun <reified expectedReferentType: PsiElement> doTest(
           fileType: LanguageFileType,
           referencingElementType: Class<out PsiElement>,
           content: String,

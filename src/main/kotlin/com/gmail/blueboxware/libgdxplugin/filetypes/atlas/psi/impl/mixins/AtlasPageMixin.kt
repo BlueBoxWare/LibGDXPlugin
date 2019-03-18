@@ -25,7 +25,7 @@ import com.intellij.util.PathUtil
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasPageMixin(node: ASTNode) : AtlasPage, AtlasElementImpl(node) {
+abstract class AtlasPageMixin(node: ASTNode): AtlasPage, AtlasElementImpl(node) {
 
   override fun getIndex(): Int? = (containingFile as? AtlasFile)?.getPages()?.indexOf(this)
 

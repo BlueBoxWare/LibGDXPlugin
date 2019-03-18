@@ -32,7 +32,7 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
+class TestVersionHandling: LibGDXCodeInsightFixtureTestCase() {
 
   fun testExtractVersionsFromMavenMetaData1() {
     doTestExtractVersionsFromMavenMetaData("libgdx")
@@ -44,7 +44,7 @@ class TestVersionHandling : LibGDXCodeInsightFixtureTestCase() {
 
   fun testGradleBuildScriptVersionDetection() {
     val tests =
-           groovyGradleVersionTests.map { it to GroovyFileType.GROOVY_FILE_TYPE } + kotlinGradleVersionTests.map { it to KotlinFileType.INSTANCE}
+            groovyGradleVersionTests.map { it to GroovyFileType.GROOVY_FILE_TYPE } + kotlinGradleVersionTests.map { it to KotlinFileType.INSTANCE }
 
     for ((test, fileType) in tests) {
       val expectedLib = test.second.first

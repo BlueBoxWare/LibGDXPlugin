@@ -42,7 +42,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
+class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
 
   companion object {
 
