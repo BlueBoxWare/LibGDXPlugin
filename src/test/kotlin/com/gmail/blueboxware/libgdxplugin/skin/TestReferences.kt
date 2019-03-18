@@ -320,8 +320,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
     assertNotNull(field)
-    val expectedName = expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString() + "::"
-    + field?.name
+    val expectedName =
+            expectedFieldName ?: sourceElement?.property?.containingObject?.resolveToTypeString() + "::" + field?.name
     assertEquals(expectedName, field!!.containingClass?.qualifiedName + "::" + field.name)
   }
 

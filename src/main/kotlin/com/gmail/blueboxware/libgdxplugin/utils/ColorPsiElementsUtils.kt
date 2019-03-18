@@ -130,14 +130,14 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         }
       }
     } else if (KotlinBuiltIns.isString(argument1type)) {
-      initialValue.resolveCallToStrings()?.let { resolvedCall ->
+      initialValue.resolveCallToStrings()?.let { (clazz, method) ->
         arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
           val arg = expr.findRoot()
           if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
-            if (resolvedCall.second == "valueOf") {
+            if (method == "valueOf") {
               // Color.valueOf(String)
               return@getCachedValue color(arg.text)
-            } else if (resolvedCall.second == "getColor") {
+            } else if (method == "getColor") {
               // Skin.getColor(String)
               val resourceName = StringUtil.unquoteString(arg.text)
               initialValue.getAssetFiles().let { (skinFiles) ->
@@ -147,13 +147,13 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                   }
                 }
               }
-            } else if (resolvedCall.first == COLORS_CLASS_NAME && resolvedCall.second == "get") {
+            } else if (clazz == COLORS_CLASS_NAME && method == "get") {
               // Colors.get(String)
               ((arg as? PsiLiteralExpression)?.asString()
                       ?: (arg as? KtStringTemplateExpression)?.asPlainString())?.let { str ->
                 return@getCachedValue initialValue.project.getColorsMap()[str]?.valueElement?.getColor()
               }
-            } else if (resolvedCall.first == OBJECT_MAP_CLASS_NAME && resolvedCall.second == "get") {
+            } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
               // Colors.getColors.get(String)
               ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()?.let { (clazz, method) ->
                 if (clazz == COLORS_CLASS_NAME && method == "getColors") {
@@ -163,7 +163,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                   }
                 }
               }
-            } else if ((resolvedCall.second == "get" || resolvedCall.second == "optional") && arguments.size == 2) {
+            } else if ((method == "get" || method == "optional") && arguments.size == 2) {
               ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
                 (classLiteralExpression.receiverExpression as? KtReferenceExpression
                         ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)
@@ -229,11 +229,11 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         val arg = expr.findRoot()
         if (arg is KtStringTemplateExpression || arg is PsiLiteralExpression) {
           (initialValue as? PsiMethodCallExpression)?.let { methodCallExpression ->
-            methodCallExpression.resolveCallToStrings()?.let { resolved ->
-              if (resolved.second == "valueOf") {
+            methodCallExpression.resolveCallToStrings()?.let { (clazz, method) ->
+              if (method == "valueOf") {
                 // Color.valueOf(String)
                 return@getCachedValue color(arg.text)
-              } else if (resolved.second == "getColor") {
+              } else if (method == "getColor") {
                 // Skin.getColor(String)
                 methodCallExpression.getAssetFiles().let { (skinFiles) ->
                   for (skinFile in skinFiles) {
@@ -242,13 +242,13 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                     }
                   }
                 }
-              } else if (resolved.first == COLORS_CLASS_NAME && resolved.second == "get") {
+              } else if (clazz == COLORS_CLASS_NAME && method == "get") {
                 // Colors.get(String)
                 ((arg as? PsiLiteralExpression)?.asString()
                         ?: (arg as? KtStringTemplateExpression)?.asPlainString())?.let { str ->
                   return@getCachedValue initialValue.project.getColorsMap()[str]?.valueElement?.getColor()
                 }
-              } else if (resolved.first == OBJECT_MAP_CLASS_NAME && resolved.second == "get") {
+              } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
                 // Colors.getColors().get(String)
                 (initialValue as? PsiMethodCallExpression)?.let { methodCall ->
                   MethodCallUtils.getQualifierMethodCall(methodCall)?.resolveCallToStrings()?.let { (clazz, method) ->
@@ -260,7 +260,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                     }
                   }
                 }
-              } else if ((resolved.second == "get" || resolved.second == "optional") && arguments.size == 2) {
+              } else if ((method == "get" || method == "optional") && arguments.size == 2) {
                 methodCallExpression.getAssetFiles().let { (skinFiles) ->
                   for (skinFile in skinFiles) {
                     skinFile.getResources(COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text)).firstOrNull()?.let {

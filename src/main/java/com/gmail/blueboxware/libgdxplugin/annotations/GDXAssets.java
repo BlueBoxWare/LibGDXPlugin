@@ -18,7 +18,7 @@ package com.gmail.blueboxware.libgdxplugin.annotations;
 import java.lang.annotation.*;
 
 /**
- * An annotation for use with <a href="https://github.com/BlueBoxWare/LibGDXPlugin">LibGDXPLugin</a>.<p>
+ * An annotation for use with <a href="https://github.com/BlueBoxWare/LibGDXPlugin">LibGDXPlugin</a>.<p>
  *
  * Use this annotation on a field of type Skin, TextureAtlas or I18NBundle in Java (or a property of one of those
  * types in Kotlin) to specify which Skin JSON files, Texture Atlas files and .properties files are being used by

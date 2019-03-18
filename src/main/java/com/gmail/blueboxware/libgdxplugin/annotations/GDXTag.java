@@ -18,7 +18,7 @@ package com.gmail.blueboxware.libgdxplugin.annotations;
 import java.lang.annotation.*;
 
 /**
- * An annotation for use with <a href="https://github.com/BlueBoxWare/LibGDXPlugin">LibGDXPLugin</a>.<p>
+ * An annotation for use with <a href="https://github.com/BlueBoxWare/LibGDXPlugin">LibGDXPlugin</a>.<p>
  *
  * Since version 1.9.9 LibGDX Skins support tagged classes: the ability to use short names for names of classes
  * in Skin files. In addition to the standard, "built-in" short class names it is also possible to define custom
