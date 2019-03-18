@@ -1,16 +1,17 @@
 ext {
 
-    pluginVersion = '1.17.2'
+    pluginVersion = '1.18'
 
-    kotlinVersion = '1.2.40'
+    kotlinVersion = '1.3.21'
 
-    intellijPluginVersion = '0.3.11'
+    // https://github.com/JetBrains/gradle-intellij-plugin/issues/367
+    intellijPluginVersion = '0.4.2'
 
 //    ideaVersion = 'LATEST-EAP-SNAPSHOT'
-    ideaVersion = '2018.2.4'
+    ideaVersion = '2018.3.5'
 
-    studioVersion = '2018.1.6'
-    studioKotlinPlugin = '1.2.71-release-Studio3.2-1'
+    studioVersion = '2018.2.2'
+    studioKotlinPlugin = '1.2.71-release-Studio3.3-1'
 
     useStudio = false
     runStudio = false

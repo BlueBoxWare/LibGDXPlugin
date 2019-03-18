@@ -37,7 +37,7 @@ intellij {
     if (useStudio) {
         version = studioVersion
         if (runStudio) {
-            plugins = ["org.jetbrains.kotlin:$studioKotlinPlugin", 'Groovy', 'properties']
+            plugins = ["Kotlin", 'Groovy', 'properties']
             alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
         }
     } else {
@@ -94,7 +94,6 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.jetbrains.kotlin:kotlin-runtime"
     compile files("${System.properties['java.home']}/../lib/tools.jar")
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
