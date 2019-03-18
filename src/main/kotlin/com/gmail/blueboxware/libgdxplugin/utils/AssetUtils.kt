@@ -50,7 +50,6 @@ const val DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
 const val TINTED_DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
 const val TEXTURE_REGION_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureRegion"
 const val BITMAPFONT_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.BitmapFont"
-const val TEXTURE_FILTER_CLASS_NAME = "com.badlogic.gdx.graphics.Texture.TextureFilter"
 
 const val FREETYPE_GENERATOR_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"
 const val FREETYPE_FONT_PARAMETER_CLASS_NAME = "$FREETYPE_GENERATOR_CLASS_NAME.FreeTypeFontParameter"

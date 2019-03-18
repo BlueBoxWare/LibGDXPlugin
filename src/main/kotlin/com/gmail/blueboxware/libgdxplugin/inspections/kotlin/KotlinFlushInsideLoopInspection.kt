@@ -145,7 +145,7 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
     val refs = expression.selectorExpression?.references ?: return
 
     //
-    // Are we using a property acessor which contains a flushing call?
+    // Are we using a property accessor which contains a flushing call?
     //
 
     var getter: Boolean? = null

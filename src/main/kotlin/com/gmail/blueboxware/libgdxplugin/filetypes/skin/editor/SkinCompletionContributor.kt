@@ -523,7 +523,6 @@ class SkinCompletionContributor: CompletionContributor() {
     val ICON_PACKAGE: Icon = PlatformIcons.PACKAGE_ICON
     val ICON_RESOURCE: Icon = AllIcons.Nodes.KeymapOther
     val ICON_ATLAS: Icon = AllIcons.Nodes.ModuleGroup
-    val ICON_BITMAP_FONT: Icon = AllIcons.Nodes.ExtractedFolder
     val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
     val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
     val ICON_PARENT: Icon = AllIcons.Nodes.UpLevel

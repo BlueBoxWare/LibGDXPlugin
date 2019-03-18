@@ -1,3 +1,4 @@
+//noinspection RegExpRedundantEscapeForFile
 {
 
     parserClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontParser'

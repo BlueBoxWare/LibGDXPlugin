@@ -156,9 +156,9 @@ internal fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
   methodExpression.qualifierExpression?.let { qualifierExpression ->
 
-    (qualifierExpression.type as? PsiClassType)?.resolve().let { it ->
+    (qualifierExpression.type as? PsiClassType)?.resolve().let { clazz ->
 
-      (it ?: (qualifierExpression as? PsiReference)?.resolve() as? PsiClass)?.let { clazz ->
+      (clazz ?: (qualifierExpression as? PsiReference)?.resolve() as? PsiClass)?.let { clazz ->
 
         resolveMethod()?.let { method ->
           return Pair(clazz, method)

@@ -29,7 +29,7 @@ internal class LibGDXVersionPostfixedLibrary(name: String, groupId: String, arti
 
     versionManager.getUsedVersion(Libraries.LIBGDX)?.let { gdxVersion ->
 
-      val regex = Regex(".*" + gdxVersion.toString() + "(-.+)?")
+      val regex = Regex(".*$gdxVersion(-.+)?")
 
       return availableVersions.filter { regex.matches(it) }.map(::MavenComparableVersion).max()
 
