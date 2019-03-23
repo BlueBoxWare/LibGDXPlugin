@@ -275,7 +275,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
   fun testCreateTintedDrawable2() {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
     doJavaTest(
             "",
             """
@@ -429,8 +429,8 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
 
   ) {
 
-    val skinFile = myFixture.configureByText("skin.skin", skinFileContent)
-    myFixture.configureByText("Test.$extension", codeFileContent)
+    val skinFile = configureByText("skin.skin", skinFileContent)
+    configureByText("Test.$extension", codeFileContent)
 
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName.startsWith("Create resource")) {

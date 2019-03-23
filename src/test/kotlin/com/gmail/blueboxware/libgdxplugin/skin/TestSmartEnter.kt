@@ -65,15 +65,14 @@ class TestSmartEnter: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest() {
-    myFixture.configureByFile(testname() + ".skin")
+    configureByFile(testname() + ".skin")
 
     val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXSkinLanguage.INSTANCE)
 
     WriteCommandAction.runWriteCommandAction(project) {
 
-      val editor = myFixture.editor
       for (processor in processors) {
-        processor.process(myFixture.project, editor, myFixture.file)
+        processor.process(project, editor, file)
       }
 
     }
@@ -86,7 +85,7 @@ class TestSmartEnter: LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
 
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "/filetypes/skin/smartEnter/"

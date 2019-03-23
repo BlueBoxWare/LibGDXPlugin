@@ -101,7 +101,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testDeprecatedInspection() {
-    myFixture.copyFileToProject("com/example/DeprecatedClass.java")
+    copyFileToProject("com/example/DeprecatedClass.java")
     doTest(SkinDeprecatedInspection())
   }
 
@@ -117,14 +117,14 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testNonExistingResourceAliasQuickfixes() {
     myFixture.enableInspections(SkinNonExistingResourceAliasInspection())
-    myFixture.configureByFile("nonExistingResourceAliasFixes.skin")
+    configureByFile("nonExistingResourceAliasFixes.skin")
     doAllIntentions<SkinStringLiteral>(CreateAssetQuickFix.FAMILY_NAME)
     myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
   }
 
   fun testAbbrClassInspectionWithTagsQuickfixes() {
     myFixture.enableInspections(SkinAbbrClassInspection())
-    myFixture.configureByFile("abbrClassInspectionFixes.skin")
+    configureByFile("abbrClassInspectionFixes.skin")
     doAllIntentions<SkinClassName>(SkinAbbrClassInspection.FAMILY_NAME)
     myFixture.checkResultByFile("abbrClassInspectionFixes.after")
   }
@@ -135,8 +135,8 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testNonExistingFontFileInspection() {
-    myFixture.copyDirectoryToProject("x", "x")
-    myFixture.copyDirectoryToProject("z", "z")
+    copyDirectoryToProject("x", "x")
+    copyDirectoryToProject("z", "z")
     doTest(SkinNonExistingFontFileInspection())
   }
 
@@ -161,9 +161,9 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
       removeDummyLibGDX199()
     }
 
-    myFixture.copyFileToProject("com/example/ColorArrayHolder.java")
-    myFixture.copyFileToProject("com/example/KColorArrayHolder.kt")
-    myFixture.copyFileToProject("atlas.atlas", testname() + ".atlas")
+    copyFileToProject("com/example/ColorArrayHolder.java")
+    copyFileToProject("com/example/KColorArrayHolder.kt")
+    copyFileToProject("atlas.atlas", testname() + ".atlas")
 
   }
 

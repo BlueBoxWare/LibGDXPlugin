@@ -75,10 +75,10 @@ class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun test10() {
-    myFixture.configureByFile("10.skin")
+    configureByFile("10.skin")
     val colorElement = myFixture.elementAtCaret.firstParent<SkinObject>()!!
     colorElement.changeColor(Color(128, 128, 128))?.let { newObject ->
-      WriteCommandAction.runWriteCommandAction(myFixture.project) {
+      WriteCommandAction.runWriteCommandAction(project) {
         colorElement.replace(newObject)
       }
     }
@@ -100,19 +100,19 @@ class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
   private fun keepColorOnOneLine(yesOrNo: Boolean) {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
   }
 
   fun doTest() {
-    myFixture.configureByFile(testname() + ".skin")
-    (myFixture.file as? SkinFile).let { skinFile ->
+    configureByFile(testname() + ".skin")
+    (file as? SkinFile).let { skinFile ->
       assertNotNull(skinFile)
       val newColor = skinFile!!.getClassSpecifications("newColor").firstOrNull()?.getResource("color")?.`object`?.asColor(true)
       assertNotNull(newColor)
       val colorObject = skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
       assertNotNull(colorObject)
       colorObject!!.changeColor(newColor!!)?.let { newObject ->
-        WriteCommandAction.runWriteCommandAction(myFixture.project) {
+        WriteCommandAction.runWriteCommandAction(project) {
           colorObject.replace(newObject)
         }
       }
@@ -125,7 +125,7 @@ class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
 
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "/filetypes/skin/setColor/"

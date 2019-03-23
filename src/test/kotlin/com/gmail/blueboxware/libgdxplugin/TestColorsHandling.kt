@@ -190,9 +190,9 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTestFindUsages(fileType: FileType, numberToFind: Int, content: String) {
 
-    myFixture.configureByText(fileType, content)
+    configureByText(fileType, content)
 
-    val targetElement = myFixture.file.findElementAt(myFixture.caretOffset)!!.parent
+    val targetElement = file.findElementAt(myFixture.caretOffset)!!.parent
     val usages = myFixture.findUsages(targetElement)
 
     assertEquals(numberToFind, usages.size)
@@ -204,8 +204,8 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTestReference(fileType: FileType, content: String, shouldFindSomething: Boolean = true) {
 
-    myFixture.configureByText(fileType, content)
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)!!.parent.let {
+    configureByText(fileType, content)
+    val element = file.findElementAt(myFixture.caretOffset)!!.parent.let {
       if (it is KtStringTemplateEntry) it.parent else it
     }
     val originalColorName = plainText(element)
@@ -234,8 +234,8 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
     addLibGDXSources()
     addKotlin()
 
-    myFixture.copyFileToProject("src/JavaColorDefinitions.java")
-    myFixture.copyFileToProject("src/KotlinColorDefinitions.kt")
+    copyFileToProject("src/JavaColorDefinitions.java")
+    copyFileToProject("src/KotlinColorDefinitions.kt")
 
   }
 

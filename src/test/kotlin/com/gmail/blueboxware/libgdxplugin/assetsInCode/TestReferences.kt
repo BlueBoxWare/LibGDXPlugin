@@ -339,8 +339,8 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
           shouldBeFound: Boolean = true
   ) {
 
-    myFixture.configureByText(fileType, content)
-    val referencingElement = myFixture.file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
+    configureByText(fileType, content)
+    val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
       PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
     } ?: throw AssertionError("Referencing element not found")
 
@@ -370,8 +370,8 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
     if (testname().contains("tag", ignoreCase = true)) {
       addDummyLibGDX199()
-      myFixture.copyFileToProject("src/JavaSkinTest.java")
-      myFixture.copyFileToProject("src/KotlinSkinTest.kt")
+      copyFileToProject("src/JavaSkinTest.java")
+      copyFileToProject("src/KotlinSkinTest.kt")
     }
 
   }

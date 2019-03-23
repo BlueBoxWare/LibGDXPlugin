@@ -78,7 +78,7 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    myFixture.copyFileToProject("findUsages/JavaClass.java")
-    myFixture.copyFileToProject("findUsages/KotlinFile.kt")
+    copyFileToProject("findUsages/JavaClass.java")
+    copyFileToProject("findUsages/KotlinFile.kt")
   }
 }

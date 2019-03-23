@@ -269,7 +269,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
           }
         }
       """
-      myFixture.configureByText("Test.java", fileContents)
+      configureByText("Test.java", fileContents)
       doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
       doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
     }
@@ -299,7 +299,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
           $content
         }
       """
-      myFixture.configureByText("Test.kt", fileContents)
+      configureByText("Test.kt", fileContents)
       doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
       doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
     }
@@ -347,7 +347,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   fun testGDXAssetsAnnotationInspection() {
 
     addAnnotations()
-    myFixture.copyDirectoryToProject("assets", "/")
+    copyDirectoryToProject("assets", "/")
 
     doInspectionsTest(JavaGDXAssetsInspection(), "GDXAssetsAnnotation/Test.java")
     doInspectionsTest(KotlinGDXAssetsInspection(), "GDXAssetsAnnotation/Test.kt")
@@ -358,7 +358,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
     addAnnotations()
     addDummyLibGDX199()
-    myFixture.copyDirectoryToProject("assets", "/")
+    copyDirectoryToProject("assets", "/")
 
     doInspectionsTest(JavaNonExistingAssetInspection(), "nonExistingAsset/Test.java")
     doInspectionsTest(KotlinNonExistingAssetInspection(), "nonExistingAsset/Test.kt")
@@ -369,7 +369,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
     addAnnotations()
     addDummyLibGDX199()
-    myFixture.copyDirectoryToProject("assets", "/")
+    copyDirectoryToProject("assets", "/")
 
     doInspectionsTest(JavaUnusedClassTagInspection(), "unusedClassTag/Test.java")
     doInspectionsTest(KotlinUnusedClassTagInspection(), "unusedClassTag/Test.kt")
@@ -383,7 +383,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
 
-    myFixture.configureByText(fileName, text)
+    configureByText(fileName, text)
     myFixture.enableInspections(inspection)
     myFixture.checkHighlighting(true, false, false)
 
@@ -391,7 +391,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   private fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
 
-    myFixture.configureByFiles(*fileNames)
+    configureByFiles(*fileNames)
     myFixture.enableInspections(inspection)
     return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) == true }
 
@@ -401,7 +401,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
     val toolWrapper = GlobalInspectionToolWrapper(inspection)
 
-    val sourceDir = myFixture.copyDirectoryToProject(File(testDir, "src").path, "src")
+    val sourceDir = copyDirectoryToProject(File(testDir, "src").path, "src")
     val psiDirectory = myFixture.psiManager.findDirectory(sourceDir)
             ?: throw AssertionError("Could not find $sourceDir")
 
@@ -510,7 +510,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doExternalFilesPermissionInspectionTest(manifestFileName: String, warningExpected: Boolean) {
     myFixture.enableInspections(MissingExternalFilesPermissionInspection())
-    myFixture.configureByFile(manifestFileName)
+    configureByFile(manifestFileName)
     val hasWarning = myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }
     if (warningExpected && !hasWarning) {
       Assert.fail("Warning expected, but no warning found.")

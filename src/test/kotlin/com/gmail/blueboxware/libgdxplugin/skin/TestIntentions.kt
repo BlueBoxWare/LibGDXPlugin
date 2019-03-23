@@ -23,7 +23,7 @@ class TestIntentions: LibGDXCodeInsightFixtureTestCase() {
 
   fun testColorConvertingIntentions() {
 
-    myFixture.configureByFile("colorConvertingIntentions.skin")
+    configureByFile("colorConvertingIntentions.skin")
     doAllIntentions<SkinObject>("Convert")
     myFixture.checkResultByFile("colorConvertingIntentions.after")
     doAllIntentions<SkinObject>("Convert")

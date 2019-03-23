@@ -33,7 +33,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testSuppressForObject3() {
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    copyFileToProject("ColorArrayHolder.java")
     myFixture.enableInspections(SkinTypeInspection())
     doTest(message("suppress.object"))
   }
@@ -74,7 +74,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testSuppressForFile3() {
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    copyFileToProject("ColorArrayHolder.java")
     myFixture.enableInspections(SkinTypeInspection())
     doTest(message("suppress.file"))
   }
@@ -85,7 +85,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(familyName: String) {
-    myFixture.configureByFile(testname() + ".skin")
+    configureByFile(testname() + ".skin")
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName == familyName) {
         myFixture.launchAction(intention)

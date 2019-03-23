@@ -249,7 +249,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           intentionShouldBeAvailable: Boolean = true
   ) {
 
-    myFixture.configureByText("skin.skin", test)
+    configureByText("skin.skin", test)
 
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName.startsWith("Create resource")) {

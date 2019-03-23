@@ -51,9 +51,9 @@ class TestVersionHandling: LibGDXCodeInsightFixtureTestCase() {
       val expectedVersion = MavenComparableVersion(test.second.second)
       var result: Pair<Libraries, MavenComparableVersion?>? = null
 
-      myFixture.configureByText(fileType, test.first)
+      configureByText(fileType, test.first)
 
-      myFixture.file.accept(object: PsiRecursiveElementVisitor() {
+      file.accept(object: PsiRecursiveElementVisitor() {
         override fun visitElement(element: PsiElement) {
           super.visitElement(element)
           if (result != null) {

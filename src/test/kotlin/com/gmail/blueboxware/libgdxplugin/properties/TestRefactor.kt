@@ -26,10 +26,10 @@ class TestRefactor: PropertiesCodeInsightFixtureTestCase() {
   fun testRename() {
     FilenameIndex.getFilesByName(project, "messages_en_GB.properties", project.projectScope()).first().let { propertiesFile ->
       val property = (propertiesFile as PropertiesFile).findPropertyByKey("oldName") as Property
-      myFixture.configureByFile("refactor/JavaClass.java")
+      configureByFile("refactor/JavaClass.java")
       myFixture.renameElement(property, "newName1")
       myFixture.checkResultByFile("refactor/JavaClass.after")
-      myFixture.configureByFile("refactor/KotlinFile.kt")
+      configureByFile("refactor/KotlinFile.kt")
       myFixture.renameElement(property, "newName2")
       myFixture.checkResultByFile("refactor/KotlinFile.after")
     }

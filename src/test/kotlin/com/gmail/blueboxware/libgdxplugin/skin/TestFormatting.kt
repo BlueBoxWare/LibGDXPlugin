@@ -180,21 +180,21 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
   fun testDefaultStyle() {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
     doFileTest("test.skin", "test_after.skin")
   }
 
   fun testWrapColors() {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
     doFileTest("test.skin", "test_wrap_colors_after.skin")
   }
 
   fun test2DefaultStyle() {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
     doFileTest("test2.skin", "test2_after.skin")
   }
 
@@ -202,7 +202,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
   fun test2WrapColors() {
     @Suppress("DEPRECATION")
     // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(myFixture.project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
     doFileTest("test2.skin", "test2_wrap_colors_after.skin")
   }
 
@@ -211,17 +211,17 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doFileTest(before: String, after: String) {
-    myFixture.configureByFile(before)
+    configureByFile(before)
     WriteCommandAction.runWriteCommandAction(null) {
-      CodeStyleManager.getInstance(myFixture.project).reformat(myFixture.file)
+      CodeStyleManager.getInstance(project).reformat(file)
     }
     myFixture.checkResultByFile(after)
   }
 
   private fun doTest(before: String, after: String) {
-    myFixture.configureByText("skin.skin", before)
+    configureByText("skin.skin", before)
     WriteCommandAction.runWriteCommandAction(null) {
-      CodeStyleManager.getInstance(myFixture.project).reformat(myFixture.file)
+      CodeStyleManager.getInstance(project).reformat(file)
     }
     myFixture.checkResult(after)
   }

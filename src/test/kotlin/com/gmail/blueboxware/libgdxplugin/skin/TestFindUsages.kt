@@ -73,9 +73,9 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindDrawableUsages() {
-    myFixture.copyFileToProject("drawableUsages.skin")
+    copyFileToProject("drawableUsages.skin")
     val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
-    val origin = myFixture.file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
+    val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
     assertEquals(10, usagesInfos.size)
     usagesInfos.forEach { usagesInfo ->
       assertNotNull(usagesInfo.element)
@@ -85,8 +85,8 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindJavaClassUsagesWithTags() {
-    myFixture.copyFileToProject("findJavaClassUsagesWithTags.skin")
-    myFixture.configureByFile("FindJavaClassUsagesWithTags.java")
+    copyFileToProject("findJavaClassUsagesWithTags.skin")
+    configureByFile("FindJavaClassUsagesWithTags.java")
     val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
     assertEquals(4, usagesInfos.size)
     usagesInfos.forEach { usageInfo ->
@@ -95,8 +95,8 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testFindKotlinClassUsagesWithTags() {
-    myFixture.copyFileToProject("findKotlinClassUsagesWithTags.skin")
-    myFixture.configureByFile("FindKotlinClassUsagesWithTags.kt")
+    copyFileToProject("findKotlinClassUsagesWithTags.skin")
+    configureByFile("FindKotlinClassUsagesWithTags.kt")
     val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
     assertEquals(4, usagesInfos.size)
     usagesInfos.forEach { usageInfo ->
@@ -107,7 +107,7 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
   fun doTest(nrOfUsages: Int) {
     val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)
-    val classType = (myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
+    val classType = (file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
     assertNotNull(classType)
     for (usageInfo in usagesInfos) {
       assertTrue(usageInfo.element is SkinStringLiteral)
@@ -134,7 +134,7 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
     addKotlin()
     addAnnotations()
 
-    myFixture.copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
+    copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
   }
 
   override fun getBasePath() = "/filetypes/skin/findUsages/"

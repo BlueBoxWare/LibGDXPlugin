@@ -41,11 +41,11 @@ abstract class AssetsInCodeCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureT
             "assets/dir/foo.properties",
             "assets/dir/foo_es.properties"
     ).forEach {
-      myFixture.copyFileToProject(it)
+      copyFileToProject(it)
     }
 
-    myFixture.copyFileToProject("src/JavaSkinTest.java", "JavaSkinTest.java")
-    myFixture.copyFileToProject("src/KotlinSkinTest.kt", "KotlinSkinTest.kt")
+    copyFileToProject("src/JavaSkinTest.java", "JavaSkinTest.java")
+    copyFileToProject("src/KotlinSkinTest.kt", "KotlinSkinTest.kt")
 
   }
 

@@ -1743,12 +1743,12 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()) {
-    myFixture.configureByText("ui.skin", content)
+    configureByText("ui.skin", content)
     val result = myFixture.complete(CompletionType.BASIC, 1)
     if (result == null) {
       // the only item was auto-completed?
       assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", expectedCompletionStrings.size, 1)
-      val text = myFixture.editor.document.text
+      val text = editor.document.text
       val expectedString = expectedCompletionStrings.first()
       val msg = "Expected string '$expectedString' not found. Content: \n'$content'"
       assertTrue(msg, text.contains(expectedString))
@@ -1778,15 +1778,15 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
     addKotlin()
     addAnnotations()
 
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/JavaEnum.java", "com/example/JavaEnum.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/KotlinClass.kt", "com/example/KotlinClass.kt")
-    myFixture.copyFileToProject("filetypes/skin/completion/com/example/KotlinEnum.kt", "com/example/KotlinEnum.kt")
-    myFixture.copyFileToProject("ui.atlas")
-    myFixture.copyFileToProject("font1.fnt")
-    myFixture.copyDirectoryToProject("assets", "assets")
+    copyFileToProject("filetypes/skin/completion/com/example/MyTestClass.java", "com/example/MyTestClass.java")
+    copyFileToProject("filetypes/skin/completion/com/example/JavaEnum.java", "com/example/JavaEnum.java")
+    copyFileToProject("filetypes/skin/completion/com/example/MyOtherClass.java", "com/example/MyOtherClass.java")
+    copyFileToProject("filetypes/skin/completion/com/example/AThirdClass.java", "com/example/AThirdClass.java")
+    copyFileToProject("filetypes/skin/completion/com/example/KotlinClass.kt", "com/example/KotlinClass.kt")
+    copyFileToProject("filetypes/skin/completion/com/example/KotlinEnum.kt", "com/example/KotlinEnum.kt")
+    copyFileToProject("ui.atlas")
+    copyFileToProject("font1.fnt")
+    copyDirectoryToProject("assets", "assets")
   }
 
 }

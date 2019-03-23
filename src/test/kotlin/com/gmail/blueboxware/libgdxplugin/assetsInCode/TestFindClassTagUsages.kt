@@ -42,8 +42,8 @@ class TestFindClassTagUsages: LibGDXCodeInsightFixtureTestCase() {
           tagName: String
   ) {
 
-    myFixture.configureByFile(filename)
-    LibGDXTagUsageTargetProvider().getTargets(myFixture.editor, myFixture.file)?.firstOrNull()?.let { usageTarget ->
+    configureByFile(filename)
+    LibGDXTagUsageTargetProvider().getTargets(editor, file)?.firstOrNull()?.let { usageTarget ->
       (usageTarget as? PsiElement2UsageTargetAdapter)?.element?.let { targetElement ->
         val usages = myFixture.findUsages(targetElement)
         TestCase.assertEquals(numberOfUsagesToFind, usages.size)
@@ -67,7 +67,7 @@ class TestFindClassTagUsages: LibGDXCodeInsightFixtureTestCase() {
     addAnnotations()
 
     listOf("skin1.skin", "skin2.skin").forEach {
-      myFixture.copyFileToProject(it)
+      copyFileToProject(it)
     }
 
   }

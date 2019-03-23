@@ -365,7 +365,7 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
         $content1
       }
       """
-      myFixture.configureByText(KotlinFileType.INSTANCE, content)
+      configureByText(KotlinFileType.INSTANCE, content)
       val msg = "Parameter: $annotationParameter, Contents:\n$content"
       doTest(expectedResult, msg, annotationParameter)
     }
@@ -379,7 +379,7 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
           $content1
         }
       """
-      myFixture.configureByText(JavaFileType.INSTANCE, content)
+      configureByText(JavaFileType.INSTANCE, content)
       val msg = "Parameter: $annotationParameter, Contents:\n$content"
       doTest(expectedResult, msg, annotationParameter)
     }
@@ -387,7 +387,7 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(expectedResult: List<String>?, msg: String, parameter: String) {
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.let { psiElement ->
+    val element = file.findElementAt(myFixture.caretOffset)?.let { psiElement ->
       psiElement.firstParent { it is PsiMethodCallExpression || it is KtCallExpression }
     } ?: throw AssertionError(msg)
     val annotationClass = project.findClass("MyAnnotation") ?: throw AssertionError()
@@ -408,9 +408,9 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
 
     addKotlin()
 
-    myFixture.copyFileToProject("JavaClass.java")
-    myFixture.copyFileToProject("MyAnnotation.java")
-    myFixture.copyFileToProject("KotlinClass.kt")
+    copyFileToProject("JavaClass.java")
+    copyFileToProject("MyAnnotation.java")
+    copyFileToProject("KotlinClass.kt")
 
   }
 

@@ -35,7 +35,7 @@ abstract class PropertiesCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureTes
             "test_es.properties",
             "extra.properties"
     ).forEach {
-      myFixture.copyFileToProject(it)
+      copyFileToProject(it)
     }
 
   }

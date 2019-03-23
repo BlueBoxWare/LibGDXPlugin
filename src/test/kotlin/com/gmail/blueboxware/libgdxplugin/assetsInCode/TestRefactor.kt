@@ -21,45 +21,45 @@ import com.intellij.psi.PsiManager
 class TestRefactor: AssetsInCodeCodeInsightFixtureTestCase() {
 
   fun testRenameSkinFileInJavaAnnotation() {
-    val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
+    val virtualFile = copyFileToProject("refactor/libgdx.skin")
     val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: throw AssertionError()
-    myFixture.configureByFile("refactor/JavaClass.java")
+    configureByFile("refactor/JavaClass.java")
     myFixture.renameElement(psiFile, "newname.json")
     myFixture.checkResultByFile("refactor/JavaClass.renameSkin.after")
   }
 
   fun testRenameSkinFileInKotlinAnnotation() {
-    val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
+    val virtualFile = copyFileToProject("refactor/libgdx.skin")
     val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: throw AssertionError()
-    myFixture.configureByFile("refactor/KotlinFile.kt")
+    configureByFile("refactor/KotlinFile.kt")
     myFixture.renameElement(psiFile, "newname.json")
     myFixture.checkResultByFile("refactor/KotlinFile.renameSkin.after")
   }
 
   fun testRenameAtlasFileInKotlinAnnotation() {
-    val virtualFile = myFixture.copyFileToProject("refactor/libgdx.atlas")
+    val virtualFile = copyFileToProject("refactor/libgdx.atlas")
     val psiFile = PsiManager.getInstance(project).findFile(virtualFile) ?: throw AssertionError()
-    myFixture.configureByFile("refactor/KotlinFile.kt")
+    configureByFile("refactor/KotlinFile.kt")
     myFixture.renameElement(psiFile, "newname.atlas")
     myFixture.checkResultByFile("refactor/KotlinFile.renameAtlas.after")
   }
 
   fun testRenameResourceInJava() {
-    val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
+    val virtualFile = copyFileToProject("refactor/libgdx.skin")
     val skinFile = PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile ?: throw AssertionError()
     val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle", "green").firstOrNull()
             ?: throw AssertionError()
-    myFixture.configureByFile("refactor/JavaClass.java")
+    configureByFile("refactor/JavaClass.java")
     myFixture.renameElement(element, "yellow")
     myFixture.checkResultByFile("refactor/JavaClass.renameResource.after")
   }
 
   fun testRenameResourceInKotlin() {
-    val virtualFile = myFixture.copyFileToProject("refactor/libgdx.skin")
+    val virtualFile = copyFileToProject("refactor/libgdx.skin")
     val skinFile = PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile ?: throw AssertionError()
     val element = skinFile.getResources("com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle", "green").firstOrNull()
             ?: throw AssertionError()
-    myFixture.configureByFile("refactor/KotlinFile.kt")
+    configureByFile("refactor/KotlinFile.kt")
     myFixture.renameElement(element, "yellow")
     myFixture.checkResultByFile("refactor/KotlinFile.renameResource.after")
   }

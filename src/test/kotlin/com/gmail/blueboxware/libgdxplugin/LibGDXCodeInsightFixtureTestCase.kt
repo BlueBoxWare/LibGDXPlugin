@@ -8,12 +8,14 @@ import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementVisitor
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
@@ -100,13 +102,13 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
   fun <T: PsiElement> doAllIntentions(familyNamePrefix: String, elementType: Class<T>) {
 
-    myFixture.file?.accept(object: PsiRecursiveElementVisitor() {
+    file.accept(object: PsiRecursiveElementVisitor() {
 
       override fun visitElement(element: PsiElement?) {
         super.visitElement(element)
 
         if (element != null && elementType.isInstance(element)) {
-          myFixture.editor.caretModel.moveToOffset(element.startOffset)
+          editor.caretModel.moveToOffset(element.startOffset)
           myFixture.availableIntentions.forEach {
             if (it.familyName.startsWith(familyNamePrefix)) {
               myFixture.launchAction(it)
@@ -160,6 +162,20 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 
+  fun configureByFile(filePath: String): PsiFile = myFixture.configureByFile(filePath)
+
+  fun configureByFiles(vararg filePaths: String): Array<PsiFile> = myFixture.configureByFiles(*filePaths)
+
+  fun copyFileToProject(sourceFilePath: String) = myFixture.copyFileToProject(sourceFilePath)
+
+  fun copyFileToProject(sourceFilePath: String, targetPath: String) = myFixture.copyFileToProject(sourceFilePath, targetPath)
+
+  fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) = myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
+
+  fun configureByText(fileType: FileType, text: String) = myFixture.configureByText(fileType, text)
+
+  fun configureByText(fileName: String, text: String) = myFixture.configureByText(fileName, text)
+
   fun doTestCompletion(
           fileName: String,
           content: String,
@@ -167,7 +183,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
           notExpectedCompletionStrings: List<String> = listOf()
   ) {
 
-    myFixture.configureByText(fileName, content)
+    configureByText(fileName, content)
 
     val completionResults = myFixture.complete(CompletionType.BASIC, 0)
 
@@ -175,7 +191,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
       // the only item was auto-completed?
       assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", 1, expectedCompletionStrings.size)
-      val text = myFixture.editor.document.text
+      val text = editor.document.text
       val expectedString = expectedCompletionStrings.first()
       val msg = "\nExpected string '$expectedString' not found. Content: '$content'"
       assertTrue(msg, text.contains(expectedString))

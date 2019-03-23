@@ -46,7 +46,7 @@ class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun doTest(vararg files: String) {
-    myFixture.configureByFiles(*(files.map { "annotators/colorAnnotator/$it" }.toTypedArray()))
+    configureByFiles(*(files.map { "annotators/colorAnnotator/$it" }.toTypedArray()))
     myFixture.checkHighlighting(false, false, true)
   }
 
@@ -65,7 +65,7 @@ class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
       }
     })
 
-    myFixture.copyFileToProject("annotators/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
+    copyFileToProject("annotators/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
 
   }
 

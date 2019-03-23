@@ -20,12 +20,12 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
   fun testHighlighting1() {
-    myFixture.configureByFile("1.skin")
+    configureByFile("1.skin")
     myFixture.checkHighlighting(false, false, true)
   }
 
   fun testHighlighting2() {
-    myFixture.configureByFile("2.skin")
+    configureByFile("2.skin")
     myFixture.checkHighlighting(false, false, true)
   }
 
@@ -34,7 +34,7 @@ class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
     addLibGDX()
     addDummyLibGDX199()
-    myFixture.copyFileToProject("ColorArrayHolder.java")
+    copyFileToProject("ColorArrayHolder.java")
   }
 
   override fun getBasePath() = "filetypes/skin/colorAnnotator/"

@@ -22,7 +22,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
 class TestSyntaxHighlighting: LibGDXCodeInsightFixtureTestCase() {
 
   fun testSyntaxHighlighting1() {
-    myFixture.configureByFile("1.json").let { file ->
+    configureByFile("1.json").let { file ->
       project.markFileAsGdxJson(file.virtualFile)
     }
     myFixture.checkHighlighting(false, true, false)

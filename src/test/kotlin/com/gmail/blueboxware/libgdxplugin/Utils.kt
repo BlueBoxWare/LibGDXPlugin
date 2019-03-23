@@ -19,4 +19,5 @@ import com.intellij.testFramework.UsefulTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal fun UsefulTestCase.testname() = if (this.name == null) "" else PlatformTestUtil.getTestName(name, true)
+fun UsefulTestCase.testname() = if (this.name == null) "" else PlatformTestUtil.getTestName(name, true)
+

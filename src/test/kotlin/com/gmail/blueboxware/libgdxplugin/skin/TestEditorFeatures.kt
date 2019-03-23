@@ -30,20 +30,20 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testComments() {
-    myFixture.configureByFile("comments.skin")
+    configureByFile("comments.skin")
     val commentByLineAction = CommentByLineCommentAction()
-    commentByLineAction.actionPerformedImpl(project, myFixture.editor)
+    commentByLineAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("lineComment.txt")
-    myFixture.editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    commentByLineAction.actionPerformedImpl(project, myFixture.editor)
+    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+    commentByLineAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("noComment.txt")
-    myFixture.editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    myFixture.editor.caretModel.moveToOffset(myFixture.editor.caretModel.visualLineStart)
-    myFixture.editor.caretModel.moveCaretRelatively(myFixture.editor.caretModel.visualLineEnd - 1, 0, true, false, false)
+    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+    editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
+    editor.caretModel.moveCaretRelatively(editor.caretModel.visualLineEnd - 1, 0, true, false, false)
     val blockCommentAction = CommentByBlockCommentAction()
-    blockCommentAction.actionPerformedImpl(project, myFixture.editor)
+    blockCommentAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("blockComment.txt")
-    blockCommentAction.actionPerformedImpl(project, myFixture.editor)
+    blockCommentAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("noComment.txt")
   }
 

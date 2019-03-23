@@ -155,9 +155,9 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
 
   fun doTest(fileType: LanguageFileType, content: String, shouldBeFound: Boolean = true) {
 
-    myFixture.configureByText(fileType, content)
+    configureByText(fileType, content)
 
-    val referencingElement = myFixture.file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
+    val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
       elementAtCaret.firstParent { it is KtStringTemplateExpression || it is PsiLiteralExpression }
     } ?: throw AssertionError("Referencing element not found")
 

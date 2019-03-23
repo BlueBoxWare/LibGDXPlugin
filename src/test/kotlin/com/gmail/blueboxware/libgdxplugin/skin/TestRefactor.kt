@@ -47,8 +47,8 @@ import org.jetbrains.kotlin.psi.psiUtil.endOffset
 class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameResource() {
-    myFixture.configureByFile("ColorArrayHolder.java")
-    myFixture.configureByFile("renameResource.skin")
+    configureByFile("ColorArrayHolder.java")
+    configureByFile("renameResource.skin")
     doSimpleTest {
       myFixture.renameElementAtCaret("green")
     }
@@ -57,54 +57,54 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
   fun testRenameParentResource() {
     addDummyLibGDX199()
     addKotlin()
-    myFixture.copyFileToProject("KotlinClass3.kt")
-    myFixture.configureByFile("renameParentResource.skin")
+    copyFileToProject("KotlinClass3.kt")
+    configureByFile("renameParentResource.skin")
     doSimpleTest {
       myFixture.renameElementAtCaret("foo")
     }
   }
 
   fun testRenameResourceWithTags() {
-    myFixture.configureByFile("ColorArrayHolder.java")
-    myFixture.configureByFile("renameResourceWithTags.skin")
+    configureByFile("ColorArrayHolder.java")
+    configureByFile("renameResourceWithTags.skin")
     doSimpleTest {
       myFixture.renameElementAtCaret("green")
     }
   }
 
   fun testRenameJavaField() {
-    myFixture.configureByFile("ColorArrayHolder.java")
+    configureByFile("ColorArrayHolder.java")
     val fieldToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaField.skin")
+    configureByFile("renameJavaField.skin")
     doSimpleTest {
       myFixture.renameElement(fieldToRename, "someColors")
     }
   }
 
   fun testRenameJavaFieldWithTags() {
-    myFixture.configureByFile("ColorArrayHolder.java")
+    configureByFile("ColorArrayHolder.java")
     val fieldToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaFieldWithTags.skin")
+    configureByFile("renameJavaFieldWithTags.skin")
     doSimpleTest {
       myFixture.renameElement(fieldToRename, "someColors")
     }
   }
 
   fun testRenameKotlinField() {
-    myFixture.configureByFile("KotlinClass.kt")
-    val property = myFixture.file.childOfType<KtProperty>()!!
-    myFixture.configureByFile("ColorArrayHolder.java")
-    myFixture.configureByFile("renameKotlinField.skin")
+    configureByFile("KotlinClass.kt")
+    val property = file.childOfType<KtProperty>()!!
+    configureByFile("ColorArrayHolder.java")
+    configureByFile("renameKotlinField.skin")
     doSimpleTest {
       myFixture.renameElement(property, "fooBar")
     }
   }
 
   fun testRenameKotlinFieldWithTags() {
-    myFixture.configureByFile("KotlinClass.kt")
-    val property = myFixture.file.childOfType<KtProperty>()!!
-    myFixture.configureByFile("ColorArrayHolder.java")
-    myFixture.configureByFile("renameKotlinFieldWithTags.skin")
+    configureByFile("KotlinClass.kt")
+    val property = file.childOfType<KtProperty>()!!
+    configureByFile("ColorArrayHolder.java")
+    configureByFile("renameKotlinFieldWithTags.skin")
     doSimpleTest {
       myFixture.renameElement(property, "fooBar")
     }
@@ -112,63 +112,63 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
 
   fun testRenameJavaClass() {
-    myFixture.configureByFile("JavaClass.java")
+    configureByFile("JavaClass.java")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaClass.json")
+    configureByFile("renameJavaClass.json")
     doSimpleTest("json") {
       myFixture.renameElement(classToRename, "MyClass")
     }
   }
 
   fun testRenameJavaClassWithTags() {
-    myFixture.configureByFile("JavaClass.java")
+    configureByFile("JavaClass.java")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameJavaClassWithTags.skin")
+    configureByFile("renameJavaClassWithTags.skin")
     doSimpleTest("skin") {
       myFixture.renameElement(classToRename, "MyClass")
     }
   }
 
   fun testRenameJavaInnerClass() {
-    myFixture.configureByFile("JavaClass.java")
+    configureByFile("JavaClass.java")
     val topLevelClass = myFixture.elementAtCaret as PsiClass
     val innerClass = topLevelClass.innerClasses.first()
-    myFixture.configureByFile("renameJavaInnerClass.skin")
+    configureByFile("renameJavaInnerClass.skin")
     doSimpleTest {
       myFixture.renameElement(innerClass, "FooBar")
     }
   }
 
   fun testRenameKotlinClass() {
-    myFixture.configureByFile("KotlinClass.kt")
+    configureByFile("KotlinClass.kt")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameKotlinClass.skin")
+    configureByFile("renameKotlinClass.skin")
     doSimpleTest {
       myFixture.renameElement(classToRename, "MyClass")
     }
   }
 
   fun testRenameKotlinClassWithTags() {
-    myFixture.configureByFile("KotlinClass.kt")
+    configureByFile("KotlinClass.kt")
     val classToRename = myFixture.elementAtCaret
-    myFixture.configureByFile("renameKotlinClassWithTags.skin")
+    configureByFile("renameKotlinClassWithTags.skin")
     doSimpleTest {
       myFixture.renameElement(classToRename, "MyClass")
     }
   }
 
   fun testRenameKotlinInnerClass() {
-    myFixture.configureByFile("KotlinClass.kt")
+    configureByFile("KotlinClass.kt")
     val innerClass = (myFixture.elementAtCaret as KtClass).declarations.find { (it as? KtClass)?.fqName?.shortName()?.asString() == "Inner" }
-    myFixture.configureByFile("renameKotlinInnerClass.json")
+    configureByFile("renameKotlinInnerClass.json")
     doSimpleTest("json") {
       myFixture.renameElement(innerClass!!, "FooBar")
     }
   }
 
   fun testRenamePackage() {
-    myFixture.copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
-    myFixture.configureByFiles("renamePackage.skin", "KotlinClass.kt")
+    copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
+    configureByFiles("renamePackage.skin", "KotlinClass.kt")
     val pkg = project.psiFacade().findPackage("com.example") ?: throw AssertionError()
     doSimpleTest {
       myFixture.renameElement(pkg, "foo")
@@ -176,28 +176,28 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testMovePackage() {
-    myFixture.copyDirectoryToProject("org", "org")
-    myFixture.copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
-    myFixture.copyFileToProject("TopLevelClass.kt", "com/example/TopLevelClass.kt")
-    myFixture.copyFileToProject("KotlinClass3.kt", "com/example/KotlinClass3.kt")
-    myFixture.configureByFile("movePackage.json")
+    copyDirectoryToProject("org", "org")
+    copyFileToProject("JavaClass2.java", "com/example/JavaClass2.java")
+    copyFileToProject("TopLevelClass.kt", "com/example/TopLevelClass.kt")
+    copyFileToProject("KotlinClass3.kt", "com/example/KotlinClass3.kt")
+    configureByFile("movePackage.json")
     doSimpleTest("json") {
       movePackage("com.example", "org.something")
     }
   }
 
   fun testMoveJavaClass() {
-    myFixture.copyDirectoryToProject("org", "org")
-    myFixture.configureByFiles("moveJavaClass.skin", "JavaClass.java")
+    copyDirectoryToProject("org", "org")
+    configureByFiles("moveJavaClass.skin", "JavaClass.java")
     doSimpleTest {
       moveJavaClass("com.example.JavaClass", "org.something")
     }
   }
 
   fun testMoveKotlinFile() {
-    myFixture.copyDirectoryToProject("org", "org")
-    val file = myFixture.configureByFile("KotlinClass.kt") as KtFile
-    myFixture.configureByFile("changeKotlinPackageDirective1.skin")
+    copyDirectoryToProject("org", "org")
+    val file = configureByFile("KotlinClass.kt") as KtFile
+    configureByFile("changeKotlinPackageDirective1.skin")
     moveKotlinFile(file, "org.something")
     myFixture.checkResultByFile("changeKotlinPackageDirective1.skin") // no changes
   }
@@ -215,22 +215,22 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testChangeKotlinPackageDirectiveManually() {
-    myFixture.configureByFiles("KotlinClass2.kt", "changeKotlinPackageDirective1.skin")
+    configureByFiles("KotlinClass2.kt", "changeKotlinPackageDirective1.skin")
     myFixture.type("foo")
     commit()
     myFixture.checkResultByFile("changeKotlinPackageDirective1.skin", "changeKotlinPackageDirective1.skin", false)
   }
 
   fun testAddKotlinPackageDirectiveManually() {
-    myFixture.configureByFiles("TopLevelClass.kt", "changeKotlinPackageDirective2.skin")
-    myFixture.editor.moveCaret(0)
+    configureByFiles("TopLevelClass.kt", "changeKotlinPackageDirective2.skin")
+    editor.moveCaret(0)
     myFixture.type("package foo.bar\n")
     commit()
     myFixture.checkResultByFile("changeKotlinPackageDirective2.skin", "changeKotlinPackageDirective2.skin", false)
   }
 
   fun testRemoveKotlinPackageDirectiveManually() {
-    myFixture.configureByFiles("KotlinClass2.kt", "changeKotlinPackageDirective1.skin")
+    configureByFiles("KotlinClass2.kt", "changeKotlinPackageDirective1.skin")
     val endOfPackageDirective = (file as KtFile).packageDirective!!.endOffset
     editor.caretModel.moveToOffset(endOfPackageDirective)
     myFixture.type("\b".repeat(100))
@@ -329,8 +329,8 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTestChangeKotlinPackageDirective(beforeFileName: String, afterFileName: String, kotlinFileName: String, newPackageName: String) {
 
-    val kotlinFile = myFixture.configureByFile(kotlinFileName) as KtFile
-    myFixture.configureByFile(beforeFileName)
+    val kotlinFile = configureByFile(kotlinFileName) as KtFile
+    configureByFile(beforeFileName)
 
     runCommand {
       KotlinChangePackageRefactoring(kotlinFile).run(FqName(newPackageName))

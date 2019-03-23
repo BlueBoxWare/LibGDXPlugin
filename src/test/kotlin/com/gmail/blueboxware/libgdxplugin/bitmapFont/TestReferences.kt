@@ -24,9 +24,9 @@ import com.intellij.psi.PsiFile
 class TestReferences: LibGDXCodeInsightFixtureTestCase() {
 
   fun testImageFileReference() {
-    myFixture.configureByFile("assets/test1.atlas")
+    configureByFile("assets/test1.atlas")
 
-    val atlasValue = myFixture.file.findElementAt(myFixture.caretOffset)?.getParentOfType<AtlasValue>()
+    val atlasValue = file.findElementAt(myFixture.caretOffset)?.getParentOfType<AtlasValue>()
     assertNotNull(atlasValue)
     val reference = atlasValue!!.reference
     assertNotNull(reference)
@@ -39,7 +39,7 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   override fun setUp() {
     super.setUp()
 
-    myFixture.copyFileToProject("assets/images/test.png", "assets/images/test.png")
+    copyFileToProject("assets/images/test.png", "assets/images/test.png")
   }
 
   override fun getBasePath() = "/filetypes/bitmapFont/references/"

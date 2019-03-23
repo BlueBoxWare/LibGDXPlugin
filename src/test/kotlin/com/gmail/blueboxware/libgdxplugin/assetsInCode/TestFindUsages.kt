@@ -50,8 +50,8 @@ class TestFindUsages: AssetsInCodeCodeInsightFixtureTestCase() {
   }
 
   fun testFindUsages4() {
-    myFixture.copyFileToProject("findUsages/findUsages4.skin")
-    val vf = myFixture.copyFileToProject("findUsages/findUsages4.atlas")
+    copyFileToProject("findUsages/findUsages4.skin")
+    val vf = copyFileToProject("findUsages/findUsages4.atlas")
     val atlasFile = PsiManager.getInstance(project).findFile(vf) as? AtlasFile ?: throw AssertionError()
     val target = atlasFile.getPages().flatMap { it.regionList }.find { it.name == "wallpaper" }!!
     val usagesInfos = myFixture.findUsages(target)
@@ -87,7 +87,7 @@ class TestFindUsages: AssetsInCodeCodeInsightFixtureTestCase() {
       addDummyLibGDX199()
     }
 
-    myFixture.copyFileToProject("findUsages/" + getTestName(false) + ".java")
-    myFixture.copyFileToProject("findUsages/" + getTestName(false) + ".kt")
+    copyFileToProject("findUsages/" + getTestName(false) + ".java")
+    copyFileToProject("findUsages/" + getTestName(false) + ".kt")
   }
 }

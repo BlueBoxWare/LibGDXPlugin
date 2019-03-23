@@ -20,7 +20,7 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 class TestErrorsAnnotator: LibGDXCodeInsightFixtureTestCase() {
 
   fun testErrorsAnnotator() {
-    myFixture.configureByFile("errorsAnnotator.skin")
+    configureByFile("errorsAnnotator.skin")
     myFixture.checkHighlighting(false, false, false)
   }
 

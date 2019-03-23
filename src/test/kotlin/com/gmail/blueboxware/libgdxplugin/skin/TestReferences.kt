@@ -204,8 +204,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testJavaClassReference3() {
-    myFixture.configureByFile("javaClassReference3.skin")
-    val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
+    configureByFile("javaClassReference3.skin")
+    val element: SkinClassName? = file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
     assertNotNull(element)
     assertTrue(element!!.multiResolve().isEmpty())
   }
@@ -219,17 +219,17 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testBitmapFontReference() {
-    myFixture.copyFileToProject("bitmap.fnt")
+    copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
   }
 
   fun testBitmapFontReferenceWithTaggedClasses1() {
-    myFixture.copyFileToProject("bitmap.fnt")
+    copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
   }
 
   fun testBitmapFontReferenceWithTaggedClasses2() {
-    myFixture.copyFileToProject("bitmap.fnt")
+    copyFileToProject("bitmap.fnt")
     doTestFileReference(SkinStringLiteral::class.java, "bitmap.fnt")
   }
 
@@ -264,8 +264,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
 
   fun testFTFGeneratorEnumReference() {
     addFreeType()
-    myFixture.configureByFile("FTFGeneratorEnumReference.skin")
-    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    configureByFile("FTFGeneratorEnumReference.skin")
+    val elementAtCaret = file.findElementAt(myFixture.caretOffset)
     val sourceElement = elementAtCaret?.firstParent<SkinStringLiteral>()
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as PsiField
@@ -314,8 +314,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestFieldReference(expectedFieldName: String? = null) {
-    myFixture.configureByFile(testname() + ".skin")
-    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    configureByFile(testname() + ".skin")
+    val elementAtCaret = file.findElementAt(myFixture.caretOffset)
     val sourceElement = elementAtCaret?.firstParent<SkinPropertyName>()
     assertNotNull(sourceElement)
     val field = sourceElement?.reference?.resolve() as? PsiField
@@ -326,8 +326,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestFileReference(sourceElementClass: Class<*>, expectedFileName: String) {
-    myFixture.configureByFile(testname() + ".skin")
-    val elementAtCaret = myFixture.file.findElementAt(myFixture.caretOffset)
+    configureByFile(testname() + ".skin")
+    val elementAtCaret = file.findElementAt(myFixture.caretOffset)
     val sourceElement = elementAtCaret?.firstParent { sourceElementClass.isInstance(it) }
     assertNotNull(sourceElement)
     val file = sourceElement?.reference?.resolve() as? PsiFile
@@ -336,8 +336,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestResourceReference(resourceName: String?, resourceType: String?) {
-    myFixture.configureByFile(testname() + ".skin")
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.parent
+    configureByFile(testname() + ".skin")
+    val element = file.findElementAt(myFixture.caretOffset)?.parent
     assertNotNull(element)
     val resource = element?.reference?.resolve() as? SkinResource
     if (resourceName != null) {
@@ -350,8 +350,8 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestJavaClassReference(className: String) {
-    myFixture.configureByFile(testname() + ".skin")
-    val element: SkinClassName? = myFixture.file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
+    configureByFile(testname() + ".skin")
+    val element: SkinClassName? = file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
     assertNotNull(element)
     val clazz = (element?.reference as? SkinJavaClassReference)?.multiResolve(false)?.firstOrNull()?.element as? PsiClass
     assertNotNull(clazz)
@@ -359,9 +359,9 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTestDrawableReference() {
-    myFixture.copyFileToProject(testname() + ".atlas")
-    myFixture.configureByFile(testname() + ".skin")
-    val element = myFixture.file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
+    copyFileToProject(testname() + ".atlas")
+    configureByFile(testname() + ".skin")
+    val element = file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
     val reference = element.reference ?: throw AssertionError()
     val target = reference.resolve() as AtlasRegion
     assertEquals(element.value, target.name)
@@ -374,13 +374,13 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
     addAnnotations()
     addDummyLibGDX199()
 
-    myFixture.copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
+    copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
 
     val testName = testname()
 
     if (testName.contains("Kotlin", ignoreCase = true) || testName.contains("tagged", ignoreCase = true)) {
       addKotlin()
-      myFixture.copyFileToProject("com/example/KTestClass.kt", "com/example/KTestClass.kt")
+      copyFileToProject("com/example/KTestClass.kt", "com/example/KTestClass.kt")
     }
 
   }
