@@ -240,7 +240,7 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doSimpleTest(extension: String = "skin", f: () -> Unit) {
     if (extension != "skin") {
-      markFileAsSkin(project, file.virtualFile)
+      project.markFileAsSkin(file.virtualFile)
     }
     runCommand(f)
     myFixture.checkResultByFile(testname() + ".after")

@@ -75,11 +75,11 @@ class MarkAsSkinAction: AnAction() {
 
     if (text == message("context.menu.mark.as.skin")) {
 
-      markFileAsSkin(project, file)
+      project.markFileAsSkin(file)
 
     } else {
 
-      markFileAsNonSkin(project, file)
+      project.markFileAsNonSkin(file)
 
     }
 

@@ -1,0 +1,74 @@
+<info descr="JSON.BRACKETS">[</info>
+
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.PROPERTY_KEY">numbers</info><info descr="JSON.COLON">:</info> <info descr="JSON.BRACKETS">[</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.COLON">:</info> "206-555-1234"
+      <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Home<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.COLON">:</info> "425-555-4321"
+      <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Work
+      <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACKETS">]</info>
+  <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Nate
+  <info descr="JSON.PROPERTY_KEY">age</info><info descr="JSON.COLON">:</info> 31
+  <info descr="JSON.BRACES">}</info>
+
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.PROPERTY_KEY">items</info><info descr="JSON.COLON">:</info> <info descr="JSON.BRACKETS">[</info>
+    <info descr="JSON.BRACES">{</info> <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.SomeObject<info descr="JSON.COMMA">,</info> <info descr="JSON.PROPERTY_KEY">value</info><info descr="JSON.COLON">:</info> 1<info descr="JSON.COMMA">,</info> <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info> <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.SomeObject<info descr="JSON.COMMA">,</info> <info descr="JSON.PROPERTY_KEY">value</info><info descr="JSON.COLON">:</info> 2 <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACES">{</info> <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.SomeObject<info descr="JSON.COMMA">,</info> <info descr="JSON.PROPERTY_KEY">value</info><info descr="JSON.COLON">:</info> 3 <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info> <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.SomeOtherObject<info descr="JSON.COMMA">,</info> <info descr="JSON.PROPERTY_KEY">value</info><info descr="JSON.COLON">:</info> four <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACKETS">]</info>
+  <info descr="JSON.BRACES">}</info>
+
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.PROPERTY_KEY">numbers</info><info descr="JSON.COLON">:</info> <info descr="JSON.BRACKETS">[</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.PhoneNumber<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.COLON">:</info> "206-555-1234"<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Home
+      <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">class</info><info descr="JSON.COLON">:</info> com.example.PhoneNumber<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.COLON">:</info> "425-555-4321"<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Work
+      <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACKETS">]</info><info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Nate<info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">age</info><info descr="JSON.COLON">:</info> 31
+  <info descr="JSON.BRACES">}</info>
+
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.PROPERTY_KEY">tiles_x</info><info descr="JSON.COLON">:</info> 32<info descr="JSON.COMMA">,</info>
+    <info descr="JSON.PROPERTY_KEY">entities</info><info descr="JSON.COLON">:</info> <info descr="JSON.BRACKETS">[</info><info descr="JSON.BRACKETS">]</info><info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">objects</info><info descr="JSON.COLON">:</info> <info descr="JSON.BRACKETS">[</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">object_name</info><info descr="JSON.COLON">:</info> net.sutomaji.space2.gamelogic.objects.BlackHole<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">pos_x</info><info descr="JSON.COLON">:</info> 10<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">pos_y</info><info descr="JSON.COLON">:</info> 10
+      <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">object_name</info><info descr="JSON.COLON">:</info> net.sutomaji.space2.gamelogic.objects.BlackHole<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">pos_x</info><info descr="JSON.COLON">:</info> 10<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">pos_y</info><info descr="JSON.COLON">:</info> 15
+      <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">object_name</info><info descr="JSON.COLON">:</info> net.sutomaji.space2.gamelogic.objects.SpaceStation
+      <info descr="JSON.BRACES">}</info><info descr="JSON.COMMA">,</info>
+    <info descr="JSON.BRACES">{</info>
+      <info descr="JSON.PROPERTY_KEY">i1</info><info descr="JSON.COLON">:</info> 1<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">object_name</info><info descr="JSON.COLON">:</info> net.sutomaji.space2.gamelogic.objects.SpaceStation<info descr="JSON.COMMA">,</info>
+      <info descr="JSON.PROPERTY_KEY">pos_x</info><info descr="JSON.COLON">:</info> 5
+      <info descr="JSON.BRACES">}</info>
+    <info descr="JSON.BRACKETS">]</info><info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">title</info><info descr="JSON.COLON">:</info> "Broken Home"<info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">id</info><info descr="JSON.COLON">:</info> 1<info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">design</info><info descr="JSON.COLON">:</info> tomschneider<info descr="JSON.COMMA">,</info>
+  <info descr="JSON.PROPERTY_KEY">tiles_y</info><info descr="JSON.COLON">:</info> 32
+  <info descr="JSON.BRACES">}</info>
+
+  <info descr="JSON.BRACKETS">]</info>

@@ -69,7 +69,7 @@ val SKIN_TEXTURE_REGION_CLASSES = listOf(
 
 val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 
-val FAKE_FILE_KEY = key<Boolean>("com.gmail.blueboxware.libgdxplugin.fake")
+val FAKE_FILE_KEY = key<Boolean>("fake")
 
 val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
 

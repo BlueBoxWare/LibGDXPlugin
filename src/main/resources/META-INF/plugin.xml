@@ -240,6 +240,18 @@
         <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider" />
         <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory" />
 
+        <!--LibGDX JSON files-->
+        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileTypeFactory" id="LibGDXJson" />
+
+        <lang.parserDefinition language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition" />
+
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor" language="JSON"/>
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor" language="JSON"/>
+
+        <!--<lang.syntaxHighlighterFactory language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.highlighting.GdxJsonSyntaxHighlighterFactory" />-->
+
+        <annotator language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonHighlightingAnnotator" />
+
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />
@@ -372,6 +384,12 @@
         </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectGdxJsonFiles</implementation-class>
+        </component>
+        <component>
+            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonGdxJsonFiles</implementation-class>
         </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory</implementation-class>

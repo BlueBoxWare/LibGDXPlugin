@@ -1,10 +1,10 @@
-package com.gmail.blueboxware.libgdxplugin.settings
+package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi
 
-import com.gmail.blueboxware.libgdxplugin.utils.PersistentFileSetManager
-import com.intellij.openapi.components.State
+import com.intellij.psi.PsiFile
+
 
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2019 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,4 @@ import com.intellij.openapi.components.State
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@State(name = "LibGDXSkins")
-class LibGDXProjectSkinFiles: PersistentFileSetManager()
-
-@State(name = "LibGDXNonSkins")
-class LibGDXProjectNonSkinFiles: PersistentFileSetManager()
+interface GdxJsonFile: GdxJsonElement, PsiFile
