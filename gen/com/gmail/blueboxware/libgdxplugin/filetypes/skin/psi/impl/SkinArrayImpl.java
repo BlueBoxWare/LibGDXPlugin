@@ -14,7 +14,7 @@ import java.util.List;
 
 public class SkinArrayImpl extends SkinArrayMixin implements SkinArray {
 
-  public SkinArrayImpl(ASTNode node) {
+  public SkinArrayImpl(@NotNull ASTNode node) {
     super(node);
   }
 

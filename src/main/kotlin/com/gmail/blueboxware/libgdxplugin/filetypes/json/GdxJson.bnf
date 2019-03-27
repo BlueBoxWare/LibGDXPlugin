@@ -1,4 +1,5 @@
 {
+
   parserClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParser'
   parserUtilClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserUtil"
   psiPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.json.psi'
@@ -58,10 +59,15 @@ property_name ::= quoted_string | unquoted_name_string {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyNameMixin"
 }
 
+comment ::= <<parseComment>>
+
+null ::= /* dummy */
+boolean ::= /* dummy */
+number ::= /* dummy */
+
 private quoted_string ::= '"' quoted_chars '"'
 
 external unquoted_value_string ::= parseUnquotedValueString
 external quoted_chars ::= parseQuotedChars
 external unquoted_name_string ::= parseUnquotedNameString
-external comment ::= parseComment
 external separator ::= parseSeparator

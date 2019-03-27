@@ -1,6 +1,9 @@
 package icons
 
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.util.IconLoader
+import com.intellij.util.IconUtil
+import java.awt.Color
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -23,5 +26,6 @@ object Icons {
   val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png")
   val ATLAS_FILETYPE = LIBGDX_FILETYPE
   val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png")
+  val LIBGDX_JSON_FILETYPE = IconUtil.colorize(AllIcons.FileTypes.Json, Color(39, 128, 233))
 
 }

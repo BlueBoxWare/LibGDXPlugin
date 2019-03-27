@@ -35,7 +35,7 @@ public interface SkinElementTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-       if (type == ARRAY) {
+      if (type == ARRAY) {
         return new SkinArrayImpl(node);
       }
       else if (type == CLASS_NAME) {

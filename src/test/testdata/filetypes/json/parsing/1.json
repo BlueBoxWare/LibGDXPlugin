@@ -48,12 +48,12 @@
     objects: [
       {
         object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
-        pos_x: 10,
-        pos_y: 10
+        pos_x: 10.0,
+        pos_y: +10.34e-02
       },
       {
         object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
-        pos_x: 10,
+        pos_x: -10,
         pos_y: 15
       },
       {

@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.ide.IconProvider
 import com.intellij.lang.LanguageUtil
@@ -27,8 +28,12 @@ class LibGDXIconProvider: IconProvider() {
   override fun getIcon(element: PsiElement, flags: Int): Icon? {
 
     element.containingFile?.virtualFile?.let { virtualFile ->
-      if (LanguageUtil.getLanguageForPsi(element.project, virtualFile) == LibGDXSkinLanguage.INSTANCE) {
-        return Icons.SKIN_FILETYPE
+      LanguageUtil.getLanguageForPsi(element.project, virtualFile)?.let { language ->
+        return when (language) {
+          LibGDXSkinLanguage.INSTANCE -> Icons.SKIN_FILETYPE
+          LibGDXJsonLanuage.INSTANCE -> Icons.LIBGDX_JSON_FILETYPE
+          else -> null
+        }
       }
     }
 

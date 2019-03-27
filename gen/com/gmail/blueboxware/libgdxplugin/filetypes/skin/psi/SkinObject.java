@@ -1,13 +1,12 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi;
 
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiComment;
 import com.intellij.psi.PsiField;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.awt.*;
-import java.util.List;
+import java.awt.Color;
 
 public interface SkinObject extends SkinValue {
 
@@ -23,14 +22,14 @@ public interface SkinObject extends SkinValue {
   @NotNull
   List<String> getPropertyNames();
 
-  void addProperty(SkinProperty property);
+  void addProperty(@NotNull SkinProperty property);
 
-  void addComment(PsiComment comment);
-
-  @Nullable
-  SkinProperty getProperty(String name);
+  void addComment(@NotNull PsiComment comment);
 
   @Nullable
-  PsiField resolveToField(SkinProperty property);
+  SkinProperty getProperty(@NotNull String name);
+
+  @Nullable
+  PsiField resolveToField(@NotNull SkinProperty property);
 
 }

@@ -16,7 +16,7 @@ import java.awt.Color;
 
 public class SkinObjectImpl extends SkinObjectMixin implements SkinObject {
 
-  public SkinObjectImpl(ASTNode node) {
+  public SkinObjectImpl(@NotNull ASTNode node) {
     super(node);
   }
 

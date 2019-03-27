@@ -492,27 +492,27 @@ public class SkinParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  final static Parser recover_class_colon_parser_ = new Parser() {
+  static final Parser recover_class_colon_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return recover_class_colon(b, l + 1);
     }
   };
-  final static Parser recover_class_lbrace_parser_ = new Parser() {
+  static final Parser recover_class_lbrace_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return recover_class_lbrace(b, l + 1);
     }
   };
-  final static Parser recover_class_parser_ = new Parser() {
+  static final Parser recover_class_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return recover_class(b, l + 1);
     }
   };
-  final static Parser recover_object_parser_ = new Parser() {
+  static final Parser recover_object_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return recover_object(b, l + 1);
     }
   };
-  final static Parser recover_property_parser_ = new Parser() {
+  static final Parser recover_property_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return recover_property(b, l + 1);
     }

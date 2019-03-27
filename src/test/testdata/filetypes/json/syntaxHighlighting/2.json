@@ -1,0 +1,21 @@
+<info descr="JSON.BLOCK_COMMENT">// comment</info>
+<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+<info descr="JSON.BRACES">{</info>
+  <info descr="JSON.BLOCK_COMMENT">// comment</info>
+  <info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.PROPERTY_KEY">numbers</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.COLON">:</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info> <info descr="JSON.BRACKETS">[</info>
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.BLOCK_COMMENT">// comment</info>
+    <info descr="JSON.COMMA">,</info><info descr="JSON.BLOCK_COMMENT">// comment</info>
+    <info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.COLON">:</info> "206-555-1234"<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+    <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Home<info descr="JSON.COMMA">,</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+    <info descr="JSON.BRACES">}</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+  <info descr="JSON.BRACES">{</info>
+    <info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.COLON">:</info> "425-555-4321"
+    <info descr="JSON.BLOCK_COMMENT">// comment</info>
+    <info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Work
+    <info descr="JSON.BRACES">}</info>
+  <info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.BRACKETS">]</info>
+<info descr="JSON.PROPERTY_KEY">name</info><info descr="JSON.COLON">:</info> Nate
+<info descr="JSON.PROPERTY_KEY">age</info><info descr="JSON.COLON">:</info> <info descr="JSON.NUMBER">31</info>
+<info descr="JSON.BRACES">}</info>
+<info descr="JSON.BLOCK_COMMENT">/* comment */</info>

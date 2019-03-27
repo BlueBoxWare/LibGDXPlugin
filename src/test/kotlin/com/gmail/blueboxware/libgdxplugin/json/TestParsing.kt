@@ -26,6 +26,10 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
     doTest()
   }
 
+  fun test2() {
+    doTest()
+  }
+
   fun doTest() {
     doTest(true)
   }

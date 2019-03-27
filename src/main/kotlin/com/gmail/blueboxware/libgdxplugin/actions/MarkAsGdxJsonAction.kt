@@ -3,19 +3,19 @@ package com.gmail.blueboxware.libgdxplugin.actions
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
-import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
-import com.intellij.json.JsonLanguage
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonGdxJson
+import com.intellij.icons.AllIcons
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.util.IconLoader
 import icons.Icons
 
+
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2019 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MarkAsSkinAction: AnAction() {
+class MarkAsGdxJsonAction: AnAction() {
 
   override fun update(event: AnActionEvent) {
 
@@ -44,21 +44,16 @@ class MarkAsSkinAction: AnAction() {
       event.project?.let { project ->
         val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
-        if (
-                currentLanguage == null
-                || currentLanguage == PlainTextLanguage.INSTANCE
-                || currentLanguage == JsonLanguage.INSTANCE
-                || currentLanguage == LibGDXJsonLanuage.INSTANCE
-        ) {
+        if (currentLanguage != LibGDXJsonLanuage.INSTANCE && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
 
-          presentation.text = message("context.menu.mark.as.skin")
-          presentation.icon = Icons.SKIN_FILETYPE
+          presentation.text = message("context.menu.mark.as.gdx.json")
+          presentation.icon = Icons.LIBGDX_JSON_FILETYPE
           presentation.isEnabled = true
 
-        } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
+        } else if (currentLanguage == LibGDXJsonLanuage.INSTANCE) {
 
-          presentation.text = message("context.menu.mark.as.non.skin")
-          presentation.icon = IconLoader.getDisabledIcon(Icons.SKIN_FILETYPE)
+          presentation.text = message("context.menu.mark.as.non.gdx.json")
+          presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)
           presentation.isEnabled = true
 
         }
@@ -75,17 +70,16 @@ class MarkAsSkinAction: AnAction() {
     val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
     val text = event.presentation.text ?: return
 
-    if (text == message("context.menu.mark.as.skin")) {
+    if (text == message("context.menu.mark.as.gdx.json")) {
 
-      project.markFileAsSkin(file)
+      project.markFileAsGdxJson(file)
 
     } else {
 
-      project.markFileAsNonSkin(file)
+      project.markFileAsNonGdxJson(file)
 
     }
 
   }
-
 
 }

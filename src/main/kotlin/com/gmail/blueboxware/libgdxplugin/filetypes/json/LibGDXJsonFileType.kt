@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
-import com.intellij.json.JsonFileType
 import com.intellij.openapi.fileTypes.LanguageFileType
+import icons.Icons
 
 
 /*
@@ -25,7 +25,7 @@ class LibGDXJsonFileType private constructor(): LanguageFileType(LibGDXJsonLanua
     val INSTANCE = LibGDXJsonFileType()
   }
 
-  override fun getIcon() = JsonFileType.INSTANCE.icon
+  override fun getIcon() = Icons.LIBGDX_JSON_FILETYPE
 
   override fun getName() = "LibGDX JSON"
 

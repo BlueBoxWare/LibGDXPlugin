@@ -26,14 +26,14 @@ public interface SkinClassSpecification extends SkinNamedElement {
   List<SkinResource> getResourcesAsList();
 
   @NotNull
-  List<SkinResource> getResourcesAsList(PsiElement beforeElement);
+  List<SkinResource> getResourcesAsList(@Nullable PsiElement beforeElement);
 
   @NotNull
   List<String> getResourceNames();
 
   @Nullable
-  SkinResource getResource(String name);
+  SkinResource getResource(@NotNull String name);
 
-  void addComment(PsiComment comment);
+  void addComment(@NotNull PsiComment comment);
 
 }

@@ -78,8 +78,9 @@ private fun Project.changeFileSubstitution(
   fromFiles.remove(file)
   toFiles.add(file)
 
-  val currentLanguage = LanguageUtil.getFileLanguage(file) ?: return
-  LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, this)
+  LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
+    LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, this)
+  }
 
   DaemonCodeAnalyzer.getInstance(this).restart()
   FileBasedIndex.getInstance().requestReindex(file)

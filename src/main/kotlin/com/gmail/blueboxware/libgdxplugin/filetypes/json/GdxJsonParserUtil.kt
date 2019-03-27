@@ -39,8 +39,38 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       return false
     }
 
-    return parseUnquotedString(builder, UNQUOTED_VALUE_STRING_TERMINATORS)
+    val mark = builder.mark()
 
+    val result = parseUnquotedString(builder, UNQUOTED_VALUE_STRING_TERMINATORS).toString().trim()
+
+    if (result.isBlank()) {
+      mark.rollbackTo()
+      return false
+    } else {
+      when (result) {
+        "null" -> mark.done(NULL)
+        "true", "false" -> mark.done(BOOLEAN)
+        else -> {
+
+          try {
+            java.lang.Double.parseDouble(result)
+            mark.done(NUMBER)
+            return true
+          } catch (e: NumberFormatException) {
+          }
+          try {
+            java.lang.Long.parseLong(result)
+            mark.done(NUMBER)
+            return true
+          } catch (e: NumberFormatException) {
+          }
+
+          mark.done(STRING)
+        }
+      }
+    }
+
+    return true
   }
 
   @JvmStatic
@@ -50,7 +80,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       return false
     }
 
-    return parseUnquotedString(builder, UNQUOTED_NAME_STRING_TERMINATORS)
+    return parseUnquotedString(builder, UNQUOTED_NAME_STRING_TERMINATORS).isNotBlank()
 
   }
 
@@ -112,7 +142,6 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
     }
 
     var i = builder.currentOffset - 1
-    var found = false
 
     while (i >= 0 && builder.originalText[i] in listOf(' ', '\t', '\n')) {
       if (builder.originalText[i] == '\n') {
@@ -125,7 +154,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
 
   }
 
-  private fun parseUnquotedString(builder: PsiBuilder, terminatingChars: TokenSet): Boolean {
+  private fun parseUnquotedString(builder: PsiBuilder, terminatingChars: TokenSet): CharSequence {
 
     var stop = false
     val start = builder.currentOffset
@@ -150,7 +179,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
 
     }
 
-    return builder.originalText.subSequence(start, builder.currentOffset).isNotBlank()
+    return builder.originalText.subSequence(start, builder.currentOffset)
 
   }
 

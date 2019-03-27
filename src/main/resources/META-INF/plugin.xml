@@ -224,8 +224,6 @@
                 serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
                 />
 
-        <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.SkinEditorNotificationProvider" />
-
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider" />
 
         <previewHintProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.TextureRegionPreviewHintProvider" />
@@ -246,9 +244,9 @@
         <lang.parserDefinition language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition" />
 
         <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor" language="JSON"/>
-        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor" language="JSON"/>
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor" language="TEXT"/>
 
-        <!--<lang.syntaxHighlighterFactory language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.highlighting.GdxJsonSyntaxHighlighterFactory" />-->
+        <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonEditorNotificationProvider" />
 
         <annotator language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonHighlightingAnnotator" />
 
@@ -258,6 +256,8 @@
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator" />
 
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" id="LibGDXSkin" />
+
+        <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinEditorNotificationProvider" order="first"/>
 
         <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="JSON"/>
         <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="TEXT"/>
@@ -362,6 +362,9 @@
             <add-to-group group-id="NewGroup" anchor="last" />
         </action>
         <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX skin">
+            <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
+        </action>
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsGdxJsonAction" id="LibGDXPlugin.MarkAsGdxJson" text="Mark as LibGDX style JSON">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
         </action>
 
