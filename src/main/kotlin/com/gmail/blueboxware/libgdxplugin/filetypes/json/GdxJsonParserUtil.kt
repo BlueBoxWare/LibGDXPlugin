@@ -76,7 +76,10 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   @JvmStatic
   fun parseUnquotedNameString(builder: PsiBuilder, level: Int): Boolean {
 
-    if (builder.tokenType in UNQUOTED_NAME_STRING_INVALID_STARTERS || builder.eof()) {
+    if (builder.tokenType == COLON) {
+      builder.error("<property name> expected")
+      return true
+    } else if (builder.tokenType in UNQUOTED_NAME_STRING_INVALID_STARTERS || builder.eof()) {
       return false
     }
 
