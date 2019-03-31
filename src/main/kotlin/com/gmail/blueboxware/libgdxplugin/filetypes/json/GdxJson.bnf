@@ -35,18 +35,18 @@
 
 json ::= comment* value comment*
 
-value ::= '{' jobject | '[' array | string {
+value ::= jobject | array | string {
     methods=[
         getValue
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonValueMixin"
 }
 
-jobject ::= comment* property? comment* (separator comment* property)* ','? comment* '}' {
+jobject ::= '{' comment* property? comment* (separator comment* property)* ','? comment* '}' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin"
 }
 
-array ::= comment* value? comment* (separator comment* value comment*)* ','? comment* ']' {
+array ::= '[' comment* value? comment* (separator comment* value comment*)* ','? comment* ']' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin"
 }
 
@@ -60,6 +60,10 @@ private not_brace_or_separator ::= !( '}' | separator)
 
 string ::= quoted_string | unquoted_value_string {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonStringMixin"
+    methods=[
+        isQuoted
+        getValue
+    ]
 }
 
 property_name ::= quoted_string | unquoted_name_string {

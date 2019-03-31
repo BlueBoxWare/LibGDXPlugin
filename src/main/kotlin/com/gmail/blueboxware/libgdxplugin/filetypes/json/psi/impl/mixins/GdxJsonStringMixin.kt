@@ -20,4 +20,15 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementImpl(node)
+abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementImpl(node) {
+
+  override fun isQuoted(): Boolean = text.length > 1 && text.first() == '"' && text.last() == '"'
+
+  override fun getValue(): String =
+          if (isQuoted) {
+            text.substring(1, text.length - 2)
+          } else {
+            text
+          }
+
+}
