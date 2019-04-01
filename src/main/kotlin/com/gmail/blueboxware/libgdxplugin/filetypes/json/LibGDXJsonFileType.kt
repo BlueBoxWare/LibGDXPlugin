@@ -1,5 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSyntaxHighlighterFactory
+import com.intellij.openapi.editor.ex.util.LayeredLexerEditorHighlighter
+import com.intellij.openapi.fileTypes.FileTypeEditorHighlighterProviders
 import com.intellij.openapi.fileTypes.LanguageFileType
 import icons.Icons
 
@@ -23,6 +26,12 @@ class LibGDXJsonFileType private constructor(): LanguageFileType(LibGDXJsonLanua
 
   companion object {
     val INSTANCE = LibGDXJsonFileType()
+  }
+
+  init {
+    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
+      LayeredLexerEditorHighlighter(GdxJsonSyntaxHighlighterFactory.GdxJsonHighlighter(), colors)
+    }
   }
 
   override fun getIcon() = Icons.LIBGDX_JSON_FILETYPE

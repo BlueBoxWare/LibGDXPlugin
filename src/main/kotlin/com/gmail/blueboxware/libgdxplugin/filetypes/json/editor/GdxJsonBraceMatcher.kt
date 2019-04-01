@@ -1,13 +1,14 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
+package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
 import com.intellij.lang.BracePair
 import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 
+
 /*
- * Copyright 2017 Blue Box Ware
+ * Copyright 2019 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +22,18 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinBraceMatcher: PairedBraceMatcher {
+class GdxJsonBraceMatcher: PairedBraceMatcher {
 
   override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int) = openingBraceOffset
 
-  override fun getPairs() = PAIRS
+  override fun getPairs(): Array<BracePair> = PAIRS
 
   override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) = true
 
   companion object {
     val PAIRS = arrayOf(
-            BracePair(SkinElementTypes.L_BRACKET, SkinElementTypes.R_BRACKET, true),
-            BracePair(SkinElementTypes.L_CURLY, SkinElementTypes.R_CURLY, true)
+            BracePair(GdxJsonElementTypes.L_CURLY, GdxJsonElementTypes.R_CURLY, true),
+            BracePair(GdxJsonElementTypes.L_BRACKET, GdxJsonElementTypes.R_BRACKET, true)
     )
   }
 

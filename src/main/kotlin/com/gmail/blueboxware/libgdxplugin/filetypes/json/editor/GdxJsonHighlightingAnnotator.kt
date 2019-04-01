@@ -1,15 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
-import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 
 
 /*
@@ -33,20 +30,12 @@ class GdxJsonHighlightingAnnotator: Annotator {
 
     fun a(textAttribute: TextAttributesKey) = element.annotate(holder, textAttribute)
 
-    if (element is LeafPsiElement && element.getParentOfType<GdxJsonString>() == null) {
-      when (element.elementType) {
-        L_CURLY, R_CURLY -> a(JSON_BRACES)
-        L_BRACKET, R_BRACKET -> a(JSON_BRACKETS)
-        COMMA -> a(JSON_COMMA)
-        COLON -> a(JSON_COLON)
-      }
-    } else {
-      when (element) {
-        is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
-        is GdxJsonComment -> a(JSON_BLOCK_COMMENT)
-        is GdxJsonNull, is GdxJsonBoolean -> a(JSON_KEYWORD)
-        is GdxJsonNumber -> a(JSON_NUMBER)
-      }
+    when (element) {
+      is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
+      is GdxJsonComment -> a(JSON_BLOCK_COMMENT)
+      is GdxJsonNull, is GdxJsonBoolean -> a(JSON_KEYWORD)
+      is GdxJsonNumber -> a(JSON_NUMBER)
+      is GdxJsonString -> a(JSON_STRING)
     }
 
   }

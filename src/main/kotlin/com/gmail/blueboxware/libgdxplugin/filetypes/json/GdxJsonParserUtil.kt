@@ -65,7 +65,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
           } catch (e: NumberFormatException) {
           }
 
-          mark.done(STRING)
+          mark.drop()
         }
       }
     }

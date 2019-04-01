@@ -34,7 +34,7 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun createFile(viewProvider: FileViewProvider): PsiFile = GdxJsonFileImpl(viewProvider)
 
-  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+  override fun getStringLiteralElements(): TokenSet = TokenSet.create(GdxJsonElementTypes.STRING)
 
   override fun getFileNodeType(): IFileElementType = FILE
 
@@ -42,7 +42,7 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun createElement(node: ASTNode?): PsiElement = GdxJsonElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
+  override fun getCommentTokens(): TokenSet = TokenSet.create(GdxJsonElementTypes.COMMENT)
 
   companion object {
 
