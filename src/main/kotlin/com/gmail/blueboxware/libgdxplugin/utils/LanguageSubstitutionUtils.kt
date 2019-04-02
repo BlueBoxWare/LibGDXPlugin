@@ -8,6 +8,7 @@ import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.impl.FoldingModelImpl
+import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
@@ -34,12 +35,14 @@ import kotlin.reflect.KClass
  * limitations under the License.
  */
 
-internal fun Project.markFileAsSkin(file: VirtualFile) =
-        changeFileSubstitution(
-                file,
-                LibGDXProjectNonSkinFiles::class,
-                LibGDXProjectSkinFiles::class
-        )
+internal fun Project.markFileAsSkin(file: VirtualFile) {
+  EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
+  changeFileSubstitution(
+          file,
+          LibGDXProjectNonSkinFiles::class,
+          LibGDXProjectSkinFiles::class
+  )
+}
 
 internal fun Project.markFileAsNonSkin(file: VirtualFile) =
         changeFileSubstitution(
@@ -48,12 +51,14 @@ internal fun Project.markFileAsNonSkin(file: VirtualFile) =
                 LibGDXProjectNonSkinFiles::class
         )
 
-internal fun Project.markFileAsGdxJson(file: VirtualFile) =
-        changeFileSubstitution(
-                file,
-                LibGDXProjectNonGdxJsonFiles::class,
-                LibGDXProjectGdxJsonFiles::class
-        )
+internal fun Project.markFileAsGdxJson(file: VirtualFile) {
+  EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
+  changeFileSubstitution(
+          file,
+          LibGDXProjectNonGdxJsonFiles::class,
+          LibGDXProjectGdxJsonFiles::class
+  )
+}
 
 internal fun Project.markFileAsNonGdxJson(file: VirtualFile) =
         changeFileSubstitution(

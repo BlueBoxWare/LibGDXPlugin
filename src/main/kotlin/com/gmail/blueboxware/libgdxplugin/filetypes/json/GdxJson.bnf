@@ -38,6 +38,7 @@ json ::= comment* value comment*
 value ::= jobject | array | string {
     methods=[
         getValue
+        isPropertyValue
     ]
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonValueMixin"
 }

@@ -1,5 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin
 
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
+import com.intellij.psi.PsiFile
 import com.intellij.testFramework.PlatformTestUtil
 import com.intellij.testFramework.UsefulTestCase
 
@@ -20,4 +22,6 @@ import com.intellij.testFramework.UsefulTestCase
  * limitations under the License.
  */
 fun UsefulTestCase.testname() = if (this.name == null) "" else PlatformTestUtil.getTestName(name, true)
+
+internal fun PsiFile.markAsGdxJson() = project.markFileAsGdxJson(virtualFile)
 

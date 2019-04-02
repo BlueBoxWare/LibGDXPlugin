@@ -1,6 +1,6 @@
-package com.gmail.blueboxware.libgdxplugin.json
+package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
 
-import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.intellij.lang.Commenter
 
 
 /*
@@ -18,21 +18,17 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSyntaxHighlighting: LibGDXCodeInsightFixtureTestCase() {
+class GdxJsonCommenter: Commenter {
 
-  fun testSyntaxHighlighting1() {
-    doTest("1.json")
-  }
+  override fun getLineCommentPrefix(): String? = "//"
 
-  fun testSyntaxHighlighting2() {
-    doTest("2.json")
-  }
+  override fun getCommentedBlockCommentPrefix(): String? = null
 
-  fun doTest(fileName: String) {
-    configureByFileAsGdxJson(fileName)
-    myFixture.checkHighlighting(false, true, false)
-  }
+  override fun getCommentedBlockCommentSuffix(): String? = null
 
-  override fun getBasePath() = "filetypes/json/syntaxHighlighting"
+  override fun getBlockCommentPrefix(): String? = "/*"
+
+  override fun getBlockCommentSuffix(): String? = "*/"
+
 
 }

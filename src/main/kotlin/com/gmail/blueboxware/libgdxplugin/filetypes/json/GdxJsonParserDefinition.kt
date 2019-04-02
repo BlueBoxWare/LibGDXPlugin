@@ -42,11 +42,12 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun createElement(node: ASTNode?): PsiElement = GdxJsonElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet = TokenSet.create(GdxJsonElementTypes.COMMENT)
+  override fun getCommentTokens(): TokenSet = COMMENTS
 
   companion object {
 
     val FILE = IFileElementType(LibGDXJsonLanuage.INSTANCE)
+    val COMMENTS = TokenSet.create(GdxJsonElementTypes.COMMENT)
 
   }
 

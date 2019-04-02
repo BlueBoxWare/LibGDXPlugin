@@ -176,6 +176,9 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
   fun configureByText(fileName: String, text: String) = myFixture.configureByText(fileName, text)
 
+  fun configureByFileAsGdxJson(filePath: String): PsiFile =
+          myFixture.configureByFile(filePath).apply { markAsGdxJson() }
+
   fun doTestCompletion(
           fileName: String,
           content: String,

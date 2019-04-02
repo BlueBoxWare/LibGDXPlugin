@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
@@ -24,5 +25,7 @@ import com.intellij.lang.ASTNode
 abstract class GdxJsonValueMixin(node: ASTNode): GdxJsonValue, GdxJsonElementImpl(node) {
 
   override fun getValue(): GdxJsonElement? = jobject ?: array ?: string
+
+  override fun isPropertyValue(): Boolean = (parent as? GdxJsonProperty)?.let { it.value == this } ?: false
 
 }

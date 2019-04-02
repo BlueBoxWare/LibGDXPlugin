@@ -197,7 +197,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="181"/>
+    <idea-version since-build="182"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
@@ -253,6 +253,9 @@
 
         <basicWordSelectionFilter implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonWordSelectionFilter" />
         <lang.braceMatcher language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBraceMatcher" />
+        <lang.commenter language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCommenter" />
+
+        <lang.formatter language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.formatting.GdxJsonFormattingBuilderModel" />
 
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
