@@ -28,7 +28,7 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinValueImpl(node) {
+abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinValueImpl(node) {
 
   override fun getValue(): String = text.stripQuotes().unescape()
 

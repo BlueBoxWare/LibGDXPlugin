@@ -25,7 +25,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinDeprecatedInspection: SkinFileInspection() {
+class SkinDeprecatedInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.deprecated.description")
 

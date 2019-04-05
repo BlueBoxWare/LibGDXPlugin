@@ -28,12 +28,6 @@ public class GdxJsonPropertyImpl extends GdxJsonPropertyMixin implements GdxJson
 
   @Override
   @NotNull
-  public List<GdxJsonComment> getCommentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GdxJsonComment.class);
-  }
-
-  @Override
-  @NotNull
   public GdxJsonPropertyName getPropertyName() {
     return findNotNullChildByClass(GdxJsonPropertyName.class);
   }

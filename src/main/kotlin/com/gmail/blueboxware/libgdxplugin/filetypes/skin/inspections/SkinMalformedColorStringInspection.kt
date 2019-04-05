@@ -23,7 +23,7 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMalformedColorStringInspection: SkinFileInspection() {
+class SkinMalformedColorStringInspection: SkinBaseInspection() {
 
   companion object {
     val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")

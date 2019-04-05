@@ -23,7 +23,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMissingPropertyInspection: SkinFileInspection() {
+class SkinMissingPropertyInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.missing.property.description")
 

@@ -22,6 +22,14 @@ import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
  */
 class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
 
+  fun testFolding1() {
+    myFixture.testFolding(testDataPath + "folding1.lson")
+  }
+
+  fun testFolding2() {
+    myFixture.testFolding(testDataPath + "folding2.lson")
+  }
+
   fun testCommenting() {
     configureByFileAsGdxJson("comments/comments.json")
     val commentByLineAction = CommentByLineCommentAction()

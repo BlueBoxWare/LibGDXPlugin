@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
@@ -250,5 +251,21 @@ internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElem
 
 }
 
-inline fun <reified T: PsiElement> PsiElement.getParentOfType(strict: Boolean = true): T? =
+internal inline fun <reified T: PsiElement> PsiElement.getParentOfType(strict: Boolean = true): T? =
         PsiTreeUtil.getParentOfType(this, T::class.java, strict)
+
+internal fun terminatedOnCurrentLine(editor: Editor, element: PsiElement): Boolean {
+  val document = editor.document
+  val caretOffset = editor.caretModel.currentCaret.offset
+  val elementEndOffset = element.textRange.endOffset
+  if (document.getLineNumber(elementEndOffset) != document.getLineNumber(caretOffset)) {
+    return false
+  }
+  val nextLeaf = PsiTreeUtil.nextLeaf(element, true)
+  return nextLeaf == null || (nextLeaf is PsiWhiteSpace && nextLeaf.text.contains("\n"))
+}
+
+internal fun isFollowedByTerminal(element: PsiElement, type: IElementType): Boolean {
+  val nextLeaf = PsiTreeUtil.nextVisibleLeaf(element)
+  return nextLeaf != null && nextLeaf.node.elementType == type
+}

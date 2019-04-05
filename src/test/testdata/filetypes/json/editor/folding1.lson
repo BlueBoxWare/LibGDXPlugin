@@ -1,0 +1,34 @@
+<fold text='//... '>// line
+<fold text='//... '>//
+<fold text='//... '>//
+
+
+<fold text='//... '>// line end
+
+</fold></fold></fold></fold><fold text='/*...*/ '>/* block
+
+
+
+
+foo */</fold>
+<fold text='//... '>//
+<fold text='//... '>//
+</fold></fold><fold text='{ "name": Nate ... }'>{
+    numbers<fold text='/*...*/ '>/* comment */</fold>: <fold text='/*...*/ '>/* comment */</fold><fold text='[ ... ]'>[
+        <fold text='/*...*/ '>/* comment */</fold> <fold text='//... '>//fewf
+        </fold><fold text='{ "name": Home ... }'>{
+            <fold text='//... '>// comment, // comment
+            </fold><fold text='/*...*/ '>/* comment */</fold>number<fold text='/*...*/ '>/* comment */</fold>: "206-555-1234"<fold text='/*...*/ '>/* comment */</fold>
+            name: Home, <fold text='/*...*/ '>/* comment */</fold>
+        }</fold><fold text='/*...*/ '>/* comment */</fold>
+        <fold text='{ "name": Work ... }'>{
+            number: "425-555-4321"
+            <fold text='//... '>// comment
+            </fold>"name": Work
+        }</fold>
+        <fold text='/*...*/ '>/* comment */</fold>
+    ]</fold>
+    name: Nate,
+    age: 31
+}</fold>
+<fold text='/*...*/ '>/* comment */</fold>

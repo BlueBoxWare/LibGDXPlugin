@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinFileInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinBaseInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.escape
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
@@ -138,7 +138,7 @@ class SkinCompletionContributor: CompletionContributor() {
     if (Regex("""@\w*$""").containsMatchIn(startingText)) {
       result.addElement(LookupElementBuilder.create("Suppress").withIcon(AllIcons.Nodes.Annotationtype))
     } else if (Regex("""@\s*Suppress\s*\(\s*["']?\s*\w*$""", RegexOption.IGNORE_CASE).containsMatchIn(startingText)) {
-      SkinFileInspection.INSPECTION_NAMES.forEach {
+      SkinBaseInspection.INSPECTION_NAMES.forEach {
         result.addElement(LookupElementBuilder.create(it).withIcon(AllIcons.Nodes.Annotationtype))
       }
     }

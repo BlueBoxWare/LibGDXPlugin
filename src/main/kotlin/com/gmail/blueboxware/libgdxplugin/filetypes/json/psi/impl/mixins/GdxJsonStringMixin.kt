@@ -26,7 +26,7 @@ abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementI
 
   override fun getValue(): String =
           if (isQuoted) {
-            text.substring(1, text.length - 2)
+            text.substring(1, text.length - 1)
           } else {
             text
           }

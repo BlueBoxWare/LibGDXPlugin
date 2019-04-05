@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
@@ -34,7 +35,7 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun createFile(viewProvider: FileViewProvider): PsiFile = GdxJsonFileImpl(viewProvider)
 
-  override fun getStringLiteralElements(): TokenSet = TokenSet.create(GdxJsonElementTypes.STRING)
+  override fun getStringLiteralElements(): TokenSet = TokenSet.create(STRING)
 
   override fun getFileNodeType(): IFileElementType = FILE
 
@@ -47,7 +48,8 @@ class GdxJsonParserDefinition: ParserDefinition {
   companion object {
 
     val FILE = IFileElementType(LibGDXJsonLanuage.INSTANCE)
-    val COMMENTS = TokenSet.create(GdxJsonElementTypes.COMMENT)
+    val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
+    val CONTAINERS = TokenSet.create(JOBJECT, ARRAY)
 
   }
 

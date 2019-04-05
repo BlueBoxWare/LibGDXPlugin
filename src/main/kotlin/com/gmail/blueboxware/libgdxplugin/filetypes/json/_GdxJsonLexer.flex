@@ -25,24 +25,30 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
 EOL=\R
 WHITE_SPACE=\s+
 
+LINE_COMMENT="//".*
+BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
+DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"
 ANY_CHAR=.
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}      { return WHITE_SPACE; }
+  {WHITE_SPACE}               { return WHITE_SPACE; }
 
-  "{"                { return L_CURLY; }
-  "}"                { return R_CURLY; }
-  "["                { return L_BRACKET; }
-  "]"                { return R_BRACKET; }
-  ","                { return COMMA; }
-  ":"                { return COLON; }
-  "\""               { return DOUBLE_QUOTE; }
-  "/"                { return SLASH; }
-  "\\"               { return BACK_SLASH; }
-  "*"                { return ASTERIX; }
+  "{"                         { return L_CURLY; }
+  "}"                         { return R_CURLY; }
+  "["                         { return L_BRACKET; }
+  "]"                         { return R_BRACKET; }
+  ","                         { return COMMA; }
+  ":"                         { return COLON; }
+  "\""                        { return DOUBLE_QUOTE; }
+  "/"                         { return SLASH; }
+  "\\"                        { return BACK_SLASH; }
+  "*"                         { return ASTERIX; }
 
-  {ANY_CHAR}         { return ANY_CHAR; }
+  {LINE_COMMENT}              { return LINE_COMMENT; }
+  {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
+  {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
+  {ANY_CHAR}                  { return ANY_CHAR; }
 
 }
 

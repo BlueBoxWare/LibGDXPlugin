@@ -1,5 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection
@@ -80,7 +82,10 @@ class LibGDXInspectionToolProvider: InspectionToolProvider {
           SkinNonExistingFontFileInspection::class.java,
           SkinInspectionNameInspection::class.java,
           SkinAbbrClassInspection::class.java,
-          SkinDeprecatedInspection::class.java
+          SkinDeprecatedInspection::class.java,
+
+          LibGDXJsonInvalidEscapeInspection::class.java,
+          LibGDXDuplicatePropertyInspection::class.java
 
   )
 }

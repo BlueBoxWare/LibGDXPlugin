@@ -1,21 +1,21 @@
-<info descr="JSON.BLOCK_COMMENT">// comment</info>
-<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+// comment
+/* comment */
 {
-  <info descr="JSON.BLOCK_COMMENT">// comment</info>
-  <info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.PROPERTY_KEY">numbers</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info>:<info descr="JSON.BLOCK_COMMENT">/* comment */</info> [
+  // comment
+  /* comment */<info descr="JSON.PROPERTY_KEY">numbers</info>/* comment */:/* comment */ [
   {
-    <info descr="JSON.BLOCK_COMMENT">// comment</info>
-  ,<info descr="JSON.BLOCK_COMMENT">// comment</info>
-    <info descr="JSON.BLOCK_COMMENT">/* comment */</info><info descr="JSON.PROPERTY_KEY">number</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info>: <info descr="JSON.STRING">"206-555-1234"</info><info descr="JSON.BLOCK_COMMENT">/* comment */</info>
-    <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>,<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
-  }<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+    // comment
+    ,// comment
+  /* comment */<info descr="JSON.PROPERTY_KEY">number</info>/* comment */: <info descr="JSON.STRING">"206-555-1234"</info>/* comment */
+  <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>,/* comment */
+  }/* comment */
   {
     <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"425-555-4321"</info>
-    <info descr="JSON.BLOCK_COMMENT">// comment</info>
+    // comment
     <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Work</info>
   }
-  <info descr="JSON.BLOCK_COMMENT">/* comment */</info>]
-<info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Nate</info>
-<info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER"><info descr="JSON.STRING">31</info></info>
+  /* comment */]
+  <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Nate</info>
+  <info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER"><info descr="JSON.STRING">31</info></info>
 }
-<info descr="JSON.BLOCK_COMMENT">/* comment */</info>
+/* comment */

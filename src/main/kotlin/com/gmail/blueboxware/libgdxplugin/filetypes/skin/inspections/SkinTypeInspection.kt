@@ -25,7 +25,7 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinTypeInspection: SkinFileInspection() {
+class SkinTypeInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.types.description")
 

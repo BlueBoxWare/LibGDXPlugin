@@ -5,6 +5,11 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GdxJsonPropertyName extends PsiElement {
+public interface GdxJsonPropertyName extends GdxJsonString {
+
+  @NotNull
+  String getValue();
+
+  boolean isQuoted();
 
 }

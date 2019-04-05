@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingFieldInspection: SkinFileInspection() {
+class SkinNonExistingFieldInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.field.description")
 

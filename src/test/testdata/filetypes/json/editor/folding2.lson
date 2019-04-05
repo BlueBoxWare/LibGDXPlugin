@@ -1,0 +1,83 @@
+<fold text='{ ... }'>{
+    com.badlogic.gdx.graphics.Color: <fold text='{ "default": red ... }'>{
+        white: {r: 1, g: 1, b: 1, a: 1},
+        red: {r: 1, g: 0, b: 0, a: 1},
+        default: red
+        yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
+        alias: yellow
+        alias2: red,
+    }</fold>,
+    com.badlogic.gdx.graphics.g2d.BitmapFont: <fold text='{ ... }'>{
+        medium: <fold text='{ "file": medium.fnt ... }'>{
+            file: medium.fnt
+        }</fold>
+    }</fold>,
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: <fold text='{ "something": default ... }'>{
+        default: <fold text='{ "down": round-down ... }'>{
+            down: round-down,
+            up: round,
+            font: medium,
+            fontColor: white
+        }</fold>,
+        toggle: <fold text='{ "down": round-down ... }'>{
+            down: round-down,
+            up: round,
+            checked: round-down,
+            font: medium,
+            fontColor: white,
+            checkedFontColor: red
+        }</fold>,
+        green: <fold text='{ "down": round-down ... }'>{
+            down: round-down,
+            up: round,
+            font: medium,
+            fontColor: {r: 0, g: 1, b: 0, a: 1}
+        }</fold>,
+        something:
+        default
+    }</fold>,
+    com.mygdx.game.colorTests.KotlinClass: <fold text='{ ... }'>{
+        default: <fold text='{ ... }'>{
+            colors: <fold text='[ ... ]'>[
+                red,
+                yellow,
+                yellow
+            ]</fold>,
+            colorss: <fold text='[ ... ]'>[
+                [red], [{r: 1, g: 0, b: 1, a: 0}],
+                <fold text='[ ... ]'>[
+                    yellow
+                ]</fold>
+                <fold text='[ ... ]'>[
+                    alias
+                ]</fold>
+            ]</fold>
+        }</fold>
+    }</fold>,
+    com.mygdx.game.ColorArrayHolder: <fold text='{ ... }'>{
+        f: <fold text='{ ... }'>{
+            moreColors: <fold text='[ ... ]'>[
+                [{hex: "ff0000"}, gray], <fold text='[ ... ]'>[
+                    <fold text='{ "g": 0 ... }'>{
+                        g: 0
+                    }</fold>
+                ]</fold>, [{}, {}, gray, {r: 1, g: 0, b: 1, a: 0}]
+            ]</fold>,
+            m: <fold text='[ ... ]'>[
+                <fold text='{ ... }'>{
+                    colors: [gray]
+                }</fold>,
+                <fold text='{ ... }'>{
+                    moreColors: [[gray]],
+                    textButtonStyle: <fold text='{ "fontColor": gray ... }'>{
+                        fontColor: gray
+                    }</fold>,
+                    textButtonStyles: <fold text='[ ... ]'>[
+                        {fontColor: gray},
+                        {fontColor: {r: 1, g: 0, b: 1, a: 0}}
+                    ]</fold>
+                }</fold>
+            ]</fold>
+        }</fold>
+    }</fold>,
+}</fold>``

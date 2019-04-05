@@ -4,14 +4,13 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.utils.isFollowedByTerminal
+import com.gmail.blueboxware.libgdxplugin.utils.terminatedOnCurrentLine
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.codeStyle.CodeStyleSettingsManager
-import com.intellij.psi.tree.IElementType
-import com.intellij.psi.util.PsiTreeUtil
 
 /*
  *
@@ -114,21 +113,7 @@ class SkinSmartEnterProcessor: SmartEnterProcessorWithFixers() {
 
     }
 
-    private fun terminatedOnCurrentLine(editor: Editor, element: PsiElement): Boolean {
-      val document = editor.document
-      val caretOffset = editor.caretModel.currentCaret.offset
-      val elementEndOffset = element.textRange.endOffset
-      if (document.getLineNumber(elementEndOffset) != document.getLineNumber(caretOffset)) {
-        return false
-      }
-      val nextLeaf = PsiTreeUtil.nextLeaf(element, true)
-      return nextLeaf == null || (nextLeaf is PsiWhiteSpace && nextLeaf.text.contains("\n"))
-    }
 
-    private fun isFollowedByTerminal(element: PsiElement, type: IElementType): Boolean {
-      val nextLeaf = PsiTreeUtil.nextVisibleLeaf(element)
-      return nextLeaf != null && nextLeaf.node.elementType == type
-    }
   }
 
 }

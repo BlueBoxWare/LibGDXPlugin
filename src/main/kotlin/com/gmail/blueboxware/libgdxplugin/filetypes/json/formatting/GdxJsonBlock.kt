@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.formatting
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition.Companion.CONTAINERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty
@@ -142,7 +143,6 @@ class GdxJsonBlock(
 
   companion object {
 
-    val CONTAINERS = TokenSet.create(JOBJECT, ARRAY)
     val OPEN_BRACES = TokenSet.create(L_CURLY, L_BRACKET)
     val CLOSE_BRACES = TokenSet.create(R_CURLY, R_BRACKET)
     val BRACES = TokenSet.orSet(OPEN_BRACES, CLOSE_BRACES)

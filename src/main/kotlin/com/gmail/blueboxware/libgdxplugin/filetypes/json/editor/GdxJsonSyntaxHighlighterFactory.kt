@@ -47,7 +47,10 @@ class GdxJsonSyntaxHighlighterFactory: SyntaxHighlighterFactory() {
               GdxJsonElementTypes.R_BRACKET to JsonSyntaxHighlighterFactory.JSON_BRACKETS,
 
               GdxJsonElementTypes.COMMA to JsonSyntaxHighlighterFactory.JSON_COMMA,
-              GdxJsonElementTypes.COLON to JsonSyntaxHighlighterFactory.JSON_COLON
+              GdxJsonElementTypes.COLON to JsonSyntaxHighlighterFactory.JSON_COLON,
+
+              GdxJsonElementTypes.LINE_COMMENT to JsonSyntaxHighlighterFactory.JSON_LINE_COMMENT,
+              GdxJsonElementTypes.BLOCK_COMMENT to JsonSyntaxHighlighterFactory.JSON_BLOCK_COMMENT
       )
 
     }

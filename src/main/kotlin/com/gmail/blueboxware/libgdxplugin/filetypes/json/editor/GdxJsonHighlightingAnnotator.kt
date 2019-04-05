@@ -32,7 +32,6 @@ class GdxJsonHighlightingAnnotator: Annotator {
 
     when (element) {
       is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
-      is GdxJsonComment -> a(JSON_BLOCK_COMMENT)
       is GdxJsonNull, is GdxJsonBoolean -> a(JSON_KEYWORD)
       is GdxJsonNumber -> a(JSON_NUMBER)
       is GdxJsonString -> a(JSON_STRING)

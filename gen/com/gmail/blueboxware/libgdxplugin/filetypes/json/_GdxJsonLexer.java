@@ -5,9 +5,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
-import static com.intellij.psi.TokenType.BAD_CHARACTER;
-import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 
 /**
@@ -55,9 +54,9 @@ public class _GdxJsonLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\5\1\22\0\1\1\1\0\1\10\7\0\1\13\1\0\1\6\2\0\1\11\12\0\1\7\40\0\1\4\1"+
-    "\12\1\5\35\0\1\2\1\0\1\3\7\0\1\1\32\0\1\1\337\0\1\1\177\0\13\1\35\0\2\1\5"+
-    "\0\1\1\57\0\1\1\40\0");
+    "\11\0\1\3\1\2\2\1\1\2\22\0\1\3\1\0\1\6\7\0\1\5\1\0\1\14\2\0\1\4\12\0\1\15"+
+    "\40\0\1\12\1\7\1\13\35\0\1\10\1\0\1\11\7\0\1\1\32\0\1\3\337\0\1\3\177\0\13"+
+    "\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -66,10 +65,11 @@ public class _GdxJsonLexer implements FlexLexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\1\14";
+    "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\0"+
+    "\1\17\2\0\1\16";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[13];
+    int [] result = new int[20];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -94,11 +94,12 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\14\0\30\0\14\0\14\0\14\0\14\0\14"+
-    "\0\14\0\14\0\14\0\14\0\14";
+    "\0\0\0\16\0\34\0\52\0\16\0\70\0\16\0\16"+
+    "\0\16\0\16\0\16\0\16\0\16\0\106\0\124\0\70"+
+    "\0\16\0\142\0\160\0\16";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[13];
+    int [] result = new int[20];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -121,11 +122,14 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\1\11"+
-    "\1\12\1\13\1\14\1\15\15\0\1\3\12\0";
+    "\1\2\3\3\1\4\1\5\1\6\1\7\1\10\1\11"+
+    "\1\12\1\13\1\14\1\15\17\0\3\3\16\0\1\16"+
+    "\1\17\10\0\2\20\1\0\3\20\1\21\1\22\6\20"+
+    "\1\16\2\0\13\16\5\17\1\23\10\17\2\20\1\0"+
+    "\13\20\4\17\1\24\1\23\10\17";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[36];
+    int [] result = new int[126];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -163,10 +167,11 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\1\1\12\11";
+    "\1\0\1\11\2\1\1\11\1\1\7\11\2\1\1\0"+
+    "\1\11\2\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[13];
+    int [] result = new int[20];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -475,62 +480,77 @@ public class _GdxJsonLexer implements FlexLexer {
             { return ANY_CHAR;
             } 
             // fall through
-          case 13: break;
+          case 16: break;
           case 2: 
             { return WHITE_SPACE;
             } 
             // fall through
-          case 14: break;
-          case 3: 
-            { return L_CURLY;
-            } 
-            // fall through
-          case 15: break;
-          case 4: 
-            { return R_CURLY;
-            } 
-            // fall through
-          case 16: break;
-          case 5: 
-            { return L_BRACKET;
-            } 
-            // fall through
           case 17: break;
-          case 6: 
-            { return R_BRACKET;
-            } 
-            // fall through
-          case 18: break;
-          case 7: 
-            { return COMMA;
-            } 
-            // fall through
-          case 19: break;
-          case 8: 
-            { return COLON;
-            } 
-            // fall through
-          case 20: break;
-          case 9: 
-            { return DOUBLE_QUOTE;
-            } 
-            // fall through
-          case 21: break;
-          case 10: 
+          case 3: 
             { return SLASH;
             } 
             // fall through
-          case 22: break;
-          case 11: 
-            { return BACK_SLASH;
-            } 
-            // fall through
-          case 23: break;
-          case 12: 
+          case 18: break;
+          case 4: 
             { return ASTERIX;
             } 
             // fall through
+          case 19: break;
+          case 5: 
+            { return DOUBLE_QUOTE;
+            } 
+            // fall through
+          case 20: break;
+          case 6: 
+            { return BACK_SLASH;
+            } 
+            // fall through
+          case 21: break;
+          case 7: 
+            { return L_CURLY;
+            } 
+            // fall through
+          case 22: break;
+          case 8: 
+            { return R_CURLY;
+            } 
+            // fall through
+          case 23: break;
+          case 9: 
+            { return L_BRACKET;
+            } 
+            // fall through
           case 24: break;
+          case 10: 
+            { return R_BRACKET;
+            } 
+            // fall through
+          case 25: break;
+          case 11: 
+            { return COMMA;
+            } 
+            // fall through
+          case 26: break;
+          case 12: 
+            { return COLON;
+            } 
+            // fall through
+          case 27: break;
+          case 13: 
+            { return LINE_COMMENT;
+            } 
+            // fall through
+          case 28: break;
+          case 14: 
+            { return BLOCK_COMMENT;
+            } 
+            // fall through
+          case 29: break;
+          case 15: 
+            { return DOUBLE_QUOTED_STRING;
+            } 
+            // fall through
+          case 30: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

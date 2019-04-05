@@ -257,6 +257,11 @@
 
         <lang.formatter language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.formatting.GdxJsonFormattingBuilderModel" />
 
+        <lang.foldingBuilder language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonFoldingBuilder" />
+
+        <lang.smartEnterProcessor language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSmartEnterProcessor" />
+        <quoteHandler fileType="LibGDX JSON" className="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler" />
+
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />

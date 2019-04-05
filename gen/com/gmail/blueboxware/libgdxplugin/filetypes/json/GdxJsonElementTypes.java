@@ -10,7 +10,6 @@ public interface GdxJsonElementTypes {
 
   IElementType ARRAY = new GdxJsonElementType("ARRAY");
   IElementType BOOLEAN = new GdxJsonElementType("BOOLEAN");
-  IElementType COMMENT = new GdxJsonElementType("COMMENT");
   IElementType JOBJECT = new GdxJsonElementType("JOBJECT");
   IElementType NULL = new GdxJsonElementType("NULL");
   IElementType NUMBER = new GdxJsonElementType("NUMBER");
@@ -22,9 +21,12 @@ public interface GdxJsonElementTypes {
   IElementType ANY_CHAR = new GdxJsonTokenType("ANY_CHAR");
   IElementType ASTERIX = new GdxJsonTokenType("*");
   IElementType BACK_SLASH = new GdxJsonTokenType("\\");
+  IElementType BLOCK_COMMENT = new GdxJsonTokenType("BLOCK_COMMENT");
   IElementType COLON = new GdxJsonTokenType(":");
   IElementType COMMA = new GdxJsonTokenType(",");
   IElementType DOUBLE_QUOTE = new GdxJsonTokenType("\"");
+  IElementType DOUBLE_QUOTED_STRING = new GdxJsonTokenType("DOUBLE_QUOTED_STRING");
+  IElementType LINE_COMMENT = new GdxJsonTokenType("LINE_COMMENT");
   IElementType L_BRACKET = new GdxJsonTokenType("[");
   IElementType L_CURLY = new GdxJsonTokenType("{");
   IElementType R_BRACKET = new GdxJsonTokenType("]");
@@ -39,9 +41,6 @@ public interface GdxJsonElementTypes {
       }
       else if (type == BOOLEAN) {
         return new GdxJsonBooleanImpl(node);
-      }
-      else if (type == COMMENT) {
-        return new GdxJsonCommentImpl(node);
       }
       else if (type == JOBJECT) {
         return new GdxJsonJobjectImpl(node);

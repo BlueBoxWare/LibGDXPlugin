@@ -2,7 +2,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl;
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonComment;
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor;
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue;
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin;
@@ -26,12 +25,6 @@ public class GdxJsonArrayImpl extends GdxJsonArrayMixin implements GdxJsonArray 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GdxJsonElementVisitor) accept((GdxJsonElementVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<GdxJsonComment> getCommentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, GdxJsonComment.class);
   }
 
   @Override

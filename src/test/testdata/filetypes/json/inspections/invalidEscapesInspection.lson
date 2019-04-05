@@ -1,0 +1,37 @@
+{
+    abdc<error>\a</error>\b<error>\c</error>: abc<error>\a</error>\b<error>\c</error>
+    "abdc<error>\a</error>\b<error>\c</error>": "abc<error>\a</error>\b<error>\c</error>"
+    \u1234<error>\u</error>: \\\
+
+    <error>\u11x1</error>: "<error>\u</error>"
+    "\"": \"fe \// efewf\p
+
+    s1: { s: "" }
+    s2: { s: "\\" }
+    s3: { s: '' }
+    s4: { s: '"' }
+    s5: { s: '\"' }
+    s6: { s: "\\\\\\\\" }
+    s7: { s: "\n\r\t\f\u0000\uffff " }
+    s8: { s: \"\n\r\t\f\u0000<error>\y</error>\uffff }
+    s9: { s: ''""\n\t;' }
+    s10: { s: a/*a*/ }
+    s11: { s: "/*a*/" }
+    s12: { s: /*a*/\" }
+    s13: {
+        s: '"\""'/\\"// }
+    }
+    s14: { s: \n }
+
+    '': { }
+    '"': { }
+    '\"/a\\: { }
+    \\/"''': { }
+    \n: { s: \n }
+    \n: { \n: \n }
+    \n: \n
+    ': { s: ' }
+    ': { ': ' }
+    \u1234: { \u123a: \u456b }
+    (()()([: { s: ()(09[ { /\\\t/ }
+}

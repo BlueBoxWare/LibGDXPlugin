@@ -1,21 +1,29 @@
-// comment
-/* comment */
-{
-  // comment
-  /* comment */numbers/* comment */:/* comment */ [
-  {
-    // comment
-    ,// comment
-  /* comment */number/* comment */: "206-555-1234"/* comment */
-  name: Home,/* comment */
-  }/* comment */
-  {
-    number: "425-555-4321"
-    // comment
-    name: Work
-  }
-  /* comment */]
-  name: Nate
-  age: 31
-}
-/* comment */
+/* c */
+/* c */[/* c */
+    /* c */ {/* c */
+        /* c */    numbers/* c */:/* c */ [/* c */
+            {
+                /* c */        class/* c */:/* c */com.example.PhoneNumber/* c */,/* c */
+                /* c *//* c */number/* c */: /* dc */"206-555-1234"/* c */
+                name: Home
+                /* c */}/* c */,/* c */
+/* c */{/* c */class: com.example.PhoneNumber,
+                number: "425-555-4321",
+                name: Work
+                /* c */}/* c */
+            /* c */]/* c */,/* c *//* c */
+        name: Nate,
+        age: 31
+    },
+    {// c
+        numbers: [// c
+            {// c
+                class: com.example.PhoneNumber// c: e,
+                number: 206-555-1234// c"
+                name: Home // c// c
+            }// c
+            {// c
+                class: /*/**/*/ com.example.PhoneNumber
+                /**/number/**/:/**/425-555-4321/**/,/**/name/**/:/**/Work/**/
+            }
+        ],name:"\"\"",age:31}]

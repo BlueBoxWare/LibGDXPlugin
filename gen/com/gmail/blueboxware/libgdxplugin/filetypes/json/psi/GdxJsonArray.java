@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GdxJsonArray extends GdxJsonElement {
 
   @NotNull
-  List<GdxJsonComment> getCommentList();
-
-  @NotNull
   List<GdxJsonValue> getValueList();
 
 }

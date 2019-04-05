@@ -1,0 +1,14 @@
+{
+    <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 1
+    <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 1
+    b: 1
+    ba: 1
+    <warning descr="Property 'a' is defined more than once in this object.">"a"</warning>: 1
+    c: {
+        a: 1
+        <warning descr="Property 'b' is defined more than once in this object.">"b"</warning>: 1
+        <warning descr="Property 'b' is defined more than once in this object.">b</warning>: 1
+        <warning>a\n\"\t</warning>: 1
+        <warning>"a\n\"\t"</warning>: 1
+    }
+}

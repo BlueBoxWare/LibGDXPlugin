@@ -25,7 +25,7 @@ import com.intellij.openapi.application.ApplicationManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingResourceAliasInspection: SkinFileInspection() {
+class SkinNonExistingResourceAliasInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.resource.alias.description")
 

@@ -15,10 +15,6 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitComment(@NotNull GdxJsonComment o) {
-    visitPsiElement(o);
-  }
-
   public void visitJobject(@NotNull GdxJsonJobject o) {
     visitElement(o);
   }
@@ -36,7 +32,7 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
   }
 
   public void visitPropertyName(@NotNull GdxJsonPropertyName o) {
-    visitPsiElement(o);
+    visitString(o);
   }
 
   public void visitString(@NotNull GdxJsonString o) {

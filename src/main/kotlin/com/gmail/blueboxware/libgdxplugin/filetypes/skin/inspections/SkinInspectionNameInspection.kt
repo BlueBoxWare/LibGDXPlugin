@@ -24,7 +24,7 @@ import com.intellij.psi.PsiComment
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinInspectionNameInspection: SkinFileInspection() {
+class SkinInspectionNameInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.inspection.name.description")
 
@@ -44,12 +44,12 @@ class SkinInspectionNameInspection: SkinFileInspection() {
         if (matchResult.groupValues.getOrNull(1)?.toLowerCase() == "suppress") {
           matchResult.groupValues.getOrNull(2)?.let {
             val inspectionName = StringUtil.stripQuotesAroundValue(it.trim()).trim()
-            if (!SkinFileInspection.INSPECTION_NAMES.map(String::toLowerCase).contains(inspectionName.toLowerCase())) {
+            if (!SkinBaseInspection.INSPECTION_NAMES.map(String::toLowerCase).contains(inspectionName.toLowerCase())) {
               matchResult.groups[2]?.range?.let { range ->
                 val textRange = TextRange(range.start, range.endInclusive + 1)
                 holder.registerProblem(comment, textRange, message("skin.inspection.inspection.name.message",
                         inspectionName,
-                        SkinFileInspection.INSPECTION_NAMES.joinToString(", ")
+                        SkinBaseInspection.INSPECTION_NAMES.joinToString(", ")
                 ))
               }
             }

@@ -5,6 +5,8 @@ import com.gmail.blueboxware.libgdxplugin.utils.advanceLexer
 import com.gmail.blueboxware.libgdxplugin.utils.isFollowedByNewline
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
+import com.intellij.psi.TokenType.WHITE_SPACE
+import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 
 /*
@@ -88,7 +90,20 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   }
 
   @JvmStatic
-  fun parseQuotedChars(builder: PsiBuilder, level: Int): Boolean {
+  fun parseQuotedString(builder: PsiBuilder, level: Int): Boolean {
+
+    if (builder.tokenType != DOUBLE_QUOTE) {
+      return false
+    }
+
+    val mark = builder.mark()
+    builder.advanceLexer()
+    builder.setTokenTypeRemapper { source, start, end, text ->
+      if (source == LINE_COMMENT) {
+        return@setTokenTypeRemapper ANY_CHAR
+      }
+      return@setTokenTypeRemapper source
+    }
 
     while (!builder.eof() && builder.tokenType != DOUBLE_QUOTE) {
       if (builder.tokenType == BACK_SLASH) {
@@ -98,6 +113,13 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       builder.advanceLexer()
 
     }
+
+    if (builder.tokenType == DOUBLE_QUOTE) {
+      builder.advanceLexer()
+    }
+
+    mark.done(STRING)
+    builder.setTokenTypeRemapper(null)
 
     return true
 
@@ -110,6 +132,8 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       return false
     }
 
+    val mark = builder.mark()
+
     builder.advanceLexer()
 
     if (builder.tokenType == SLASH) {
@@ -120,6 +144,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
         }
         builder.advanceLexer()
       }
+      mark.done(LINE_COMMENT)
     } else if (builder.tokenType == ASTERIX) {
       while (!builder.eof()) {
         if (builder.tokenType == ASTERIX && builder.rawLookup(1) == SLASH) {
@@ -128,7 +153,9 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
         }
         builder.advanceLexer()
       }
+      mark.done(BLOCK_COMMENT)
     } else {
+      mark.drop()
       return false
     }
 
@@ -145,10 +172,21 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
     }
 
     var i = builder.currentOffset - 1
+    var inComment = false
 
-    while (i >= 0 && builder.originalText[i] in listOf(' ', '\t', '\n')) {
-      if (builder.originalText[i] == '\n') {
-        return true
+    while (i >= 0) {
+      if (inComment) {
+        if (builder.originalText[i] == '/' && builder.originalText[i + 1] == '*') {
+          inComment = false
+        }
+      } else {
+        if (i > 0 && builder.originalText[i - 1] == '*' && builder.originalText[i] == '/') {
+          inComment = true
+        } else if (builder.originalText[i] == '\n') {
+          return true
+        } else if (!builder.originalText[i].isWhitespace()) {
+          break
+        }
       }
       i--
     }
@@ -159,30 +197,38 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
 
   private fun parseUnquotedString(builder: PsiBuilder, terminatingChars: TokenSet): CharSequence {
 
-    var stop = false
     val start = builder.currentOffset
 
-    while (!builder.eof() && !stop) {
+    while (!builder.eof()) {
 
-      when (builder.tokenType) {
-        SLASH ->
-          if (builder.rawLookup(1) in COMMENT_STARTERS) {
-            stop = true
-          }
-        in terminatingChars -> stop = true
-        else -> if (builder.isFollowedByNewline()) {
-          stop = true
-          builder.advanceLexer()
-        }
-      }
-
-      if (!stop) {
+      if (builder.tokenType in terminatingChars) {
+        break
+      } else if (builder.isFollowedByNewline() || builder.nextNonWhiteSpace() in GdxJsonParserDefinition.COMMENTS) {
         builder.advanceLexer()
+        break
       }
+
+      builder.advanceLexer()
 
     }
 
     return builder.originalText.subSequence(start, builder.currentOffset)
+
+  }
+
+  private fun PsiBuilder.nextNonWhiteSpace(): IElementType? {
+    var i = 1
+    var token = rawLookup(i)
+
+    while (token != null) {
+      if (token != WHITE_SPACE) {
+        return token
+      }
+      i++
+      token = rawLookup(i)
+    }
+
+    return null
 
   }
 

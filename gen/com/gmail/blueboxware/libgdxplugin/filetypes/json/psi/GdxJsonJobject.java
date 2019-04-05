@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface GdxJsonJobject extends GdxJsonElement {
 
   @NotNull
-  List<GdxJsonComment> getCommentList();
-
-  @NotNull
   List<GdxJsonProperty> getPropertyList();
 
 }

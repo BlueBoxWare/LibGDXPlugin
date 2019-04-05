@@ -10,7 +10,8 @@
       // comment,
       // comment
       /* comment */
-      number/* comment */: "206-555-1234"/* comment */
+      number/* comment */: "206-555-1234"
+      /* comment */
       name               : Home,
       /* comment */
     }
