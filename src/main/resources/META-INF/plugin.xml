@@ -262,6 +262,14 @@
         <lang.smartEnterProcessor language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSmartEnterProcessor" />
         <quoteHandler fileType="LibGDX JSON" className="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler" />
 
+        <completion.contributor language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCompletionContributor" />
+
+        <intentionAction>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention</className>
+            <category>LibGDX/JSON</category>
+            <descriptionDirectoryName>WrapWithQuotesIntention</descriptionDirectoryName>
+        </intentionAction>
+
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />

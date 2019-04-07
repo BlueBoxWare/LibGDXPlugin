@@ -206,6 +206,11 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       } else if (builder.isFollowedByNewline() || builder.nextNonWhiteSpace() in GdxJsonParserDefinition.COMMENTS) {
         builder.advanceLexer()
         break
+      } else if (builder.nextNonWhiteSpace() == GdxJsonElementTypes.R_BRACKET || builder.nextNonWhiteSpace() == GdxJsonElementTypes.R_CURLY) {
+        // right brackets and curlies are actually allowed in property names,
+        // but we pretend that is not the case to improve error handling
+        builder.advanceLexer()
+        break
       }
 
       builder.advanceLexer()

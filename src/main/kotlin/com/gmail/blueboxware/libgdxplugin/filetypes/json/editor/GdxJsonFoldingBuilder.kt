@@ -33,8 +33,8 @@ class GdxJsonFoldingBuilder: FoldingBuilder, DumbAware {
     (node.psi as? GdxJsonJobject)?.let { jObject ->
 
       var candidate: GdxJsonProperty? = null
-      for (property in jObject.propertyList) {
-        val name = property.name
+      for (property: GdxJsonProperty? in jObject.propertyList) {
+        val name = property?.name ?: continue
         val value = property.value?.value
         if (value is GdxJsonString) {
           if (name == "id" || name == "name") {
