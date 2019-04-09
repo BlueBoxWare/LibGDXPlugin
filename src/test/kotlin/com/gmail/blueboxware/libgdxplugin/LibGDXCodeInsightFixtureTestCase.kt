@@ -172,9 +172,9 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
   fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) = myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
 
-  fun configureByText(fileType: FileType, text: String) = myFixture.configureByText(fileType, text)
+  fun configureByText(fileType: FileType, text: String): PsiFile = myFixture.configureByText(fileType, text)
 
-  fun configureByText(fileName: String, text: String) = myFixture.configureByText(fileName, text)
+  fun configureByText(fileName: String, text: String): PsiFile = myFixture.configureByText(fileName, text)
 
   fun configureByFileAsGdxJson(filePath: String): PsiFile =
           myFixture.configureByFile(filePath).apply { markAsGdxJson() }

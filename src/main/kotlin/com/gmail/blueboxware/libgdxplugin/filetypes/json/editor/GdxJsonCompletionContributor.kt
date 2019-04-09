@@ -40,8 +40,14 @@ class GdxJsonCompletionContributor: CompletionContributor() {
               override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext?, result: CompletionResultSet) {
 
                 val allPropertyNames = parameters.originalFile.collectPropertyKeys() ?: return
-                val usedPropertyNames = parameters.position.firstParent<GdxJsonJobject>()?.collectUsedPropertyKeys() ?: setOf()
-                val prefix = parameters.position.parent.text.trim('"').split(',').firstOrNull()?.removeSuffix(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED) ?: return
+                val usedPropertyNames = parameters.position.firstParent<GdxJsonJobject>()?.collectUsedPropertyKeys()
+                        ?: setOf()
+                val prefix = parameters.position.parent.text
+                        .trim('"')
+                        .split(',')
+                        .firstOrNull()
+                        ?.removeSuffix(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED)
+                        ?: return
                 val prefixMatcher = PlainPrefixMatcher(prefix)
 
                 allPropertyNames.forEach { propertyName ->
@@ -80,10 +86,6 @@ class GdxJsonCompletionContributor: CompletionContributor() {
 
   override fun beforeCompletion(context: CompletionInitializationContext) {
     context.dummyIdentifier = CompletionUtil.DUMMY_IDENTIFIER_TRIMMED
-  }
-
-  override fun fillCompletionVariants(parameters: CompletionParameters, result: CompletionResultSet) {
-    super.fillCompletionVariants(parameters, result)
   }
 
   companion object {

@@ -22,53 +22,53 @@ import com.intellij.openapi.command.WriteCommandAction
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
+class TestSmartEnter: LibGDXCodeInsightFixtureTestCase() {
 
-    fun testCommaAfterProperty() {
-        doTest()
-    }
+  fun testCommaAfterProperty() {
+    doTest()
+  }
 
-    fun testCommaAfterPropertyInWord() {
-        doTest()
-    }
+  fun testCommaAfterPropertyInWord() {
+    doTest()
+  }
 
-    fun testCommaAfterPropertyArray() {
-        doTest()
-    }
+  fun testCommaAfterPropertyArray() {
+    doTest()
+  }
 
-    fun testColonAfterPropertyName() {
-        doTest()
-    }
+  fun testColonAfterPropertyName() {
+    doTest()
+  }
 
-    fun testColonAfterPropertyNameQuotes() {
-        doTest()
-    }
+  fun testColonAfterPropertyNameQuotes() {
+    doTest()
+  }
 
-    fun testCommaAfterArrayElement() {
-        doTest()
-    }
+  fun testCommaAfterArrayElement() {
+    doTest()
+  }
 
-    fun testCommafterPropertyWithMultilineValue() {
-        doTest()
-    }
+  fun testCommafterPropertyWithMultilineValue() {
+    doTest()
+  }
 
-    private fun doTest() {
-        configureByFileAsGdxJson(testname() + ".json")
+  private fun doTest() {
+    configureByFileAsGdxJson(testname() + ".json")
 
-        val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXJsonLanuage.INSTANCE)
+    val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXJsonLanuage.INSTANCE)
 
-        WriteCommandAction.runWriteCommandAction(project) {
+    WriteCommandAction.runWriteCommandAction(project) {
 
-            for (processor in processors) {
-                processor.process(project, editor, file)
-            }
-
-        }
-
-        myFixture.checkResultByFile(testname() + ".after", false)
+      for (processor in processors) {
+        processor.process(project, editor, file)
+      }
 
     }
 
-    override fun getBasePath() = "/filetypes/json/smartEnter/"
+    myFixture.checkResultByFile(testname() + ".after", false)
+
+  }
+
+  override fun getBasePath() = "/filetypes/json/smartEnter/"
 
 }

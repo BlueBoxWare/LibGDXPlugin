@@ -29,8 +29,7 @@ import com.intellij.openapi.application.ApplicationManager
 class GdxJsonStructureViewModel(file: GdxJsonFile):
         StructureViewModelBase(file, GdxJsonStructureViewElement(file)),
         StructureViewModel.ElementInfoProvider,
-        StructureViewModel.ExpandInfoProvider
-{
+        StructureViewModel.ExpandInfoProvider {
 
   init {
     withSuitableClasses(
