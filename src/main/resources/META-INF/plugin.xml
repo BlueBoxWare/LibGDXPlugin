@@ -264,6 +264,8 @@
 
         <completion.contributor language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCompletionContributor" />
 
+        <lang.psiStructureViewFactory language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewBuilderFactory" />
+
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention</className>
             <category>LibGDX/JSON</category>

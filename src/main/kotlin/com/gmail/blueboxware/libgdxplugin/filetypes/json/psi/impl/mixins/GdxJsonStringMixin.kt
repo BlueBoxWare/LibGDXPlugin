@@ -3,6 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.util.text.StringUtil
+import javax.swing.Icon
 
 
 /*
@@ -30,5 +33,15 @@ abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementI
           } else {
             text
           }
+
+  override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
+
+    override fun getLocationString(): String? = null
+
+    override fun getIcon(unused: Boolean): Icon? = null
+
+    override fun getPresentableText(): String? = StringUtil.unescapeStringCharacters(value)
+
+  }
 
 }

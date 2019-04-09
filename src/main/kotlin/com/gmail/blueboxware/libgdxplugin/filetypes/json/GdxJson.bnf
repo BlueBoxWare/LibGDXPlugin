@@ -52,6 +52,10 @@ value ::= jobject | array | string {
 
 jobject ::= '{'  property?  (separator  property)* ','?  '}' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin"
+    methods=[
+        getProperty
+        getProperties
+    ]
 }
 
 array ::= '['  value?  (separator  value )* ','?  ']' {

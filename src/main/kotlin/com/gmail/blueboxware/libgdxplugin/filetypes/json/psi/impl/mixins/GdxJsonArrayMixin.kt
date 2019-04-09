@@ -2,7 +2,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
+import javax.swing.Icon
 
 
 /*
@@ -20,4 +23,16 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonArrayMixin(node: ASTNode): GdxJsonArray, GdxJsonElementImpl(node)
+abstract class GdxJsonArrayMixin(node: ASTNode): GdxJsonArray, GdxJsonElementImpl(node) {
+
+  override fun getPresentation(): ItemPresentation = object: ItemPresentation {
+
+    override fun getLocationString(): String? = null
+
+    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Array
+
+    override fun getPresentableText(): String? = "array"
+
+  }
+
+}

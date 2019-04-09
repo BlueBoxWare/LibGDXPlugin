@@ -1,8 +1,15 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
+import com.intellij.util.PlatformIcons
+import javax.swing.Icon
 
 
 /*
@@ -23,5 +30,21 @@ import com.intellij.lang.ASTNode
 abstract class GdxJsonPropertyMixin(node: ASTNode): GdxJsonProperty, GdxJsonElementImpl(node) {
 
   override fun getName(): String? = propertyName.value
+
+  override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
+
+    override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.value
+
+    override fun getIcon(unused: Boolean): Icon? =
+            if (value?.value is GdxJsonArray)
+              AllIcons.Json.Property_brackets
+            else if (value?.value is GdxJsonJobject)
+              AllIcons.Json.Property_braces
+            else
+              PlatformIcons.PROPERTY_ICON
+
+    override fun getPresentableText(): String? = name
+
+  }
 
 }
