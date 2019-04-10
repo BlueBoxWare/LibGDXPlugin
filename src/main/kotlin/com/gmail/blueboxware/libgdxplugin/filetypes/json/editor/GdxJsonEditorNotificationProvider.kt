@@ -68,10 +68,8 @@ class GdxJsonEditorNotificationProvider(project: Project, notifications: EditorN
 
           if (currentLanguage == JsonLanguage.INSTANCE) {
 
-            var highlights: Array<RangeHighlighter>? = null
-
-            runOnEdtIfNecessary {
-              highlights = DocumentMarkupModel.forDocument(fileEditor.editor.document, project, true).allHighlighters
+            val highlights: Array<RangeHighlighter>? = computeUnderProgressIfNecessary {
+              DocumentMarkupModel.forDocument(fileEditor.editor.document, project, true).allHighlighters
             }
 
             val count = highlights?.count { highlighter ->

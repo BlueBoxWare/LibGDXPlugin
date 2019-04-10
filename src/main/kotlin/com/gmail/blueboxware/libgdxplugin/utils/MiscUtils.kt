@@ -13,7 +13,6 @@ import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
-import com.intellij.util.ui.EdtInvocationManager
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.idea.search.allScope
 
@@ -81,16 +80,6 @@ internal fun <T> computeUnderProgressIfNecessary(f: () -> T): T =
         } else {
           f()
         }
-
-internal fun runOnEdtIfNecessary(f: () -> Unit) =
-        EdtInvocationManager.getInstance().let { edtManager ->
-          if (edtManager.isEventDispatchThread) {
-            f()
-          } else {
-            edtManager.invokeAndWait(f)
-          }
-        }
-
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
 
