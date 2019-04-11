@@ -4,17 +4,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonGdxJsonFiles
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.json.JsonLanguage
+import com.intellij.json.psi.*
 import com.intellij.lang.Language
-import com.intellij.lang.annotation.HighlightSeverity
-import com.intellij.openapi.editor.impl.DocumentMarkupModel
-import com.intellij.openapi.editor.markup.RangeHighlighter
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.psi.PsiManager
 import com.intellij.ui.EditorNotificationPanel
 import com.intellij.ui.EditorNotifications
 
@@ -50,50 +48,63 @@ class GdxJsonEditorNotificationProvider(project: Project, notifications: EditorN
     settings.neverAskAboutJsonFiles = true
   }
 
-  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean {
+  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean =
+          showNotification(project, currentLanguage, file, settings)
 
-    if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
-      return false
-    } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
-      return false
-    } else {
+  override fun getKey(): Key<EditorNotificationPanel> = KEY
 
-      val nonGdxJsonFiles = project.getComponent(LibGDXProjectNonGdxJsonFiles::class.java)
+  companion object {
+    val KEY = key<EditorNotificationPanel>("json.file.detected")
 
-      if (nonGdxJsonFiles.contains(file)) {
+    fun showNotification(
+            project: Project,
+            currentLanguage: Language?,
+            file: VirtualFile,
+            settings: LibGDXPluginSettings
+    ): Boolean {
+
+      if (settings.neverAskAboutJsonFiles) {
+        return false
+      } else if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
+        return false
+      } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
         return false
       } else {
 
-        fileEditor.editor.document.text.let {
+        val nonGdxJsonFiles = project.getComponent(LibGDXProjectNonGdxJsonFiles::class.java)
+
+        if (nonGdxJsonFiles.contains(file)) {
+          return false
+        } else {
 
           if (currentLanguage == JsonLanguage.INSTANCE) {
 
-            val highlights: Array<RangeHighlighter>? = computeUnderProgressIfNecessary {
-              DocumentMarkupModel.forDocument(fileEditor.editor.document, project, true).allHighlighters
-            }
+            var count = 0
 
-            val count = highlights?.count { highlighter ->
-              (highlighter.errorStripeTooltip as? HighlightInfo)?.severity == HighlightSeverity.ERROR
-            } ?: 0
+            (PsiManager.getInstance(project).findFile(file) as? JsonFile)
+                    ?.childrenOfType<JsonValue>()
+                    ?.forEach { value ->
+                      if (value is JsonStringLiteral || value is JsonReferenceExpression) {
 
-            if (count > 5) {
-              return true
-            }
+                        if (!JsonPsiUtil.getElementTextWithoutHostEscaping(value).startsWith("\"")) {
+                          count++
+                        }
+
+                        if (count > 5) {
+                          return true
+                        }
+                      }
+                    }
 
           }
 
 
         }
       }
+
+      return false
+
     }
 
-    return false
-
-  }
-
-  override fun getKey(): Key<EditorNotificationPanel> = KEY
-
-  companion object {
-    val KEY = key<EditorNotificationPanel>("json.file.detected")
   }
 }

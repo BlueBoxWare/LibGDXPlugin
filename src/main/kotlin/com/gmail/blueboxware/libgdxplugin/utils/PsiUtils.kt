@@ -65,7 +65,8 @@ internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? = Psi
 
 internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? = PsiTreeUtil.findChildOfType(this, T::class.java)
 
-internal inline fun <reified T: PsiElement> PsiElement.childrenOfType(): Collection<T> = PsiTreeUtil.findChildrenOfType(this, T::class.java)
+internal inline fun <reified T: PsiElement> PsiElement.childrenOfType(): Collection<T> =
+        PsiTreeUtil.findChildrenOfType(this, T::class.java)
 
 internal inline fun <reified T: PsiElement> PsiElement.firstParent(): T? = firstParent { it is T } as? T
 
