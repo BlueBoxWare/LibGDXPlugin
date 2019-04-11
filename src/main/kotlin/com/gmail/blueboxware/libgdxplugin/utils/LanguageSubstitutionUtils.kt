@@ -39,7 +39,7 @@ internal fun Project.markFileAsSkin(file: VirtualFile) {
   EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
   changeFileSubstitution(
           file,
-          LibGDXProjectNonSkinFiles::class,
+          listOf(LibGDXProjectNonSkinFiles::class, LibGDXProjectGdxJsonFiles::class),
           LibGDXProjectSkinFiles::class
   )
 }
@@ -47,7 +47,7 @@ internal fun Project.markFileAsSkin(file: VirtualFile) {
 internal fun Project.markFileAsNonSkin(file: VirtualFile) =
         changeFileSubstitution(
                 file,
-                LibGDXProjectSkinFiles::class,
+                listOf(LibGDXProjectSkinFiles::class),
                 LibGDXProjectNonSkinFiles::class
         )
 
@@ -55,7 +55,7 @@ internal fun Project.markFileAsGdxJson(file: VirtualFile) {
   EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
   changeFileSubstitution(
           file,
-          LibGDXProjectNonGdxJsonFiles::class,
+          listOf(LibGDXProjectNonGdxJsonFiles::class, LibGDXProjectSkinFiles::class),
           LibGDXProjectGdxJsonFiles::class
   )
 }
@@ -63,13 +63,13 @@ internal fun Project.markFileAsGdxJson(file: VirtualFile) {
 internal fun Project.markFileAsNonGdxJson(file: VirtualFile) =
         changeFileSubstitution(
                 file,
-                LibGDXProjectGdxJsonFiles::class,
+                listOf(LibGDXProjectGdxJsonFiles::class),
                 LibGDXProjectNonGdxJsonFiles::class
         )
 
 private fun Project.changeFileSubstitution(
         file: VirtualFile,
-        from: KClass<out PersistentFileSetManager>,
+        from: Collection<KClass<out PersistentFileSetManager>>,
         to: KClass<out PersistentFileSetManager>
 ) {
 
@@ -77,10 +77,12 @@ private fun Project.changeFileSubstitution(
     return
   }
 
-  val fromFiles = getComponent(from.java)
+  for (fromFile in from) {
+    getComponent(fromFile.java)?.remove(file)
+  }
+
   val toFiles = getComponent(to.java)
 
-  fromFiles.remove(file)
   toFiles.add(file)
 
   LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
