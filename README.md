@@ -10,6 +10,7 @@ This unofficial plugin adds a number of [LibGDX](https://libgdx.badlogicgames.co
   - __[Inspections](#inspections)__
   - __[Color previews](#color-previews)__
   - __[Skin JSON support](#skin-json-support)__
+  - __[JSON support](#json-support)__
   - __[Atlas file support](#atlas-file-support)__
   - __[Bitmap Font file support](#bitmap-font-file-support)__
   - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
@@ -86,6 +87,13 @@ given class or using malformed color strings
 
 \[1]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
 annotation (see below)
+
+## JSON support
+IntelliJ doesn't work well with LibGDX-style JSON, which is more forgiving when it comes to things like unquoted strings and missing comma's. 
+LibGDXPlugin adds support for LibGDX's custom JSON with the usual niceties of syntax coloring, completion, folding, etc.
+
+To have LibGDXPlugin treat a JSON file as a LibGDX-style JSON file: in the Project Window, open the context menu for the file 
+and select `Mark as LibGDX style JSON`.
 
 ## Atlas file support
 

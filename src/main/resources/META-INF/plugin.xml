@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Plugin</name>
-    <version>1.18</version>
+    <version>1.19</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.19</b>
+        <ul>
+            <li>
+                Support for LibGDX style JSON (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/19">#19</a>).
+                In the project panel context menu use <i>Mark as LibGDX style JSON</i> to have a file treated as LibGDX JSON.
+            </li>
+        </ul>
+
         <b>1.18</b>
         <ul>
             <li>Support for com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator in Skin files (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/18">issue #18</a>)</li>
