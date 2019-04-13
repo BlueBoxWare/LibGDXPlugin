@@ -11,11 +11,15 @@ import com.intellij.openapi.editor.impl.FoldingModelImpl
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.ProjectManager
+import com.intellij.openapi.project.guessCurrentProject
+import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.LanguageSubstitutors
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.FileContentUtilCore
 import com.intellij.util.indexing.FileBasedIndex
+import javax.swing.JComponent
 import kotlin.reflect.KClass
 
 
@@ -34,6 +38,23 @@ import kotlin.reflect.KClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+internal fun resetSkinAssociations(component: JComponent) =
+        resetAssociations(
+                component,
+                LibGDXProjectSkinFiles::class,
+                LibGDXProjectNonSkinFiles::class,
+                "Skin"
+        )
+
+internal fun resetJsonAssociations(component: JComponent) =
+        resetAssociations(
+                component,
+                LibGDXProjectGdxJsonFiles::class,
+                LibGDXProjectNonGdxJsonFiles::class,
+                "LibGDX JSON"
+        )
+
 
 internal fun Project.markFileAsSkin(file: VirtualFile) {
   EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
@@ -85,6 +106,10 @@ private fun Project.changeFileSubstitution(
 
   toFiles.add(file)
 
+  reset(file)
+}
+
+private fun Project.reset(file: VirtualFile) {
   LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
     LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, this)
   }
@@ -100,5 +125,59 @@ private fun Project.changeFileSubstitution(
   }
 
   EditorNotifications.getInstance(this).updateNotifications(file)
+}
+
+private fun resetAssociations(
+        component: JComponent,
+        set1: KClass<out PersistentFileSetManager>,
+        set2: KClass<out PersistentFileSetManager>,
+        type: String
+) {
+
+  val project = guessCurrentProject(component)
+
+  if (project == ProjectManager.getInstance().defaultProject) {
+    Messages.showWarningDialog(
+            component,
+            "Cannot determine active project.",
+            "Cannot determine active project"
+    )
+    return
+  }
+
+  val result = Messages.showOkCancelDialog(
+          component,
+          "Reset all files marked as $type to their original file type for project '${project.name}'?",
+          "Reset $type associations?",
+          "Reset",
+          "Cancel",
+          null
+  )
+
+  if (result == Messages.OK) {
+
+    val filesChanged = mutableSetOf<VirtualFile>()
+
+    project.getComponent(set1.java)?.let {
+      it.files.forEach { file ->
+        filesChanged.add(file)
+      }
+      it.removeAll()
+    }
+
+
+    project.getComponent(set2.java)?.let {
+      it.files.forEach { file ->
+        filesChanged.add(file)
+      }
+      it.removeAll()
+    }
+
+    filesChanged.forEach {
+      project.reset(it)
+    }
+
+  }
 
 }
+

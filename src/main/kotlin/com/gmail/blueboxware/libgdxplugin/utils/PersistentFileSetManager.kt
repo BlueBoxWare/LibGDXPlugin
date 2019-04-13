@@ -35,6 +35,8 @@ open class PersistentFileSetManager: PersistentStateComponent<Element> {
     return true
   }
 
+  fun removeAll() = files.clear()
+
   fun contains(file: VirtualFile) = files.contains(file)
 
   private fun getSortedFiles(): Collection<VirtualFile> {
