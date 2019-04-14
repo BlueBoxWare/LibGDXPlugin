@@ -1,0 +1,53 @@
+{
+    a: <weak_warning descr="#123456ff">"#123456"</weak_warning>
+    b: <weak_warning descr="#12345678">"#12345678"</weak_warning>
+    c: <weak_warning descr="#ff801fff">{
+    r: 1,
+    g: 0.5
+    b: 0.12
+}</weak_warning>
+d: <weak_warning descr="#ff801f4d">{
+r: 1, g: 0.5
+b: 0.12
+a: .3
+}</weak_warning>
+e: [
+{
+f: [<weak_warning descr="#ffff80ff">{a: 1, b: .5, g: 1, r: 1}</weak_warning>]
+}
+]
+f: {
+<weak_warning descr="#123456ff">color: "123456"</weak_warning>,
+}
+g: {
+colour: <weak_warning descr="#123456ff">#123456</weak_warning>
+}
+
+1: "#12345"
+2: "123456"
+
+3: {
+r: a, g: 0.5
+b: 0.12
+}
+
+4: {
+r: 1, g: 0.5
+b: 0.12, c: 1
+}
+
+5: {
+r: 1,
+b: 0.12, a: 1
+}
+
+6: {
+r: 1,
+g: 0.12, b: 5
+}
+
+7: {
+r: -1,
+g: 0.12, b: 1
+}
+}

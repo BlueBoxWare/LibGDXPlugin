@@ -1,13 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
-import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
+import com.gmail.blueboxware.libgdxplugin.utils.createAnnotation
 import com.gmail.blueboxware.libgdxplugin.utils.getColor
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.refactoring.getLineNumber
@@ -62,13 +61,7 @@ class ColorAnnotator: Annotator {
       currentAnnotations.add(element.getLineNumber() to color)
     }
 
-    if (ApplicationManager.getApplication()?.isUnitTestMode == true) {
-      val msg = String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
-      holder.createWeakWarningAnnotation(element, msg)
-    } else {
-      val annotation = holder.createInfoAnnotation(element, null)
-      annotation.gutterIconRenderer = GutterColorRenderer(color)
-    }
+    createAnnotation(color, element, holder)
 
   }
 

@@ -65,12 +65,14 @@ class LibGDXPluginConfigurable(val project: Project): Configurable {
 @State(name = "LibGDXPluginSettings")
 class LibGDXPluginSettings: PersistentStateComponent<LibGDXPluginSettings> {
   var enableColorAnnotations: Boolean = true
+  var enableColorAnnotationsInJson: Boolean = true
   var enableColorAnnotationsInSkin: Boolean = true
   var neverAskAboutSkinFiles: Boolean = false
   var neverAskAboutJsonFiles: Boolean = false
 
   override fun loadState(state: LibGDXPluginSettings) {
     enableColorAnnotations = state.enableColorAnnotations
+    enableColorAnnotationsInJson = state.enableColorAnnotationsInJson
     enableColorAnnotationsInSkin = state.enableColorAnnotationsInSkin
     neverAskAboutSkinFiles = state.neverAskAboutSkinFiles
     neverAskAboutJsonFiles = state.neverAskAboutJsonFiles

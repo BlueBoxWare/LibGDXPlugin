@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNames
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
+import com.gmail.blueboxware.libgdxplugin.utils.createAnnotation
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -19,7 +20,6 @@ import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiUtilBase
 import com.intellij.ui.ColorChooser
-import java.awt.Color
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -95,16 +95,5 @@ class SkinColorAnnotator: Annotator {
     }
 
   }
-
-  private fun createAnnotation(color: Color, element: PsiElement, holder: AnnotationHolder, createIcon: Boolean = true) =
-          if (ApplicationManager.getApplication().isUnitTestMode) {
-            holder.createWeakWarningAnnotation(element, String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha))
-          } else {
-            holder.createInfoAnnotation(element, null).apply {
-              if (createIcon) {
-                gutterIconRenderer = GutterColorRenderer(color)
-              }
-            }
-          }
 
 }

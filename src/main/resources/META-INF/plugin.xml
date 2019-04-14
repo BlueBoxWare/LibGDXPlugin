@@ -257,7 +257,8 @@
         <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonEditorNotificationProvider" />
 
         <lang.syntaxHighlighterFactory language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSyntaxHighlighterFactory" />
-        <annotator language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonHighlightingAnnotator" />
+        <annotator language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonHighlightingAnnotator" />
+        <annotator language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonColorAnnotator" />
 
         <basicWordSelectionFilter implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonWordSelectionFilter" />
         <lang.braceMatcher language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBraceMatcher" />

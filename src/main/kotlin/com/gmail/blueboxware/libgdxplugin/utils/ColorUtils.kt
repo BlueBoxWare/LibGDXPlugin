@@ -1,6 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
+import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.markup.GutterIconRenderer
+import com.intellij.psi.PsiElement
 import com.intellij.util.ui.ColorIcon
 import com.intellij.util.ui.UIUtil
 import java.awt.Color
@@ -21,7 +24,9 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-private val COLOR_REGEX = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
+internal val COLOR_REGEX = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
+
+internal val JSON_COLOR_PROPERTY_NAMES = listOf("color", "colour")
 
 internal fun color(r: Float, g: Float, b: Float, a: Float): Color? =
         if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1 || a < 0 || a > 1)
@@ -75,6 +80,17 @@ internal fun rgbaToColor(value: Long): Color? {
 }
 
 internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12, color, true)
+
+internal fun createAnnotation(color: Color, element: PsiElement, holder: AnnotationHolder, createIcon: Boolean = true) =
+        if (ApplicationManager.getApplication().isUnitTestMode) {
+          holder.createWeakWarningAnnotation(element, String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha))
+        } else {
+          holder.createInfoAnnotation(element, null).apply {
+            if (createIcon) {
+              gutterIconRenderer = GutterColorRenderer(color)
+            }
+          }
+        }
 
 open class GutterColorRenderer(val color: Color): GutterIconRenderer() {
 

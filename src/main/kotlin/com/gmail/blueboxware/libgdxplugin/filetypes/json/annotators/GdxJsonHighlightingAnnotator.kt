@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
+package com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
 import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
