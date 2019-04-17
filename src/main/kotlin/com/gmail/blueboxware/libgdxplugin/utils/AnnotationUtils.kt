@@ -70,7 +70,7 @@ class PsiAnnotationWrapper(private val psiAnnotation: PsiAnnotation): Annotation
     psiAnnotation.findAttributeValue(key)?.navigationElement?.let { value ->
       (value as? PsiArrayInitializerMemberValue)?.initializers?.mapNotNull {
         (it as? PsiLiteralExpression)?.asString()
-      }?.filter { !it.isEmpty() }?.let { result ->
+      }?.filter { it.isNotEmpty() }?.let { result ->
         return result
       }
       (value as? PsiLiteralExpression)?.asString()?.let {

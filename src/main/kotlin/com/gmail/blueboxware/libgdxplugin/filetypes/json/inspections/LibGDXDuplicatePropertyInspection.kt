@@ -54,7 +54,7 @@ class LibGDXDuplicatePropertyInspection: GdxJsonBaseInspection() {
         }
       }
 
-      properties.forEach { name, propertyNames ->
+      properties.forEach { (name, propertyNames) ->
         if (propertyNames.size > 1) {
           propertyNames.forEach { propertyName ->
             holder.registerProblem(propertyName, message("json.inspection.duplicate.property.message", name))

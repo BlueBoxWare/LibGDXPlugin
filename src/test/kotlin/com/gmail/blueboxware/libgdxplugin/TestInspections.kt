@@ -428,7 +428,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
       }
     }
 
-    if (!expectedWarnings.isEmpty()) {
+    if (expectedWarnings.isNotEmpty()) {
       fail("Expected warning(s) not found: " + expectedWarnings.joinToString("\n") + " in:\n" + ppDirContents(testDir))
     }
 

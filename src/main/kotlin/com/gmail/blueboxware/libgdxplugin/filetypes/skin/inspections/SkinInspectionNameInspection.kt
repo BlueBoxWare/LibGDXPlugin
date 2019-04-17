@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.ANNOTATION_REGEX
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.ANNOTATION_REGEX
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
@@ -49,7 +49,7 @@ class SkinInspectionNameInspection: SkinBaseInspection() {
                 val textRange = TextRange(range.start, range.endInclusive + 1)
                 holder.registerProblem(comment, textRange, message("skin.inspection.inspection.name.message",
                         inspectionName,
-                        SkinBaseInspection.INSPECTION_NAMES.joinToString(", ")
+                        INSPECTION_NAMES.joinToString(", ")
                 ))
               }
             }

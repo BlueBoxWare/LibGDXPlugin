@@ -41,7 +41,7 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
   element
           .references
           .filterIsInstance<AssetReference>()
-          .takeIf { !it.isEmpty() }
+          .takeIf { it.isNotEmpty() }
           ?.firstOrNull { it.multiResolve(true).isEmpty() }
           ?.let { reference ->
 

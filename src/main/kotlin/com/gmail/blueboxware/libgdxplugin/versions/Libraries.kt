@@ -18,7 +18,7 @@ import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLi
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-enum class Libraries(val library: com.gmail.blueboxware.libgdxplugin.versions.Library) {
+enum class Libraries(internal val library: Library) {
 
   LIBGDX(
           Library("LibGDX", "com.badlogicgames.gdx", "gdx", extKeys = listOf("gdxVersion"))

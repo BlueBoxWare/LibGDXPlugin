@@ -132,7 +132,7 @@ object FlushingMethodsUtils {
 
     queue.addAll(seeds)
 
-    while (!queue.isEmpty()) {
+    while (queue.isNotEmpty()) {
 
       val method = queue.first()
       result.add(method)

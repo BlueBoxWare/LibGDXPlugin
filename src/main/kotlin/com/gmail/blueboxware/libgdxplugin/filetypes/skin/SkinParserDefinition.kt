@@ -52,7 +52,7 @@ class SkinParserDefinition: ParserDefinition {
 
   override fun createLexer(project: Project?): Lexer = SkinLexer()
 
-  override fun createElement(node: ASTNode?): PsiElement = SkinElementTypes.Factory.createElement(node)
+  override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 
   override fun getCommentTokens(): TokenSet = SKIN_COMMENTARIES
 }

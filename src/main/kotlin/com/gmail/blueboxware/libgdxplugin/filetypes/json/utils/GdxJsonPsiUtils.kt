@@ -1,12 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
-import com.gmail.blueboxware.libgdxplugin.utils.findParentWhichIsChildOf
-import com.intellij.psi.PsiComment
-import com.intellij.psi.impl.source.tree.TreeUtil.skipWhitespaceAndComments
-import com.intellij.psi.util.PsiTreeUtil
 
 
 /*
@@ -25,19 +20,3 @@ import com.intellij.psi.util.PsiTreeUtil
  * limitations under the License.
  */
 fun GdxJsonElement.factory() = (containingFile as? GdxJsonFileImpl)?.factory
-
-fun GdxJsonJobject.addComment(comment: PsiComment) {
-
-  if (firstChild?.text == "{") {
-
-    PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
-      skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
-        factory()?.createNewline()?.let { newLine ->
-          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
-        }
-      }
-    }
-
-  }
-
-}

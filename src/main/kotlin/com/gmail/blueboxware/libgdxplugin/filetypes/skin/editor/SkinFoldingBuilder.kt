@@ -20,9 +20,7 @@ class SkinFoldingBuilder: FoldingBuilder, DumbAware {
 
   override fun getPlaceholderText(node: ASTNode): String? {
 
-    val type = node.elementType
-
-    when (type) {
+    when (node.elementType) {
       SkinElementTypes.OBJECT -> return "{...}"
       SkinElementTypes.ARRAY -> return "[...]"
       SkinElementTypes.LINE_COMMENT -> return "//..."

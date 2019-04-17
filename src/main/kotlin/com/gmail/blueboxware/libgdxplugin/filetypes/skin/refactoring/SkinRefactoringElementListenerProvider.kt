@@ -71,7 +71,7 @@ class SkinRefactoringElementListenerProvider: RefactoringElementListenerProvider
     private fun refactored() {
 
       ApplicationManager.getApplication().runWriteAction {
-        refToClassMap.forEach { reference, clazz ->
+        refToClassMap.forEach { (reference, clazz) ->
           reference.bindToElement(clazz)
         }
       }

@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
-import com.gmail.blueboxware.libgdxplugin.utils.advanceLexer
 import com.gmail.blueboxware.libgdxplugin.utils.isFollowedByNewline
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
@@ -90,80 +89,6 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   }
 
   @JvmStatic
-  fun parseQuotedString(builder: PsiBuilder, level: Int): Boolean {
-
-    if (builder.tokenType != DOUBLE_QUOTE) {
-      return false
-    }
-
-    val mark = builder.mark()
-    builder.advanceLexer()
-    builder.setTokenTypeRemapper { source, start, end, text ->
-      if (source == LINE_COMMENT) {
-        return@setTokenTypeRemapper ANY_CHAR
-      }
-      return@setTokenTypeRemapper source
-    }
-
-    while (!builder.eof() && builder.tokenType != DOUBLE_QUOTE) {
-      if (builder.tokenType == BACK_SLASH) {
-        builder.advanceLexer()
-      }
-
-      builder.advanceLexer()
-
-    }
-
-    if (builder.tokenType == DOUBLE_QUOTE) {
-      builder.advanceLexer()
-    }
-
-    mark.done(STRING)
-    builder.setTokenTypeRemapper(null)
-
-    return true
-
-  }
-
-  @JvmStatic
-  fun parseComment(builder: PsiBuilder, level: Int): Boolean {
-
-    if (builder.tokenType !in COMMENT_STARTERS) {
-      return false
-    }
-
-    val mark = builder.mark()
-
-    builder.advanceLexer()
-
-    if (builder.tokenType == SLASH) {
-      while (!builder.eof()) {
-        if (builder.isFollowedByNewline()) {
-          builder.advanceLexer()
-          break
-        }
-        builder.advanceLexer()
-      }
-      mark.done(LINE_COMMENT)
-    } else if (builder.tokenType == ASTERIX) {
-      while (!builder.eof()) {
-        if (builder.tokenType == ASTERIX && builder.rawLookup(1) == SLASH) {
-          builder.advanceLexer(2)
-          break
-        }
-        builder.advanceLexer()
-      }
-      mark.done(BLOCK_COMMENT)
-    } else {
-      mark.drop()
-      return false
-    }
-
-    return true
-
-  }
-
-  @JvmStatic
   fun parseSeparator(builder: PsiBuilder, level: Int): Boolean {
 
     if (builder.tokenType == COMMA) {
@@ -206,7 +131,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
       } else if (builder.isFollowedByNewline() || builder.nextNonWhiteSpace() in GdxJsonParserDefinition.COMMENTS) {
         builder.advanceLexer()
         break
-      } else if (builder.nextNonWhiteSpace() == GdxJsonElementTypes.R_BRACKET || builder.nextNonWhiteSpace() == GdxJsonElementTypes.R_CURLY) {
+      } else if (builder.nextNonWhiteSpace() == R_BRACKET || builder.nextNonWhiteSpace() == R_CURLY) {
         // right brackets and curlies are actually allowed in property names,
         // but we pretend that is not the case to improve error handling
         builder.advanceLexer()

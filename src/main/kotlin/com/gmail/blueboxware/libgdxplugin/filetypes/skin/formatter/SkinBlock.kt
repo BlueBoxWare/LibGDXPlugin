@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_COLON
@@ -89,8 +88,8 @@ class SkinBlock(
 
   override fun getChildAttributes(newChildIndex: Int) =
           if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-                  || myNode.elementType == SkinElementTypes.CLASS_SPECIFICATION
-                  || myNode.elementType == SkinElementTypes.RESOURCE
+                  || myNode.elementType == CLASS_SPECIFICATION
+                  || myNode.elementType == RESOURCE
           ) {
             ChildAttributes(Indent.getNormalIndent(), null)
           } else if (myNode.psi is PsiFile) {
@@ -165,9 +164,9 @@ class SkinBlock(
     for (index in elementIndex - 1 downTo 0) {
       (subBlocks.getOrNull(index) as? SkinBlock)?.let { block ->
         val elementType = block.node.elementType
-        if (elementType == SkinElementTypes.L_CURLY) {
+        if (elementType == L_CURLY) {
           return true
-        } else if (elementType == SkinElementTypes.R_CURLY) {
+        } else if (elementType == R_CURLY) {
           return false
         }
       }

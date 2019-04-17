@@ -42,7 +42,7 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun createLexer(project: Project?): Lexer = GdxJsonLexer()
 
-  override fun createElement(node: ASTNode?): PsiElement = GdxJsonElementTypes.Factory.createElement(node)
+  override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 
   override fun getCommentTokens(): TokenSet = COMMENTS
 

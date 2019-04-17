@@ -44,7 +44,7 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
     return CachedValuesManager.getCachedValue(this) {
 
       val taggedClasses: List<String>? =
-              project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { !it.isEmpty() }
+              project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { it.isNotEmpty() }
 
       var classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
 

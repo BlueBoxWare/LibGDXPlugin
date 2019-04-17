@@ -109,7 +109,7 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
       }
 
-      if (!includeAll && !foundResources.isEmpty()) {
+      if (!includeAll && foundResources.isNotEmpty()) {
         return foundResources
       }
 

@@ -36,7 +36,7 @@ class TagMap {
           }
 
   fun addAll(tags: Map<String, String>) =
-          tags.forEach { tagName, className ->
+          tags.forEach { (tagName, className) ->
             add(tagName, className)
           }
 
