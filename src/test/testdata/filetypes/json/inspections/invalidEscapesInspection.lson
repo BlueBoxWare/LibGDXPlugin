@@ -34,4 +34,17 @@
     ': { ': ' }
     \u1234: { \u123a: \u456b }
     (()()([: { s: ()(09[ { /\\\t/ }
+    //noinspection InvalidEscape
+    \u11x1: "\u"
+    <error>\u11x1</error>:
+    //noinspection InvalidEscape
+    "\u"
+    <error>\u11x1</error>: "<error>\u</error>"
+    //noinspection InvalidEscape
+    f: {
+        \u11x1: "\u"
+        g: {
+            \u11x1: "\u"
+        }
+    }
 }

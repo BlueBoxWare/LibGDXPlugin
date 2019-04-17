@@ -2,10 +2,16 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForFileFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForObjectFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForPropertyFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForStringFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import kotlin.math.min
 
@@ -34,6 +40,14 @@ class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
   override fun getDisplayName() = message("json.inspection.invalid.escape.display.name")
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
+
+  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+          arrayOf(
+                  SuppressForFileFix(getShortID()),
+                  SuppressForObjectFix(getShortID()),
+                  SuppressForPropertyFix(getShortID()),
+                  SuppressForStringFix(getShortID())
+          )
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: GdxJsonElementVisitor() {
 

@@ -11,4 +11,25 @@
         <warning>a\n\"\t</warning>: 1
         <warning>"a\n\"\t"</warning>: 1
     }
+    d:
+    //noinspection DuplicateProperty
+    {
+        a: 1
+        a: 2
+        a: 3
+        a: {
+            a: 1
+            a: 2
+        }
+    }
+    e: {
+        <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 1
+        //noinspection DuplicateProperty
+        a: 2
+        <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 3
+        f: {
+            <warning descr="Property 'b' is defined more than once in this object.">b</warning>: 1
+            <warning descr="Property 'b' is defined more than once in this object.">b</warning>: 1
+        }
+    }
 }

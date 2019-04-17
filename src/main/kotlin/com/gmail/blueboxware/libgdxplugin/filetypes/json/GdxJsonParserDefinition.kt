@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
+import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
@@ -45,11 +46,14 @@ class GdxJsonParserDefinition: ParserDefinition {
 
   override fun getCommentTokens(): TokenSet = COMMENTS
 
+  override fun getWhitespaceTokens(): TokenSet = WHITE_SPACES
+
   companion object {
 
     val FILE = IFileElementType(LibGDXJsonLanuage.INSTANCE)
     val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
     val CONTAINERS = TokenSet.create(JOBJECT, ARRAY)
+    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
 
   }
 

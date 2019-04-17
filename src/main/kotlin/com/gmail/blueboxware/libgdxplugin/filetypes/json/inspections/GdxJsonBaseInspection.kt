@@ -1,7 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.isSuppressed
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
+import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.psi.PsiElement
 
 
 /*
@@ -21,7 +25,7 @@ import com.intellij.codeInspection.LocalInspectionTool
  */
 abstract class GdxJsonBaseInspection: LocalInspectionTool() {
 
-  private fun getShortID() = id.removePrefix("LibGDXJson")
+  protected fun getShortID() = id.removePrefix("LibGDXJson")
 
   override fun getGroupPath() = arrayOf("LibGDX", "JSON")
 
@@ -30,5 +34,11 @@ abstract class GdxJsonBaseInspection: LocalInspectionTool() {
   override fun isEnabledByDefault() = true
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
+
+  override fun isSuppressedFor(element: PsiElement): Boolean =
+          (element as? GdxJsonElement)?.isSuppressed(getShortID()) ?: false
+
+  abstract override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix>
+
 
 }

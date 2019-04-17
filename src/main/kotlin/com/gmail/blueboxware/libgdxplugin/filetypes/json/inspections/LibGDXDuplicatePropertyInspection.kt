@@ -3,8 +3,13 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForFileFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForObjectFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForPropertyFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.psi.PsiElement
 
 
 /*
@@ -29,6 +34,13 @@ class LibGDXDuplicatePropertyInspection: GdxJsonBaseInspection() {
   override fun getID() = "LibGDXJsonDuplicateProperty"
 
   override fun getDisplayName() = message("json.inspection.duplicate.property.display.name")
+
+  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+          arrayOf(
+                  SuppressForFileFix(getShortID()),
+                  SuppressForObjectFix(getShortID()),
+                  SuppressForPropertyFix(getShortID())
+          )
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: GdxJsonElementVisitor() {
 

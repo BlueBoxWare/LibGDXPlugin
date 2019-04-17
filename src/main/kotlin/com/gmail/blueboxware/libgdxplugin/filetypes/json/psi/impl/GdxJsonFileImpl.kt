@@ -1,7 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonFile
+import com.intellij.codeInspection.SuppressionUtil
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
@@ -24,5 +26,11 @@ import com.intellij.psi.FileViewProvider
  */
 class GdxJsonFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, LibGDXJsonLanuage.INSTANCE), GdxJsonFile {
 
+  val factory = GdxJsonElementFactory(project)
+
   override fun getFileType(): FileType = viewProvider.fileType
+
+  override fun isInspectionSuppressed(inspectionId: String): Boolean =
+          SuppressionUtil.isSuppressed(this, inspectionId)
+
 }

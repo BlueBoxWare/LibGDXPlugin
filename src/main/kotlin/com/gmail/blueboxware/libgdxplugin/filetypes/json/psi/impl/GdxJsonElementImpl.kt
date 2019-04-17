@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
+import com.intellij.codeInspection.SuppressionUtil
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 
@@ -20,4 +21,9 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-open class GdxJsonElementImpl(node: ASTNode): GdxJsonElement, ASTWrapperPsiElement(node)
+open class GdxJsonElementImpl(node: ASTNode): GdxJsonElement, ASTWrapperPsiElement(node) {
+
+  override fun isInspectionSuppressed(inspectionId: String): Boolean =
+          SuppressionUtil.isSuppressed(this, inspectionId)
+
+}
