@@ -50,7 +50,7 @@ class MarkAsGdxJsonAction: AnAction() {
           presentation.icon = Icons.LIBGDX_JSON_FILETYPE
           presentation.isEnabled = true
 
-        } else if (currentLanguage == LibGDXJsonLanuage.INSTANCE) {
+        } else if (currentLanguage == LibGDXJsonLanuage.INSTANCE && LanguageUtil.getFileLanguage(file) != LibGDXJsonLanuage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.non.gdx.json")
           presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)

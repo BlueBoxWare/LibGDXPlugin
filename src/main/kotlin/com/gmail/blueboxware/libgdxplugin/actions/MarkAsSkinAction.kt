@@ -45,17 +45,16 @@ class MarkAsSkinAction: AnAction() {
         val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
         if (
-                currentLanguage == null
+                currentLanguage == LibGDXJsonLanuage.INSTANCE
                 || currentLanguage == PlainTextLanguage.INSTANCE
                 || currentLanguage == JsonLanguage.INSTANCE
-                || currentLanguage == LibGDXJsonLanuage.INSTANCE
         ) {
 
           presentation.text = message("context.menu.mark.as.skin")
           presentation.icon = Icons.SKIN_FILETYPE
           presentation.isEnabled = true
 
-        } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
+        } else if (LanguageUtil.getFileLanguage(file) != LibGDXSkinLanguage.INSTANCE) {
 
           presentation.text = message("context.menu.mark.as.non.skin")
           presentation.icon = IconLoader.getDisabledIcon(Icons.SKIN_FILETYPE)

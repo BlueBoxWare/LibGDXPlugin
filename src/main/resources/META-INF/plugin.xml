@@ -292,6 +292,7 @@
 
         <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="JSON"/>
         <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="TEXT"/>
+        <lang.substitutor implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor" language="LibGDXJson"/>
 
         <lang.parserDefinition language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition" />
 
