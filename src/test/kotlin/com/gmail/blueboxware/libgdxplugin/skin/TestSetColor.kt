@@ -8,8 +8,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.changeColor
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.intellij.application.options.CodeStyle
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import java.awt.Color
 
 /*
@@ -29,50 +29,23 @@ import java.awt.Color
  */
 class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test1() = doTest { keepColorOnOneLine(true) }
 
-  fun test2() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test2() = doTest { keepColorOnOneLine(true) }
 
-  fun test3() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test3() = doTest { keepColorOnOneLine(true) }
 
-  fun test4() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test4() = doTest { keepColorOnOneLine(true) }
 
-  fun test5() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test5() = doTest { keepColorOnOneLine(true) }
 
-  fun test6() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test6() = doTest { keepColorOnOneLine(true) }
 
-  fun test7() {
-    keepColorOnOneLine(false)
-    doTest()
-  }
+  fun test7() = doTest { keepColorOnOneLine(false) }
 
-  fun test8() {
-    keepColorOnOneLine(false)
-    doTest()
-  }
+  fun test8() = doTest { keepColorOnOneLine(false) }
 
-  fun test9() {
-    keepColorOnOneLine(true)
-    doTest()
-  }
+  fun test9() = doTest { keepColorOnOneLine(true) }
 
   fun test10() {
     configureByFile("10.skin")
@@ -86,25 +59,26 @@ class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testWithTags1() {
-    keepColorOnOneLine(true)
     addDummyLibGDX199()
-    doTest()
+    doTest {
+      keepColorOnOneLine(true)
+    }
   }
 
   fun testWithTags2() {
-    keepColorOnOneLine(true)
     addDummyLibGDX199()
-    doTest()
+    doTest {
+      keepColorOnOneLine(true)
+    }
   }
 
   private fun keepColorOnOneLine(yesOrNo: Boolean) {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
+    CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
   }
 
-  fun doTest() {
+  fun doTest(init: (() -> Unit)? = null) {
     configureByFile(testname() + ".skin")
+    init?.invoke()
     (file as? SkinFile).let { skinFile ->
       assertNotNull(skinFile)
       val newColor = skinFile!!.getClassSpecifications("newColor").firstOrNull()?.getResource("color")?.`object`?.asColor(true)

@@ -11,7 +11,6 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.util.IconUtil
 import com.intellij.util.IncorrectOperationException
-import com.intellij.util.ui.ImageUtil
 import icons.ImagesIcons
 import org.jetbrains.kotlin.idea.search.allScope
 import java.awt.image.BufferedImage
@@ -79,9 +78,7 @@ abstract class AtlasRegionMixin(node: ASTNode): AtlasRegion, AtlasElementImpl(no
 
   private val myPreviewIcon: Icon? by lazy {
     image?.let { image: BufferedImage ->
-      @Suppress("DEPRECATION")
-      // COMPAT: createImageIcon() deprecated in 181
-      IconUtil.createImageIcon(ImageUtil.toBufferedImage(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT)))
+      IconUtil.createImageIcon(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT))
     }
   }
 

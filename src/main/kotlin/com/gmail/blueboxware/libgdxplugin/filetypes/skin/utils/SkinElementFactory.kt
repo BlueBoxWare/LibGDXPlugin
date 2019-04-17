@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.toHexString
 import com.gmail.blueboxware.libgdxplugin.utils.toRGBComponents
+import com.intellij.application.options.CodeStyle
 import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
@@ -14,7 +15,6 @@ import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.awt.Color
@@ -146,13 +146,10 @@ class SkinElementFactory(private val project: Project) {
 
             Regex("""name\s*:""").find(element.text)?.range?.endInclusive?.let { end ->
 
-              @Suppress("SimplifyBooleanWithConstants", "UNNECESSARY_SAFE_CALL", "DEPRECATION")
-              // COMPAT: CodeStyle#getCustomSettings() introduced in 181
               if (
-                      CodeStyleSettingsManager
-                              .getSettings(project)
-                              .getCustomSettings(SkinCodeStyleSettings::class.java)
-                              ?.SPACE_AFTER_COLON != false
+                      CodeStyle
+                              .getCustomSettings(element.containingFile, SkinCodeStyleSettings::class.java)
+                              .SPACE_AFTER_COLON
               ) {
                 end + 2
               } else {

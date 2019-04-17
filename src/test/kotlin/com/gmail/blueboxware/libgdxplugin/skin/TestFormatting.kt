@@ -2,9 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
+import com.intellij.application.options.CodeStyle
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.psi.codeStyle.CodeStyleManager
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -178,40 +178,37 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
   )
 
   fun testDefaultStyle() {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
-    doFileTest("test.skin", "test_after.skin")
+    doFileTest("test.skin", "test_after.skin") {
+      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    }
   }
 
   fun testWrapColors() {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
-    doFileTest("test.skin", "test_wrap_colors_after.skin")
+    doFileTest("test.skin", "test_wrap_colors_after.skin") {
+      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    }
   }
 
   fun test2DefaultStyle() {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
-    doFileTest("test2.skin", "test2_after.skin")
+    doFileTest("test2.skin", "test2_after.skin") {
+      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    }
   }
 
 
   fun test2WrapColors() {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
-    doFileTest("test2.skin", "test2_wrap_colors_after.skin")
+    doFileTest("test2.skin", "test2_wrap_colors_after.skin") {
+      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    }
   }
 
   fun testComments() {
     doFileTest("test_comments.skin", "test_comments_after.skin")
   }
 
-  private fun doFileTest(before: String, after: String) {
+  private fun doFileTest(before: String, after: String, init: (() -> Unit)? = null) {
     configureByFile(before)
+    init?.invoke()
     WriteCommandAction.runWriteCommandAction(null) {
       CodeStyleManager.getInstance(project).reformat(file)
     }

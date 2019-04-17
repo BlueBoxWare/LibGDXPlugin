@@ -37,9 +37,7 @@ class AtlasParserDefinition: ParserDefinition {
 
   override fun createFile(viewProvider: FileViewProvider) = AtlasFile(viewProvider)
 
-  @Suppress("OverridingDeprecatedMember")
-  // COMPAT: Deprecated in 182
-  override fun spaceExistanceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
 
   override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 

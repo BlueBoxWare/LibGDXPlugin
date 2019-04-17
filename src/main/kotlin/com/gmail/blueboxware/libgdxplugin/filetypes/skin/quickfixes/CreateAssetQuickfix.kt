@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
+import com.intellij.application.options.CodeStyle
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -13,7 +14,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 
 
 /*
@@ -60,20 +60,19 @@ class CreateAssetQuickFix(
       FileDocumentManager.getInstance().let { fileDocumentManager ->
         if (fileDocumentManager.getFile(editor.document) == file.virtualFile) {
           editor.caretModel.moveToOffset(position)
-          @Suppress("DEPRECATION")
-          // COMPAT: CodeStyle#getLanuageSettings() introduced in 181
+
           if (
                   className.plainName != DRAWABLE_CLASS_NAME
                   && className.plainName != COLOR_CLASS_NAME
-                  && CodeStyleSettingsManager
-                          .getSettings(project)
-                          .getCommonSettings(LibGDXSkinLanguage.INSTANCE)
+                  && CodeStyle
+                          .getLanguageSettings(file, LibGDXSkinLanguage.INSTANCE)
                           .SPACE_WITHIN_BRACES
           ) {
             PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
             editor.document.insertString(editor.caretModel.offset, "  ")
             editor.caretModel.moveToOffset(editor.caretModel.offset - 2)
           }
+
         }
       }
     }

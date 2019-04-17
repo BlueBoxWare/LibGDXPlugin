@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyle
 import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaNonExistingAssetInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinNonExistingAssetInspection
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
+import com.intellij.application.options.CodeStyle
 
 
 /*
@@ -273,9 +273,6 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
   )
 
   fun testCreateTintedDrawable2() {
-    @Suppress("DEPRECATION")
-    // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-    CodeStyleSettingsManager.getSettings(project).getCustomSettings(SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
     doJavaTest(
             "",
             """
@@ -291,7 +288,9 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             """.trimIndent()
-    )
+    ) {
+      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
+    }
   }
 
   fun testCreateTintedDrawableKotlin() = doKotlinTest(
@@ -410,9 +409,9 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
     }
   """.trimIndent()
 
-  private fun doJavaTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
+  private fun doJavaTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String, init: (() -> Unit)? = null) {
     myFixture.enableInspections(JavaNonExistingAssetInspection())
-    doTest(skinFileContent, javaContent.replace("<content>", codeFileContent), ".java", expectedSkinContent)
+    doTest(skinFileContent, javaContent.replace("<content>", codeFileContent), ".java", expectedSkinContent, init)
   }
 
   private fun doKotlinTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
@@ -425,12 +424,13 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           skinFileContent: String,
           codeFileContent: String,
           extension: String,
-          expectedSkinContent: String
-
+          expectedSkinContent: String,
+          init: (() -> Unit)? = null
   ) {
 
     val skinFile = configureByText("skin.skin", skinFileContent)
     configureByText("Test.$extension", codeFileContent)
+    init?.invoke()
 
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName.startsWith("Create resource")) {

@@ -33,9 +33,7 @@ class FilePresentation(
   private val location: String =
           project.baseDir?.let { baseDir ->
             virtualFile?.let { virtualFile ->
-              @Suppress("DEPRECATION")
-              // COMPAT: getPath() deprecated in 181, findRelativePath() introduced in 181
-              VfsUtil.getPath(baseDir, virtualFile, File.separatorChar) ?: ""
+              VfsUtil.findRelativePath(baseDir, virtualFile, File.separatorChar) ?: ""
             }
           } ?: ""
 

@@ -6,11 +6,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyle
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.isFollowedByTerminal
 import com.gmail.blueboxware.libgdxplugin.utils.terminatedOnCurrentLine
+import com.intellij.application.options.CodeStyle
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
-import com.intellij.psi.codeStyle.CodeStyleSettingsManager
 
 /*
  *
@@ -64,9 +64,8 @@ class SkinSmartEnterProcessor: SmartEnterProcessorWithFixers() {
           val keyEndOffset = key.textRange.endOffset
           if (!isFollowedByTerminal(key, SkinElementTypes.COLON)) {
             var colonText = ":"
-            @Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
-            // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-            CodeStyleSettingsManager.getSettings(key.project).getCustomSettings(SkinCodeStyleSettings::class.java)?.let { settings ->
+
+            CodeStyle.getCustomSettings(element.containingFile, SkinCodeStyleSettings::class.java).let { settings ->
               if (settings.SPACE_BEFORE_COLON) {
                 colonText = " :"
               }
@@ -88,9 +87,8 @@ class SkinSmartEnterProcessor: SmartEnterProcessorWithFixers() {
           if (!isFollowedByTerminal(value, SkinElementTypes.COMMA)) {
 
             var commaText = ","
-            @Suppress("UNNECESSARY_SAFE_CALL", "DEPRECATION")
-            // COMPAT: CodeStyle#getCustomSettings() introduced in 181
-            CodeStyleSettingsManager.getSettings(parent.project).getCommonSettings(LibGDXSkinLanguage.INSTANCE).let { settings ->
+
+            CodeStyle.getLanguageSettings(element.containingFile, LibGDXSkinLanguage.INSTANCE).let { settings ->
               if (settings.SPACE_BEFORE_COMMA) {
                 commaText = " ,"
               }
