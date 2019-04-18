@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.components
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.intellij.openapi.components.AbstractProjectComponent
+import com.intellij.openapi.components.ProjectComponent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class VersionManager(project: Project): AbstractProjectComponent(project) {
+class VersionManager(val project: Project): ProjectComponent {
 
   fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
@@ -51,14 +51,14 @@ class VersionManager(project: Project): AbstractProjectComponent(project) {
       }
     }
 
-    LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).addListener(libraryListener)
+    LibraryTablesRegistrar.getInstance().getLibraryTable(project).addListener(libraryListener)
 
   }
 
   override fun projectClosed() {
     updateLatestVersionsAlarm.cancelAllRequests()
 
-    LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).removeListener(libraryListener)
+    LibraryTablesRegistrar.getInstance().getLibraryTable(project).removeListener(libraryListener)
   }
 
 
@@ -77,13 +77,13 @@ class VersionManager(project: Project): AbstractProjectComponent(project) {
 
   fun updateUsedVersions(doAfterUpdate: (() -> Unit)? = null) {
 
-    DumbService.getInstance(myProject).runWhenSmart {
+    DumbService.getInstance(project).runWhenSmart {
 
       LOG.debug("Updating used library versions")
 
       usedVersions.clear()
 
-      LibraryTablesRegistrar.getInstance().getLibraryTable(myProject).libraryIterator.let { libraryIterator ->
+      LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraryIterator.let { libraryIterator ->
         for (lib in libraryIterator) {
           getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
             usedVersions[libraries].let { registeredVersion ->
@@ -96,7 +96,7 @@ class VersionManager(project: Project): AbstractProjectComponent(project) {
       }
 
       if (usedVersions[Libraries.LIBGDX] == null) {
-        myProject.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
+        project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
           ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
                   ?.let(::MavenComparableVersion)
                   ?.let { usedVersions[Libraries.LIBGDX] = it }

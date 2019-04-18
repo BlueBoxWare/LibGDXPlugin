@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
 import java.io.File
@@ -31,7 +32,7 @@ class FilePresentation(
 ): ItemPresentation {
 
   private val location: String =
-          project.baseDir?.let { baseDir ->
+          project.guessProjectDir()?.let { baseDir ->
             virtualFile?.let { virtualFile ->
               VfsUtil.findRelativePath(baseDir, virtualFile, File.separatorChar) ?: ""
             }

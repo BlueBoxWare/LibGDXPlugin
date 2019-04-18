@@ -26,5 +26,3 @@ fun PsiBuilder.rawLookAheadText(): String {
 }
 
 fun PsiBuilder.isFollowedByNewline(): Boolean = rawLookup(1) == TokenType.WHITE_SPACE && rawLookAheadText().contains('\n')
-
-fun PsiBuilder.advanceLexer(nr: Int) = repeat(nr) { advanceLexer() }

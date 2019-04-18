@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VirtualFileManager
 
 /*
@@ -23,7 +24,7 @@ internal fun Project.getProjectBaseDir() =
         if (ApplicationManager.getApplication().isUnitTestMode) {
           VirtualFileManager.getInstance().findFileByUrl("temp:///")
         } else {
-          baseDir
+          guessProjectDir()
         }
 
 internal fun fileNameToPathList(fileName: String): Array<String> = fileName.replace('\\', '/').split("/").toTypedArray()

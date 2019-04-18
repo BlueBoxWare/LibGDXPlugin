@@ -13,6 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.search.allScope
@@ -74,7 +75,10 @@ abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(n
   }
 
   override fun getPresentation(): ItemPresentation = object: ItemPresentation {
-    override fun getLocationString(): String? = VfsUtil.getRelativeLocation(containingFile.virtualFile, project.baseDir)
+    override fun getLocationString(): String? =
+            project.guessProjectDir()?.let {
+              VfsUtil.getRelativeLocation(containingFile.virtualFile, it)
+            }
 
     override fun getIcon(unused: Boolean): Icon? {
       val force = this@SkinResourceMixin

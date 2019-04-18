@@ -31,10 +31,8 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   private val UNQUOTED_NAME_STRING_INVALID_STARTERS = TokenSet.create(DOUBLE_QUOTE, COLON, COMMA, R_CURLY, SLASH)
   private val UNQUOTED_NAME_STRING_TERMINATORS = TokenSet.create(COLON)
 
-  private val COMMENT_STARTERS = TokenSet.create(ASTERIX, SLASH)
-
   @JvmStatic
-  fun parseUnquotedValueString(builder: PsiBuilder, level: Int): Boolean {
+  fun parseUnquotedValueString(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
     if (builder.tokenType in UNQUOTED_VALUE_STRING_INVALID_STARTERS || builder.eof()) {
       return false
@@ -75,7 +73,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   }
 
   @JvmStatic
-  fun parseUnquotedNameString(builder: PsiBuilder, level: Int): Boolean {
+  fun parseUnquotedNameString(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
     if (builder.tokenType == COLON) {
       builder.error("<property name> expected")
@@ -89,7 +87,7 @@ object GdxJsonParserUtil: GeneratedParserUtilBase() {
   }
 
   @JvmStatic
-  fun parseSeparator(builder: PsiBuilder, level: Int): Boolean {
+  fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
     if (builder.tokenType == COMMA) {
       builder.advanceLexer()
