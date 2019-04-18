@@ -205,7 +205,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="182"/>
+    <idea-version since-build="183"/>
 
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>

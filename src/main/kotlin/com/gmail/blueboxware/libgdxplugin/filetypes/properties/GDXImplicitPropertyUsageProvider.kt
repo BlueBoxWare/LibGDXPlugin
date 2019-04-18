@@ -33,9 +33,8 @@ class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
     val project = property.project
     val name = property.name ?: return false
     val scope = project.allScope()
-    @Suppress("DEPRECATION")
-    // COMPAT: SERVICE.getInstance() deprecated in 182
-    val psiSearchHelper = PsiSearchHelper.SERVICE.getInstance(property.project)
+
+    val psiSearchHelper = PsiSearchHelper.getInstance(property.project)
     val cheapEnough = psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)
 
     if (cheapEnough == PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES) {
