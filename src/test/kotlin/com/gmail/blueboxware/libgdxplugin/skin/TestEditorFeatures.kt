@@ -29,6 +29,16 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
     myFixture.testFolding(testDataPath + "folding2.skin")
   }
 
+  fun testBreadcrumbs() {
+    configureByFile("breadcrumbs.skin")
+    assertOrderedEquals(myFixture.breadcrumbsAtCaret.map { it.text }, listOf(
+            "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle",
+            "green",
+            "fontColor",
+            "b"
+    ))
+  }
+
   fun testComments() {
     configureByFile("comments.skin")
     val commentByLineAction = CommentByLineCommentAction()

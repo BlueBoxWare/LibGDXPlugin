@@ -1,6 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
 
 
@@ -20,3 +22,17 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImp
  * limitations under the License.
  */
 fun GdxJsonElement.factory() = (containingFile as? GdxJsonFileImpl)?.factory
+
+fun GdxJsonElement.isArrayElement() = this is GdxJsonValue && parent is GdxJsonArray
+
+fun GdxJsonValue.getArrayIndexOfItem(): Int? {
+
+  (parent as? GdxJsonArray)?.valueList?.forEachIndexed { index, gdxJsonValue ->
+    if (gdxJsonValue == this) {
+      return index
+    }
+  }
+
+  return null
+
+}

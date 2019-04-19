@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
 
@@ -30,6 +31,8 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
     myFixture.testFolding(testDataPath + "folding2.lson")
   }
 
+  fun testBreadcrumbs1() = doTestBreadcrumbs("1", "items", "3", "value", "2", "foo", "p")
+
   fun testCommenting() {
     configureByFileAsGdxJson("comments/comments.json")
     val commentByLineAction = CommentByLineCommentAction()
@@ -46,6 +49,11 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("comments/blockComment.txt")
     blockCommentAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("comments/noComment.txt")
+  }
+
+  private fun doTestBreadcrumbs(vararg expectedComponents: String) {
+    configureByFile(testname() + ".lson")
+    assertOrderedEquals(myFixture.breadcrumbsAtCaret.map { it.text }, *expectedComponents)
   }
 
   override fun getBasePath() = "/filetypes/json/editor/"

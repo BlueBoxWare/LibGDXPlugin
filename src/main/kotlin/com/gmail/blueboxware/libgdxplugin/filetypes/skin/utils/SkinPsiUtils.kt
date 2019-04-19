@@ -2,9 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.findLeaf
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.intellij.lang.ASTNode
@@ -158,3 +156,17 @@ fun SkinClassSpecification.getRealClassNamesAsString() =
         } ?: listOf(classNameAsString.plainName)
 
 fun SkinObject.getOpeningBrace() = findLeaf(SkinElementTypes.L_CURLY)
+
+fun SkinElement.isArrayElement() = this is SkinValue && parent is SkinArray
+
+fun SkinValue.getArrayIndexOfItem(): Int? {
+
+  (parent as? SkinArray)?.valueList?.forEachIndexed { index, skinValue ->
+    if (skinValue == this) {
+      return index
+    }
+  }
+
+  return null
+
+}

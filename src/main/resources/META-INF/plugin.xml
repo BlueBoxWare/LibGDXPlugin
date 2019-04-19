@@ -275,6 +275,8 @@
 
         <lang.psiStructureViewFactory language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewBuilderFactory" />
 
+        <breadcrumbsInfoProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBreadcrumbsProvider" />
+
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention</className>
             <category>LibGDX/JSON</category>
@@ -335,6 +337,8 @@
         <implicitUsageProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassImplicitUsageProvider" />
         <usageTypeProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinUsageTypeProvider" />
         <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory" />
+
+        <breadcrumbsInfoProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBreadcrumbsProvider" />
 
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention</className>
