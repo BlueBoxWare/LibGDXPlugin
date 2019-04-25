@@ -1,28 +1,25 @@
 {
 
-  // @SUPPRESS   ( NonExistingFile  )
-  // @SUPPRESS   (<error> NonExistingFil  </error>)
+  // noinspection NonExistingFile
+  // noinspection NonExistingFil
 
   A: {
 
-  /*
-   * @Suppress( "NonExistingField"  )
-   * @Suppress(<error> "onExistingField"  </error>)
-   */
+    //noinspection NonExistingField
+   //noinspection onExistingField
+
 
   }
 
-  Test:   {
-
-  /*
-   * @  Suppress  ( "   NonExistingInspection   "  )
-   * @Suppress(<error> "onExistingField"  </error>)
-   */
+  Test: {
+    // noinspection NonExistingInspection
+    // noinspection onExistingField
+  }
 
   default:   {
-  // @Suppress(<error>sdfsdf</error>)
+  // noinspection sdfsdf
   }
 
-  }
+
 
 }

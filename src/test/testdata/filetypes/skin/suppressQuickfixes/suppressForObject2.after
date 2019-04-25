@@ -4,8 +4,9 @@
       fontColor: {
         hex: "#00ff00"
       }
-      font: {
-        // @Suppress(MissingProperty)
+      font:
+      //noinspection MissingProperty
+      {
         markupEnabled: true
       }
     }

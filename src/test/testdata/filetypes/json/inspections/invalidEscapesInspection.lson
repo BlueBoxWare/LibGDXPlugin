@@ -46,5 +46,12 @@
         g: {
             \u11x1: "\u"
         }
-    }
+    },
+        //noinspection DuplicateProperty, InvalidEscape
+        f: {
+            \u11x1: "\u"
+            g: {
+                \u11x1: "\u"
+            }
+        }
 }

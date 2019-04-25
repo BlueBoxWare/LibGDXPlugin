@@ -2,6 +2,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SuppressForFileFix
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SuppressForObjectFix
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.DEFAULT_TAGGED_CLASSES_NAMES
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
@@ -10,6 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
@@ -40,6 +43,12 @@ class SkinAbbrClassInspection: SkinBaseInspection() {
   override fun getDisplayName() = message("skin.inspection.abbr.class.display.name")
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WEAK_WARNING
+
+  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+          arrayOf(
+                  SuppressForObjectFix(getShortID()),
+                  SuppressForFileFix(getShortID())
+          )
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
 

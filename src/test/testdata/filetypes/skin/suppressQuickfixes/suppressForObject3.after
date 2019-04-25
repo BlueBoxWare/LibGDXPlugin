@@ -2,8 +2,8 @@
   ColorArrayHolder: {
     default: {
       m: [
+        //noinspection TypeError
         {
-          // @Suppress(TypeError)
           moreColors: []
           m: [[]]
         }

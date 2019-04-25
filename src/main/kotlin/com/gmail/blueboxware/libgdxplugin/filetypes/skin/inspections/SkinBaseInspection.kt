@@ -1,19 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.*
 import com.intellij.codeHighlighting.HighlightDisplayLevel
-import com.intellij.codeInspection.ContainerBasedSuppressQuickFix
 import com.intellij.codeInspection.LocalInspectionTool
-import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
 /*
@@ -39,7 +31,7 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
     }
   }
 
-  private fun getShortID() = id.removePrefix("LibGDXSkin")
+  protected fun getShortID() = id.removePrefix("LibGDXSkin")
 
   override fun getGroupPath() = arrayOf("LibGDX", "Skin files")
 
@@ -50,71 +42,13 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
   override fun isSuppressedFor(element: PsiElement): Boolean =
-          (element as? SkinElement)?.isInspectionSuppressed(getShortID()) ?: super.isSuppressedFor(element)
+          (element as? SkinElement)?.isSuppressed(getShortID()) ?: false
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          if (this !is SkinInspectionNameInspection) {
-            arrayOf(SuppressFix(getShortID()), SuppressForFileFix(getShortID()))
-          } else {
-            arrayOf()
-          }
-
-  open class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
-
-    override fun getContainer(context: PsiElement?): PsiElement? =
-            context?.firstParent(false) { it is SkinClassSpecification || it is SkinObject }
-
-    override fun getFamilyName(): String = message("suppress.object")
-
-    override fun getName(): String = familyName
-
-    override fun isSuppressAll(): Boolean = false
-
-    override fun isAvailable(project: Project, context: PsiElement): Boolean = context.isValid && getContainer(context) != null
-
-    override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-      getContainer(descriptor.psiElement)?.let { suppress(it, id) }
-    }
-
-  }
-
-  class SuppressForFileFix(id: String): SuppressFix(id) {
-
-    override fun getContainer(context: PsiElement?) = context?.containingFile as? SkinFile
-
-    override fun getFamilyName(): String = message("suppress.file")
-
-    override fun getName(): String = familyName
-
-  }
-
-  companion object {
-
-    val INSPECTION_NAMES = listOf(
-            "DuplicateProperty",
-            "DuplicateResource",
-            "MalformedColorString",
-            "MissingProperty",
-            "NonExistingClass",
-            "NonExistingField",
-            "NonExistingFile",
-            "NonExistingResourceInAlias",
-            "NonExistingInspection",
-            "TypeError",
-            "AbbrClass",
-            "Deprecated"
-    )
-
-    private fun suppress(element: PsiElement, id: String) {
-      SkinElementFactory(element).createSuppressionComment(id)?.let { comment ->
-        when (element) {
-          is SkinObject -> element.addComment(comment)
-          is SkinClassSpecification -> element.addComment(comment)
-          is SkinFile -> element.addComment(comment)
-        }
-      }
-    }
-
-  }
+          arrayOf(
+                  SuppressForPropertyFix(getShortID()),
+                  SuppressForObjectFix(getShortID()),
+                  SuppressForFileFix(getShortID())
+          )
 
 }

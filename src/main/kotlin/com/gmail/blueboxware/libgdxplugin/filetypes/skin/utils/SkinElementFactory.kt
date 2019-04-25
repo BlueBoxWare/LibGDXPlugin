@@ -1,17 +1,14 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.toHexString
 import com.gmail.blueboxware.libgdxplugin.utils.toRGBComponents
 import com.intellij.application.options.CodeStyle
-import com.intellij.codeInspection.SuppressionUtil.createComment
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
@@ -35,11 +32,6 @@ import java.awt.Color
  * limitations under the License.
  */
 class SkinElementFactory(private val project: Project) {
-
-  constructor(element: PsiElement): this(element.project)
-
-  fun createSuppressionComment(inspectionId: String): PsiComment? =
-          createComment(project, " @Suppress($inspectionId)", LibGDXSkinLanguage.INSTANCE)
 
   fun createProperty(name: String, value: String): SkinProperty? =
           createElement("""

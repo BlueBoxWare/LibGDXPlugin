@@ -1,9 +1,10 @@
 {
   com.badlogic.gdx.graphics.Color: {
-    default: {
+    default:
+    //noinspection NonExistingField
+    {
       /* Comment */
       // Comment
-      // @Suppress(NonExistingField)
       hex: "#000000"
       zz: ''
     }

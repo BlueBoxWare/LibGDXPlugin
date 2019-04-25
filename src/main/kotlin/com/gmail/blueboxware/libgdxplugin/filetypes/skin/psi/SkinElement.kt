@@ -1,7 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotations
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 
@@ -20,10 +18,4 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface SkinElement: PsiElement, NavigatablePsiElement {
-
-  fun getActiveAnnotations(annotation: SkinAnnotations? = null): List<SkinAnnotation>
-
-  fun isInspectionSuppressed(inspectionId: String): Boolean
-
-}
+interface SkinElement: PsiElement, NavigatablePsiElement

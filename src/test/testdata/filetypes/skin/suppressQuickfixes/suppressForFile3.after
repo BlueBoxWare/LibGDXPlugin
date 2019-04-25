@@ -1,4 +1,4 @@
-// @Suppress(TypeError)
+//noinspection TypeError
 {
   ColorArrayHolder: {
     default: {

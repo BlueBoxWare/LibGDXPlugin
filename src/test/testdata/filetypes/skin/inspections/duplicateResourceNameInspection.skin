@@ -2,7 +2,7 @@
 
   com.badlogic.gdx.graphics.Color: {
     <warning descr="A resource with name 'color1' and type 'com.badlogic.gdx.graphics.Color' is defined more than once in this file.">"color1"</warning>: {}
-Color2: {}
+  Color2: {}
 }
 
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
@@ -35,11 +35,11 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 }
 
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
-  color1: {},
-  default: {
+color1: {},
+default: {
 
-  },
-  <warning descr="A resource with name 'zz' and type 'com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle' is defined more than once in this file.">zz</warning>: {}
+},
+<warning descr="A resource with name 'zz' and type 'com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle' is defined more than once in this file.">zz</warning>: {}
 }
 com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
 <warning descr="A font with name 'foo' is defined more than once in this file.">foo</warning>: {}
@@ -53,7 +53,14 @@ default: {}
 
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
 <warning descr="A font with name 'ttf' is defined more than once in this file.">ttf</warning>: {}
-color1: {}
+<warning descr="A font with name 'color1' is defined more than once in this file.">color1</warning>: {}
+}
+
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+//noinspection DuplicateResource
+ttf: {}
+<warning descr="A font with name 'ttf' is defined more than once in this file.">ttf</warning>: {}
+<warning descr="A font with name 'color1' is defined more than once in this file.">color1</warning>: {}
 }
 
 }

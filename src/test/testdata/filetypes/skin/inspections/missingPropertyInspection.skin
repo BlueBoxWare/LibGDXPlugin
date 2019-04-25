@@ -46,10 +46,10 @@
   }
 
     com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-        /*
-         * @Suppress("NonExistingInspection")
-         * @Suppress( "   MissingProperty  "   )
-         */
+
+         // noinspection NonExistingInspection
+         //noinspection MissingProperty
+
       default:
       {
 

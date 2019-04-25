@@ -1,17 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecification
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.NO_ANNOTATIONS
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotation
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinAnnotations
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getSkinAnnotations
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.text.StringUtil
-import com.intellij.psi.PsiComment
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -31,26 +23,5 @@ import com.intellij.psi.PsiComment
 abstract class SkinElementImpl(node: ASTNode): ASTWrapperPsiElement(node), SkinElement {
 
   override fun toString() = StringUtil.trimEnd(javaClass.simpleName, "Impl")
-
-  override fun getActiveAnnotations(annotation: SkinAnnotations?): List<SkinAnnotation> {
-
-    val inheritedAnnotations = (parent as? SkinElement)?.getActiveAnnotations(annotation) ?: NO_ANNOTATIONS
-
-    if (this !is SkinObject && this !is SkinClassSpecification) {
-      return inheritedAnnotations
-    }
-
-    val result = mutableListOf<SkinAnnotation>()
-    result.addAll(inheritedAnnotations)
-
-    findChildrenByType<PsiComment>(SkinParserDefinition.SKIN_COMMENTARIES)?.forEach { comment ->
-      result.addAll(comment.getSkinAnnotations().filter { if (annotation != null) it.first == annotation else true })
-    }
-
-    return result
-  }
-
-  override fun isInspectionSuppressed(inspectionId: String): Boolean =
-          getActiveAnnotations(SkinAnnotations.SUPPRESS).any { it.second == inspectionId }
 
 }

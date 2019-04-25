@@ -1,5 +1,5 @@
 {
-  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle:{default:{disabled: "",fontColor:{
-    // @Suppress(NonExistingField)
-    hx: ""}}}
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle:{default:{disabled: "",fontColor:
+  //noinspection NonExistingField
+  {hx: ""}}}
 }

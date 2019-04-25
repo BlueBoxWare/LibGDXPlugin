@@ -1,4 +1,14 @@
 {
+
+    //noinspection AbbrClass
+    com.badlogic.gdx.graphics.Color: {
+
+    }
+
+    <warning descr="Short name 'Color' can be used instead of the fully qualified name.">com.badlogic.gdx.graphics.Color</warning>: {
+
+        }
+
   <warning descr="Short name 'Color' can be used instead of the fully qualified name.">com.badlogic.gdx.graphics.Color</warning>: {
     white: { r: 1, g: 1, b: 1, a: 1 },
     red: { r: 1, g: 0, b: 0, a: 1 },
@@ -32,4 +42,14 @@
   TextButtonStyle: {
 
   }
+
+    //noinspection AbbrClass
+    com.badlogic.gdx.graphics.Color: {
+
+    }
+    <warning descr="Short name 'Color' can be used instead of the fully qualified name.">com.badlogic.gdx.graphics.Color</warning>: {
+
+    }
+
+
 }

@@ -46,10 +46,10 @@ name: yes
   }
 
   TintedDrawable: {
-  /*
-   * @Suppress("NonExistingInspection")
-   * @Suppress( "   MissingProperty  "   )
-   */
+
+   //noinspection NonExistingInspection")
+  //noinspection MissingProperty
+
   default:
   {
 

@@ -1,11 +1,10 @@
-
+//noinspection NonExistingClass
 // Comments
 
 /**
  * More Comments
  */
 
-// @Suppress(NonExistingClass)
 {
  doesNotExist: {
    default: {}

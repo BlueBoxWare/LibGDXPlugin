@@ -3,29 +3,45 @@
     x: { hex: #ffffff }
     x: { hex: #ffff00 }
     x: { hex: ffff12 }
-    x: { hex: <error>'#ffffff'</error> }
+    x: { hex: <error descr="Malformed color string">'#ffffff'</error> }
     x: { hex: "ffFA1f" }
-    x: { hex: <error>'#ffffff'</error> }
+    x: { hex: <error descr="Malformed color string">'#ffffff'</error> }
     x: { hex: "12fffFff" }
 
-    x: { hex: <error>#fffff</error> }
-    x: { hex: <error>#ffffg0</error> }
-    x: { hex: <error>ffff12fff</error> }
-    x: { hex: <error>'#fffff'</error> }
-x: { hex: <error>"ffFG1f"</error> }
-x: { hex: <error>'#0ffffff00'</error> }
-x: { hex: <error>"12Fff"</error> }
-x: { hex: <error>"1234 56"</error> }
-x: { a: 1 }
-},
-com.badlogic.gdx.graphics.g2d.BitmapFont: {
-x: { hex: medium.fnt }
-},
+    x: { hex: <error descr="Malformed color string">#fffff</error> }
+    x: { hex: <error descr="Malformed color string">#ffffg0</error> }
+    x: { hex: <error descr="Malformed color string">ffff12fff</error> }
+    x: { hex: <error descr="Malformed color string">'#fffff'</error> }
+    x: { hex: <error descr="Malformed color string">"ffFG1f"</error> }
+    x: { hex: <error descr="Malformed color string">'#0ffffff00'</error> }
+    x: { hex: <error descr="Malformed color string">"12Fff"</error> }
+    x: { hex: <error descr="Malformed color string">"1234 56"</error> }
+    x: { a: 1 }
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    x: { hex: medium.fnt }
+  },
   com.badlogic.gdx.graphics.Color: {
-    x: { /* @Suppress (   MalformedColorString     ) */ hex: #fffhff }
-        x: { hex: #fffff
-            // @Suppress( "MalformedColorString"  )
-        }
-    x: { hex: <error>#fffff</error> }
-}
+    //noinspection MalformedColorString
+    x: { hex: #fffhff }
+    x: { hex: <error descr="Malformed color string">#fffff</error>
+
+    }
+    x: { hex: <error descr="Malformed color string">#fffff</error> }
+    //noinspection MalformedColorString
+    x: { hex: #fffff }
+    x: { hex: <error descr="Malformed color string">#fffff</error> }
+    x: {
+      hex:
+      //noinspection MalformedColorString
+      #fffff
+    }
+    x: {
+      //noinspection MalformedColorString
+      hex:
+
+      #fffff
+      hex: <error descr="Malformed color string">ewf</error>
+    }
+  }
 }

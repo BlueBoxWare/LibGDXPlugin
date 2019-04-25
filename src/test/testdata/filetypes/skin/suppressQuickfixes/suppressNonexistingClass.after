@@ -1,6 +1,6 @@
 {
- doesNotExist: {
-   // @Suppress(NonExistingClass)
+  //noinspection NonExistingClass
+  doesNotExist: {
    default: {}
  }
 }

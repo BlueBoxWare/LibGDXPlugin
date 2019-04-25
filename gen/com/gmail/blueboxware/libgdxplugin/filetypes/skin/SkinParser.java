@@ -1,15 +1,17 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin;
 
+import com.intellij.lang.ASTNode;
+import com.intellij.lang.LightPsiParser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
+import com.intellij.lang.PsiParser;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.TokenSet;
+
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserUtil.*;
-import com.intellij.psi.tree.IElementType;
-import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
-import com.intellij.lang.PsiParser;
-import com.intellij.lang.LightPsiParser;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class SkinParser implements PsiParser, LightPsiParser {
@@ -23,44 +25,11 @@ public class SkinParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, EXTENDS_SETS_);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == ARRAY) {
-      r = array(b, 0);
-    }
-    else if (t == CLASS_NAME) {
-      r = class_name(b, 0);
-    }
-    else if (t == CLASS_SPECIFICATION) {
-      r = class_specification(b, 0);
-    }
-    else if (t == OBJECT) {
-      r = object(b, 0);
-    }
-    else if (t == PROPERTY) {
-      r = property(b, 0);
-    }
-    else if (t == PROPERTY_NAME) {
-      r = property_name(b, 0);
-    }
-    else if (t == PROPERTY_VALUE) {
-      r = property_value(b, 0);
-    }
-    else if (t == RESOURCE) {
-      r = resource(b, 0);
-    }
-    else if (t == RESOURCE_NAME) {
-      r = resource_name(b, 0);
-    }
-    else if (t == RESOURCES) {
-      r = resources(b, 0);
-    }
-    else if (t == STRING_LITERAL) {
-      r = string_literal(b, 0);
-    }
-    else if (t == VALUE) {
-      r = value(b, 0);
+    if (t instanceof IFileElementType) {
+      r = parse_root_(t, b, 0);
     }
     else {
-      r = parse_root_(t, b, 0);
+      r = false;
     }
     exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
   }

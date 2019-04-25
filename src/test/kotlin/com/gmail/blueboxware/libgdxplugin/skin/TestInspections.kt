@@ -96,10 +96,6 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
     doTest(SkinDuplicatePropertyInspection())
   }
 
-  fun testInspectionNameInspection() {
-    doTest(SkinInspectionNameInspection())
-  }
-
   fun testDeprecatedInspection() {
     copyFileToProject("com/example/DeprecatedClass.java")
     doTest(SkinDeprecatedInspection())

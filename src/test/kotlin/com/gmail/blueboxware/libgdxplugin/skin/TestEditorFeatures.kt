@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
+import com.intellij.spellchecker.inspections.SpellCheckingInspection
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -37,6 +38,12 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
             "fontColor",
             "b"
     ))
+  }
+
+  fun testSpellChecking() {
+    myFixture.enableInspections(SpellCheckingInspection::class.java)
+    configureByFile("spellChecking.skin")
+    myFixture.checkHighlighting(true, false, false)
   }
 
   fun testComments() {

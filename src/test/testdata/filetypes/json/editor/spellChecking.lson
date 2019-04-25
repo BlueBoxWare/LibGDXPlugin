@@ -1,0 +1,28 @@
+[{
+    // <TYPO descr="Typo: In word 'eiwfjifo'">eiwfjifo</TYPO>
+    foo: bar,
+    "foo": "bar", /* <TYPO descr="Typo: In word 'weffewfew'">weffewfew</TYPO> */
+    <TYPO descr="Typo: In word 'sdffdsf'">sdffdsf</TYPO>: <TYPO descr="Typo: In word 'dsfddsfd'">dsfddsfd</TYPO>,
+    "<TYPO descr="Typo: In word 'dfssdf'">dfssdf</TYPO>": "<TYPO descr="Typo: In word 'dsffs'">dsffs</TYPO>"
+    // test <TYPO descr="Typo: In word 'dsfdsf'">dsfdsf</TYPO>
+    /* test <TYPO descr="Typo: In word 'dsfdfsds'">dsfdfsds</TYPO> */
+    a: [<TYPO descr="Typo: In word 'ewffew'">ewffew</TYPO>, "<TYPO descr="Typo: In word 'dsfewf'">dsfewf</TYPO>", test, "test", camelCase]
+
+    //noinspection SpellCheckingInspection
+    ewffwef: ewffwefe
+    <TYPO descr="Typo: In word 'weffewfw'">weffewfw</TYPO>: <TYPO descr="Typo: In word 'ewfefwfewf'">ewfefwfewf</TYPO>
+
+
+
+},
+    //noinspection SpellCheckingInspection
+    {
+        ewfeewfw: wfefewewwf
+    },
+    {
+        ewf<TYPO descr="Typo: In word 'FEWFW'">FEWFW</TYPO>: <TYPO descr="Typo: In word 'ewfewffew'">ewfewffew</TYPO>,
+        <TYPO descr="Typo: In word 'ewffefewf'">ewffefewf</TYPO>:
+        //noinspection SpellCheckingInspection
+        wfewfefwef
+    }
+]

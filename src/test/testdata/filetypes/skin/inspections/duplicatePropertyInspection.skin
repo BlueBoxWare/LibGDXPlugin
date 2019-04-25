@@ -32,7 +32,7 @@
       ]
     }
     green: {
-        // @Suppress(DuplicateProperty)
+      //noinspection DuplicateProperty
           m: [
             {
               parent: f
@@ -49,10 +49,9 @@
             red: {
 
                   m: [
+                    //noinspection DuplicateResource,DuplicateProperty
                     {
-                    /*
-                        @Suppress( "DuplicateProperty" )
-                    */
+
                       a: 1,
                       a: 1,
                       b: 1,

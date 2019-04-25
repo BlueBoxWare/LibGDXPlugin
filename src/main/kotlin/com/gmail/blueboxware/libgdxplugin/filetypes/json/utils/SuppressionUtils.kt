@@ -10,7 +10,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.isPrecededByNewline
 import com.intellij.codeInspection.ContainerBasedSuppressQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.SuppressionUtil
-import com.intellij.codeInspection.SuppressionUtilCore
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
@@ -42,9 +41,7 @@ fun GdxJsonElement.isSuppressed(id: String): Boolean {
   while (prev is PsiWhiteSpace || prev?.node?.elementType in GdxJsonParserDefinition.COMMENTS) {
     (prev as? PsiComment)?.let { comment ->
       if (SuppressionUtil.isSuppressionComment(comment)) {
-        if (comment.text.contains("${SuppressionUtilCore.SUPPRESS_INSPECTIONS_TAG_NAME} $id")) {
-          return true
-        }
+        return SuppressionUtil.isInspectionToolIdMentioned(comment.text, id)
       }
     }
     prev = prev?.prevSibling
@@ -100,7 +97,7 @@ class SuppressForObjectFix(id: String): SuppressFix(id) {
 
   override fun getFamilyName(): String = message("suppress.object")
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent { it is GdxJsonJobject }
+  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonJobject>()
 
 }
 
@@ -108,7 +105,7 @@ class SuppressForStringFix(id: String): SuppressFix(id) {
 
   override fun getFamilyName(): String = message("suppress.string")
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent { it is GdxJsonString }
+  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonString>()
 
 }
 
@@ -116,7 +113,7 @@ class SuppressForPropertyFix(id: String): SuppressFix(id) {
 
   override fun getFamilyName(): String = message("suppress.property")
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent { it is GdxJsonProperty }
+  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonProperty>()
 
 }
 

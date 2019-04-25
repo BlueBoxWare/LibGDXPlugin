@@ -1,0 +1,31 @@
+{
+  // <TYPO descr="Typo: In word 'ewfewfewfw'">ewfewfewfw</TYPO>
+  com.badlogic.gdx.ewfewf.Color: {
+    white: { r: 1, g: 1, b: 1, a: 1 },
+    red: { r: 1, /* <TYPO descr="Typo: In word 'weffwefewf'">weffwefewf</TYPO> */ g: 0, b: 0, a: 1 },
+    yellow: { r: 0.5, g: 0.5, b: 0, a: 1 }
+  },
+  com.badlogic.gdx.graphics.g2d.BitmapFont: {
+    medium: { file: medium.fnt },
+  },
+  com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+    <TYPO descr="Typo: In word 'ewfewf'">ewfewf</TYPO>: {
+  ewfewfw: round-down, up: round
+  font: EWF<TYPO descr="Typo: In word 'Wfewe'">Wfewe</TYPO>,
+    fontColor: "<TYPO descr="Typo: In word 'dsfdsfdfs'">dsfdsfdfs</TYPO>"
+  },
+  toggle: {
+    down: round-down, up: round, checked: round-down,
+    fontColor: white, checkedFontColor: red
+  },
+  green: {
+    down: round-down, up: "round",
+    font: medium,
+    // noinspection SpellCheckingInspection
+    fontColor: {
+
+    r: 0, g: 1, b: 0, a: "fwefewfwfe"
+  }
+  }
+}
+}

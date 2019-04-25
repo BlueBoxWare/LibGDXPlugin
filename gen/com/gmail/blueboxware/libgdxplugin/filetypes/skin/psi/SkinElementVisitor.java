@@ -44,7 +44,7 @@ public class SkinElementVisitor extends PsiElementVisitor {
   }
 
   public void visitResources(@NotNull SkinResources o) {
-    visitPsiElement(o);
+    visitElement(o);
   }
 
   public void visitStringLiteral(@NotNull SkinStringLiteral o) {
