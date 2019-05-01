@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
+import com.gmail.blueboxware.libgdxplugin.utils.indexOfOrNull
+import com.intellij.psi.PsiElement
 
 
 /*
@@ -25,14 +25,34 @@ fun GdxJsonElement.factory() = (containingFile as? GdxJsonFileImpl)?.factory
 
 fun GdxJsonElement.isArrayElement() = this is GdxJsonValue && parent is GdxJsonArray
 
-fun GdxJsonValue.getArrayIndexOfItem(): Int? {
+fun PsiElement.parentString(): GdxJsonString? =
+        parent.let { parent ->
+          when (parent) {
+            is GdxJsonString -> parent
+            is GdxJsonBoolean, is GdxJsonNull, is GdxJsonNumber -> parent.parent as? GdxJsonString
+            else -> null
+          }
+        }
 
-  (parent as? GdxJsonArray)?.valueList?.forEachIndexed { index, gdxJsonValue ->
-    if (gdxJsonValue == this) {
-      return index
-    }
+fun GdxJsonValue.getArrayIndexOfItem(): Int? =
+        (parent as? GdxJsonArray)?.valueList?.indexOfOrNull(this)
+
+fun GdxJsonArray.switch(index1: Int, index2: Int) =
+        valueList.getOrNull(index1)?.let { element1 ->
+          valueList.getOrNull(index2)?.let { element2 ->
+            switch(element1, element2)
+          }
+        }
+
+
+fun GdxJsonArray.switch(element1: GdxJsonValue, element2: GdxJsonValue) {
+
+  if (element1.parent != this || element2.parent != this) {
+    return
   }
 
-  return null
+  val element2ancher = element2.nextSibling
+  element1.replace(element2)
+  addBefore(element1, element2ancher)
 
 }

@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.parentString
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
@@ -32,7 +32,7 @@ class GdxJsonAddQuotesIntention: PsiElementBaseIntentionAction(), IntentionActio
   override fun getText(): String = familyName
 
   override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-          (element.parent as? GdxJsonString)?.isQuoted == false
+          element.parentString()?.isQuoted == false
 
   override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
 
@@ -43,7 +43,7 @@ class GdxJsonAddQuotesIntention: PsiElementBaseIntentionAction(), IntentionActio
       return
     }
 
-    (element.parent as? GdxJsonString)?.let { string ->
+    element.parentString()?.let { string ->
       val oldString = string.value
       val newString = GdxJsonElementFactory(project).createQuotedValueString(oldString) ?: return
       string.replace(newString)

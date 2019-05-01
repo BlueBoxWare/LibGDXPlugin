@@ -67,6 +67,18 @@ class TestIntentions: LibGDXCodeInsightFixtureTestCase() {
                   """{ foo: "b\"\"'a\\\"r"}"""
           )
 
+  fun testWrapWithQuotes8() =
+          doTest(
+                  """{ foo: <caret>1 }""",
+                  """{ foo: "1"}""".trimIndent()
+          )
+
+  fun testWrapWithQuotes9() =
+          doTest(
+                  """{ foo: <caret>null }""",
+                  """{ foo: "null"}""".trimIndent()
+          )
+
   fun doTest(content: String, expected: String) {
     configureByText("test.lson", content)
     myFixture.launchAction(GdxJsonAddQuotesIntention())

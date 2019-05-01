@@ -12,7 +12,7 @@
 
   tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonTokenType'
 
-  implements("jobject|array|value|property|string") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
+  implements("jobject|array|value|property|string|null|boolean|number") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
   implements("property_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString"
 
   name("jobject") = 'object'

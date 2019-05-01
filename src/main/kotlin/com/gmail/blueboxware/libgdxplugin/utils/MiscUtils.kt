@@ -99,3 +99,5 @@ internal fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R
           CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
         }, false)
 
+internal fun <E> List<E>.indexOfOrNull(element: E): Int? =
+        indexOf(element).takeIf { it >= 0 }
