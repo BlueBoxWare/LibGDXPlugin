@@ -2,6 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention
+import com.gmail.blueboxware.libgdxplugin.testname
 
 
 /*
@@ -22,19 +25,19 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQu
 class TestIntentions: LibGDXCodeInsightFixtureTestCase() {
 
   fun testWrapWithQuotes1() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ fo<caret>o: bar }""",
                   """{ "foo": bar }"""
           )
 
   fun testWrapWithQuotes2() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ foo: b<caret>ar }""",
                   """{ foo: "bar"}"""
           )
 
   fun testWrapWithQuotes3() =
-          doTest(
+          doWrapWithQuotesTest(
                   """[foo, 1, ba<caret>r]""",
                   """
                     [foo, 1,
@@ -44,45 +47,175 @@ class TestIntentions: LibGDXCodeInsightFixtureTestCase() {
           )
 
   fun testWrapWithQuotes4() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ with [{/ we<caret>ird ch4r$: with / weird ]} ch4r$ }""",
                   """{ "with [{/ weird ch4r$": with / weird ]} ch4r$ }"""
           )
 
   fun testWrapWithQuotes5() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ with [{/ weird ch4r$: with<caret> / weird *()' ch4r$ }""",
                   """{ with [{/ weird ch4r$: "with / weird *()' ch4r$"}"""
           )
 
   fun testWrapWithQuotes6() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ f"o"<caret>\"o: bar }""",
                   """{ "f\"o\"\\\"o": bar }"""
           )
 
   fun testWrapWithQuotes7() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ foo: b<caret>""'a\"r }""",
                   """{ foo: "b\"\"'a\\\"r"}"""
           )
 
   fun testWrapWithQuotes8() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ foo: <caret>1 }""",
                   """{ foo: "1"}""".trimIndent()
           )
 
   fun testWrapWithQuotes9() =
-          doTest(
+          doWrapWithQuotesTest(
                   """{ foo: <caret>null }""",
                   """{ foo: "null"}""".trimIndent()
           )
 
-  fun doTest(content: String, expected: String) {
+  fun testMoveElementForward1() =
+          doMoveArrayElementTest(
+                  """[<caret>1, 2, 3]""",
+                  """[2, 1, 3]"""
+          )
+
+  fun testMoveElementForward2() =
+          doMoveArrayElementTest(
+                  """[<caret>1]""",
+                  null
+          )
+
+  fun testMoveElementForward3() =
+          doMoveArrayElementTest(
+                  """[2, 3, <caret>1]""",
+                  null
+          )
+
+  fun testMoveElementForward4() =
+          doMoveArrayElementTest(
+                  """[f<caret>oo, bar]""",
+                  """[bar, foo]"""
+          )
+
+  fun testMoveElementForward5() =
+          doMoveArrayElementTest(
+                  """
+                    {
+                      foo: ["<caret>foo", { bar: [1,2] } ]
+                    }
+                  """.trimIndent(),
+                  """
+                    {
+                      foo: [{ bar: [1,2] }, "foo" ]
+                    }
+                  """.trimIndent()
+          )
+
+  fun testMoveElementForward6() =
+          doMoveArrayElementTest(
+                  """
+                    {
+                      foo: ["foo", { bar: [<caret>{ 1:2 }, 1, 2] } ]
+                    }
+                  """.trimIndent(),
+                  """
+                    {
+                      foo: ["foo", { bar: [1, { 1:2 }, 2] } ]
+                    }
+                  """.trimIndent()
+          )
+
+  fun testMoveElementForward7() =
+          doMoveArrayElementTest(
+                  """
+                    [{}, <caret>[1,2], [3,4]]
+                  """.trimIndent(),
+                  """
+                    [{}, [3,4], [1,2]]
+                  """.trimIndent()
+          )
+
+  fun testMoveElementBack1() =
+          doMoveArrayElementTest(
+                  """[1, <caret>2, 3]""",
+                  """[2, 1, 3]"""
+          )
+
+  fun testMoveElementBack2() =
+          doMoveArrayElementTest(
+                  """[<caret>1, 2, 3]""",
+                  null
+          )
+
+  fun testMoveElementBack3() =
+          doMoveArrayElementTest(
+                  """
+                    {
+                      foo: ["foo", {<caret> bar: [1,2] } ]
+                    }
+                  """.trimIndent(),
+                  """
+                    {
+                      foo: [{ bar: [1,2] }, "foo" ]
+                    }
+                  """.trimIndent()
+          )
+
+  fun testMoveElementBack4() =
+          doMoveArrayElementTest(
+                  """
+                    [{}, <caret>[1,2], [3,4]]
+                  """.trimIndent(),
+                  """
+                    [[1,2], {}, [3,4]]
+                  """.trimIndent()
+          )
+
+  fun testMoveElementBack5() =
+          doMoveArrayElementTest(
+                  """
+                    {
+                      foo: ["foo", { bar: <caret>[{ 1:2 }, 1, 2] } ]
+                    }
+                  """.trimIndent(),
+                  """
+                    {
+                      foo: [{ bar: [{ 1:2 }, 1, 2] }, "foo" ]
+                    }
+                  """.trimIndent()
+          )
+
+  private fun doWrapWithQuotesTest(content: String, expected: String) {
     configureByText("test.lson", content)
     myFixture.launchAction(GdxJsonAddQuotesIntention())
     myFixture.checkResult(expected)
+  }
+
+  private fun doMoveArrayElementTest(content: String, expected: String?) {
+    configureByText("test.lson", content)
+
+    val intention =
+            if (testname().toLowerCase().contains("forward"))
+              GdxJsonMoveArrayElementForwardIntention()
+            else
+              GdxJsonMoveArrayElementBackwardIntention()
+
+    if (expected == null) {
+      assertTrue(myFixture.availableIntentions.none { it.text == intention.text })
+    } else {
+      myFixture.launchAction(intention)
+      myFixture.checkResult(expected)
+    }
+
   }
 
 }

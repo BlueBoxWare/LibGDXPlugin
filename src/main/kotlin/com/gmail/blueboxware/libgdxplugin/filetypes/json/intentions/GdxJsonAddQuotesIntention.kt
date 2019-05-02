@@ -3,8 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.parentString
-import com.intellij.codeInsight.intention.IntentionAction
-import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
@@ -25,11 +23,9 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonAddQuotesIntention: PsiElementBaseIntentionAction(), IntentionAction {
+class GdxJsonAddQuotesIntention: GdxJsonBaseIntention() {
 
   override fun getFamilyName(): String = "Wrap with double quotes"
-
-  override fun getText(): String = familyName
 
   override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
           element.parentString()?.isQuoted == false

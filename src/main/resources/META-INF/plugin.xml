@@ -284,6 +284,16 @@
             <category>LibGDX/JSON</category>
             <descriptionDirectoryName>WrapWithQuotesIntention</descriptionDirectoryName>
         </intentionAction>
+        <intentionAction>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention</className>
+            <category>LibGDX/JSON</category>
+            <descriptionDirectoryName>MoveElementForwardIntention</descriptionDirectoryName>
+        </intentionAction>
+        <intentionAction>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention</className>
+            <category>LibGDX/JSON</category>
+            <descriptionDirectoryName>MoveElementBackwardIntention</descriptionDirectoryName>
+        </intentionAction>
 
         <!--Skin files-->
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter" />

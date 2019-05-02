@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.indexOfOrNull
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.PsiElement
 
 
@@ -37,22 +38,32 @@ fun PsiElement.parentString(): GdxJsonString? =
 fun GdxJsonValue.getArrayIndexOfItem(): Int? =
         (parent as? GdxJsonArray)?.valueList?.indexOfOrNull(this)
 
-fun GdxJsonArray.switch(index1: Int, index2: Int) =
+fun GdxJsonArray.switch(editor: Editor, index1: Int, index2: Int) =
         valueList.getOrNull(index1)?.let { element1 ->
           valueList.getOrNull(index2)?.let { element2 ->
-            switch(element1, element2)
+            switch(editor, element1, element2)
           }
         }
 
 
-fun GdxJsonArray.switch(element1: GdxJsonValue, element2: GdxJsonValue) {
+fun GdxJsonArray.switch(editor: Editor, element1: GdxJsonValue, element2: GdxJsonValue) {
 
   if (element1.parent != this || element2.parent != this) {
     return
   }
 
-  val element2ancher = element2.nextSibling
-  element1.replace(element2)
-  addBefore(element1, element2ancher)
+  val element1range = element1.textRange
+  val element2range = element2.textRange
+
+  val element1text = element1.text
+  val element2text = element2.text
+
+  if (element1range.startOffset < element2range.startOffset) {
+    editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
+    editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
+  } else {
+    editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
+    editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
+  }
 
 }

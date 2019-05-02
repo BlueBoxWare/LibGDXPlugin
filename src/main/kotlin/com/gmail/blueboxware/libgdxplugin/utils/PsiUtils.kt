@@ -98,6 +98,22 @@ internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElemen
   return element
 }
 
+internal inline fun <reified T: PsiElement, reified U: PsiElement> PsiElement.parentWithParent(includeSelf: Boolean = true): T? {
+  var element: PsiElement? = this
+
+  if (!includeSelf) {
+    element = element?.parent
+  }
+
+  while (element != null) {
+    if (element is T && element.parent is U) {
+      return element
+    }
+    element = element.parent
+  }
+  return null
+}
+
 internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression? =
         namedArguments.find { trimQuotes(it.labelName) == name }?.expression
 
