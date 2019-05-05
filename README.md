@@ -84,6 +84,7 @@ given class or using malformed color strings
 * Use *Code* -> *Generate* or *Alt-Ins* (*Cmd-N*) to create a new color using a color pick dialog
 * QuickFixes to create missing resources and convert colors between hex and floats
 * Several inspections to highlight problems and possible issues
+* [Breadcrumbs](https://www.jetbrains.com/help/idea/settings-editor-breadcrumbs.html)
 
 \[1]: Usages of the resource in Java/Kotlin code are not automatically renamed, expect when using the `@GDXAssets`
 annotation (see below)

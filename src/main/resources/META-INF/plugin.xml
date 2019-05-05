@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Plugin</name>
-    <version>1.19</version>
+    <version>1.20</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,25 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.20</b>
+        <ul>
+            <li>
+               Skin files now use the standard IntelliJ method of suppressing warnings, with <i>//noinspection</i> comments.
+            </li>
+            <li>
+                LibGDX JSON: allow suppression of warnings.
+            </li>
+            <li>
+                Skin files & LibGDX JSON: spell checking.
+            </li>
+            <li>
+                Skin files & LibGDX JSON: <a href="https://www.jetbrains.com/help/idea/settings-editor-breadcrumbs.html">breadcrumbs</a>.
+            </li>
+            <li>
+                LibGDX JSON: move array element foward/backward intentions.
+            </li>
+        </ul>
+
         <b>1.19</b>
         <ul>
             <li>

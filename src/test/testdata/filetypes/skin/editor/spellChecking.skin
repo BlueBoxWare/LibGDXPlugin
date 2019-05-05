@@ -21,7 +21,7 @@
   green: {
     down: round-down, up: "round",
     font: medium,
-    // noinspection SpellCheckingInspection
+    //noinspection SpellCheckingInspection
     fontColor: {
 
     r: 0, g: 1, b: 0, a: "fwefewfwfe"
