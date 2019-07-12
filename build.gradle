@@ -34,6 +34,10 @@ intellij {
 
     plugins = ['Kotlin', 'Groovy', 'properties']
 
+    if (ideaVersion == 'LATEST-EAP-SNAPSHOT' ||  VersionNumber.parse(ideaVersion) >= VersionNumber.parse('2019.2')) {
+        plugins = plugins + 'java'
+    }
+
     if (useStudio) {
         version = studioVersion
         if (runStudio) {

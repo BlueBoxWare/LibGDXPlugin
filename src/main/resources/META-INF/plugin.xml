@@ -226,6 +226,7 @@
 
     <idea-version since-build="183"/>
 
+    <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
     <depends>com.intellij.properties</depends>
