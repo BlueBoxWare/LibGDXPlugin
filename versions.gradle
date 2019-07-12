@@ -5,10 +5,10 @@ ext {
     kotlinVersion = '1.3.21'
 
     // https://github.com/JetBrains/gradle-intellij-plugin/issues/367
-    intellijPluginVersion = '0.4.2'
+    intellijPluginVersion = '0.4.9'
 
 //    ideaVersion = 'LATEST-EAP-SNAPSHOT'
-    ideaVersion = '2019.1'
+    ideaVersion = '2019.1.3'
 
     studioVersion = '2018.3.4'
     studioKotlinPlugin = '1.3.30-release-Studio3.4-1'
