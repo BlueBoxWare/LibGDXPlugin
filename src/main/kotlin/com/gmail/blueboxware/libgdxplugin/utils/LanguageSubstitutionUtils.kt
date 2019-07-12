@@ -57,7 +57,7 @@ internal fun resetJsonAssociations(component: JComponent) =
 
 
 internal fun Project.markFileAsSkin(file: VirtualFile) {
-  EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
+  EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
   changeFileSubstitution(
           file,
           listOf(LibGDXProjectNonSkinFiles::class, LibGDXProjectGdxJsonFiles::class),
@@ -73,7 +73,7 @@ internal fun Project.markFileAsNonSkin(file: VirtualFile) =
         )
 
 internal fun Project.markFileAsGdxJson(file: VirtualFile) {
-  EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(this, file)
+  EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
   changeFileSubstitution(
           file,
           listOf(LibGDXProjectNonGdxJsonFiles::class, LibGDXProjectSkinFiles::class),

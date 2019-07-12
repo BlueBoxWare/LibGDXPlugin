@@ -47,7 +47,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
     project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
       for (skinFile in skins.files) {
-        EnforcedPlainTextFileTypeManager.getInstance().resetOriginalFileType(project, skinFile)
+        EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(project, skinFile)
       }
     }
 
