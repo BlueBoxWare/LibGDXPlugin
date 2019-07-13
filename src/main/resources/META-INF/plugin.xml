@@ -17,7 +17,7 @@
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <name>LibGDX Plugin</name>
-    <version>1.20</version>
+    <version>1.20.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,6 +30,14 @@
     ]]></description>
 
     <change-notes><![CDATA[
+
+        <b>1.20.1</b>
+        <ul>
+            <li>
+                Fix NPE when running with IntelliJ 2019.2 EAP.
+            </li>
+        </ul>
+
         <b>1.20</b>
         <ul>
             <li>
