@@ -32,8 +32,6 @@ class OutdatedVersionsInspection: GlobalInspectionTool() {
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name")
 
-  override fun getGroupPath() = arrayOf("LibGDX", "General")
-
   override fun getGroupDisplayName() = "LibGDX"
 
   override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())

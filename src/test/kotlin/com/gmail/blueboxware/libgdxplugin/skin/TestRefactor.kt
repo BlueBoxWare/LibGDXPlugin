@@ -26,8 +26,10 @@ import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtPackageDirective
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -194,12 +196,27 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
+//  fun testMoveKotlinFile() {
+//    copyDirectoryToProject("org", "org")
+//    val file = configureByFile("KotlinClass.kt") as KtFile
+//    configureByFile("changeKotlinPackageDirective1.skin")
+//    moveKotlinFile(file, "org.something")
+//    myFixture.checkResultByFile("changeKotlinPackageDirective1.skin") // no changes
+//  }
+
   fun testMoveKotlinFile() {
     copyDirectoryToProject("org", "org")
-    val file = configureByFile("KotlinClass.kt") as KtFile
-    configureByFile("changeKotlinPackageDirective1.skin")
-    moveKotlinFile(file, "org.something")
-    myFixture.checkResultByFile("changeKotlinPackageDirective1.skin") // no changes
+    val kotlinFile = configureByFile("KotlinClass.kt") as KtFile
+    val skinFile = configureByFile("changeKotlinPackageDirective1.skin")
+    moveKotlinFile(kotlinFile, "org.something")
+    val newPackageName = kotlinFile.findDescendantOfType<KtPackageDirective>()!!.fqName.asString()
+    val expected = skinFile
+            .text
+            .replace(
+                    Regex("""com\.example\.KotlinClass([:$])"""),
+                    newPackageName + ".KotlinClass$1"
+            )
+    myFixture.checkResult(expected, true) // no changes
   }
 
   fun testChangeKotlinPackageDirective1() {

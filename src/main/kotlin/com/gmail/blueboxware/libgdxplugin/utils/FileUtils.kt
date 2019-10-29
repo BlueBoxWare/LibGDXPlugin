@@ -3,7 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.guessProjectDir
+import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
+import com.intellij.psi.PsiManager
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -28,3 +30,5 @@ internal fun Project.getProjectBaseDir() =
         }
 
 internal fun fileNameToPathList(fileName: String): Array<String> = fileName.replace('\\', '/').split("/").toTypedArray()
+
+internal fun VirtualFile.toPsiFile(project: Project) = PsiManager.getInstance(project).findFile(this)

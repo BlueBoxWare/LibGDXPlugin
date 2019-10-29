@@ -274,6 +274,24 @@
         <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider" />
         <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory" />
 
+        <globalInspection
+                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection"
+                bundle="libgdxplugin"
+                key="designed.for.tablets.inspection"
+                groupPath="LibGDX"
+                groupName="Android"
+                shortName="LibGDXDesignedForTablets"
+        />
+
+        <globalInspection
+                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection"
+                bundle="libgdxplugin"
+                key="outdated.version.inspection.display.name"
+                groupPath="LibGDX"
+                groupName="General"
+                shortName="LibGDXOutdatedVersion"
+        />
+
         <!--LibGDX JSON files-->
         <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileTypeFactory" id="LibGDXJson" />
 

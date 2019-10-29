@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinFiles
 import com.gmail.blueboxware.libgdxplugin.utils.key
+import com.gmail.blueboxware.libgdxplugin.utils.toPsiFile
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
@@ -10,7 +11,6 @@ import com.intellij.psi.impl.source.JavaDummyHolder
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
-import org.jetbrains.kotlin.idea.refactoring.toPsiFile
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtFile

@@ -8,6 +8,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.spellchecker.inspections.PlainTextSplitter
 import com.intellij.spellchecker.inspections.SpellCheckingInspection
 import com.intellij.spellchecker.tokenizer.SuppressibleSpellcheckingStrategy
+import com.intellij.spellchecker.tokenizer.Tokenizer
 import com.intellij.spellchecker.tokenizer.TokenizerBase
 
 
@@ -28,7 +29,7 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  */
 class GdxJsonSpellcheckerStrategy: SuppressibleSpellcheckingStrategy() {
 
-  override fun getTokenizer(element: PsiElement?) =
+  override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
           if (element is GdxJsonString) {
             TOKENIZER
           } else {

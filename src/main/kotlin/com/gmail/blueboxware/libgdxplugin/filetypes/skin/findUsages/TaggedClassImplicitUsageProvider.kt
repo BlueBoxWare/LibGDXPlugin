@@ -45,8 +45,8 @@ class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
 
   }
 
-  override fun isImplicitRead(element: PsiElement?): Boolean = false
+  override fun isImplicitRead(element: PsiElement): Boolean = false
 
-  override fun isImplicitWrite(element: PsiElement?): Boolean = false
+  override fun isImplicitWrite(element: PsiElement): Boolean = false
 
 }

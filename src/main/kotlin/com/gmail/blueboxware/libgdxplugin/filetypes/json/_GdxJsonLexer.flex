@@ -11,9 +11,9 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
 
 %{
   public _GdxJsonLexer() {
-    this((java.io.Reader)null);
-  }
-%}
+      this(null);
+    }
+  %}
 
 %public
 %class _GdxJsonLexer

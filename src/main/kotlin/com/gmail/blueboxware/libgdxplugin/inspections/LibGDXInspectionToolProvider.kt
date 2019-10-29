@@ -3,8 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
-import com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection
-import com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.*
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.*
@@ -12,6 +10,7 @@ import com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPe
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.intellij.codeInspection.InspectionToolProvider
+import com.intellij.codeInspection.LocalInspectionTool
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -30,7 +29,7 @@ import com.intellij.codeInspection.InspectionToolProvider
  */
 class LibGDXInspectionToolProvider: InspectionToolProvider {
 
-  override fun getInspectionClasses() = arrayOf(
+  override fun getInspectionClasses(): Array<Class<out LocalInspectionTool>> = arrayOf(
           JavaUnsafeIteratorInspection::class.java,
           JavaTestIdsInspection::class.java,
           JavaStaticResourceInspection::class.java,
@@ -58,10 +57,7 @@ class LibGDXInspectionToolProvider: InspectionToolProvider {
           KotlinUnusedClassTagInspection::class.java,
 
           OpenGLESDirectiveInspection::class.java,
-          DesignedForTabletsInspection::class.java,
           MissingExternalFilesPermissionInspection::class.java,
-
-          OutdatedVersionsInspection::class.java,
 
           GradleOutdatedVersionsInspection::class.java,
           GradleKotlinOutdatedVersionInspection::class.java,

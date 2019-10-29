@@ -34,10 +34,6 @@ intellij {
 
     plugins = ['Kotlin', 'Groovy', 'properties']
 
-    if (ideaVersion == 'LATEST-EAP-SNAPSHOT' ||  VersionNumber.parse(ideaVersion) >= VersionNumber.parse('2019.2')) {
-        plugins = plugins + 'java'
-    }
-
     if (useStudio) {
         version = studioVersion
         if (runStudio) {
@@ -46,6 +42,11 @@ intellij {
         }
     } else {
         version = ideaVersion
+    }
+
+
+    if (version == 'LATEST-EAP-SNAPSHOT' ||  VersionNumber.parse(version) >= VersionNumber.parse('2019.2')) {
+        plugins = plugins + 'java'
     }
 
     pluginName = 'LibGDX Plugin'
