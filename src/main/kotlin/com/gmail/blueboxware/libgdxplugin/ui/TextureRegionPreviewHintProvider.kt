@@ -58,6 +58,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
         else -> null
       }?.references?.forEach { reference ->
         reference.resolve()?.let { target ->
+          @Suppress("ControlFlowWithEmptyBody")
           if (target is AtlasRegion) {
             target.image?.let { image ->
               return createPreviewComponent(image, target.name)

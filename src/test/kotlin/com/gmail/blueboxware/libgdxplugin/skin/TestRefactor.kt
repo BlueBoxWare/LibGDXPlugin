@@ -214,7 +214,7 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
             .text
             .replace(
                     Regex("""com\.example\.KotlinClass([:$])"""),
-                    newPackageName + ".KotlinClass$1"
+                    "$newPackageName.KotlinClass$1"
             )
     myFixture.checkResult(expected, true) // no changes
   }

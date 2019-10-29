@@ -61,7 +61,7 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
 
     for (usageInfo in usagesInfos) {
       usageInfo.element?.let { element ->
-        val references = element.references.filter { it is GDXPropertyReference }
+        val references = element.references.filterIsInstance<GDXPropertyReference>()
         assertFalse(references.isEmpty())
         references.forEach { reference ->
           (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolved ->

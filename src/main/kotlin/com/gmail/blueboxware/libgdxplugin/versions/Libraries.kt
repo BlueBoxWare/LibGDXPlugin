@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary

@@ -143,9 +143,9 @@ class GdxJsonBlock(
 
   companion object {
 
-    val OPEN_BRACES = TokenSet.create(L_CURLY, L_BRACKET)
-    val CLOSE_BRACES = TokenSet.create(R_CURLY, R_BRACKET)
-    val BRACES = TokenSet.orSet(OPEN_BRACES, CLOSE_BRACES)
+    private val OPEN_BRACES = TokenSet.create(L_CURLY, L_BRACKET)
+    private val CLOSE_BRACES = TokenSet.create(R_CURLY, R_BRACKET)
+    private val BRACES = TokenSet.orSet(OPEN_BRACES, CLOSE_BRACES)
 
     private fun isWhiteSpaceOrEmpty(node: ASTNode) =
             node.elementType == TokenType.WHITE_SPACE || node.textLength == 0

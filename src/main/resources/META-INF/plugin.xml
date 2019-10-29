@@ -256,7 +256,6 @@
                 groupId="editor"
                 />
         <projectService
-                serviceInterface="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
                 serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
                 />
 
@@ -457,15 +456,15 @@
         <action class="com.gmail.blueboxware.libgdxplugin.actions.CreateScreenAction" id="LibGDXPlugin.NewScreen">
             <add-to-group group-id="NewGroup" anchor="last" />
         </action>
-        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX skin">
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX Skin">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
         </action>
-        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsGdxJsonAction" id="LibGDXPlugin.MarkAsGdxJson" text="Mark as LibGDX style JSON">
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsGdxJsonAction" id="LibGDXPlugin.MarkAsGdxJson" text="Mark as LibGDX Style JSON">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
         </action>
 
         <action class="com.gmail.blueboxware.libgdxplugin.filetypes.skin.actions.CreateColorAction" id="LibGDXPlugin.Skin.CreateColor"
-                text="New color"
+                text="New Color"
                 description="Create a new color specification">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>

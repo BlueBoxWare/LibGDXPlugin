@@ -96,7 +96,7 @@ internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder)
 
 internal fun isValidProperty(element: PsiElement): Boolean {
 
-  element.references.filter { it is GDXPropertyReference }.let { references ->
+  element.references.filterIsInstance<GDXPropertyReference>().let { references ->
     if (references.isEmpty()) {
       return true
     }

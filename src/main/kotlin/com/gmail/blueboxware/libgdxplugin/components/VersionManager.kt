@@ -68,7 +68,7 @@ class VersionManager(val project: Project): ProjectComponent {
     Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
       val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
       if (lib.library.updateLatestVersion(this, networkAllowed)) {
-        VersionManager.LOG.debug("Updated latest version of ${lib.library.name}.")
+        LOG.debug("Updated latest version of ${lib.library.name}.")
         networkCount++
       }
     }
