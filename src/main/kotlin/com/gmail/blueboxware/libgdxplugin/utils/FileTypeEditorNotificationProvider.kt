@@ -29,9 +29,10 @@ import com.intellij.ui.EditorNotifications
  */
 abstract class FileTypeEditorNotificationProvider(
         protected val project: Project,
-        private val forLanguage: Language,
-        private val notifications: EditorNotifications
+        private val forLanguage: Language
 ): EditorNotifications.Provider<EditorNotificationPanel>() {
+
+  private val notifications: EditorNotifications? = EditorNotifications.getInstance(project)
 
   abstract val messageKey: String
 
@@ -65,17 +66,17 @@ abstract class FileTypeEditorNotificationProvider(
 
       createActionLabel(message("filetype.yes")) {
         onYes(file)
-        notifications.updateAllNotifications()
+        notifications?.updateAllNotifications()
       }
 
       createActionLabel(message("filetype.no")) {
         onNo(file)
-        notifications.updateAllNotifications()
+        notifications?.updateAllNotifications()
       }
 
       createActionLabel(message("filetype.do.not.bother")) {
         onNever(settings)
-        notifications.updateAllNotifications()
+        notifications?.updateAllNotifications()
       }
 
     }

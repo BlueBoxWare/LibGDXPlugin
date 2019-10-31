@@ -13,7 +13,6 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
-import com.intellij.ui.EditorNotifications
 
 
 /*
@@ -31,10 +30,9 @@ import com.intellij.ui.EditorNotifications
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinEditorNotificationProvider(project: Project, notifications: EditorNotifications): FileTypeEditorNotificationProvider(
+class SkinEditorNotificationProvider(project: Project): FileTypeEditorNotificationProvider(
         project,
-        LibGDXSkinLanguage.INSTANCE,
-        notifications
+        LibGDXSkinLanguage.INSTANCE
 ) {
 
   override val messageKey = "skin.file.detected"

@@ -11,7 +11,6 @@ import com.intellij.util.ui.ColorIcon
 import com.sun.jdi.ClassNotPreparedException
 import com.sun.jdi.FloatValue
 import com.sun.jdi.ObjectReference
-import java.lang.IllegalArgumentException
 import javax.swing.Icon
 
 /*
@@ -29,8 +28,8 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXColorObjectRenderer(rendererSettings: NodeRendererSettings): CompoundReferenceRenderer(
-        rendererSettings,
+class LibGDXColorObjectRenderer: CompoundReferenceRenderer(
+        NodeRendererSettings.getInstance() ?: NodeRendererSettings(),
         "LibGDX Color",
         null,
         null

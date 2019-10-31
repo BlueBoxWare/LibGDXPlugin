@@ -14,7 +14,6 @@ import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
 import com.intellij.ui.EditorNotificationPanel
-import com.intellij.ui.EditorNotifications
 
 
 /*
@@ -32,10 +31,9 @@ import com.intellij.ui.EditorNotifications
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonEditorNotificationProvider(project: Project, notifications: EditorNotifications): FileTypeEditorNotificationProvider(
+class GdxJsonEditorNotificationProvider(project: Project): FileTypeEditorNotificationProvider(
         project,
-        LibGDXSkinLanguage.INSTANCE,
-        notifications
+        LibGDXSkinLanguage.INSTANCE
 ) {
 
   override val messageKey = "json.file.detected"
