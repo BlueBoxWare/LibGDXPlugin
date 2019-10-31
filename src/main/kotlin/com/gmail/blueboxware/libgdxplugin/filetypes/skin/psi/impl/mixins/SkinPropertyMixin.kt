@@ -92,10 +92,10 @@ abstract class SkinPropertyMixin(node: ASTNode): SkinProperty, SkinElementImpl(n
       }
 
       if (value is SkinArray) {
-        return AllIcons.Json.Property_brackets
+        return AllIcons.Json.Array
       }
       if (value is SkinObject) {
-        return AllIcons.Json.Property_braces
+        return AllIcons.Json.Object
       }
       return PlatformIcons.PROPERTY_ICON
     }

@@ -37,9 +37,9 @@ abstract class GdxJsonPropertyMixin(node: ASTNode): GdxJsonProperty, GdxJsonElem
 
     override fun getIcon(unused: Boolean): Icon? =
             if (value?.value is GdxJsonArray)
-              AllIcons.Json.Property_brackets
+              AllIcons.Json.Array
             else if (value?.value is GdxJsonJobject)
-              AllIcons.Json.Property_braces
+              AllIcons.Json.Object
             else
               PlatformIcons.PROPERTY_ICON
 
