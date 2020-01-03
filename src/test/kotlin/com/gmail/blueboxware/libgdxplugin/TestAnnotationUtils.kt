@@ -195,12 +195,11 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
               KotlinClassKt.f().annotatedMethod<caret>();
             }
             """, "args", null),
-          // TODO: Fix this
-//          Test("""
-//            void m() {
-//              KotlinObject.INSTANCE.annotatedMethod<caret>();
-//            }
-//            """, "args", listOf()),
+          Test("""
+            void m() {
+              KotlinObject.INSTANCE.annotatedMethod<caret>();
+            }
+            """, "args", listOf()),
           Test("""
             void m() {
               new KotlinClass().getString().char<caret>At(1);
