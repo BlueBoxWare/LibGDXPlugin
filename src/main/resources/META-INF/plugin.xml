@@ -16,7 +16,7 @@
 <!--suppress XmlUnboundNsPrefix -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
-    <name>LibGDX Plugin</name>
+    <name>LibGDX</name>
     <version>1.20.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 

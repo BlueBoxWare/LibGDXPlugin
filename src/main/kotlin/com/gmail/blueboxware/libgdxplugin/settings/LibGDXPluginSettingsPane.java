@@ -152,6 +152,7 @@ public class LibGDXPluginSettingsPane {
         return root;
     }
 
+    @SuppressWarnings("EmptyMethod")
     private void createUIComponents() {
 
     }
