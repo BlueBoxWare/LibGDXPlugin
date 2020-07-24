@@ -6,12 +6,12 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl
 import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.codeInsight.preview.ImagePreviewComponent
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.util.IconUtil
 import com.intellij.util.IncorrectOperationException
-import icons.ImagesIcons
 import org.jetbrains.kotlin.idea.search.allScope
 import java.awt.image.BufferedImage
 import java.awt.image.RasterFormatException
@@ -86,7 +86,7 @@ abstract class AtlasRegionMixin(node: ASTNode): AtlasRegion, AtlasElementImpl(no
 
     override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = ImagesIcons.ImagesFileType
+    override fun getIcon(unused: Boolean) = AllIcons.FileTypes.UiForm
 
     override fun getPresentableText() = name + index.value?.getValue()?.let { if (it != "-1") " ($it)" else "" }
 

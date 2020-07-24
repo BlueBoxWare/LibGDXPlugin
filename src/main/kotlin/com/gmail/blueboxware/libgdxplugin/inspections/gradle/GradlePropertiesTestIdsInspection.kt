@@ -35,7 +35,7 @@ class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() 
 
     return object: PsiElementVisitor() {
 
-      override fun visitElement(element: PsiElement?) {
+      override fun visitElement(element: PsiElement) {
 
         if (element !is Property || !element.isInGradlePropertiesFile()) {
           return

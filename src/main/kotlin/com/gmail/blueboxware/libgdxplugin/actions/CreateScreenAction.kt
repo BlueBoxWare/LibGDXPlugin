@@ -32,7 +32,7 @@ class CreateScreenAction: CreateFileFromTemplateAction("LibGDX Screen", "Creates
 
   override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = "LibGDX Screen"
 
-  override fun buildDialog(project: Project?, directory: PsiDirectory?, builder: CreateFileFromTemplateDialog.Builder) {
+  override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
     builder.setTitle("New LibGDX Screen")
             .addKind("Java", JavaFileType.INSTANCE.icon, "LibGDX Screen (Java)")
             .addKind("Kotlin", KotlinFileType.INSTANCE.icon, "LibGDX Screen (Kotlin)")

@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
+import com.gmail.blueboxware.libgdxplugin.utils.FindUsagesHandlerBaseCompat
 import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.find.findUsages.FindUsagesHandler
@@ -38,13 +39,13 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
+class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandlerBaseCompat(element) {
 
   constructor(element: PsiLiteralExpression): this(element as PsiElement)
 
   constructor(element: KtStringTemplateExpression): this(element as PsiElement)
 
-  override fun processElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
+  override fun doProcessElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
 
     ReadAction.run<Throwable> {
 

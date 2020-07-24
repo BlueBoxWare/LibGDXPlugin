@@ -104,7 +104,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
     file.accept(object: PsiRecursiveElementVisitor() {
 
-      override fun visitElement(element: PsiElement?) {
+      override fun visitElement(element: PsiElement) {
         super.visitElement(element)
 
         if (element != null && elementType.isInstance(element)) {

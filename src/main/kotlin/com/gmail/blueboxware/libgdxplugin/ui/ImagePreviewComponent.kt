@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.intellij.ui.JBColor
 import com.intellij.util.ui.UIUtil
-import org.intellij.images.options.TransparencyChessboardOptions
 import java.awt.*
 import java.awt.image.BufferedImage
 import javax.swing.BorderFactory
@@ -79,9 +78,9 @@ class ImagePreviewComponent(val image: BufferedImage, description: String): JPan
 
       val pattern = UIUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
       pattern.graphics.let {
-        it.color = TransparencyChessboardOptions.DEFAULT_BLACK_COLOR
+        it.color = Color.BLACK
         it.fillRect(0, 0, patternSize, patternSize)
-        it.color = TransparencyChessboardOptions.DEFAULT_WHITE_COLOR
+        it.color = Color.WHITE
         it.fillRect(0, cellSize, cellSize, cellSize)
         it.fillRect(cellSize, 0, cellSize, cellSize)
       }

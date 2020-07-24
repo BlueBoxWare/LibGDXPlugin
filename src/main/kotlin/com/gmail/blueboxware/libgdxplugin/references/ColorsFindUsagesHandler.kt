@@ -38,13 +38,13 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
+class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandlerBaseCompat(element) {
 
   constructor(element: PsiLiteralExpression): this(element as PsiElement)
 
   constructor(element: KtStringTemplateExpression): this(element as PsiElement)
 
-  override fun processElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
+  override fun doProcessElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
 
     val colorNameToFind = ReadAction.compute<String, Throwable> {
       (element as? PsiLiteralExpression)?.asString()
