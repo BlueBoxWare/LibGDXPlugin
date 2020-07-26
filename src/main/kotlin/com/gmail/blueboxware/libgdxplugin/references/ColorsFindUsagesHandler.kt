@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.find.findUsages.FindUsagesHandler
+import com.gmail.blueboxware.libgdxplugin.utils.compat.FindUsagesHandlerBaseCompat
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.progress.ProgressManager

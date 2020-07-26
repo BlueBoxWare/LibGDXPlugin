@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.utils;
+package com.gmail.blueboxware.libgdxplugin.utils.compat;
 
 import com.intellij.openapi.application.QueryExecutorBase;
 import com.intellij.psi.PsiReference;

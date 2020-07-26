@@ -3,10 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.utils.FindUsagesHandlerBaseCompat
+import com.gmail.blueboxware.libgdxplugin.utils.compat.FindUsagesHandlerBaseCompat
 import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
-import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project

@@ -1,5 +1,3 @@
-import org.gradle.util.VersionNumber
-
 buildscript {
     apply from: 'versions.gradle'
 
@@ -34,21 +32,15 @@ version pluginVersion
 
 intellij {
 
-    plugins = ['Kotlin', 'Groovy', 'properties']
+    plugins = ['java', 'Kotlin', 'Groovy', 'properties']
 
     if (useStudio) {
         version = studioVersion
         if (runStudio) {
-            plugins = ["Kotlin", 'Groovy', 'properties']
             alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
         }
     } else {
         version = ideaVersion
-    }
-
-
-    if (version == 'LATEST-EAP-SNAPSHOT' ||  VersionNumber.parse(version) >= VersionNumber.parse('2019.2')) {
-        plugins = plugins + 'java'
     }
 
     pluginName = 'LibGDX Plugin'

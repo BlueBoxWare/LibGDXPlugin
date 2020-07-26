@@ -1,4 +1,4 @@
-package com.gmail.blueboxware.libgdxplugin.utils;
+package com.gmail.blueboxware.libgdxplugin.utils.compat;
 
 import com.intellij.find.findUsages.FindUsagesHandler;
 import com.intellij.find.findUsages.FindUsagesOptions;
@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
  */
 
 // https://github.com/JetBrains/intellij-community/commit/0ac6e724c94bb94ccba51a378d89a4f86af2b8d5
+@SuppressWarnings("unchecked")
 abstract public class FindUsagesHandlerBaseCompat extends FindUsagesHandler {
 
     protected FindUsagesHandlerBaseCompat(@NotNull PsiElement psiElement) {
