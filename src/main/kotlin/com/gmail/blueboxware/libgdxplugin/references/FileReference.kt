@@ -85,15 +85,15 @@ class FileReference(
 
   override fun handleElementRename(newElementName: String): PsiElement {
 
-    if (element is AtlasValue) {
+    return if (element is AtlasValue) {
 
       // we don't handle renaming of the image file in Atlas files
-      return element
+      element
 
     } else if (element is KtStringTemplateExpression || element is PsiLiteralExpression) {
 
       val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
-      return super.handleElementRename(newPath)
+      super.handleElementRename(newPath)
 
     } else {
 

@@ -39,12 +39,10 @@ class SkinMissingPropertyInspection: SkinBaseInspection() {
 
       val className = skinObject.resolveToTypeString()
 
-      val mandatoryProperties = if (className == BITMAPFONT_CLASS_NAME) {
-        setOf(PROPERTY_NAME_FONT_FILE)
-      } else if (className == TINTED_DRAWABLE_CLASS_NAME) {
-        listOf(PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR)
-      } else {
-        null
+      val mandatoryProperties = when (className) {
+        BITMAPFONT_CLASS_NAME -> setOf(PROPERTY_NAME_FONT_FILE)
+        TINTED_DRAWABLE_CLASS_NAME -> listOf(PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR)
+        else -> null
       }
 
       mandatoryProperties?.forEach { property ->

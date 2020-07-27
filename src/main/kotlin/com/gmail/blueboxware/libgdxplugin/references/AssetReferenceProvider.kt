@@ -46,18 +46,10 @@ class AssetReferenceProvider: PsiReferenceProvider() {
                     ?: (methodCall as? KtCallExpression)?.resolveCallToStrings()
                     ?: return PsiReference.EMPTY_ARRAY
 
-    if (className == SKIN_CLASS_NAME) {
-
-      return createSkinReferences(element, methodCall, methodName)
-
-    } else if (className == TEXTURE_ATLAS_CLASS_NAME) {
-
-      return createAtlasReferences(element, methodCall, methodName)
-
-    } else {
-
-      return PsiReference.EMPTY_ARRAY
-
+    return when (className) {
+      SKIN_CLASS_NAME -> createSkinReferences(element, methodCall, methodName)
+      TEXTURE_ATLAS_CLASS_NAME -> createAtlasReferences(element, methodCall, methodName)
+      else -> PsiReference.EMPTY_ARRAY
     }
 
   }

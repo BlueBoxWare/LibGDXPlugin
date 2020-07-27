@@ -37,9 +37,7 @@ abstract class ManifestVisitor: XmlRecursiveElementVisitor() {
     if (tag?.name == "uses-feature" && tag.parentTag?.name == "manifest") {
       tag.getAttribute("android:glEsVersion")?.value?.let { value ->
         try {
-          Integer.decode(value)?.let {
-            processOpenGLESVersion(it, tag)
-          }
+          processOpenGLESVersion(Integer.decode(value), tag)
         } catch (e: NumberFormatException) {
           // Nothing
         }

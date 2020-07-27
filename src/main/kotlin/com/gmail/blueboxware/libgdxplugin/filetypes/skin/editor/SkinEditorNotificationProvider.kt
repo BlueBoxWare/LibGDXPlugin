@@ -45,22 +45,19 @@ class SkinEditorNotificationProvider(project: Project): FileTypeEditorNotificati
     settings.neverAskAboutSkinFiles = true
   }
 
-  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean {
-
-    if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage.INSTANCE) {
-      return false
-    } else if (settings.neverAskAboutSkinFiles) {
-      return false
-    } else {
-      val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)
-      if (nonSkinFiles.contains(file)) {
-        return false
-      } else {
-        return fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
-      }
-    }
-
-  }
+  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean =
+          if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage.INSTANCE) {
+            false
+          } else if (settings.neverAskAboutSkinFiles) {
+            false
+          } else {
+            val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)
+            if (nonSkinFiles.contains(file)) {
+              false
+            } else {
+              fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
+            }
+          }
 
   override fun getKey(): Key<EditorNotificationPanel> = KEY
 

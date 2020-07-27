@@ -1,3 +1,5 @@
+@file:Suppress("ReplaceNotNullAssertionWithElvisReturn")
+
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.components.VersionManager
@@ -12,6 +14,7 @@ import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
 import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
+import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
 import com.intellij.psi.PsiElement
@@ -48,7 +51,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
   fun addLibGDXSources() =
           WriteCommandAction.runWriteCommandAction(project) {
-            ProjectLibraryTable.getInstance(project).libraries.find { it.name == "gdx.jar" }?.let { library ->
+            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }?.let { library ->
               library.modifiableModel.let {
                 it.addRoot(JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!, OrderRootType.SOURCES)
                 it.commit()
@@ -76,8 +79,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
     WriteCommandAction.writeCommandAction(project).run<Throwable> {
 
-      val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
-              ?: throw AssertionError()
+      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
       for (lib in projectModel.libraries) {
         getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
@@ -132,8 +134,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase
 
     WriteCommandAction.runWriteCommandAction(project) {
 
-      val projectModel = ServiceManager.getService(project, ProjectLibraryTable::class.java)?.modifiableModel
-              ?: throw AssertionError()
+      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
       for (lib in projectModel.libraries) {
         getLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->

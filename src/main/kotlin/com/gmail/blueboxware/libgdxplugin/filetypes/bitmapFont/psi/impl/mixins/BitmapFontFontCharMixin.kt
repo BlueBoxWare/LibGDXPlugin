@@ -29,18 +29,13 @@ abstract class BitmapFontFontCharMixin(node: ASTNode): BitmapFontFontChar, Prope
 
     getValue("letter")?.firstOrNull()?.let { letter ->
 
-      if (letter == ' ') {
-        return "space"
-      } else if (letter == '\t') {
-        return "tab"
-      } else if (letter == '\n') {
-        return "newline"
-      } else if (letter == '\r') {
-        return "return"
-      } else if (Character.isISOControl(letter)) {
-        return null
-      } else {
-        return "'$letter'"
+      return when {
+        letter == ' ' -> "space"
+        letter == '\t' -> "tab"
+        letter == '\n' -> "newline"
+        letter == '\r' -> "return"
+        Character.isISOControl(letter) -> null
+        else -> "'$letter'"
       }
 
     }

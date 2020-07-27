@@ -12,6 +12,7 @@ import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgumentList
+import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssignmentExpression
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
@@ -43,7 +44,7 @@ internal fun checkVersionAndReport(holder: ProblemsHolder, element: PsiElement, 
     } else {
       versionManager.getUsedVersion(lib)
     }
-  }!!
+  } ?: return
 
   if (usedVersion < latestVersion) {
 
@@ -135,13 +136,13 @@ internal fun getLibraryInfoFromGroovyAssignment(grAssignmentExpression: GrAssign
         }
 
 internal fun getLibraryFromKotlinString(ktStringTemplateExpression: KtStringTemplateExpression): Libraries? =
-        ktStringTemplateExpression.asPlainString()?.let { str ->
+        ktStringTemplateExpression.plainContent?.let { str ->
           getLibraryFromMavenCoordString(str)
         }
 
 
 internal fun getLibraryInfoFromKotlinString(ktStringTemplateExpression: KtStringTemplateExpression): Pair<Libraries, MavenComparableVersion?>? =
-        ktStringTemplateExpression.asPlainString()?.let { str ->
+        ktStringTemplateExpression.plainContent?.let { str ->
           getLibraryFromKotlinString(ktStringTemplateExpression)?.let { lib ->
             lib.getVersionFromMavenCoordString(str).let { version ->
               lib to version
@@ -187,7 +188,7 @@ private fun getVersionFromKotlinArgumentList(ktValueArgumentList: KtValueArgumen
         ktValueArgumentList.getNamedArgumentPlainContent("version")?.let(::MavenComparableVersion)
 
 private fun KtValueArgumentList.getNamedArgumentPlainContent(name: String): String? =
-        (getNamedArgument(name) as? KtStringTemplateExpression)?.asPlainString()
+        (getNamedArgument(name) as? KtStringTemplateExpression)?.plainContent
 
 private fun String.toVersion() =
         takeIf { contains('.') && !any { char -> char in listOf('$', '"', '\'') } }?.let(::MavenComparableVersion)

@@ -78,28 +78,32 @@ class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElemen
       value = element.`object`
     }
 
-    if (value is SkinObject) {
-      return ContainerUtil.map2Array(
-              value.propertyList,
-              TreeElement::class.java,
-              Function(::SkinStructureViewElement)
-      )
-    } else if (value is SkinArray) {
-      val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList) { value1 ->
-        if (value1 is SkinObject) {
-          SkinStructureViewElement(value1)
-        } else if (value1 is SkinArray) {
-          SkinStructureViewElement(value1)
-        } else {
-          null
-        }
+    when (value) {
+      is SkinObject -> {
+        return ContainerUtil.map2Array(
+                value.propertyList,
+                TreeElement::class.java,
+                Function(::SkinStructureViewElement)
+        )
       }
+      is SkinArray -> {
+        val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList) { value1 ->
+          if (value1 is SkinObject) {
+            SkinStructureViewElement(value1)
+          } else if (value1 is SkinArray) {
+            SkinStructureViewElement(value1)
+          } else {
+            null
+          }
+        }
 
-      return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
-    } else if (value is List<*>) {
-      return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
+        return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
+      }
+      is List<*> -> {
+        return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
+      }
+      else -> return EMPTY_ARRAY
     }
 
-    return EMPTY_ARRAY
   }
 }

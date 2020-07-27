@@ -18,20 +18,17 @@ import com.intellij.openapi.util.TextRange
  */
 class SkinFoldingBuilder: FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String? {
-
-    when (node.elementType) {
-      SkinElementTypes.OBJECT -> return "{...}"
-      SkinElementTypes.ARRAY -> return "[...]"
-      SkinElementTypes.LINE_COMMENT -> return "//..."
-      SkinElementTypes.BLOCK_COMMENT -> return "/*...*/"
-      SkinElementTypes.RESOURCE -> return "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
-      SkinElementTypes.CLASS_SPECIFICATION -> return "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName
-              ?: "") + " ...}"
-      else -> return "..."
-    }
-
-  }
+  override fun getPlaceholderText(node: ASTNode): String? =
+          when (node.elementType) {
+            SkinElementTypes.OBJECT -> "{...}"
+            SkinElementTypes.ARRAY -> "[...]"
+            SkinElementTypes.LINE_COMMENT -> "//..."
+            SkinElementTypes.BLOCK_COMMENT -> "/*...*/"
+            SkinElementTypes.RESOURCE -> "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
+            SkinElementTypes.CLASS_SPECIFICATION -> "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName
+                    ?: "") + " ...}"
+            else -> "..."
+          }
 
   override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
 

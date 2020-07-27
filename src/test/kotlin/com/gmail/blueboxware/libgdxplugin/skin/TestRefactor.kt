@@ -46,6 +46,7 @@ import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameResource() {

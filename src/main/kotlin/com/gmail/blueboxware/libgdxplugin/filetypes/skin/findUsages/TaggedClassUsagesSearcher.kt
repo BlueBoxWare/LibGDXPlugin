@@ -52,12 +52,10 @@ class TaggedClassUsagesSearcher: QueryExecutorBaseCompat() {
       return
     }
 
-    val qualifiedName = if (element is PsiClass) {
-      ReadAction.compute<String, Throwable> { element.qualifiedName }
-    } else if (element is KtClass) {
-      ReadAction.compute<String, Throwable> { element.fqName?.asString() }
-    } else {
-      null
+    val qualifiedName = when (element) {
+      is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
+      is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
+      else -> null
     }
 
     if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {

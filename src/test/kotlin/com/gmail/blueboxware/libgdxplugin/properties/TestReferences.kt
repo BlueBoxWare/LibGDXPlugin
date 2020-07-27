@@ -166,11 +166,11 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
       (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolveResult ->
         assertTrue(resolveResult.element is Property)
         val text =
-                if (referencingElement is PsiLiteralExpression)
-                  referencingElement.asString()
-                else if (referencingElement is KtStringTemplateExpression)
-                  referencingElement.asPlainString()
-                else throw AssertionError()
+                when (referencingElement) {
+                  is PsiLiteralExpression -> referencingElement.asString()
+                  is KtStringTemplateExpression -> referencingElement.asPlainString()
+                  else -> throw AssertionError()
+                }
         assertEquals((resolveResult.element as? Property)?.name, text)
         found = true
       }

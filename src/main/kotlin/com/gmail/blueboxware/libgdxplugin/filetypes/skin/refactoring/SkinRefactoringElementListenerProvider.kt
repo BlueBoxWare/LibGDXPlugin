@@ -54,10 +54,10 @@ class SkinRefactoringElementListenerProvider: RefactoringElementListenerProvider
 
     }
 
-    if (refToClassMap.isNotEmpty()) {
-      return MyRefactoringElementListener(refToClassMap)
+    return if (refToClassMap.isNotEmpty()) {
+      MyRefactoringElementListener(refToClassMap)
     } else {
-      return null
+      null
     }
 
   }

@@ -80,12 +80,10 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
           arguments?.forEach { argument ->
             (argument as? KtStringTemplateExpression)?.asPlainString()?.let { value ->
 
-              if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
-                checkSkinFilename(argument, value, holder)
-              } else if (name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
-                checkFilename(argument, value, holder)
-              } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
-                checkFilename(argument, value, holder)
+              when (name) {
+                ASSET_ANNOTATION_SKIN_PARAM_NAME -> checkSkinFilename(argument, value, holder)
+                ASSET_ANNOTATION_ATLAS_PARAM_NAME -> checkFilename(argument, value, holder)
+                ASSET_ANNOTATION_PROPERTIES_PARAM_NAME -> checkFilename(argument, value, holder)
               }
 
               Unit

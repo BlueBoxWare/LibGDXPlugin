@@ -43,6 +43,7 @@ class AssetReference(
   override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
           ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
+  @Suppress("CascadeIf")
   override fun getVariants(): Array<out Any> {
 
     val result = mutableListOf<LookupElement>()
@@ -64,8 +65,7 @@ class AssetReference(
                             if (isDrawable)
                               getOriginalFileName(skinFile)
                             else
-                              null
-                          , true
+                              null, true
                   )
 
           result.add(lookupElement)
@@ -178,12 +178,16 @@ class AssetReference(
     ): Array<PsiReference> {
 
       @Suppress("IfThenToElvis")
-      val assetFiles = if (callExpression is PsiMethodCallExpression) {
-        callExpression.getAssetFiles()
-      } else if (callExpression is KtCallExpression) {
-        callExpression.getAssetFiles()
-      } else {
-        listOf<SkinFile>() to listOf()
+      val assetFiles = when (callExpression) {
+        is PsiMethodCallExpression -> {
+          callExpression.getAssetFiles()
+        }
+        is KtCallExpression -> {
+          callExpression.getAssetFiles()
+        }
+        else -> {
+          listOf<SkinFile>() to listOf()
+        }
       }
 
       if (assetFiles.first.isEmpty() && assetFiles.second.isEmpty()) {

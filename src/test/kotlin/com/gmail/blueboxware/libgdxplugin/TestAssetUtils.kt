@@ -22,6 +22,7 @@ import org.jetbrains.kotlin.idea.search.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestAssetUtils: LibGDXCodeInsightFixtureTestCase() {
 
   private var skinFile: VirtualFile? = null

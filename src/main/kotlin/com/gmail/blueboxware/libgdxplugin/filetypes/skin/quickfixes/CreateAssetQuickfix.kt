@@ -48,13 +48,11 @@ class CreateAssetQuickFix(
 
     FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
 
-    val (_, position) = (if (className.plainName == DRAWABLE_CLASS_NAME) {
-      skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
-    } else if (className.plainName == COLOR_CLASS_NAME) {
-      skinFile.addColor(assetName, startElement as? SkinElement)
-    } else {
-      skinFile.addResource(className, assetName, startElement as? SkinElement)
-    }) ?: return
+    val (_, position) = when (className.plainName) {
+      DRAWABLE_CLASS_NAME -> skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
+      COLOR_CLASS_NAME -> skinFile.addColor(assetName, startElement as? SkinElement)
+      else -> skinFile.addResource(className, assetName, startElement as? SkinElement)
+    } ?: return
 
     FileEditorManager.getInstance(project).selectedTextEditor?.let { editor ->
       FileDocumentManager.getInstance().let { fileDocumentManager ->

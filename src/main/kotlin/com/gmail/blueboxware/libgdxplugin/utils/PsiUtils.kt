@@ -255,11 +255,11 @@ internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElem
 
   val processor = object: PsiElementProcessor.FindElement<PsiElement>() {
     override fun execute(element: PsiElement): Boolean {
-      if (condition(element)) {
+      return if (condition(element)) {
         setFound(element)
-        return false
+        false
       } else {
-        return true
+        true
       }
     }
   }

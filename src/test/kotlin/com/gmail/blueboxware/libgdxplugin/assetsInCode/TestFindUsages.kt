@@ -23,6 +23,7 @@ import com.intellij.usageView.UsageInfo
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestFindUsages: AssetsInCodeCodeInsightFixtureTestCase() {
 
   fun testFindUsages1() {

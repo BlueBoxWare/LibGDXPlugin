@@ -61,10 +61,10 @@ class GdxJsonFoldingBuilder: FoldingBuilder, DumbAware {
 
     } else if (node.elementType in GdxJsonParserDefinition.COMMENTS) {
 
-      if (node.elementType == LINE_COMMENT)
-        return "//... "
+      return if (node.elementType == LINE_COMMENT)
+        "//... "
       else
-        return "/*...*/ "
+        "/*...*/ "
     }
 
     return "..."

@@ -57,12 +57,10 @@ internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
 
 private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCachedValue("color.color") {
 
-  val type = if (this is KtExpression) {
-    getType(analyzePartial())?.fqName()
-  } else if (this is PsiExpression) {
-    type?.getCanonicalText(false)
-  } else {
-    null
+  val type = when (this) {
+    is KtExpression -> getType(analyzePartial())?.fqName()
+    is PsiExpression -> type?.getCanonicalText(false)
+    else -> null
   }
 
   if (type != COLOR_CLASS_NAME
@@ -286,6 +284,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
       val floats = arrayOf(0f, 0f, 0f, 0f)
       for (i in 0..3) {
         arguments[i]?.let { expr ->
+          @Suppress("CascadeIf")
           if (expr.type == PsiType.FLOAT) {
             val root = expr.findRoot()
             val float = root.psiFloat() ?: return@getCachedValue null
@@ -479,10 +478,10 @@ private fun PsiElement.javaInt(): Long? {
   if (this is PsiExpression && type == PsiType.INT) {
 
     try {
-      if (text.startsWith("0x")) {
-        return java.lang.Long.valueOf(text.substring(2), 16)
+      return if (text.startsWith("0x")) {
+        java.lang.Long.valueOf(text.substring(2), 16)
       } else {
-        return java.lang.Long.valueOf(text)
+        java.lang.Long.valueOf(text)
       }
     } catch (e: NumberFormatException) {
 

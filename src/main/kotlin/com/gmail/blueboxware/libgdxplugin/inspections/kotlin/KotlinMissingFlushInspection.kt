@@ -34,6 +34,7 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
     private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
       if (preferencesSubClasses == null) {
         val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
+        @Suppress("LiftReturnOrAssignment")
         if (preferenceClass != null) {
           val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
           cs.add(preferenceClass)

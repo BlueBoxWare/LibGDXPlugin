@@ -46,13 +46,13 @@ class GdxJsonBlock(
   private var subBlocks: MutableList<Block>? = null
 
   init {
-    childWrap = if (psiElement is GdxJsonJobject) {
-      Wrap.createWrap(customSettings.OBJECT_WRAPPING, true)
-    } else if (psiElement is GdxJsonArray) {
-      Wrap.createWrap(customSettings.ARRAY_WRAPPING, true)
-    } else {
-      null
+
+    childWrap = when (psiElement) {
+      is GdxJsonJobject -> Wrap.createWrap(customSettings.OBJECT_WRAPPING, true)
+      is GdxJsonArray -> Wrap.createWrap(customSettings.ARRAY_WRAPPING, true)
+      else -> null
     }
+
   }
 
   override fun getNode(): ASTNode = node
@@ -71,24 +71,19 @@ class GdxJsonBlock(
 
   override fun isIncomplete(): Boolean =
           node.lastChildNode?.let { lastChild ->
-            if (node.elementType == JOBJECT) {
-              lastChild.elementType != R_CURLY
-            } else if (node.elementType == ARRAY) {
-              lastChild.elementType != R_BRACKET
-            } else if (node.elementType == PROPERTY) {
-              (node.psi as? GdxJsonProperty)?.value == null
-            } else {
-              false
+            when (node.elementType) {
+              JOBJECT -> lastChild.elementType != R_CURLY
+              ARRAY -> lastChild.elementType != R_BRACKET
+              PROPERTY -> (node.psi as? GdxJsonProperty)?.value == null
+              else -> false
             }
           } ?: false
 
   override fun getChildAttributes(newChildIndex: Int): ChildAttributes =
-          if (node.elementType in CONTAINERS) {
-            ChildAttributes(Indent.getNormalIndent(), null)
-          } else if (node.psi is PsiFile) {
-            ChildAttributes(Indent.getNoneIndent(), null)
-          } else {
-            ChildAttributes(null, null)
+          when {
+            node.elementType in CONTAINERS -> ChildAttributes(Indent.getNormalIndent(), null)
+            node.psi is PsiFile -> ChildAttributes(Indent.getNoneIndent(), null)
+            else -> ChildAttributes(null, null)
           }
 
   override fun getSubBlocks(): List<Block> {

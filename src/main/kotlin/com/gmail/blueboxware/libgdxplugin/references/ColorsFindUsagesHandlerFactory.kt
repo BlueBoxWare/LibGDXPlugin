@@ -39,12 +39,10 @@ class ColorsFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
 
 
   override fun canFindUsages(element: PsiElement): Boolean =
-          if (element is PsiLiteralExpression) {
-            element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
-          } else if (element is KtStringTemplateExpression) {
-            element.isPlainWithEscapes() && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
-          } else {
-            false
+          when (element) {
+            is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+            is KtStringTemplateExpression -> element.isPlainWithEscapes() && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+            else -> false
           }
 
 

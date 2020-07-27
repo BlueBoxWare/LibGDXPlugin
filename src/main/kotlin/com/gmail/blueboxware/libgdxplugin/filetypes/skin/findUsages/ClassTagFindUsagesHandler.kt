@@ -48,12 +48,10 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUs
 
     ReadAction.run<Throwable> {
 
-      val text = if (element is PsiLiteralExpression) {
-        element.asString()
-      } else if (element is KtStringTemplateExpression) {
-        element.asPlainString()
-      } else {
-        null
+      val text = when (element) {
+        is PsiLiteralExpression -> element.asString()
+        is KtStringTemplateExpression -> element.asPlainString()
+        else -> null
       }
 
       val usages =

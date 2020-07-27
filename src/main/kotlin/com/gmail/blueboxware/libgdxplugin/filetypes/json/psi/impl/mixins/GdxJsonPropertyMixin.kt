@@ -36,12 +36,11 @@ abstract class GdxJsonPropertyMixin(node: ASTNode): GdxJsonProperty, GdxJsonElem
     override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.value
 
     override fun getIcon(unused: Boolean): Icon? =
-            if (value?.value is GdxJsonArray)
-              AllIcons.Json.Array
-            else if (value?.value is GdxJsonJobject)
-              AllIcons.Json.Object
-            else
-              PlatformIcons.PROPERTY_ICON
+            when (value?.value) {
+              is GdxJsonArray -> AllIcons.Json.Array
+              is GdxJsonJobject -> AllIcons.Json.Object
+              else -> PlatformIcons.PROPERTY_ICON
+            }
 
     override fun getPresentableText(): String? = name
 

@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.lang.jvm.JvmModifier
+import com.intellij.psi.PsiModifier
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -40,7 +40,7 @@ class SkinNonExistingClassInspection: SkinBaseInspection() {
 
       if (clazz == null) {
         holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value.plainName))
-      } else if (clazz.containingClass != null && !clazz.hasModifier(JvmModifier.STATIC)) {
+      } else if (clazz.containingClass != null && !clazz.hasModifierProperty(PsiModifier.STATIC)) {
         holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.value.plainName))
       }
 

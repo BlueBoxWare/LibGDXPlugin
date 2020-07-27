@@ -66,12 +66,12 @@ abstract class AtlasRegionMixin(node: ASTNode): AtlasRegion, AtlasElementImpl(no
     val width = width ?: return null
     val height = height ?: return null
 
-    try {
-      return ImagePreviewComponent.readImageFromBytes(virtualFile.contentsToByteArray()).getSubimage(x, y, width, height)
+    return try {
+      ImagePreviewComponent.readImageFromBytes(virtualFile.contentsToByteArray()).getSubimage(x, y, width, height)
     } catch (e: IOException) {
-      return null
+      null
     } catch (e: RasterFormatException) {
-      return null
+      null
     }
 
   }

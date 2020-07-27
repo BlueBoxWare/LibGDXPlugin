@@ -91,18 +91,15 @@ class GDXPropertiesReferenceProvider: PsiReferenceProvider() {
 
   }
 
-  private fun createReferences(key: String, element: PsiElement, propertiesFiles: List<String>): Array<PsiReference> {
-
-    if (propertiesFiles.isEmpty()) {
-      return arrayOf(GDXPropertyReference(key, element, null))
-    } else {
-      return propertiesFiles.mapNotNull { propertiesFileName ->
-        (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
-          GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
-        }
-      }.toTypedArray()
-    }
-
-  }
+  private fun createReferences(key: String, element: PsiElement, propertiesFiles: List<String>): Array<PsiReference> =
+          if (propertiesFiles.isEmpty()) {
+            arrayOf(GDXPropertyReference(key, element, null))
+          } else {
+            propertiesFiles.mapNotNull { propertiesFileName ->
+              (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
+                GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
+              }
+            }.toTypedArray()
+          }
 
 }
