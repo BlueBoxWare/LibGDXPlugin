@@ -36,20 +36,19 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = false
+  private val RUN_TESTS = true
 
   private lateinit var versionManager: VersionManager
 
-  override fun shouldRunTest(): Boolean {
-    @Suppress("ConstantConditionIf")
-    if (RUN_TESTS) {
-      return testname() != "testingAgainstLocalHostIsDisabled"
-    } else {
-      return testname() == "testingAgainstLocalHostIsDisabled"
-    }
-  }
+  override fun shouldRunTest(): Boolean =
+          if (RUN_TESTS) {
+            testname() != "testingAgainstLocalHostIsDisabled"
+          } else {
+            testname() == "testingAgainstLocalHostIsDisabled"
+          }
 
   fun testTestingAgainstLocalHostIsDisabled() {
     fail("Testing against localhost is disabled")
@@ -87,7 +86,7 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
   fun testOutdatedVersionsGradleKotlinInspection1() {
 
     myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
-    myFixture.testHighlightingAllFiles(true, false, false, "test1.gradle.kts")
+    myFixture.testHighlightingAllFiles(true, false, false, "test1.gradle.kt")
 
   }
 
@@ -95,7 +94,7 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
     addLibsFromProperties()
     myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
-    myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle.kts")
+    myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle.kt")
 
   }
 
