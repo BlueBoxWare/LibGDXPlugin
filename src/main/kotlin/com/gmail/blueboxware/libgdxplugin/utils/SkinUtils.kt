@@ -27,6 +27,7 @@ private const val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJ
 private const val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
 private const val commonClassNames = """(?:Color|BitmapFont|TintedDrawable|ButtonStyle)"""
 
+@Suppress("RegExpRedundantNestedCharacterClass")
 val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$fqClassName|\b$commonClassNames)\s*["']?\s*:\s*\{""")
 
 fun getSkinFiles(project: Project): List<VirtualFile> {

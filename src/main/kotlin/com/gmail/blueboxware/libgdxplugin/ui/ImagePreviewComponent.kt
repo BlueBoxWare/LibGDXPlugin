@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.intellij.ui.JBColor
+import com.intellij.util.ui.ImageUtil
 import com.intellij.util.ui.UIUtil
 import java.awt.*
 import java.awt.image.BufferedImage
@@ -76,7 +77,7 @@ class ImagePreviewComponent(val image: BufferedImage, description: String): JPan
       val cellSize = 3
       val patternSize = 2 * cellSize
 
-      val pattern = UIUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
+      val pattern = ImageUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
       pattern.graphics.let {
         it.color = Color.BLACK
         it.fillRect(0, 0, patternSize, patternSize)

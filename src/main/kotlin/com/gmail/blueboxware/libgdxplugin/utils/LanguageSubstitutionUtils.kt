@@ -111,7 +111,7 @@ private fun Project.changeFileSubstitution(
 
 private fun Project.reset(file: VirtualFile) {
   LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
-    LanguageSubstitutors.INSTANCE.substituteLanguage(currentLanguage, file, this)
+    LanguageSubstitutors.getInstance().substituteLanguage(currentLanguage, file, this)
   }
 
   DaemonCodeAnalyzer.getInstance(this).restart()

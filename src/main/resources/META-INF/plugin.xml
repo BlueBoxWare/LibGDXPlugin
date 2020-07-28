@@ -239,7 +239,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="191"/>
+    <idea-version since-build="193.6911"/>
 
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>

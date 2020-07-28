@@ -97,13 +97,10 @@ class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider()
 }
 """
 
-  override fun getDefaultCommonSettings(): CommonCodeStyleSettings {
-    val commonSettings = CommonCodeStyleSettings(LibGDXSkinLanguage.INSTANCE)
-    val indentOptions = commonSettings.initIndentOptions()
+  override fun customizeDefaults(commonSettings: CommonCodeStyleSettings, indentOptions: CommonCodeStyleSettings.IndentOptions) {
     indentOptions.INDENT_SIZE = 2
     commonSettings.KEEP_BLANK_LINES_IN_CODE = 0
     commonSettings.SPACE_WITHIN_BRACES = true
-    return commonSettings
   }
 
   override fun getLanguage() = LibGDXSkinLanguage.INSTANCE

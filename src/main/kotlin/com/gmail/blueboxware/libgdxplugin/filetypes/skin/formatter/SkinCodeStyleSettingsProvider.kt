@@ -4,7 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.CodeStyleAbstractPanel
 import com.intellij.application.options.TabbedLanguageCodeStylePanel
-import com.intellij.openapi.options.Configurable
+import com.intellij.psi.codeStyle.CodeStyleConfigurable
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
 
@@ -15,7 +15,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  */
 class SkinCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
 
-  override fun createSettingsPage(settings: CodeStyleSettings, originalSettings: CodeStyleSettings?): Configurable {
+  override fun createConfigurable(settings: CodeStyleSettings, originalSettings: CodeStyleSettings): CodeStyleConfigurable {
 
     return object: CodeStyleAbstractConfigurable(settings, originalSettings, "LibGDX Skin") {
 

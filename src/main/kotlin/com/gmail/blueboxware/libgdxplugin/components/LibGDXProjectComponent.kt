@@ -43,7 +43,7 @@ class LibGDXProjectComponent(val project: Project): ProjectComponent {
 
   override fun projectOpened() {
 
-    EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener)
+    EditorFactory.getInstance().eventMulticaster.addDocumentListener(documentListener, project)
 
     project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
       for (skinFile in skins.files) {

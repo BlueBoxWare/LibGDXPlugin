@@ -88,12 +88,10 @@ class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElemen
       }
       is SkinArray -> {
         val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList) { value1 ->
-          if (value1 is SkinObject) {
-            SkinStructureViewElement(value1)
-          } else if (value1 is SkinArray) {
-            SkinStructureViewElement(value1)
-          } else {
-            null
+          when (value1) {
+            is SkinObject -> SkinStructureViewElement(value1)
+            is SkinArray -> SkinStructureViewElement(value1)
+            else -> null
           }
         }
 

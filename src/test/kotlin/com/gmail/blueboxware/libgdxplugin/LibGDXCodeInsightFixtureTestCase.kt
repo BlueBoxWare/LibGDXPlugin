@@ -9,11 +9,9 @@ import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryImpl
-import com.intellij.openapi.roots.impl.libraries.ProjectLibraryTable
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
@@ -21,7 +19,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementVisitor
 import com.intellij.testFramework.PsiTestUtil
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
+import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
@@ -41,7 +39,7 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class LibGDXCodeInsightFixtureTestCase: LightCodeInsightFixtureTestCase() {
+abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTestCase() {
 
   private fun getTestDataBasePath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 

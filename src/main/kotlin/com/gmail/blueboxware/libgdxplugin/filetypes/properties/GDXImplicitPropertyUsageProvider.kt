@@ -31,9 +31,8 @@ class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
     val scope = project.allScope()
 
     val psiSearchHelper = PsiSearchHelper.getInstance(property.project)
-    val cheapEnough = psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)
 
-    when (cheapEnough) {
+    when (psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)) {
       PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES -> return false
       PsiSearchHelper.SearchCostResult.TOO_MANY_OCCURRENCES -> return true
       else -> ReferencesSearch.search(property, scope, false).forEach { reference ->

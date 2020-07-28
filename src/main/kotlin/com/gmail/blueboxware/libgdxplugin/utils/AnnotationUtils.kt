@@ -47,20 +47,11 @@ class KtAnnotationWrapper(private val ktAnnotationEntry: KtAnnotationEntry): Ann
     ktAnnotationEntry.valueArguments.forEach { argument ->
       val name = argument.getArgumentName()?.asName?.identifier
       if (name == key) {
-        val argumentExpression = argument.getArgumentExpression()
-        val arguments = when (argumentExpression) {
-          is KtCallExpression -> {
-            argumentExpression.valueArguments.map { it.getArgumentExpression() }
-          }
-          is KtCollectionLiteralExpression -> {
-            argumentExpression.getInnerExpressions()
-          }
-          is KtStringTemplateExpression -> {
-            listOf(argumentExpression)
-          }
-          else -> {
-            listOf()
-          }
+        val arguments = when (val argumentExpression = argument.getArgumentExpression()) {
+          is KtCallExpression -> argumentExpression.valueArguments.map { it.getArgumentExpression() }
+          is KtCollectionLiteralExpression -> argumentExpression.getInnerExpressions()
+          is KtStringTemplateExpression -> listOf(argumentExpression)
+          else -> listOf()
         }
         return arguments.mapNotNull { (it as? KtStringTemplateExpression)?.asPlainString() }
       }
