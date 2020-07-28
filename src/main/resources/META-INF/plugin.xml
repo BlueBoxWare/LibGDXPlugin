@@ -299,7 +299,14 @@
         />
 
         <!--LibGDX JSON files-->
-        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileTypeFactory" id="LibGDXJson" />
+        <fileType
+                name="LibGDX JSON"
+                language="LibGDXJson"
+                extensions="lson"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType"
+                fieldName="INSTANCE"
+                id="LibGDXJson"
+        />
 
         <lang.parserDefinition language="LibGDXJson" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition" />
 
@@ -352,7 +359,14 @@
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator" />
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator" />
 
-        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileTypeFactory" id="LibGDXSkin" />
+        <fileType
+                name="LibGDX Skin"
+                language="LibGDXSkin"
+                id="LibGDXSkin"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType"
+                fieldName="INSTANCE"
+                extensions="skin"
+                />
 
         <editorNotificationProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinEditorNotificationProvider" order="first"/>
 
@@ -418,7 +432,14 @@
         </intentionAction>
 
         <!--Atlas files-->
-        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileTypeFactory" id="LibGDXAtlas" />
+        <fileType
+                name="LibGDX Atlas"
+                extensions="atlas;pack"
+                language="LibGDXAtlas"
+                fieldName="INSTANCE"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType"
+                id="LibGDXAtlas"
+                />
 
         <lang.parserDefinition language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition" />
 
@@ -434,7 +455,14 @@
         <lang.findUsagesProvider language="LibGDXAtlas" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFindUsagesProvider" />
 
         <!--Font files-->
-        <fileTypeFactory implementation="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileTypeFactory" id="LibGDXBitmapFont" />
+        <fileType
+                name="LibGDX Bitmap Font"
+                language="LibGDXBitmapFont"
+                id="LibGDXBitmapFont"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType"
+                fieldName="INSTANCE"
+                extensions="fnt"
+                />
 
         <lang.parserDefinition language="LibGDXBitmapFont" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontParserDefinition" />
 
