@@ -23,6 +23,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("IntentionDescriptionNotFoundInspection")
 class GdxJsonAddQuotesIntention: GdxJsonBaseIntention() {
 
   override fun getFamilyName(): String = "Wrap with double quotes"

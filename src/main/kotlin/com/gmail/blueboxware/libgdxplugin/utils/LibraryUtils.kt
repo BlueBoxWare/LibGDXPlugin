@@ -136,9 +136,7 @@ internal fun getLibraryInfoFromGroovyAssignment(grAssignmentExpression: GrAssign
         }
 
 internal fun getLibraryFromKotlinString(ktStringTemplateExpression: KtStringTemplateExpression): Libraries? =
-        ktStringTemplateExpression.plainContent.let { str ->
-          getLibraryFromMavenCoordString(str)
-        }
+        getLibraryFromMavenCoordString(ktStringTemplateExpression.plainContent)
 
 
 internal fun getLibraryInfoFromKotlinString(ktStringTemplateExpression: KtStringTemplateExpression): Pair<Libraries, MavenComparableVersion?>? =

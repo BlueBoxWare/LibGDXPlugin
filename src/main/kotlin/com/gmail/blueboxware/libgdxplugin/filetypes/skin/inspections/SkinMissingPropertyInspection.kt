@@ -37,9 +37,7 @@ class SkinMissingPropertyInspection: SkinBaseInspection() {
 
     override fun visitObject(skinObject: SkinObject) {
 
-      val className = skinObject.resolveToTypeString()
-
-      val mandatoryProperties = when (className) {
+      val mandatoryProperties = when (skinObject.resolveToTypeString()) {
         BITMAPFONT_CLASS_NAME -> setOf(PROPERTY_NAME_FONT_FILE)
         TINTED_DRAWABLE_CLASS_NAME -> listOf(PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR)
         else -> null
