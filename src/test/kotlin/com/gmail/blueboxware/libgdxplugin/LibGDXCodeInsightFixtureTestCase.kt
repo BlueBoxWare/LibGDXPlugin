@@ -107,7 +107,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
       override fun visitElement(element: PsiElement) {
         super.visitElement(element)
 
-        if (element != null && elementType.isInstance(element)) {
+        if (elementType.isInstance(element)) {
           editor.caretModel.moveToOffset(element.startOffset)
           myFixture.availableIntentions.forEach {
             if (it.familyName.startsWith(familyNamePrefix)) {
