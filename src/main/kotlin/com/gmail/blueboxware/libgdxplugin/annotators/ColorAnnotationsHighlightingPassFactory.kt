@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.annotators
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
 import com.intellij.codeHighlighting.TextEditorHighlightingPass
 import com.intellij.codeHighlighting.TextEditorHighlightingPassFactory
+import com.intellij.codeHighlighting.TextEditorHighlightingPassFactoryRegistrar
 import com.intellij.codeHighlighting.TextEditorHighlightingPassRegistrar
 import com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl
 import com.intellij.ide.highlighter.JavaFileType
@@ -35,12 +36,11 @@ import com.intellij.psi.PsiRecursiveElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorAnnotationsHighlightingPassFactory(
-        @Suppress("UNUSED_PARAMETER") project: Project,
-        registrar: TextEditorHighlightingPassRegistrar
-): TextEditorHighlightingPassFactory {
+class ColorAnnotationsHighlightingPassFactory:
+        TextEditorHighlightingPassFactory,
+        TextEditorHighlightingPassFactoryRegistrar {
 
-  init {
+  override fun registerHighlightingPassFactory(registrar: TextEditorHighlightingPassRegistrar, project: Project) {
     registrar.registerTextEditorHighlightingPass(this, null, null, true, -1)
   }
 

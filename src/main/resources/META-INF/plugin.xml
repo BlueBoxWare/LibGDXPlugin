@@ -255,6 +255,7 @@
 
         <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
+        <highlightingPassFactory implementation="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory" />
 
         <projectConfigurable
                 instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
@@ -523,9 +524,6 @@
         </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonGdxJsonFiles</implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory</implementation-class>
         </component>
     </project-components>
 
