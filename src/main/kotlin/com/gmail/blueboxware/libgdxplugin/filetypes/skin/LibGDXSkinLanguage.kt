@@ -25,7 +25,7 @@ class LibGDXSkinLanguage private constructor(): Language("LibGDXSkin") {
 
   override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "LibGDX Skin"
+  override fun getDisplayName() = "libGDX Skin"
 
   override fun getID(): String = "LibGDXSkin"
 }

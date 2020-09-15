@@ -29,7 +29,7 @@ class XmlTestIdsInspection: LibGDXXmlBaseInspection() {
 
   override fun getDisplayName() = message("testid.name")
 
-  override fun getGroupPath() = arrayOf("LibGDX", "XML")
+  override fun getGroupPath() = arrayOf("libGDX", "XML")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {
 

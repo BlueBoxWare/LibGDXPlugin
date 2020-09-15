@@ -21,9 +21,9 @@ import com.intellij.lang.properties.PropertiesInspectionBase
 
 abstract class LibGDXGradlePropertiesBaseInspection: PropertiesInspectionBase() {
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Gradle")
+  override fun getGroupPath() = arrayOf("libGDX", "Gradle")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

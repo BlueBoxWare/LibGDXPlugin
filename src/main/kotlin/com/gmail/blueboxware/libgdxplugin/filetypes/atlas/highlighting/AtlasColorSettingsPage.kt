@@ -45,7 +45,7 @@ class AtlasColorSettingsPage: ColorSettingsPage {
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  override fun getDisplayName(): String = "LibGDX Atlas"
+  override fun getDisplayName(): String = "libGDX Atlas"
 
   override fun getHighlighter(): AtlasSyntaxHighlighter = AtlasSyntaxHighlighter()
 

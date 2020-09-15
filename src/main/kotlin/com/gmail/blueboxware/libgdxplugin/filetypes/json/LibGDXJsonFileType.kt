@@ -36,10 +36,10 @@ class LibGDXJsonFileType private constructor(): LanguageFileType(LibGDXJsonLanua
 
   override fun getIcon() = Icons.LIBGDX_JSON_FILETYPE
 
-  override fun getName() = "LibGDX JSON"
+  override fun getName() = "libGDX JSON"
 
   override fun getDefaultExtension() = "lson"
 
-  override fun getDescription() = "LibGDX JSON file"
+  override fun getDescription() = "libGDX JSON file"
 
 }

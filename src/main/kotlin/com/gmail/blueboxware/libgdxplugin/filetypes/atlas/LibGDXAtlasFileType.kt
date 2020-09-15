@@ -27,10 +27,10 @@ class LibGDXAtlasFileType private constructor(): LanguageFileType(LibGDXAtlasLan
 
   override fun getIcon(): Icon? = Icons.ATLAS_FILETYPE
 
-  override fun getName(): String = "LibGDX Atlas"
+  override fun getName(): String = "libGDX Atlas"
 
   override fun getDefaultExtension() = "atlas"
 
-  override fun getDescription() = "LibGDX Texture Atlas file"
+  override fun getDescription() = "libGDX Texture Atlas file"
 
 }

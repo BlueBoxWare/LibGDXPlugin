@@ -27,9 +27,9 @@ abstract class GdxJsonBaseInspection: LocalInspectionTool() {
 
   protected fun getShortID() = id.removePrefix("LibGDXJson")
 
-  override fun getGroupPath() = arrayOf("LibGDX", "JSON")
+  override fun getGroupPath() = arrayOf("libGDX", "JSON")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

@@ -25,7 +25,7 @@ class LibGDXAtlasLanguage private constructor(): Language("LibGDXAtlas") {
 
   override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "LibGDX Texture Atlas"
+  override fun getDisplayName() = "libGDX Texture Atlas"
 
   override fun getID(): String = "LibGDXAtlas"
 }

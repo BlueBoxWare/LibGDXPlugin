@@ -104,9 +104,9 @@ class VersionManager(val project: Project): ProjectComponent {
       }
 
       if (isLibGDXProject()) {
-        LOG.debug("LibGDX detected")
+        LOG.debug("libGDX detected")
       } else {
-        LOG.debug("No LibGDX detected")
+        LOG.debug("No libGDX detected")
       }
 
       doAfterUpdate?.invoke()

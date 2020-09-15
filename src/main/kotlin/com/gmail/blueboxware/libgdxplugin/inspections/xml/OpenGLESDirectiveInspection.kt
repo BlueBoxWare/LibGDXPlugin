@@ -30,7 +30,7 @@ class OpenGLESDirectiveInspection: LibGDXXmlBaseInspection() {
 
   override fun getDisplayName() = message("no.opengl.directive.display.name")
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Android")
+  override fun getGroupPath() = arrayOf("libGDX", "Android")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 

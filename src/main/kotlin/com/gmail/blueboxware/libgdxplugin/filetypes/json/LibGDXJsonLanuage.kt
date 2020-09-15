@@ -26,7 +26,7 @@ class LibGDXJsonLanuage private constructor(): Language("LibGDXJson") {
 
   override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "LibGDX JSON"
+  override fun getDisplayName() = "libGDX JSON"
 
   override fun getID() = "LibGDXJson"
 

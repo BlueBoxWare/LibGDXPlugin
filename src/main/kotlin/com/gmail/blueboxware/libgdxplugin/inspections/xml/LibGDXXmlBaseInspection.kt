@@ -22,7 +22,7 @@ import com.intellij.psi.PsiElement
  */
 abstract class LibGDXXmlBaseInspection: XmlSuppressableInspectionTool() {
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

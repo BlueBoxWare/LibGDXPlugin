@@ -22,9 +22,9 @@ import com.intellij.psi.PsiElement
 
 open class LibGDXJavaBaseInspection: AbstractBaseJavaLocalInspectionTool() {
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Java")
+  override fun getGroupPath() = arrayOf("libGDX", "Java")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

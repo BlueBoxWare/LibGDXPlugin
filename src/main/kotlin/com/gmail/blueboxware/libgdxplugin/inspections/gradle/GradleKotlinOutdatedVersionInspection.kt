@@ -29,9 +29,9 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  */
 class GradleKotlinOutdatedVersionInspection: AbstractKotlinInspection() {
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Gradle")
+  override fun getGroupPath() = arrayOf("libGDX", "Gradle")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun getID() = "LibGDXOutdatedVersionGradleKotlin"
 

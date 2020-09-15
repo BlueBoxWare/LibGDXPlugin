@@ -42,7 +42,7 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
 
   override fun getDisplayName() = message("designed.for.tablets.inspection")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun getStaticDescription() = message("designed.for.tablets.html.description")
 

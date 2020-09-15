@@ -30,7 +30,7 @@ import javax.swing.Icon
  */
 class LibGDXColorObjectRenderer: CompoundReferenceRenderer(
         NodeRendererSettings.getInstance() ?: NodeRendererSettings(),
-        "LibGDX Color",
+        "libGDX Color",
         null,
         null
 ) {

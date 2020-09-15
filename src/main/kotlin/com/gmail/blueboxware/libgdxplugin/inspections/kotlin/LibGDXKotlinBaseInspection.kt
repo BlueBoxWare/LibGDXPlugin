@@ -28,9 +28,9 @@ import org.jetbrains.kotlin.types.KotlinType
 
 open class LibGDXKotlinBaseInspection: AbstractKotlinInspection() {
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Kotlin")
+  override fun getGroupPath() = arrayOf("libGDX", "Kotlin")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

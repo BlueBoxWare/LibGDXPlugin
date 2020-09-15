@@ -25,7 +25,7 @@ class BitmapFontLanguage: Language("LibGDXBitmapFont") {
 
   override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "LibGDX Bitmap Font"
+  override fun getDisplayName() = "libGDX Bitmap Font"
 
   override fun getID(): String = "LibGDXBitmapFont"
 

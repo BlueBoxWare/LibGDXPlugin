@@ -21,7 +21,7 @@
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
-      This unofficial plugin adds a number of LibGDX related features to IntelliJ and Android Studio.
+      This unofficial plugin adds a number of libGDX related features to IntelliJ and Android Studio.
         <br/><br/>
       This plugin needs a recent version of the official Kotlin plugin to be installed (even if you don't use Kotlin), so please install and/or enable that plugin first.
         <br/><br/>
@@ -51,24 +51,24 @@
                Skin files now use the standard IntelliJ method of suppressing warnings, with <i>//noinspection</i> comments.
             </li>
             <li>
-                LibGDX JSON: allow suppression of warnings.
+                libGDX JSON: allow suppression of warnings.
             </li>
             <li>
-                Skin files & LibGDX JSON: spell checking.
+                Skin files & libGDX JSON: spell checking.
             </li>
             <li>
-                Skin files & LibGDX JSON: <a href="https://www.jetbrains.com/help/idea/settings-editor-breadcrumbs.html">breadcrumbs</a>.
+                Skin files & libGDX JSON: <a href="https://www.jetbrains.com/help/idea/settings-editor-breadcrumbs.html">breadcrumbs</a>.
             </li>
             <li>
-                LibGDX JSON: move array element foward/backward intentions.
+                libGDX JSON: move array element foward/backward intentions.
             </li>
         </ul>
 
         <b>1.19</b>
         <ul>
             <li>
-                Support for LibGDX style JSON (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/19">#19</a>).
-                In the project panel context menu use <i>Mark as LibGDX style JSON</i> to have a file treated as LibGDX JSON.
+                Support for libGDX style JSON (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/19">#19</a>).
+                In the project panel context menu use <i>Mark as libGDX style JSON</i> to have a file treated as libGDX JSON.
             </li>
         </ul>
 
@@ -108,7 +108,7 @@
             <li>Inspection to highlight references in Java/Kotlin to resources which don't exist. @GDXAssets annotated fields and variables only.</li>
             <li>Warn about outdated libraries in Gradle Kotlin DSL too</li>
             <li>Performance improvements</li>
-            <li>Skins: Inspection to inform about the ability to use short class names instead of qualified names when using LibGDX >= 1.9.9</li>
+            <li>Skins: Inspection to inform about the ability to use short class names instead of qualified names when using libGDX >= 1.9.9</li>
             <li>Skins: Inspection to highlight usage of deprecated classes and fields</li>
             <li>Skins: Quickfix to create resources which don't exist</li>
             <li>Skins: Use the @GDXTag annotation to inform the plugin about custom short names for classes</li>
@@ -125,12 +125,12 @@
         <b>1.15.1</b>
         <ul>
             <li>Don't crash on 'invalid' color values (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/13">https://github.com/BlueBoxWare/LibGDXPlugin/issues/13</a>)</li>
-            <li>Skins: don't treat parent property as special when using a LibGDX version below 1.9.9 </li>
+            <li>Skins: don't treat parent property as special when using a libGDX version below 1.9.9 </li>
         </ul>
 
         <b>1.15</b>
         <ul>
-            <li>Skins: support tagged classes and cascading styles (LibGDX 1.9.9, <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/12">https://github.com/BlueBoxWare/LibGDXPlugin/issues/12</a>)</li>
+            <li>Skins: support tagged classes and cascading styles (libGDX 1.9.9, <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/12">https://github.com/BlueBoxWare/LibGDXPlugin/issues/12</a>)</li>
             <li>Minor fixes and improvements</li>
         </ul>
 
@@ -188,7 +188,7 @@
         <ul>
             <li>Syntax Highlighting and Structure View for .fnt files</li>
             <li>Use Maven Central instead of GitHub to determine latest versions of libraries. Respect proxy settings, if any.</li>
-            <li>Add versions checks for more libraries. The following libraries are now checked: Ashley, Autumn, Autumn MVC, Box2d, Box2dLights, Gdx AI, GDX Bullet, GDX Controllers, GDX FreeType, gdx-dialogs, gdx-facebook, gdx-lml, gdx-lml-vis, Gdx-Pay, Kiwi, KTX actors, KTX app, KTX assets, KTX collections, KTX i18n, KTX inject, KTX log, KTX math, KTX scene2d, KTX style, KTX vis, KTX vis-style, LibGDX, libgdx-utils, libgdx-utils-box2d, Overlap2D, Vis Runtime, VisUI, Web Sockets, Web Sockets Serialization</li>
+            <li>Add versions checks for more libraries. The following libraries are now checked: Ashley, Autumn, Autumn MVC, Box2d, Box2dLights, Gdx AI, GDX Bullet, GDX Controllers, GDX FreeType, gdx-dialogs, gdx-facebook, gdx-lml, gdx-lml-vis, Gdx-Pay, Kiwi, KTX actors, KTX app, KTX assets, KTX collections, KTX i18n, KTX inject, KTX log, KTX math, KTX scene2d, KTX style, KTX vis, KTX vis-style, libGDX, libgdx-utils, libgdx-utils-box2d, Overlap2D, Vis Runtime, VisUI, Web Sockets, Web Sockets Serialization</li>
             <li>Several fixes in the handling of Skin files, show color previews everywhere and use Ctrl-B to jump between definitions and usages of Tinted Drawables</li>
         </ul>
 
@@ -225,7 +225,7 @@
             <ul>
                 <li>Code completion (classnames, resource names, property names, etc)</li>
                 <li>Structure view</li>
-                <li>Configure the code style and formatting for Skin files with <i>Settings -> Editor -> Code Style -> LibGDX</i> and apply it to existing code with <i>Code -> Reformat Code</i></li>
+                <li>Configure the code style and formatting for Skin files with <i>Settings -> Editor -> Code Style -> libGDX</i> and apply it to existing code with <i>Code -> Reformat Code</i></li>
                 <li>Brace matching</li>
             </ul>
         </li>
@@ -250,8 +250,8 @@
         <inspectionToolProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionToolProvider" />
 
-        <internalFileTemplate name="LibGDX Screen (Java)"/>
-        <internalFileTemplate name="LibGDX Screen (Kotlin)"/>
+        <internalFileTemplate name="libGDX Screen (Java)"/>
+        <internalFileTemplate name="libGDX Screen (Kotlin)"/>
 
         <annotator language="kotlin" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
@@ -285,7 +285,7 @@
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection"
                 bundle="libgdxplugin"
                 key="designed.for.tablets.inspection"
-                groupPath="LibGDX"
+                groupPath="libGDX"
                 groupName="Android"
                 shortName="LibGDXDesignedForTablets"
         />
@@ -294,14 +294,14 @@
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection"
                 bundle="libgdxplugin"
                 key="outdated.version.inspection.display.name"
-                groupPath="LibGDX"
+                groupPath="libGDX"
                 groupName="General"
                 shortName="LibGDXOutdatedVersion"
         />
 
-        <!--LibGDX JSON files-->
+        <!--libGDX JSON files-->
         <fileType
-                name="LibGDX JSON"
+                name="libGDX JSON"
                 language="LibGDXJson"
                 extensions="lson"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType"
@@ -361,7 +361,7 @@
         <annotator language="LibGDXSkin" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator" />
 
         <fileType
-                name="LibGDX Skin"
+                name="libGDX Skin"
                 language="LibGDXSkin"
                 id="LibGDXSkin"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType"
@@ -434,7 +434,7 @@
 
         <!--Atlas files-->
         <fileType
-                name="LibGDX Atlas"
+                name="libGDX Atlas"
                 extensions="atlas;pack"
                 language="LibGDXAtlas"
                 fieldName="INSTANCE"
@@ -457,7 +457,7 @@
 
         <!--Font files-->
         <fileType
-                name="LibGDX Bitmap Font"
+                name="libGDX Bitmap Font"
                 language="LibGDXBitmapFont"
                 id="LibGDXBitmapFont"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType"
@@ -492,10 +492,12 @@
         <action class="com.gmail.blueboxware.libgdxplugin.actions.CreateScreenAction" id="LibGDXPlugin.NewScreen">
             <add-to-group group-id="NewGroup" anchor="last" />
         </action>
-        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as LibGDX Skin">
+        <!--suppress PluginXmlCapitalization -->
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction" id="LibGDXPlugin.MarkAsSkin" text="Mark as libGDX Skin">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
         </action>
-        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsGdxJsonAction" id="LibGDXPlugin.MarkAsGdxJson" text="Mark as LibGDX Style JSON">
+        <!--suppress PluginXmlCapitalization -->
+        <action class="com.gmail.blueboxware.libgdxplugin.actions.MarkAsGdxJsonAction" id="LibGDXPlugin.MarkAsGdxJson" text="Mark as libGDX Style JSON">
             <add-to-group group-id="ProjectViewPopupMenuModifyGroup" anchor="last" />
         </action>
 

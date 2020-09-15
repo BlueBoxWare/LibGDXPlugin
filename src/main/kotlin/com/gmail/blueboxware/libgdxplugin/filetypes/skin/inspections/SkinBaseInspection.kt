@@ -33,9 +33,9 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
 
   protected fun getShortID() = id.removePrefix("LibGDXSkin")
 
-  override fun getGroupPath() = arrayOf("LibGDX", "Skin files")
+  override fun getGroupPath() = arrayOf("libGDX", "Skin files")
 
-  override fun getGroupDisplayName() = "LibGDX"
+  override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true
 

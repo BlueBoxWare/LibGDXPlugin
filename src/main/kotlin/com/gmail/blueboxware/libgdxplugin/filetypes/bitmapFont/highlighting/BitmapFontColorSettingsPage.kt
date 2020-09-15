@@ -53,7 +53,7 @@ class BitmapFontColorSettingsPage: ColorSettingsPage {
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  override fun getDisplayName() = "LibGDX Bitmap Font"
+  override fun getDisplayName() = "libGDX Bitmap Font"
 
   override fun getHighlighter() = PlainSyntaxHighlighter()
 

@@ -117,7 +117,7 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  override fun getDisplayName() = "LibGDX Skin"
+  override fun getDisplayName() = "libGDX Skin"
 
   override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
 

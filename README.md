@@ -1,7 +1,7 @@
 [![Current version](https://img.shields.io/github/release/BlueBoxware/LibGDXPlugin.svg)](https://github.com/BlueBoxWare/LibGDXPlugin/releases/latest)
 [![Downloads](https://img.shields.io/jetbrains/plugin/d/8509-libgdx-inspections.svg)](https://plugins.jetbrains.com/plugin/8509-libgdx-inspections)
 
-This unofficial plugin adds a number of [LibGDX](https://libgdx.badlogicgames.com/) related features and tools to
+This unofficial plugin adds a number of [libGDX](https://libgdx.badlogicgames.com/) related features and tools to
 [IntelliJ](https://www.jetbrains.com/idea/) and [Android Studio](https://developer.android.com/studio/index.html).
 
 <!-- toc -->
@@ -18,7 +18,7 @@ This unofficial plugin adds a number of [LibGDX](https://libgdx.badlogicgames.co
 <!-- /toc -->
 
 # Installation
-In IntelliJ or Android Studio go to *Settings* -> *Plugins* -> *Browse repositories...* and search for "LibGDX".
+In IntelliJ or Android Studio go to *Settings* -> *Plugins* -> *Browse repositories...* and search for "libGDX".
 
 Alternatively: download the zip [from the Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509),
 go to *Settings* -> *Plugins* -> *Install plugin from disk* and select the zip you downloaded.
@@ -31,7 +31,7 @@ to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Up
 
 ## Inspections
 LibGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
-[Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *LibGDX*.
+[Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *libGDX*.
 The following inspections are included:
 
 * Use of profiling code, like FPSLogger or GLProfiler
@@ -39,19 +39,19 @@ The following inspections are included:
 * Causing flushing of a batch or renderer from inside a loop
 * Missing flush() after changing Preferences
 * Use of some commonly known test ids or dummy ids (ex. AdMob and MoPub)
-* Use of ShapeRenderer with a release of LibGDX older than 1.9.2 (It crashes on 64bit devices. See [Issue 3790](https://github.com/libgdx/libgdx/issues/3790)) \[1]
+* Use of ShapeRenderer with a release of libGDX older than 1.9.2 (It crashes on 64bit devices. See [Issue 3790](https://github.com/libgdx/libgdx/issues/3790)) \[1]
 * Use of static resources (more info on the use of statics: [here](http://bitiotic.com/blog/2013/05/23/libgdx-and-android-application-lifecycle/) and [here](http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=22358))
-* Use of non-reentrant iterator methods of LibGDX collection classes
+* Use of non-reentrant iterator methods of libGDX collection classes
 * Missing OpenGL declaration in AndroidManifest.xml \[1]
 * Invalid property keys for I18NBundle.get() and I18NBundle.format()
 * Missing WRITE_EXTERNAL_STORAGE permission in AndroidManifest.xml when using external files
-* Using outdated versions of LibGDX and related libraries \[1]
+* Using outdated versions of libGDX and related libraries \[1]
 * Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
 
 \[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-liftoff`](https://github.com/tommyettinger/gdx-liftoff).
 
 ## Color previews
-When using a LibGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
+When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
 Color previews are also shown in the editor when editing Skin files and in the Debug Tool Window.
 
 To disable color previews, go to *Settings* -> *Editor* -> *LibGDXPlugin*.
@@ -64,13 +64,13 @@ context menu of a file.
 <img align="right" src="/images/skinCompletion.gif" width="450">
 
 For files which are marked as Skin files, the plugin provides additional Skin related support, including
-* Syntax highlighting (can be configured using *Settings* -> *Editor* -> *Colors & Fonts* -> *LibGDX Skin*)
+* Syntax highlighting (can be configured using *Settings* -> *Editor* -> *Colors & Fonts* -> *libGDX Skin*)
 * Color previews in the left gutter. Click on a color preview to open a color selector dialog
 * [Structure View](https://www.jetbrains.com/help/idea/2016.2/navigating-with-structure-views.html)
 * Code completion for class names, property names, property values and, if an .atlas file with the same name as the Skin and in the same directory
 exists, drawable/texture names
 * Folding
-* Formatting/Code Style (Code Style can be configured using *Settings* -> *Editor* -> *Code Style* -> *LibGDX Skin*)
+* Formatting/Code Style (Code Style can be configured using *Settings* -> *Editor* -> *Code Style* -> *libGDX Skin*)
 * Warnings when using classes which don't exist, using inner classes which are not static, using properties which don't correspond to a field in a
 given class or using malformed color strings
 * Find usages of a defined resources within the Skin file
@@ -90,11 +90,11 @@ given class or using malformed color strings
 annotation (see below)
 
 ## JSON support
-IntelliJ doesn't work well with LibGDX-style JSON, which is more forgiving when it comes to things like unquoted strings and missing comma's. 
-LibGDXPlugin adds support for LibGDX's custom JSON with the usual niceties of syntax coloring, completion, folding, etc.
+IntelliJ doesn't work well with libGDX-style JSON, which is more forgiving when it comes to things like unquoted strings and missing comma's. 
+LibGDXPlugin adds support for libGDX's custom JSON with the usual niceties of syntax coloring, completion, folding, etc.
 
-To have LibGDXPlugin treat a JSON file as a LibGDX-style JSON file: in the Project Window, open the context menu for the file 
-and select `Mark as LibGDX style JSON`.
+To have libGDXPlugin treat a JSON file as a libGDX-style JSON file: in the Project Window, open the context menu for the file 
+and select `Mark as libGDX style JSON`.
 
 ## Atlas file support
 
@@ -192,8 +192,8 @@ works if you specify multiple Skin files.
 * Go To Definition and Find Usages are only available if the specified files are registered as Skin or Atlas file, not
 when they are registered as JSON or Plain Text files.
 
-### @GDXTag and short names in Skins
-Since version 1.9.9 LibGDX Skins support tagged classes: the ability to use short names for names of classes
+### @GDXTag and short names in skins
+Since version 1.9.9 libGDX skins support tagged classes: the ability to use short names for names of classes
 in Skin files. In addition to the standard, "built-in" short class names it is also possible to define custom
 short names for your own classes by overriding `Skin.getJsonLoader()` and calling `Json.addClassTag()`.
 
@@ -213,7 +213,7 @@ class MyCustomWidget {
 ```
 
 After this, the plugin will recognize `Widget` as a short name for `com.something.ui.MyCustomWidget` in
-Skin files. It is of course still up to you to make LibGDX recognize this short name by subclassing Skin or
+Skin files. It is of course still up to you to make libGDX recognize this short name by subclassing Skin or
 by some other means.
 
 Note that at the moment there is no way to tell the plugin a short name is only valid in specific Skin files,
