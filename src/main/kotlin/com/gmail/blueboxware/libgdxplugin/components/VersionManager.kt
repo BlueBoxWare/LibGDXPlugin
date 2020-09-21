@@ -148,7 +148,7 @@ class VersionManager(val project: Project): ProjectComponent {
 
     var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
 
-    var BATCH_SIZE = 7
+    var BATCH_SIZE = 20
 
     var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
 

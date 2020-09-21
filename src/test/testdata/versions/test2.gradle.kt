@@ -33,8 +33,8 @@ fun f() {
       compile<warning descr="A newer version of Overlap2D is available (version 0.1.1)">(group = "com.underwaterapps.overlap2druntime", name = "overlap2d-runtime-libgdx", version = "0.1.0")</warning>
       compile<warning descr="A newer version of Overlap2D is available (version 0.1.1)">(group = "com.underwaterapps.overlap2druntime", name = "overlap2d-runtime-libgdx")</warning>
 
-      compile("com.badlogicgames.gdx:gdx:$gdxVersion")
-      compile("com.badlogicgames.gdx:gdx:$gdx")
+      compile(<warning>"com.badlogicgames.gdx:gdx:$gdxVersion"</warning>)
+      compile(<warning>"com.badlogicgames.gdx:gdx:$gdx"</warning>)
 
       compile(<warning descr="A newer version of VisUI is available (version 1.2.5)">"com.kotcrab.vis:vis-ui:$visUiVersion"</warning>)
       compile("com.github.czyzby:ktx-collections:$ktxCollectionsVersion")

@@ -43,6 +43,10 @@ class TestVersionHandling: LibGDXCodeInsightFixtureTestCase() {
     doTestExtractVersionsFromMavenMetaData("kotlin")
   }
 
+  fun testExtractVersionsFromMavenMetaData3() {
+    doTestExtractVersionsFromMavenMetaData("autumn")
+  }
+
   fun testGradleBuildScriptVersionDetection() {
     val tests =
             groovyGradleVersionTests.map { it to GroovyFileType.GROOVY_FILE_TYPE } + kotlinGradleVersionTests.map { it to KotlinFileType.INSTANCE }
@@ -99,7 +103,7 @@ class TestVersionHandling: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doTestExtractVersionsFromMavenMetaData(fileName: String) {
     val file = File("src/test/testdata/versions/$fileName.xml")
-    val versions = Library.extractVersionsFromMavenMetaData(file.inputStream())
+    val versions = Library.extractVersionsFromMavenMetaData(file.readText())
     assertNotNull(versions)
     versions?.let { foundVersions ->
       val expectedVersions = Regex("""<version>([^<]*)</version>""").findAll(file.inputStream().reader().readText())

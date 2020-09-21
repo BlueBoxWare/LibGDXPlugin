@@ -8,7 +8,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.getLibraryFromExtKey
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
-import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXVersionPostfixedLibrary
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -39,7 +38,7 @@ import java.util.*
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = false
+  private val RUN_TESTS = true
 
   private lateinit var versionManager: VersionManager
 
@@ -114,22 +113,26 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
     assertEquals(MavenComparableVersion("1.4"), versionManager.getLatestVersion(Libraries.BOX2dLIGHTS))
     assertEquals(MavenComparableVersion("0.1.1"), versionManager.getLatestVersion(Libraries.OVERLAP2D))
     assertEquals(MavenComparableVersion("1.9.5"), versionManager.getLatestVersion(Libraries.BOX2D))
-    assertEquals(MavenComparableVersion("1.7.1.9.3"), versionManager.getLatestVersion(Libraries.KIWI))
-    addDummyLibrary(Libraries.LIBGDX, "1.7.0")
-    Thread.sleep(2 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
-    assertEquals(MavenComparableVersion("1.1.1.7.0"), versionManager.getLatestVersion(Libraries.KIWI))
-    addDummyLibrary(Libraries.LIBGDX, "1.9.4")
-    Thread.sleep(2 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
-    assertEquals(MavenComparableVersion("1.8.1.9.4"), versionManager.getLatestVersion(Libraries.KIWI))
-    addDummyLibrary(Libraries.LIBGDX, "1.9.9")
-    Thread.sleep(2 * VersionManager.LIBRARY_CHANGED_TIME_OUT)
     assertEquals(MavenComparableVersion("2.2.1.9.9-b1"), versionManager.getLatestVersion(Libraries.KIWI))
-
+    assertEquals(MavenComparableVersion("2.3.0"), versionManager.getLatestVersion(Libraries.SHAPE_DRAWER))
+    assertEquals(MavenComparableVersion("5.0.0"), versionManager.getLatestVersion(Libraries.TEN_PATCH))
   }
+
+  private val libsToTest = listOf(
+          Libraries.KTX_APP,
+          Libraries.TEN_PATCH,
+          Libraries.AI,
+          Libraries.SHAPE_DRAWER,
+          Libraries.GDXFACEBOOK,
+          Libraries.KTX_I18N,
+          Libraries.AUTUMN,
+          Libraries.LML,
+          Libraries.VISUI
+  )
 
   fun testLatestVersionAvailability() {
 
-    for (lib in Libraries.values()) {
+    for (lib in libsToTest) {
       assertNotNull(lib.toString(), versionManager.getLatestVersion(lib))
     }
 
@@ -151,8 +154,8 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
     PropertiesComponent.getInstance()?.let { propertiesComponent ->
 
-      for (lib in Libraries.values()) {
-        if (lib.library !is LibGDXLibrary && lib.library !is LibGDXVersionPostfixedLibrary) {
+      for (lib in libsToTest) {
+        if (lib.library !is LibGDXLibrary) {
           assertEquals(lib.library.name, versionManager.getLatestVersion(lib).toString(), propertiesComponent.getValue(lib.library.versionKey))
         }
       }
