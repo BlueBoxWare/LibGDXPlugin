@@ -30,7 +30,7 @@ to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Up
 # Features
 
 ## Inspections
-LibGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
+libGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
 [Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *libGDX*.
 The following inspections are included:
 
@@ -54,7 +54,7 @@ The following inspections are included:
 When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
 Color previews are also shown in the editor when editing Skin files and in the Debug Tool Window.
 
-To disable color previews, go to *Settings* -> *Editor* -> *LibGDXPlugin*.
+To disable color previews, go to *Settings* -> *Editor* -> *libGDXPlugin*.
 
 ## Skin JSON support
 Files with the extension `.skin` are treated as Skin JSON files. For files with the extension `.json` which look like Skin files, you are asked
@@ -91,7 +91,7 @@ annotation (see below)
 
 ## JSON support
 IntelliJ doesn't work well with libGDX-style JSON, which is more forgiving when it comes to things like unquoted strings and missing comma's. 
-LibGDXPlugin adds support for libGDX's custom JSON with the usual niceties of syntax coloring, completion, folding, etc.
+libGDXPlugin adds support for libGDX's custom JSON with the usual niceties of syntax coloring, completion, folding, etc.
 
 To have libGDXPlugin treat a JSON file as a libGDX-style JSON file: in the Project Window, open the context menu for the file 
 and select `Mark as libGDX style JSON`.
@@ -122,7 +122,7 @@ To get code completion, Go to Definition, Find Usages, Rename Refactoring, Diagn
 * Region names from Atlas files in Skin.get*() and TextureAtlas.get*()
 * Property keys in I18NBundle.get() and I18NBundle.format()
 
-and related methods, use the `@GDXAssets` annotation to tell LibGDXPlugin which files to use.
+and related methods, use the `@GDXAssets` annotation to tell libGDXPlugin which files to use.
 
 First add the annotation to your build. In `build.gradle`:
 
@@ -197,7 +197,7 @@ Since version 1.9.9 libGDX skins support tagged classes: the ability to use shor
 in Skin files. In addition to the standard, "built-in" short class names it is also possible to define custom
 short names for your own classes by overriding `Skin.getJsonLoader()` and calling `Json.addClassTag()`.
 
-LibGDXPlugin understands the default short names. It also tries to determine any custom short names by looking
+libGDXPlugin understands the default short names. It also tries to determine any custom short names by looking
 for calls to `addClassTag()`, but there is only so much it can do.
 
 To explicitly tell the plugin to recognize one (or more) short names for one of your own classes, you can

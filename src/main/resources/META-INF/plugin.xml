@@ -16,7 +16,7 @@
 <!--suppress XmlUnboundNsPrefix -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
-    <name>LibGDX</name>
+    <name>libGDX</name>
     <version>1.20.2</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
@@ -257,9 +257,10 @@
         <annotator language="JAVA" implementationClass="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator" />
         <highlightingPassFactory implementation="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory" />
 
+        <!--suppress PluginXmlCapitalization -->
         <projectConfigurable
                 instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
-                displayName="LibGDXPlugin"
+                displayName="libGDXPlugin"
                 id="com.gmail.blueboxware.libgdxplugin.libgdxpluginconfigurable"
                 groupId="editor"
                 />
