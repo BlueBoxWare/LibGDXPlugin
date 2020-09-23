@@ -16,8 +16,9 @@
 <!--suppress XmlUnboundNsPrefix -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
+    <!--suppress PluginXmlCapitalization -->
     <name>libGDX</name>
-    <version>1.20.2</version>
+    <version>1.21</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -30,7 +31,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
-
+        <b>1.21</b>
+        <ul>
+            <li>Changed plugin name to libGDX (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/22">#22</a>).</li>
+            <li>Improvements and additions to the outdated library versions inspections.</li>
+        </ul>
         <b>1.20.2</b>
         <ul>
             <li>
@@ -282,6 +287,7 @@
         <usageTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider" />
         <findUsagesHandlerFactory implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory" />
 
+        <!--suppress PluginXmlCapitalization -->
         <globalInspection
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection"
                 bundle="libgdxplugin"
@@ -291,6 +297,7 @@
                 shortName="LibGDXDesignedForTablets"
         />
 
+        <!--suppress PluginXmlCapitalization -->
         <globalInspection
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection"
                 bundle="libgdxplugin"
