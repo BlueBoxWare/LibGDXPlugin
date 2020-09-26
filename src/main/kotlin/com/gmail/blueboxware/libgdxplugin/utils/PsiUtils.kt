@@ -58,19 +58,24 @@ internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: fa
 internal fun ASTNode.isNewline() =
         elementType == TokenType.WHITE_SPACE && text.contains('\n')
 
-internal fun PsiElement.isLeaf(vararg types: IElementType) = (this as? LeafPsiElement)?.elementType in types
+internal fun PsiElement.isLeaf(vararg types: IElementType) =
+        (this as? LeafPsiElement)?.elementType in types
 
 @Suppress("unused")
-internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? = PsiTreeUtil.getContextOfType(this, T::class.java)
+internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? =
+        PsiTreeUtil.getContextOfType(this, T::class.java)
 
-internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? = PsiTreeUtil.findChildOfType(this, T::class.java)
+internal inline fun <reified T: PsiElement> PsiElement.childOfType(): T? =
+        PsiTreeUtil.findChildOfType(this, T::class.java)
 
 internal inline fun <reified T: PsiElement> PsiElement.childrenOfType(): Collection<T> =
         PsiTreeUtil.findChildrenOfType(this, T::class.java)
 
-internal inline fun <reified T: PsiElement> PsiElement.firstParent(): T? = firstParent { it is T } as? T
+internal inline fun <reified T: PsiElement> PsiElement.firstParent(): T? =
+        firstParent { it is T } as? T
 
-internal fun PsiElement.firstParent(condition: (PsiElement) -> Boolean) = firstParent(true, condition)
+internal fun PsiElement.firstParent(condition: (PsiElement) -> Boolean) =
+        firstParent(true, condition)
 
 internal fun PsiElement.firstParent(includeSelf: Boolean, condition: (PsiElement) -> Boolean): PsiElement? {
 
@@ -86,9 +91,11 @@ internal fun PsiElement.firstParent(includeSelf: Boolean, condition: (PsiElement
   return null
 }
 
-internal fun PsiClass.supersAndThis() = InheritanceUtil.getSuperClasses(this) + this
+internal fun PsiClass.supersAndThis() =
+        InheritanceUtil.getSuperClasses(this) + this
 
-internal fun ClassDescriptor.supersAndThis() = getAllSuperclassesWithoutAny() + this
+internal fun ClassDescriptor.supersAndThis() =
+        getAllSuperclassesWithoutAny() + this
 
 internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
   var element: PsiElement? = this
@@ -120,9 +127,11 @@ internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression?
 internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
         arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
 
-internal fun PsiLiteralExpression.asString(): String? = (value as? String)?.toString()
+internal fun PsiLiteralExpression.asString(): String? =
+        (value as? String)?.toString()
 
-internal fun KtStringTemplateExpression.asPlainString(): String? = if (isPlainWithEscapes()) plainContent else null
+internal fun KtStringTemplateExpression.asPlainString(): String? =
+        if (isPlainWithEscapes()) plainContent else null
 
 internal fun GrLiteral.asString(): String? =
         takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
@@ -162,7 +171,11 @@ internal fun PsiClass.findAllStaticInnerClasses(): List<PsiClass> {
   val result = mutableListOf(this)
 
   for (innerClass in innerClasses) {
-    if (innerClass.hasModifierProperty(PsiModifier.STATIC) && (innerClass !is KtLightClass || innerClass.kotlinOrigin !is KtObjectDeclaration)) {
+    if (innerClass.hasModifierProperty(PsiModifier.STATIC)
+            && (innerClass !is KtLightClass
+                    || innerClass.kotlinOrigin !is KtObjectDeclaration
+                    )
+    ) {
       result.addAll(innerClass.findAllStaticInnerClasses())
     }
   }
@@ -226,7 +239,10 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferen
 
     if (receiverType == null) {
       // static method call?
-      receiverType = dotExpression.receiverExpression.getReferenceTargets(dotExpression.analyze()).firstOrNull() as? ClassDescriptor
+      receiverType = dotExpression
+              .receiverExpression
+              .getReferenceTargets(dotExpression.analyze())
+              .firstOrNull() as? ClassDescriptor
               ?: return null
     }
 

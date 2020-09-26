@@ -40,9 +40,18 @@ abstract class FileTypeEditorNotificationProvider(
   abstract fun onNo(file: VirtualFile)
   abstract fun onNever(settings: LibGDXPluginSettings)
 
-  abstract fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean
+  abstract fun shouldShowNotification(
+          currentLanguage: Language?,
+          file: VirtualFile,
+          fileEditor: TextEditor,
+          settings: LibGDXPluginSettings
+  ): Boolean
 
-  override fun createNotificationPanel(file: VirtualFile, fileEditor: FileEditor, project: Project): EditorNotificationPanel? {
+  override fun createNotificationPanel(
+          file: VirtualFile,
+          fileEditor: FileEditor,
+          project: Project
+  ): EditorNotificationPanel? {
 
     if (fileEditor !is TextEditor) {
       return null

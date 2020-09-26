@@ -60,7 +60,12 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
 
           if (name == ASSET_ANNOTATION_SKIN_PARAM_NAME) {
             if (SKIN_CLASS_NAME !in classNamesOfOwningVariable) {
-              registerUselessParameterProblem(holder, ktValueArgument, ASSET_ANNOTATION_SKIN_PARAM_NAME, SKIN_CLASS_NAME)
+              registerUselessParameterProblem(
+                      holder,
+                      ktValueArgument,
+                      ASSET_ANNOTATION_SKIN_PARAM_NAME,
+                      SKIN_CLASS_NAME
+              )
             }
           } else if (name == ASSET_ANNOTATION_ATLAS_PARAM_NAME) {
             if (SKIN_CLASS_NAME !in classNamesOfOwningVariable && TEXTURE_ATLAS_CLASS_NAME !in classNamesOfOwningVariable) {
@@ -73,7 +78,12 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
             }
           } else if (name == ASSET_ANNOTATION_PROPERTIES_PARAM_NAME) {
             if (I18NBUNDLE_CLASS_NAME !in classNamesOfOwningVariable) {
-              registerUselessParameterProblem(holder, ktValueArgument, ASSET_ANNOTATION_PROPERTIES_PARAM_NAME, I18NBUNDLE_CLASS_NAME)
+              registerUselessParameterProblem(
+                      holder,
+                      ktValueArgument,
+                      ASSET_ANNOTATION_PROPERTIES_PARAM_NAME,
+                      I18NBUNDLE_CLASS_NAME
+              )
             }
           }
 
@@ -94,7 +104,11 @@ class KotlinGDXAssetsInspection: LibGDXKotlinBaseInspection() {
 
         if ((annotationEntry.context as? KtModifierList)?.owner is KtVariableDeclaration) {
           if (classNamesOfOwningVariable.none { it in TARGETS_FOR_GDXANNOTATION }) {
-            holder.registerProblem(annotationEntry, message("gdxassets.annotation.problem.descriptor.wrong.target"), ProblemHighlightType.GENERIC_ERROR_OR_WARNING)
+            holder.registerProblem(
+                    annotationEntry,
+                    message("gdxassets.annotation.problem.descriptor.wrong.target"),
+                    ProblemHighlightType.GENERIC_ERROR_OR_WARNING
+            )
           }
         }
 

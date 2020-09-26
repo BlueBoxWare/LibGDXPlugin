@@ -34,7 +34,10 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
     assertNotNull(reference)
     val psiFile = reference?.resolve() as PsiFile
     assertNotNull(psiFile)
-    assertEquals("assets/images/test.png", VfsUtilCore.getRelativeLocation(psiFile.virtualFile, project.guessProjectDir()!!))
+    assertEquals(
+            "assets/images/test.png",
+            VfsUtilCore.getRelativeLocation(psiFile.virtualFile, project.guessProjectDir()!!)
+    )
 
   }
 

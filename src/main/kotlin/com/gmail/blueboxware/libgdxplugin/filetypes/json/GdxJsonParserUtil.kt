@@ -25,11 +25,15 @@ import com.intellij.psi.tree.TokenSet
  */
 object GdxJsonParserUtil: GeneratedParserUtilBase() {
 
-  private val UNQUOTED_VALUE_STRING_INVALID_STARTERS = TokenSet.create(DOUBLE_QUOTE, COLON, COMMA, L_CURLY, SLASH, L_BRACKET, R_BRACKET)
-  private val UNQUOTED_VALUE_STRING_TERMINATORS = TokenSet.create(R_CURLY, R_BRACKET, COMMA)
+  private val UNQUOTED_VALUE_STRING_INVALID_STARTERS =
+          TokenSet.create(DOUBLE_QUOTE, COLON, COMMA, L_CURLY, SLASH, L_BRACKET, R_BRACKET)
+  private val UNQUOTED_VALUE_STRING_TERMINATORS =
+          TokenSet.create(R_CURLY, R_BRACKET, COMMA)
 
-  private val UNQUOTED_NAME_STRING_INVALID_STARTERS = TokenSet.create(DOUBLE_QUOTE, COLON, COMMA, R_CURLY, SLASH)
-  private val UNQUOTED_NAME_STRING_TERMINATORS = TokenSet.create(COLON)
+  private val UNQUOTED_NAME_STRING_INVALID_STARTERS =
+          TokenSet.create(DOUBLE_QUOTE, COLON, COMMA, R_CURLY, SLASH)
+  private val UNQUOTED_NAME_STRING_TERMINATORS =
+          TokenSet.create(COLON)
 
   @JvmStatic
   fun parseUnquotedValueString(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {

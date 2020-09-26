@@ -49,7 +49,12 @@ class KotlinReferenceContributor: PsiReferenceContributor() {
     createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_SKIN_PARAM_NAME,
-            listOf(LibGDXSkinFileType.INSTANCE, JsonFileType.INSTANCE, JsonSchemaFileType.INSTANCE, PlainTextFileType.INSTANCE),
+            listOf(
+                    LibGDXSkinFileType.INSTANCE,
+                    JsonFileType.INSTANCE,
+                    JsonSchemaFileType.INSTANCE,
+                    PlainTextFileType.INSTANCE
+            ),
             listOf(LibGDXSkinLanguage.INSTANCE)
     )
 
@@ -69,13 +74,21 @@ class KotlinReferenceContributor: PsiReferenceContributor() {
 
   }
 
-  private fun createAssetAnnotationProvider(registrar: PsiReferenceRegistrar, paramName: String, fileTypes: List<FileType>, preferableLangs: List<Language>) {
+  private fun createAssetAnnotationProvider(
+          registrar: PsiReferenceRegistrar,
+          paramName: String,
+          fileTypes: List<FileType>,
+          preferableLangs: List<Language>
+  ) {
 
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java).inside(KtAnnotationEntry::class.java),
             object: PsiReferenceProvider() {
 
-              override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<out PsiReference> {
+              override fun getReferencesByElement(
+                      element: PsiElement,
+                      context: ProcessingContext
+              ): Array<out PsiReference> {
                 element.getParentOfType<KtAnnotationEntry>()?.let { entry ->
                   entry.analyzePartial().get(BindingContext.ANNOTATION, entry)?.type?.fqName()?.let { fqName ->
                     if (fqName == ASSET_ANNOTATION_NAME) {
@@ -105,8 +118,7 @@ class KotlinReferenceContributor: PsiReferenceContributor() {
 
               }
 
-            }
-    )
+            })
 
   }
 }

@@ -126,7 +126,11 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testSuppression() {
-    myFixture.enableInspections(SkinMalformedColorStringInspection(), SkinDuplicatePropertyInspection(), SkinNonExistingFieldInspection())
+    myFixture.enableInspections(
+            SkinMalformedColorStringInspection(),
+            SkinDuplicatePropertyInspection(),
+            SkinNonExistingFieldInspection()
+    )
     myFixture.testHighlighting(true, false, false, "suppression.skin")
   }
 

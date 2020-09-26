@@ -31,10 +31,18 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
           """[ <caret> ]""" to (setOf("true", "false", "null") to EMPTY),
           """{ <caret>: "" }""" to (EMPTY to setOf("true", "false", "null")),
 
-          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { <caret>, c: 2, e: 1 }}""" to (setOf("a", "b", "d", "f") to setOf("c", "e")),
-          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, <caret> }}""" to (setOf("a", "b", "d", "f") to setOf("c", "e")),
-          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, "<caret>" }}""" to (setOf("a", "b", "d", "f") to setOf("c", "e")),
-          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, <caret>, }}""" to (setOf("a", "b", "d", "f") to setOf("c", "e")),
+          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { <caret>, c: 2, e: 1 }}"""
+                  to (setOf("a", "b", "d", "f")
+                  to setOf("c", "e")),
+          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, <caret> }}"""
+                  to (setOf("a", "b", "d", "f")
+                  to setOf("c", "e")),
+          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, "<caret>" }}"""
+                  to (setOf("a", "b", "d", "f")
+                  to setOf("c", "e")),
+          """{ a: a, b: [{e: 12, f: g}], c: 2, d: { c: 2, e: 1, <caret>, }}"""
+                  to (setOf("a", "b", "d", "f")
+                  to setOf("c", "e")),
 
           """{ a: foo, b: [{e: 12, f: g, fe:f, f: <caret> }], c: 2, d: { c: 2, e: 1,}}"""
                   to (setOf("foo", "12", "g", "f", "2", "1") to setOf("b", "c", "e")),
@@ -64,7 +72,12 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
     }
 
     expectedResults.forEach { str ->
-      assertTrue("Expected to find '$str'. Found: " + result.joinToString { "'$it'" } + ", Content: '$content'", str in result)
+      assertTrue(
+              "Expected to find '$str'. Found: " +
+                      result.joinToString { "'$it'" } +
+                      ", Content: '$content'",
+              str in result
+      )
     }
 
   }

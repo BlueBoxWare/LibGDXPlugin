@@ -27,7 +27,12 @@ class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiEleme
   override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
           ((element as? PsiLiteralExpression)?.asString()
                   ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
-            element.project.getColorsMap()[colorName]?.nameElements()?.map(::PsiElementResolveResult)?.toTypedArray<ResolveResult>()
+            element
+                    .project
+                    .getColorsMap()[colorName]
+                    ?.nameElements()
+                    ?.map(::PsiElementResolveResult)
+                    ?.toTypedArray<ResolveResult>()
           } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 

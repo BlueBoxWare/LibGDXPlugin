@@ -60,7 +60,7 @@ class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
     addKotlin()
 
     (myFixture as JavaCodeInsightTestFixtureImpl).setVirtualFileFilter(object: FileTreeAccessFilter() {
-      override fun accept(file: VirtualFile?): Boolean {
+      override fun accept(file: VirtualFile): Boolean {
         return false
       }
     })

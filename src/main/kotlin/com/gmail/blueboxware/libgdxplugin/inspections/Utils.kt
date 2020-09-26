@@ -58,8 +58,11 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
                       null
                     }
 
-            holder.registerProblem(element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes
-                    ?: arrayOf())
+            holder.registerProblem(
+                    element,
+                    message("nonexisting.asset.problem.descriptor", elementName, type, files),
+                    *fixes ?: arrayOf()
+            )
 
           }
 
@@ -128,7 +131,11 @@ internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: Pr
 
   checkFilename(element, fileName, holder)?.let { psiFile ->
     if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
-      holder.registerProblem(element, message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName), ProblemHighlightType.WEAK_WARNING)
+      holder.registerProblem(
+              element,
+              message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName),
+              ProblemHighlightType.WEAK_WARNING
+      )
     }
   }
 
@@ -141,7 +148,8 @@ internal fun checkFilename(element: PsiElement, fileName: String, holder: Proble
   val psiFile = element.project.getPsiFile(fileName)
 
   if (psiFile == null) {
-    holder.registerProblem(element,
+    holder.registerProblem(
+            element,
             message(
                     "gdxassets.annotation.problem.descriptor.nofile",
                     fileName,

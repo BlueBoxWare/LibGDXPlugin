@@ -62,7 +62,9 @@ class SkinRefactoringElementListenerProvider: RefactoringElementListenerProvider
 
   }
 
-  class MyRefactoringElementListener(private val refToClassMap: Map<SkinJavaClassReference, PsiClass>): RefactoringElementListener {
+  class MyRefactoringElementListener(
+          private val refToClassMap: Map<SkinJavaClassReference, PsiClass>
+  ): RefactoringElementListener {
 
     override fun elementRenamed(newElement: PsiElement) = refactored()
 

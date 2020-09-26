@@ -50,30 +50,35 @@ class SkinAbbrClassInspection: SkinBaseInspection() {
                   SuppressForFileFix(getShortID())
           )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+          object: SkinElementVisitor() {
 
-    override fun visitClassName(skinClassName: SkinClassName) {
+            override fun visitClassName(skinClassName: SkinClassName) {
 
-      if (!skinClassName.project.isLibGDX199()) {
-        return
-      }
+              if (!skinClassName.project.isLibGDX199()) {
+                return
+              }
 
-      skinClassName.resolve()?.let(::DollarClassName)?.takeIf { it == skinClassName.value }?.let { fqName ->
+              skinClassName
+                      .resolve()
+                      ?.let(::DollarClassName)
+                      ?.takeIf { it == skinClassName.value }
+                      ?.let { fqName ->
 
-        DEFAULT_TAGGED_CLASSES_NAMES.getKey(fqName.plainName)?.let { shortName ->
+                        DEFAULT_TAGGED_CLASSES_NAMES.getKey(fqName.plainName)?.let { shortName ->
 
-          holder.registerProblem(
-                  skinClassName,
-                  message("skin.inspection.abbr.class.message", shortName),
-                  QuickFix(skinClassName, DollarClassName(shortName))
-          )
+                          holder.registerProblem(
+                                  skinClassName,
+                                  message("skin.inspection.abbr.class.message", shortName),
+                                  QuickFix(skinClassName, DollarClassName(shortName))
+                          )
 
-        }
+                        }
 
-      }
+                      }
 
-    }
-  }
+            }
+          }
 
   private class QuickFix(element: SkinClassName, val shortName: DollarClassName): LocalQuickFixOnPsiElement(element) {
 

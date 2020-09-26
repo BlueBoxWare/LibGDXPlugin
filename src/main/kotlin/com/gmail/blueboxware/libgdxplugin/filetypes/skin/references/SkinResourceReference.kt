@@ -72,7 +72,12 @@ class SkinResourceReference(element: SkinStringLiteral): SkinReference<SkinStrin
           }
         } else {
           (valueType as? PsiClassType)?.resolve()?.let { psiClass ->
-            (element.containingFile as? SkinFile)?.getResources(psiClass, element.value, element, isParentProperty)?.forEach {
+            (element.containingFile as? SkinFile)?.getResources(
+                    psiClass,
+                    element.value,
+                    element,
+                    isParentProperty
+            )?.forEach {
               result.add(PsiElementResolveResult(it))
             }
           }

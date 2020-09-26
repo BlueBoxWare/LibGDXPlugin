@@ -107,7 +107,16 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
   fun doTest(nrOfUsages: Int) {
     val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
     assertEquals(nrOfUsages, usagesInfos.size)
-    val classType = (file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinResourceName)?.resource?.classSpecification?.classNameAsString
+
+    val classType =
+            (file.findElementAt(myFixture.caretOffset)
+                    ?.parent
+                    ?.parent
+                    as? SkinResourceName)
+                    ?.resource
+                    ?.classSpecification
+                    ?.classNameAsString
+
     assertNotNull(classType)
     for (usageInfo in usagesInfos) {
       assertTrue(usageInfo.element is SkinStringLiteral)
@@ -121,7 +130,10 @@ class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
       }
       (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
         assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)
-        assertEquals((stringLiteral.reference?.resolve() as? SkinResource)?.name, (usageInfo.element as? SkinStringLiteral)?.value)
+        assertEquals(
+                (stringLiteral.reference?.resolve() as? SkinResource)?.name,
+                (usageInfo.element as? SkinStringLiteral)?.value
+        )
       }
     }
   }

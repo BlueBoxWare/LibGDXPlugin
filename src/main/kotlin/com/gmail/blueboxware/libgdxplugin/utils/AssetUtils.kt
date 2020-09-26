@@ -133,7 +133,11 @@ private fun createFakePsiFile(name: String, project: Project, original: PsiFile?
           }
         }
 
-private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atlasFileNames: List<String>): Pair<List<SkinFile>, List<AtlasFile>> {
+private fun getAssetPsiFiles(
+        project: Project,
+        skinFileNames: List<String>,
+        atlasFileNames: List<String>
+): Pair<List<SkinFile>, List<AtlasFile>> {
 
   val skinFiles = mutableListOf<SkinFile>()
   val atlasFiles = mutableListOf<AtlasFile>()
@@ -174,7 +178,10 @@ private fun getAssetPsiFiles(project: Project, skinFileNames: List<String>, atla
 
 }
 
-private fun getAssetFilesFromAnnotation(project: Project, annotation: AnnotationWrapper?): Pair<List<SkinFile>, List<AtlasFile>> {
+private fun getAssetFilesFromAnnotation(
+        project: Project,
+        annotation: AnnotationWrapper?
+): Pair<List<SkinFile>, List<AtlasFile>> {
 
   if (annotation != null) {
     val skins = annotation.getValue(ASSET_ANNOTATION_SKIN_PARAM_NAME)

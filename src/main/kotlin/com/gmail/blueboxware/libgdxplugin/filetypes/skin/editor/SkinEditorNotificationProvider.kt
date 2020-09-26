@@ -45,8 +45,17 @@ class SkinEditorNotificationProvider(project: Project): FileTypeEditorNotificati
     settings.neverAskAboutSkinFiles = true
   }
 
-  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean =
-          if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage.INSTANCE) {
+  override fun shouldShowNotification(
+          currentLanguage: Language?,
+          file: VirtualFile,
+          fileEditor: TextEditor,
+          settings: LibGDXPluginSettings
+  ): Boolean =
+          if (
+                  currentLanguage != PlainTextLanguage.INSTANCE
+                  && currentLanguage != JsonLanguage.INSTANCE
+                  && currentLanguage != LibGDXJsonLanuage.INSTANCE
+          ) {
             false
           } else if (settings.neverAskAboutSkinFiles) {
             false

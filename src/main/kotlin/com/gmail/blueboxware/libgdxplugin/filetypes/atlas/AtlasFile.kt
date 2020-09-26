@@ -22,7 +22,9 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasFile(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, LibGDXAtlasLanguage.INSTANCE), AtlasElement {
+class AtlasFile(fileViewProvider: FileViewProvider):
+        PsiFileBase(fileViewProvider, LibGDXAtlasLanguage.INSTANCE),
+        AtlasElement {
 
   fun getPages(): List<AtlasPage> = children.mapNotNull { it as? AtlasPage }
 

@@ -63,7 +63,13 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
             target.image?.let { image ->
               return createPreviewComponent(image, target.name)
             }
-          } else if (target is SkinResource && target.classSpecification?.getRealClassNamesAsString()?.contains(TINTED_DRAWABLE_CLASS_NAME) == true) {
+          } else if (
+                  target is SkinResource
+                  && target
+                          .classSpecification
+                          ?.getRealClassNamesAsString()
+                          ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
+          ) {
 
             val tintedDrawableName = target.name
 
@@ -77,8 +83,19 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
             var nameTarget: PsiElement? = target
 
-            while ((nameTarget as? SkinResource)?.classSpecification?.getRealClassNamesAsString()?.contains(TINTED_DRAWABLE_CLASS_NAME) == true) {
-              nameTarget = (nameTarget as? SkinResource)?.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value?.reference?.resolve()
+            while (
+                    (nameTarget as? SkinResource)
+                            ?.classSpecification
+                            ?.getRealClassNamesAsString()
+                            ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
+            ) {
+              nameTarget =
+                      (nameTarget as? SkinResource)
+                              ?.`object`
+                              ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)
+                              ?.value
+                              ?.reference
+                              ?.resolve()
             }
 
             (nameTarget as? AtlasRegion)?.let { atlasRegion ->

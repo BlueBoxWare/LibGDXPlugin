@@ -29,7 +29,8 @@ abstract class AtlasPageMixin(node: ASTNode): AtlasPage, AtlasElementImpl(node) 
 
   override fun getIndex(): Int? = (containingFile as? AtlasFile)?.getPages()?.indexOf(this)
 
-  override fun getImageFile(): VirtualFile? = containingFile.virtualFile.parent?.findFileByRelativePath(PathUtil.toSystemIndependentName(pageName.text))
+  override fun getImageFile(): VirtualFile? =
+          containingFile.virtualFile.parent?.findFileByRelativePath(PathUtil.toSystemIndependentName(pageName.text))
 
   override fun getPresentation() = object: ItemPresentation {
 

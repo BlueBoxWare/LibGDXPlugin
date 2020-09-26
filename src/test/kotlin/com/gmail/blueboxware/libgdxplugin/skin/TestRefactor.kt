@@ -162,7 +162,12 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   fun testRenameKotlinInnerClass() {
     configureByFile("KotlinClass.kt")
-    val innerClass = (myFixture.elementAtCaret as KtClass).declarations.find { (it as? KtClass)?.fqName?.shortName()?.asString() == "Inner" }
+    val innerClass =
+            (myFixture.elementAtCaret as KtClass)
+                    .declarations
+                    .find {
+                      (it as? KtClass)?.fqName?.shortName()?.asString() == "Inner"
+                    }
     configureByFile("renameKotlinInnerClass.json")
     doSimpleTest("json") {
       myFixture.renameElement(innerClass!!, "FooBar")
@@ -220,23 +225,39 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResult(expected, true) // no changes
   }
 
-  fun testChangeKotlinPackageDirective1() {
-    doTestChangeKotlinPackageDirective("changeKotlinPackageDirective1.skin", "changeKotlinPackageDirective1.after", "KotlinClass.kt", "org.something")
-  }
+  fun testChangeKotlinPackageDirective1() =
+          doTestChangeKotlinPackageDirective(
+                  "changeKotlinPackageDirective1.skin",
+                  "changeKotlinPackageDirective1.after",
+                  "KotlinClass.kt",
+                  "org.something"
+          )
 
-  fun testChangeKotlinPackageDirective2() {
-    doTestChangeKotlinPackageDirective("changeKotlinPackageDirective2.skin", "changeKotlinPackageDirective2.after", "TopLevelClass.kt", "org.something")
-  }
+  fun testChangeKotlinPackageDirective2() =
+          doTestChangeKotlinPackageDirective(
+                  "changeKotlinPackageDirective2.skin",
+                  "changeKotlinPackageDirective2.after",
+                  "TopLevelClass.kt",
+                  "org.something"
+          )
 
-  fun testChangeKotlinPackageDirective3() {
-    doTestChangeKotlinPackageDirective("changeKotlinPackageDirective3.skin", "changeKotlinPackageDirective3.after", "KotlinClass.kt", "")
-  }
+  fun testChangeKotlinPackageDirective3() =
+          doTestChangeKotlinPackageDirective(
+                  "changeKotlinPackageDirective3.skin",
+                  "changeKotlinPackageDirective3.after",
+                  "KotlinClass.kt",
+                  ""
+          )
 
   fun testChangeKotlinPackageDirectiveManually() {
     configureByFiles("KotlinClass2.kt", "changeKotlinPackageDirective1.skin")
     myFixture.type("foo")
     commit()
-    myFixture.checkResultByFile("changeKotlinPackageDirective1.skin", "changeKotlinPackageDirective1.skin", false)
+    myFixture.checkResultByFile(
+            "changeKotlinPackageDirective1.skin",
+            "changeKotlinPackageDirective1.skin",
+            false
+    )
   }
 
   fun testAddKotlinPackageDirectiveManually() {
@@ -244,7 +265,11 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
     editor.moveCaret(0)
     myFixture.type("package foo.bar\n")
     commit()
-    myFixture.checkResultByFile("changeKotlinPackageDirective2.skin", "changeKotlinPackageDirective2.skin", false)
+    myFixture.checkResultByFile(
+            "changeKotlinPackageDirective2.skin",
+            "changeKotlinPackageDirective2.skin",
+            false
+    )
   }
 
   fun testRemoveKotlinPackageDirectiveManually() {
@@ -253,7 +278,11 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
     editor.caretModel.moveToOffset(endOfPackageDirective)
     myFixture.type("\b".repeat(100))
     commit()
-    myFixture.checkResultByFile("changeKotlinPackageDirective1.skin", "changeKotlinPackageDirective1.skin", false)
+    myFixture.checkResultByFile(
+            "changeKotlinPackageDirective1.skin",
+            "changeKotlinPackageDirective1.skin",
+            false
+    )
   }
 
   private fun doSimpleTest(extension: String = "skin", f: () -> Unit) {
@@ -345,7 +374,12 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  private fun doTestChangeKotlinPackageDirective(beforeFileName: String, afterFileName: String, kotlinFileName: String, newPackageName: String) {
+  private fun doTestChangeKotlinPackageDirective(
+          beforeFileName: String,
+          afterFileName: String,
+          kotlinFileName: String,
+          newPackageName: String
+  ) {
 
     val kotlinFile = configureByFile(kotlinFileName) as KtFile
     configureByFile(beforeFileName)
@@ -364,9 +398,16 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  private fun runCommand(f: () -> Unit) {
-    CommandProcessor.getInstance().executeCommand(project, f, "", null, UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION)
-  }
+  private fun runCommand(f: () -> Unit) =
+          CommandProcessor
+                  .getInstance()
+                  .executeCommand(
+                          project,
+                          f,
+                          "",
+                          null,
+                          UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
+                  )
 
   private fun undo() {
     val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()

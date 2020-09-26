@@ -57,7 +57,10 @@ class TestSkinParsing: ParsingTestCase("", "json", SkinParserDefinition()) {
     doTest()
   }
 
-  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/skin/psi")
+  override fun getTestDataPath() =
+          FileUtil.toSystemDependentName(
+                  System.getProperty("user.dir") + "/src/test/testdata/filetypes/skin/psi"
+          )
 
   override fun skipSpaces() = true
 

@@ -34,7 +34,8 @@ import java.awt.Color
 class SkinElementFactory(private val project: Project) {
 
   fun createProperty(name: String, value: String): SkinProperty? =
-          createElement("""
+          createElement(
+                  """
             {
               class: {
                 resource: {
@@ -42,10 +43,12 @@ class SkinElementFactory(private val project: Project) {
                 }
               }
             }
-          """)
+          """
+          )
 
   fun createComma(): LeafPsiElement? =
-          createElement("""
+          createElement(
+                  """
             {
               class: {
                 resource: {
@@ -53,14 +56,17 @@ class SkinElementFactory(private val project: Project) {
                 }
               }
             }
-          """, ',')
+          """, ','
+          )
 
   fun createNewLine(): PsiWhiteSpace? =
-          createElement("""
+          createElement(
+                  """
             {
 
             }
-          """, '\n')
+          """, '\n'
+          )
 
   @Suppress("unused")
   fun createWhitespace(str: String): PsiWhiteSpace? =
@@ -73,46 +79,54 @@ class SkinElementFactory(private val project: Project) {
           createElement("{}", '}')
 
   fun createClassSpec(name: String): SkinClassSpecification? =
-          createElement("""
+          createElement(
+                  """
             {
               $name: {
               }
             }
-          """)
+          """
+          )
 
   fun createResource(name: String): Pair<SkinResource, Int>? =
-          createElement<SkinResource>("""
+          createElement<SkinResource>(
+                  """
             {
               className: {
                 $name: {   }
               }
             }
-          """)?.let { element ->
+          """
+          )?.let { element ->
             element.`object`?.getOpeningBrace()?.startOffset?.let {
               Pair(element, it - element.startOffset + 2)
             }
           }
 
   private fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
-          createElement<SkinResource>("""
+          createElement<SkinResource>(
+                  """
             {
               className: {
                 $name: { hex: "${color?.toHexString() ?: "#"}" }
               }
             }
-          """)?.let { element ->
+          """
+          )?.let { element ->
             Pair(element, element.text.indexOf('#') + 1)
           }
 
   private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
     val c = (color ?: Color.WHITE).toRGBComponents().toMap()
-    return createElement<SkinResource>("""
+    return createElement<SkinResource>(
+            """
             {
               className: {
                 $name: { r: ${c["r"]}, g: ${c["g"]}, b: ${c["b"]}, a: ${c["a"]} }
               }
             }
-          """)?.let { element ->
+          """
+    )?.let { element ->
       Pair(element, element.text.indexOf('r') + 3)
     }
   }
@@ -125,7 +139,8 @@ class SkinElementFactory(private val project: Project) {
           }
 
   fun createTintedDrawableResource(name: String): Pair<SkinResource, Int>? =
-          createElement<SkinResource>("""
+          createElement<SkinResource>(
+                  """
             {
               className: {
                 $name: {
@@ -134,7 +149,8 @@ class SkinElementFactory(private val project: Project) {
                 }
               }
             }
-          """.trimIndent())?.let { element ->
+          """.trimIndent()
+          )?.let { element ->
 
             Regex("""name\s*:""").find(element.text)?.range?.endInclusive?.let { end ->
 
@@ -203,7 +219,8 @@ class SkinElementFactory(private val project: Project) {
           createElement(content, content.indexOf(character))
 
   private fun createFile(content: String) =
-          PsiFileFactory.getInstance(project)?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
+          PsiFileFactory.getInstance(project)
+                  ?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
 
   companion object {
 

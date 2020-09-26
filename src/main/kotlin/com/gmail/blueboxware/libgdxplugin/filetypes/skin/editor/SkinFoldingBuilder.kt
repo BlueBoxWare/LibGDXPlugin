@@ -42,7 +42,11 @@ class SkinFoldingBuilder: FoldingBuilder, DumbAware {
 
   override fun isCollapsedByDefault(node: ASTNode) = false
 
-  private fun collectDescriptorsRecursively(node: ASTNode, document: Document, descriptors: MutableList<FoldingDescriptor>) {
+  private fun collectDescriptorsRecursively(
+          node: ASTNode,
+          document: Document,
+          descriptors: MutableList<FoldingDescriptor>
+  ) {
 
     val type = node.elementType
 

@@ -40,7 +40,11 @@ class LibGDXColorObjectRenderer: CompoundReferenceRenderer(
     isEnabled = true
   }
 
-  override fun calcValueIcon(descriptor: ValueDescriptor?, evaluationContext: EvaluationContext?, listener: DescriptorLabelListener?): Icon? {
+  override fun calcValueIcon(
+          descriptor: ValueDescriptor?,
+          evaluationContext: EvaluationContext?,
+          listener: DescriptorLabelListener?
+  ): Icon? {
 
     val value = descriptor?.value as? ObjectReference ?: return null
 

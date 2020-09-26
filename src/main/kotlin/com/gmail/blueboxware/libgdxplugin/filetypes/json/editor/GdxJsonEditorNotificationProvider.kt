@@ -46,7 +46,12 @@ class GdxJsonEditorNotificationProvider(project: Project): FileTypeEditorNotific
     settings.neverAskAboutJsonFiles = true
   }
 
-  override fun shouldShowNotification(currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings): Boolean =
+  override fun shouldShowNotification(
+          currentLanguage: Language?,
+          file: VirtualFile,
+          fileEditor: TextEditor,
+          settings: LibGDXPluginSettings
+  ): Boolean =
           showNotification(project, currentLanguage, file, settings)
 
   override fun getKey(): Key<EditorNotificationPanel> = KEY

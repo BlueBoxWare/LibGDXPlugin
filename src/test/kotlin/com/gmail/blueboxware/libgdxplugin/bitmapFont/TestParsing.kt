@@ -55,11 +55,15 @@ class TestParsing: ParsingTestCase("", "fnt", BitmapFontParserDefinition()) {
     it.groups[1]?.value ?: ""
   }.toList()
 
-  private fun getPages(str: String): List<Pair<String, String>> = Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map {
-    Pair(it.groups[1]?.value ?: "", it.groups[2]?.value ?: "")
-  }.toList()
+  private fun getPages(str: String): List<Pair<String, String>> =
+          Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map {
+            Pair(it.groups[1]?.value ?: "", it.groups[2]?.value ?: "")
+          }.toList()
 
-  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/bitmapFont/psi")
+  override fun getTestDataPath() =
+          FileUtil.toSystemDependentName(
+                  System.getProperty("user.dir") + "/src/test/testdata/filetypes/bitmapFont/psi"
+          )
 
   override fun skipSpaces() = true
 

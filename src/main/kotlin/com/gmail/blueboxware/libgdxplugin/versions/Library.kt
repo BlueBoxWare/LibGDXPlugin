@@ -94,7 +94,7 @@ internal open class Library(
 
   }
 
-  protected fun fetchVersions(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
+  private fun fetchVersions(onSuccess: (List<String>) -> Unit, onFailure: () -> Unit) {
 
     val baseUrl = TEST_URL ?: repository.baseUrl
     val url = if (repository == Repository.JITPACK) {

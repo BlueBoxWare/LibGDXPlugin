@@ -30,10 +30,16 @@ class GDXPropertiesCompletionContributor: CompletionContributor() {
   init {
     extend(null, PlatformPatterns.psiElement(), object: CompletionProvider<CompletionParameters>() {
 
-      override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+      override fun addCompletions(
+              parameters: CompletionParameters,
+              context: ProcessingContext,
+              result: CompletionResultSet
+      ) {
 
-        val position = parameters.position.context ?: return
-        val references = ArrayUtil.mergeArrays(position.references, position.context?.references ?: arrayOf())
+        val position =
+                parameters.position.context ?: return
+        val references =
+                ArrayUtil.mergeArrays(position.references, position.context?.references ?: arrayOf())
 
         val startOffset = parameters.offset
 

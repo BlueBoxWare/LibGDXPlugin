@@ -41,67 +41,98 @@ class SkinCompletionContributor: CompletionContributor() {
 
   init {
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
-                    .withParent(SkinStringLiteral::class.java)
-                    .withSuperParent(2, SkinResource::class.java),
-            object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
-                resourceAliasNameCompletion(parameters, result)
-              }
-            }
-    )
+    extend(CompletionType.BASIC, PlatformPatterns.psiElement()
+            .withParent(SkinStringLiteral::class.java)
+            .withSuperParent(2, SkinResource::class.java), object: CompletionProvider<CompletionParameters>() {
+      override fun addCompletions(
+              parameters: CompletionParameters,
+              context: ProcessingContext,
+              result: CompletionResultSet
+      ) {
+        resourceAliasNameCompletion(parameters, result)
+      }
+    })
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
+    extend(
+            CompletionType.BASIC,
+            PlatformPatterns
+                    .psiElement()
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinResourceName::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
                 resourceNameCompletion(parameters, result)
               }
             }
     )
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
+    extend(
+            CompletionType.BASIC,
+            PlatformPatterns
+                    .psiElement()
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinClassName::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
                 classNameCompletion(parameters, result)
               }
             }
     )
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
+    extend(
+            CompletionType.BASIC,
+            PlatformPatterns
+                    .psiElement()
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinPropertyName::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
                 propertyNameCompletion(parameters, result)
               }
             }
     )
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
+    extend(
+            CompletionType.BASIC,
+            PlatformPatterns
+                    .psiElement()
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinPropertyValue::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
                 propertyValueCompletion(parameters, result)
               }
             }
     )
 
-    extend(CompletionType.BASIC,
-            PlatformPatterns.psiElement()
+    extend(
+            CompletionType.BASIC,
+            PlatformPatterns
+                    .psiElement()
                     .withParent(SkinStringLiteral::class.java)
                     .withSuperParent(2, SkinArray::class.java),
             object: CompletionProvider<CompletionParameters>() {
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
                 propertyValueCompletion(parameters, result)
               }
             }
@@ -131,30 +162,48 @@ class SkinCompletionContributor: CompletionContributor() {
       return
     }
 
-    (parameters.originalFile as? SkinFile)?.getClassSpecifications(classSpec.getRealClassNamesAsString())?.forEach { cs ->
-      cs.getResourcesAsList(resource).forEach { res ->
-        if (res.name != resource.name || cs != originalClassSpec) {
-          val icon = res
-                  .takeIf { cs.getRealClassNamesAsString().contains(COLOR_CLASS_NAME) }
-                  ?.asColor(true)
-                  ?.let { createColorIcon(it) }
-                  ?: ICON_RESOURCE
+    (parameters.originalFile as? SkinFile)
+            ?.getClassSpecifications(classSpec.getRealClassNamesAsString())
+            ?.forEach { cs ->
+              cs.getResourcesAsList(resource).forEach { res ->
+                if (res.name != resource.name || cs != originalClassSpec) {
+                  val icon = res
+                          .takeIf { cs.getRealClassNamesAsString().contains(COLOR_CLASS_NAME) }
+                          ?.asColor(true)
+                          ?.let { createColorIcon(it) }
+                          ?: ICON_RESOURCE
 
-          doAdd(LookupElementBuilder.create(res.name.makeSafe()).withIcon(icon).withPresentableText(res.name.escape()), parameters, result)
-        }
-      }
-    }
+                  doAdd(
+                          LookupElementBuilder
+                                  .create(res.name.makeSafe())
+                                  .withIcon(icon)
+                                  .withPresentableText(res.name.escape()),
+                          parameters,
+                          result
+                  )
+                }
+              }
+            }
 
   }
 
   private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
     val resource = parameters.position.firstParent<SkinResource>() ?: return
     val classSpec = resource.classSpecification ?: return
-    val usedResourceNames = (resource.containingFile as? SkinFile)?.getResources(classSpec.getRealClassNamesAsString())?.map { it.name }
-            ?: listOf()
+    val usedResourceNames =
+            (resource.containingFile as? SkinFile)
+                    ?.getResources(classSpec.getRealClassNamesAsString())
+                    ?.map { it.name }
+                    ?: listOf()
 
     if (!usedResourceNames.contains("default")) {
-      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create("default").withBoldness(true), HIGH_PRIORITY), parameters, result)
+      doAdd(
+              PrioritizedLookupElement.withPriority(
+                      LookupElementBuilder.create("default").withBoldness(true), HIGH_PRIORITY
+              ),
+              parameters,
+              result
+      )
     }
 
     val strings = mutableSetOf<String>()
@@ -199,7 +248,8 @@ class SkinCompletionContributor: CompletionContributor() {
                                       .withPresentableText(relativePath)
                                       .withBoldness(prioritize)
                                       .withIcon(file.fileType.icon),
-                              if (prioritize) HIGHEST_PRIORITY else MEDIUM_PRIORITY),
+                              if (prioritize) HIGHEST_PRIORITY else MEDIUM_PRIORITY
+                      ),
                       parameters,
                       result
               )
@@ -335,7 +385,12 @@ class SkinCompletionContributor: CompletionContributor() {
 
     } else if (objectType == BITMAPFONT_CLASS_NAME) {
 
-      listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).forEach {
+      listOf(
+              PROPERTY_NAME_FONT_FILE,
+              PROPERTY_NAME_FONT_SCALED_SIZE,
+              PROPERTY_NAME_FONT_FLIP,
+              PROPERTY_NAME_FONT_MARKUP
+      ).forEach {
         if (!usedPropertyNames.contains(it)) {
           doAdd(LookupElementBuilder.create(it).withIcon(ICON_FIELD), parameters, result)
         }
@@ -359,32 +414,48 @@ class SkinCompletionContributor: CompletionContributor() {
   }
 
   private fun classNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
-    val prefix = result.prefixMatcher.prefix.dropLastWhile { it != '.' }.dropLastWhile { it == '.' }.let { prefix ->
-      if (prefix.firstOrNull() == '"') {
-        prefix.substring(1)
-      } else {
-        prefix
-      }
-    }
+    val prefix =
+            result
+                    .prefixMatcher
+                    .prefix
+                    .dropLastWhile { it != '.' }
+                    .dropLastWhile { it == '.' }
+                    .let { prefix ->
+                      if (prefix.firstOrNull() == '"') {
+                        prefix.substring(1)
+                      } else {
+                        prefix
+                      }
+                    }
     val project = parameters.position.project
     val psiFacade = project.psiFacade()
     val rootPackage = psiFacade.findPackage(prefix) ?: psiFacade.findPackage("") ?: return
 
     project.getSkinTag2ClassMap()?.getTags()?.forEach { tag ->
-      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(tag)
-              .withIcon(ICON_TAG)
-              .withBoldness(true),
-              HIGHEST_PRIORITY
-      ), parameters, result)
+      doAdd(
+              PrioritizedLookupElement.withPriority(
+                      LookupElementBuilder.create(tag)
+                              .withIcon(ICON_TAG)
+                              .withBoldness(true),
+                      HIGHEST_PRIORITY
+              ),
+              parameters,
+              result
+      )
     }
 
     for (subpackage in rootPackage.subPackages) {
       val priority = packagePriority(subpackage.qualifiedName)
-      doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(subpackage, subpackage.qualifiedName)
-              .withIcon(ICON_PACKAGE)
-              .withBoldness(priority > 0.0),
-              priority
-      ), parameters, result)
+      doAdd(
+              PrioritizedLookupElement.withPriority(
+                      LookupElementBuilder.create(subpackage, subpackage.qualifiedName)
+                              .withIcon(ICON_PACKAGE)
+                              .withBoldness(priority > 0.0),
+                      priority
+              ),
+              parameters,
+              result
+      )
     }
 
     val dummyText = parameters.position.text
@@ -394,7 +465,14 @@ class SkinCompletionContributor: CompletionContributor() {
 
     if (currentPackage == null || currentPackage.name == null) {
 
-      val prefixMatcher = CamelHumpMatcher(result.prefixMatcher.prefix.substring(if (dummyText.firstOrNull() == '"') 1 else 0).takeWhile { it != '.' && it != '$' })
+      val prefixMatcher =
+              CamelHumpMatcher(
+                      result
+                              .prefixMatcher
+                              .prefix
+                              .substring(if (dummyText.firstOrNull() == '"') 1 else 0)
+                              .takeWhile { it != '.' && it != '$' }
+              )
 
       AllClassesGetter.processJavaClasses(prefixMatcher, project, scope) { psiClass ->
 
@@ -404,17 +482,25 @@ class SkinCompletionContributor: CompletionContributor() {
 
           for (innerClass in psiClass.findAllStaticInnerClasses()) {
 
-            if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
+            if (!innerClass.isAnnotationType
+                    && !innerClass.isInterface
+                    && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)
+            ) {
               val fqName = DollarClassName(innerClass)
               val priority = classPriority(fqName.dollarName)
-              doAdd(PrioritizedLookupElement.withPriority(LookupElementBuilder.create(psiClass, fqName.dollarName)
-                      .withPresentableText(fqName.dollarName)
-                      .withLookupString(StringUtil.getShortName(fqName.dollarName))
-                      .withLookupString(fqName.plainName)
-                      .withIcon(ICON_CLASS)
-                      .withBoldness(priority > 0.0),
-                      priority
-              ), parameters, result)
+              doAdd(
+                      PrioritizedLookupElement.withPriority(
+                              LookupElementBuilder.create(psiClass, fqName.dollarName)
+                                      .withPresentableText(fqName.dollarName)
+                                      .withLookupString(StringUtil.getShortName(fqName.dollarName))
+                                      .withLookupString(fqName.plainName)
+                                      .withIcon(ICON_CLASS)
+                                      .withBoldness(priority > 0.0),
+                              priority
+                      ),
+                      parameters,
+                      result
+              )
             }
 
           }
@@ -432,7 +518,10 @@ class SkinCompletionContributor: CompletionContributor() {
 
       for (innerClass in clazz.findAllStaticInnerClasses()) {
 
-        if (!innerClass.isAnnotationType && !innerClass.isInterface && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)) {
+        if (!innerClass.isAnnotationType
+                && !innerClass.isInterface
+                && !innerClass.hasModifierProperty(PsiModifier.ABSTRACT)
+        ) {
 
           val fqName = DollarClassName(innerClass)
 
@@ -467,7 +556,8 @@ class SkinCompletionContributor: CompletionContributor() {
   }
 
   private fun packagePriority(packageName: String): Double {
-    if ("com.badlogic.gdx.scenes.scene2d.ui".contains(packageName) || "com.badlogic.gdx.graphics".contains(packageName)) {
+    if ("com.badlogic.gdx.scenes.scene2d.ui".contains(packageName)
+            || "com.badlogic.gdx.graphics".contains(packageName)) {
       return MEDIUM_PRIORITY
     }
     return 0.0

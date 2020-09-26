@@ -21,7 +21,9 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontStructureViewModel(psiFile: PsiFile): StructureViewModelBase(psiFile, BitmapFontStructureViewElement(psiFile)), StructureViewModel.ElementInfoProvider {
+class BitmapFontStructureViewModel(psiFile: PsiFile):
+        StructureViewModelBase(psiFile, BitmapFontStructureViewElement(psiFile)),
+        StructureViewModel.ElementInfoProvider {
 
   override fun isAlwaysShowsPlus(element: StructureViewTreeElement?) = false
 

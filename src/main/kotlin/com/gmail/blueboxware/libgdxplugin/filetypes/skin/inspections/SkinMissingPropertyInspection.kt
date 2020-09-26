@@ -33,25 +33,29 @@ class SkinMissingPropertyInspection: SkinBaseInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+          object: SkinElementVisitor() {
 
-    override fun visitObject(skinObject: SkinObject) {
+            override fun visitObject(skinObject: SkinObject) {
 
-      val mandatoryProperties = when (skinObject.resolveToTypeString()) {
-        BITMAPFONT_CLASS_NAME -> setOf(PROPERTY_NAME_FONT_FILE)
-        TINTED_DRAWABLE_CLASS_NAME -> listOf(PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR)
-        else -> null
-      }
+              val mandatoryProperties =
+                      when (skinObject.resolveToTypeString()) {
+                        BITMAPFONT_CLASS_NAME -> setOf(PROPERTY_NAME_FONT_FILE)
+                        TINTED_DRAWABLE_CLASS_NAME -> listOf(
+                                PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR
+                        )
+                        else -> null
+                      }
 
-      mandatoryProperties?.forEach { property ->
-        if (!skinObject.propertyNames.contains(property)) {
-          holder.registerProblem(skinObject, message("skin.inspection.missing.property.message", property))
-        }
-      }
+              mandatoryProperties?.forEach { property ->
+                if (!skinObject.propertyNames.contains(property)) {
+                  holder.registerProblem(skinObject, message("skin.inspection.missing.property.message", property))
+                }
+              }
 
 
-    }
+            }
 
-  }
+          }
 
 }

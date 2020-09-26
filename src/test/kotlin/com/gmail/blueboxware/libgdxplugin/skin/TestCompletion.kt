@@ -464,7 +464,12 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
             }
           """ to (listOf("tintedDrawable") to listOf()),
 
-          """{ com.badlogic.gdx.graphics.g2d.BitmapFont: { font1: { <caret> } } }""" to (listOf("file", "scaledSize", "flip", "markupEnabled") to listOf("integer")),
+          """{ com.badlogic.gdx.graphics.g2d.BitmapFont: { font1: { <caret> } } }""" to (listOf(
+                  "file",
+                  "scaledSize",
+                  "flip",
+                  "markupEnabled"
+          ) to listOf("integer")),
 
           """
             {
@@ -1558,7 +1563,13 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             }
-          """ to (listOf("Nearest", "Linear", "MipMap", "MipMapNearestNearest", "MipMapLinearLinear") to listOf("glEnum")),
+          """ to (listOf(
+                  "Nearest",
+                  "Linear",
+                  "MipMap",
+                  "MipMapNearestNearest",
+                  "MipMapLinearLinear"
+          ) to listOf("glEnum")),
 
           """
             {
@@ -1668,18 +1679,30 @@ class TestCompletion: LibGDXCodeInsightFixtureTestCase() {
     }
   }
 
-  fun doTest(content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()) {
+  fun doTest(
+          content: String,
+          expectedCompletionStrings: List<String>,
+          notExpectedCompletionStrings: List<String> = listOf()
+  ) {
     configureByText("ui.skin", content)
     val result = myFixture.complete(CompletionType.BASIC, 1)
     if (result == null) {
       // the only item was auto-completed?
-      assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", expectedCompletionStrings.size, 1)
+      assertEquals(
+              "Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'",
+              expectedCompletionStrings.size, 1
+      )
       val text = editor.document.text
       val expectedString = expectedCompletionStrings.first()
       val msg = "Expected string '$expectedString' not found. Content: \n'$content'"
       assertTrue(msg, text.contains(expectedString))
     } else {
-      val strings = myFixture.lookupElementStrings?.map { if (listOf('"').contains(it.firstOrNull())) it.substring(1) else it }
+      val strings =
+              myFixture
+                      .lookupElementStrings
+                      ?.map {
+                        if (listOf('"').contains(it.firstOrNull())) it.substring(1) else it
+                      }
       assertNotNull(strings)
       strings?.let { results ->
         for (expected in expectedCompletionStrings) {

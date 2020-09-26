@@ -32,12 +32,15 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
 
   fun testBreadcrumbs() {
     configureByFile("breadcrumbs.skin")
-    assertOrderedEquals(myFixture.breadcrumbsAtCaret.map { it.text }, listOf(
-            "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle",
-            "green",
-            "fontColor",
-            "b"
-    ))
+    assertOrderedEquals(
+            myFixture.breadcrumbsAtCaret.map { it.text },
+            listOf(
+                    "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle",
+                    "green",
+                    "fontColor",
+                    "b"
+            )
+    )
   }
 
   fun testSpellChecking() {
@@ -56,7 +59,13 @@ class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
     myFixture.checkResultByFile("noComment.txt")
     editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
     editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
-    editor.caretModel.moveCaretRelatively(editor.caretModel.visualLineEnd - 1, 0, true, false, false)
+    editor.caretModel.moveCaretRelatively(
+            editor.caretModel.visualLineEnd - 1,
+            0,
+            true,
+            false,
+            false
+    )
     val blockCommentAction = CommentByBlockCommentAction()
     blockCommentAction.actionPerformedImpl(project, editor)
     myFixture.checkResultByFile("blockComment.txt")

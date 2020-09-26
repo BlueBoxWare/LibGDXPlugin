@@ -43,7 +43,11 @@ class TestParsing: ParsingTestCase("", "atlas", AtlasParserDefinition()) {
     }
   }
 
-  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/atlas/psi")
+  override fun getTestDataPath() =
+          FileUtil
+                  .toSystemDependentName(
+                          System.getProperty("user.dir") + "/src/test/testdata/filetypes/atlas/psi"
+                  )
 
   override fun skipSpaces() = true
 

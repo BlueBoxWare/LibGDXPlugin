@@ -29,7 +29,8 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  */
 class GradlePropertiesOutdatedVersionsInspection: LibGDXGradlePropertiesBaseInspection() {
 
-  override fun getStaticDescription() = message("outdated.version.inspection.static.description", listOfCheckedLibraries())
+  override fun getStaticDescription() =
+          message("outdated.version.inspection.static.description", listOfCheckedLibraries())
 
   override fun getID() = "LibGDXOutdatedVersionGradleProperties"
 

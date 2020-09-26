@@ -50,39 +50,48 @@ class TestAssetUtils: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testgetAssociatedFiles() {
-    assertTrue(skinFile!!.getAssociatedFiles().map { it.name }.containsAll(listOf("somefile", "anotherfile", "ui.atlas")))
+    assertTrue(
+            skinFile!!
+                    .getAssociatedFiles()
+                    .map { it.name }
+                    .containsAll(listOf("somefile", "anotherfile", "ui.atlas"))
+    )
   }
 
   fun testReadImageNamesFromAtlas() {
     val imageNames = atlasFile!!.readImageNamesFromAtlas()
     assertEquals(25, imageNames.size)
-    assertTrue(imageNames.containsAll(listOf(
-            "check-off",
-            "textfield",
-            "check-on",
-            "cursor",
-            "default",
-            "default-pane",
-            "default-rect-pad",
-            "default-pane-noborder",
-            "default-rect",
-            "default-rect-down",
-            "default-round",
-            "default-round-down",
-            "default-round-large",
-            "default-scroll",
-            "default-select",
-            "default-select-selection",
-            "default-slider",
-            "default-slider-knob",
-            "default-splitpane",
-            "default-splitpane-vertical",
-            "default-window",
-            "selection",
-            "tree-minus",
-            "tree-plus",
-            "white"
-    )))
+    assertTrue(
+            imageNames.containsAll(
+                    listOf(
+                            "check-off",
+                            "textfield",
+                            "check-on",
+                            "cursor",
+                            "default",
+                            "default-pane",
+                            "default-rect-pad",
+                            "default-pane-noborder",
+                            "default-rect",
+                            "default-rect-down",
+                            "default-round",
+                            "default-round-down",
+                            "default-round-large",
+                            "default-scroll",
+                            "default-select",
+                            "default-select-selection",
+                            "default-slider",
+                            "default-slider-knob",
+                            "default-splitpane",
+                            "default-splitpane-vertical",
+                            "default-window",
+                            "selection",
+                            "tree-minus",
+                            "tree-plus",
+                            "white"
+                    )
+            )
+    )
   }
 
 }

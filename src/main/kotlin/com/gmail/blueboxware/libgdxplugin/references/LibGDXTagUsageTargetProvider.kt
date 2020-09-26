@@ -41,7 +41,9 @@ class LibGDXTagUsageTargetProvider: DefaultUsageTargetProvider() {
 
         if (
                 sourceElement.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
-                || (sourceElement.parent.parent is PsiExpressionList && sourceElement.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true)
+                || (sourceElement.parent.parent is PsiExpressionList
+                        && sourceElement.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+                        )
         ) {
 
           sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
@@ -54,8 +56,13 @@ class LibGDXTagUsageTargetProvider: DefaultUsageTargetProvider() {
       } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART, KtTokens.CLOSING_QUOTE, KtTokens.OPEN_QUOTE)) {
 
         if (
-                sourceElement.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
-                || sourceElement.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+                sourceElement
+                        .getParentOfType<KtAnnotationEntry>()
+                        ?.toLightAnnotation()
+                        ?.qualifiedName == TAG_ANNOTATION_NAME
+                || sourceElement
+                        .getParentOfType<KtCallExpression>()
+                        ?.isColorsPutCall() == true
         ) {
 
           sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {

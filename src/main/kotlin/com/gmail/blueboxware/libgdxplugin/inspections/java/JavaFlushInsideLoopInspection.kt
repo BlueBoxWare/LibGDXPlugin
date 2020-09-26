@@ -33,23 +33,27 @@ class JavaFlushInsideLoopInspection: LibGDXJavaBaseInspection() {
 
   override fun getDisplayName() = message("flushing.inside.loop.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = object: JavaElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
+          object: JavaElementVisitor() {
 
-    override fun visitMethod(method: PsiMethod?) {
-      if (method == null) return
+            override fun visitMethod(method: PsiMethod?) {
+              if (method == null) return
 
-      val statements = method.body?.statements ?: return
+              val statements = method.body?.statements ?: return
 
-      for (statement in statements) {
-        (statement as? PsiLoopStatement)?.accept(LoopChecker(holder, session))
-      }
+              for (statement in statements) {
+                (statement as? PsiLoopStatement)?.accept(LoopChecker(holder, session))
+              }
 
-    }
+            }
 
-  }
+          }
 }
 
-private class LoopChecker(val holder: ProblemsHolder, session: LocalInspectionToolSession): JavaRecursiveElementVisitor() {
+private class LoopChecker(
+        val holder: ProblemsHolder,
+        session: LocalInspectionToolSession
+): JavaRecursiveElementVisitor() {
 
   val allFlushingMethods = getFlushingMethods(holder.project, session)
 

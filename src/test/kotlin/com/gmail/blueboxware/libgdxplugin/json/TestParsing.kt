@@ -34,7 +34,8 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
     doTest(true)
   }
 
-  override fun getTestDataPath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/json/parsing")
+  override fun getTestDataPath() =
+          FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/filetypes/json/parsing")
 
   override fun includeRanges() = true
 

@@ -54,7 +54,11 @@ class AssetReferenceProvider: PsiReferenceProvider() {
 
   }
 
-  private fun createAtlasReferences(element: PsiElement, methodCall: PsiElement, methodName: String): Array<PsiReference> {
+  private fun createAtlasReferences(
+          element: PsiElement,
+          methodCall: PsiElement,
+          methodName: String
+  ): Array<PsiReference> {
 
     if (methodName in TEXTURE_ATLAS_TEXTURE_METHODS) {
       return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
@@ -63,7 +67,11 @@ class AssetReferenceProvider: PsiReferenceProvider() {
     return PsiReference.EMPTY_ARRAY
   }
 
-  private fun createSkinReferences(element: PsiElement, methodCall: PsiElement, methodName: String): Array<PsiReference> {
+  private fun createSkinReferences(
+          element: PsiElement,
+          methodCall: PsiElement,
+          methodName: String
+  ): Array<PsiReference> {
 
     if (methodName == "getColor") {
 
@@ -104,7 +112,13 @@ class AssetReferenceProvider: PsiReferenceProvider() {
 
       } else if (methodCall is KtCallExpression) {
 
-        val arg2receiver = (methodCall.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression
+        val arg2receiver =
+                (methodCall
+                        .valueArguments
+                        .getOrNull(1)
+                        ?.getArgumentExpression()
+                        as? KtDotQualifiedExpression
+                        )?.receiverExpression
 
         if (arg2receiver is KtClassLiteralExpression) {
 
@@ -130,10 +144,17 @@ class AssetReferenceProvider: PsiReferenceProvider() {
   private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): PsiClass? =
           (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()
 
-  private fun getClassFromClassLiteralExpression(ktClassLiteralExpression: KtClassLiteralExpression, bindingContext: BindingContext): PsiClass? =
+  private fun getClassFromClassLiteralExpression(
+          ktClassLiteralExpression: KtClassLiteralExpression,
+          bindingContext: BindingContext
+  ): PsiClass? =
           (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression
-                  ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(bindingContext)?.firstOrNull()?.let { clazz ->
-            ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
-          }
+                  ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)
+                          ?.selectorExpression as? KtReferenceExpression)
+                  ?.getImportableTargets(bindingContext)
+                  ?.firstOrNull()
+                  ?.let { clazz ->
+                    ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
+                  }
 
 }

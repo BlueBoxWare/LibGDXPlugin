@@ -92,7 +92,9 @@ class GdxJsonSmartEnterProcessor: SmartEnterProcessorWithFixers() {
 
             val keyEndOffset = property.propertyName.textRange.endOffset
 
-            if (terminatedOnCurrentLine(editor, property.propertyName) && !isFollowedByTerminal(property.propertyName, COLON)) {
+            if (terminatedOnCurrentLine(editor, property.propertyName)
+                    && !isFollowedByTerminal(property.propertyName, COLON)
+            ) {
               processor.myFirstErrorOffset = keyEndOffset + 2
               editor.document.insertString(keyEndOffset, ": ")
             }

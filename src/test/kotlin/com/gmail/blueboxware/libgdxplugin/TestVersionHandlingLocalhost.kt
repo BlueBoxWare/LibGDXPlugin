@@ -38,7 +38,7 @@ import java.util.*
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = true
+  private val RUN_TESTS = false
 
   private lateinit var versionManager: VersionManager
 
@@ -156,7 +156,11 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
       for (lib in libsToTest) {
         if (lib.library !is LibGDXLibrary) {
-          assertEquals(lib.library.name, versionManager.getLatestVersion(lib).toString(), propertiesComponent.getValue(lib.library.versionKey))
+          assertEquals(
+                  lib.library.name,
+                  versionManager.getLatestVersion(lib).toString(),
+                  propertiesComponent.getValue(lib.library.versionKey)
+          )
         }
       }
 

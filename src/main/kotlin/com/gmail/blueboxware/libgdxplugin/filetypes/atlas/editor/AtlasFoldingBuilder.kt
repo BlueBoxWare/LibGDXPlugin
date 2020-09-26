@@ -56,7 +56,11 @@ class AtlasFoldingBuilder: FoldingBuilder, DumbAware {
 
   }
 
-  private fun collectDescriptorsRecursively(element: PsiElement, document: Document, descriptors: MutableList<FoldingDescriptor>) {
+  private fun collectDescriptorsRecursively(
+          element: PsiElement,
+          document: Document,
+          descriptors: MutableList<FoldingDescriptor>
+  ) {
 
     if (element is AtlasPage) {
       descriptors.add(FoldingDescriptor(element, element.textRange))

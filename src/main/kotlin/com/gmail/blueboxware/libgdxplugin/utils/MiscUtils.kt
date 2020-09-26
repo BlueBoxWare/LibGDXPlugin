@@ -36,16 +36,20 @@ const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 
 private val GDX198VERSION = MavenComparableVersion("1.9.8")
 
-internal fun Project.isLibGDXProject(): Boolean = getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
+internal fun Project.isLibGDXProject(): Boolean =
+        getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
 
 internal fun Project.isLibGDX199(): Boolean =
         getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
 
-internal fun <T> key(key: String) = Key<T>("$PREFIX.$key")
+internal fun <T> key(key: String) =
+        Key<T>("$PREFIX.$key")
 
-internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }
+internal fun <T> T?.singletonOrNull(): Collection<T>? =
+        this?.let { listOf(this) }
 
-internal fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
+internal fun trimQuotes(str: String?) =
+        str?.trim { it == '"' || it == '\'' }
 
 internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = allScope()) =
         psiFacade().findClass(fqName, scope)
@@ -60,7 +64,8 @@ internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = pro
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClasses(fqName, scope)
 
-internal fun <K, V> Map<K, V>.getKey(value: V): K? = keys.find { get(it) == value }
+internal fun <K, V> Map<K, V>.getKey(value: V): K? =
+        keys.find { get(it) == value }
 
 @Suppress("unused")
 internal fun runUnderProgressIfNecessary(action: () -> Unit) {

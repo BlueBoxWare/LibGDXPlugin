@@ -25,4 +25,5 @@ fun PsiBuilder.rawLookAheadText(): String {
   return originalText.subSequence(start, end).toString()
 }
 
-fun PsiBuilder.isFollowedByNewline(): Boolean = rawLookup(1) == TokenType.WHITE_SPACE && rawLookAheadText().contains('\n')
+fun PsiBuilder.isFollowedByNewline(): Boolean =
+        rawLookup(1) == TokenType.WHITE_SPACE && rawLookAheadText().contains('\n')

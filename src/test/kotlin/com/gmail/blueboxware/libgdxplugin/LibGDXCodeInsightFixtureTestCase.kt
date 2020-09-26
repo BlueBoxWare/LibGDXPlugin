@@ -11,7 +11,7 @@ import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.impl.libraries.LibraryImpl
+import com.intellij.openapi.roots.impl.libraries.LibraryEx
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
@@ -41,20 +41,29 @@ import java.io.File
  */
 abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTestCase() {
 
-  private fun getTestDataBasePath() = FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
+  private fun getTestDataBasePath() =
+          FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
-  override fun getTestDataPath() = FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
+  override fun getTestDataPath() =
+          FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
-  fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+  fun addLibGDX() =
+          addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
 
   fun addLibGDXSources() =
           WriteCommandAction.runWriteCommandAction(project) {
-            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }?.let { library ->
-              library.modifiableModel.let {
-                it.addRoot(JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!, OrderRootType.SOURCES)
-                it.commit()
-              }
-            }
+            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }
+                    ?.let { library ->
+                      library.modifiableModel.let {
+                        it.addRoot(
+                                JarFileSystem
+                                        .getInstance()
+                                        .findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
+                                OrderRootType.SOURCES
+                        )
+                        it.commit()
+                      }
+                    }
           }
 
   fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
@@ -87,9 +96,17 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
         }
       }
 
-      val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryImpl).modifiableModel
+      projectModel.getLibraryByName(library.library.artifactId)?.let {
+        projectModel.removeLibrary(it)
+      }
 
-      libraryModel.addRoot("/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/", OrderRootType.CLASSES)
+      val libraryModel =
+              (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
+
+      libraryModel.addRoot(
+              "/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/",
+              OrderRootType.CLASSES
+      )
 
       libraryModel.commit()
       projectModel.commit()
@@ -161,19 +178,26 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
     project.getComponent(VersionManager::class.java).updateUsedVersions()
   }
 
-  fun configureByFile(filePath: String): PsiFile = myFixture.configureByFile(filePath)
+  fun configureByFile(filePath: String): PsiFile =
+          myFixture.configureByFile(filePath)
 
-  fun configureByFiles(vararg filePaths: String): Array<PsiFile> = myFixture.configureByFiles(*filePaths)
+  fun configureByFiles(vararg filePaths: String): Array<PsiFile> =
+          myFixture.configureByFiles(*filePaths)
 
-  fun copyFileToProject(sourceFilePath: String) = myFixture.copyFileToProject(sourceFilePath)
+  fun copyFileToProject(sourceFilePath: String) =
+          myFixture.copyFileToProject(sourceFilePath)
 
-  fun copyFileToProject(sourceFilePath: String, targetPath: String) = myFixture.copyFileToProject(sourceFilePath, targetPath)
+  fun copyFileToProject(sourceFilePath: String, targetPath: String) =
+          myFixture.copyFileToProject(sourceFilePath, targetPath)
 
-  fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) = myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
+  fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) =
+          myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
 
-  fun configureByText(fileType: FileType, text: String): PsiFile = myFixture.configureByText(fileType, text)
+  fun configureByText(fileType: FileType, text: String): PsiFile =
+          myFixture.configureByText(fileType, text)
 
-  fun configureByText(fileName: String, text: String): PsiFile = myFixture.configureByText(fileName, text)
+  fun configureByText(fileName: String, text: String): PsiFile =
+          myFixture.configureByText(fileName, text)
 
   fun configureByFileAsGdxJson(filePath: String): PsiFile =
           myFixture.configureByFile(filePath).apply { markAsGdxJson() }
@@ -192,7 +216,11 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
     if (completionResults == null) {
 
       // the only item was auto-completed?
-      assertEquals("Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'", 1, expectedCompletionStrings.size)
+      assertEquals(
+              "Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'",
+              1,
+              expectedCompletionStrings.size
+      )
       val text = editor.document.text
       val expectedString = expectedCompletionStrings.first()
       val msg = "\nExpected string '$expectedString' not found. Content: '$content'"

@@ -31,7 +31,10 @@ class ColorsReferenceContributor: PsiReferenceContributor() {
     registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(PsiLiteralExpression::class.java),
             object: PsiReferenceProvider() {
-              override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+              override fun getReferencesByElement(
+                      element: PsiElement,
+                      context: ProcessingContext
+              ): Array<PsiReference> {
 
                 val psiLiteralExpression = element as? PsiLiteralExpression ?: return PsiReference.EMPTY_ARRAY
 
@@ -48,23 +51,24 @@ class ColorsReferenceContributor: PsiReferenceContributor() {
     )
 
     registrar.registerReferenceProvider(
-            PlatformPatterns.psiElement(KtStringTemplateExpression::class.java),
-            object: PsiReferenceProvider() {
-              override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+            PlatformPatterns.psiElement(KtStringTemplateExpression::class.java), object: PsiReferenceProvider() {
+      override fun getReferencesByElement(
+              element: PsiElement,
+              context: ProcessingContext
+      ): Array<PsiReference> {
 
-                val ktStringTemplateExpression = element as? KtStringTemplateExpression
-                        ?: return PsiReference.EMPTY_ARRAY
-                element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
-                  if (ktCallExpression.isColorsGetCall()) {
-                    return arrayOf(ColorsReference(ktStringTemplateExpression))
-                  }
-                }
+        val ktStringTemplateExpression = element as? KtStringTemplateExpression
+                ?: return PsiReference.EMPTY_ARRAY
+        element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
+          if (ktCallExpression.isColorsGetCall()) {
+            return arrayOf(ColorsReference(ktStringTemplateExpression))
+          }
+        }
 
-                return PsiReference.EMPTY_ARRAY
+        return PsiReference.EMPTY_ARRAY
 
-              }
-            }
-    )
+      }
+    })
   }
 
 }

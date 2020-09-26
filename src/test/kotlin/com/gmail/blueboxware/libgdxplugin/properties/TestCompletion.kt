@@ -21,13 +21,31 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
   private val javaTests = listOf(
           """
             new I18NBundle().get("<caret>");
-          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf()),
+          """ to (listOf(
+                  "noTranslation",
+                  "germanTranslation",
+                  "french.Only",
+                  "default",
+                  "spain",
+                  "something"
+          ) to listOf()),
           """
             new I18NBundle().get("s<caret>");
-          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf("french.Only", "default")),
+          """ to (listOf(
+                  "spain",
+                  "something",
+                  "noTranslation",
+                  "germanTranslation"
+          ) to listOf("french.Only", "default")),
           """
             new I18NBundle().get("so<caret>");
-          """ to (listOf("something") to listOf("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
+          """ to (listOf("something") to listOf(
+                  "spain",
+                  "noTranslation",
+                  "germanTranslation",
+                  "french.Only",
+                  "default"
+          )),
 
           """
             i18NBundle.format("<caret>");
@@ -50,13 +68,31 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
   private val kotlinTests = listOf(
           """
             I18NBundle().get("<caret>");
-          """ to (listOf("noTranslation", "germanTranslation", "french.Only", "default", "spain", "something") to listOf()),
+          """ to (listOf(
+                  "noTranslation",
+                  "germanTranslation",
+                  "french.Only",
+                  "default",
+                  "spain",
+                  "something"
+          ) to listOf()),
           """
             I18NBundle().get("s<caret>");
-          """ to (listOf("spain", "something", "noTranslation", "germanTranslation") to listOf("french.Only", "default")),
+          """ to (listOf(
+                  "spain",
+                  "something",
+                  "noTranslation",
+                  "germanTranslation"
+          ) to listOf("french.Only", "default")),
           """
             I18NBundle().get("so<caret>");
-          """ to (listOf("something") to listOf("spain", "noTranslation", "germanTranslation", "french.Only", "default")),
+          """ to (listOf("something") to listOf(
+                  "spain",
+                  "noTranslation",
+                  "germanTranslation",
+                  "french.Only",
+                  "default"
+          )),
 
           """
             i18NBundle.format("<caret>");

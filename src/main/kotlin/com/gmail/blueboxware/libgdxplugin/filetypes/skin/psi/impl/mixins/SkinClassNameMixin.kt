@@ -77,7 +77,9 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
                 (
                         (taggedClasses != null && taggedClasses.contains(clazz.qualifiedName))
                                 || (taggedClasses == null && DollarClassName(clazz) == value)
-                                || (isFreeTypeFontGenerator && taggedClasses != null && taggedClasses.contains(FREETYPE_GENERATOR_CLASS_NAME))
+                                || (isFreeTypeFontGenerator && taggedClasses != null
+                                && taggedClasses.contains(FREETYPE_GENERATOR_CLASS_NAME)
+                                )
                                 || (taggedClasses == null && clazz.qualifiedName == FREETYPE_FONT_PARAMETER_CLASS_NAME)
 
                         )

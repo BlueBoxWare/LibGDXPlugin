@@ -33,208 +33,272 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
           //
           // Java to Java
           //
-          Test("""
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "arg", listOf("")),
-          Test("""
+            """, "arg", listOf("")
+          ),
+          Test(
+                  """
             void m() {
               @MyAnnotation(arg = "4")
               String s;
               s.char<caret>At(0);
             }
-            """, "arg", listOf("4")),
-          Test("""
+            """, "arg", listOf("4")
+          ),
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "args", listOf("")),
-          Test("""
+            """, "args", listOf("")
+          ),
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               (s).ch<caret>arAt(3);
             }
-            """, "args", listOf("")),
-          Test("""
+            """, "args", listOf("")
+          ),
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               ((String)s).ch<caret>arAt(3);
             }
-            """, "args", listOf("")),
-          Test("""
+            """, "args", listOf("")
+          ),
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "argNoDefault", listOf()),
-          Test("""
+            """, "argNoDefault", listOf()
+          ),
+          Test(
+                  """
             @MyAnnotation
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "argsNoDefault", listOf()),
-          Test("""
+            """, "argsNoDefault", listOf()
+          ),
+          Test(
+                  """
             @MyAnnotation(arg = "Foo")
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "arg", listOf("Foo")),
-          Test("""
+            """, "arg", listOf("Foo")
+          ),
+          Test(
+                  """
             @MyAnnotation(args = {"Foo", "Bar"})
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "args", listOf("Foo", "Bar")),
-          Test("""
+            """, "args", listOf("Foo", "Bar")
+          ),
+          Test(
+                  """
             @MyAnnotation(arg = {"Foo", "Bar"})
             String s;
 
             void m() {
               s.ch<caret>arAt(3);
             }
-            """, "arg", listOf("Foo", "Bar")),
-          Test("""
+            """, "arg", listOf("Foo", "Bar")
+          ),
+          Test(
+                  """
             @MyAnnotation(args = {"Foo", "Bar"})
             String s;
 
             void m() {
               this.s.ch<caret>arAt(3);
             }
-            """, "args", listOf("Foo", "Bar")),
-          Test("""
+            """, "args", listOf("Foo", "Bar")
+          ),
+          Test(
+                  """
             void m() {
               JavaClass.INSTANCE.m<caret>();
             }
-            """, "args", listOf("Foo", "Bar")),
-          Test("""
+            """, "args", listOf("Foo", "Bar")
+          ),
+          Test(
+                  """
             void m() {
               JavaClass.INSTANCE.m<caret>();
             }
-            """, "argNoDefault", listOf("")),
-          Test("""
+            """, "argNoDefault", listOf("")
+          ),
+          Test(
+                  """
             void m() {
               new JavaClass().javaClass.m<caret>();
             }
-            """, "argsNoDefault", listOf()),
-          Test("""
+            """, "argsNoDefault", listOf()
+          ),
+          Test(
+                  """
             void m() {
               new JavaClass().javaClass.m<caret>();
             }
-            """, "args", listOf("one", "two")),
-          Test("""
+            """, "args", listOf("one", "two")
+          ),
+          Test(
+                  """
             void m() {
               ((JavaClass)((JavaClass)new JavaClass().javaClass).javaClass).m<caret>();
             }
-            """, "args", listOf("one", "two")),
-          Test("""
+            """, "args", listOf("one", "two")
+          ),
+          Test(
+                  """
             void m() {
               new JavaClass().annotated<caret>Method();
             }
-            """, "args", null),
-          Test("""
+            """, "args", null
+          ),
+          Test(
+                  """
             void m() {
               new JavaClass().annoSubClass.m<caret>();
             }
-            """, "args", listOf("sub")),
-          Test("""
+            """, "args", listOf("sub")
+          ),
+          Test(
+                  """
             void m() {
               new JavaClass().f().t.charAt<caret>();
             }
-            """, "arg", listOf("t")),
-          Test("""
+            """, "arg", listOf("t")
+          ),
+          Test(
+                  """
             void m() {
               JavaClass.g().t.charAt<caret>();
             }
-            """, "arg", listOf("t")),
+            """, "arg", listOf("t")
+          ),
 
           //
           // Java to Kotlin
           //
-          Test("""
+          Test(
+                  """
             void m() {
               KotlinClassKt.getString().char<caret>At(1);
             }
-            """, "argsNoDefault", listOf("foo", "oof")),
-          Test("""
+            """, "argsNoDefault", listOf("foo", "oof")
+          ),
+          Test(
+                  """
             void m() {
               KotlinClassKt.getString().char<caret>At(1);
             }
-            """, "arg", listOf("bar")),
-          Test("""
+            """, "arg", listOf("bar")
+          ),
+          Test(
+                  """
             void m() {
               KotlinClassKt.getString().char<caret>At(1);
             }
-            """, "args", listOf()),
+            """, "args", listOf()
+          ),
 //          TODO: Make defaults available in Kotlin code
 //          Test("""
 //            void m() {
 //              KotlinClassKt.getString().char<caret>At(1);
 //            }
 //            """, "arg", listOf(""))
-          Test("""
+          Test(
+                  """
             void m() {
               KotlinClassKt.f().annotatedMethod<caret>();
             }
-            """, "args", null),
-          Test("""
+            """, "args", null
+          ),
+          Test(
+                  """
             void m() {
               KotlinObject.INSTANCE.annotatedMethod<caret>();
             }
-            """, "args", listOf()),
-          Test("""
+            """, "args", listOf()
+          ),
+          Test(
+                  """
             void m() {
               new KotlinClass().getString().char<caret>At(1);
             }
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
             void m() {
               new KotlinClass().getKotlinClass().m<caret>();
             }
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
             void m() {
               KotlinClass.Companion.getS().char<caret>At(1);
             }
-            """, "argsNoDefault", listOf("xyz")),
-          Test("""
+            """, "argsNoDefault", listOf("xyz")
+          ),
+          Test(
+                  """
             void m() {
               KotlinClass.Companion.f().getString().char<caret>At(0);
             }
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
             void m() {
               KotlinObject.getS().char<caret>At(0);
             }
-            """, "argNoDefault", null),
-          Test("""
+            """, "argNoDefault", null
+          ),
+          Test(
+                  """
             void m() {
               KotlinObject.getT().char<caret>At(0);
             }
-            """, "arg", listOf("xyz")),
-          Test("""
+            """, "arg", listOf("xyz")
+          ),
+          Test(
+                  """
             void m() {
               new SubClass().getString().char<caret>At(0);
             }
-            """, "args", listOf("a", "b"))
+            """, "args", listOf("a", "b")
+          )
   )
 
   private val kotlinTests = listOf(
@@ -242,119 +306,185 @@ class TestAnnotationUtils: LibGDXCodeInsightFixtureTestCase() {
           // Kotlin to Kotlin
           //
 
-          Test("""
+          Test(
+                  """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               s?.char<caret>At(0)
-            """, "args", listOf("var")),
-          Test("""
+            """, "args", listOf("var")
+          ),
+          Test(
+                  """
               @MyAnnotation(args = ["var"])
               val s = ""
               s?.char<caret>At(0)
-            """, "args", listOf("var")),
-          Test("""
+            """, "args", listOf("var")
+          ),
+          Test(
+                  """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               s.char<caret>At(0)
-            """, "args", listOf("var")),
-          Test("""
+            """, "args", listOf("var")
+          ),
+          Test(
+                  """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               (s as String).char<caret>At(0)
-            """, "args", listOf("var")),
-          Test("""
+            """, "args", listOf("var")
+          ),
+          Test(
+                  """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               (((s) as String) as String).char<caret>At(0)
-            """, "args", listOf("var")),
-          Test("""
+            """, "args", listOf("var")
+          ),
+          Test(
+                  """
               string.co<caret>unt()
-            """, "argsNoDefault", listOf("foo", "oof")),
-          Test("""
+            """, "argsNoDefault", listOf("foo", "oof")
+          ),
+          Test(
+                  """
               string?.co<caret>unt()
-            """, "argsNoDefault", listOf("foo", "oof")),
-          Test("""
+            """, "argsNoDefault", listOf("foo", "oof")
+          ),
+          Test(
+                  """
               string!!.co<caret>unt()
-            """, "argsNoDefault", listOf("foo", "oof")),
-          Test("""
+            """, "argsNoDefault", listOf("foo", "oof")
+          ),
+          Test(
+                  """
               KotlinObject.m<caret>()
-            """, "argNoDefault", null),
-          Test("""
+            """, "argNoDefault", null
+          ),
+          Test(
+                  """
               KotlinObject.annotatedMethod<caret>()
-            """, "argNoDefault", null),
-          Test("""
+            """, "argNoDefault", null
+          ),
+          Test(
+                  """
               KotlinObject.s.char<caret>At(0)
-            """, "argNoDefault", null),
-          Test("""
+            """, "argNoDefault", null
+          ),
+          Test(
+                  """
               KotlinObject.t.char<caret>At(0)
-            """, "arg", listOf("xyz")),
-          Test("""
+            """, "arg", listOf("xyz")
+          ),
+          Test(
+                  """
               KotlinObject?.t?.char<caret>At(0)
-            """, "arg", listOf("xyz")),
-          Test("""
+            """, "arg", listOf("xyz")
+          ),
+          Test(
+                  """
               KotlinClass().string.char<caret>At(0)
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinObject.f().string.char<caret>At(0)
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass.s.char<caret>At(0)
-            """, "argsNoDefault", listOf("xyz")),
-          Test("""
+            """, "argsNoDefault", listOf("xyz")
+          ),
+          Test(
+                  """
               KotlinClass.f().string.char<caret>At(0)
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass.f().kotlinClass.m<caret>(0)
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass().kotlinClass.m<caret>(0)
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass().kotlinClass.kotlinClassNA.kotlinClass.kotlinClass.m<caret>()
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass().kotlinClass?.kotlinClassNA?.kotlinClass?.kotlinClass?.m<caret>()
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               KotlinClass()!!.kotlinClass!!.kotlinClassNA!!.kotlinClass!!.kotlinClass!!.m<caret>()
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               (((KotlinClass()!!.kotlinClass as? KotlinClass)!!.kotlinClassNA!!.kotlinClass!!) as (KotlinClass)).kotlinClass!!.m<caret>()
-            """, "args", listOf("a", "b")),
-          Test("""
+            """, "args", listOf("a", "b")
+          ),
+          Test(
+                  """
               SubClass().kotlinClass.m<caret>()
-            """, "args", listOf("a", "b")),
+            """, "args", listOf("a", "b")
+          ),
 
           //
           // Kotlin to Java
           //
-          Test("""
+          Test(
+                  """
               JavaClass().javaClass.m<caret>()
-            """, "args", listOf("one", "two")),
-          Test("""
+            """, "args", listOf("one", "two")
+          ),
+          Test(
+                  """
               JavaClass.INSTANCE.m<caret>()
-            """, "args", listOf("Foo", "Bar")),
-          Test("""
+            """, "args", listOf("Foo", "Bar")
+          ),
+          Test(
+                  """
               JavaClass().javaClass.annoSubClass.t.charAt<caret>()
-            """, "arg", listOf("t")),
-          Test("""
+            """, "arg", listOf("t")
+          ),
+          Test(
+                  """
               JavaClass().f().t.charAt<caret>()
-            """, "arg", listOf("t")),
-          Test("""
+            """, "arg", listOf("t")
+          ),
+          Test(
+                  """
               JavaClass.INSTANCE.subClass.t.charAt<caret>()
-            """, "arg", listOf("t")),
-          Test("""
+            """, "arg", listOf("t")
+          ),
+          Test(
+                  """
               JavaClass.INSTANCE?.subClass?.t?.charAt<caret>()
-            """, "arg", listOf("t")),
-          Test("""
+            """, "arg", listOf("t")
+          ),
+          Test(
+                  """
               JavaClass.g().annoSubClass.m<caret>()
-            """, "args", listOf("sub")),
-          Test("""
+            """, "args", listOf("sub")
+          ),
+          Test(
+                  """
               JavaClass.g()?.annoSubClass?.m<caret>()
-            """, "args", listOf("sub")),
-          Test("""
+            """, "args", listOf("sub")
+          ),
+          Test(
+                  """
               JavaClass.g()!!.annoSubClass!!.m<caret>()
-            """, "args", listOf("sub"))
+            """, "args", listOf("sub")
+          )
   )
 
   fun testKotlin() {

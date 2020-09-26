@@ -39,11 +39,10 @@ class GradleKotlinOutdatedVersionInspection: AbstractKotlinInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
-  override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
+  override fun getStaticDescription() =
+          message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle.kotlin")
-
-  override val suppressionKey = id
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)

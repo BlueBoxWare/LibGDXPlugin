@@ -103,7 +103,11 @@ class ChangeKotlinPackageListener(val project: Project): PsiTreeChangeAdapter(),
 
               getSkinFiles(project).forEach {
 
-                (it.toPsiFile(project) as? SkinFile)?.replacePackage(fqName.shortName().asString(), oldPackage, newPackage)
+                (it.toPsiFile(project) as? SkinFile)?.replacePackage(
+                        fqName.shortName().asString(),
+                        oldPackage,
+                        newPackage
+                )
 
               }
             }

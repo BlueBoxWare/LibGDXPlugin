@@ -83,7 +83,9 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
 }
 
-private class MissingFlushInspectionMethodChecker(val preferencesSubClasses: Collection<PsiClass>): KtTreeVisitorVoid() {
+private class MissingFlushInspectionMethodChecker(
+        val preferencesSubClasses: Collection<PsiClass>
+): KtTreeVisitorVoid() {
 
   var lastPreferenceChange: KtElement? = null
 

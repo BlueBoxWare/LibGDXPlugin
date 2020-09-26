@@ -63,7 +63,9 @@ abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(n
 
   override fun asColor(force: Boolean): Color? =
           (findDefinition()?.value as? SkinObject)
-                  ?.asColor(force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true)
+                  ?.asColor(
+                          force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
+                  )
 
   override fun setName(name: String): PsiElement? {
     factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->

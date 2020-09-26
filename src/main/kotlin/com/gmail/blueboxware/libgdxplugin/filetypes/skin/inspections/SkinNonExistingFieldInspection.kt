@@ -47,7 +47,12 @@ class SkinNonExistingFieldInspection: SkinBaseInspection() {
       if (typeString == COLOR_CLASS_NAME && name == "hex") {
         return
       } else if (typeString == BITMAPFONT_CLASS_NAME) {
-        if (!listOf(PROPERTY_NAME_FONT_FILE, PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_FLIP, PROPERTY_NAME_FONT_MARKUP).contains(name)) {
+        if (!listOf(
+                        PROPERTY_NAME_FONT_FILE,
+                        PROPERTY_NAME_FONT_SCALED_SIZE,
+                        PROPERTY_NAME_FONT_FLIP,
+                        PROPERTY_NAME_FONT_MARKUP
+                ).contains(name)) {
           holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message.BitmapFont", name))
         }
         return

@@ -33,17 +33,18 @@ class KotlinFlushInsideLoopInspection: LibGDXKotlinBaseInspection() {
 
   override fun getDisplayName() = message("flushing.inside.loop.inspection.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) = object: KtVisitorVoid() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
+          object: KtVisitorVoid() {
 
-    override fun visitBlockExpression(expression: KtBlockExpression) {
+            override fun visitBlockExpression(expression: KtBlockExpression) {
 
-      for (statement in expression.statements) {
-        (statement as? KtLoopExpression)?.accept(LoopBodyChecker(holder, session))
-      }
+              for (statement in expression.statements) {
+                (statement as? KtLoopExpression)?.accept(LoopBodyChecker(holder, session))
+              }
 
-    }
+            }
 
-  }
+          }
 }
 
 private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspectionToolSession): KtTreeVisitorVoid() {

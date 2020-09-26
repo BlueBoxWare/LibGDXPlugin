@@ -50,7 +50,9 @@ class ColorAnnotationsHighlightingPassFactory:
       return null
     }
 
-    if (file.originalFile !is PsiCompiledFile && (file.virtualFile.fileSystem !is DummyFileSystem || file.name.endsWith("decompiled.java"))) {
+    if (file.originalFile !is PsiCompiledFile &&
+            (file.virtualFile.fileSystem !is DummyFileSystem || file.name.endsWith("decompiled.java"))
+    ) {
       return null
     }
 

@@ -52,7 +52,11 @@ internal fun String.isEscapedChar(position: Int): Boolean {
   return count % 2 != 0
 }
 
-internal fun String.isQuoted(): Boolean = length > 1 && firstOrNull() == '\"' && lastOrNull() == '\"' && !isEscapedChar(length - 1)
+internal fun String.isQuoted(): Boolean =
+        length > 1
+                && firstOrNull() == '\"'
+                && lastOrNull() == '\"'
+                && !isEscapedChar(length - 1)
 
 internal fun String.escape(): String = StringUtil.escapeStringCharacters(this)
 

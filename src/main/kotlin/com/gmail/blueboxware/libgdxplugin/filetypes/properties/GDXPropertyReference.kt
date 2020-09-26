@@ -27,7 +27,18 @@ import org.jetbrains.kotlin.idea.search.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertyReference(key: String, element: PsiElement, private val bundleName: String?): PropertyReferenceBase(key, bundleName == null, element, ElementManipulators.getValueTextRange(element)) {
+
+class GDXPropertyReference(
+        key: String,
+        element: PsiElement,
+        private val bundleName: String?
+):
+        PropertyReferenceBase(
+                key,
+                bundleName == null,
+                element,
+                ElementManipulators.getValueTextRange(element)
+        ) {
 
   override fun resolve(): PsiElement? {
     val results = multiResolve(false)

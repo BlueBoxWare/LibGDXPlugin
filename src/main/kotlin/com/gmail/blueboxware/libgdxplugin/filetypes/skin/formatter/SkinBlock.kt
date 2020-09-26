@@ -132,7 +132,8 @@ class SkinBlock(
     var alignment: Alignment? = null
 
     if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-            || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES) && myNode.psi is SkinClassSpecification)
+            || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES)
+                    && myNode.psi is SkinClassSpecification)
             || (myNode is FileElement && isInsideBraces(childNode.psi))
     ) {
       if (hasElementType(childNode, COMMA)) {

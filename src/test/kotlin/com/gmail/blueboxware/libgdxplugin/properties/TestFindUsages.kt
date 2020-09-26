@@ -51,11 +51,18 @@ class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
 
   fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {
 
-    val property = FilenameIndex.getFilesByName(project, propertiesFileName, project.projectScope()).first().let { file ->
-      (file as PropertiesFile).findPropertyByKey(key)!!.let {
-        it as Property
-      }
-    }
+    val property =
+            FilenameIndex.getFilesByName(
+                    project,
+                    propertiesFileName,
+                    project.projectScope()
+            )
+                    .first()
+                    .let { file ->
+                      (file as PropertiesFile).findPropertyByKey(key)!!.let {
+                        it as Property
+                      }
+                    }
 
     val usagesInfos = myFixture.findUsages(property)
     assertEquals(nrOfUsages, usagesInfos.size)

@@ -82,7 +82,15 @@ class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
     init?.invoke()
     (file as? SkinFile).let { skinFile ->
       assertNotNull(skinFile)
-      val newColor = skinFile!!.getClassSpecifications("newColor").firstOrNull()?.getResource("color")?.`object`?.asColor(true)
+
+      val newColor =
+              skinFile!!
+                      .getClassSpecifications("newColor")
+                      .firstOrNull()
+                      ?.getResource("color")
+                      ?.`object`
+                      ?.asColor(true)
+
       assertNotNull(newColor)
       val colorObject = skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
       assertNotNull(colorObject)

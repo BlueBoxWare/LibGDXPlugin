@@ -46,7 +46,10 @@ class SkinColorAnnotator: Annotator {
 
     if (element is SkinObject) {
 
-      val force = element.firstParent<SkinClassSpecification>()?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
+      val force = element
+              .firstParent<SkinClassSpecification>()
+              ?.getRealClassNamesAsString()
+              ?.contains(COLOR_CLASS_NAME) == true
               || element.resolveToTypeString() == COLOR_CLASS_NAME
 
       element.asColor(force)?.let { color ->

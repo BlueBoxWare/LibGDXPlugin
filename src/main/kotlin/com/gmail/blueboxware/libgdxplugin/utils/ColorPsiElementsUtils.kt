@@ -153,36 +153,40 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
               }
             } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
               // Colors.getColors.get(String)
-              ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()?.let { (clazz, method) ->
-                if (clazz == COLORS_CLASS_NAME && method == "getColors") {
-                  ((arg as? PsiLiteralExpression)?.asString()
-                          ?: (arg as? KtStringTemplateExpression)?.asPlainString())?.let { str ->
-                    return@getCachedValue initialValue.project.getColorsMap()[str]?.valueElement?.getColor()
-                  }
-                }
-              }
-            } else if ((method == "get" || method == "optional") && arguments.size == 2) {
-              ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
-                (classLiteralExpression.receiverExpression as? KtReferenceExpression
-                        ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)
-                        ?.getImportableTargets(initialValue.analyzePartial())
-                        ?.firstOrNull()
-                        ?.let { clazz ->
-                          findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
-                            if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
-                              // Skin.get(string, Color::class.java)
-                              val resourceName = StringUtil.unquoteString(arg.text)
-                              initialValue.getAssetFiles().let { (skinFiles) ->
-                                for (skinFile in skinFiles) {
-                                  skinFile.getResources(COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
-                                    return@getCachedValue it.asColor(true)
-                                  }
-                                }
-                              }
-                            }
+              ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
+                      ?.resolveCallToStrings()
+                      ?.let { (clazz, method) ->
+                        if (clazz == COLORS_CLASS_NAME && method == "getColors") {
+                          ((arg as? PsiLiteralExpression)?.asString()
+                                  ?: (arg as? KtStringTemplateExpression)?.asPlainString())?.let { str ->
+                            return@getCachedValue initialValue.project.getColorsMap()[str]?.valueElement?.getColor()
                           }
                         }
-              }
+                      }
+            } else if ((method == "get" || method == "optional") && arguments.size == 2) {
+              ((initialValue.valueArguments.getOrNull(1)?.getArgumentExpression() as? KtDotQualifiedExpression)
+                      ?.receiverExpression as? KtClassLiteralExpression)
+                      ?.let { classLiteralExpression ->
+                        (classLiteralExpression.receiverExpression as? KtReferenceExpression
+                                ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)
+                                ?.getImportableTargets(initialValue.analyzePartial())
+                                ?.firstOrNull()
+                                ?.let { clazz ->
+                                  findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
+                                    if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
+                                      // Skin.get(string, Color::class.java)
+                                      val resourceName = StringUtil.unquoteString(arg.text)
+                                      initialValue.getAssetFiles().let { (skinFiles) ->
+                                        for (skinFile in skinFiles) {
+                                          skinFile.getResources(COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
+                                            return@getCachedValue it.asColor(true)
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                      }
             }
           }
         }

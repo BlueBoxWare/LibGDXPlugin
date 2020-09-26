@@ -83,38 +83,54 @@ class MissingExternalFilesPermissionInspection: LibGDXXmlBaseInspection() {
         externalFilesMethods.forEach { method ->
           JavaFindUsagesHelper.processElementUsages(method, JavaMethodFindUsagesOptions(moduleWithDepsScope)) { usage ->
 
-            usage.element?.firstParent { it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression }?.let { callExpression ->
+            usage
+                    .element
+                    ?.firstParent {
+                      it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression
+                    }
+                    ?.let { callExpression ->
 
-              val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text
-                      ?: (usage.reference?.resolve() as? PsiMethod)?.name
+                      val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text
+                              ?: (usage.reference?.resolve() as? PsiMethod)?.name
 
-              if (methodName == "getFileHandle") {
-                ((callExpression as? PsiMethodCallExpression)?.argumentList?.expressions?.getOrNull(1)?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()?.let { fqName ->
-                  if (fqName == "com.badlogic.gdx.Files.FileType.External" || fqName == "com.badlogic.gdx.Files.FileType.Absolute") {
-                    found = true
-                    return@processElementUsages false
-                  }
-                }
-                ((callExpression as? KtCallExpression)
-                        ?.valueArguments
-                        ?.getOrNull(1)
-                        ?.getArgumentExpression()
-                        ?.getCalleeExpressionIfAny()
-                        ?.references
-                        ?.firstOrNull { it is KtSimpleNameReference }
-                        ?.resolve() as? PsiEnumConstant
-                        )?.getKotlinFqName()?.asString()?.let { fqName ->
-                          if (fqName == "com.badlogic.gdx.Files.FileType.External" || fqName == "com.badlogic.gdx.Files.FileType.Absolute") {
-                            found = true
-                            return@processElementUsages false
-                          }
-                        }
-              } else {
-                found = true
-                return@processElementUsages false
-              }
+                      if (methodName == "getFileHandle") {
+                        ((callExpression as? PsiMethodCallExpression)
+                                ?.argumentList
+                                ?.expressions
+                                ?.getOrNull(1)
+                                ?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()
+                                ?.let { fqName ->
+                                  if (
+                                          fqName == "com.badlogic.gdx.Files.FileType.External"
+                                          || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
+                                  ) {
+                                    found = true
+                                    return@processElementUsages false
+                                  }
+                                }
+                        ((callExpression as? KtCallExpression)
+                                ?.valueArguments
+                                ?.getOrNull(1)
+                                ?.getArgumentExpression()
+                                ?.getCalleeExpressionIfAny()
+                                ?.references
+                                ?.firstOrNull { it is KtSimpleNameReference }
+                                ?.resolve() as? PsiEnumConstant
+                                )?.getKotlinFqName()?.asString()?.let { fqName ->
+                                  if (
+                                          fqName == "com.badlogic.gdx.Files.FileType.External"
+                                          || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
+                                  ) {
+                                    found = true
+                                    return@processElementUsages false
+                                  }
+                                }
+                      } else {
+                        found = true
+                        return@processElementUsages false
+                      }
 
-            }
+                    }
 
             return@processElementUsages true
           }

@@ -87,7 +87,12 @@ class ManifestModel {
           model.maxSDK = ManifestValue(value, element)
         }
 
-        override fun processSupportsScreens(value: SupportsScreens, element: XmlTag, hasLargeScreensSupportAttribute: Boolean, hasXLargeScreensSupportAttribute: Boolean) {
+        override fun processSupportsScreens(
+                value: SupportsScreens,
+                element: XmlTag,
+                hasLargeScreensSupportAttribute: Boolean,
+                hasXLargeScreensSupportAttribute: Boolean
+        ) {
           model.supportScreens = ManifestValue(value, element)
           model.hasLargeScreensSupportAttribute = hasLargeScreensSupportAttribute
           model.hasXLargeScreenSupportAttribute = hasXLargeScreensSupportAttribute

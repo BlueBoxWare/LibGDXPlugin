@@ -43,8 +43,13 @@ class JavaInvalidPropertyKeyInspection: LibGDXJavaBaseInspection() {
       }
 
       if (!isValidProperty(expression)) {
-        holder.registerProblem(expression, message("invalid.property.key.inspection.problem.descriptor", expression.asString()
-                ?: ""))
+        holder.registerProblem(
+                expression,
+                message(
+                        "invalid.property.key.inspection.problem.descriptor", expression.asString()
+                        ?: ""
+                )
+        )
       }
 
     }

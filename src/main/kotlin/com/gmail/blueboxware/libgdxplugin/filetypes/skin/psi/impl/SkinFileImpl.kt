@@ -37,7 +37,9 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, LibGDXSkinLanguage.INSTANCE), SkinFile {
+class SkinFileImpl(
+        fileViewProvider: FileViewProvider
+): PsiFileBase(fileViewProvider, LibGDXSkinLanguage.INSTANCE), SkinFile {
 
   val factory = SkinElementFactory(project)
 
@@ -51,7 +53,10 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
     if (classNamesToSearch != null) {
 
-      if (classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME) || classNamesToSearch.contains(BITMAPFONT_CLASS_NAME)) {
+      if (
+              classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME)
+              || classNamesToSearch.contains(BITMAPFONT_CLASS_NAME)
+      ) {
         classNamesToSearch.add(FREETYPE_GENERATOR_CLASS_NAME)
       }
 
@@ -66,7 +71,11 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
   override fun getClassSpecifications(className: String): Collection<SkinClassSpecification> =
           getClassSpecifications(listOf(className))
 
-  override fun getResources(classNames: Collection<String>?, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
+  override fun getResources(
+          classNames: Collection<String>?,
+          resourceName: String?,
+          beforeElement: PsiElement?
+  ): Collection<SkinResource> =
           getClassSpecifications(classNames)
                   .flatMap { skinClassSpecification ->
                     skinClassSpecification.resourcesAsList.filter { resourceName == null || resourceName == it.name }
@@ -74,7 +83,11 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
                     beforeElement == null || it.endOffset < beforeElement.startOffset
                   }
 
-  override fun getResources(className: String, resourceName: String?, beforeElement: PsiElement?): Collection<SkinResource> =
+  override fun getResources(
+          className: String,
+          resourceName: String?,
+          beforeElement: PsiElement?
+  ): Collection<SkinResource> =
           getResources(listOf(className), resourceName, beforeElement)
 
   override fun getResources(
@@ -220,13 +233,26 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   }
 
-  fun addResource(className: DollarClassName, resourceName: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
+  fun addResource(
+          className: DollarClassName,
+          resourceName: String,
+          cause: SkinElement? = null
+  ): Pair<SkinResource, Int>? =
           getClassSpecToInsertInto(className, cause)?.addResource(resourceName, cause)
 
-  private fun addResource(className: DollarClassName, resource: SkinResource, cause: SkinElement? = null): SkinResource? =
+  private fun addResource(
+          className: DollarClassName,
+          resource: SkinResource,
+          cause: SkinElement? = null
+  ): SkinResource? =
           getClassSpecToInsertInto(className, cause)?.addResource(resource, cause)
 
-  fun addColor(name: String, cause: SkinElement? = null, color: Color? = null, useComponents: Boolean = false): Pair<SkinResource, Int>? =
+  fun addColor(
+          name: String,
+          cause: SkinElement? = null,
+          color: Color? = null,
+          useComponents: Boolean = false
+  ): Pair<SkinResource, Int>? =
           factory.createColorResource(name, color, useComponents)?.let { (resource, position) ->
             addResource(DollarClassName(COLOR_CLASS_NAME), resource, cause)?.let {
               Pair(it, it.startOffset + position)
@@ -235,7 +261,11 @@ class SkinFileImpl(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProv
 
   fun addTintedDrawable(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
           factory.createTintedDrawableResource(name)?.let { (resource, position) ->
-            addResource(DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"), resource, cause)?.let {
+            addResource(
+                    DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"),
+                    resource,
+                    cause
+            )?.let {
               Pair(it, it.startOffset + position)
             }
           }

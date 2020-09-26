@@ -409,15 +409,31 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
     }
   """.trimIndent()
 
-  private fun doJavaTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String, init: (() -> Unit)? = null) {
+  private fun doJavaTest(
+          skinFileContent: String,
+          codeFileContent: String,
+          expectedSkinContent: String,
+          init: (() -> Unit)? = null
+  ) {
     myFixture.enableInspections(JavaNonExistingAssetInspection())
-    doTest(skinFileContent, javaContent.replace("<content>", codeFileContent), ".java", expectedSkinContent, init)
+    doTest(
+            skinFileContent,
+            javaContent.replace("<content>", codeFileContent),
+            ".java",
+            expectedSkinContent,
+            init
+    )
   }
 
   private fun doKotlinTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
     addKotlin()
     myFixture.enableInspections(KotlinNonExistingAssetInspection())
-    doTest(skinFileContent, kotlinContent.replace("<content>", codeFileContent), ".kt", expectedSkinContent)
+    doTest(
+            skinFileContent,
+            kotlinContent.replace("<content>", codeFileContent),
+            ".kt",
+            expectedSkinContent
+    )
   }
 
   fun doTest(

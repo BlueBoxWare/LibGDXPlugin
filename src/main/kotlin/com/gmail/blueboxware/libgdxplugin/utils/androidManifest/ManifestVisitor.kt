@@ -28,7 +28,12 @@ abstract class ManifestVisitor: XmlRecursiveElementVisitor() {
   abstract fun processTargetSDKVersion(value: Int, element: XmlAttribute)
   abstract fun processMaxSDKVersion(value: Int, element: XmlAttribute)
 
-  abstract fun processSupportsScreens(value: SupportsScreens, element: XmlTag, hasLargeScreensSupportAttribute: Boolean, hasXLargeScreensSupportAttribute: Boolean)
+  abstract fun processSupportsScreens(
+          value: SupportsScreens,
+          element: XmlTag,
+          hasLargeScreensSupportAttribute: Boolean,
+          hasXLargeScreensSupportAttribute: Boolean
+  )
 
   abstract fun processPermission(value: String, element: XmlTag)
 

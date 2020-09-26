@@ -35,26 +35,35 @@ class SkinDeprecatedInspection: SkinBaseInspection() {
 
   override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+          object: SkinElementVisitor() {
 
-    override fun visitClassName(className: SkinClassName) {
+            override fun visitClassName(className: SkinClassName) {
 
-      if (className.resolve()?.isDeprecated == true) {
-        holder.registerProblem(className, message("skin.inspection.deprecated.message", className.value.plainName), ProblemHighlightType.LIKE_DEPRECATED)
-      }
+              if (className.resolve()?.isDeprecated == true) {
+                holder.registerProblem(
+                        className,
+                        message("skin.inspection.deprecated.message", className.value.plainName),
+                        ProblemHighlightType.LIKE_DEPRECATED
+                )
+              }
 
-    }
+            }
 
-    override fun visitPropertyName(propertyName: SkinPropertyName) {
+            override fun visitPropertyName(propertyName: SkinPropertyName) {
 
-      propertyName.property?.let { property ->
-        if (property.resolveToField()?.isDeprecated == true) {
-          holder.registerProblem(propertyName, message("skin.inspection.deprecated.message", propertyName.value), ProblemHighlightType.LIKE_DEPRECATED)
-        }
-      }
+              propertyName.property?.let { property ->
+                if (property.resolveToField()?.isDeprecated == true) {
+                  holder.registerProblem(
+                          propertyName,
+                          message("skin.inspection.deprecated.message", propertyName.value),
+                          ProblemHighlightType.LIKE_DEPRECATED
+                  )
+                }
+              }
 
-    }
+            }
 
-  }
+          }
 
 }

@@ -83,7 +83,10 @@ internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina
 
 internal fun createAnnotation(color: Color, element: PsiElement, holder: AnnotationHolder, createIcon: Boolean = true) =
         if (ApplicationManager.getApplication().isUnitTestMode) {
-          holder.createWeakWarningAnnotation(element, String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha))
+          holder.createWeakWarningAnnotation(
+                  element,
+                  String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
+          )
         } else {
           holder.createInfoAnnotation(element, null).apply {
             if (createIcon) {

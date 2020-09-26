@@ -34,13 +34,19 @@ class OutdatedVersionsInspection: GlobalInspectionTool() {
 
   override fun getGroupDisplayName() = "libGDX"
 
-  override fun getStaticDescription() = message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
+  override fun getStaticDescription() =
+          message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
   override fun isEnabledByDefault() = true
 
   override fun getShortName() = "LibGDXOutdatedVersion"
 
-  override fun runInspection(scope: AnalysisScope, manager: InspectionManager, globalContext: GlobalInspectionContext, problemDescriptionsProcessor: ProblemDescriptionsProcessor) {
+  override fun runInspection(
+          scope: AnalysisScope,
+          manager: InspectionManager,
+          globalContext: GlobalInspectionContext,
+          problemDescriptionsProcessor: ProblemDescriptionsProcessor
+  ) {
 
     if (!globalContext.project.isLibGDXProject()) {
       return

@@ -33,70 +33,80 @@ class SkinTypeInspection: SkinBaseInspection() {
 
   override fun getDisplayName() = message("skin.inspection.types.display.name")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: SkinElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+          object: SkinElementVisitor() {
 
-    override fun visitValue(skinValue: SkinValue) {
+            override fun visitValue(skinValue: SkinValue) {
 
-      fun problem(expectedType: String) {
-        holder.registerProblem(skinValue, message("skin.inspection.types.type.expected", expectedType))
-      }
+              fun problem(expectedType: String) {
+                holder.registerProblem(skinValue, message("skin.inspection.types.type.expected", expectedType))
+              }
 
-      if (skinValue.parent is SkinPropertyName
-              || skinValue.parent is SkinClassName
-              || skinValue.parent is SkinResourceName
-      ) {
-        return
-      }
+              if (skinValue.parent is SkinPropertyName
+                      || skinValue.parent is SkinClassName
+                      || skinValue.parent is SkinResourceName
+              ) {
+                return
+              }
 
-      val expectedType = skinValue.resolveToType()
-      val property = skinValue.property
-      val containingClassName = property?.containingObject?.resolveToClass()?.qualifiedName
-      val propertyName = property?.propertyName?.value
+              val expectedType = skinValue.resolveToType()
+              val property = skinValue.property
+              val containingClassName = property?.containingObject?.resolveToClass()?.qualifiedName
+              val propertyName = property?.propertyName?.value
 
-      if (expectedType is PsiArrayType) {
-        if (skinValue !is SkinArray) {
-          problem("Array")
-        }
-      } else if (expectedType == PsiType.BOOLEAN) {
-        if (!skinValue.isBoolean) {
-          problem("boolean")
-        }
-      } else if (expectedType is PsiPrimitiveType) {
-        val check = when (expectedType) {
-          PsiType.BYTE -> skinValue.text.toByteOrNull() != null
-          PsiType.DOUBLE -> skinValue.text.toDoubleOrNull() != null
-          PsiType.FLOAT -> skinValue.text.toFloatOrNull() != null
-          PsiType.INT -> skinValue.text.toIntOrNull() != null
-          PsiType.LONG -> skinValue.text.toLongOrNull() != null
-          PsiType.SHORT -> skinValue.text.toShortOrNull() != null
-          else -> true
-        }
-        if (!check) {
-          problem(expectedType.getPresentableText())
-        }
-      } else if (containingClassName == BITMAPFONT_CLASS_NAME
-              && listOf(PROPERTY_NAME_FONT_SCALED_SIZE, PROPERTY_NAME_FONT_MARKUP, PROPERTY_NAME_FONT_FLIP).contains(propertyName)) {
-        if ((propertyName == PROPERTY_NAME_FONT_MARKUP || propertyName == PROPERTY_NAME_FONT_FLIP) && skinValue.isBoolean) {
-          return
-        } else if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE && skinValue.text.toIntOrNull() != null) {
-          return
-        }
-        if ((skinValue.reference?.resolve() as? SkinResource)?.classSpecification?.getRealClassNamesAsString()?.contains(expectedType?.canonicalText) == true) {
-          return
-        }
-        if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE) {
-          problem("int")
-        } else {
-          problem("boolean")
-        }
-      } else if (expectedType is PsiClassType && expectedType.canonicalText != "java.lang.String") {
-        if (skinValue !is SkinStringLiteral && skinValue !is SkinObject) {
-          holder.registerProblem(skinValue, message("skin.inspection.types.resource.expected"))
-        }
-      }
+              if (expectedType is PsiArrayType) {
+                if (skinValue !is SkinArray) {
+                  problem("Array")
+                }
+              } else if (expectedType == PsiType.BOOLEAN) {
+                if (!skinValue.isBoolean) {
+                  problem("boolean")
+                }
+              } else if (expectedType is PsiPrimitiveType) {
+                val check = when (expectedType) {
+                  PsiType.BYTE -> skinValue.text.toByteOrNull() != null
+                  PsiType.DOUBLE -> skinValue.text.toDoubleOrNull() != null
+                  PsiType.FLOAT -> skinValue.text.toFloatOrNull() != null
+                  PsiType.INT -> skinValue.text.toIntOrNull() != null
+                  PsiType.LONG -> skinValue.text.toLongOrNull() != null
+                  PsiType.SHORT -> skinValue.text.toShortOrNull() != null
+                  else -> true
+                }
+                if (!check) {
+                  problem(expectedType.getPresentableText())
+                }
+              } else if (containingClassName == BITMAPFONT_CLASS_NAME
+                      && listOf(
+                              PROPERTY_NAME_FONT_SCALED_SIZE,
+                              PROPERTY_NAME_FONT_MARKUP,
+                              PROPERTY_NAME_FONT_FLIP
+                      ).contains(propertyName)) {
+                if ((propertyName == PROPERTY_NAME_FONT_MARKUP || propertyName == PROPERTY_NAME_FONT_FLIP) && skinValue.isBoolean) {
+                  return
+                } else if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE && skinValue.text.toIntOrNull() != null) {
+                  return
+                }
+                if ((skinValue.reference?.resolve() as? SkinResource)
+                                ?.classSpecification
+                                ?.getRealClassNamesAsString()
+                                ?.contains(expectedType?.canonicalText)
+                        == true
+                ) {
+                  return
+                }
+                if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE) {
+                  problem("int")
+                } else {
+                  problem("boolean")
+                }
+              } else if (expectedType is PsiClassType && expectedType.canonicalText != "java.lang.String") {
+                if (skinValue !is SkinStringLiteral && skinValue !is SkinObject) {
+                  holder.registerProblem(skinValue, message("skin.inspection.types.resource.expected"))
+                }
+              }
 
-    }
+            }
 
-  }
+          }
 
 }

@@ -31,7 +31,6 @@ dependencies {
     compile "net.onedaybeard.artemis:artemis-odb:$artemisOdbVersion"
     compile "com.squidpony:squidlib:$squidLibVersion"
     compile "com.sudoplay.joise:joise:$joiseVersion"
-    compile <warning descr="A newer version of libgdx-utils is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils:$utilsVersion"</warning>
             compile <warning descr="A newer version of KTX style is available (version 1.9.5-b1)">"io.github.libktx:ktx-style:$ktxStyleVersion"</warning>
             compile "com.strongjoshua:libgdx-inGameConsole:$inGameConsoleVersion"
     compile "com.github.czyzby:gdx-lml-vis:$lmlVisVersion"
@@ -45,5 +44,4 @@ dependencies {
     compile "io.github.libktx:ktx-scene2d:$ktxScene2DVersion"
     compile "com.bladecoder.ink:blade-ink:$bladeInkVersion"
     compile "com.github.ykrasik:jaci-libgdx-cli-java:$jaciVersion"
-    compile <warning descr="A newer version of libgdx-utils-box2d is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>
 }

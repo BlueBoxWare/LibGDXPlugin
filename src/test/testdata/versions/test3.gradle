@@ -45,5 +45,4 @@ compile <warning descr="A newer version of GDX Controllers is available (version
     compile <warning descr="A newer version of KTX scene2d is available (version 1.9.5-b1)">"io.github.libktx:ktx-scene2d:$ktxScene2DVersion"</warning>
             compile "com.bladecoder.ink:blade-ink:$bladeInkVersion"
     compile "com.github.ykrasik:jaci-libgdx-cli-java:$jaciVersion"
-    compile <warning descr="A newer version of libgdx-utils-box2d is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>
 }

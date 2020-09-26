@@ -3,9 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.utils.compat.FindUsagesHandlerBaseCompat
 import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
+import com.gmail.blueboxware.libgdxplugin.utils.compat.FindUsagesHandlerBaseCompat
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
@@ -44,7 +44,11 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUs
 
   constructor(element: KtStringTemplateExpression): this(element as PsiElement)
 
-  override fun doProcessElementUsages(element: PsiElement, processor: Processor<UsageInfo>, options: FindUsagesOptions): Boolean {
+  override fun doProcessElementUsages(
+          element: PsiElement,
+          processor: Processor<UsageInfo>,
+          options: FindUsagesOptions
+  ): Boolean {
 
     ReadAction.run<Throwable> {
 
@@ -57,8 +61,11 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUs
       val usages =
               CachedValuesManager.getManager(element.project).getCachedValue(
                       element,
-                      MyCachedValueProvider(project, text, (options.searchScope as? GlobalSearchScope)
-                              ?: project.allScope())
+                      MyCachedValueProvider(
+                              project,
+                              text,
+                              (options.searchScope as? GlobalSearchScope) ?: project.allScope()
+                      )
               )
 
       usages?.forEach { usage ->

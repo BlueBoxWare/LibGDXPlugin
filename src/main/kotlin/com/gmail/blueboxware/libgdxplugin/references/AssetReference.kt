@@ -53,14 +53,22 @@ class AssetReference(
     if (className?.plainName != TEXTURE_REGION_CLASS_NAME) {
       assetFiles.first.forEach { skinFile ->
 
-        skinFile.getResources(if (isDrawable) listOf(TINTED_DRAWABLE_CLASS_NAME) else className?.plainName.singletonOrNull(), null).forEach { resource ->
+        skinFile.getResources(
+                if (isDrawable) listOf(TINTED_DRAWABLE_CLASS_NAME) else className?.plainName.singletonOrNull(),
+                null
+        ).forEach { resource ->
           val lookupElement = LookupElementBuilder
                   .create(resource)
                   .withIcon(resource.asColor(false)?.let { createColorIcon(it) })
                   .withTypeText(
                           if (className == null)
-                            StringUtil.getShortName(resource.classSpecification?.getRealClassNamesAsString()?.firstOrNull()
-                                    ?: "")
+                            StringUtil.getShortName(
+                                    resource
+                                            .classSpecification
+                                            ?.getRealClassNamesAsString()
+                                            ?.firstOrNull()
+                                            ?: ""
+                            )
                           else
                             if (isDrawable)
                               getOriginalFileName(skinFile)

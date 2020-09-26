@@ -74,7 +74,10 @@ class GDXPropertiesReferenceProvider: PsiReferenceProvider() {
 
   }
 
-  private fun processPsiMethodCallExpression(element: PsiElement, methodCallExpression: PsiMethodCallExpression): Array<PsiReference> {
+  private fun processPsiMethodCallExpression(
+          element: PsiElement,
+          methodCallExpression: PsiMethodCallExpression
+  ): Array<PsiReference> {
 
     methodCallExpression.resolveCallToStrings()?.let { (className, methodName) ->
       if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {

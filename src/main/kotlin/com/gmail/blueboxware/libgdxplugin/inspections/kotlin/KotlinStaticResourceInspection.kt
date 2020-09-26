@@ -28,7 +28,8 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
 
 class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
+  override fun getStaticDescription() =
+          message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
 
   override fun getID() = "LibGDXStaticResource"
 

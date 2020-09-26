@@ -33,7 +33,12 @@ class ColorAnnotator: Annotator {
 
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (element.project.isLibGDXProject() && (ServiceManager.getService(element.project, LibGDXPluginSettings::class.java)?.enableColorAnnotations == true)) {
+    if (element.project.isLibGDXProject() &&
+            (ServiceManager.getService(
+                    element.project,
+                    LibGDXPluginSettings::class.java
+            )?.enableColorAnnotations == true)
+    ) {
 
       element.getColor()?.let { color ->
         annotateWithColor(color, element, holder)

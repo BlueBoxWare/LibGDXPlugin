@@ -117,11 +117,31 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
     stringBuilderJava.append("}")
     stringBuilderXml.append("</resources>")
 
-    doInspectionTestWithString(stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "Test.kt")
-    doInspectionTestWithString(stringBuilderJava.toString(), JavaTestIdsInspection(), "Test.java")
-    doInspectionTestWithString(stringBuilderXml.toString(), XmlTestIdsInspection(), "Test.xml")
-    doInspectionTestWithString(stringBuilderBuildGradle.toString(), GradleTestIdsInspection(), "build.gradle")
-    doInspectionTestWithString(stringBuilderGradleProperties.toString(), GradlePropertiesTestIdsInspection(), "gradle.properties")
+    doInspectionTestWithString(
+            stringBuilderKotlin.toString(),
+            KotlinTestIdsInspection(),
+            "Test.kt"
+    )
+    doInspectionTestWithString(
+            stringBuilderJava.toString(),
+            JavaTestIdsInspection(),
+            "Test.java"
+    )
+    doInspectionTestWithString(
+            stringBuilderXml.toString(),
+            XmlTestIdsInspection(),
+            "Test.xml"
+    )
+    doInspectionTestWithString(
+            stringBuilderBuildGradle.toString(),
+            GradleTestIdsInspection(),
+            "build.gradle"
+    )
+    doInspectionTestWithString(
+            stringBuilderGradleProperties.toString(),
+            GradlePropertiesTestIdsInspection(),
+            "gradle.properties"
+    )
 
   }
 
@@ -129,27 +149,47 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
     val tests = mapOf(
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11" android:maxSdkVersion="11" />""" to null,
-            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="11" android:maxSdkVersion="11" />""" to listOf("missing.support.screens"),
+            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="11" android:maxSdkVersion="11" />""" to listOf(
+                    "missing.support.screens"
+            ),
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="10" android:maxSdkVersion="11" />""" to null,
             """<uses-sdk android:minSdkVersion="13" />""" to null,
             """<uses-sdk android:targetSdkVersion="11" />""" to listOf("missing.support.screens"),
             """<uses-sdk android:minSdkVersion="99" />""" to null,
-            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11" android:maxSdkVersion="10" />""" to listOf("max"),
-            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="10" />""" to listOf("target.or.min", "missing.support.screens"),
-            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="11" />""" to listOf("target.or.min", "missing.support.screens"),
-            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" />""" to listOf("target.or.min", "missing.support.screens"),
+            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11" android:maxSdkVersion="10" />""" to listOf(
+                    "max"
+            ),
+            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="10" />""" to listOf(
+                    "target.or.min", "missing.support.screens"
+            ),
+            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="11" />""" to listOf(
+                    "target.or.min", "missing.support.screens"
+            ),
+            """<uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" />""" to listOf(
+                    "target.or.min", "missing.support.screens"
+            ),
             """<uses-sdk android:maxSdkVersion="10" />""" to listOf("target.or.min", "missing.support.screens"),
 
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="true" />""" to null,
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens />""" to null,
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true"  android:smallScreens="false" />""" to null,
             """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens  android:normalScreens="false" android:smallScreens="false"  />""" to null,
-            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="false" />""" to listOf("large.false"),
-            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="false" />""" to listOf("large.false"),
-            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="true" android:largeScreens="false"/>""" to listOf("large.false"),
+            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="false" />""" to listOf(
+                    "large.false"
+            ),
+            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="false" />""" to listOf(
+                    "large.false"
+            ),
+            """<uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="true" android:largeScreens="false"/>""" to listOf(
+                    "large.false"
+            ),
             """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="true" />""" to null,
-            """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" />""" to listOf("large.missing"),
-            """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="true" />""" to listOf("large.missing"),
+            """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" />""" to listOf(
+                    "large.missing"
+            ),
+            """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:xlargeScreens="true" />""" to listOf(
+                    "large.missing"
+            ),
             """<uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/><supports-screens android:largeScreens="true" android:xlargeScreens="true" />""" to null,
             """<uses-sdk android:minSdkVersion="13" /><supports-screens android:largeScreens="true" android:xlargeScreens="true" />""" to null
     )
@@ -270,8 +310,14 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
         }
       """
       configureByText("Test.java", fileContents)
-      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
-      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+      doExternalFilesPermissionInspectionTest(
+              "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml",
+              warningExpected
+      )
+      doExternalFilesPermissionInspectionTest(
+              "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml",
+              false
+      )
     }
   }
 
@@ -300,8 +346,14 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
         }
       """
       configureByText("Test.kt", fileContents)
-      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected)
-      doExternalFilesPermissionInspectionTest("missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false)
+      doExternalFilesPermissionInspectionTest(
+              "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml",
+              warningExpected
+      )
+      doExternalFilesPermissionInspectionTest(
+              "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml",
+              false
+      )
     }
   }
 
@@ -389,7 +441,11 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  private fun getHighLightsWithDescription(inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String): List<HighlightInfo> {
+  private fun getHighLightsWithDescription(
+          inspection: LocalInspectionTool,
+          vararg fileNames: String,
+          warningDescription: String
+  ): List<HighlightInfo> {
 
     configureByFiles(*fileNames)
     myFixture.enableInspections(inspection)
@@ -397,7 +453,10 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   }
 
-  private fun getGlobalInspectionResults(testDir: String, inspection: GlobalInspectionTool): Collection<CommonProblemDescriptor> {
+  private fun getGlobalInspectionResults(
+          testDir: String,
+          inspection: GlobalInspectionTool
+  ): Collection<CommonProblemDescriptor> {
 
     val toolWrapper = GlobalInspectionToolWrapper(inspection)
 
@@ -429,7 +488,12 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
     }
 
     if (expectedWarnings.isNotEmpty()) {
-      fail("Expected warning(s) not found: " + expectedWarnings.joinToString("\n") + " in:\n" + ppDirContents(testDir))
+      fail(
+              "Expected warning(s) not found: " +
+                      expectedWarnings.joinToString("\n") +
+                      " in:\n" +
+                      ppDirContents(testDir)
+      )
     }
 
   }
@@ -439,7 +503,13 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
     val dir = File(dirName)
     val stringBuilder = StringBuilder()
 
-    val files = dir.listFiles().flatMap { if (it.isDirectory) it.listFiles().toList() else listOf(it) }.sortedBy { it.absolutePath }
+    val files =
+            dir
+                    .listFiles()
+                    .flatMap {
+                      if (it.isDirectory) it.listFiles().toList() else listOf(it)
+                    }
+                    .sortedBy { it.absolutePath }
 
     for (file in files) {
       if (file.isFile) {
@@ -457,9 +527,18 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
     doInspectionsTest(KotlinUnsafeIteratorInspection(), "$lName.kt")
   }
 
-  private fun doOpenGLDirectiveInspectionTest(name: String, warningExpected: Boolean, problemElement: String? = "uses-feature") {
+  private fun doOpenGLDirectiveInspectionTest(
+          name: String,
+          warningExpected: Boolean,
+          problemElement: String? = "uses-feature"
+  ) {
     val lName = "missingOpenGLDirective/$name"
-    val hightLights = getHighLightsWithDescription(OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor"))
+    val hightLights =
+            getHighLightsWithDescription(
+                    OpenGLESDirectiveInspection(),
+                    lName,
+                    warningDescription = message("no.opengl.directive.problem.descriptor")
+            )
 
     for (hightLight in hightLights) {
       if (warningExpected) {
@@ -503,15 +582,22 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
       file.writeText(content)
     }
 
-    doTestGlobalInspection(fakeProjectDir, DesignedForTabletsInspection(), warnings?.map { message("designed.for.tablets.problem.descriptor.$it") }
-            ?: listOf())
+    doTestGlobalInspection(
+            fakeProjectDir,
+            DesignedForTabletsInspection(),
+            warnings?.map { message("designed.for.tablets.problem.descriptor.$it") }
+                    ?: listOf()
+    )
 
   }
 
   private fun doExternalFilesPermissionInspectionTest(manifestFileName: String, warningExpected: Boolean) {
     myFixture.enableInspections(MissingExternalFilesPermissionInspection())
     configureByFile(manifestFileName)
-    val hasWarning = myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }
+    val hasWarning =
+            myFixture
+                    .doHighlighting()
+                    .any { it.description == message("missing.files.permissions.problem.descriptor") }
     if (warningExpected && !hasWarning) {
       Assert.fail("Warning expected, but no warning found.")
     } else if (!warningExpected && hasWarning) {

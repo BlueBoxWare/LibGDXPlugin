@@ -6,7 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.impl.libraries.LibraryImpl
+import com.intellij.openapi.roots.impl.libraries.LibraryEx
 import com.intellij.openapi.roots.libraries.Library
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -33,7 +33,12 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal fun checkVersionAndReport(holder: ProblemsHolder, element: PsiElement, lib: Libraries, version: MavenComparableVersion?) {
+internal fun checkVersionAndReport(
+        holder: ProblemsHolder,
+        element: PsiElement,
+        lib: Libraries,
+        version: MavenComparableVersion?
+) {
 
   val versionManager = holder.project.getComponent(VersionManager::class.java) ?: return
 
@@ -59,7 +64,7 @@ internal fun checkVersionAndReport(holder: ProblemsHolder, element: PsiElement, 
 
 internal fun getLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, MavenComparableVersion>? {
 
-  if ((library as? LibraryImpl)?.isDisposed == true) {
+  if ((library as? LibraryEx)?.isDisposed == true) {
     return null
   }
 

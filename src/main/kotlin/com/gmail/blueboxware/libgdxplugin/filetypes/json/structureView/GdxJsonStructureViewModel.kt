@@ -45,7 +45,8 @@ class GdxJsonStructureViewModel(file: GdxJsonFile):
 
   override fun isAlwaysLeaf(element: StructureViewTreeElement?): Boolean = false
 
-  override fun isAutoExpand(element: StructureViewTreeElement): Boolean = element is GdxJsonFile || ApplicationManager.getApplication().isUnitTestMode
+  override fun isAutoExpand(element: StructureViewTreeElement): Boolean =
+          element is GdxJsonFile || ApplicationManager.getApplication().isUnitTestMode
 
   override fun isSmartExpand(): Boolean = true
 }

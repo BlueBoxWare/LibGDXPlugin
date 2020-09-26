@@ -30,24 +30,30 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
   fun testDefaultStyle2() = doFileTest("2.json", "2.default")
 
   fun testAlignOnColon1() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT = JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
+            JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
     doFileTest("1.json", "1.alignOnColon")
   }
 
   fun testAlignOnColon2() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT = JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
+            JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
     doFileTest("2.json", "2.alignOnColon")
   }
 
   fun testWrapIfLong1() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
     doFileTest("1.json", "1.wrapIfLong")
   }
 
   fun testWrapIfLong2() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
+    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
     doFileTest("2.json", "2.wrapIfLong")
   }
 

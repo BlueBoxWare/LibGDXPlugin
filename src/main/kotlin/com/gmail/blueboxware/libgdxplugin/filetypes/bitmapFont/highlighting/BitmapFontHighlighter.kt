@@ -51,7 +51,8 @@ class BitmapFontHighlighter: Annotator {
         val start = valueElement.startOffset
         for (i in valueText.indices) {
           if (valueText[i] == ',') {
-            holder.createInfoAnnotation(TextRange(start + i, start + i + 1), null).apply { textAttributes = BitmapFontColorSettingsPage.COMMA }
+            holder.createInfoAnnotation(TextRange(start + i, start + i + 1), null)
+                    .apply { textAttributes = BitmapFontColorSettingsPage.COMMA }
           }
         }
       }

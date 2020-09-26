@@ -23,7 +23,13 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinStructureViewModel(file: PsiFile): StructureViewModelBase(file, SkinStructureViewElement(file)), StructureViewModel.ElementInfoProvider, StructureViewModel.ExpandInfoProvider {
+class SkinStructureViewModel(file: PsiFile):
+        StructureViewModelBase(
+                file,
+                SkinStructureViewElement(file)
+        ),
+        StructureViewModel.ElementInfoProvider,
+        StructureViewModel.ExpandInfoProvider {
 
   init {
     withSuitableClasses(
@@ -44,5 +50,6 @@ class SkinStructureViewModel(file: PsiFile): StructureViewModelBase(file, SkinSt
 
   override fun isSmartExpand() = false
 
-  override fun isAutoExpand(element: StructureViewTreeElement) = element is SkinFile || ApplicationManager.getApplication().isUnitTestMode
+  override fun isAutoExpand(element: StructureViewTreeElement) =
+          element is SkinFile || ApplicationManager.getApplication().isUnitTestMode
 }

@@ -33,8 +33,22 @@ class AtlasStructureViewElement(val element: PsiElement): StructureViewTreeEleme
 
     val items = when (element) {
       is AtlasFile -> element.getPages()
-      is AtlasPage -> mutableListOf(element.size, element.format, element.filter, element.repeat).apply { addAll(element.regionList) }.filterNotNull()
-      is AtlasRegion -> listOfNotNull(element.rotate, element.xy, element.size, element.split, element.pad, element.orig, element.offset, element.index)
+      is AtlasPage -> mutableListOf(
+              element.size,
+              element.format,
+              element.filter,
+              element.repeat
+      ).apply { addAll(element.regionList) }.filterNotNull()
+      is AtlasRegion -> listOfNotNull(
+              element.rotate,
+              element.xy,
+              element.size,
+              element.split,
+              element.pad,
+              element.orig,
+              element.offset,
+              element.index
+      )
       else -> listOf()
     }
 

@@ -52,12 +52,14 @@ class BitmapFontFile(fileViewProvider: FileViewProvider): PsiFileBase(fileViewPr
 
   fun getKerningsElement(): BitmapFontKernings? = childOfType()
 
-  fun getPages(): MutableCollection<BitmapFontPageDefinition> = childrenOfType<BitmapFontPageDefinition>().toMutableList()
+  fun getPages(): MutableCollection<BitmapFontPageDefinition> =
+          childrenOfType<BitmapFontPageDefinition>().toMutableList()
 
   fun getCharacters() = getCharacterMap().values
 
   fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap()[id]
 
-  override fun getPresentation(): ItemPresentation = FilePresentation(project, virtualFile, name, Icons.FONT_FILETYPE)
+  override fun getPresentation(): ItemPresentation =
+          FilePresentation(project, virtualFile, name, Icons.FONT_FILETYPE)
 
 }

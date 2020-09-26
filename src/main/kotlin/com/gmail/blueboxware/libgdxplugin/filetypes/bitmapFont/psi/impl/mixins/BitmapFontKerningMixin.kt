@@ -28,9 +28,15 @@ import com.intellij.psi.PsiReference
  */
 abstract class BitmapFontKerningMixin(node: ASTNode): BitmapFontKerning, PropertyContainerImpl(node) {
 
-  override fun getFirstCharacter(): BitmapFontFontCharImpl? = getValue("first")?.toIntOrNull()?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
+  override fun getFirstCharacter(): BitmapFontFontCharImpl? =
+          getValue("first")
+                  ?.toIntOrNull()
+                  ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
 
-  override fun getSecondCharacter(): BitmapFontFontCharImpl? = getValue("second")?.toIntOrNull()?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
+  override fun getSecondCharacter(): BitmapFontFontCharImpl? =
+          getValue("second")
+                  ?.toIntOrNull()
+                  ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
 
   override fun getPresentation() = object: ItemPresentation {
 
@@ -38,8 +44,12 @@ abstract class BitmapFontKerningMixin(node: ASTNode): BitmapFontKerning, Propert
 
     override fun getIcon(unused: Boolean) = IconLoader.getDisabledIcon(AllIcons.Nodes.Tag)
 
-    override fun getPresentableText() = firstCharacter?.presentation?.presentableText + " - " + secondCharacter?.presentation?.presentableText + ": " + (getValue("amount")
-            ?: "<unknown>")
+    override fun getPresentableText() =
+            firstCharacter?.presentation?.presentableText +
+                    " - " +
+                    secondCharacter?.presentation?.presentableText +
+                    ": " +
+                    (getValue("amount") ?: "<unknown>")
 
   }
 

@@ -37,11 +37,23 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
     listOf(
             """Colors.get("<caret>");""" to (
                     listOf(
-                            "BLUE", "RED", "singlePutJava", "multiJava", "singleGetColorsJava", "singlePutKotlin", "singleGetColorsKotlin", "multiKotlin") to listOf("")
+                            "BLUE",
+                            "RED",
+                            "singlePutJava",
+                            "multiJava",
+                            "singleGetColorsJava",
+                            "singlePutKotlin",
+                            "singleGetColorsKotlin",
+                            "multiKotlin"
+                    ) to listOf("")
                     ),
             """Colors.get("sin<caret>");""" to (
                     listOf(
-                            "singlePutJava", "singleGetColorsJava", "singlePutKotlin", "singleGetColorsKotlin") to listOf("multiJava", "multiKotlin", "RED")
+                            "singlePutJava",
+                            "singleGetColorsJava",
+                            "singlePutKotlin",
+                            "singleGetColorsKotlin"
+                    ) to listOf("multiJava", "multiKotlin", "RED")
                     )
     ).forEach {
       doTestCompletion(
@@ -66,12 +78,26 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
     listOf(
             """Colors.get("<caret>")""" to (
                     listOf(
-                            "BLUE", "RED", "singlePutJava", "multiJava", "singleGetColorsJava", "singlePutKotlin", "singleGetColorsKotlin", "multiKotlin") to listOf("")
-                    ),
+                            "BLUE",
+                            "RED",
+                            "singlePutJava",
+                            "multiJava",
+                            "singleGetColorsJava",
+                            "singlePutKotlin",
+                            "singleGetColorsKotlin",
+                            "multiKotlin"
+                    ) to listOf("")),
             """Colors.get("sin<caret>")""" to (
                     listOf(
-                            "singlePutJava", "singleGetColorsJava", "singlePutKotlin", "singleGetColorsKotlin") to listOf("multiJava", "multiKotlin", "RED")
-                    )
+                            "singlePutJava",
+                            "singleGetColorsJava",
+                            "singlePutKotlin",
+                            "singleGetColorsKotlin"
+                    ) to listOf(
+                            "multiJava",
+                            "multiKotlin",
+                            "RED"
+                    ))
     ).forEach {
       doTestCompletion(
               "Test.kt",
@@ -100,24 +126,28 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             """Colors.getColors().get("singleGetColorsKotlin");""",
             """Colors.get("YELLOW");"""
     ).forEach {
-      doTestReference(JavaFileType.INSTANCE, """
+      doTestReference(
+              JavaFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
             ${it.replaceFirst("\"", "\"<caret>")}
           }
         }
-      """.trimIndent())
+      """.trimIndent()
+      )
     }
 
-    doTestReference(JavaFileType.INSTANCE, """
+    doTestReference(
+            JavaFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
             Colors.get("nothing");
           }
         }
-    """.trimIndent(), shouldFindSomething = false)
+    """.trimIndent(), shouldFindSomething = false
+    )
 
   }
 
@@ -133,23 +163,28 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             """Colors.getColors().get("singleGetColorsKotlin")""",
             """Colors.get("YELLOW")"""
     ).forEach {
-      doTestReference(KotlinFileType.INSTANCE, """
+      doTestReference(
+              KotlinFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
           val c = ${it.replaceFirst("\"", "\"<caret>")}
         }
-      """.trimIndent())
+      """.trimIndent()
+      )
     }
 
-    doTestReference(KotlinFileType.INSTANCE, """
+    doTestReference(
+            KotlinFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
           val c = Colors.get("nothing")
         }
-    """.trimIndent(), shouldFindSomething = false)
+    """.trimIndent(), shouldFindSomething = false
+    )
   }
 
-  fun testFindUsagesJava1() = doTestFindUsages(JavaFileType.INSTANCE, 6, """
+  fun testFindUsagesJava1() = doTestFindUsages(
+          JavaFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
@@ -158,9 +193,11 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             Colors.getColors().get("c");
           }
         }
-  """.trimIndent())
+  """.trimIndent()
+  )
 
-  fun testFindUsagesJava2() = doTestFindUsages(JavaFileType.INSTANCE, 6, """
+  fun testFindUsagesJava2() = doTestFindUsages(
+          JavaFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
@@ -169,25 +206,30 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             Colors.getColors().get("c");
           }
         }
-  """.trimIndent())
+  """.trimIndent()
+  )
 
-  fun testFindUsagesKotlin1() = doTestFindUsages(KotlinFileType.INSTANCE, 6, """
+  fun testFindUsagesKotlin1() = doTestFindUsages(
+          KotlinFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
             Colors.get("c")
             Colors.getColors().put(<caret>"c", null)
             Colors.getColors().get("c")
         }
-  """.trimIndent())
+  """.trimIndent()
+  )
 
-  fun testFindUsagesKotlin2() = doTestFindUsages(KotlinFileType.INSTANCE, 6, """
+  fun testFindUsagesKotlin2() = doTestFindUsages(
+          KotlinFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
             Colors.get("c")
             Colors.put("c<caret>", null)
             Colors.getColors().get("c")
         }
-  """.trimIndent())
+  """.trimIndent()
+  )
 
   private fun doTestFindUsages(fileType: FileType, numberToFind: Int, content: String) {
 

@@ -354,7 +354,11 @@ class TestReferences: LibGDXCodeInsightFixtureTestCase() {
     configureByFile(testname() + ".skin")
     val element: SkinClassName? = file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
     assertNotNull(element)
-    val clazz = (element?.reference as? SkinJavaClassReference)?.multiResolve(false)?.firstOrNull()?.element as? PsiClass
+    val clazz =
+            (element?.reference as? SkinJavaClassReference)
+                    ?.multiResolve(false)
+                    ?.firstOrNull()
+                    ?.element as? PsiClass
     assertNotNull(clazz)
     assertEquals(className, clazz?.qualifiedName)
   }

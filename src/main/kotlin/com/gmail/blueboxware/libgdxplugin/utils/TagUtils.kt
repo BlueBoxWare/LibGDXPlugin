@@ -107,7 +107,11 @@ private fun Project.collectCustomTags(): TagMap {
 
 
               (argumentsList.expressions.getOrNull(0) as? PsiLiteralExpression)?.asString()?.let { tag ->
-                ((argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)?.operand?.type as? PsiClassType)
+                (
+                        (argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)
+                                ?.operand
+                                ?.type as? PsiClassType
+                        )
                         ?.resolve()
                         ?.let { clazz ->
                           clazz.qualifiedName?.let { fqName ->
@@ -122,23 +126,24 @@ private fun Project.collectCustomTags(): TagMap {
 
           (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
 
-            (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }?.asPlainString()?.let { firstArgument ->
+            (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }
+                    ?.asPlainString()?.let { firstArgument ->
 
-              arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
+                      arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
-                (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
-                        ?.takeIf { it.isClassType }
-                        ?.arguments
-                        ?.firstOrNull()
-                        ?.type
-                        ?.fqName()
-                        ?.let { fqName ->
-                          tagMap.add(firstArgument, fqName)
-                        }
+                        (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
+                                ?.takeIf { it.isClassType }
+                                ?.arguments
+                                ?.firstOrNull()
+                                ?.type
+                                ?.fqName()
+                                ?.let { fqName ->
+                                  tagMap.add(firstArgument, fqName)
+                                }
 
-              }
+                      }
 
-            }
+                    }
 
           }
 

@@ -24,7 +24,11 @@ import org.jetbrains.kotlin.idea.search.projectScope
 class TestRefactor: PropertiesCodeInsightFixtureTestCase() {
 
   fun testRename() {
-    FilenameIndex.getFilesByName(project, "messages_en_GB.properties", project.projectScope()).first().let { propertiesFile ->
+    FilenameIndex.getFilesByName(
+            project,
+            "messages_en_GB.properties",
+            project.projectScope()
+    ).first().let { propertiesFile ->
       val property = (propertiesFile as PropertiesFile).findPropertyByKey("oldName") as Property
       configureByFile("refactor/JavaClass.java")
       myFixture.renameElement(property, "newName1")

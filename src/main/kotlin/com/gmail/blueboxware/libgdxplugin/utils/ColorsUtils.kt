@@ -76,11 +76,13 @@ internal fun KtCallExpression.isColorsCall(isPut: Boolean): Boolean {
 
   } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
 
-    ((parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()?.let { (clazz2, method2) ->
-      if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
-        return true
-      }
-    }
+    ((parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
+            ?.resolveCallToStrings()
+            ?.let { (clazz2, method2) ->
+              if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
+                return true
+              }
+            }
 
   }
 
@@ -138,18 +140,27 @@ internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedV
 
   getColorsMethods.forEach { method ->
     MethodReferencesSearch.search(method, allScope(), true).forEach { reference ->
-      reference.element.getParentOfType<KtDotQualifiedExpression>()?.getParentOfType<KtDotQualifiedExpression>()?.callExpression?.let { call ->
-        call.resolveCallToStrings()?.let { (_, methodName) ->
-          if (methodName == "put") {
-            callExpressions.add(call)
-          }
-        }
-      }
-      reference.element.getParentOfType<PsiCallExpression>()?.getParentOfType<PsiCallExpression>()?.let { call ->
-        if (call.resolveMethod()?.name == "put") {
-          callExpressions.add(call)
-        }
-      }
+      reference
+              .element
+              .getParentOfType<KtDotQualifiedExpression>()
+              ?.getParentOfType<KtDotQualifiedExpression>()
+              ?.callExpression
+              ?.let { call ->
+                call.resolveCallToStrings()?.let { (_, methodName) ->
+                  if (methodName == "put") {
+                    callExpressions.add(call)
+                  }
+                }
+              }
+      reference
+              .element
+              .getParentOfType<PsiCallExpression>()
+              ?.getParentOfType<PsiCallExpression>()
+              ?.let { call ->
+                if (call.resolveMethod()?.name == "put") {
+                  callExpressions.add(call)
+                }
+              }
     }
   }
 

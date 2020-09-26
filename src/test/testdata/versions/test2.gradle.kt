@@ -46,6 +46,5 @@ fun f() {
       compile("com.github.czyzby:ktx-scene2d:$ktxScene2DVersion")
       compile("com.bladecoder.ink:blade-ink:$bladeInkVersion")
       compile("com.github.ykrasik:jaci-libgdx-cli-java:$jaciVersion")
-              compile(<warning descr="A newer version of libgdx-utils-box2d is available (version 0.13.4)">"net.dermetfan.libgdx-utils:libgdx-utils-box2d:$utilsBox2dVersion"</warning>)
     }
 }

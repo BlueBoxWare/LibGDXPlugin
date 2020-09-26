@@ -15,7 +15,10 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  */
 class SkinCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
 
-  override fun createConfigurable(settings: CodeStyleSettings, originalSettings: CodeStyleSettings): CodeStyleConfigurable {
+  override fun createConfigurable(
+          settings: CodeStyleSettings,
+          originalSettings: CodeStyleSettings
+  ): CodeStyleConfigurable {
 
     return object: CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX Skin") {
 

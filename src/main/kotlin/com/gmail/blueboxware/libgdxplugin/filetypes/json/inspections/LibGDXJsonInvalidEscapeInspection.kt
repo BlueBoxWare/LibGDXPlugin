@@ -49,43 +49,50 @@ class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
                   SuppressForStringFix(getShortID())
           )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor = object: GdxJsonElementVisitor() {
+  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
 
-    override fun visitString(o: GdxJsonString) {
+          object: GdxJsonElementVisitor() {
 
-      var i = 0
+            override fun visitString(o: GdxJsonString) {
 
-      while (i < o.text.length - 1) {
+              var i = 0
 
-        if (o.text[i] != '\\') {
-          i++
-          continue
-        }
+              while (i < o.text.length - 1) {
 
-        val c = o.text[i + 1]
+                if (o.text[i] != '\\') {
+                  i++
+                  continue
+                }
 
-        if (c == 'u') {
-          try {
-            Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16))
-          } catch (e: Exception) {
-            val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length
-            holder.registerProblem(o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message"))
+                val c = o.text[i + 1]
+
+                if (c == 'u') {
+                  try {
+                    Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16))
+                  } catch (e: Exception) {
+                    val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length
+                    holder.registerProblem(
+                            o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message")
+                    )
+                  }
+                  i += 4
+                  continue
+                } else {
+                  i++
+                }
+
+                if (c !in ESCAPABLE_CHARS) {
+                  holder.registerProblem(
+                          o, TextRange(i - 1, min(i + 1, o.text.length)),
+                          message("json.inspection.invalid.escape.message")
+                  )
+                }
+
+              }
+
+            }
+
           }
-          i += 4
-          continue
-        } else {
-          i++
-        }
-
-        if (c !in ESCAPABLE_CHARS) {
-          holder.registerProblem(o, TextRange(i - 1, min(i + 1, o.text.length)), message("json.inspection.invalid.escape.message"))
-        }
-
-      }
-
-    }
-
-  }
 
   companion object {
     val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')

@@ -25,7 +25,8 @@ abstract class SkinObjectMixin(node: ASTNode): SkinObject, SkinValueImpl(node) {
 
   override fun asResource(): SkinResource? = parent as? SkinResource
 
-  override fun resolveToField(property: SkinProperty): PsiField? = resolveToClass()?.findFieldByName(property.name, true)
+  override fun resolveToField(property: SkinProperty): PsiField? =
+          resolveToClass()?.findFieldByName(property.name, true)
 
   override fun addProperty(property: SkinProperty) = addPropertyExt(property)
 

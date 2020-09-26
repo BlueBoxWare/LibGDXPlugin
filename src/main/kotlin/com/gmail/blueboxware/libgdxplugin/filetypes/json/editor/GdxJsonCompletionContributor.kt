@@ -33,11 +33,14 @@ class GdxJsonCompletionContributor: CompletionContributor() {
   init {
 
     extend(
-            CompletionType.BASIC,
-            psiElement().withSuperParent(1, GdxJsonPropertyName::class.java),
+            CompletionType.BASIC, psiElement().withSuperParent(1, GdxJsonPropertyName::class.java),
             object: CompletionProvider<CompletionParameters>() {
 
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
 
                 val allPropertyNames = parameters.originalFile.collectPropertyKeys() ?: return
                 val usedPropertyNames = parameters.position.firstParent<GdxJsonJobject>()?.collectUsedPropertyKeys()
@@ -57,17 +60,20 @@ class GdxJsonCompletionContributor: CompletionContributor() {
                 }
               }
 
-            }
-    )
+            })
 
     extend(
-            CompletionType.BASIC,
-            psiElement().withSuperParent(2, GdxJsonValue::class.java),
+            CompletionType.BASIC, psiElement().withSuperParent(2, GdxJsonValue::class.java),
             object: CompletionProvider<CompletionParameters>() {
 
-              override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
+              override fun addCompletions(
+                      parameters: CompletionParameters,
+                      context: ProcessingContext,
+                      result: CompletionResultSet
+              ) {
 
-                val prefix = parameters.position.parent.text.trim('"').removeSuffix(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED)
+                val prefix = parameters.position.parent.text.trim('"')
+                        .removeSuffix(CompletionUtil.DUMMY_IDENTIFIER_TRIMMED)
                 val prefixMatcher = PlainPrefixMatcher(prefix)
                 parameters.originalFile.collectValues()?.forEach {
                   result.withPrefixMatcher(prefixMatcher).addElement(LookupElementBuilder.create(it))
@@ -79,8 +85,7 @@ class GdxJsonCompletionContributor: CompletionContributor() {
 
               }
 
-            }
-    )
+            })
 
   }
 
