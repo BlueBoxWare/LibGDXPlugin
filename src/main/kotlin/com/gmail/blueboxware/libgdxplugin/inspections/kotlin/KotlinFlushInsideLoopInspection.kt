@@ -17,6 +17,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.getFlushingMethods
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
@@ -148,26 +149,19 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
     //
     // Are we using a property accessor which contains a flushing call?
     //
+    val spars = refs.filterIsInstance<SyntheticPropertyAccessorReference>()
 
-    var getter: Boolean? = null
-
-    for (ref in refs) {
-      if (ref is SyntheticPropertyAccessorReference) {
-        if (ref is SyntheticPropertyAccessorReference.Getter) {
-          getter = true
-        } else if (ref is SyntheticPropertyAccessorReference.Setter) {
-          getter = false
-        }
-      }
+    if (spars.isEmpty()) {
+      return
     }
 
-    if (getter == null) return
+    val isGetter = spars.any { it.isGetter() }
 
     for (ref in refs) {
       val target = ref.resolve()
       if (target is KtProperty) {
         // Kotlin accessor
-        val accessor = if (getter) target.getter else target.setter
+        val accessor = if (isGetter) target.getter else target.setter
         if (accessor != null && allFlushingMethods.contains(accessor)) {
           registerProblem(expression)
           return

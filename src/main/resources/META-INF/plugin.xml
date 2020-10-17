@@ -18,7 +18,7 @@
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <!--suppress PluginXmlCapitalization -->
     <name>libGDX</name>
-    <version>1.21</version>
+    <version>1.22</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -31,6 +31,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.22</b>
+        <ul>
+            <li>Compatibility with Kotlin plugin 1.4.20+ (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/23">#23</a>)</li>
+            <li>Build for Java target 1.8 (fixes compatibility with Android Studio)</li>
+        </ul>
         <b>1.21</b>
         <ul>
             <li>Changed plugin name to libGDX (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/22">#22</a>).</li>

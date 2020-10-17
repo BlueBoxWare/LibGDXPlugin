@@ -1,9 +1,9 @@
 ext {
 
-    pluginVersion = '1.21'
+    pluginVersion = '1.22'
 
     kotlinVersion = '1.4.10'
-    
+
     intellijPluginVersion = '0.4.26'
 
 //    ideaVersion = '2019.3.3'

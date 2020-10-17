@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
@@ -70,7 +71,7 @@ class KotlinLogLevelInspection: LibGDXKotlinBaseInspection() {
 
         for (ref in refs) {
 
-          if (ref is SyntheticPropertyAccessorReference.Setter) {
+          if ((ref as? SyntheticPropertyAccessorReference)?.isGetter() == false) {
             val target = ref.resolve()
             if (target is PsiMethod) {
               val clazz = target.containingClass ?: continue
