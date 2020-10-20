@@ -18,7 +18,7 @@
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <!--suppress PluginXmlCapitalization -->
     <name>libGDX</name>
-    <version>1.22</version>
+    <version>1.22.1</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -31,6 +31,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>1.22.1</b>
+        <ul>
+            <li>Bundle kotlin-reflect dependency.</li>
+        </ul>
         <b>1.22</b>
         <ul>
             <li>Compatibility with Kotlin plugin 1.4.20+ (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/23">#23</a>)</li>

@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils.compat
 
+import com.intellij.util.castSafelyTo
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
-import org.jetbrains.kotlin.utils.addToStdlib.cast
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 
@@ -30,7 +30,7 @@ fun SyntheticPropertyAccessorReference.isGetter(): Boolean {
   return this::class
           .memberProperties
           .firstOrNull { it.name == "getter" }
-          ?.cast<KProperty1<SyntheticPropertyAccessorReference, Boolean>>()
+          ?.castSafelyTo<KProperty1<SyntheticPropertyAccessorReference, Boolean>>()
           ?.get(this)
           ?: false
 }
