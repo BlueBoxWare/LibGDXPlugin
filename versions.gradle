@@ -11,7 +11,7 @@ ext {
 
     studioVersion = '2020.1'
 
-    useStudio = false
+    useStudio = true
     runStudio = false
 
 }

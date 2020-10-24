@@ -259,8 +259,12 @@
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
     <depends>com.intellij.properties</depends>
+    <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
+
+        <postStartupActivity implementation="com.gmail.blueboxware.libgdxplugin.LibGDXStartupActivity" />
+
         <inspectionToolProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.inspections.LibGDXInspectionToolProvider" />
 
@@ -526,9 +530,6 @@
       </actions>
 
     <project-components>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.LibGDXProjectComponent</implementation-class>
-        </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.components.VersionManager</implementation-class>
         </component>

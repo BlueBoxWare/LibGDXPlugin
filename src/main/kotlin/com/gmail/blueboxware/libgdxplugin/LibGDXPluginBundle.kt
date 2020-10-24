@@ -3,6 +3,7 @@
  */
 package com.gmail.blueboxware.libgdxplugin
 
+import com.intellij.AbstractBundle
 import com.intellij.CommonBundle
 import org.jetbrains.annotations.PropertyKey
 import java.lang.ref.Reference
@@ -17,9 +18,9 @@ fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: An
 
   getBundle()?.let { bundle ->
     return if (default == null) {
-      CommonBundle.message(bundle, key, *params)
+      AbstractBundle.message(bundle, key, *params)
     } else {
-      CommonBundle.messageOrDefault(bundle, key, default, *params)
+      AbstractBundle.messageOrDefault(bundle, key, default, *params)
     }
   }
 
