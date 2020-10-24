@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandler
@@ -14,6 +14,7 @@ import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.FindUsagesOptions
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -116,7 +117,7 @@ internal fun isValidProperty(element: PsiElement): Boolean {
 
 internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean {
 
-  project.getComponent(VersionManager::class.java)?.let { versionManager ->
+  project.service<VersionService>().let { versionManager ->
     val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return false
 
     if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {

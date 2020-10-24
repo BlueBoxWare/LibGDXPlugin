@@ -1,9 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.components
+package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.intellij.openapi.components.ProjectComponent
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
 import com.intellij.openapi.project.Project
@@ -30,7 +29,8 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class VersionManager(val project: Project): ProjectComponent {
+@Service
+class VersionService(val project: Project) {
 
   fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
@@ -42,7 +42,7 @@ class VersionManager(val project: Project): ProjectComponent {
 
   private val updateLatestVersionsAlarm = Alarm(Alarm.ThreadToUse.POOLED_THREAD, project)
 
-  override fun projectOpened() {
+  fun projectOpened() {
     updateUsedVersions {
       if (isLibGDXProject()) {
         Libraries.LIBGDX.library.updateLatestVersion(this, true)
@@ -55,7 +55,7 @@ class VersionManager(val project: Project): ProjectComponent {
 
   }
 
-  override fun projectClosed() {
+  fun projectClosed() {
     updateLatestVersionsAlarm.cancelAllRequests()
 
     LibraryTablesRegistrar.getInstance().getLibraryTable(project).removeListener(libraryListener)
@@ -144,7 +144,7 @@ class VersionManager(val project: Project): ProjectComponent {
 
   companion object {
 
-    val LOG = Logger.getInstance("#" + VersionManager::class.java.name)
+    val LOG = Logger.getInstance("#" + VersionService::class.java.name)
 
     var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
 

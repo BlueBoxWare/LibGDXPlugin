@@ -1,7 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.intellij.openapi.components.service
 import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
@@ -37,10 +38,10 @@ const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 private val GDX198VERSION = MavenComparableVersion("1.9.8")
 
 internal fun Project.isLibGDXProject(): Boolean =
-        getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX) != null
+        service<VersionService>().getUsedVersion(Libraries.LIBGDX) != null
 
 internal fun Project.isLibGDX199(): Boolean =
-        getComponent(VersionManager::class.java)?.getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
+        service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
 
 internal fun <T> key(key: String) =
         Key<T>("$PREFIX.$key")

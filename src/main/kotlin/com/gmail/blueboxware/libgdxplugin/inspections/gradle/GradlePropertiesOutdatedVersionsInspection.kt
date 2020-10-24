@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryFromExtKey
 import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
@@ -8,6 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries.Companion.listOfCheckedLibraries
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
+import com.intellij.openapi.components.service
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -49,7 +50,7 @@ class GradlePropertiesOutdatedVersionsInspection: LibGDXGradlePropertiesBaseInsp
 
           element.name?.let { extKey ->
             getLibraryFromExtKey(extKey)?.let { lib ->
-              element.project.getComponent(VersionManager::class.java)?.getLatestVersion(lib)?.let { latestVersion ->
+              element.project.service<VersionService>().getLatestVersion(lib)?.let { latestVersion ->
                 element.value?.let { value ->
                   if (MavenComparableVersion(value) < latestVersion) {
                     holder.registerProblem(

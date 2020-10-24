@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.versions
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.util.io.HttpRequests
@@ -44,13 +43,13 @@ internal open class Library(
   val versionKey = PERSISTENT_STATE_KEY_VERSION_PREFIX + groupId + "_" + artifactId
   private val timeKey = PERSISTENT_STATE_KEY_TIME_PREFIX + groupId + "_" + artifactId
 
-  open fun getLatestVersion(versionManager: VersionManager) = latestVersion
+  open fun getLatestVersion(versionService: VersionService) = latestVersion
 
-  open fun updateLatestVersion(versionManager: VersionManager, networkAllowed: Boolean): Boolean {
+  open fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean {
 
     val currentTime = System.currentTimeMillis()
 
-    if (latestVersion != null && currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL * 2) {
+    if (latestVersion != null && currentTime - lastUpdated < VersionService.SCHEDULED_UPDATE_INTERVAL * 2) {
       return false
     }
 
@@ -60,7 +59,7 @@ internal open class Library(
           if (lastUpdated < time || latestVersion == null) {
             lastUpdated = time
             latestVersion = MavenComparableVersion(version)
-            if (currentTime - lastUpdated < VersionManager.SCHEDULED_UPDATE_INTERVAL) {
+            if (currentTime - lastUpdated < VersionService.SCHEDULED_UPDATE_INTERVAL) {
               return false
             }
           } else if (latestVersion != null) {
@@ -71,7 +70,7 @@ internal open class Library(
       }
     }
 
-    if (currentTime - lastUpdated > VersionManager.SCHEDULED_UPDATE_INTERVAL && networkAllowed) {
+    if (currentTime - lastUpdated > VersionService.SCHEDULED_UPDATE_INTERVAL && networkAllowed) {
 
       fetchVersions(
               onSuccess = { versions ->
@@ -194,7 +193,7 @@ internal open class Library(
 
       } catch (e: Exception) {
         if (e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException) {
-          VersionManager.LOG.info(e)
+          VersionService.LOG.info(e)
           return null
         } else {
           throw e

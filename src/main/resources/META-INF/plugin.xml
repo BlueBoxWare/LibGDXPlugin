@@ -261,6 +261,11 @@
     <depends>com.intellij.properties</depends>
     <depends>com.intellij.modules.platform</depends>
 
+    <applicationListeners>
+        <listener class="com.gmail.blueboxware.libgdxplugin.versions.ProjectOpenCloseListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </applicationListeners>
+
     <extensions defaultExtensionNs="com.intellij">
 
         <postStartupActivity implementation="com.gmail.blueboxware.libgdxplugin.LibGDXStartupActivity" />
@@ -530,9 +535,6 @@
       </actions>
 
     <project-components>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.components.VersionManager</implementation-class>
-        </component>
         <component>
             <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles</implementation-class>
         </component>

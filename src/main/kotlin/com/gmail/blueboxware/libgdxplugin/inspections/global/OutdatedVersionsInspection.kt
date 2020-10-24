@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.global
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
@@ -10,6 +10,7 @@ import com.intellij.codeInspection.GlobalInspectionContext
 import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.InspectionManager
 import com.intellij.codeInspection.ProblemDescriptionsProcessor
+import com.intellij.openapi.components.service
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -52,7 +53,7 @@ class OutdatedVersionsInspection: GlobalInspectionTool() {
       return
     }
 
-    val versionManager = globalContext.project.getComponent(VersionManager::class.java) ?: return
+    val versionManager = globalContext.project.service<VersionService>()
 
     for (library in Libraries.values()) {
       val usedVersion = versionManager.getUsedVersion(library) ?: continue

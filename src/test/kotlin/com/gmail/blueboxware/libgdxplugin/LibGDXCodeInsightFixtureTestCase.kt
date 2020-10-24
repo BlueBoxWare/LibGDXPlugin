@@ -2,13 +2,14 @@
 
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.components.service
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryEx
@@ -175,7 +176,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
               file.name
       )
     }
-    project.getComponent(VersionManager::class.java).updateUsedVersions()
+    project.service<VersionService>().updateUsedVersions()
   }
 
   fun configureByFile(filePath: String): PsiFile =
@@ -250,7 +251,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
 
     super.setUp()
 
-    project.getComponent(VersionManager::class.java)?.updateUsedVersions()
+    project.getComponent(VersionService::class.java)?.updateUsedVersions()
   }
 
 }

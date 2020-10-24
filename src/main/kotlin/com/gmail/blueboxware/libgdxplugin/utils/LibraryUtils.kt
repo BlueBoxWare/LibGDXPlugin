@@ -1,10 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.components.VersionManager
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.components.service
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryEx
 import com.intellij.openapi.roots.libraries.Library
@@ -40,7 +41,7 @@ internal fun checkVersionAndReport(
         version: MavenComparableVersion?
 ) {
 
-  val versionManager = holder.project.getComponent(VersionManager::class.java) ?: return
+  val versionManager = holder.project.service<VersionService>()
 
   val latestVersion = versionManager.getLatestVersion(lib) ?: return
   val usedVersion = version ?: run {
