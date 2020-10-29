@@ -29,9 +29,9 @@ abstract class GdxJsonArrayMixin(node: ASTNode): GdxJsonArray, GdxJsonElementImp
 
     override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Array
+    override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Array
 
-    override fun getPresentableText(): String? = "array"
+    override fun getPresentableText(): String = "array"
 
   }
 

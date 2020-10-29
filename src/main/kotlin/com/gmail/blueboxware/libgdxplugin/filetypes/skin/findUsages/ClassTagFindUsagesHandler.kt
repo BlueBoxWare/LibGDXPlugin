@@ -86,7 +86,7 @@ private class MyCachedValueProvider(
         val scope: GlobalSearchScope
 ): CachedValueProvider<Collection<SkinClassName>> {
 
-  override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>>? {
+  override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>> {
 
     // Don't store UsageInfo: it leads to double smart pointer removal
     val usages = mutableListOf<SkinClassName>()

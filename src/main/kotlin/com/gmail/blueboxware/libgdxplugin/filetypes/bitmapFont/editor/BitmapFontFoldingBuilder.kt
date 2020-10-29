@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  */
 class BitmapFontFoldingBuilder: FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String? {
+  override fun getPlaceholderText(node: ASTNode): String {
 
     val element = node.psi
 

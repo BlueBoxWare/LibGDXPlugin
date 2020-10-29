@@ -40,7 +40,7 @@ abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementI
 
     override fun getIcon(unused: Boolean): Icon? = null
 
-    override fun getPresentableText(): String? = StringUtil.unescapeStringCharacters(value)
+    override fun getPresentableText(): String = StringUtil.unescapeStringCharacters(value)
 
   }
 

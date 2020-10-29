@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
+import com.intellij.openapi.Disposable
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -30,7 +31,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * limitations under the License.
  */
 @Service
-class VersionService(val project: Project) {
+class VersionService(val project: Project): Disposable {
 
   fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
@@ -40,7 +41,7 @@ class VersionService(val project: Project) {
 
   private val usedVersions = mutableMapOf<Libraries, MavenComparableVersion>()
 
-  private val updateLatestVersionsAlarm = Alarm(Alarm.ThreadToUse.POOLED_THREAD, project)
+  private val updateLatestVersionsAlarm = Alarm(Alarm.ThreadToUse.POOLED_THREAD, this)
 
   fun projectOpened() {
     updateUsedVersions {
@@ -61,6 +62,8 @@ class VersionService(val project: Project) {
     LibraryTablesRegistrar.getInstance().getLibraryTable(project).removeListener(libraryListener)
   }
 
+  override fun dispose() {
+  }
 
   private fun updateLatestVersions() {
     var networkCount = 0

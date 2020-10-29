@@ -183,7 +183,7 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
       FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
     }
 
-    versionService = project.service<VersionService>()
+    versionService = project.service()
 
     for (lib in Libraries.values()) {
       addDummyLibrary(lib, "0.0")

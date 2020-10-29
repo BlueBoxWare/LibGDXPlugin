@@ -159,7 +159,7 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
 
 internal fun KtAnnotated.getAnnotation(annotationClass: PsiClass): AnnotationWrapper? =
         annotationClass.qualifiedName?.let { qualifiedName ->
-          findAnnotation(FqName(qualifiedName))?.let { annotationEntry ->
+          findAnnotation(FqName(qualifiedName))?.let<KtAnnotationEntry, KtAnnotationWrapper> { annotationEntry ->
             return KtAnnotationWrapper(annotationEntry)
           }
         }

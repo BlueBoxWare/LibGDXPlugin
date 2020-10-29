@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
 import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.psi.PsiElement
@@ -47,9 +48,16 @@ class GdxJsonHighlightingAnnotator: Annotator {
       null
     }
 
-    holder.createInfoAnnotation(this, msg).apply {
-      textAttributes = textAttribute
-    }
+    val annotation = if (msg != null)
+      holder.newAnnotation(HighlightSeverity.INFORMATION, msg)
+    else
+      holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
+
+    annotation
+            .range(this)
+            .textAttributes(textAttribute)
+            .create()
+
   }
 
 }

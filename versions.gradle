@@ -4,12 +4,12 @@ ext {
 
     kotlinVersion = '1.4.10'
 
-    intellijPluginVersion = '0.4.26'
+    intellijPluginVersion = '0.5.1'
 
 //    ideaVersion = '2019.3.3'
     ideaVersion = '2020.2.3'
 
-    studioVersion = '2020.1'
+    studioVersion = '201.8743.12'
 
     useStudio = true
     runStudio = false

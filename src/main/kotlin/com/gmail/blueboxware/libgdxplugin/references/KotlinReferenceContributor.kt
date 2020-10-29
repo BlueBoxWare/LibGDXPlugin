@@ -15,7 +15,6 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
-import com.jetbrains.jsonSchema.JsonSchemaFileType
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -52,7 +51,6 @@ class KotlinReferenceContributor: PsiReferenceContributor() {
             listOf(
                     LibGDXSkinFileType.INSTANCE,
                     JsonFileType.INSTANCE,
-                    JsonSchemaFileType.INSTANCE,
                     PlainTextFileType.INSTANCE
             ),
             listOf(LibGDXSkinLanguage.INSTANCE)

@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.lang.annotation.AnnotationHolder
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
@@ -81,18 +82,34 @@ internal fun rgbaToColor(value: Long): Color? {
 
 internal fun createColorIcon(color: Color): Icon = ColorIcon(if (UIUtil.isRetina()) 24 else 12, color, true)
 
-internal fun createAnnotation(color: Color, element: PsiElement, holder: AnnotationHolder, createIcon: Boolean = true) =
+internal fun createAnnotation(
+        color: Color,
+        element: PsiElement,
+        holder: AnnotationHolder,
+        createIcon: Boolean = true,
+        gutterIconRenderer: GutterIconRenderer? = null
+) =
         if (ApplicationManager.getApplication().isUnitTestMode) {
-          holder.createWeakWarningAnnotation(
-                  element,
-                  String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
-          )
+          assert(createIcon || gutterIconRenderer != null)
+          holder
+                  .newAnnotation(
+                          HighlightSeverity.WEAK_WARNING,
+                          String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)
+                  )
+                  .range(element)
+                  .create()
         } else {
-          holder.createInfoAnnotation(element, null).apply {
-            if (createIcon) {
-              gutterIconRenderer = GutterColorRenderer(color)
-            }
-          }
+          holder
+                  .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                  .range(element)
+                  .apply {
+                    if (createIcon) {
+                      gutterIconRenderer(GutterColorRenderer(color))
+                    } else if (gutterIconRenderer != null) {
+                      gutterIconRenderer(gutterIconRenderer)
+                    }
+                  }
+                  .create()
         }
 
 open class GutterColorRenderer(val color: Color): GutterIconRenderer() {

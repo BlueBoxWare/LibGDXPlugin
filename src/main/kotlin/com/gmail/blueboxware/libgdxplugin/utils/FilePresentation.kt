@@ -38,9 +38,9 @@ class FilePresentation(
             }
           } ?: ""
 
-  override fun getLocationString(): String? = location
+  override fun getLocationString(): String = location
 
-  override fun getIcon(unused: Boolean): Icon? = icon
+  override fun getIcon(unused: Boolean): Icon = icon
 
-  override fun getPresentableText(): String? = name
+  override fun getPresentableText(): String = name
 }

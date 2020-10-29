@@ -1,11 +1,11 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont
+package com.gmail.blueboxware.libgdxplugin
 
-import com.intellij.openapi.fileTypes.LanguageFileType
-import icons.Icons
-import javax.swing.Icon
+import com.intellij.openapi.Disposable
+import com.intellij.openapi.components.Service
+
 
 /*
- * Copyright 2017 Blue Box Ware
+ * Copyright 2020 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,18 +19,10 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFileType: LanguageFileType(BitmapFontLanguage.INSTANCE) {
+@Service
+class DisposableProvider: Disposable {
 
-  companion object {
-    val INSTANCE = BitmapFontFileType()
+  override fun dispose() {
   }
-
-  override fun getIcon(): Icon = Icons.FONT_FILETYPE
-
-  override fun getName(): String = "libGDX Bitmap Font"
-
-  override fun getDefaultExtension() = "fnt"
-
-  override fun getDescription() = "libGDX Bitmap Font file"
 
 }

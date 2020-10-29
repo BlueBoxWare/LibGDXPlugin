@@ -32,7 +32,7 @@ class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiEleme
                     .getColorsMap()[colorName]
                     ?.nameElements()
                     ?.map(::PsiElementResolveResult)
-                    ?.toTypedArray<ResolveResult>()
+                    ?.toTypedArray()
           } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 

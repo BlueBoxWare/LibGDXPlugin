@@ -1,13 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.annotators
 
 import com.gmail.blueboxware.libgdxplugin.utils.GutterColorRenderer
+import com.gmail.blueboxware.libgdxplugin.utils.getColor
 import com.intellij.codeHighlighting.TextEditorHighlightingPass
 import com.intellij.codeHighlighting.TextEditorHighlightingPassFactory
 import com.intellij.codeHighlighting.TextEditorHighlightingPassFactoryRegistrar
 import com.intellij.codeHighlighting.TextEditorHighlightingPassRegistrar
-import com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl
 import com.intellij.ide.highlighter.JavaFileType
-import com.intellij.lang.annotation.AnnotationSession
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.markup.HighlighterLayer
 import com.intellij.openapi.editor.markup.HighlighterTargetArea
@@ -19,6 +18,9 @@ import com.intellij.psi.PsiCompiledFile
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementVisitor
+import org.jetbrains.kotlin.psi.psiUtil.endOffset
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
+import java.awt.Color
 
 
 /*
@@ -58,16 +60,18 @@ class ColorAnnotationsHighlightingPassFactory:
 
     return object: TextEditorHighlightingPass(file.project, editor.document) {
 
-      val holder = AnnotationHolderImpl(AnnotationSession(file))
+      val annotations = mutableListOf<Pair<PsiElement, Color>>()
 
       override fun doCollectInformation(progress: ProgressIndicator) {
-
-        val annotator = ColorAnnotator()
 
         file.accept(object: PsiRecursiveElementVisitor() {
           override fun visitElement(element: PsiElement) {
             super.visitElement(element)
-            annotator.annotate(element, holder)
+
+            element.getColor()?.let { color ->
+              annotations.add(element to color)
+            }
+
             if (progress.isCanceled) {
               throw ProcessCanceledException()
             }
@@ -84,14 +88,14 @@ class ColorAnnotationsHighlightingPassFactory:
           }
         }
 
-        holder.forEach { annotation ->
+        annotations.forEach { (element, color) ->
           editor.markupModel.addRangeHighlighter(
-                  annotation.startOffset,
-                  annotation.endOffset,
+                  element.startOffset,
+                  element.endOffset,
                   HighlighterLayer.ADDITIONAL_SYNTAX,
                   null,
                   HighlighterTargetArea.EXACT_RANGE
-          ).gutterIconRenderer = annotation.gutterIconRenderer
+          ).gutterIconRenderer = GutterColorRenderer(color)
         }
 
       }

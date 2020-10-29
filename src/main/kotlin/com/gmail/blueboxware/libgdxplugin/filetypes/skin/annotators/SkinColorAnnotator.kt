@@ -18,7 +18,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.PsiUtilBase
+import com.intellij.psi.util.PsiEditorUtil
 import com.intellij.ui.ColorChooser
 
 /*
@@ -54,13 +54,12 @@ class SkinColorAnnotator: Annotator {
 
       element.asColor(force)?.let { color ->
 
-        val annotation = createAnnotation(color, element, holder, createIcon = false)
-        annotation.gutterIconRenderer = object: GutterColorRenderer(color) {
+        val gutterIconRenderer = object: GutterColorRenderer(color) {
           override fun getClickAction() = object: AnAction() {
             override fun actionPerformed(e: AnActionEvent) {
               if (!element.isWritable) return
 
-              val editor = PsiUtilBase.findEditor(element) ?: return
+              val editor = PsiEditorUtil.findEditor(element) ?: return
 
               val newColor = ColorChooser.chooseColor(editor.component, "Choose Color", color, true, true)
 
@@ -74,6 +73,9 @@ class SkinColorAnnotator: Annotator {
             }
           }
         }
+
+        createAnnotation(color, element, holder, createIcon = false, gutterIconRenderer)
+
       }
 
     } else if (element is SkinStringLiteral) {

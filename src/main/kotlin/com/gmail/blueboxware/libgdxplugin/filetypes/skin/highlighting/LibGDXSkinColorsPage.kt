@@ -82,7 +82,7 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 
   }
 
-  override fun getIcon(): Icon? = Icons.SKIN_FILETYPE
+  override fun getIcon(): Icon = Icons.SKIN_FILETYPE
 
   override fun getHighlighter(): SyntaxHighlighter =
           SyntaxHighlighterFactory.getSyntaxHighlighter(

@@ -31,7 +31,7 @@ class SkinUsageTypeProvider: UsageTypeProvider {
           }
 
   companion object {
-    val SKIN_USAGE_TYPE = UsageType("Skin files")
+    val SKIN_USAGE_TYPE = UsageType { "Skin files" }
   }
 
 }

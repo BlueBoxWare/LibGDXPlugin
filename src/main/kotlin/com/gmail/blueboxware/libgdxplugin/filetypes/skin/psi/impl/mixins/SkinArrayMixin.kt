@@ -33,7 +33,7 @@ abstract class SkinArrayMixin(node: ASTNode): SkinArray, SkinValueImpl(node) {
 
     override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Array
+    override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Array
   }
 
 }

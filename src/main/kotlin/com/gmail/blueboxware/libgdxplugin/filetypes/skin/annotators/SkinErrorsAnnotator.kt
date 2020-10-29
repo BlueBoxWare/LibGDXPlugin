@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.unescape
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
@@ -38,7 +39,10 @@ class SkinErrorsAnnotator: Annotator {
         val lastChar = element.text.lastOrNull()
         if (firstChar == '\"') {
           if (length == 1 || (length > 1 && (lastChar != '\"' || element.text.isEscapedChar(length - 1)))) {
-            holder.createErrorAnnotation(element, message("skin.error.annotator.closing.quote"))
+            holder
+                    .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.closing.quote"))
+                    .range(element)
+                    .create()
             return
           }
         }
@@ -48,7 +52,10 @@ class SkinErrorsAnnotator: Annotator {
       element.text.unescape { start, end ->
         val absStart = element.startOffset + start
         val absEnd = element.startOffset + end
-        holder.createErrorAnnotation(TextRange(absStart, absEnd), message("skin.error.annotator.escape"))
+        holder
+                .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.escape"))
+                .range(TextRange(absStart, absEnd))
+                .create()
       }
 
     }

@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontPro
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontValue
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.LeafPsiElement
@@ -35,14 +36,26 @@ class BitmapFontHighlighter: Annotator {
   override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
     if (element is BitmapFontProperty) {
-      holder.createInfoAnnotation(element.keyElement, null).apply { textAttributes = BitmapFontColorSettingsPage.KEY }
+      holder
+              .newSilentAnnotation(HighlightSeverity.INFORMATION)
+              .range(element.keyElement)
+              .textAttributes(BitmapFontColorSettingsPage.KEY)
+              .create()
       element.valueElement?.let {
-        holder.createInfoAnnotation(it, null).apply { textAttributes = BitmapFontColorSettingsPage.VALUE }
+        holder
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(it)
+                .textAttributes(BitmapFontColorSettingsPage.VALUE)
+                .create()
       }
 
       element.node.getChildren(null).forEach { node ->
         if (node.text == "=") {
-          holder.createInfoAnnotation(node, null).apply { textAttributes = BitmapFontColorSettingsPage.EQUALS_SIGN }
+          holder
+                  .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                  .range(node)
+                  .textAttributes(BitmapFontColorSettingsPage.EQUALS_SIGN)
+                  .create()
         }
       }
 
@@ -51,15 +64,22 @@ class BitmapFontHighlighter: Annotator {
         val start = valueElement.startOffset
         for (i in valueText.indices) {
           if (valueText[i] == ',') {
-            holder.createInfoAnnotation(TextRange(start + i, start + i + 1), null)
-                    .apply { textAttributes = BitmapFontColorSettingsPage.COMMA }
+            holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(TextRange(start + i, start + i + 1))
+                    .textAttributes(BitmapFontColorSettingsPage.COMMA)
+                    .create()
           }
         }
       }
 
     } else if ((element as? LeafPsiElement)?.elementType == BitmapFontElementTypes.UNQUOTED_STRING) {
       if (KEYWORDS.contains(element.text) && element.parent !is BitmapFontKey && element.parent !is BitmapFontValue) {
-        holder.createInfoAnnotation(element, null).apply { textAttributes = BitmapFontColorSettingsPage.KEYWORD }
+        holder
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(element)
+                .textAttributes(BitmapFontColorSettingsPage.KEYWORD)
+                .create()
       }
     }
 

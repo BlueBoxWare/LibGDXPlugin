@@ -32,7 +32,7 @@ class BitmapFontFile(fileViewProvider: FileViewProvider): PsiFileBase(fileViewPr
 
     childrenOfType<BitmapFontFontChar>().forEach { fontChar ->
       fontChar.character?.let { id ->
-        map.put(id, fontChar)
+        map[id] = fontChar
       }
     }
 

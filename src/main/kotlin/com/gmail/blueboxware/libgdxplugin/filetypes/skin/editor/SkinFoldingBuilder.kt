@@ -18,7 +18,7 @@ import com.intellij.openapi.util.TextRange
  */
 class SkinFoldingBuilder: FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String? =
+  override fun getPlaceholderText(node: ASTNode): String =
           when (node.elementType) {
             SkinElementTypes.OBJECT -> "{...}"
             SkinElementTypes.ARRAY -> "[...]"

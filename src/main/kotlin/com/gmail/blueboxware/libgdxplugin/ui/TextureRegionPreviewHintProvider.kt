@@ -116,7 +116,7 @@ class TextureRegionPreviewHintProvider: PreviewHintProvider {
 
   }
 
-  private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent? {
+  private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent {
 
     var previewImage = image
     var scale = 1

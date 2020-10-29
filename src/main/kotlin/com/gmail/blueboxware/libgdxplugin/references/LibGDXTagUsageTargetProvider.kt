@@ -73,8 +73,6 @@ class LibGDXTagUsageTargetProvider: DefaultUsageTargetProvider() {
 
       }
 
-      Unit
-
     }
 
     return UsageTarget.EMPTY_ARRAY

@@ -25,7 +25,7 @@ class LibGDXAtlasFileType private constructor(): LanguageFileType(LibGDXAtlasLan
     val INSTANCE = LibGDXAtlasFileType()
   }
 
-  override fun getIcon(): Icon? = Icons.ATLAS_FILETYPE
+  override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
 
   override fun getName(): String = "libGDX Atlas"
 

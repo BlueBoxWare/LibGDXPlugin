@@ -32,7 +32,7 @@ abstract class FileTypeEditorNotificationProvider(
         private val forLanguage: Language
 ): EditorNotifications.Provider<EditorNotificationPanel>() {
 
-  private val notifications: EditorNotifications? = EditorNotifications.getInstance(project)
+  private val notifications: EditorNotifications = EditorNotifications.getInstance(project)
 
   abstract val messageKey: String
 
@@ -71,21 +71,21 @@ abstract class FileTypeEditorNotificationProvider(
 
     return EditorNotificationPanel().apply {
 
-      setText(message(messageKey, file.fileType.description))
+      text = message(messageKey, file.fileType.description)
 
       createActionLabel(message("filetype.yes")) {
         onYes(file)
-        notifications?.updateAllNotifications()
+        notifications.updateAllNotifications()
       }
 
       createActionLabel(message("filetype.no")) {
         onNo(file)
-        notifications?.updateAllNotifications()
+        notifications.updateAllNotifications()
       }
 
       createActionLabel(message("filetype.do.not.bother")) {
         onNever(settings)
-        notifications?.updateAllNotifications()
+        notifications.updateAllNotifications()
       }
 
     }

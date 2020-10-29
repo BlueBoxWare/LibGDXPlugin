@@ -4,7 +4,6 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.AbstractBundle
-import com.intellij.CommonBundle
 import org.jetbrains.annotations.PropertyKey
 import java.lang.ref.Reference
 import java.lang.ref.SoftReference
@@ -32,7 +31,7 @@ fun getBundle(): ResourceBundle? {
 
   if (bundle == null) {
     bundle = ResourceBundle.getBundle(BUNDLE)
-    ourBundle = SoftReference<ResourceBundle>(bundle)
+    ourBundle = SoftReference(bundle)
   }
 
   return bundle

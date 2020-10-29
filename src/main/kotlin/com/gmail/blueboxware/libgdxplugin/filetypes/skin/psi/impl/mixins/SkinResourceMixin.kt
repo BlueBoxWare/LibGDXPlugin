@@ -82,7 +82,7 @@ abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(n
               VfsUtil.getRelativeLocation(containingFile.virtualFile, it)
             }
 
-    override fun getIcon(unused: Boolean): Icon? {
+    override fun getIcon(unused: Boolean): Icon {
       val force = this@SkinResourceMixin
               .firstParent<SkinClassSpecification>()
               ?.getRealClassNamesAsString()
@@ -91,7 +91,7 @@ abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(n
       return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
     }
 
-    override fun getPresentableText(): String? = name
+    override fun getPresentableText(): String = name
   }
 
   override fun toString(): String = "SkinResource($name)"

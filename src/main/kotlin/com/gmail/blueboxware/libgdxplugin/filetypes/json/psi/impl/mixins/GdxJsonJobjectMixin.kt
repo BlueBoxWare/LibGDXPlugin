@@ -39,9 +39,9 @@ abstract class GdxJsonJobjectMixin(node: ASTNode): GdxJsonJobject, GdxJsonElemen
     override fun getLocationString(): String? =
             ((getProperty("name") ?: getProperty("id"))?.value?.value as? GdxJsonString)?.presentation?.presentableText
 
-    override fun getIcon(unused: Boolean): Icon? = AllIcons.Json.Object
+    override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Object
 
-    override fun getPresentableText(): String? = "object"
+    override fun getPresentableText(): String = "object"
 
   }
 

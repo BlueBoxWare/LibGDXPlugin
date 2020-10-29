@@ -84,7 +84,7 @@ private class MyCachedValueProvider(
         val colorNameToFind: String
 ): CachedValueProvider<Collection<PsiElement>> {
 
-  override fun compute(): CachedValueProvider.Result<Collection<PsiElement>>? {
+  override fun compute(): CachedValueProvider.Result<Collection<PsiElement>> {
 
     val result = mutableListOf<PsiElement>()
 

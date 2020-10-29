@@ -28,7 +28,7 @@ class GdxJsonFoldingBuilder: FoldingBuilder, DumbAware {
   override fun buildFoldRegions(node: ASTNode, document: Document): Array<FoldingDescriptor> =
           collectDescriptorsRecursively(node, document, mutableListOf()).toTypedArray()
 
-  override fun getPlaceholderText(node: ASTNode): String? {
+  override fun getPlaceholderText(node: ASTNode): String {
 
     (node.psi as? GdxJsonJobject)?.let { jObject ->
 

@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
+import com.intellij.openapi.components.service
 import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
@@ -26,7 +27,10 @@ import com.intellij.psi.PsiManager
 class LibGDXStartupActivity: StartupActivity.DumbAware {
 
   override fun runActivity(project: Project) {
-    PsiManager.getInstance(project).addPsiTreeChangeListener(ChangeKotlinPackageListener(project))
+    PsiManager.getInstance(project).addPsiTreeChangeListener(
+            ChangeKotlinPackageListener(project),
+            project.service<DisposableProvider>()
+    )
 
     project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
       for (skinFile in skins.files) {

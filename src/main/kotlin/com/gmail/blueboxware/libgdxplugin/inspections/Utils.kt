@@ -49,7 +49,7 @@ internal fun checkForNonExistingAssetReference(element: PsiElement, elementName:
             val type = reference.className ?: "<unknown>"
             val files = reference.filesPresentableText(true).takeIf { it != "" }?.let { "in $it" } ?: ""
             val fixes =
-                    if (!elementName.isBlank()) {
+                    if (elementName.isNotBlank()) {
                       reference.className?.takeIf { it.plainName != TEXTURE_REGION_CLASS_NAME }?.let { className ->
                         reference.skinFiles.map { skinFile ->
                           CreateAssetQuickFix(skinFile, elementName, className, skinFile.name)
