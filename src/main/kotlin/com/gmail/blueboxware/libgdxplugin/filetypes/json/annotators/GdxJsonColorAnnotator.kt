@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
@@ -38,8 +39,8 @@ class GdxJsonColorAnnotator: Annotator {
     }
 
     if (element is GdxJsonString) {
-      if (element.value.firstOrNull() == '#' && COLOR_REGEX.matches(element.value)) {
-        color(element.value)?.let { color ->
+      if (element.getValue().firstOrNull() == '#' && COLOR_REGEX.matches(element.getValue())) {
+        color(element.getValue())?.let { color ->
 
           createAnnotation(color, element, holder)
 
@@ -58,10 +59,10 @@ class GdxJsonColorAnnotator: Annotator {
         return
       }
 
-      val rgbR = (r.value?.value as? GdxJsonString)?.value?.toFloatOrNull() ?: return
-      val rgbG = (g.value?.value as? GdxJsonString)?.value?.toFloatOrNull() ?: return
-      val rgbB = (b.value?.value as? GdxJsonString)?.value?.toFloatOrNull() ?: return
-      val rgbA = (a?.value?.value as? GdxJsonString)?.value?.toFloatOrNull() ?: 1.0f
+      val rgbR = (r.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+      val rgbG = (g.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+      val rgbB = (b.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+      val rgbA = (a?.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: 1.0f
 
       color(rgbR, rgbG, rgbB, rgbA)?.let { color ->
 
@@ -71,9 +72,9 @@ class GdxJsonColorAnnotator: Annotator {
 
     } else if (element is GdxJsonProperty) {
 
-      if (element.propertyName.value.toLowerCase() in JSON_COLOR_PROPERTY_NAMES) {
+      if (element.propertyName.getValue().toLowerCase() in JSON_COLOR_PROPERTY_NAMES) {
 
-        (element.value?.value as? GdxJsonString)?.value?.let { str ->
+        (element.value?.value as? GdxJsonString)?.getValue()?.let { str ->
           if (str.length == 6 || str.length == 8) {
             color(str)?.let {
               createAnnotation(it, element, holder)

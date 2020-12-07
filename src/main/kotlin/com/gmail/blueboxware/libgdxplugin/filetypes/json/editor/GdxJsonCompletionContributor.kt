@@ -103,7 +103,7 @@ class GdxJsonCompletionContributor: CompletionContributor() {
 
     private fun PsiFile.collectValues() = getCachedValue(VALUES_KEY) {
       (this as? GdxJsonFile)?.childrenOfType<GdxJsonValue>()?.mapNotNull {
-        (it.value as? GdxJsonString)?.value
+        (it.value as? GdxJsonLiteral)?.getValue()
       }?.toSet() ?: setOf()
     }
 

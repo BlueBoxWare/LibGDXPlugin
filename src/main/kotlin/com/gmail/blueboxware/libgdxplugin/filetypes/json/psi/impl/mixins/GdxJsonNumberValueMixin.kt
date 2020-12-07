@@ -1,12 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonNumberValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
 
 
 /*
- * Copyright 2019 Blue Box Ware
+ * Copyright 2020 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +20,10 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonPropertyNameMixin(node: ASTNode): GdxJsonPropertyName, GdxJsonElementImpl(node) {
+abstract class GdxJsonNumberValueMixin(node: ASTNode): GdxJsonNumberValue, GdxJsonElementImpl(node) {
 
-  override fun getValue(): String =
-          if (isQuoted) {
-            text.substring(1, text.length - 1)
-          } else {
-            text
-          }
+  override fun getValue(): String = text
 
-  override fun toFloatOrNull(): Float? = null
-
-  override fun isQuoted(): Boolean = text.length > 1 && text.first() == '"' && text.last() == '"'
-
-  override fun isKeyword(): Boolean = false
+  override fun toFloatOrNull(): Float? = getValue().toFloatOrNull()
 
 }

@@ -11,7 +11,7 @@ ext {
 
     studioVersion = '201.8743.12'
 
-    useStudio = true
+    useStudio = false
     runStudio = false
 
 }

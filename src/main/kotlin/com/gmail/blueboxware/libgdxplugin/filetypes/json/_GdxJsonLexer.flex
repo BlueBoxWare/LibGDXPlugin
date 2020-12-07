@@ -13,7 +13,9 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
   public _GdxJsonLexer() {
       this(null);
     }
-  %}
+
+    StringBuffer string = new StringBuffer();
+%}
 
 %public
 %class _GdxJsonLexer
@@ -22,13 +24,14 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
 %type IElementType
 %unicode
 
-EOL=\R
 WHITE_SPACE=\s+
 
 LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
-DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"
 ANY_CHAR=.
+
+%state STRING
+%state USTRING
 
 %%
 <YYINITIAL> {
@@ -40,16 +43,55 @@ ANY_CHAR=.
   "]"                         { return R_BRACKET; }
   ","                         { return COMMA; }
   ":"                         { return COLON; }
-  "\""                        { return DOUBLE_QUOTE; }
   "/"                         { return SLASH; }
-  "\\"                        { return BACK_SLASH; }
   "*"                         { return ASTERIX; }
+
+  "\""                        { yybegin(STRING); }
 
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
-  {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
-  {ANY_CHAR}                  { return ANY_CHAR; }
+
+  {ANY_CHAR}                  {  yypushback(1); string.setLength(0); yybegin(USTRING); }
 
 }
 
-[^] { return BAD_CHARACTER; }
+
+<STRING> {
+    "\\"       {}
+    "\\\""     {}
+    "\\\\"     {}
+    "\""       { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
+    [^\"\\]+   {}
+}
+
+<USTRING> {
+    ([^}\],:\r\n/]|\/[^*/])+  {
+          string.setLength(0);
+          string.append(yytext());
+          while (string.length() > 0) {
+              Character c = string.substring(string.length() - 1).charAt(0);
+              if (Character.isSpaceChar(c)) {
+                    yypushback(1);
+                    string.setLength(string.length() - 1);
+              } else {
+                  break;
+              }
+          }
+          yybegin(YYINITIAL);
+          try {
+              Double.parseDouble(string.toString());
+              return NUMBER;
+              } catch (NumberFormatException e) {}
+          try {
+              Long.parseLong(string.toString());
+              return NUMBER;
+              } catch (NumberFormatException e) {}
+          return UNQUOTED_STRING;
+
+      }
+      [^]       {
+          throw new Error("Illegal character <"+ yytext()+">");
+      }
+}
+
+

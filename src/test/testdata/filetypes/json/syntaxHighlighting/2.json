@@ -16,6 +16,6 @@
   }
   /* comment */]
   <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Nate</info>
-  <info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER"><info descr="JSON.STRING">31</info></info>
+  <info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER">31</info>
 }
 /* comment */

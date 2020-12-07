@@ -34,7 +34,7 @@ class GdxJsonBreadcrumbsProvider: BreadcrumbsProvider {
 
   override fun getElementInfo(element: PsiElement): String {
     if (element is GdxJsonProperty) {
-      return element.propertyName.value
+      return element.propertyName.getValue()
     } else if (element is GdxJsonValue && element.isArrayElement()) {
       element.getArrayIndexOfItem()?.let {
         return it.toString()

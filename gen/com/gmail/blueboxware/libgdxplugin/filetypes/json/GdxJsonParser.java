@@ -1,15 +1,15 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.json;
 
-import com.intellij.lang.ASTNode;
-import com.intellij.lang.LightPsiParser;
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import com.intellij.lang.PsiParser;
-import com.intellij.psi.tree.IElementType;
-
 import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserUtil.*;
+import com.intellij.psi.tree.IElementType;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.tree.TokenSet;
+import com.intellij.lang.PsiParser;
+import com.intellij.lang.LightPsiParser;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class GdxJsonParser implements PsiParser, LightPsiParser {
@@ -23,40 +23,15 @@ public class GdxJsonParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == ARRAY) {
-      r = array(b, 0);
-    }
-    else if (t == BOOLEAN) {
-      r = boolean_$(b, 0);
-    }
-    else if (t == JOBJECT) {
-      r = jobject(b, 0);
-    }
-    else if (t == NULL) {
-      r = null_$(b, 0);
-    }
-    else if (t == NUMBER) {
-      r = number(b, 0);
-    }
-    else if (t == PROPERTY) {
-      r = property(b, 0);
-    }
-    else if (t == PROPERTY_NAME) {
-      r = property_name(b, 0);
-    }
-    else if (t == STRING) {
-      r = string(b, 0);
-    }
-    else if (t == VALUE) {
-      r = value(b, 0);
-    }
-    else {
-      r = parse_root_(t, b, 0);
-    }
+    r = parse_root_(t, b);
     exit_section_(b, 0, m, t, r, true, TRUE_CONDITION);
   }
 
-  protected boolean parse_root_(IElementType t, PsiBuilder b, int l) {
+  protected boolean parse_root_(IElementType t, PsiBuilder b) {
+    return parse_root_(t, b, 0);
+  }
+
+  static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
     return json(b, l + 1);
   }
 
@@ -109,13 +84,6 @@ public class GdxJsonParser implements PsiParser, LightPsiParser {
   private static boolean array_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "array_3")) return false;
     consumeToken(b, COMMA);
-    return true;
-  }
-
-  /* ********************************************************** */
-  public static boolean boolean_$(PsiBuilder b, int l) {
-    Marker m = enter_section_(b);
-    exit_section_(b, m, BOOLEAN, true);
     return true;
   }
 
@@ -200,17 +168,15 @@ public class GdxJsonParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  public static boolean null_$(PsiBuilder b, int l) {
+  // NUMBER
+  public static boolean number_value(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "number_value")) return false;
+    if (!nextTokenIs(b, NUMBER)) return false;
+    boolean r;
     Marker m = enter_section_(b);
-    exit_section_(b, m, NULL, true);
-    return true;
-  }
-
-  /* ********************************************************** */
-  public static boolean number(PsiBuilder b, int l) {
-    Marker m = enter_section_(b);
-    exit_section_(b, m, NUMBER, true);
-    return true;
+    r = consumeToken(b, NUMBER);
+    exit_section_(b, m, NUMBER_VALUE, r);
+    return r;
   }
 
   /* ********************************************************** */
@@ -223,36 +189,38 @@ public class GdxJsonParser implements PsiParser, LightPsiParser {
     p = r; // pin = 1
     r = r && report_error_(b, consumeToken(b, COLON));
     r = p && value(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, not_brace_or_separator_parser_);
+    exit_section_(b, l, m, r, p, GdxJsonParser::not_brace_or_separator);
     return r || p;
   }
 
   /* ********************************************************** */
-  // DOUBLE_QUOTED_STRING | unquoted_name_string
+  // DOUBLE_QUOTED_STRING | UNQUOTED_STRING | NUMBER
   public static boolean property_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property_name")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY_NAME, "<property name>");
     r = consumeToken(b, DOUBLE_QUOTED_STRING);
-    if (!r) r = parseUnquotedNameString(b, l + 1);
+    if (!r) r = consumeToken(b, UNQUOTED_STRING);
+    if (!r) r = consumeToken(b, NUMBER);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // DOUBLE_QUOTED_STRING | unquoted_value_string
+  // DOUBLE_QUOTED_STRING | UNQUOTED_STRING
   public static boolean string(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "string")) return false;
+    if (!nextTokenIs(b, "<string>", DOUBLE_QUOTED_STRING, UNQUOTED_STRING)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, STRING, "<string>");
     r = consumeToken(b, DOUBLE_QUOTED_STRING);
-    if (!r) r = parseUnquotedValueString(b, l + 1);
+    if (!r) r = consumeToken(b, UNQUOTED_STRING);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // jobject | array | string
+  // jobject | array | string | number_value
   public static boolean value(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "value")) return false;
     boolean r;
@@ -260,13 +228,9 @@ public class GdxJsonParser implements PsiParser, LightPsiParser {
     r = jobject(b, l + 1);
     if (!r) r = array(b, l + 1);
     if (!r) r = string(b, l + 1);
+    if (!r) r = number_value(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  static final Parser not_brace_or_separator_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return not_brace_or_separator(b, l + 1);
-    }
-  };
 }

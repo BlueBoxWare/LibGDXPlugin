@@ -1,6 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonNumberValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -31,10 +33,12 @@ class GdxJsonHighlightingAnnotator: Annotator {
 
     fun a(textAttribute: TextAttributesKey) = element.annotate(holder, textAttribute)
 
+    if ((element as? GdxJsonString)?.isKeyword == true) {
+      a(JSON_KEYWORD)
+    }
     when (element) {
       is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
-      is GdxJsonNull, is GdxJsonBoolean -> a(JSON_KEYWORD)
-      is GdxJsonNumber -> a(JSON_NUMBER)
+      is GdxJsonNumberValue -> a(JSON_NUMBER)
       is GdxJsonString -> a(JSON_STRING)
     }
 

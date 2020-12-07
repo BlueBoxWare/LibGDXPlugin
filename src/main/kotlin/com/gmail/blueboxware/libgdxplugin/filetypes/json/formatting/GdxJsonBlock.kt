@@ -35,7 +35,11 @@ class GdxJsonBlock(
 
   private val psiElement: PsiElement = node.psi
 
-  private val childWrap: Wrap?
+  private val childWrap: Wrap? = when (psiElement) {
+    is GdxJsonJobject -> Wrap.createWrap(customSettings.OBJECT_WRAPPING, true)
+    is GdxJsonArray -> Wrap.createWrap(customSettings.ARRAY_WRAPPING, true)
+    else -> null
+  }
 
   private val propertyValueAlignment: Alignment? = if (psiElement is GdxJsonJobject) {
     Alignment.createAlignment(true)
@@ -44,16 +48,6 @@ class GdxJsonBlock(
   }
 
   private var subBlocks: MutableList<Block>? = null
-
-  init {
-
-    childWrap = when (psiElement) {
-      is GdxJsonJobject -> Wrap.createWrap(customSettings.OBJECT_WRAPPING, true)
-      is GdxJsonArray -> Wrap.createWrap(customSettings.ARRAY_WRAPPING, true)
-      else -> null
-    }
-
-  }
 
   override fun getNode(): ASTNode = node
 

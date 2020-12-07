@@ -1,16 +1,15 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl;
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin;
+import java.util.List;
+import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin;
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*;
 
 public class GdxJsonJobjectImpl extends GdxJsonJobjectMixin implements GdxJsonJobject {
 
@@ -22,6 +21,7 @@ public class GdxJsonJobjectImpl extends GdxJsonJobjectMixin implements GdxJsonJo
     visitor.visitJobject(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GdxJsonElementVisitor) accept((GdxJsonElementVisitor)visitor);
     else super.accept(visitor);

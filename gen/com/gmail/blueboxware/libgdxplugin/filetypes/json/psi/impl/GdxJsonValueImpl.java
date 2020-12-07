@@ -21,6 +21,7 @@ public class GdxJsonValueImpl extends GdxJsonValueMixin implements GdxJsonValue 
     visitor.visitValue(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GdxJsonElementVisitor) accept((GdxJsonElementVisitor)visitor);
     else super.accept(visitor);
@@ -36,6 +37,12 @@ public class GdxJsonValueImpl extends GdxJsonValueMixin implements GdxJsonValue 
   @Nullable
   public GdxJsonJobject getJobject() {
     return findChildByClass(GdxJsonJobject.class);
+  }
+
+  @Override
+  @Nullable
+  public GdxJsonNumberValue getNumberValue() {
+    return findChildByClass(GdxJsonNumberValue.class);
   }
 
   @Override

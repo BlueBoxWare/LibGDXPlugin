@@ -14,6 +14,9 @@ public interface GdxJsonValue extends GdxJsonElement {
   GdxJsonJobject getJobject();
 
   @Nullable
+  GdxJsonNumberValue getNumberValue();
+
+  @Nullable
   GdxJsonString getString();
 
   @Nullable

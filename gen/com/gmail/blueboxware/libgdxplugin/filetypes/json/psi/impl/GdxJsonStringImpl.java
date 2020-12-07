@@ -21,6 +21,7 @@ public class GdxJsonStringImpl extends GdxJsonStringMixin implements GdxJsonStri
     visitor.visitString(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GdxJsonElementVisitor) accept((GdxJsonElementVisitor)visitor);
     else super.accept(visitor);

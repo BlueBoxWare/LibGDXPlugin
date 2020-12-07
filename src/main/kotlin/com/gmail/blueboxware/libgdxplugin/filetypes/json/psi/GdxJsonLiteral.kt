@@ -1,13 +1,8 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
-
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
-import com.intellij.openapi.util.Condition
-import com.intellij.psi.PsiElement
+package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi
 
 
 /*
- * Copyright 2019 Blue Box Ware
+ * Copyright 2020 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +16,10 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonWordSelectionFilter: Condition<PsiElement> {
+interface GdxJsonLiteral: GdxJsonElement {
 
-  override fun value(t: PsiElement?): Boolean =
-          t !is GdxJsonJobject
-                  && t !is GdxJsonArray
+  fun toFloatOrNull(): Float?
+
+  fun getValue(): String
 
 }

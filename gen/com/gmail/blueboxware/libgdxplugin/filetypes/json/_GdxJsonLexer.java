@@ -5,8 +5,9 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
-import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
 
 
 /**
@@ -24,6 +25,8 @@ public class _GdxJsonLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
+  public static final int STRING = 2;
+  public static final int USTRING = 4;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -32,7 +35,7 @@ public class _GdxJsonLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0, 0
+     0,  0,  1,  1,  2, 2
   };
 
   /** 
@@ -54,9 +57,9 @@ public class _GdxJsonLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 640 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\3\1\2\2\1\1\2\22\0\1\3\1\0\1\6\7\0\1\5\1\0\1\14\2\0\1\4\12\0\1\15"+
-    "\40\0\1\12\1\7\1\13\35\0\1\10\1\0\1\11\7\0\1\1\32\0\1\3\337\0\1\3\177\0\13"+
-    "\3\35\0\2\1\5\0\1\3\57\0\1\3\40\0");
+    "\11\0\1\1\1\3\2\4\1\3\22\0\1\1\1\0\1\14\7\0\1\5\1\0\1\12\2\0\1\2\12\0\1\13"+
+    "\40\0\1\10\1\15\1\11\35\0\1\6\1\0\1\7\7\0\1\4\32\0\1\1\337\0\1\1\177\0\13"+
+    "\1\35\0\2\4\5\0\1\1\57\0\1\1\40\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -64,12 +67,12 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\0"+
-    "\1\17\2\0\1\16";
+    "\3\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\10\1\11\1\12\1\13\1\14\1\15\1\14\1\16"+
+    "\2\17\1\20\1\21\1\14\2\0\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[20];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -94,12 +97,13 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\16\0\34\0\52\0\16\0\70\0\16\0\16"+
-    "\0\16\0\16\0\16\0\16\0\16\0\106\0\124\0\70"+
-    "\0\16\0\142\0\160\0\16";
+    "\0\0\0\16\0\34\0\52\0\70\0\106\0\52\0\52"+
+    "\0\52\0\52\0\52\0\52\0\52\0\52\0\124\0\52"+
+    "\0\142\0\160\0\176\0\52\0\214\0\232\0\52\0\176"+
+    "\0\250\0\52";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[20];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -122,14 +126,17 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\3\3\1\4\1\5\1\6\1\7\1\10\1\11"+
-    "\1\12\1\13\1\14\1\15\17\0\3\3\16\0\1\16"+
-    "\1\17\10\0\2\20\1\0\3\20\1\21\1\22\6\20"+
-    "\1\16\2\0\13\16\5\17\1\23\10\17\2\20\1\0"+
-    "\13\20\4\17\1\24\1\23\10\17";
+    "\1\4\1\5\1\6\2\5\1\7\1\10\1\11\1\12"+
+    "\1\13\1\14\1\15\1\16\1\4\14\17\1\20\1\21"+
+    "\2\22\1\23\1\24\3\22\1\24\1\22\3\24\2\22"+
+    "\17\0\1\5\1\0\2\5\13\0\1\25\2\0\1\26"+
+    "\10\0\14\17\16\0\2\27\2\22\1\30\1\0\3\22"+
+    "\1\0\1\22\3\0\4\22\1\0\2\22\1\0\10\22"+
+    "\3\25\2\0\11\25\5\26\1\31\12\26\1\32\2\26"+
+    "\1\31\10\26";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[126];
+    int [] result = new int[182];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -167,11 +174,11 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\2\1\1\11\1\1\7\11\2\1\1\0"+
-    "\1\11\2\0\1\11";
+    "\3\0\1\11\2\1\10\11\1\1\1\11\3\1\1\11"+
+    "\2\1\1\11\2\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[20];
+    int [] result = new int[26];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -228,8 +235,10 @@ public class _GdxJsonLexer implements FlexLexer {
 
   /* user code: */
   public _GdxJsonLexer() {
-    this((java.io.Reader)null);
-  }
+      this(null);
+    }
+
+    StringBuffer string = new StringBuffer();
 
 
   /**
@@ -477,80 +486,110 @@ public class _GdxJsonLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return ANY_CHAR;
+            { yypushback(1); string.setLength(0); yybegin(USTRING);
             } 
             // fall through
-          case 16: break;
+          case 18: break;
           case 2: 
             { return WHITE_SPACE;
             } 
             // fall through
-          case 17: break;
+          case 19: break;
           case 3: 
             { return SLASH;
             } 
             // fall through
-          case 18: break;
+          case 20: break;
           case 4: 
             { return ASTERIX;
             } 
             // fall through
-          case 19: break;
-          case 5: 
-            { return DOUBLE_QUOTE;
-            } 
-            // fall through
-          case 20: break;
-          case 6: 
-            { return BACK_SLASH;
-            } 
-            // fall through
           case 21: break;
-          case 7: 
+          case 5: 
             { return L_CURLY;
             } 
             // fall through
           case 22: break;
-          case 8: 
+          case 6: 
             { return R_CURLY;
             } 
             // fall through
           case 23: break;
-          case 9: 
+          case 7: 
             { return L_BRACKET;
             } 
             // fall through
           case 24: break;
-          case 10: 
+          case 8: 
             { return R_BRACKET;
             } 
             // fall through
           case 25: break;
-          case 11: 
+          case 9: 
             { return COMMA;
             } 
             // fall through
           case 26: break;
-          case 12: 
+          case 10: 
             { return COLON;
             } 
             // fall through
           case 27: break;
-          case 13: 
-            { return LINE_COMMENT;
+          case 11: 
+            { yybegin(STRING);
             } 
             // fall through
           case 28: break;
-          case 14: 
-            { return BLOCK_COMMENT;
+          case 12: 
+            { 
             } 
             // fall through
           case 29: break;
-          case 15: 
-            { return DOUBLE_QUOTED_STRING;
+          case 13: 
+            { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING;
             } 
             // fall through
           case 30: break;
+          case 14: 
+            { string.setLength(0);
+          string.append(yytext());
+          while (string.length() > 0) {
+              Character c = string.substring(string.length() - 1).charAt(0);
+              if (Character.isSpaceChar(c)) {
+                    yypushback(1);
+                    string.setLength(string.length() - 1);
+              } else {
+                  break;
+              }
+          }
+          yybegin(YYINITIAL);
+          try {
+              Double.parseDouble(string.toString());
+              return NUMBER;
+              } catch (NumberFormatException e) {}
+          try {
+              Long.parseLong(string.toString());
+              return NUMBER;
+              } catch (NumberFormatException e) {}
+          return UNQUOTED_STRING;
+            } 
+            // fall through
+          case 31: break;
+          case 15: 
+            { throw new Error("Illegal character <"+ yytext()+">");
+            } 
+            // fall through
+          case 32: break;
+          case 16: 
+            { return LINE_COMMENT;
+            } 
+            // fall through
+          case 33: break;
+          case 17: 
+            { return BLOCK_COMMENT;
+            } 
+            // fall through
+          case 34: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

@@ -1,4 +1,5 @@
 {
-  foo: [blue, red],
+  foo: [blue,
+    red],
   <caret>
 }

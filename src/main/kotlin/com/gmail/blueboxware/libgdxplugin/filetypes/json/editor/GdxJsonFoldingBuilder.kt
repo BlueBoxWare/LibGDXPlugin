@@ -4,8 +4,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition.Companion.CONTAINERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.FoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -36,7 +36,7 @@ class GdxJsonFoldingBuilder: FoldingBuilder, DumbAware {
       for (property: GdxJsonProperty? in jObject.propertyList) {
         val name = property?.name ?: continue
         val value = property.value?.value
-        if (value is GdxJsonString) {
+        if (value is GdxJsonLiteral) {
           if (name == "id" || name == "name") {
             candidate = property
             break

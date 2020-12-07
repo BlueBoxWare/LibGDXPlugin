@@ -24,7 +24,7 @@ import com.intellij.lang.ASTNode
  */
 abstract class GdxJsonValueMixin(node: ASTNode): GdxJsonValue, GdxJsonElementImpl(node) {
 
-  override fun getValue(): GdxJsonElement? = jobject ?: array ?: string
+  override fun getValue(): GdxJsonElement? = jobject ?: array ?: string ?: numberValue
 
   override fun isPropertyValue(): Boolean = (parent as? GdxJsonProperty)?.let { it.value == this } ?: false
 

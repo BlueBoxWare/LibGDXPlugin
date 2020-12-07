@@ -11,20 +11,12 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
     visitElement(o);
   }
 
-  public void visitBoolean(@NotNull GdxJsonBoolean o) {
-    visitPsiElement(o);
-  }
-
   public void visitJobject(@NotNull GdxJsonJobject o) {
     visitElement(o);
   }
 
-  public void visitNull(@NotNull GdxJsonNull o) {
-    visitPsiElement(o);
-  }
-
-  public void visitNumber(@NotNull GdxJsonNumber o) {
-    visitPsiElement(o);
+  public void visitNumberValue(@NotNull GdxJsonNumberValue o) {
+    visitLiteral(o);
   }
 
   public void visitProperty(@NotNull GdxJsonProperty o) {
@@ -36,7 +28,7 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
   }
 
   public void visitString(@NotNull GdxJsonString o) {
-    visitElement(o);
+    visitLiteral(o);
   }
 
   public void visitValue(@NotNull GdxJsonValue o) {
@@ -44,6 +36,10 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
   }
 
   public void visitElement(@NotNull GdxJsonElement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitLiteral(@NotNull GdxJsonLiteral o) {
     visitPsiElement(o);
   }
 

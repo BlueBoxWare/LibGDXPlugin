@@ -28,6 +28,10 @@ class TestSyntaxHighlighting: LibGDXCodeInsightFixtureTestCase() {
     doTest("2.json")
   }
 
+  fun testSyntaxHighlighting3() {
+    doTest("3.json")
+  }
+
   fun doTest(fileName: String) {
     configureByFileAsGdxJson(fileName)
     myFixture.checkHighlighting(false, true, false)

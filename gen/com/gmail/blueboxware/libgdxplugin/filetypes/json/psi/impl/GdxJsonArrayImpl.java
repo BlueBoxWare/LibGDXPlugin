@@ -22,6 +22,7 @@ public class GdxJsonArrayImpl extends GdxJsonArrayMixin implements GdxJsonArray 
     visitor.visitArray(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof GdxJsonElementVisitor) accept((GdxJsonElementVisitor)visitor);
     else super.accept(visitor);

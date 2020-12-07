@@ -12,7 +12,8 @@
 
   tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonTokenType'
 
-  implements("jobject|array|value|property|string|null|boolean|number") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
+  implements("jobject|array|value|property") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
+  implements("string|number_value") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral"
   implements("property_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString"
 
   name("jobject") = 'object'
@@ -30,19 +31,19 @@
         BACK_SLASH='\'
         ASTERIX='*'
 
-        LINE_COMMENT='regexp://.*'
-        BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
+        LINE_COMMENT='LINE COMMENT'
+        BLOCK_COMMENT='BLOCK COMMENT'
 
-        DOUBLE_QUOTED_STRING='regexp:"([^\\"\r\n]|\\[^\r\n])*"'
+        DOUBLE_QUOTED_STRING='QUOTED STRING'
+        UNQUOTED_STRING='UNQUOTED STRING'
 
-        ANY_CHAR='regexp:.'
     ]
 
 }
 
 json ::=  value 
 
-value ::= jobject | array | string {
+value ::= jobject | array | string | number_value {
     methods=[
         getValue
         isPropertyValue
@@ -70,17 +71,21 @@ property ::= property_name  ':'  value {
 
 private not_brace_or_separator ::= !( '}' | separator)
 
-string ::= DOUBLE_QUOTED_STRING | unquoted_value_string {
+string ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonStringMixin"
     methods=[
         isQuoted
-        getValue
+        isKeyword
 
         DOUBLE_QUOTED_STRING=""
     ]
 }
 
-property_name ::= DOUBLE_QUOTED_STRING | unquoted_name_string {
+number_value ::= NUMBER {
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonNumberValueMixin"
+}
+
+property_name ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING | NUMBER {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyNameMixin"
     methods=[
         getValue
@@ -90,13 +95,4 @@ property_name ::= DOUBLE_QUOTED_STRING | unquoted_name_string {
     ]
 }
 
-//noinspection BnfUnusedRule
-null ::= /* dummy */
-//noinspection BnfUnusedRule
-boolean ::= /* dummy */
-//noinspection BnfUnusedRule
-number ::= /* dummy */
-
-external unquoted_value_string ::= parseUnquotedValueString
-external unquoted_name_string ::= parseUnquotedNameString
 external separator ::= parseSeparator

@@ -1,10 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.indexOfOrNull
 import com.intellij.openapi.editor.Editor
-import com.intellij.psi.PsiElement
 
 
 /*
@@ -25,15 +26,6 @@ import com.intellij.psi.PsiElement
 fun GdxJsonElement.factory() = (containingFile as? GdxJsonFileImpl)?.factory
 
 fun GdxJsonElement.isArrayElement() = this is GdxJsonValue && parent is GdxJsonArray
-
-fun PsiElement.parentString(): GdxJsonString? =
-        parent.let { parent ->
-          when (parent) {
-            is GdxJsonString -> parent
-            is GdxJsonBoolean, is GdxJsonNull, is GdxJsonNumber -> parent.parent as? GdxJsonString
-            else -> null
-          }
-        }
 
 fun GdxJsonValue.getArrayIndexOfItem(): Int? =
         (parent as? GdxJsonArray)?.valueList?.indexOfOrNull(this)

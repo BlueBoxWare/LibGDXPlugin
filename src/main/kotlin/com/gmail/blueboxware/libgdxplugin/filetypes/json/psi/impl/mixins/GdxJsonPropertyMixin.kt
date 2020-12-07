@@ -29,11 +29,11 @@ import javax.swing.Icon
  */
 abstract class GdxJsonPropertyMixin(node: ASTNode): GdxJsonProperty, GdxJsonElementImpl(node) {
 
-  override fun getName(): String? = propertyName.value
+  override fun getName(): String? = propertyName.getValue()
 
   override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
 
-    override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.value
+    override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.getValue()
 
     override fun getIcon(unused: Boolean): Icon? =
             when (value?.value) {

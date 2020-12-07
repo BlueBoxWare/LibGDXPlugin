@@ -5,11 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GdxJsonString extends GdxJsonElement {
+public interface GdxJsonString extends GdxJsonLiteral {
 
   boolean isQuoted();
 
-  @NotNull
-  String getValue();
+  boolean isKeyword();
 
 }
