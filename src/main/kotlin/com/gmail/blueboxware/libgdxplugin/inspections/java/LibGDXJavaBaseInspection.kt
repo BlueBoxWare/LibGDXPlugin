@@ -20,10 +20,12 @@ import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
 import com.intellij.psi.PsiElement
 
+@Suppress("InspectionDescriptionNotFoundInspection")
 open class LibGDXJavaBaseInspection: AbstractBaseJavaLocalInspectionTool() {
 
   override fun getGroupPath() = arrayOf("libGDX", "Java")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true

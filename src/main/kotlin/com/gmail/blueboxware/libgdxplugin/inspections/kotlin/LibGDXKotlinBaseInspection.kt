@@ -26,10 +26,12 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getCall
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.kotlin.types.KotlinType
 
+@Suppress("InspectionDescriptionNotFoundInspection")
 open class LibGDXKotlinBaseInspection: LocalInspectionTool() {
 
   override fun getGroupPath() = arrayOf("libGDX", "Kotlin")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true

@@ -44,7 +44,7 @@ class BitmapFontColorSettingsPage: ColorSettingsPage {
   override fun getIcon() = Icons.FONT_FILETYPE
 
   override fun getAttributeDescriptors() = arrayOf(
-          AttributesDescriptor("Equals sign", EQUALS_SIGN),
+          AttributesDescriptor("Equals Sign", EQUALS_SIGN),
           AttributesDescriptor("Comma", COMMA),
           AttributesDescriptor("Keyword", KEYWORD),
           AttributesDescriptor("Key", KEY),

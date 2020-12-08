@@ -37,8 +37,8 @@ class AtlasColorSettingsPage: ColorSettingsPage {
           AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),
           AttributesDescriptor("Comma", AtlasSyntaxHighlighter.COMMA),
 
-          AttributesDescriptor("Pack file name", AtlasSyntaxHighlighter.FILE_NAME),
-          AttributesDescriptor("Texture name", AtlasSyntaxHighlighter.TEXTURE_NAME),
+          AttributesDescriptor("Pack File Name", AtlasSyntaxHighlighter.FILE_NAME),
+          AttributesDescriptor("Texture Name", AtlasSyntaxHighlighter.TEXTURE_NAME),
           AttributesDescriptor("Key", AtlasSyntaxHighlighter.KEY),
           AttributesDescriptor("Value", AtlasSyntaxHighlighter.VALUE)
   )

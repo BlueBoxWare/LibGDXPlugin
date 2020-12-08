@@ -35,6 +35,7 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
 
   override fun getGroupPath() = arrayOf("libGDX", "Skin files")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true

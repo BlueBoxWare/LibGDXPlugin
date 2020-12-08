@@ -24,6 +24,7 @@ abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
 
   override fun getGroupPath() = arrayOf("libGDX", "Gradle")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun isEnabledByDefault() = true

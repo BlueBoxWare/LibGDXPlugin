@@ -46,6 +46,7 @@ class MarkAsGdxJsonAction: AnAction() {
 
         if (currentLanguage != LibGDXJsonLanuage.INSTANCE && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
 
+          @Suppress("DialogTitleCapitalization")
           presentation.text = message("context.menu.mark.as.gdx.json")
           presentation.icon = Icons.LIBGDX_JSON_FILETYPE
           presentation.isEnabled = true
@@ -55,6 +56,7 @@ class MarkAsGdxJsonAction: AnAction() {
                 && LanguageUtil.getFileLanguage(file) != LibGDXJsonLanuage.INSTANCE
         ) {
 
+          @Suppress("DialogTitleCapitalization")
           presentation.text = message("context.menu.mark.as.non.gdx.json")
           presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)
           presentation.isEnabled = true

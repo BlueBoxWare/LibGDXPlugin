@@ -42,6 +42,7 @@ class DesignedForTabletsInspection: GlobalInspectionTool() {
 
   override fun getDisplayName() = message("designed.for.tablets.inspection")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun getStaticDescription() = message("designed.for.tablets.html.description")

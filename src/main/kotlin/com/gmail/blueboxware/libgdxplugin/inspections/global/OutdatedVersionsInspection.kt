@@ -33,6 +33,7 @@ class OutdatedVersionsInspection: GlobalInspectionTool() {
 
   override fun getDisplayName() = message("outdated.version.inspection.display.name")
 
+  @Suppress("DialogTitleCapitalization")
   override fun getGroupDisplayName() = "libGDX"
 
   override fun getStaticDescription() =

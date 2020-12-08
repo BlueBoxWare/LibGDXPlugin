@@ -50,12 +50,14 @@ class MarkAsSkinAction: AnAction() {
                 || currentLanguage == JsonLanguage.INSTANCE
         ) {
 
+          @Suppress("DialogTitleCapitalization")
           presentation.text = message("context.menu.mark.as.skin")
           presentation.icon = Icons.SKIN_FILETYPE
           presentation.isEnabled = true
 
         } else if (LanguageUtil.getFileLanguage(file) != LibGDXSkinLanguage.INSTANCE) {
 
+          @Suppress("DialogTitleCapitalization")
           presentation.text = message("context.menu.mark.as.non.skin")
           presentation.icon = IconLoader.getDisabledIcon(Icons.SKIN_FILETYPE)
           presentation.isEnabled = true

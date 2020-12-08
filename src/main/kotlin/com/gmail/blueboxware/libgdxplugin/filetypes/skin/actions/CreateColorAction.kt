@@ -59,7 +59,7 @@ class CreateColorAction: SimpleCodeInsightAction() {
         return
       }
 
-      ColorChooser.chooseColor(editor.component, "Choose color to create", Color.WHITE, true)?.let { color ->
+      ColorChooser.chooseColor(editor.component, "Choose Color To Create", Color.WHITE, true)?.let { color ->
         ApplicationManager.getApplication().runWriteAction {
           file.addColor(result.first, color = color, useComponents = result.second ?: false)
         }

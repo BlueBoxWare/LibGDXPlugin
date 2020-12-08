@@ -140,7 +140,7 @@ private fun resetAssociations(
     Messages.showWarningDialog(
             component,
             "Cannot determine active project.",
-            "Cannot determine active project"
+            "Cannot Determine Active Project"
     )
     return
   }
