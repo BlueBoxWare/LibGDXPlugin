@@ -57,15 +57,18 @@ ANY_CHAR=.
 
 
 <STRING> {
+<<EOF>> { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
     "\\"       {}
     "\\\""     {}
     "\\\\"     {}
     "\""       { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
     [^\"\\]+   {}
+
+
 }
 
 <USTRING> {
-    ([^}\],:\r\n/]|\/[^*/])+  {
+   ([^}\],:\r\n/]|\/[^*/])+ {
           string.setLength(0);
           string.append(yytext());
           while (string.length() > 0) {
@@ -89,9 +92,7 @@ ANY_CHAR=.
           return UNQUOTED_STRING;
 
       }
-      [^]       {
-          throw new Error("Illegal character <"+ yytext()+">");
-      }
+      [^]      { return BAD_CHARACTER; }
 }
 
 

@@ -481,7 +481,14 @@ public class _GdxJsonLexer implements FlexLexer {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
+        switch (zzLexicalState) {
+            case STRING: {
+              yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING;
+            }  // fall though
+            case 27: break;
+            default:
         return null;
+        }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
@@ -576,7 +583,7 @@ public class _GdxJsonLexer implements FlexLexer {
             // fall through
           case 31: break;
           case 15: 
-            { throw new Error("Illegal character <"+ yytext()+">");
+            { return BAD_CHARACTER;
             } 
             // fall through
           case 32: break;
