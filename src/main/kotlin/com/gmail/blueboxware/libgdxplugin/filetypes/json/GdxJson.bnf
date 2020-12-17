@@ -13,13 +13,14 @@
   tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonTokenType'
 
   implements("jobject|array|value|property") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
-  implements("string|number_value") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral"
+  implements("string") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral"
   implements("property_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString"
 
   name("jobject") = 'object'
   name("property_name") = 'property name'
 
   tokens = [
+        NEWLINE='NEWLINE'
         L_CURLY='{'
         R_CURLY='}'
         L_BRACKET='['
@@ -35,15 +36,16 @@
         BLOCK_COMMENT='BLOCK COMMENT'
 
         DOUBLE_QUOTED_STRING='QUOTED STRING'
-        UNQUOTED_STRING='UNQUOTED STRING'
+        STRING_PART='STRING'
 
     ]
 
 }
 
-json ::=  value 
+// TODO: Check for string/number: not valid at toplevel
+json ::=  NEWLINE* value NEWLINE* | NEWLINE*
 
-value ::= jobject | array | string | number_value {
+value ::= jobject | array | string {
     methods=[
         getValue
         isPropertyValue
@@ -51,7 +53,7 @@ value ::= jobject | array | string | number_value {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonValueMixin"
 }
 
-jobject ::= '{'  property?  (separator  property)* ','?  '}' {
+jobject ::= '{' separator? '}' | '{' separator? property?  (separator  property)* COMMA? NEWLINE*'}' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin"
     methods=[
         getProperty
@@ -59,19 +61,17 @@ jobject ::= '{'  property?  (separator  property)* ','?  '}' {
     ]
 }
 
-array ::= '['  value?  (separator  value )* ','?  ']' {
+property ::= property_name NEWLINE* ':' NEWLINE* value {
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyMixin"
+    pin = 3
+    recoverWhile = "#auto"
+}
+
+array ::= '['  NEWLINE* value?  (separator  value)* separator?  ']' {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin"
 }
 
-property ::= property_name  ':'  value {
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyMixin"
-    pin = 1
-    recoverWhile = not_brace_or_separator
-}
-
-private not_brace_or_separator ::= !( '}' | separator)
-
-string ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
+string ::= DOUBLE_QUOTED_STRING | unquoted_value_string {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonStringMixin"
     methods=[
         isQuoted
@@ -81,11 +81,7 @@ string ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
     ]
 }
 
-number_value ::= NUMBER {
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonNumberValueMixin"
-}
-
-property_name ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING | NUMBER {
+property_name ::= DOUBLE_QUOTED_STRING | unquoted_key_string {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyNameMixin"
     methods=[
         getValue
@@ -95,4 +91,8 @@ property_name ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING | NUMBER {
     ]
 }
 
-external separator ::= parseSeparator
+private unquoted_key_string ::= (STRING_PART | L_CURLY | R_CURLY | L_BRACKET | R_BRACKET | COMMA | DOUBLE_QUOTE)+
+
+private unquoted_value_string ::= (STRING_PART | COLON | L_CURLY | L_BRACKET | DOUBLE_QUOTE)+
+
+private separator ::= NEWLINE* COMMA NEWLINE* | NEWLINE+

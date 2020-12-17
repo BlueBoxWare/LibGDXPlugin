@@ -10,7 +10,6 @@ public interface GdxJsonElementTypes {
 
   IElementType ARRAY = new GdxJsonElementType("ARRAY");
   IElementType JOBJECT = new GdxJsonElementType("JOBJECT");
-  IElementType NUMBER_VALUE = new GdxJsonElementType("NUMBER_VALUE");
   IElementType PROPERTY = new GdxJsonElementType("PROPERTY");
   IElementType PROPERTY_NAME = new GdxJsonElementType("PROPERTY_NAME");
   IElementType STRING = new GdxJsonElementType("STRING");
@@ -26,11 +25,11 @@ public interface GdxJsonElementTypes {
   IElementType LINE_COMMENT = new GdxJsonTokenType("LINE COMMENT");
   IElementType L_BRACKET = new GdxJsonTokenType("[");
   IElementType L_CURLY = new GdxJsonTokenType("{");
-  IElementType NUMBER = new GdxJsonTokenType("NUMBER");
+  IElementType NEWLINE = new GdxJsonTokenType("NEWLINE");
   IElementType R_BRACKET = new GdxJsonTokenType("]");
   IElementType R_CURLY = new GdxJsonTokenType("}");
   IElementType SLASH = new GdxJsonTokenType("/");
-  IElementType UNQUOTED_STRING = new GdxJsonTokenType("UNQUOTED STRING");
+  IElementType STRING_PART = new GdxJsonTokenType("STRING");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -40,9 +39,6 @@ public interface GdxJsonElementTypes {
       }
       else if (type == JOBJECT) {
         return new GdxJsonJobjectImpl(node);
-      }
-      else if (type == NUMBER_VALUE) {
-        return new GdxJsonNumberValueImpl(node);
       }
       else if (type == PROPERTY) {
         return new GdxJsonPropertyImpl(node);

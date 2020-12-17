@@ -137,7 +137,7 @@ class GdxJsonBlock(
     private val BRACES = TokenSet.orSet(OPEN_BRACES, CLOSE_BRACES)
 
     private fun isWhiteSpaceOrEmpty(node: ASTNode) =
-            node.elementType == TokenType.WHITE_SPACE || node.textLength == 0
+            node.elementType == TokenType.WHITE_SPACE || node.elementType == NEWLINE || node.textLength == 0
 
   }
 

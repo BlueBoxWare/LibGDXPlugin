@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonStringProblemsInspector
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInspection.LocalInspectionTool
 
@@ -25,7 +25,7 @@ import com.intellij.codeInspection.LocalInspectionTool
 class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testInvalidEscapesInspection() {
-    doTest(LibGDXJsonInvalidEscapeInspection())
+    doTest(LibGDXJsonStringProblemsInspector())
   }
 
   fun testDuplicatePropertyInspection() {

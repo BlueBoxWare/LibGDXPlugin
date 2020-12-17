@@ -30,6 +30,81 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
     doTest()
   }
 
+  fun testEmptyFile() =
+          doCodeTest("");
+
+  fun testEmptyFileWithNewlines() =
+          doCodeTest("\n\n\n")
+
+  fun testEmptyObject() =
+          doCodeTest("{}")
+
+  fun testEmptyObjectWithNewlines() =
+          doCodeTest("{\n\n\n}")
+
+  fun testEmptyObjectWithComma() =
+          doCodeTest("{\n,\n}")
+
+  fun testEmptyObjectWith2Commas() =
+          doCodeTest("{\n,\n,\n")
+
+  fun testSingleString() =
+          doCodeTest("foo")
+
+  fun testObjectWithPrefixedComma() =
+          doCodeTest("{,foo:bar,bar:foo}")
+
+  fun testObjectWithPrefixedCommaAndNewlines() =
+          doCodeTest("\n{\n,\nfoo\n:\nbar\n,\nbar\n:\nfoo\n}\n")
+
+  fun testObjectWithTrailingComma() =
+          doCodeTest("{foo:bar,bar:foo  ,}")
+
+  fun testObjectWithTrailingCommaAndNewline() =
+          doCodeTest("{foo:bar,bar:foo\n,}")
+
+  fun testObjectWithTrailingCommaAndNewlines() =
+          doCodeTest("\n{\nfoo\n:\nbar\n,\nbar\n:\nfoo   ,\n}\n")
+
+  fun testObjectWithConsecutiveCommas1() =
+          doCodeTest("{\n,\n,\nfoo:bar\n}")
+
+  fun testObjectWithConsecutiveCommas2() =
+          doCodeTest("{\nfoo:bar\n,\n,\n}")
+
+  fun testObjectWithConsecutiveCommas3() =
+          doCodeTest("{\nfoo:bar\n,\n,\nfoo:bar\n}")
+
+  fun testObjectWithNewlinesAndWhitespace() =
+          doCodeTest("\n{\n\n  foo   \n\n   :    \n\n   bar   \n  \n   foo  \n\n   :  \n\n    bar\n   \n}\n\n")
+
+  fun testObjectWithNewlinesCommasAndWhitespace() =
+          doCodeTest("\n{\n,\n  foo   \n\n   :    \n\n   bar   \n , \n   foo  \n\n   :  \n\n    bar,\n ,  \n}\n\n")
+
+  fun testStringWithQuotes() =
+          doCodeTest("""["foo bar"]""")
+
+  fun testStringWithoutQuotes() =
+          doCodeTest("[foo]")
+
+  fun testStringWithEmbeddedQuotes() =
+          doCodeTest("""[foo"bar"foo]""")
+
+  fun testQuotedStringWithEmbeddedQuotes() =
+          doCodeTest("""["foo"bar"]""")
+
+  fun testQuotedStringWithEscapedQuotes() =
+          doCodeTest("""["foo\"bar"]""")
+
+  fun testQuotedStringWithFunnyChars() =
+          doCodeTest("""["';:[]{}=+-_)(*&^%$#@!`~<>?/.,"]""")
+
+  fun testBareKeyWithFunnyChars() =
+          doCodeTest("""{ <>,".;"'{][]}{}"{{}}[[]]]["+_=-)(*&^%$#@!~ : "foo" }""")
+
+  fun testBareStringWithFunnyChars() =
+          doCodeTest("""[~`!@#$%^&*-_=+|.'":{[{[:"]""")
+
   fun doTest() {
     doTest(true)
   }

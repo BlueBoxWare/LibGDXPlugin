@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonStringProblemsInspector
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.*
 import com.gmail.blueboxware.libgdxplugin.inspections.java.*
@@ -79,7 +79,7 @@ class LibGDXInspectionToolProvider: InspectionToolProvider {
           SkinAbbrClassInspection::class.java,
           SkinDeprecatedInspection::class.java,
 
-          LibGDXJsonInvalidEscapeInspection::class.java,
+          LibGDXJsonStringProblemsInspector::class.java,
           LibGDXDuplicatePropertyInspection::class.java
 
   )

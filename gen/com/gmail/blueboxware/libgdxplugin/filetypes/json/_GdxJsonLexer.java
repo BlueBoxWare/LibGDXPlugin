@@ -5,9 +5,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json;
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
-import static com.intellij.psi.TokenType.BAD_CHARACTER;
-import static com.intellij.psi.TokenType.WHITE_SPACE;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 
 /**
@@ -27,6 +26,7 @@ public class _GdxJsonLexer implements FlexLexer {
   public static final int YYINITIAL = 0;
   public static final int STRING = 2;
   public static final int USTRING = 4;
+  public static final int PART = 6;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -35,31 +35,30 @@ public class _GdxJsonLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1,  1,  2, 2
+     0,  0,  1,  1,  2,  2,  3, 3
   };
 
   /** 
    * Translates characters to character classes
-   * Chosen bits are [7, 7, 7]
-   * Total runtime size is 1928 bytes
+   * Chosen bits are [9, 6, 6]
+   * Total runtime size is 1568 bytes
    */
   public static int ZZ_CMAP(int ch) {
-    return ZZ_CMAP_A[(ZZ_CMAP_Y[ZZ_CMAP_Z[ch>>14]|((ch>>7)&0x7f)]<<7)|(ch&0x7f)];
+    return ZZ_CMAP_A[(ZZ_CMAP_Y[ZZ_CMAP_Z[ch>>12]|((ch>>6)&0x3f)]<<6)|(ch&0x3f)];
   }
 
-  /* The ZZ_CMAP_Z table has 68 entries */
+  /* The ZZ_CMAP_Z table has 272 entries */
   static final char ZZ_CMAP_Z[] = zzUnpackCMap(
-    "\1\0\103\200");
+    "\1\0\1\100\1\200\u010d\100");
 
-  /* The ZZ_CMAP_Y table has 256 entries */
+  /* The ZZ_CMAP_Y table has 192 entries */
   static final char ZZ_CMAP_Y[] = zzUnpackCMap(
-    "\1\0\1\1\53\2\1\3\22\2\1\4\37\2\1\3\237\2");
+    "\1\0\1\1\1\2\175\3\1\4\77\3");
 
-  /* The ZZ_CMAP_A table has 640 entries */
+  /* The ZZ_CMAP_A table has 320 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\1\1\3\2\4\1\3\22\0\1\1\1\0\1\14\7\0\1\5\1\0\1\12\2\0\1\2\12\0\1\13"+
-    "\40\0\1\10\1\15\1\11\35\0\1\6\1\0\1\7\7\0\1\4\32\0\1\1\337\0\1\1\177\0\13"+
-    "\1\35\0\2\4\5\0\1\1\57\0\1\1\40\0");
+    "\11\0\1\1\1\2\3\4\22\0\1\1\1\0\1\14\7\0\1\5\1\0\1\13\2\0\1\3\12\0\1\6\40\0"+
+    "\1\11\1\15\1\12\35\0\1\7\1\0\1\10\7\0\1\4\242\0\2\4\26\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -67,12 +66,12 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\12\1\13\1\14\1\15\1\14\1\16"+
-    "\2\17\1\20\1\21\1\14\2\0\1\21";
+    "\4\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\10\1\11\1\12\1\13\1\14\1\15\1\16\1\15"+
+    "\1\17\1\20\1\21\1\15\1\0\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[26];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -97,13 +96,13 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\16\0\34\0\52\0\70\0\106\0\52\0\52"+
-    "\0\52\0\52\0\52\0\52\0\52\0\52\0\124\0\52"+
-    "\0\142\0\160\0\176\0\52\0\214\0\232\0\52\0\176"+
-    "\0\250\0\52";
+    "\0\0\0\16\0\34\0\52\0\34\0\70\0\106\0\124"+
+    "\0\34\0\34\0\34\0\34\0\34\0\34\0\34\0\34"+
+    "\0\142\0\34\0\160\0\52\0\176\0\214\0\34\0\232"+
+    "\0\34";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[26];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -126,17 +125,16 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\1\6\2\5\1\7\1\10\1\11\1\12"+
-    "\1\13\1\14\1\15\1\16\1\4\14\17\1\20\1\21"+
-    "\2\22\1\23\1\24\3\22\1\24\1\22\3\24\2\22"+
-    "\17\0\1\5\1\0\2\5\13\0\1\25\2\0\1\26"+
-    "\10\0\14\17\16\0\2\27\2\22\1\30\1\0\3\22"+
-    "\1\0\1\22\3\0\4\22\1\0\2\22\1\0\10\22"+
-    "\3\25\2\0\11\25\5\26\1\31\12\26\1\32\2\26"+
-    "\1\31\10\26";
+    "\1\5\1\6\1\7\1\10\1\5\1\11\1\12\1\13"+
+    "\1\14\1\15\1\16\1\17\1\20\1\5\14\21\1\22"+
+    "\1\23\16\0\2\24\1\0\3\24\1\0\1\24\1\0"+
+    "\1\24\2\0\2\24\1\0\1\6\16\0\1\7\16\0"+
+    "\1\25\1\0\1\26\10\0\14\21\16\0\2\27\2\25"+
+    "\1\0\1\25\1\0\11\25\5\26\1\30\13\26\1\31"+
+    "\1\26\1\30\10\26";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[182];
+    int [] result = new int[168];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -174,11 +172,11 @@ public class _GdxJsonLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\1\11\2\1\10\11\1\1\1\11\3\1\1\11"+
-    "\2\1\1\11\2\0\1\11";
+    "\2\0\1\10\1\0\1\11\3\1\10\11\1\1\1\11"+
+    "\4\1\1\11\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[26];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -485,6 +483,10 @@ public class _GdxJsonLexer implements FlexLexer {
             case STRING: {
               yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING;
             }  // fall though
+            case 26: break;
+            case PART: {
+              yybegin(YYINITIAL); return STRING_PART;
+            }  // fall though
             case 27: break;
             default:
         return null;
@@ -493,7 +495,7 @@ public class _GdxJsonLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { yypushback(1); string.setLength(0); yybegin(USTRING);
+            { yypushback(1); yybegin(PART);
             } 
             // fall through
           case 18: break;
@@ -503,87 +505,67 @@ public class _GdxJsonLexer implements FlexLexer {
             // fall through
           case 19: break;
           case 3: 
-            { return SLASH;
+            { return NEWLINE;
             } 
             // fall through
           case 20: break;
           case 4: 
-            { return ASTERIX;
+            { return SLASH;
             } 
             // fall through
           case 21: break;
           case 5: 
-            { return L_CURLY;
+            { return ASTERIX;
             } 
             // fall through
           case 22: break;
           case 6: 
-            { return R_CURLY;
+            { return COLON;
             } 
             // fall through
           case 23: break;
           case 7: 
-            { return L_BRACKET;
+            { return L_CURLY;
             } 
             // fall through
           case 24: break;
           case 8: 
-            { return R_BRACKET;
+            { return R_CURLY;
             } 
             // fall through
           case 25: break;
           case 9: 
-            { return COMMA;
+            { return L_BRACKET;
             } 
             // fall through
           case 26: break;
           case 10: 
-            { return COLON;
+            { return R_BRACKET;
             } 
             // fall through
           case 27: break;
           case 11: 
-            { yybegin(STRING);
+            { return COMMA;
             } 
             // fall through
           case 28: break;
           case 12: 
-            { 
+            { yybegin(STRING);
             } 
             // fall through
           case 29: break;
           case 13: 
-            { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING;
+            { 
             } 
             // fall through
           case 30: break;
           case 14: 
-            { string.setLength(0);
-          string.append(yytext());
-          while (string.length() > 0) {
-              Character c = string.substring(string.length() - 1).charAt(0);
-              if (Character.isSpaceChar(c)) {
-                    yypushback(1);
-                    string.setLength(string.length() - 1);
-              } else {
-                  break;
-              }
-          }
-          yybegin(YYINITIAL);
-          try {
-              Double.parseDouble(string.toString());
-              return NUMBER;
-              } catch (NumberFormatException e) {}
-          try {
-              Long.parseLong(string.toString());
-              return NUMBER;
-              } catch (NumberFormatException e) {}
-          return UNQUOTED_STRING;
+            { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING;
             } 
             // fall through
           case 31: break;
           case 15: 
-            { return BAD_CHARACTER;
+            { yybegin(YYINITIAL); return STRING_PART;
             } 
             // fall through
           case 32: break;

@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonNumberValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.intellij.json.highlighting.JsonSyntaxHighlighterFactory.*
@@ -38,7 +37,6 @@ class GdxJsonHighlightingAnnotator: Annotator {
     }
     when (element) {
       is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
-      is GdxJsonNumberValue -> a(JSON_NUMBER)
       is GdxJsonString -> a(JSON_STRING)
     }
 

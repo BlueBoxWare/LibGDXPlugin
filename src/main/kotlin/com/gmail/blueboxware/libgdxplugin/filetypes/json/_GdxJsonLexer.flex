@@ -24,18 +24,21 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
 %type IElementType
 %unicode
 
-WHITE_SPACE=\s+
+WHITE_SPACE=[ \t]+
+ENTER=\n+
 
 LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
-ANY_CHAR=.
+NORMAL_CHAR=[^:}\],\n]
 
 %state STRING
 %state USTRING
+%state PART
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}               { return WHITE_SPACE; }
+  {ENTER}                     { return NEWLINE; }
 
   "{"                         { return L_CURLY; }
   "}"                         { return R_CURLY; }
@@ -51,48 +54,54 @@ ANY_CHAR=.
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
 
-  {ANY_CHAR}                  {  yypushback(1); string.setLength(0); yybegin(USTRING); }
+  {NORMAL_CHAR}               {  yypushback(1); yybegin(PART); }
+
+   [^]                        { return BAD_CHARACTER; }
 
 }
 
+<PART> {
+    {NORMAL_CHAR}+         { yybegin(YYINITIAL); return STRING_PART; }
+    <<EOF>>                 { yybegin(YYINITIAL); return STRING_PART; }
+}
 
 <STRING> {
-<<EOF>> { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
+    <<EOF>> { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
     "\\"       {}
     "\\\""     {}
     "\\\\"     {}
     "\""       { yybegin(YYINITIAL); return DOUBLE_QUOTED_STRING; }
     [^\"\\]+   {}
-
-
-}
-
-<USTRING> {
-   ([^}\],:\r\n/]|\/[^*/])+ {
-          string.setLength(0);
-          string.append(yytext());
-          while (string.length() > 0) {
-              Character c = string.substring(string.length() - 1).charAt(0);
-              if (Character.isSpaceChar(c)) {
-                    yypushback(1);
-                    string.setLength(string.length() - 1);
-              } else {
-                  break;
-              }
-          }
-          yybegin(YYINITIAL);
-          try {
-              Double.parseDouble(string.toString());
-              return NUMBER;
-              } catch (NumberFormatException e) {}
-          try {
-              Long.parseLong(string.toString());
-              return NUMBER;
-              } catch (NumberFormatException e) {}
-          return UNQUOTED_STRING;
-
-      }
-      [^]      { return BAD_CHARACTER; }
 }
 
 
+//
+//<USTRING> {
+//   ([^}\],:\r\n/]|\/[^*/])+ {
+//          string.setLength(0);
+//          string.append(yytext());
+//          while (string.length() > 0) {
+//              Character c = string.substring(string.length() - 1).charAt(0);
+//              if (Character.isSpaceChar(c)) {
+//                    yypushback(1);
+//                    string.setLength(string.length() - 1);
+//              } else {
+//                  break;
+//              }
+//          }
+//          yybegin(YYINITIAL);
+//          try {
+//              Double.parseDouble(string.toString());
+//              return NUMBER;
+//              } catch (NumberFormatException e) {}
+//          try {
+//              Long.parseLong(string.toString());
+//              return NUMBER;
+//              } catch (NumberFormatException e) {}
+//          return UNQUOTED_STRING;
+//
+//      }
+//      [^]      { return BAD_CHARACTER; }
+//}
+//
+//

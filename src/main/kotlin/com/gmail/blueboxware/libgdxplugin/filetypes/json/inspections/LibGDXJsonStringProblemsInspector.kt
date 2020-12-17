@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForFileFix
@@ -13,6 +14,8 @@ import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
+import com.intellij.psi.PsiFile
+import com.intellij.psi.impl.source.tree.LeafPsiElement
 import kotlin.math.min
 
 
@@ -31,7 +34,7 @@ import kotlin.math.min
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
+class LibGDXJsonStringProblemsInspector: GdxJsonBaseInspection() {
 
   override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
 
@@ -52,6 +55,20 @@ class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
 
           object: GdxJsonElementVisitor() {
+
+            override fun visitFile(file: PsiFile) {
+              file.children.filter {
+                (it as? LeafPsiElement)?.elementType == GdxJsonElementTypes.DOUBLE_QUOTED_STRING
+              }.forEach {
+                if (it.text.firstOrNull() == '"') {
+                  if (it.text.length == 1 || it.text.lastOrNull() != '"') {
+                    holder.registerProblem(
+                            it, message("json.inspection.invalid.escape.missing.quote")
+                    )
+                  }
+                }
+              }
+            }
 
             override fun visitString(o: GdxJsonString) {
 

@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonStringProblemsInspector
 import com.gmail.blueboxware.libgdxplugin.message
 
 
@@ -257,7 +257,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
 
 
   fun doTest(familyName: String, content: String, expectedResult: String) {
-    myFixture.enableInspections(LibGDXDuplicatePropertyInspection(), LibGDXJsonInvalidEscapeInspection())
+    myFixture.enableInspections(LibGDXDuplicatePropertyInspection(), LibGDXJsonStringProblemsInspector())
     configureByText("test.lson", content)
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName == familyName) {
