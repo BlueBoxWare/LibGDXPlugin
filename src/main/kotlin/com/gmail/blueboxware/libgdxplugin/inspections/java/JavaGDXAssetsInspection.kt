@@ -27,10 +27,6 @@ internal class JavaGDXAssetsInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("gdxassets.annotation.inspection.descriptor")
 
-  override fun getID() = "LibGDXAssetsFileError"
-
-  override fun getDisplayName() = message("gdxassets.annotation.inspection")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
           object: JavaElementVisitor() {
 

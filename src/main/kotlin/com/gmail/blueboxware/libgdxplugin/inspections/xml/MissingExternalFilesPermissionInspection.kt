@@ -34,12 +34,6 @@ class MissingExternalFilesPermissionInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("missing.files.permissions.html.desciption")
 
-  override fun getID() = "LibGDXMissingFilesPermission"
-
-  override fun getDisplayName() = message("missing.files.permissions.display.name")
-
-  override fun getGroupPath() = arrayOf("libGDX", "Android")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
     if (holder.file.name != "AndroidManifest.xml") {

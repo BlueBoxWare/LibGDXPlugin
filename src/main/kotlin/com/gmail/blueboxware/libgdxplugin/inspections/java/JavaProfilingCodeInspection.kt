@@ -27,10 +27,6 @@ class JavaProfilingCodeInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("profiling.code.html.description")
 
-  override fun getID() = "LibGDXProfilingCode"
-
-  override fun getDisplayName() = message("profiling.code.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {

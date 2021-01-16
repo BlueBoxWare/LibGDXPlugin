@@ -24,10 +24,6 @@ class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("unsafeiterator.html.description")
 
-  override fun getID() = "LibGDXUnsafeIterator"
-
-  override fun getDisplayName() = message("unsafeiterator.display.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {

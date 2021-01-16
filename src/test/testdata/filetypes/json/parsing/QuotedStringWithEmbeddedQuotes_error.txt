@@ -1,0 +1,13 @@
+FILE(0,11)
+  GdxJsonValueImpl(VALUE)(0,11)
+    GdxJsonArrayImpl(ARRAY)(0,11)
+      PsiElement([)('[')(0,1)
+      GdxJsonValueImpl(VALUE)(1,6)
+        GdxJsonStringImpl(STRING)(1,6)
+          PsiElement(QUOTED STRING)('"foo"')(1,6)
+      PsiErrorElement:']' expected, got 'bar"'(6,6)
+        <empty list>
+      GdxJsonValueImpl(VALUE)(6,10)
+        GdxJsonStringImpl(STRING)(6,10)
+          PsiElement(STRING)('bar"')(6,10)
+      PsiElement(])(']')(10,11)

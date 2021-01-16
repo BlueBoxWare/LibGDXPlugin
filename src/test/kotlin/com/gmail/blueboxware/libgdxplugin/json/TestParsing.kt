@@ -30,6 +30,10 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
     doTest()
   }
 
+  fun testErrors() {
+    doTest()
+  }
+
   fun testEmptyFile() =
           doCodeTest("");
 
@@ -44,9 +48,6 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
 
   fun testEmptyObjectWithComma() =
           doCodeTest("{\n,\n}")
-
-  fun testEmptyObjectWith2Commas() =
-          doCodeTest("{\n,\n,\n")
 
   fun testSingleString() =
           doCodeTest("foo")
@@ -66,20 +67,20 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
   fun testObjectWithTrailingCommaAndNewlines() =
           doCodeTest("\n{\nfoo\n:\nbar\n,\nbar\n:\nfoo   ,\n}\n")
 
-  fun testObjectWithConsecutiveCommas1() =
+  fun testObjectWithConsecutiveCommas1_error() =
           doCodeTest("{\n,\n,\nfoo:bar\n}")
 
-  fun testObjectWithConsecutiveCommas2() =
-          doCodeTest("{\nfoo:bar\n,\n,\n}")
+  fun testObjectWithConsecutiveCommas2_error() =
+          doCodeTest("{\nfoo:bar\n,\n,\nfoor:bar}")
 
-  fun testObjectWithConsecutiveCommas3() =
+  fun testObjectWithConsecutiveCommas3_error() =
           doCodeTest("{\nfoo:bar\n,\n,\nfoo:bar\n}")
 
   fun testObjectWithNewlinesAndWhitespace() =
           doCodeTest("\n{\n\n  foo   \n\n   :    \n\n   bar   \n  \n   foo  \n\n   :  \n\n    bar\n   \n}\n\n")
 
   fun testObjectWithNewlinesCommasAndWhitespace() =
-          doCodeTest("\n{\n,\n  foo   \n\n   :    \n\n   bar   \n , \n   foo  \n\n   :  \n\n    bar,\n ,  \n}\n\n")
+          doCodeTest("\n{\n,\n  foo   \n\n   :    \n\n   bar   \n , \n   foo  \n\n   :  \n\n    bar   ,  \n\n}\n\n")
 
   fun testStringWithQuotes() =
           doCodeTest("""["foo bar"]""")
@@ -90,7 +91,7 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
   fun testStringWithEmbeddedQuotes() =
           doCodeTest("""[foo"bar"foo]""")
 
-  fun testQuotedStringWithEmbeddedQuotes() =
+  fun testQuotedStringWithEmbeddedQuotes_error() =
           doCodeTest("""["foo"bar"]""")
 
   fun testQuotedStringWithEscapedQuotes() =
@@ -100,10 +101,49 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
           doCodeTest("""["';:[]{}=+-_)(*&^%$#@!`~<>?/.,"]""")
 
   fun testBareKeyWithFunnyChars() =
-          doCodeTest("""{ <>,".;"'{][]}{}"{{}}[[]]]["+_=-)(*&^%$#@!~ : "foo" }""")
+          doCodeTest("""{ <>,".;"'{][]{"{{}}[[]]]["+_=-)(*&^%$#@!~ : "foo" }""")
 
   fun testBareStringWithFunnyChars() =
-          doCodeTest("""[~`!@#$%^&*-_=+|.'":{[{[:"]""")
+          doCodeTest("""[~`!@#$%^&*-_=+|.'":{[{[:\"]""")
+
+  fun testEscapedDoubleQuotes() =
+          doCodeTest("""[ "\"", "\\\"", "\\\\\"", a"b, a\"b, a\\b]""")
+
+  fun testMultiLineString() =
+          doCodeTest("[\"\n\nfoo\n\n\"\n]")
+
+  fun testBlockCommentsAroundUnquotedStrings1() =
+          doCodeTest("{ /*dsf*/ foo /**/:/**/ foo /**/ }")
+
+  fun testBlockCommentsAroundUnquotedStrings2() =
+          doCodeTest("{ /*dsf*/foo/**/:/**/foo/**/ }")
+
+  fun testBlockCommentInKey_error() =
+          doCodeTest("{foo/**/bar : \"\"}")
+
+  fun testBlockCommentInUnquotedValue_error() =
+          doCodeTest("{foobar : foo/**/bar}")
+
+  fun testEmptyArray() =
+          doCodeTest("[\n\n]\n")
+
+  fun testEmptyArrayWithComma() =
+          doCodeTest("[\n,\n]")
+
+  fun testEmptyArrayWith2Commas() =
+          doCodeTest("[\n,\n,\n]")
+
+  fun testArrayWithStartingAndTrailingComma() =
+          doCodeTest("[\n,\nfoo ,\n]")
+
+  fun testArrayWithConsecutiveCommas1_error() =
+          doCodeTest("[foo , , bar]")
+
+  fun testArrayWithConsecutiveCommas2_error() =
+          doCodeTest("[foo \n, \n, \nbar]")
+
+  fun testNoSpaces() =
+          doCodeTest("""{colors:[red,yellow,b,abcdef],}""")
 
   fun doTest() {
     doTest(true)

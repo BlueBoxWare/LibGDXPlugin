@@ -16,16 +16,15 @@ public interface GdxJsonElementTypes {
   IElementType VALUE = new GdxJsonElementType("VALUE");
 
   IElementType ASTERIX = new GdxJsonTokenType("*");
-  IElementType BACK_SLASH = new GdxJsonTokenType("\\");
+  IElementType BACK_SLASH = new GdxJsonTokenType("BACK_SLASH");
   IElementType BLOCK_COMMENT = new GdxJsonTokenType("BLOCK COMMENT");
   IElementType COLON = new GdxJsonTokenType(":");
   IElementType COMMA = new GdxJsonTokenType(",");
-  IElementType DOUBLE_QUOTE = new GdxJsonTokenType("\"");
+  IElementType DOUBLE_QUOTE = new GdxJsonTokenType("DOUBLE_QUOTE");
   IElementType DOUBLE_QUOTED_STRING = new GdxJsonTokenType("QUOTED STRING");
   IElementType LINE_COMMENT = new GdxJsonTokenType("LINE COMMENT");
   IElementType L_BRACKET = new GdxJsonTokenType("[");
   IElementType L_CURLY = new GdxJsonTokenType("{");
-  IElementType NEWLINE = new GdxJsonTokenType("NEWLINE");
   IElementType R_BRACKET = new GdxJsonTokenType("]");
   IElementType R_CURLY = new GdxJsonTokenType("}");
   IElementType SLASH = new GdxJsonTokenType("/");

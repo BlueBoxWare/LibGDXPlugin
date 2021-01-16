@@ -27,32 +27,7 @@ import org.jetbrains.kotlin.psi.*
 
 class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
 
-  companion object {
-
-    private var preferencesSubClasses: Collection<PsiClass>? = null
-
-    private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
-      if (preferencesSubClasses == null) {
-        val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
-        @Suppress("LiftReturnOrAssignment")
-        if (preferenceClass != null) {
-          val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
-          cs.add(preferenceClass)
-          preferencesSubClasses = cs
-        } else {
-          preferencesSubClasses = listOf()
-        }
-      }
-
-      return preferencesSubClasses ?: listOf()
-    }
-  }
-
   override fun getStaticDescription() = message("missing.flush.html.description")
-
-  override fun getID() = "LibGDXMissingFlush"
-
-  override fun getDisplayName() = message("missing.flush.inspection.name")
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
@@ -79,6 +54,27 @@ class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
       }
     }
 
+  }
+
+  companion object {
+
+    private var preferencesSubClasses: Collection<PsiClass>? = null
+
+    private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
+      if (preferencesSubClasses == null) {
+        val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
+        @Suppress("LiftReturnOrAssignment")
+        if (preferenceClass != null) {
+          val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
+          cs.add(preferenceClass)
+          preferencesSubClasses = cs
+        } else {
+          preferencesSubClasses = listOf()
+        }
+      }
+
+      return preferencesSubClasses ?: listOf()
+    }
   }
 
 }

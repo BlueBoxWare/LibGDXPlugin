@@ -34,8 +34,6 @@ abstract class GdxJsonBaseInspection: LocalInspectionTool() {
 
   override fun isEnabledByDefault() = true
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun isSuppressedFor(element: PsiElement): Boolean =
           (element as? GdxJsonElement)?.isSuppressed(getShortID()) ?: false
 

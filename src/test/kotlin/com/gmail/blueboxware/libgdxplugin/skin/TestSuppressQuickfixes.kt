@@ -23,70 +23,70 @@ import com.gmail.blueboxware.libgdxplugin.testname
 class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
 
   fun testSuppressForObject1() {
-    myFixture.enableInspections(SkinNonExistingFieldInspection())
+    myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForObject2() {
-    myFixture.enableInspections(SkinMissingPropertyInspection())
+    myFixture.enableInspections(SkinMissingPropertyInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForObject3() {
     copyFileToProject("ColorArrayHolder.java")
-    myFixture.enableInspections(SkinTypeInspection())
+    myFixture.enableInspections(SkinTypeInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForObject4() {
-    myFixture.enableInspections(SkinNonExistingFieldInspection())
+    myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForObject5() {
-    myFixture.enableInspections(SkinNonExistingFieldInspection())
+    myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForClassSpec1() {
-    myFixture.enableInspections(SkinDuplicateResourceNameInspection())
+    myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForClassSpec2() {
-    myFixture.enableInspections(SkinDuplicateResourceNameInspection())
+    myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForClassSpec3() {
-    myFixture.enableInspections(SkinDuplicateResourceNameInspection())
+    myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForClassSpec4() {
     addDummyLibGDX199()
-    myFixture.enableInspections(SkinAbbrClassInspection())
+    myFixture.enableInspections(SkinAbbrClassInspection::class.java)
     doTest(message("suppress.object"))
   }
 
   fun testSuppressForFile1() {
-    myFixture.enableInspections(SkinNonExistingClassInspection())
+    myFixture.enableInspections(SkinNonExistingClassInspection::class.java)
     doTest(message("suppress.file"))
   }
 
   fun testSuppressForFile2() {
-    myFixture.enableInspections(SkinDuplicateResourceNameInspection())
+    myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
     doTest(message("suppress.file"))
   }
 
   fun testSuppressForFile3() {
     copyFileToProject("ColorArrayHolder.java")
-    myFixture.enableInspections(SkinTypeInspection())
+    myFixture.enableInspections(SkinTypeInspection::class.java)
     doTest(message("suppress.file"))
   }
 
   fun testSuppressNonexistingClass() {
-    myFixture.enableInspections(SkinNonExistingClassInspection())
+    myFixture.enableInspections(SkinNonExistingClassInspection::class.java)
     doTest(message("suppress.object"))
   }
 

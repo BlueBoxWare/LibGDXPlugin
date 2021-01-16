@@ -2,42 +2,42 @@
 
   {
     <info descr="JSON.PROPERTY_KEY">numbers</info>: [
-    {
+      {
       ,
-    <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"206-555-1234"</info>
-    <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>,
-    }
-    {
-      <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"425-555-4321"</info>
-      <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Work</info>
-    }
-  ]
+        <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"206-555-1234"</info>
+        <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>,
+      }
+      {
+        <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"425-555-4321"</info>
+        <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Work</info>
+      }
+    ]
     <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Nate</info>
     <info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER">31</info>
   }
 
   {
     <info descr="JSON.PROPERTY_KEY">items</info>: [
-    { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">1</info>, },
-    { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">2</info> }
-    { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">3</info> },
-    { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeOtherObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.STRING">four</info> }
-  ]
+      { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">1</info>, },
+      { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">2</info> }
+      { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.NUMBER">3</info> },
+      { <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.SomeOtherObject</info>, <info descr="JSON.PROPERTY_KEY">value</info>: <info descr="JSON.STRING">four</info> }
+    ]
   }
 
   {
     <info descr="JSON.PROPERTY_KEY">numbers</info>: [
-    {
-      <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.KEYWORD"><info descr="JSON.STRING">null</info></info>,
-      <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"206-555-1234"</info>,
-      <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>
-    },
-    {
-      <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.PhoneNumber</info>,
-      <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"425-555-4321"</info>,
-      <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Work</info>
-    }
-  ],
+      {
+        <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.KEYWORD">null</info>,
+        <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"206-555-1234"</info>,
+        <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Home</info>
+      },
+      {
+        <info descr="JSON.PROPERTY_KEY">class</info>: <info descr="JSON.STRING">com.example.PhoneNumber</info>,
+        <info descr="JSON.PROPERTY_KEY">number</info>: <info descr="JSON.STRING">"425-555-4321"</info>,
+        <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Work</info>
+      }
+    ],
     <info descr="JSON.PROPERTY_KEY">name</info>: <info descr="JSON.STRING">Nate</info>,
     <info descr="JSON.PROPERTY_KEY">age</info>: <info descr="JSON.NUMBER">31</info>
   }
@@ -46,25 +46,25 @@
     <info descr="JSON.PROPERTY_KEY">tiles_x</info>: <info descr="JSON.NUMBER">32</info>,
     <info descr="JSON.PROPERTY_KEY">entities</info>: [],
     <info descr="JSON.PROPERTY_KEY">objects</info>: [
-    {
-      <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.BlackHole</info>,
-      <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.NUMBER">10</info>,
-      <info descr="JSON.PROPERTY_KEY">pos_y</info>: <info descr="JSON.NUMBER">10</info>
-    },
-    {
-      <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.BlackHole</info>,
-      <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.KEYWORD"><info descr="JSON.STRING">null</info></info>,
-      <info descr="JSON.PROPERTY_KEY">pos_y</info>: <info descr="JSON.KEYWORD"><info descr="JSON.STRING">false</info></info>
-    },
-    {
-      <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.SpaceStation</info>
-    },
-    {
-      <info descr="JSON.PROPERTY_KEY">i1</info>: <info descr="JSON.NUMBER">1</info>,
-      <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.SpaceStation</info>,
-      <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.NUMBER">5</info>
-    }
-  ],
+      {
+        <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.BlackHole</info>,
+        <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.NUMBER">10</info>,
+        <info descr="JSON.PROPERTY_KEY">pos_y</info>: <info descr="JSON.NUMBER">10</info>
+      },
+      {
+        <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.BlackHole</info>,
+        <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.KEYWORD">null</info>,
+        <info descr="JSON.PROPERTY_KEY">pos_y</info>: <info descr="JSON.KEYWORD">false</info>
+      },
+      {
+        <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.SpaceStation</info>
+      },
+      {
+        <info descr="JSON.PROPERTY_KEY">i1</info>: <info descr="JSON.NUMBER">1</info>,
+        <info descr="JSON.PROPERTY_KEY">object_name</info>: <info descr="JSON.STRING">net.sutomaji.space2.gamelogic.objects.SpaceStation</info>,
+        <info descr="JSON.PROPERTY_KEY">pos_x</info>: <info descr="JSON.NUMBER">5</info>
+      }
+    ],
     <info descr="JSON.PROPERTY_KEY">title</info>: <info descr="JSON.STRING">"Broken Home"</info>,
     <info descr="JSON.PROPERTY_KEY">id</info>: <info descr="JSON.NUMBER">1</info>,
     <info descr="JSON.PROPERTY_KEY">design</info>: <info descr="JSON.STRING">tomschneider</info>,

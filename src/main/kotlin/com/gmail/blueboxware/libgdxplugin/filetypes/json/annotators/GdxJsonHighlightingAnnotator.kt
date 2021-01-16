@@ -32,12 +32,16 @@ class GdxJsonHighlightingAnnotator: Annotator {
 
     fun a(textAttribute: TextAttributesKey) = element.annotate(holder, textAttribute)
 
-    if ((element as? GdxJsonString)?.isKeyword == true) {
-      a(JSON_KEYWORD)
-    }
-    when (element) {
-      is GdxJsonPropertyName -> a(JSON_PROPERTY_KEY)
-      is GdxJsonString -> a(JSON_STRING)
+    if (element is GdxJsonPropertyName) {
+      a(JSON_PROPERTY_KEY)
+    } else if (element is GdxJsonString) {
+      if (element.isKeyword) {
+        a(JSON_KEYWORD)
+      } else if (element.isNumber) {
+        a(JSON_NUMBER)
+      } else {
+        a(JSON_STRING)
+      }
     }
 
   }

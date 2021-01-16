@@ -25,10 +25,6 @@ class SkinDuplicatePropertyInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.duplicate.property.description")
 
-  override fun getID() = "LibGDXSkinDuplicateProperty"
-
-  override fun getDisplayName() = message("skin.inspection.duplicate.property.display.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
           object: SkinElementVisitor() {
 

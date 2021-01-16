@@ -28,12 +28,6 @@ class KotlinInvalidPropertyKeyInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
 
-  override fun getID() = "LibGDXInvalidPropertyKey"
-
-  override fun getDisplayName() = message("invalid.property.key.inspection")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {

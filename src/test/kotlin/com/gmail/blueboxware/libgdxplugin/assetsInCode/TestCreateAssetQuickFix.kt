@@ -415,7 +415,6 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           expectedSkinContent: String,
           init: (() -> Unit)? = null
   ) {
-    myFixture.enableInspections(JavaNonExistingAssetInspection())
     doTest(
             skinFileContent,
             javaContent.replace("<content>", codeFileContent),
@@ -427,7 +426,6 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
 
   private fun doKotlinTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
     addKotlin()
-    myFixture.enableInspections(KotlinNonExistingAssetInspection())
     doTest(
             skinFileContent,
             kotlinContent.replace("<content>", codeFileContent),
@@ -443,6 +441,8 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
           expectedSkinContent: String,
           init: (() -> Unit)? = null
   ) {
+    myFixture.enableInspections(JavaNonExistingAssetInspection::class.java)
+    myFixture.enableInspections(KotlinNonExistingAssetInspection::class.java)
 
     val skinFile = configureByText("skin.skin", skinFileContent)
     configureByText("Test.$extension", codeFileContent)

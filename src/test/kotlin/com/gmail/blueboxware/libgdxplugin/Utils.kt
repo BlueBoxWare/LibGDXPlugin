@@ -1,9 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
+import com.intellij.codeHighlighting.HighlightDisplayLevel
+import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.psi.PsiFile
 import com.intellij.testFramework.PlatformTestUtil
 import com.intellij.testFramework.UsefulTestCase
+import com.intellij.testFramework.fixtures.CodeInsightTestFixture
+import org.jetbrains.annotations.NotNull
 
 
 /*
@@ -21,7 +25,6 @@ import com.intellij.testFramework.UsefulTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-fun UsefulTestCase.testname() = if (this.name == null) "" else PlatformTestUtil.getTestName(name, true)
+internal fun UsefulTestCase.testname() = if (this.name == null) "" else PlatformTestUtil.getTestName(name, true)
 
 internal fun PsiFile.markAsGdxJson() = project.markFileAsGdxJson(virtualFile)
-

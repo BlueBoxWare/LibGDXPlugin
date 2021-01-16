@@ -32,7 +32,7 @@ class TestInspections: PropertiesCodeInsightFixtureTestCase() {
   }
 
   private fun doTest(inspection: LocalInspectionTool, filename: String) {
-    myFixture.enableInspections(inspection)
+    myFixture.enableInspections(inspection::class.java)
     myFixture.testHighlighting(true, false, false, filename)
   }
 

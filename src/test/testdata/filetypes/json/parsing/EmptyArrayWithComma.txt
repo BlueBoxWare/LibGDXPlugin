@@ -1,0 +1,8 @@
+FILE(0,5)
+  GdxJsonValueImpl(VALUE)(0,5)
+    GdxJsonArrayImpl(ARRAY)(0,5)
+      PsiElement([)('[')(0,1)
+      PsiWhiteSpace('\n')(1,2)
+      PsiElement(,)(',')(2,3)
+      PsiWhiteSpace('\n')(3,4)
+      PsiElement(])(']')(4,5)

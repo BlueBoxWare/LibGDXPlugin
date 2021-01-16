@@ -29,15 +29,6 @@ import org.jetbrains.kotlin.types.KotlinType
 @Suppress("InspectionDescriptionNotFoundInspection")
 open class LibGDXKotlinBaseInspection: LocalInspectionTool() {
 
-  override fun getGroupPath() = arrayOf("libGDX", "Kotlin")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }

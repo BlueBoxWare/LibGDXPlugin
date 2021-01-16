@@ -2,7 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonStringProblemsInspector
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
 import com.gmail.blueboxware.libgdxplugin.message
 
 
@@ -32,7 +32,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             }
           """.trimIndent(),
           """
-            //noinspection DuplicateProperty
+            //noinspection GDXJsonDuplicateProperty
             {
               a: a
               a: b
@@ -49,7 +49,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             }
           """.trimIndent(),
           """
-            //noinspection DuplicateProperty
+            //noinspection GDXJsonDuplicateProperty
             {
               a: a
               a: b
@@ -67,7 +67,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
           """
             {
               a: [{a: 1},
-                  //noinspection DuplicateProperty
+                  //noinspection GDXJsonDuplicateProperty
                   {a: a, a: b}]
             }
           """.trimIndent()
@@ -81,7 +81,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             }
           """.trimIndent(),
           """
-            //noinspection DuplicateProperty
+            //noinspection GDXJsonDuplicateProperty
             {
               a: [{a: 1}, {a: a, a: b}]
             }
@@ -101,7 +101,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             }
           """.trimIndent(),
           """
-            //noinspection DuplicateProperty
+            //noinspection GDXJsonDuplicateProperty
             // Comment
             /* Comment */
 
@@ -143,7 +143,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
                  // Comment
 
                  /* Comment */
-                //noinspection DuplicateProperty
+                //noinspection GDXJsonDuplicateProperty
                 {a: a, a: b}
               ]
             }
@@ -169,7 +169,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
                   // Comment
 
                   /* Comment */
-                  //noinspection DuplicateProperty
+                  //noinspection GDXJsonDuplicateProperty
                   {a: a, a: b}
               ]
             }
@@ -188,7 +188,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
           """
             {
               a: a
-                //noinspection DuplicateProperty
+                //noinspection GDXJsonDuplicateProperty
                 a: b
               a: c
             }
@@ -208,7 +208,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             {
               foo: {
                 a: a, /* c */
-                  //noinspection DuplicateProperty
+                  //noinspection GDXJsonDuplicateProperty
                   a: b, a: c
               }
             }
@@ -229,7 +229,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             {
               foo: {
                 a: a, //
-                  //noinspection DuplicateProperty
+                  //noinspection GDXJsonDuplicateProperty
                   a: b, a: c
               }
             }
@@ -248,7 +248,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
           """
            {
             a: [
-              //noinspection InvalidEscape
+              //noinspection GDXInvalidEscape
               \e
             ],
           }
@@ -257,7 +257,9 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
 
 
   fun doTest(familyName: String, content: String, expectedResult: String) {
-    myFixture.enableInspections(LibGDXDuplicatePropertyInspection(), LibGDXJsonStringProblemsInspector())
+    myFixture.enableInspections(
+            LibGDXDuplicatePropertyInspection::class.java, LibGDXJsonInvalidEscapeInspection::class.java
+    )
     configureByText("test.lson", content)
     for (intention in myFixture.availableIntentions) {
       if (intention.familyName == familyName) {

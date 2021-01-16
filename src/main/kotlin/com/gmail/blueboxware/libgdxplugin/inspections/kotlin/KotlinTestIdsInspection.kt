@@ -25,10 +25,6 @@ class KotlinTestIdsInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXKotlinTestId"
-
-  override fun getDisplayName() = message("testid.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitLiteralStringTemplateEntry(entry: KtLiteralStringTemplateEntry) {

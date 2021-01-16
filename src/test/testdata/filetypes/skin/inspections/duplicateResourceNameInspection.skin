@@ -57,7 +57,7 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 }
 
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
-//noinspection DuplicateResource
+//noinspection GDXDuplicateResource
 ttf: {}
 <warning descr="A font with name 'ttf' is defined more than once in this file.">ttf</warning>: {}
 <warning descr="A font with name 'color1' is defined more than once in this file.">color1</warning>: {}

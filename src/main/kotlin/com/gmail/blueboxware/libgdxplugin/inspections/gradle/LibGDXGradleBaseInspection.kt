@@ -22,15 +22,6 @@ import org.jetbrains.plugins.groovy.codeInspection.GroovySuppressableInspectionT
 
 abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
 
-  override fun getGroupPath() = arrayOf("libGDX", "Gradle")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }

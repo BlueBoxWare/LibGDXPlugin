@@ -9,6 +9,7 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
+import com.intellij.psi.tree.TokenSet
 
 /*
  *
@@ -22,12 +23,18 @@ class GdxJsonFormattingBuilderModel: FormattingModelBuilder {
   override fun createModel(element: PsiElement, settings: CodeStyleSettings): FormattingModel {
     val customSettings = settings.getCustomSettings(JsonCodeStyleSettings::class.java)
     val spacingBuilder = createSpacingBuilder(settings)
-    val block = GdxJsonBlock(null, element.node, customSettings, null, Indent.getNoneIndent(), null, spacingBuilder)
+    val block = GdxJsonBlock(
+            null, element.node, customSettings, null, Indent.getSmartIndent(Indent.Type.CONTINUATION), null,
+            spacingBuilder
+    )
     return FormattingModelProvider.createFormattingModelForPsiFile(element.containingFile, block, settings)
   }
 
   companion object {
-    fun createSpacingBuilder(settings: CodeStyleSettings): SpacingBuilder {
+
+    private val STRUCTURAL_ELEMENTS = TokenSet.create(ARRAY, JOBJECT, PROPERTY)
+
+    private fun createSpacingBuilder(settings: CodeStyleSettings): SpacingBuilder {
       val jsonSettings = settings.getCustomSettings(JsonCodeStyleSettings::class.java)
       val commonSettings = settings.getCommonSettings(JsonLanguage.INSTANCE)
 
@@ -36,12 +43,16 @@ class GdxJsonFormattingBuilderModel: FormattingModelBuilder {
       val spacesAfterColon = if (jsonSettings.SPACE_AFTER_COLON) 1 else 0
 
       return SpacingBuilder(settings, JsonLanguage.INSTANCE)
-              .before(COLON).spacing(spacesBeforeColon, spacesBeforeColon, 0, true, 0)
-              .after(COLON).spacing(spacesAfterColon, spacesAfterColon, 0, true, 0)
-              .withinPair(L_BRACKET, R_BRACKET).spaceIf(commonSettings.SPACE_WITHIN_BRACKETS, true)
-              .withinPair(L_CURLY, R_CURLY).spaceIf(commonSettings.SPACE_WITHIN_BRACES, true)
-              .before(COMMA).spacing(spacesBeforeComma, spacesBeforeComma, 0, false, 0)
-              .after(COMMA).spaceIf(commonSettings.SPACE_AFTER_COMMA)
+              .beforeInside(COLON, STRUCTURAL_ELEMENTS).spacing(spacesBeforeColon, spacesBeforeColon, 0, false, 0)
+              .afterInside(COLON, STRUCTURAL_ELEMENTS).spacing(spacesAfterColon, spacesAfterColon, 0, false, 0)
+              .apply {
+                for (parent in STRUCTURAL_ELEMENTS.types) {
+                  withinPairInside(L_BRACKET, R_BRACKET, parent).spaceIf(commonSettings.SPACE_WITHIN_BRACKETS, true)
+                  withinPairInside(L_CURLY, R_CURLY, parent).spaceIf(commonSettings.SPACE_WITHIN_BRACES, true)
+                }
+              }
+              .beforeInside(COMMA, STRUCTURAL_ELEMENTS).spacing(spacesBeforeComma, spacesBeforeComma, 0, false, 0)
+              .afterInside(COMMA, STRUCTURAL_ELEMENTS).spaceIf(commonSettings.SPACE_AFTER_COMMA)
     }
   }
 }

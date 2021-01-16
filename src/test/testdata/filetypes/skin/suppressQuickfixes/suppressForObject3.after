@@ -2,7 +2,7 @@
   ColorArrayHolder: {
     default: {
       m: [
-        //noinspection TypeError
+        //noinspection GDXSkinType
         {
           moreColors: []
           m: [[]]

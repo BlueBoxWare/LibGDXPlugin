@@ -29,17 +29,6 @@ class SkinNonExistingResourceAliasInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.resource.alias.description")
 
-  override fun getID() = "LibGDXSkinNonExistingResourceInAlias"
-
-  override fun getDisplayName() = message("skin.inspection.non.existing.resource.alias.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel =
-          if (ApplicationManager.getApplication().isUnitTestMode) {
-            HighlightDisplayLevel.ERROR
-          } else {
-            HighlightDisplayLevel.WARNING
-          }
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
           object: SkinElementVisitor() {
 

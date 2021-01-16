@@ -38,16 +38,10 @@ class SkinAbbrClassInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.abbr.class.description")
 
-  override fun getID() = "LibGDXSkinAbbrClass"
-
-  override fun getDisplayName() = message("skin.inspection.abbr.class.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WEAK_WARNING
-
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
-                  SuppressForObjectFix(getShortID()),
-                  SuppressForFileFix(getShortID())
+                  SuppressForObjectFix(getID()),
+                  SuppressForFileFix(getID())
           )
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =

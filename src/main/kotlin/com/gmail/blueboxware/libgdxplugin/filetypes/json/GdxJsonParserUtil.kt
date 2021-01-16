@@ -1,8 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.COMMA
+import com.intellij.lang.ITokenTypeRemapper
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
+import com.intellij.psi.TokenType
+import com.intellij.psi.tree.IElementType
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -20,6 +23,29 @@ import com.intellij.lang.parser.GeneratedParserUtilBase
  * limitations under the License.
  */
 object GdxJsonParserUtil: GeneratedParserUtilBase() {
+
+  @JvmStatic
+  fun no_comment_or_newline(builder: PsiBuilder, level: Int): Boolean {
+    var i = 1
+
+    while (builder.rawTokenIndex() - i >= 0) {
+      val token = builder.rawLookup(-i)
+      if (token == GdxJsonElementTypes.BLOCK_COMMENT) {
+        return false
+      } else if (token == TokenType.WHITE_SPACE) {
+        for (j in builder.rawTokenTypeStart(-i) until builder.rawTokenTypeStart(-i + 1)) {
+          if (builder.originalText[j] == '\n') {
+            return false
+          }
+        }
+      } else {
+        break
+      }
+      i++
+    }
+
+    return true
+  }
 
   @JvmStatic
   fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {

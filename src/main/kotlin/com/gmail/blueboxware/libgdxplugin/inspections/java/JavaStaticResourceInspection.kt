@@ -26,10 +26,6 @@ class JavaStaticResourceInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("static.resources.html.description")
 
-  override fun getID() = "LibGDXStaticResource"
-
-  override fun getDisplayName() = message("static.resources.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")

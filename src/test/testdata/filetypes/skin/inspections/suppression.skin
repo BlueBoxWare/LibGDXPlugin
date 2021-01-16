@@ -1,6 +1,6 @@
-//noinspection MalformedColorString
+//noinspection GDXMalformedColorString
 {
-  //noinspection DuplicateProperty
+  //noinspection GDXDuplicateProperty
   com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle: {
     default: {
       background: {}
@@ -22,7 +22,7 @@
         file: ""
       }
     }
-//noinspection NonExistingField
+//noinspection GDXNonExistingField
     h: {
 
       fghu: {}

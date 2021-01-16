@@ -1,0 +1,8 @@
+FILE(0,33)
+  GdxJsonValueImpl(VALUE)(0,33)
+    GdxJsonArrayImpl(ARRAY)(0,33)
+      PsiElement([)('[')(0,1)
+      GdxJsonValueImpl(VALUE)(1,32)
+        GdxJsonStringImpl(STRING)(1,32)
+          PsiElement(QUOTED STRING)('"';:[]{}=+-_)(*&^%$#@!`~<>?/.,"')(1,32)
+      PsiElement(])(']')(32,33)

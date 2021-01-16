@@ -38,7 +38,7 @@ public class Test {
     skin.get(<error descr="Resource \"user-red\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"user-red"</error>, TextButton.TextButtonStyle.class);
     skin.get("taggedStyle1", TextButton.TextButtonStyle.class);
     skin.get(<error descr="Resource \"taggedStyle2\" with type \"com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"taggedStyle2"</error>, TextButton.TextButtonStyle.class);
-    //noinspection LibGDXNonExistingAsset
+    //noinspection GDXJavaNonExistingAsset
     skin.get("taggedStyle2", TextButton.TextButtonStyle.class);
     skin3.get("taggedStyle2", TextButton.TextButtonStyle.class);
     skin.get("user-red", Skin.TintedDrawable.class);

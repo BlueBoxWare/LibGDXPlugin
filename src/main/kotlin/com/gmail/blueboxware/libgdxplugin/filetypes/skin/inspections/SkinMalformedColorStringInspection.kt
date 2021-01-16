@@ -25,17 +25,7 @@ import com.intellij.codeInspection.ProblemsHolder
  */
 class SkinMalformedColorStringInspection: SkinBaseInspection() {
 
-  companion object {
-    val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
-  }
-
   override fun getStaticDescription() = message("skin.inspection.malformed.color.description")
-
-  override fun getID() = "LibGDXSkinMalformedColorString"
-
-  override fun getDisplayName() = message("skin.inspection.malformed.color.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
@@ -48,6 +38,10 @@ class SkinMalformedColorStringInspection: SkinBaseInspection() {
         }
       }
     }
+  }
+
+  companion object {
+    val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
   }
 
 }

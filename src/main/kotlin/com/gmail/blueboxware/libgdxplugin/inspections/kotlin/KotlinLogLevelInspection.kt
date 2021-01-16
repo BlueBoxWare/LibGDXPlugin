@@ -30,10 +30,6 @@ class KotlinLogLevelInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("log.level.html.description")
 
-  override fun getID() = "LibGDXLogLevel"
-
-  override fun getDisplayName() = message("log.level.inspection")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitCallExpression(expression: KtCallExpression) {

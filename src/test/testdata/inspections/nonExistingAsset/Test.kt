@@ -51,7 +51,7 @@ fun f() {
   skin1.getRegion(<error descr="Resource \"green\" with type \"com.badlogic.gdx.graphics.g2d.TextureRegion\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"green"</error>)
   skin1.get("taggedStyle2", Button.ButtonStyle::class.java)
   skin1.get(<error descr="Resource \"taggedStyle1\" with type \"com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle\" does not exist in files \"libgdx.skin\", \"holo.atlas\" or \"libgdx.atlas\"">"taggedStyle1"</error>, Button.ButtonStyle::class.java)
-  @Suppress("LibGDXNonExistingAsset")
+  @Suppress("GDXKotlinNonExistingAsset")
   skin1.get("taggedStyle1", Button.ButtonStyle::class.java)
 
   atlas.findRegion("button-left")

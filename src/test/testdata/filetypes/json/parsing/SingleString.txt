@@ -1,0 +1,4 @@
+FILE(0,3)
+  GdxJsonValueImpl(VALUE)(0,3)
+    GdxJsonStringImpl(STRING)(0,3)
+      PsiElement(STRING)('foo')(0,3)

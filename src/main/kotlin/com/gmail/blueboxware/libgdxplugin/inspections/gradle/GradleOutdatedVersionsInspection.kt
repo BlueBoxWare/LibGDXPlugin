@@ -30,10 +30,6 @@ class GradleOutdatedVersionsInspection: LibGDXGradleBaseInspection() {
   override fun getStaticDescription() =
           message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
-  override fun getID() = "LibGDXOutdatedVersionGradle"
-
-  override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
           GroovyPsiElementVisitor(object: GroovyElementVisitor() {
 

@@ -29,10 +29,6 @@ class JavaUnusedClassTagInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("unused.class.tag.inspection.html.description")
 
-  override fun getID() = "LibGDXUnusedTag"
-
-  override fun getDisplayName() = message("unused.class.tag.inspection")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {

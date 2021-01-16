@@ -47,8 +47,8 @@
 
     com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 
-         // noinspection NonExistingInspection
-         //noinspection MissingProperty
+         // noinspection GDXNonExistingField
+         //noinspection GDXMissingProperty
 
       default:
       {

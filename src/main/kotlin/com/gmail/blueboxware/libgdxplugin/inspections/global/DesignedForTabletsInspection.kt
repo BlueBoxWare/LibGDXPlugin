@@ -38,8 +38,6 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.path.GrC
  */
 class DesignedForTabletsInspection: GlobalInspectionTool() {
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun getDisplayName() = message("designed.for.tablets.inspection")
 
   @Suppress("DialogTitleCapitalization")

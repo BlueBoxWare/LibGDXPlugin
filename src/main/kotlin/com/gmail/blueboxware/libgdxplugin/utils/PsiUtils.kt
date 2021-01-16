@@ -1,5 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -7,8 +9,10 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.PsiElementProcessor
 import com.intellij.psi.tree.IElementType
+import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.elementType
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -16,10 +20,9 @@ import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.core.deleteSingle
 import org.jetbrains.kotlin.idea.intentions.calleeName
+import org.jetbrains.kotlin.idea.util.CommentSaver.Companion.tokenType
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.allChildren
-import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
-import org.jetbrains.kotlin.psi.psiUtil.plainContent
+import org.jetbrains.kotlin.psi.psiUtil.*
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
@@ -58,8 +61,17 @@ internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: fa
 internal fun ASTNode.isNewline() =
         elementType == TokenType.WHITE_SPACE && text.contains('\n')
 
-internal fun PsiElement.isLeaf(vararg types: IElementType) =
+internal fun PsiElement.isLeaf(types: TokenSet): Boolean =
         (this as? LeafPsiElement)?.elementType in types
+
+internal fun PsiElement.isLeaf(vararg types: IElementType): Boolean =
+        (this as? LeafPsiElement)?.elementType in types
+
+internal fun PsiElement.prevLeafSkipWithSpace() =
+        prevLeaf { it !is PsiWhiteSpace }
+
+internal fun PsiElement.nextLeafSkipWhiteSpace() =
+        nextLeaf { it !is PsiWhiteSpace }
 
 @Suppress("unused")
 internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? =
@@ -89,6 +101,21 @@ internal fun PsiElement.firstParent(includeSelf: Boolean, condition: (PsiElement
   }
 
   return null
+}
+
+internal fun PsiElement.lastChild(condition: (PsiElement) -> Boolean): PsiElement? {
+
+  var node = node.lastChildNode
+
+  while (node != null) {
+    if (condition(node.psi)) {
+      return node.psi
+    }
+    node = node.treePrev
+  }
+
+  return null
+
 }
 
 internal fun PsiClass.supersAndThis() =
@@ -234,14 +261,15 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferen
 
   (context as? KtQualifiedExpression)?.let { dotExpression ->
 
-    val type = dotExpression.analyze().getType(dotExpression.receiverExpression)
+    val bindingContext = dotExpression.analyze()
+    val type = bindingContext.getType(dotExpression.receiverExpression)
     var receiverType: ClassDescriptor? = type?.constructor?.declarationDescriptor as? ClassDescriptor
 
     if (receiverType == null) {
       // static method call?
       receiverType = dotExpression
               .receiverExpression
-              .getReferenceTargets(dotExpression.analyze())
+              .getReferenceTargets(bindingContext)
               .firstOrNull() as? ClassDescriptor
               ?: return null
     }
@@ -264,7 +292,7 @@ internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
 internal fun KotlinType.fqName() = constructor.declarationDescriptor?.fqNameSafe?.asString()
 
 internal fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? =
-        allChildren.firstOrNull { it is LeafPsiElement && it.elementType == elementType } as? LeafPsiElement
+        allChildren.firstOrNull { it.isLeaf(elementType) } as? LeafPsiElement
 
 @Suppress("unused")
 internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElement? {

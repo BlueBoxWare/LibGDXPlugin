@@ -34,15 +34,9 @@ import kotlin.math.min
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonStringProblemsInspector: GdxJsonBaseInspection() {
+class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
 
   override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
-
-  override fun getID() = "LibGDXJsonInvalidEscape"
-
-  override fun getDisplayName() = message("json.inspection.invalid.escape.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
@@ -55,20 +49,6 @@ class LibGDXJsonStringProblemsInspector: GdxJsonBaseInspection() {
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
 
           object: GdxJsonElementVisitor() {
-
-            override fun visitFile(file: PsiFile) {
-              file.children.filter {
-                (it as? LeafPsiElement)?.elementType == GdxJsonElementTypes.DOUBLE_QUOTED_STRING
-              }.forEach {
-                if (it.text.firstOrNull() == '"') {
-                  if (it.text.length == 1 || it.text.lastOrNull() != '"') {
-                    holder.registerProblem(
-                            it, message("json.inspection.invalid.escape.missing.quote")
-                    )
-                  }
-                }
-              }
-            }
 
             override fun visitString(o: GdxJsonString) {
 

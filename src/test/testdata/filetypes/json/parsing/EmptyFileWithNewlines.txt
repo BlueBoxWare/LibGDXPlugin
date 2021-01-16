@@ -1,0 +1,2 @@
+FILE(0,3)
+  PsiWhiteSpace('\n\n\n')(0,3)

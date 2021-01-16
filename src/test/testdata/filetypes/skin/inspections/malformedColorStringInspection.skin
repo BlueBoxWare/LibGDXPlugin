@@ -22,22 +22,22 @@
     x: { hex: medium.fnt }
   },
   com.badlogic.gdx.graphics.Color: {
-    //noinspection MalformedColorString
+    //noinspection GDXMalformedColorString
     x: { hex: #fffhff }
     x: { hex: <error descr="Malformed color string">#fffff</error>
 
     }
     x: { hex: <error descr="Malformed color string">#fffff</error> }
-    //noinspection MalformedColorString
+    //noinspection GDXMalformedColorString
     x: { hex: #fffff }
     x: { hex: <error descr="Malformed color string">#fffff</error> }
     x: {
       hex:
-      //noinspection MalformedColorString
+      //noinspection GDXMalformedColorString
       #fffff
     }
     x: {
-      //noinspection MalformedColorString
+      //noinspection GDXMalformedColorString
       hex:
 
       #fffff

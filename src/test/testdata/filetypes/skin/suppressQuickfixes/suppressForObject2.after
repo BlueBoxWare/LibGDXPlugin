@@ -5,7 +5,7 @@
         hex: "#00ff00"
       }
       font:
-      //noinspection MissingProperty
+      //noinspection GDXMissingProperty
       {
         markupEnabled: true
       }

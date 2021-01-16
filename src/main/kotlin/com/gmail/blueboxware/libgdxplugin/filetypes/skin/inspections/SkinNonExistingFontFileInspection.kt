@@ -28,12 +28,6 @@ class SkinNonExistingFontFileInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.file.description")
 
-  override fun getID() = "LibGDXSkinNonExistingFile"
-
-  override fun getDisplayName() = message("skin.inspection.non.existing.file.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitPropertyValue(propertyValue: SkinPropertyValue) {

@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontKey
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontValue
+import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
@@ -73,7 +74,7 @@ class BitmapFontHighlighter: Annotator {
         }
       }
 
-    } else if ((element as? LeafPsiElement)?.elementType == BitmapFontElementTypes.UNQUOTED_STRING) {
+    } else if (element.isLeaf(BitmapFontElementTypes.UNQUOTED_STRING)) {
       if (KEYWORDS.contains(element.text) && element.parent !is BitmapFontKey && element.parent !is BitmapFontValue) {
         holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)

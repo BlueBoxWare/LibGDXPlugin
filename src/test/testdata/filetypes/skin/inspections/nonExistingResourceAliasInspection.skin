@@ -5,9 +5,9 @@
     yellow: {r: 0.5, g: 0.5, b: 0, a: 1},
     a: white,
     b: red,
-    c: <error>blue</error>,
-    d: <error>green</error>,
-    y: <error>z</error>
+    c: <warning descr="'blue' does not refer to anything. Resources must be defined before they can be used.">blue</warning>,
+  d: <warning descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</warning>,
+  y: <warning descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</warning>
   },
   com.badlogic.gdx.graphics.g2d.BitmapFont: {
     medium: {
@@ -37,67 +37,67 @@
       fontColor: {r: 0, g: 1, b: 0, a: 1}
     },
     standard: toggle,
-    non-standard: <error>notoggle</error>,
-    x: <error>z</error>
+    non-standard: <warning descr="'notoggle' does not refer to anything. Resources must be defined before they can be used.">notoggle</warning>,
+  x: <warning descr="'z' does not refer to anything. Resources must be defined before they can be used.">z</warning>
   },
   com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
     round-green: {
       name: round,
-      color: <error>green</error>
+      color: <warning descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</warning>
     },
     round-yellow: {
       name: round,
       color: yellow
     }
-}
+  }
   com.badlogic.gdx.graphics.Color: {
     blue: {r: 1, g: 1, b: 1, a: 1},
-    f: <error>green</error>,
-    e: yellow,
-    z: d
+    f: <warning descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</warning>,
+  e: yellow,
+  z: d
     123: e
   },
   com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
-    yes: <error>green</error>,
-    no: <error>yellow</error>,
-    z: <error>d</error>
+    yes: <warning descr="'green' does not refer to anything. Resources must be defined before they can be used.">green</warning>,
+  no: <warning descr="'yellow' does not refer to anything. Resources must be defined before they can be used.">yellow</warning>,
+  z: <warning descr="'d' does not refer to anything. Resources must be defined before they can be used.">d</warning>
     aa: z
   }
 
   com.example.ColorArrayHolder: {
     a: {
-      colors: [red, <error>pink</error>],
-      moreColors: [<error>pink</error>, [<error>pink</error>, yellow]],
+      colors: [red, <warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>],
+      moreColors: [<warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>, [<warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>, yellow]],
       m: [
-        {
-          buttonStyle: yes
-        },
-        {
-          textButtonStyle: { parent: yes }
-        },
-        {
-          buttonStyle: <error>nope</error>
-        }
-        {
-          buttonStyle: <error>pink</error>
-        }
-        {
-          textButtonStyle: <error>yes</error>
-        }
+      {
+      buttonStyle: yes
+      },
+      {
+      textButtonStyle: { parent: yes }
+      },
+      {
+      buttonStyle: <warning descr="'nope' does not refer to anything. Resources must be defined before they can be used.">nope</warning>
+      }
+      {
+      buttonStyle: <warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>
+      }
+      {
+      textButtonStyle: <warning descr="'yes' does not refer to anything. Resources must be defined before they can be used.">yes</warning>
+      }
       ]
       textButtonStyles: [
-        {
-          font: {
-            flip: true
-            file: sfdsdsf
-          }
-        },
-        {
-          font: medium
-        },
-        {
-          font: <error>pink</error>
-        }
+      {
+      font: {
+      flip: true
+      file: sfdsdsf
+      }
+      },
+      {
+      font: medium
+      },
+      {
+      font: <warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>
+      }
       ]
     }
   },
@@ -121,13 +121,13 @@
 
   com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
     d: {
-     fontColor: <error>pink</error>
+      fontColor: <warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>
     }
     e: {
       fontColor: 123
     }
     f: {
-      fontColor: <error>456</error>
+      fontColor: <warning descr="'456' does not refer to anything. Resources must be defined before they can be used.">456</warning>
     }
     g: {
       parent: b1
@@ -143,7 +143,7 @@
       gamma: 1.8
       renderCount: 4
       borderWidth: 0
-      borderColor: <error>foo</error>
+      borderColor: <warning descr="'foo' does not refer to anything. Resources must be defined before they can be used.">foo</warning>
       borderStraight: false
       borderGamma: 1.8
       shadowOffsetX: 0
@@ -163,6 +163,6 @@
   },
   com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator: {
     bar: foo
-    error: <error>error</error>
+    error: <warning descr="'error' does not refer to anything. Resources must be defined before they can be used.">error</warning>
   }
 }

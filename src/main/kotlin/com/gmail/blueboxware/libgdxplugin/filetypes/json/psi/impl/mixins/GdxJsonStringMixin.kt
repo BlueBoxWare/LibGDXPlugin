@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
+import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
 import javax.swing.Icon
 
@@ -37,6 +38,9 @@ abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementI
   override fun toFloatOrNull(): Float? = getValue().toFloatOrNull()
 
   override fun isKeyword(): Boolean = !isQuoted && getValue() in KEYWORDS
+
+  override fun isNumber(): Boolean =
+          getValue().toFloatOrNull() != null || getValue().toLongOrNull() != null
 
   override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
 

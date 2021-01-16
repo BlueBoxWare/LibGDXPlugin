@@ -21,13 +21,5 @@ import com.intellij.lang.properties.PropertiesInspectionBase
 
 abstract class LibGDXGradlePropertiesBaseInspection: PropertiesInspectionBase() {
 
-  override fun getGroupPath() = arrayOf("libGDX", "Gradle")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
 
 }

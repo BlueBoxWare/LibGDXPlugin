@@ -1,14 +1,18 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
+import com.gmail.blueboxware.libgdxplugin.utils.findElement
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
+import com.intellij.psi.util.elementType
+import com.intellij.psi.util.findDescendantOfType
 import kotlin.text.Typography.quote
 
 

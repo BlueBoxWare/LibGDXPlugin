@@ -47,8 +47,8 @@ name: yes
 
   TintedDrawable: {
 
-   //noinspection NonExistingInspection")
-  //noinspection MissingProperty
+   //noinspection GDXNonExistingField")
+  //noinspection GDXMissingProperty
 
   default:
   {

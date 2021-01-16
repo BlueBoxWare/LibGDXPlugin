@@ -26,7 +26,7 @@
     '': { }
     '"': { }
     '\"/a\\: { }
-    \\/"''': { }
+    \\/\"''': { }
     \n: { s: \n }
     \n: { \n: \n }
     \n: \n
@@ -34,20 +34,20 @@
     ': { ': ' }
     \u1234: { \u123a: \u456b }
     (()()([: { s: ()(09[ { /\\\t/ }
-    //noinspection InvalidEscape
+    //noinspection GDXInvalidEscape
     \u11x1: "\u"
     <error>\u11x1</error>:
-    //noinspection InvalidEscape
+    //noinspection GDXInvalidEscape
     "\u"
     <error>\u11x1</error>: "<error>\u</error>"
-    //noinspection InvalidEscape
+    //noinspection GDXInvalidEscape
     f: {
         \u11x1: "\u"
         g: {
             \u11x1: "\u"
         }
     },
-        //noinspection DuplicateProperty, InvalidEscape
+        //noinspection GDXJsonDuplicateProperty, GDXInvalidEscape
         f: {
             \u11x1: "\u"
             g: {

@@ -1,8 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonStringProblemsInspector
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXTopLevelValueInspection
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInspection.LocalInspectionTool
 
@@ -25,16 +27,47 @@ import com.intellij.codeInspection.LocalInspectionTool
 class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testInvalidEscapesInspection() {
-    doTest(LibGDXJsonStringProblemsInspector())
+    doFileTest(LibGDXJsonInvalidEscapeInspection())
   }
 
   fun testDuplicatePropertyInspection() {
-    doTest(LibGDXDuplicatePropertyInspection())
+    doFileTest(LibGDXDuplicatePropertyInspection())
   }
 
-  private fun doTest(inspection: LocalInspectionTool) {
-    myFixture.enableInspections(inspection)
-    myFixture.testHighlighting(true, false, false, testname() + ".lson")
+  fun testToplevelInspection1() = doCodeTest(
+          LibGDXTopLevelValueInspection(),
+          "<weak_warning></weak_warning>"
+  )
+
+  fun testToplevelInspection2() = doCodeTest(
+          LibGDXTopLevelValueInspection(),
+          "\n// foo \n\n/* */ {} /* */\n//\n"
+  )
+
+  fun testToplevelInspection3() = doCodeTest(
+          LibGDXTopLevelValueInspection(),
+          "// \n /* */ <weak_warning>[]</weak_warning>"
+  )
+
+  fun testToplevelInspection4() = doCodeTest(
+          LibGDXTopLevelValueInspection(),
+          "\n<weak_warning>foo</weak_warning>\n"
+  )
+
+  fun testToplevelInspection5() = doCodeTest(
+          LibGDXTopLevelValueInspection(),
+          "//noinspection GDXToplevel \n[]"
+  )
+
+  private fun doFileTest(inspection: LocalInspectionTool) {
+    myFixture.enableInspections(inspection::class.java)
+    myFixture.testHighlighting(true, false, true, testname() + ".lson")
+  }
+
+  private fun doCodeTest(inspection: LocalInspectionTool, text: String) {
+    myFixture.enableInspections(inspection::class.java)
+    myFixture.configureByText(LibGDXJsonFileType.INSTANCE, text)
+    myFixture.checkHighlighting(true, false, true)
   }
 
   override fun getBasePath() = "/filetypes/json/inspections/"

@@ -105,11 +105,11 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
       stringBuilderBuildGradle.append("single$idCount = <warning>'$testId'</warning>\n")
       stringBuilderBuildGradle.append("double$idCount = <warning>\"$testId\"</warning>\n")
       stringBuilderBuildGradle.append("triple$idCount = <warning>'''$testId'''</warning>\n")
-      stringBuilderBuildGradle.append("//noinspection LibGDXGradleTestId\n")
+      stringBuilderBuildGradle.append("//noinspection GDXGradleTestId\n")
       stringBuilderBuildGradle.append("suppressed$idCount = '$testId'\n")
       stringBuilderGradleProperties.append("<warning>id$idCount=$testId</warning>\n")
       stringBuilderGradleProperties.append("<warning>idQuoted$idCount=\"$testId\"</warning>\n")
-      stringBuilderGradleProperties.append("# suppress inspection \"LibGDXGradlePropertiesTestId\"\n")
+      stringBuilderGradleProperties.append("# suppress inspection \"GDXGradlePropertiesTestId\"\n")
       stringBuilderGradleProperties.append("suppressed$idCount=$testId\n")
 
     }
@@ -429,14 +429,14 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doInspectionsTest(inspection: LocalInspectionTool, vararg fileNames: String) {
-    myFixture.enableInspections(inspection)
+    myFixture.enableInspections(inspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, *fileNames)
   }
 
   private fun doInspectionTestWithString(text: String, inspection: LocalInspectionTool, fileName: String) {
 
     configureByText(fileName, text)
-    myFixture.enableInspections(inspection)
+    myFixture.enableInspections(inspection::class.java)
     myFixture.checkHighlighting(true, false, false)
 
   }
@@ -448,7 +448,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   ): List<HighlightInfo> {
 
     configureByFiles(*fileNames)
-    myFixture.enableInspections(inspection)
+    myFixture.enableInspections(inspection::class.java)
     return myFixture.doHighlighting().filter { it.description?.contains(warningDescription) == true }
 
   }
@@ -592,7 +592,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doExternalFilesPermissionInspectionTest(manifestFileName: String, warningExpected: Boolean) {
-    myFixture.enableInspections(MissingExternalFilesPermissionInspection())
+    myFixture.enableInspections(MissingExternalFilesPermissionInspection::class.java)
     configureByFile(manifestFileName)
     val hasWarning =
             myFixture

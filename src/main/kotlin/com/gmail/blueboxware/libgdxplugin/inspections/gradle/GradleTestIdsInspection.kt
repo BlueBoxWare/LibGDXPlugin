@@ -28,10 +28,6 @@ class GradleTestIdsInspection: LibGDXGradleBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXGradleTestId"
-
-  override fun getDisplayName() = message("testid.name.build.gradle")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
     return GroovyPsiElementVisitor(object: GroovyElementVisitor() {

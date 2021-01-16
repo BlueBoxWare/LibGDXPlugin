@@ -26,12 +26,6 @@ class SkinNonExistingClassInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.non.existing.class.description")
 
-  override fun getID() = "LibGDXSkinNonExistingClass"
-
-  override fun getDisplayName() = message("skin.inspection.non.existing.class.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
 
     override fun visitClassName(o: SkinClassName) {

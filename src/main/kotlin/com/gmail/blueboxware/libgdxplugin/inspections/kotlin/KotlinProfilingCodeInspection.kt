@@ -26,10 +26,6 @@ class KotlinProfilingCodeInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("profiling.code.html.description")
 
-  override fun getID() = "LibGDXProfilingCode"
-
-  override fun getDisplayName() = message("profiling.code.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitQualifiedExpression(expression: KtQualifiedExpression) {

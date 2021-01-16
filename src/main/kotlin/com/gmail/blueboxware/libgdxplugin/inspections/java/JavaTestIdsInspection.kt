@@ -27,10 +27,6 @@ class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXJavaTestId"
-
-  override fun getDisplayName() = message("testid.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {

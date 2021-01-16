@@ -33,10 +33,6 @@ class GradlePropertiesOutdatedVersionsInspection: LibGDXGradlePropertiesBaseInsp
   override fun getStaticDescription() =
           message("outdated.version.inspection.static.description", listOfCheckedLibraries())
 
-  override fun getID() = "LibGDXOutdatedVersionGradleProperties"
-
-  override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle.properties")
-
   override fun isSuppressedFor(element: PsiElement): Boolean =
           !element.project.isLibGDXProject() || super.isSuppressedFor(element)
 

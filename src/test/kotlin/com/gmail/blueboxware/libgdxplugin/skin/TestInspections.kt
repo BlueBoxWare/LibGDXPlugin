@@ -102,7 +102,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testAbbrClassInspectionWithTags() {
-    myFixture.enableInspections(SkinAbbrClassInspection())
+    myFixture.enableInspections(SkinAbbrClassInspection::class.java)
     InspectionProjectProfileManager.getInstance(project).currentProfile.allTools.forEach {
       if (it.tool.displayName == message("skin.inspection.abbr.class.display.name")) {
         it.level = HighlightDisplayLevel.WARNING
@@ -112,14 +112,14 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testNonExistingResourceAliasQuickfixes() {
-    myFixture.enableInspections(SkinNonExistingResourceAliasInspection())
+    myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
     configureByFile("nonExistingResourceAliasFixes.skin")
     doAllIntentions<SkinStringLiteral>(CreateAssetQuickFix.FAMILY_NAME)
     myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
   }
 
   fun testAbbrClassInspectionWithTagsQuickfixes() {
-    myFixture.enableInspections(SkinAbbrClassInspection())
+    myFixture.enableInspections(SkinAbbrClassInspection::class.java)
     configureByFile("abbrClassInspectionFixes.skin")
     doAllIntentions<SkinClassName>(SkinAbbrClassInspection.FAMILY_NAME)
     myFixture.checkResultByFile("abbrClassInspectionFixes.after")
@@ -127,9 +127,9 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
 
   fun testSuppression() {
     myFixture.enableInspections(
-            SkinMalformedColorStringInspection(),
-            SkinDuplicatePropertyInspection(),
-            SkinNonExistingFieldInspection()
+            SkinMalformedColorStringInspection::class.java,
+            SkinDuplicatePropertyInspection::class.java,
+            SkinNonExistingFieldInspection::class.java
     )
     myFixture.testHighlighting(true, false, false, "suppression.skin")
   }
@@ -141,7 +141,7 @@ class TestInspections: LibGDXCodeInsightFixtureTestCase() {
   }
 
   private fun doTest(inspection: LocalInspectionTool) {
-    myFixture.enableInspections(inspection)
+    myFixture.enableInspections(inspection::class.java)
     myFixture.testHighlighting(true, false, false, testname() + ".skin")
   }
 

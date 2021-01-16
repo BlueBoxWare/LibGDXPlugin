@@ -30,10 +30,6 @@ class JavaLogLevelInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("log.level.html.description")
 
-  override fun getID() = "LibGDXLogLevel"
-
-  override fun getDisplayName() = message("log.level.inspection")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {

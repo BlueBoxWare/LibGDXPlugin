@@ -29,10 +29,6 @@ class SkinTypeInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.types.description")
 
-  override fun getID() = "LibGDXSkinTypeError"
-
-  override fun getDisplayName() = message("skin.inspection.types.display.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
           object: SkinElementVisitor() {
 

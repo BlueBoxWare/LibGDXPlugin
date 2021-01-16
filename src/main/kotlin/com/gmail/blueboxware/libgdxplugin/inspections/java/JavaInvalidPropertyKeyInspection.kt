@@ -28,12 +28,6 @@ class JavaInvalidPropertyKeyInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
 
-  override fun getID() = "LibGDXInvalidPropertyKey"
-
-  override fun getDisplayName() = message("invalid.property.key.inspection")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitLiteralExpression(expression: PsiLiteralExpression?) {

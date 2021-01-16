@@ -27,12 +27,6 @@ class SkinMissingPropertyInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.missing.property.description")
 
-  override fun getID() = "LibGDXSkinMissingProperty"
-
-  override fun getDisplayName() = message("skin.inspection.missing.property.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
           object: SkinElementVisitor() {
 

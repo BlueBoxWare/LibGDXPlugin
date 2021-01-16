@@ -26,12 +26,6 @@ class OpenGLESDirectiveInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("no.opengl.html.description")
 
-  override fun getID() = "LibGDXOpenGLVersion"
-
-  override fun getDisplayName() = message("no.opengl.directive.display.name")
-
-  override fun getGroupPath() = arrayOf("libGDX", "Android")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
     if (holder.file.name != "AndroidManifest.xml") {

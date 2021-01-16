@@ -34,19 +34,19 @@ import com.intellij.psi.PsiWhiteSpace
  * limitations under the License.
  */
 val INSPECTION_NAMES = listOf(
-        "DuplicateProperty",
-        "DuplicateResource",
-        "MalformedColorString",
-        "MissingProperty",
-        "NonExistingClass",
-        "NonExistingField",
-        "NonExistingFile",
-        "NonExistingResourceInAlias",
-        "NonExistingInspection",
-        "TypeError",
-        "AbbrClass",
-        "Deprecated",
-        "SpellCheckingInspection"
+        "SkinDuplicateProperty",
+        "SkinDuplicateResourceName",
+        "SkinMalformedColorString",
+        "SkinMissingProperty",
+        "SkinNonExistingClass",
+        "SkinNonExistingField",
+        "SkinNonExistingFontFile",
+        "SkinNonExistingResourceAlias",
+        "SkinNonExistingInspection",
+        "SkinType",
+        "SkinAbbrClass",
+        "SkinDeprecated",
+        "SkinSpellCheckingInspection"
 )
 
 fun SkinElement.isSuppressed(id: String): Boolean {

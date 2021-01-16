@@ -4,6 +4,6 @@
     <info descr="JSON.PROPERTY_KEY">"include"</info>: [<info descr="JSON.STRING">"other/*"</info>],
     <info descr="JSON.PROPERTY_KEY">"test"</info>: [<info descr="JSON.STRING">"*/some"</info>],
     <info descr="JSON.PROPERTY_KEY">34</info>: <info descr="JSON.STRING">"/*f*/"</info>,
-    <info descr="JSON.PROPERTY_KEY">null</info>: <info descr="JSON.KEYWORD"><info descr="JSON.STRING">null</info></info>,
+    <info descr="JSON.PROPERTY_KEY">null</info>: <info descr="JSON.KEYWORD">null</info>,
     <info descr="JSON.PROPERTY_KEY">!@#$%^&*(){_-+=["'?/>~`<.|</info>: <info descr="JSON.STRING">!@#$%^&~`*(){_-+=["'?/><.|</info>
 }

@@ -25,10 +25,6 @@ class JavaShapeRenderer64BitCrashInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 
-  override fun getID() = "LibGDXShapeRendererCrash"
-
-  override fun getDisplayName() = message("shaperenderer.64bit.crash.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitNewExpression(expression: PsiNewExpression?) {

@@ -26,10 +26,6 @@ class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 
-  override fun getID() = "LibGDXShapeRendererCrash"
-
-  override fun getDisplayName() = message("shaperenderer.64bit.crash.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitCallExpression(expression: KtCallExpression) {

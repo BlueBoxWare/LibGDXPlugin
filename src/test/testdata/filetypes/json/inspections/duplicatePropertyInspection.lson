@@ -12,7 +12,7 @@
         <warning>"a\n\"\t"</warning>: 1
     }
     d:
-    //noinspection DuplicateProperty
+    //noinspection GDXJsonDuplicateProperty
     {
         a: 1
         a: 2
@@ -24,7 +24,7 @@
     }
     e: {
         <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 1
-        //noinspection DuplicateProperty
+        //noinspection GDXJsonDuplicateProperty
         a: 2
         <warning descr="Property 'a' is defined more than once in this object.">a</warning>: 3
         f: {

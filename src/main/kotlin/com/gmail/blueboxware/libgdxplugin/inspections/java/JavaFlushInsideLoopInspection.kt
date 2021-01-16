@@ -29,10 +29,6 @@ class JavaFlushInsideLoopInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("flushing.inside.loop.html.description")
 
-  override fun getID() = "LibGDXFlushInsideLoop"
-
-  override fun getDisplayName() = message("flushing.inside.loop.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
           object: JavaElementVisitor() {
 

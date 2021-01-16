@@ -32,7 +32,7 @@
       ]
     }
     green: {
-      //noinspection DuplicateProperty
+      //noinspection GDXDuplicateProperty
           m: [
             {
               parent: f
@@ -49,7 +49,7 @@
             red: {
 
                   m: [
-                    //noinspection DuplicateResource,DuplicateProperty
+                    //noinspection GDXDuplicateResource,GDXDuplicateProperty
                     {
 
                       a: 1,

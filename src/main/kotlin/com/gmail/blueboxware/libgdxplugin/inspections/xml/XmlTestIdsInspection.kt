@@ -25,12 +25,6 @@ class XmlTestIdsInspection: LibGDXXmlBaseInspection() {
 
   override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getID() = "LibGDXXmlTestId"
-
-  override fun getDisplayName() = message("testid.name")
-
-  override fun getGroupPath() = arrayOf("libGDX", "XML")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {
 
     override fun visitXmlTag(tag: XmlTag?) {

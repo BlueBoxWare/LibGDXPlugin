@@ -1,3 +1,3 @@
 {
-  //noinspection DuplicateResource
+  //noinspection GDXDuplicateResource
   com.badlogic.gdx.graphics.Color:{default: { hex: "00ff00" }, zz: {}, default: {},  xx: {}, zz: {}  } }

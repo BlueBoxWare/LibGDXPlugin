@@ -1,0 +1,95 @@
+//noinspection Toplevel
+[
+  {
+    numbers: [
+      {
+      ,
+        number: "206-555-1234"
+        name: Home,
+      }
+      {
+        f: "425-555-4321"
+        name: dsf
+        array: [
+          "",
+          ""
+        ]
+        array: [
+          "fsd"
+        <error>]</error>
+
+    ]
+    name: Nate
+    age: 31
+  }
+
+  {
+    items: [
+      {
+        class: com.example.SomeObject,
+        value: 1,
+      <error>,</error>
+      {
+        class: com.example.SomeObject,
+        value: 2
+      }
+      {
+        class: com.example.SomeObject,
+        value: 3
+      },
+      {
+        class: com.example.SomeOtherObject,
+        value: fou<error>r</error>
+
+    ]
+  }
+
+  {
+    numbers: [
+      {
+        class: null,
+        number: "206-555-1234",
+        name: fd
+      },
+      {
+        class: com.example.PhoneNumber,
+        number: "425-555-4321",
+        name: Work
+      }
+    ],
+    name: df,
+    age: 31
+  }
+
+  {
+    tiles_x: 32,
+    entities: [
+    ,
+      [
+      {
+        object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
+        pos_x: 10,
+        pos_y: 10
+      ,
+      {<EOLError descr="':' expected, got 'object_name'"></EOLError>
+        object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
+        pos_x: null,
+        pos_y: false
+      },
+      {
+        object_name: net.sutomaji.space2.gamelogic.objects.SpaceStation
+      },
+        {
+          i1: 1,
+          object_name: net.sutomaji.space2.gamelogic.objects.SpaceStation,
+          pos_x: <error>5</error>
+
+    ],
+
+    title: "Broken Home",
+    foo: 1,
+    design: tomschneider,
+    tiles_y: dsf,
+    ]
+
+]

@@ -279,7 +279,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
       removeDummyLibGDX199()
     }
 
-    myFixture.enableInspections(SkinNonExistingResourceAliasInspection())
+    myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
 
   }
 

@@ -1,0 +1,87 @@
+[
+{
+numbers: [            {
+,                number: "206-555-1234"
+name: Home,
+}
+{
+"425-555-4321"
+name: dsf
+array: [
+""
+""                ]
+array: [
+"fsd"
+}
+]
+name: Nate
+age: 31
+}
+{
+items: [
+{
+class: com.example.SomeObject,
+value:1,            }   ,
+{
+class: com.
+/**/
+example.SomeObject, value: 2
+}
+{
+class: com.example.SomeObject,
+value: 3
+},
+{
+class: com.example.SomeOtherObject,
+value: four
+}
+""
+]
+}
+{
+numbers: [
+{
+class: null,
+number: "206-555-1234",
+name:
+},
+{
+class: com.example.PhoneNumber,
+number: "425-555-4321",
+name: Work
+}
+],
+name,
+age: 31
+}
+{
+tiles_x: 32,
+entities: [
+,
+objects: [
+{
+object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
+pos_x: 10,
+pos_y
+},
+{
+object_name: net.sutomaji.space2.gamelogic.objects.BlackHole,
+pos_x: null,
+pos_y: false
+},
+{
+object_name: net.sutomaji.space2.gamelogic.objects.SpaceStation
+},
+{
+i1: 1,
+object_name: net.sutomaji.space2.gamelogic.objects.SpaceStation,
+pos_x: 5
+}
+],
+title: "Broken Home",
+foo:
+1,
+design: tomschneider,
+tiles_y: dsf,
+}
+]

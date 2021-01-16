@@ -29,21 +29,8 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  */
 class GradleKotlinOutdatedVersionInspection: AbstractKotlinInspection() {
 
-  override fun getGroupPath() = arrayOf("libGDX", "Gradle")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
-  override fun getID() = "LibGDXOutdatedVersionGradleKotlin"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun getStaticDescription() =
           message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
-
-  override fun getDisplayName() = message("outdated.version.inspection.display.name.gradle.kotlin")
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)

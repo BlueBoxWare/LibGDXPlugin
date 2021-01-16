@@ -26,6 +26,8 @@ abstract class GdxJsonValueMixin(node: ASTNode): GdxJsonValue, GdxJsonElementImp
 
   override fun getValue(): GdxJsonElement? = jobject ?: array ?: string
 
+  override fun isObject(): Boolean = jobject != null
+
   override fun isPropertyValue(): Boolean = (parent as? GdxJsonProperty)?.let { it.value == this } ?: false
 
 }

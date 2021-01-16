@@ -29,19 +29,8 @@ import com.intellij.openapi.components.service
  */
 class OutdatedVersionsInspection: GlobalInspectionTool() {
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
-  override fun getDisplayName() = message("outdated.version.inspection.display.name")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
   override fun getStaticDescription() =
           message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
-
-  override fun isEnabledByDefault() = true
-
-  override fun getShortName() = "LibGDXOutdatedVersion"
 
   override fun runInspection(
           scope: AnalysisScope,

@@ -31,10 +31,6 @@ class LibGDXDuplicatePropertyInspection: GdxJsonBaseInspection() {
 
   override fun getStaticDescription() = message("json.inspection.duplicate.property.description")
 
-  override fun getID() = "LibGDXJsonDuplicateProperty"
-
-  override fun getDisplayName() = message("json.inspection.duplicate.property.display.name")
-
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
                   SuppressForFileFix(getShortID()),

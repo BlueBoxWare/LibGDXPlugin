@@ -24,10 +24,6 @@ class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
 
   override fun getStaticDescription() = message("missing.flush.html.description")
 
-  override fun getID() = "LibGDXMissingFlush"
-
-  override fun getDisplayName() = message("missing.flush.inspection.name")
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
 
     override fun visitMethod(method: PsiMethod?) {

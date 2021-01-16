@@ -28,12 +28,6 @@ class KotlinNonExistingAssetInspection: LibGDXKotlinBaseInspection() {
 
   override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
 
-  override fun getID() = "LibGDXNonExistingAsset"
-
-  override fun getDisplayName() = message("nonexisting.asset.inspection")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.ERROR
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
 
     override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {

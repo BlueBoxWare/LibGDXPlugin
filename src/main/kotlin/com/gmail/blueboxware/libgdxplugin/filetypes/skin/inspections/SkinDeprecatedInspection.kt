@@ -29,12 +29,6 @@ class SkinDeprecatedInspection: SkinBaseInspection() {
 
   override fun getStaticDescription() = message("skin.inspection.deprecated.description")
 
-  override fun getID() = "LibGDXSkinDeprecated"
-
-  override fun getDisplayName() = message("skin.inspection.deprecated.display.name")
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
           object: SkinElementVisitor() {
 

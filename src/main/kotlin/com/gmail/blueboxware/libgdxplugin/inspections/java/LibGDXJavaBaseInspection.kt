@@ -23,15 +23,6 @@ import com.intellij.psi.PsiElement
 @Suppress("InspectionDescriptionNotFoundInspection")
 open class LibGDXJavaBaseInspection: AbstractBaseJavaLocalInspectionTool() {
 
-  override fun getGroupPath() = arrayOf("libGDX", "Java")
-
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
-
-  override fun isEnabledByDefault() = true
-
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
   }

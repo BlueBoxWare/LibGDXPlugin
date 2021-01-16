@@ -56,21 +56,21 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
   fun testOutdatedVersionsGradleInspection1() {
 
-    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.enableInspections(GradleOutdatedVersionsInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test1.gradle")
 
   }
 
   fun testOutdatedVersionsGradleInspection2() {
 
-    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.enableInspections(GradleOutdatedVersionsInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle")
 
   }
 
   fun testOutdatedVersionsGradleInspection3() {
 
-    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.enableInspections(GradleOutdatedVersionsInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test3.gradle")
 
   }
@@ -78,14 +78,14 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
   fun testOutdatedVersionsGradleInspection4() {
 
     addLibsFromProperties()
-    myFixture.enableInspections(GradleOutdatedVersionsInspection())
+    myFixture.enableInspections(GradleOutdatedVersionsInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test4.gradle")
 
   }
 
   fun testOutdatedVersionsGradleKotlinInspection1() {
 
-    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
+    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test1.gradle.kt")
 
   }
@@ -93,14 +93,14 @@ class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
   fun testOutdatedVersionsGradleKotlinInspection2() {
 
     addLibsFromProperties()
-    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection())
+    myFixture.enableInspections(GradleKotlinOutdatedVersionInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "test2.gradle.kt")
 
   }
 
   fun testOutdatedVersionsGradlePropertiesInspection() {
 
-    myFixture.enableInspections(GradlePropertiesOutdatedVersionsInspection())
+    myFixture.enableInspections(GradlePropertiesOutdatedVersionsInspection::class.java)
     myFixture.testHighlightingAllFiles(true, false, false, "gradle.properties")
 
   }

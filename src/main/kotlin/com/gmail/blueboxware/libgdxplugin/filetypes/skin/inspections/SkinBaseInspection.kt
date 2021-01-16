@@ -27,11 +27,9 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
 
   init {
     if (ApplicationManager.getApplication().isUnitTestMode) {
-      assert(INSPECTION_NAMES.contains(getShortID()))
+      assert(INSPECTION_NAMES.contains(getID()))
     }
   }
-
-  protected fun getShortID() = id.removePrefix("LibGDXSkin")
 
   override fun getGroupPath() = arrayOf("libGDX", "Skin files")
 
@@ -40,16 +38,14 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
 
   override fun isEnabledByDefault() = true
 
-  override fun getDefaultLevel(): HighlightDisplayLevel = HighlightDisplayLevel.WARNING
-
   override fun isSuppressedFor(element: PsiElement): Boolean =
-          (element as? SkinElement)?.isSuppressed(getShortID()) ?: false
+          (element as? SkinElement)?.isSuppressed(getID()) ?: false
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
-                  SuppressForPropertyFix(getShortID()),
-                  SuppressForObjectFix(getShortID()),
-                  SuppressForFileFix(getShortID())
+                  SuppressForPropertyFix(getID()),
+                  SuppressForObjectFix(getID()),
+                  SuppressForFileFix(getID())
           )
 
 }
