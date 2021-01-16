@@ -9,6 +9,7 @@ import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
+import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
 
 
 /*
@@ -41,7 +42,7 @@ class LibGDXTopLevelValueInspection: GdxJsonBaseInspection() {
               if (file.children.filterIsInstance<GdxJsonValue>().size != 1) {
                 holder.registerProblem(file, message("json.inspection.toplevel.value.message"))
               } else {
-                file.children.filterIsInstance<GdxJsonValue>().firstOrNull()?.let { element ->
+                file.children.firstIsInstanceOrNull<GdxJsonValue>()?.let { element ->
                   if (!element.isObject) {
                     holder.registerProblem(element, message("json.inspection.toplevel.value.message"))
                   }

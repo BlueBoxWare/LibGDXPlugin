@@ -1,11 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.global
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.analysis.AnalysisScope
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.GlobalInspectionContext
 import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.InspectionManager

@@ -1,11 +1,11 @@
+@file:Suppress("FunctionName")
+
 package com.gmail.blueboxware.libgdxplugin.filetypes.json
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.COMMA
-import com.intellij.lang.ITokenTypeRemapper
 import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.TokenType
-import com.intellij.psi.tree.IElementType
 
 /*
  * Copyright 2016 Blue Box Ware

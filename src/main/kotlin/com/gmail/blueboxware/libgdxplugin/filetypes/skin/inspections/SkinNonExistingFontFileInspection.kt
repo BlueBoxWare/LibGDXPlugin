@@ -6,7 +6,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FILE
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 
 /*

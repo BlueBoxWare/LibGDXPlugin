@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*

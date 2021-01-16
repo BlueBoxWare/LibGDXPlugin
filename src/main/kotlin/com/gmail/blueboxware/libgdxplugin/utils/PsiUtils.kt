@@ -1,7 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
@@ -12,7 +10,6 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.elementType
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -20,9 +17,10 @@ import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.core.deleteSingle
 import org.jetbrains.kotlin.idea.intentions.calleeName
-import org.jetbrains.kotlin.idea.util.CommentSaver.Companion.tokenType
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.*
+import org.jetbrains.kotlin.psi.psiUtil.allChildren
+import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
+import org.jetbrains.kotlin.psi.psiUtil.plainContent
 import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
@@ -66,12 +64,6 @@ internal fun PsiElement.isLeaf(types: TokenSet): Boolean =
 
 internal fun PsiElement.isLeaf(vararg types: IElementType): Boolean =
         (this as? LeafPsiElement)?.elementType in types
-
-internal fun PsiElement.prevLeafSkipWithSpace() =
-        prevLeaf { it !is PsiWhiteSpace }
-
-internal fun PsiElement.nextLeafSkipWhiteSpace() =
-        nextLeaf { it !is PsiWhiteSpace }
 
 @Suppress("unused")
 internal inline fun <reified T: PsiElement> PsiElement.contextOfType(): T? =

@@ -16,7 +16,6 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.psi.PsiElement
 import org.jetbrains.plugins.groovy.codeInspection.GroovySuppressableInspectionTool
 

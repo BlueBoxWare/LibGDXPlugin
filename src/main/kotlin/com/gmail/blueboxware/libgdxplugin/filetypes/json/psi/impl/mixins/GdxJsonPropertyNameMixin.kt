@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertyName
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
 
 

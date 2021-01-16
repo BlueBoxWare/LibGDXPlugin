@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.isSuppressed
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.psi.PsiElement

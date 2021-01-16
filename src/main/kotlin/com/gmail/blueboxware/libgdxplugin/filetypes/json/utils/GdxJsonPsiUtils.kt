@@ -1,14 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl
 import com.gmail.blueboxware.libgdxplugin.utils.indexOfOrNull
 import com.intellij.openapi.editor.Editor
-import com.intellij.psi.PsiElement
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 
 
 /*

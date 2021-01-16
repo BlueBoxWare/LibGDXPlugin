@@ -8,7 +8,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.gmail.blueboxware.libgdxplugin.utils.lastChild
-import com.gmail.blueboxware.libgdxplugin.utils.prevLeafSkipWithSpace
 import com.intellij.lang.ASTNode
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -17,7 +16,6 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.TokenType
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.elementType
 import com.intellij.psi.util.prevLeaf

@@ -35,7 +35,7 @@ class TestParsing: ParsingTestCase("", "json", GdxJsonParserDefinition()) {
   }
 
   fun testEmptyFile() =
-          doCodeTest("");
+          doCodeTest("")
 
   fun testEmptyFileWithNewlines() =
           doCodeTest("\n\n\n")

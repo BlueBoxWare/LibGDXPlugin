@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
-import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.util.text.StringUtil
 import javax.swing.Icon
 

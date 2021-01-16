@@ -131,9 +131,6 @@ class VersionService(val project: Project): Disposable {
     override fun beforeLibraryRemoved(library: Library) {
     }
 
-    override fun afterLibraryRenamed(library: Library) {
-    }
-
     override fun afterLibraryAdded(newLibrary: Library) {
       updateUsedVersions()
       updateLatestVersionsAlarm.cancelAllRequests()

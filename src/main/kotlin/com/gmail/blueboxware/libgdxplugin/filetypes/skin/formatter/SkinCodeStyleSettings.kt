@@ -1,3 +1,5 @@
+@file:Suppress("PropertyName")
+
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage

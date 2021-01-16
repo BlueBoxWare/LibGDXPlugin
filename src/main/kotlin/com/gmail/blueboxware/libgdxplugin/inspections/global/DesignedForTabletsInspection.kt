@@ -6,7 +6,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SdkVersionType
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.analysis.AnalysisScope
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.*
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex

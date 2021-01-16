@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.lang.properties.PropertiesInspectionBase
 
 /*
@@ -19,7 +18,4 @@ import com.intellij.lang.properties.PropertiesInspectionBase
  * limitations under the License.
  */
 
-abstract class LibGDXGradlePropertiesBaseInspection: PropertiesInspectionBase() {
-
-
-}
+abstract class LibGDXGradlePropertiesBaseInspection: PropertiesInspectionBase()

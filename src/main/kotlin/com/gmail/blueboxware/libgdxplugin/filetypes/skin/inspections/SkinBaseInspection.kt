@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.*
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.application.ApplicationManager
@@ -27,7 +26,7 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
 
   init {
     if (ApplicationManager.getApplication().isUnitTestMode) {
-      assert(INSPECTION_NAMES.contains(getID()))
+      assert(INSPECTION_NAMES.contains(id))
     }
   }
 
@@ -39,13 +38,13 @@ abstract class SkinBaseInspection: LocalInspectionTool() {
   override fun isEnabledByDefault() = true
 
   override fun isSuppressedFor(element: PsiElement): Boolean =
-          (element as? SkinElement)?.isSuppressed(getID()) ?: false
+          (element as? SkinElement)?.isSuppressed(id) ?: false
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
-                  SuppressForPropertyFix(getID()),
-                  SuppressForObjectFix(getID()),
-                  SuppressForFileFix(getID())
+                  SuppressForPropertyFix(id),
+                  SuppressForObjectFix(id),
+                  SuppressForFileFix(id)
           )
 
 }

@@ -9,7 +9,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.DEFAULT_TAGGED_CLASSES_NAMES
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.getKey
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
@@ -40,8 +39,8 @@ class SkinAbbrClassInspection: SkinBaseInspection() {
 
   override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
           arrayOf(
-                  SuppressForObjectFix(getID()),
-                  SuppressForFileFix(getID())
+                  SuppressForObjectFix(id),
+                  SuppressForFileFix(id)
           )
 
   override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =

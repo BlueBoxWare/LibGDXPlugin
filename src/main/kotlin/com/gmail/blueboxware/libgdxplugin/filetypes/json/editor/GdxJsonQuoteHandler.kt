@@ -1,9 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.DOUBLE_QUOTE
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.DOUBLE_QUOTED_STRING
 import com.intellij.codeInsight.editorActions.SimpleTokenSetQuoteHandler
-import com.intellij.openapi.editor.highlighter.HighlighterIterator
 import com.intellij.psi.TokenType.BAD_CHARACTER
 import com.intellij.psi.tree.TokenSet
 

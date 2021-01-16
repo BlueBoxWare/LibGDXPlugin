@@ -1,13 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.intellij.application.options.CodeStyle
 import com.intellij.formatting.FormatterTestUtils
 import com.intellij.json.JsonLanguage
 import com.intellij.json.formatter.JsonCodeStyleSettings
-import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.psi.codeStyle.CodeStyleManager
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import java.io.File
 

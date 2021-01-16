@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.inspections.AbstractKotlinInspection

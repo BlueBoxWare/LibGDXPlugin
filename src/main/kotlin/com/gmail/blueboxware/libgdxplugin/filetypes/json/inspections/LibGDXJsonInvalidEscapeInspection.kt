@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForFileFix
@@ -8,14 +7,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForPropertyFix
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForStringFix
 import com.gmail.blueboxware.libgdxplugin.message
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
-import com.intellij.psi.PsiFile
-import com.intellij.psi.impl.source.tree.LeafPsiElement
 import kotlin.math.min
 
 

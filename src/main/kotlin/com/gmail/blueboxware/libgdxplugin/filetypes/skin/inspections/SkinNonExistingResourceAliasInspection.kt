@@ -6,9 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResource
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
-import com.intellij.codeHighlighting.HighlightDisplayLevel
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.openapi.application.ApplicationManager
 
 /*
  * Copyright 2017 Blue Box Ware
