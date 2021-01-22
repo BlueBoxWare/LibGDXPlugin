@@ -78,7 +78,7 @@ abstract class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
 
 class SuppressForFileFix(id: String): SuppressFix(id) {
 
-  override fun getContainer(context: PsiElement?) = context?.containingFile as GdxJsonFile
+  override fun getContainer(context: PsiElement?) = context?.containingFile as? GdxJsonFile
 
   override fun getFamilyName(): String = message("suppress.file")
 
