@@ -1,0 +1,15 @@
+{
+    abc: "bar",
+    bar: foo,
+    "foo1": {
+        "abc": {
+            "abc": 123
+            bar: [
+                {
+                    abc: bar
+                }
+                foo
+            ]
+        },
+    }
+}

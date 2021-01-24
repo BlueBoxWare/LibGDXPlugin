@@ -24,7 +24,7 @@ import com.intellij.psi.PsiManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXStartupActivity: StartupActivity.DumbAware {
+class LibGDXStartupActivity: StartupActivity {
 
   override fun runActivity(project: Project) {
     PsiManager.getInstance(project).addPsiTreeChangeListener(

@@ -36,7 +36,7 @@ class GdxJsonAddQuotesIntention: GdxJsonBaseIntention() {
 
     (element.parent as? GdxJsonPropertyName)?.let { propertyName ->
       val oldString = propertyName.getValue()
-      val newString = GdxJsonElementFactory(project).createQuotedPropertyName(oldString) ?: return
+      val newString = GdxJsonElementFactory(project).createPropertyName(oldString, true) ?: return
       propertyName.replace(newString)
       return
     }

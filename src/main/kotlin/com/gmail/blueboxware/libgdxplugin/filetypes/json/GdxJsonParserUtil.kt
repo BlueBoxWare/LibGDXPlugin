@@ -25,7 +25,7 @@ import com.intellij.psi.TokenType
 object GdxJsonParserUtil: GeneratedParserUtilBase() {
 
   @JvmStatic
-  fun no_comment_or_newline(builder: PsiBuilder, level: Int): Boolean {
+  fun no_comment_or_newline(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
     var i = 1
 
     while (builder.rawTokenIndex() - i >= 0) {

@@ -9,7 +9,6 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFileFactory
 import com.intellij.psi.PsiWhiteSpace
-import kotlin.text.Typography.quote
 
 
 /*
@@ -30,11 +29,12 @@ import kotlin.text.Typography.quote
 class GdxJsonElementFactory(private val project: Project) {
 
   fun createQuotedValueString(value: String): GdxJsonValue? {
-    val content = "$quote${StringUtil.escapeStringCharacters(value)}$quote"
+    val content = "\"${StringUtil.escapeStringCharacters(value)}\""
     return createElement(content)
   }
 
-  fun createQuotedPropertyName(name: String): GdxJsonPropertyName? {
+  fun createPropertyName(name: String, doQuote: Boolean): GdxJsonPropertyName? {
+    val quote = if (doQuote) "\"" else ""
     val content = "{ $quote${StringUtil.escapeStringCharacters(name)}$quote: bar }"
     return createElement(content)
   }

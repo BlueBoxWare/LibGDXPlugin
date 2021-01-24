@@ -15,6 +15,7 @@
   implements("jobject|array|value|property") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement"
   implements("string") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral"
   implements("property_name") = "com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString"
+  implements("property") = "com.intellij.psi.PsiNamedElement"
 
   name("jobject") = 'object'
   name("property_name") = 'property name'

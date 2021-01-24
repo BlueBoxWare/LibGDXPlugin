@@ -2,14 +2,18 @@
 
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
+import com.intellij.openapi.command.CommandProcessor
+import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.components.service
+import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.impl.libraries.LibraryEx
@@ -242,6 +246,25 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
 
     }
 
+  }
+
+  fun runCommand(f: () -> Unit) =
+          CommandProcessor
+                  .getInstance()
+                  .executeCommand(
+                          project,
+                          f,
+                          "",
+                          null,
+                          UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
+                  )
+
+  fun undo() {
+    val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
+    val undoManager = UndoManager.getInstance(project)
+
+    assertTrue(undoManager.isUndoAvailable(fileEditor))
+    undoManager.undo(fileEditor)
   }
 
   override fun setUp() {

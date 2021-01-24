@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi;
 
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import org.jetbrains.annotations.NotNull;
 
 public class GdxJsonElementVisitor extends PsiElementVisitor {
 
@@ -17,6 +17,7 @@ public class GdxJsonElementVisitor extends PsiElementVisitor {
 
   public void visitProperty(@NotNull GdxJsonProperty o) {
     visitElement(o);
+    // visitPsiNamedElement(o);
   }
 
   public void visitPropertyName(@NotNull GdxJsonPropertyName o) {

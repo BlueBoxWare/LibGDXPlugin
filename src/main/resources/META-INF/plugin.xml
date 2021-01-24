@@ -429,11 +429,16 @@
         <lang.psiStructureViewFactory language="LibGDXJson"
                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewBuilderFactory"/>
 
+        <lang.findUsagesProvider language="LibGDXJson"
+                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.references.GdxJsonFindUsagesProvider" />
+
         <breadcrumbsInfoProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBreadcrumbsProvider"/>
 
         <spellchecker.support language="LibGDXJson"
                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSpellcheckerStrategy"/>
+
+        <json.jsonWidgetSuppressor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSchemaWidgetSuppressor" />
 
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention</className>

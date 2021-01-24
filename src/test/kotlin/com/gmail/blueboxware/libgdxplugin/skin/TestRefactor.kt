@@ -7,11 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.openapi.application.WriteAction
-import com.intellij.openapi.command.CommandProcessor
-import com.intellij.openapi.command.UndoConfirmationPolicy
-import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.psi.JavaDirectoryService
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiDocumentManager
@@ -396,25 +392,6 @@ class TestRefactor: LibGDXCodeInsightFixtureTestCase() {
 
     myFixture.checkResultByFile(beforeFileName)
 
-  }
-
-  private fun runCommand(f: () -> Unit) =
-          CommandProcessor
-                  .getInstance()
-                  .executeCommand(
-                          project,
-                          f,
-                          "",
-                          null,
-                          UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
-                  )
-
-  private fun undo() {
-    val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
-    val undoManager = UndoManager.getInstance(project)
-
-    assertTrue(undoManager.isUndoAvailable(fileEditor))
-    undoManager.undo(fileEditor)
   }
 
   private fun commit() {

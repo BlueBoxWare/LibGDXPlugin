@@ -1,0 +1,13 @@
+{
+    foo: "bar",
+    "foo1": {
+        "fo<caret>o": {
+            "foo": 123
+            bar: [
+                {
+                    foo: bar
+                }
+            ]
+        },
+    }
+}
