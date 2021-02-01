@@ -42,6 +42,11 @@ intellij {
 
 }
 
+// TODO
+tasks.buildSearchableOptions {
+    enabled = false
+}
+
 runIde {
     maxHeapSize = "2g"
     systemProperties = [

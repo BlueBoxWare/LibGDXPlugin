@@ -1,8 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin
 
+import com.intellij.codeInspection.LocalInspectionEP
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.ApplicationInfo
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.PathManager
+import java.io.File
 
 
 /*
@@ -36,6 +39,30 @@ class ShowInfo: LibGDXCodeInsightFixtureTestCase() {
     println("\tSystem: " + PathManager.getSystemPath())
     println("\tConfig: " + PathManager.getConfigPath())
     println("\tIndex: " + PathManager.getIndexRoot())
+  }
+
+  fun testCreateShortnameList() {
+    var str = StringBuilder("| Suppression ID | Name | Description |\n")
+    str.append("|---|---|---|\n")
+    ApplicationManager
+            .getApplication()
+            .extensionArea
+            .extensionPoints
+            .first {
+              it.className == "com.intellij.codeInspection.LocalInspectionEP"
+            }
+            .extensionList
+            .filterIsInstance<LocalInspectionEP>()
+            .filter {
+              it.pluginDescriptor.pluginId?.idString == "com.gmail.blueboxware.libgdxplugin"
+            }
+            .sortedBy { it.shortName }
+            .forEach {
+              it.instantiateTool().let { tool ->
+                str.append("| ${it.shortName} | ${tool.displayName} | ${tool.staticDescription} |\n")
+              }
+            }
+    File("Inspections.md").writeText(str.toString())
   }
 
 }

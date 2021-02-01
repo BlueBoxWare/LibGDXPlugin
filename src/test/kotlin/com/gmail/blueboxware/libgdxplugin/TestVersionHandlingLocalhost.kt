@@ -1,12 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleKotlinOutdatedVersionInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryFromExtKey
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.command.WriteCommandAction
@@ -39,7 +39,7 @@ import java.util.*
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost: LibGDXCodeInsightFixtureTestCase() {
 
-  private val RUN_TESTS = true
+  private val RUN_TESTS = false
 
   private lateinit var versionService: VersionService
 

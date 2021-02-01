@@ -32,23 +32,7 @@ to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Up
 ## Inspections
 libGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
 [Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *libGDX*.
-The following inspections are included:
-
-* Use of profiling code, like FPSLogger or GLProfiler
-* Setting an overly verbose log level
-* Causing flushing of a batch or renderer from inside a loop
-* Missing flush() after changing Preferences
-* Use of some commonly known test ids or dummy ids (ex. AdMob and MoPub)
-* Use of ShapeRenderer with a release of libGDX older than 1.9.2 (It crashes on 64bit devices. See [Issue 3790](https://github.com/libgdx/libgdx/issues/3790)) \[1]
-* Use of static resources (more info on the use of statics: [here](http://bitiotic.com/blog/2013/05/23/libgdx-and-android-application-lifecycle/) and [here](http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=22358))
-* Use of non-reentrant iterator methods of libGDX collection classes
-* Missing OpenGL declaration in AndroidManifest.xml \[1]
-* Invalid property keys for I18NBundle.get() and I18NBundle.format()
-* Missing WRITE_EXTERNAL_STORAGE permission in AndroidManifest.xml when using external files
-* Using outdated versions of libGDX and related libraries \[1]
-* Declaring a combination of minSdkVersion, maxSdkVersion, targetSdkVersion and &lt;support-screens&gt; which excludes the App from being listed as "Designed for Tablets" in the Google Play Store \[1]
-
-\[1]: These inspections assume the project uses a fairly standard setup, like those created by `gdx-setup` and [`gdx-liftoff`](https://github.com/tommyettinger/gdx-liftoff).
+See [Inspections.md](Inspections.md]) for an up to date list.
 
 ## Color previews
 When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
