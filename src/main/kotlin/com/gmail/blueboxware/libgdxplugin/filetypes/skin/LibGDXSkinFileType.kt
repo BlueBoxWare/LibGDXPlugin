@@ -37,7 +37,8 @@ class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLangu
 
   override fun getName() = "libGDX Skin"
 
-  override fun getDescription() = "libGDX Skin file"
+  @Suppress("DialogTitleCapitalization")
+  override fun getDescription() = "libGDX skin file"
 
   override fun getDefaultExtension() = "skin"
 

@@ -44,7 +44,7 @@ class BitmapFontColorSettingsPage: ColorSettingsPage {
   override fun getIcon() = Icons.FONT_FILETYPE
 
   override fun getAttributeDescriptors() = arrayOf(
-          AttributesDescriptor("Equals Sign", EQUALS_SIGN),
+          AttributesDescriptor("Equals sign", EQUALS_SIGN),
           AttributesDescriptor("Comma", COMMA),
           AttributesDescriptor("Keyword", KEYWORD),
           AttributesDescriptor("Key", KEY),
@@ -53,6 +53,7 @@ class BitmapFontColorSettingsPage: ColorSettingsPage {
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
+  @Suppress("DialogTitleCapitalization")
   override fun getDisplayName() = "libGDX Bitmap Font"
 
   override fun getHighlighter() = PlainSyntaxHighlighter()

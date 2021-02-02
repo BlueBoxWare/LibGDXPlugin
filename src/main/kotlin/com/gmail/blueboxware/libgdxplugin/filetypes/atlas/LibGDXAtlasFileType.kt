@@ -31,6 +31,7 @@ class LibGDXAtlasFileType private constructor(): LanguageFileType(LibGDXAtlasLan
 
   override fun getDefaultExtension() = "atlas"
 
-  override fun getDescription() = "libGDX Texture Atlas file"
+  @Suppress("DialogTitleCapitalization")
+  override fun getDescription() = "libGDX texture atlas file"
 
 }

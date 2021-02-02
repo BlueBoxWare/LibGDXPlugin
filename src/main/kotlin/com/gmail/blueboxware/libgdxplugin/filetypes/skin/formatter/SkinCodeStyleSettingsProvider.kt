@@ -15,12 +15,13 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  */
 class SkinCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
 
+  @Suppress("DialogTitleCapitalization")
   override fun createConfigurable(
           settings: CodeStyleSettings,
           originalSettings: CodeStyleSettings
   ): CodeStyleConfigurable {
 
-    return object: CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX Skin") {
+    return object: CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX skin") {
 
       override fun createPanel(settings: CodeStyleSettings?): CodeStyleAbstractPanel {
 

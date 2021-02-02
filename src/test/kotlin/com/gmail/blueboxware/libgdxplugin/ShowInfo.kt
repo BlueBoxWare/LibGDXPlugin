@@ -42,7 +42,7 @@ class ShowInfo: LibGDXCodeInsightFixtureTestCase() {
   }
 
   fun testCreateShortnameList() {
-    var str = StringBuilder("| Suppression ID | Name | Description |\n")
+    val str = StringBuilder("| Suppression ID | Name | Description |\n")
     str.append("|---|---|---|\n")
     ApplicationManager
             .getApplication()

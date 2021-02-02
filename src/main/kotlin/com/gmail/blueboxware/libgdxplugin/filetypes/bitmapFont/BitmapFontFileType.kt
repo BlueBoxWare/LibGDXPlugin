@@ -31,6 +31,7 @@ class BitmapFontFileType: LanguageFileType(BitmapFontLanguage.INSTANCE) {
 
   override fun getDefaultExtension() = "fnt"
 
-  override fun getDescription() = "libGDX Bitmap Font file"
+  @Suppress("DialogTitleCapitalization")
+  override fun getDescription() = "libGDX bitmap font file"
 
 }

@@ -40,6 +40,7 @@ class LibGDXJsonFileType private constructor(): LanguageFileType(LibGDXJsonLanua
 
   override fun getDefaultExtension() = "lson"
 
+  @Suppress("DialogTitleCapitalization")
   override fun getDescription() = "libGDX JSON file"
 
 }

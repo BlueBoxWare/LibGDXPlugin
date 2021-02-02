@@ -37,14 +37,15 @@ class AtlasColorSettingsPage: ColorSettingsPage {
           AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),
           AttributesDescriptor("Comma", AtlasSyntaxHighlighter.COMMA),
 
-          AttributesDescriptor("Pack File Name", AtlasSyntaxHighlighter.FILE_NAME),
-          AttributesDescriptor("Texture Name", AtlasSyntaxHighlighter.TEXTURE_NAME),
+          AttributesDescriptor("Pack file name", AtlasSyntaxHighlighter.FILE_NAME),
+          AttributesDescriptor("Texture name", AtlasSyntaxHighlighter.TEXTURE_NAME),
           AttributesDescriptor("Key", AtlasSyntaxHighlighter.KEY),
           AttributesDescriptor("Value", AtlasSyntaxHighlighter.VALUE)
   )
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
+  @Suppress("DialogTitleCapitalization")
   override fun getDisplayName(): String = "libGDX Atlas"
 
   override fun getHighlighter(): AtlasSyntaxHighlighter = AtlasSyntaxHighlighter()

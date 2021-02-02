@@ -56,8 +56,8 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
     )
 
     private val myAttributeDescriptors = arrayOf(
-            AttributesDescriptor("Property Name", SKIN_PROPERTY_NAME),
-            AttributesDescriptor("Parent Property", SKIN_PARENT_PROPERTY),
+            AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
+            AttributesDescriptor("Parent property", SKIN_PARENT_PROPERTY),
             AttributesDescriptor("Braces", SKIN_BRACES),
             AttributesDescriptor("Brackets", SKIN_BRACKETS),
 
@@ -68,16 +68,16 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 
             AttributesDescriptor("Keyword", SKIN_KEYWORD),
 
-            AttributesDescriptor("Line Comment", SKIN_LINE_COMMENT),
-            AttributesDescriptor("Block Comment", SKIN_BLOCK_COMMENT),
+            AttributesDescriptor("Line comment", SKIN_LINE_COMMENT),
+            AttributesDescriptor("Block comment", SKIN_BLOCK_COMMENT),
 
-            AttributesDescriptor("Valid Escape Sequence", SKIN_VALID_ESCAPE),
-            AttributesDescriptor("Invalid Escape Sequence", SKIN_INVALID_ESCAPE),
+            AttributesDescriptor("Valid escape sequence", SKIN_VALID_ESCAPE),
+            AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE),
 
             AttributesDescriptor("String", SKIN_STRING),
 
-            AttributesDescriptor("Class Name", SKIN_CLASS_NAME),
-            AttributesDescriptor("Resource Name", SKIN_RESOURCE_NAME)
+            AttributesDescriptor("Class name", SKIN_CLASS_NAME),
+            AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)
     )
 
   }
@@ -122,7 +122,8 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 
   override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  override fun getDisplayName() = "libGDX Skin"
+  @Suppress("DialogTitleCapitalization")
+  override fun getDisplayName() = "libGDX skin"
 
   override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
 
