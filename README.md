@@ -32,7 +32,7 @@ to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Up
 ## Inspections
 libGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
 [Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *libGDX*.
-See [Inspections.md](Inspections.md]) for an up to date list.
+See [Inspections.md](Inspections.md) for an up to date list.
 
 ## Color previews
 When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
