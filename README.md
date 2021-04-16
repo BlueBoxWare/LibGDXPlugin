@@ -114,12 +114,12 @@ First add the annotation to your build. In `build.gradle`:
 
 repositories {
     // ...
-    jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     // ...
-    compile 'com.gmail.blueboxware:libgdxpluginannotations:1.16'
+    implementation 'com.github.blueboxware:libgdxplugin:1.23.1'
 }
 
 ```
