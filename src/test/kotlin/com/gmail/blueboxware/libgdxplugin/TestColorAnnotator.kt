@@ -1,9 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin
 
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.testFramework.FileTreeAccessFilter
-import com.intellij.testFramework.fixtures.impl.JavaCodeInsightTestFixtureImpl
-
 /*
  * Copyright 2017 Blue Box Ware
  *
@@ -59,11 +55,7 @@ class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
     addDummyLibGDX199()
     addKotlin()
 
-    (myFixture as JavaCodeInsightTestFixtureImpl).setVirtualFileFilter(object: FileTreeAccessFilter() {
-      override fun accept(file: VirtualFile): Boolean {
-        return false
-      }
-    })
+    myFixture.allowTreeAccessForAllFiles()
 
     copyFileToProject("annotators/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
 

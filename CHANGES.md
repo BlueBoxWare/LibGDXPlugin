@@ -1,7 +1,7 @@
 ### 1.23
 * Some Suppression ids have been changed for consistency. See [Inspections.md](https://github.com/BlueBoxWare/LibGDXPlugin/Inspections.md) for an up to date list.
 * Reworking of JSON handling, fixing several bugs (like [#26](https://github.com/BlueBoxWare/LibGDXPlugin/issues/26)).
-* Display a warning when *.gwt.xml files are changed in a html module that a full rebuild is necessary.
+* [#27]: Display a warning when *.gwt.xml files are changed in a html module that a full rebuild is necessary.
 * JSON: highlight usages of the same key in a file, find usages of a key in a file, rename all usages of a key.
 
 ### 1.22.1
