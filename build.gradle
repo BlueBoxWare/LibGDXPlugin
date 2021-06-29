@@ -14,7 +14,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'com.github.blueboxware.tocme' version '1.0'
-    id "org.jetbrains.intellij" version "0.6.5"
+    id "org.jetbrains.intellij" version "1.0"
 }
 
 apply plugin: 'kotlin'
@@ -29,9 +29,6 @@ intellij {
 
     if (useStudio) {
         version = studioVersion
-        if (runStudio) {
-            alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
-        }
     } else {
         version = ideaVersion
     }
@@ -52,6 +49,9 @@ runIde {
     systemProperties = [
             'idea.ProcessCanceledException': 'disabled'
     ]
+    if (useStudio && runStudio) {
+        alternativeIdePath = System.getenv("ANDROID_STUDIO_PATH")
+    }
 }
 
 tocme {
