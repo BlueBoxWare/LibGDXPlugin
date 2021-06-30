@@ -2,7 +2,6 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.lang.Language
 import com.intellij.psi.*
-import com.intellij.psi.impl.PsiModificationTrackerImpl
 import com.intellij.psi.impl.PsiTreeChangeEventImpl
 import com.intellij.psi.impl.PsiTreeChangePreprocessor
 
@@ -39,8 +38,6 @@ abstract class PsiTreeChangePreprocessorBase(val language: Language): PsiTreeCha
       return
     }
 
-    val modificationTracker = element.manager.modificationTracker as? PsiModificationTrackerImpl ?: return
-
     var changedInsideCodeBlock = false
 
     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
@@ -72,7 +69,7 @@ abstract class PsiTreeChangePreprocessorBase(val language: Language): PsiTreeCha
     }
 
     if (!changedInsideCodeBlock) {
-      modificationTracker.incOutOfCodeBlockModificationCounter()
+      element.manager.dropPsiCaches()
     }
 
   }

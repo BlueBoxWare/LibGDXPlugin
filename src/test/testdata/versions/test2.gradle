@@ -16,6 +16,8 @@ compile <warning>group: "com.underwaterapps.overlap2druntime",
 name: 'overlap2d-runtime-libgdx', version: "0.1.0.1", d: "1"</warning>
 
 compile <warning>'com.badlogicgames.gdx:gdx-freetype:1.9.4.99:sources'</warning>
+//noinspection GDXOutdatedVersionGradleGroovy
+compile 'com.badlogicgames.gdx:gdx-freetype:1.9.4.99:sources'
 
 compile <warning>"com.badlogicgames.gdx:gdx-controllers:1.9.4.9.9a"</warning>
 

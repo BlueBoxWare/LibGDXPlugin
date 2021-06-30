@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.actions
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
+import com.intellij.icons.AllIcons
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog
 import com.intellij.ide.highlighter.JavaFileType
@@ -9,7 +10,6 @@ import com.intellij.openapi.actionSystem.LangDataKeys
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ProjectRootManager
-import com.intellij.openapi.util.IconLoader
 import com.intellij.psi.PsiDirectory
 import org.jetbrains.kotlin.idea.KotlinFileType
 
@@ -32,7 +32,7 @@ import org.jetbrains.kotlin.idea.KotlinFileType
 class CreateScreenAction: CreateFileFromTemplateAction(
         "libGDX Screen",
         "Creates new libGDX Screen",
-        IconLoader.getIcon("/runConfigurations/application.png")
+        AllIcons.RunConfigurations.Application
 ) {
 
   override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = "libGDX Screen"

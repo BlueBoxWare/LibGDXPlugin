@@ -47,12 +47,8 @@ class ShowInfo: LibGDXCodeInsightFixtureTestCase() {
     ApplicationManager
             .getApplication()
             .extensionArea
-            .extensionPoints
-            .first {
-              it.className == "com.intellij.codeInspection.LocalInspectionEP"
-            }
+            .getExtensionPoint<LocalInspectionEP>("com.intellij.localInspection")
             .extensionList
-            .filterIsInstance<LocalInspectionEP>()
             .filter {
               it.pluginDescriptor.pluginId?.idString == "com.gmail.blueboxware.libgdxplugin"
             }

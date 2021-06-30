@@ -34,6 +34,8 @@ allprojects {
         box2DLightsVersion = '1.4'
         <warning descr="A newer version of Ashley is available (version 1.7.3)">ashleyVersion = '1.7.0'</warning>
         <warning descr="A newer version of Gdx AI is available (version 1.8.1)">aiVersion = '1.8.0'</warning>
+        //noinspection GDXOutdatedVersionGradleGroovy
+        aiVersion = '1.8.0'
     }
 
     //Defines all repositories needed for all projects

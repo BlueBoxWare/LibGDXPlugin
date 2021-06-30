@@ -22,6 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
+import com.intellij.psi.util.PsiLiteralUtil
 
 class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
 
@@ -33,7 +34,7 @@ class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
 
       if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
 
-        expression.innerText?.trim().let { value ->
+        PsiLiteralUtil.getStringLiteralContent(expression)?.trim().let { value ->
           if (TEST_ID_MAP.containsKey(value)) {
             holder.registerProblem(expression, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
           }

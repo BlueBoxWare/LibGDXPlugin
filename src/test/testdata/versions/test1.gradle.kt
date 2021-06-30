@@ -17,6 +17,8 @@ fun f() {
 
         compile("com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.1")
         compile(<warning descr="A newer version of Overlap2D is available (version 0.1.1)">"com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0"</warning>)
+        @Suppress("GDXOutdatedVersionGradleKotlin")
+        compile("com.underwaterapps.overlap2druntime:overlap2d-runtime-libgdx:0.1.0")
 
         compile(group = "com.underwaterapps.overlap2druntime", name = "overlap2d-runtime-libgdx", version = "0.1.1")
         compile<warning descr="A newer version of Overlap2D is available (version 0.1.1)">(group = "com.underwaterapps.overlap2druntime", name = "overlap2d-runtime-libgdx", version = "0.1.0")</warning>

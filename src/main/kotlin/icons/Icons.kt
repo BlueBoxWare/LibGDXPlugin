@@ -22,10 +22,10 @@ import java.awt.Color
  */
 object Icons {
 
-  private val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png")
-  val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png")
+  private val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png", Icons::class.java)
+  val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png", Icons::class.java)
   val ATLAS_FILETYPE = LIBGDX_FILETYPE
-  val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png")
+  val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png", Icons::class.java)
   val LIBGDX_JSON_FILETYPE = IconUtil.colorize(AllIcons.FileTypes.Json, Color(39, 128, 233))
 
 }

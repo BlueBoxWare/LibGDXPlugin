@@ -16,10 +16,10 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
+import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.psi.PsiElement
-import org.jetbrains.plugins.groovy.codeInspection.GroovySuppressableInspectionTool
 
-abstract class LibGDXGradleBaseInspection: GroovySuppressableInspectionTool() {
+abstract class LibGDXGradleBaseInspection: LocalInspectionTool() {
 
   override fun isSuppressedFor(element: PsiElement): Boolean {
     return !element.project.isLibGDXProject() || super.isSuppressedFor(element)

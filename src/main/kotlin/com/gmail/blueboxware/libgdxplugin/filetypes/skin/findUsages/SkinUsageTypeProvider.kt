@@ -23,7 +23,7 @@ import com.intellij.usages.impl.rules.UsageTypeProvider
  */
 class SkinUsageTypeProvider: UsageTypeProvider {
 
-  override fun getUsageType(element: PsiElement?): UsageType? =
+  override fun getUsageType(element: PsiElement): UsageType? =
           if (element is SkinElement) {
             SKIN_USAGE_TYPE
           } else {
