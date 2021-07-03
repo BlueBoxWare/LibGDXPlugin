@@ -18,7 +18,7 @@
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <!--suppress PluginXmlCapitalization -->
     <name>libGDX</name>
-    <version>1.23</version>
+    <version>1.23.2</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -32,15 +32,12 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Some Suppression ids have been changed for consistency. See <a href="https://github.com/BlueBoxWare/LibGDXPlugin/Inspections.md">here</a> for an up to date list.</li>
-            <li>Reworking of JSON handling, fixing several bugs (like <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/26">#26</a>)</li>
-            <li>Display a warning when *.gwt.xml files are changed in a html module that a full rebuild is necessary.</li>
-            <li>JSON: highlight usages of the same key in a file, find usages of a key in a file, rename all usages of a key.</li>
+            <li>Fix IllegalAccessError with IntelliJ 2021.1.*.</li>
         </ul>
         ]]>
     </change-notes>
 
-    <idea-version since-build="201.8743.12"/>
+    <idea-version since-build="202.7660.26"/>
 
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>

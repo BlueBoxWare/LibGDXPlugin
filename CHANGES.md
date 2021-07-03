@@ -1,3 +1,6 @@
+### 1.23.2 
+* Fix IllegalAccessError with IntelliJ 2021.1.*.
+
 ### 1.23
 * Some Suppression ids have been changed for consistency. See [Inspections.md](https://github.com/BlueBoxWare/LibGDXPlugin/Inspections.md) for an up to date list.
 * Reworking of JSON handling, fixing several bugs (like [#26](https://github.com/BlueBoxWare/LibGDXPlugin/issues/26)).

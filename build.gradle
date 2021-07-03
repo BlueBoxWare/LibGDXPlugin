@@ -95,7 +95,6 @@ test {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    implementation files("${System.properties['java.home']}/../lib/tools.jar")
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
