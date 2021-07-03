@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.idea.search.allScope
  */
 class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
 
-  override fun isUsed(property: Property): Boolean {
+  public override fun isUsed(property: Property): Boolean {
 
     val project = property.project
     val name = property.name ?: return false
