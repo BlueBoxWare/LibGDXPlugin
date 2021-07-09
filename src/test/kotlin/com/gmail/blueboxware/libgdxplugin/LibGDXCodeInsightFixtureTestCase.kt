@@ -93,18 +93,6 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
 
       val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
-      for (lib in projectModel.libraries) {
-        getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries) ->
-          if (libraries == library) {
-            projectModel.removeLibrary(lib)
-          }
-        }
-      }
-
-      projectModel.getLibraryByName(library.library.artifactId)?.let {
-        projectModel.removeLibrary(it)
-      }
-
       val libraryModel =
               (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
 
@@ -115,6 +103,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
 
       libraryModel.commit()
       projectModel.commit()
+
     }
 
   }
@@ -162,6 +151,24 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
             projectModel.removeLibrary(lib)
           }
         }
+      }
+
+      projectModel.commit()
+
+    }
+
+  }
+
+  private fun removeLibraries() {
+
+    WriteCommandAction.runWriteCommandAction(project) {
+
+      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+
+      for (lib in projectModel.libraries) {
+
+        projectModel.removeLibrary(lib)
+
       }
 
       projectModel.commit()
@@ -273,8 +280,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
     Library.TEST_URL = "http://127.0.0.1/maven/"
 
     super.setUp()
-
-    project.getComponent(VersionService::class.java)?.updateUsedVersions()
+    removeLibraries()
   }
 
 }
