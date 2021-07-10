@@ -1,0 +1,703 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:ColorPsiElementsUtils.kt$context is PsiMethodCallExpression || context is KtCallExpression || context is PsiReferenceExpression || context is KtNameReferenceExpression || context is KtDotQualifiedExpression</ID>
+    <ID>ComplexCondition:ColorPsiElementsUtils.kt$targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional" || targetName == "com.badlogic.gdx.graphics.Colors.get" || targetName == "com.badlogic.gdx.graphics.Colors.put" || targetName == "com.badlogic.gdx.utils.ObjectMap.get"</ID>
+    <ID>ComplexCondition:ColorPsiElementsUtils.kt$type != COLOR_CLASS_NAME &amp;&amp; type != "java.lang.String" &amp;&amp; type != "kotlin.String" &amp;&amp; !isSpecialColorMethod</ID>
+    <ID>ComplexCondition:ColorUtils.kt$r &lt; 0 || r &gt; 1 || g &lt; 0 || g &gt; 1 || b &lt; 0 || b &gt; 1 || a &lt; 0 || a &gt; 1</ID>
+    <ID>ComplexCondition:DesignedForTabletsInspection.kt$DesignedForTabletsInspection$(model.hasLargeScreensSupportAttribute &amp;&amp; supportScreens.largeScreens != true) || (model.hasXLargeScreenSupportAttribute &amp;&amp; supportScreens.xlargeScreens != true)</ID>
+    <ID>ComplexCondition:FlushingMethods.kt$FlushingMethodsUtils$parent is PsiMethod || parent is KtFunction || parent is KtClassInitializer || parent is KtProperty || parent is KtPropertyAccessor</ID>
+    <ID>ComplexCondition:FlushingMethods.kt$FlushingMethodsUtils$ref.element.context is PsiMethodCallExpression || ref.element.context is KtProperty || ref.element.context is KtCallExpression || ref is SyntheticPropertyAccessorReference</ID>
+    <ID>ComplexCondition:IsProfilingCall.kt$methodName == "start" || methodName == "tick" || methodName == "stop" || methodName == "reset"</ID>
+    <ID>ComplexCondition:JavaLogLevelInspection.kt$JavaLogLevelInspection.&lt;no name provided&gt;$(containingClassName == "com.badlogic.gdx.Application" &amp;&amp; (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO")) || (containingClassName == "com.badlogic.gdx.utils.Logger" &amp;&amp; (resolved.name == "DEBUG" || resolved.name == "INFO"))</ID>
+    <ID>ComplexCondition:KotlinLogLevelInspection.kt$target == "com.badlogic.gdx.Application.LOG_DEBUG" || target == "com.badlogic.gdx.Application.LOG_INFO" || target == "com.badlogic.gdx.utils.Logger.DEBUG" || target == "com.badlogic.gdx.utils.Logger.INFO"</ID>
+    <ID>ComplexCondition:Library.kt$Library.Companion$e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException</ID>
+    <ID>ComplexCondition:SkinBlock.kt$SkinBlock$hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS) || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES) &amp;&amp; myNode.psi is SkinClassSpecification) || (myNode is FileElement &amp;&amp; isInsideBraces(childNode.psi))</ID>
+    <ID>ComplexCondition:SkinErrorsAnnotator.kt$SkinErrorsAnnotator$length == 1 || (length &gt; 1 &amp;&amp; (lastChar != '\"' || element.text.isEscapedChar(length - 1)))</ID>
+    <ID>ComplexCondition:SkinFoldingBuilder.kt$SkinFoldingBuilder$(type == SkinElementTypes.OBJECT || type == SkinElementTypes.ARRAY || type == SkinElementTypes.BLOCK_COMMENT || type == SkinElementTypes.CLASS_SPECIFICATION || type == SkinElementTypes.RESOURCE ) &amp;&amp; spansMultipleLines(node, document)</ID>
+    <ID>ComplexCondition:SkinObjectMixin.kt$SkinObjectMixin$force || (r != null &amp;&amp; g != null &amp;&amp; b != null)</ID>
+    <ID>ComplexCondition:SkinSmartEnterProcessor.kt$SkinSmartEnterProcessor.SkinFixer$parent is SkinPropertyName || parent is SkinClassName || parent is SkinResourceName || parent is SkinPropertyValue</ID>
+    <ID>ComplexCondition:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$(containingObjectType == BITMAPFONT_CLASS_NAME &amp;&amp; property?.name == PROPERTY_NAME_FONT_FILE) || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME &amp;&amp; property?.name == "font")</ID>
+    <ID>ComplexCondition:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$isBoolean &amp;&amp; type?.canonicalText == "java.lang.Boolean" || type?.canonicalText == "java.lang.Integer" || type is PsiPrimitiveType || type == null</ID>
+    <ID>ComplexCondition:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$(image.width &lt; 20 || image.height &lt; 20) &amp;&amp; image.width &lt; 100 &amp;&amp; image.height &lt; 100</ID>
+    <ID>ComplexCondition:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$(image.width &lt; 50 || image.height &lt; 50) &amp;&amp; image.width &lt; 200 &amp;&amp; image.height &lt; 200</ID>
+    <ID>ComplexMethod:AssetReference.kt$AssetReference$@Suppress("CascadeIf") override fun getVariants(): Array&lt;out Any&gt;</ID>
+    <ID>ComplexMethod:AssetReferenceProvider.kt$AssetReferenceProvider$private fun createSkinReferences( element: PsiElement, methodCall: PsiElement, methodName: String ): Array&lt;PsiReference&gt;</ID>
+    <ID>ComplexMethod:ColorPsiElementsUtils.kt$private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color?</ID>
+    <ID>ComplexMethod:ColorPsiElementsUtils.kt$private fun PsiElement.findRoot(): PsiElement</ID>
+    <ID>ComplexMethod:ColorPsiElementsUtils.kt$private fun PsiElement.psiFloat(): Float?</ID>
+    <ID>ComplexMethod:ColorsFindUsagesHandler.kt$MyCachedValueProvider$override fun compute(): CachedValueProvider.Result&lt;Collection&lt;PsiElement&gt;&gt;</ID>
+    <ID>ComplexMethod:ColorsUtils.kt$internal fun Project.getColorsMap(): Map&lt;String, ColorsDefinition?&gt;</ID>
+    <ID>ComplexMethod:DesignedForTabletsInspection.kt$DesignedForTabletsGradleVisitor$private fun updateVersionMap(call: GrMethodCall)</ID>
+    <ID>ComplexMethod:DesignedForTabletsInspection.kt$DesignedForTabletsInspection$private fun processManifest( problems: MutableList&lt;Pair&lt;PsiElement, String&gt;&gt;, manifest: XmlFile, versionsMap: Map&lt;SdkVersionType, Int&gt; )</ID>
+    <ID>ComplexMethod:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>ComplexMethod:GdxJsonErrorAnnotator.kt$GdxJsonErrorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>ComplexMethod:GdxJsonFoldingBuilder.kt$GdxJsonFoldingBuilder$override fun getPlaceholderText(node: ASTNode): String</ID>
+    <ID>ComplexMethod:GwtOutdatedListener.kt$GwtOutdatedListener$override fun after(events: MutableList&lt;out VFileEvent&gt;)</ID>
+    <ID>ComplexMethod:KotlinFlushInsideLoopInspection.kt$LoopBodyChecker$override fun visitCallExpression(expression: KtCallExpression)</ID>
+    <ID>ComplexMethod:LibGDXCompletionConfidence.kt$LibGDXCompletionConfidence$override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState</ID>
+    <ID>ComplexMethod:ManifestVisitor.kt$ManifestVisitor$override fun visitXmlTag(tag: XmlTag?)</ID>
+    <ID>ComplexMethod:SkinBlock.kt$SkinBlock$private fun makeSubBlock(childNode: ASTNode): Block</ID>
+    <ID>ComplexMethod:SkinClassNameMixin.kt$SkinClassNameMixin$override fun multiResolve(): List&lt;PsiClass&gt;</ID>
+    <ID>ComplexMethod:SkinCompletionContributor.kt$SkinCompletionContributor$private fun classNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ComplexMethod:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ComplexMethod:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ComplexMethod:SkinObjectMixin.kt$SkinObjectMixin$override fun asColor(force: Boolean): Color?</ID>
+    <ID>ComplexMethod:SkinPsiUtils.kt$internal fun String.unescape(onError: ((Int, Int) -&gt; Unit)? = null): String</ID>
+    <ID>ComplexMethod:SkinResourceReference.kt$SkinResourceReference.Resolver$override fun resolve(resourceReference: SkinResourceReference, incompleteCode: Boolean): Array&lt;ResolveResult&gt;</ID>
+    <ID>ComplexMethod:SkinSmartEnterProcessor.kt$SkinSmartEnterProcessor.SkinFixer$override fun apply(editor: Editor, processor: SkinSmartEnterProcessor, element: PsiElement)</ID>
+    <ID>ComplexMethod:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$override fun getReference(): PsiReference?</ID>
+    <ID>ComplexMethod:TagUtils.kt$private fun Project.collectCustomTags(): TagMap</ID>
+    <ID>ComplexMethod:TaggedClassUsagesSearcher.kt$TaggedClassUsagesSearcher$override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor&lt;in PsiReference&gt;)</ID>
+    <ID>ComplexMethod:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$override fun getPreviewComponent(element: PsiElement): JComponent?</ID>
+    <ID>EmptyCatchBlock:ColorPsiElementsUtils.kt${ }</ID>
+    <ID>EmptyElseBlock:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider${ }</ID>
+    <ID>EmptyFunctionBlock:DisposableProvider.kt$DisposableProvider${ }</ID>
+    <ID>EmptyFunctionBlock:VersionService.kt$VersionService${ }</ID>
+    <ID>EmptyFunctionBlock:VersionService.kt$VersionService.&lt;no name provided&gt;${ }</ID>
+    <ID>ForbiddenComment:TestAnnotationUtils.kt$TestAnnotationUtils$// TODO: Make defaults available in Kotlin code</ID>
+    <ID>ImplicitDefaultLocale:BitmapFontStructureViewElement.kt$BitmapFontStructureViewElement$String.format("%010d", element.character)</ID>
+    <ID>ImplicitDefaultLocale:BitmapFontStructureViewElement.kt$BitmapFontStructureViewElement$String.format("%010d%010d", first, second)</ID>
+    <ID>ImplicitDefaultLocale:BitmapFontStructureViewElement.kt$BitmapFontStructureViewElement$String.format("%03d", it)</ID>
+    <ID>ImplicitDefaultLocale:ColorUtils.kt$String.format("#%02x%02x%02x%02x", color.red, color.green, color.blue, color.alpha)</ID>
+    <ID>ImplicitDefaultLocale:ColorUtils.kt$String.format("#%02x%02x%02x%02x", red, green, blue, alpha)</ID>
+    <ID>LargeClass:TestCompletion.kt$TestCompletion : AssetsInCodeCodeInsightFixtureTestCase</ID>
+    <ID>LargeClass:TestCompletion.kt$TestCompletion : LibGDXCodeInsightFixtureTestCase</ID>
+    <ID>LongMethod:ColorPsiElementsUtils.kt$private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color?</ID>
+    <ID>LongMethod:ColorsUtils.kt$internal fun Project.getColorsMap(): Map&lt;String, ColorsDefinition?&gt;</ID>
+    <ID>LongMethod:GwtOutdatedListener.kt$GwtOutdatedListener$override fun after(events: MutableList&lt;out VFileEvent&gt;)</ID>
+    <ID>LongMethod:JavaGDXAssetsInspection.kt$JavaGDXAssetsInspection.&lt;no name provided&gt;$override fun visitAnnotationParameterList(list: PsiAnnotationParameterList?)</ID>
+    <ID>LongMethod:KotlinGDXAssetsInspection.kt$KotlinGDXAssetsInspection.&lt;no name provided&gt;$override fun visitAnnotationEntry(annotationEntry: KtAnnotationEntry)</ID>
+    <ID>LongMethod:MissingExternalFilesPermissionInspection.kt$MissingExternalFilesPermissionInspection.&lt;no name provided&gt;$override fun visitXmlFile(file: XmlFile?)</ID>
+    <ID>LongMethod:SkinCompletionContributor.kt$SkinCompletionContributor$private fun classNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>LongMethod:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>LongMethod:SkinTypeInspection.kt$SkinTypeInspection.&lt;no name provided&gt;$override fun visitValue(skinValue: SkinValue)</ID>
+    <ID>LongMethod:TestInspections.kt$TestInspections$fun testDesignedForTabletsMultipleFiles()</ID>
+    <ID>LongMethod:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$override fun getPreviewComponent(element: PsiElement): JComponent?</ID>
+    <ID>LongParameterList:GdxJsonBlock.kt$GdxJsonBlock$( private val parent: GdxJsonBlock?, private val node: ASTNode, private val customSettings: JsonCodeStyleSettings, private val alignment: Alignment?, private val indent: Indent, private val wrap: Wrap?, private val spacingBuilder: SpacingBuilder )</ID>
+    <ID>LoopWithTooManyJumpStatements:GdxJsonFoldingBuilder.kt$GdxJsonFoldingBuilder$for (property: GdxJsonProperty? in jObject.propertyList) { val name = property?.name ?: continue val value = property.value?.value if (value is GdxJsonLiteral) { if (name == "id" || name == "name") { candidate = property break } if (candidate == null) { candidate = property } } }</ID>
+    <ID>LoopWithTooManyJumpStatements:GdxJsonFoldingBuilder.kt$GdxJsonFoldingBuilder.Companion$while (node != null) { if (node.elementType == LINE_COMMENT) { lastSeen = node } else if (node.elementType == WHITE_SPACE) { if (node.text.indexOf('\n', 1) != -1) { break } } else if (node.elementType != BLOCK_COMMENT) { break } node = if (after) node.treeNext else node.treePrev }</ID>
+    <ID>LoopWithTooManyJumpStatements:KotlinFlushInsideLoopInspection.kt$LoopBodyChecker$for (nextRef in moreRefs) { val functionBody = (nextRef.resolve() as? KtFunction)?.bodyExpression ?: continue if (functionBody is KtLambdaExpression) { val functionLiteral = functionBody.functionLiteral if (allFlushingMethods.contains(functionLiteral)) { registerProblem(expression) break } } }</ID>
+    <ID>LoopWithTooManyJumpStatements:KotlinFlushInsideLoopInspection.kt$LoopBodyChecker$for (ref in refs) { var target = ref.resolve() if (allFlushingMethods.contains(target)) { registerProblem(expression) break } // // If target is KtConstructor or KtClass, check if the init blocks of the target class are flushing methods // if (target is KtConstructor&lt;*&gt;) { target = target.getContainingClassOrObject() } if (target is KtClass) { val initializers = target.getAnonymousInitializers() for (initializer in initializers) { if (allFlushingMethods.contains(initializer)) { registerProblem(expression) break } } } // // Handle function properties like // val f = { SpriteBatch.flush() } // and // val f = fun() { SpriteBatch.flush() } // if (target is KtProperty) { val initializer = target.initializer if (initializer is KtNamedFunction &amp;&amp; allFlushingMethods.contains(initializer)) { registerProblem(expression) break } else if (initializer is KtLambdaExpression &amp;&amp; allFlushingMethods.contains(initializer.functionLiteral)) { registerProblem(expression) break } } // // Handle indirect function calls like f()() where f() returns a function // ex. fun f(): ()-&gt;Unit = { SpriteBatch().flush() } // if (ref is KtInvokeFunctionReference) { val element = ref.element val moreRefs = element.calleeExpression?.references ?: continue for (nextRef in moreRefs) { val functionBody = (nextRef.resolve() as? KtFunction)?.bodyExpression ?: continue if (functionBody is KtLambdaExpression) { val functionLiteral = functionBody.functionLiteral if (allFlushingMethods.contains(functionLiteral)) { registerProblem(expression) break } } } } }</ID>
+    <ID>LoopWithTooManyJumpStatements:KotlinLogLevelInspection.kt$KotlinLogLevelInspection.&lt;no name provided&gt;$for (ref in refs) { if ((ref as? SyntheticPropertyAccessorReference)?.isGetter() == false) { val target = ref.resolve() if (target is PsiMethod) { val clazz = target.containingClass ?: continue val methodName = target.name if (isSetLogLevel(clazz, methodName)) { val argument = context.right ?: continue if (isLogLevelArgument(argument)) { holder.registerProblem(context, message("log.level.problem.descriptor")) } } } } }</ID>
+    <ID>LoopWithTooManyJumpStatements:KotlinLogLevelInspection.kt$KotlinLogLevelInspection.&lt;no name provided&gt;$for (ref in refs) { val target = ref.resolve() ?: continue if (target is PsiMethod) { val clazz = target.containingClass ?: continue val methodName = expression.calleeExpression?.text ?: continue if (isSetLogLevel(clazz, methodName)) { val argument = expression.valueArgumentList?.arguments?.firstOrNull()?.getArgumentExpression() ?: return if (isLogLevelArgument(argument)) { holder.registerProblem(expression, message("log.level.problem.descriptor")) } } } }</ID>
+    <ID>LoopWithTooManyJumpStatements:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$while (i &lt; o.text.length - 1) { if (o.text[i] != '\\') { i++ continue } val c = o.text[i + 1] if (c == 'u') { try { Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16)) } catch (e: Exception) { val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length holder.registerProblem( o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message") ) } i += 4 continue } else { i++ } if (c !in ESCAPABLE_CHARS) { holder.registerProblem( o, TextRange(i - 1, min(i + 1, o.text.length)), message("json.inspection.invalid.escape.message") ) } }</ID>
+    <ID>LoopWithTooManyJumpStatements:OutdatedVersionsInspection.kt$OutdatedVersionsInspection$for (library in Libraries.values()) { val usedVersion = versionManager.getUsedVersion(library) ?: continue val latestVersion = versionManager.getLatestVersion(library) ?: continue if (usedVersion &lt; latestVersion) { problemDescriptionsProcessor.addProblemElement( // addProblemElement wants a reference or the problem won't be registered, so.. uhm.. yeah globalContext.refManager.refProject, manager.createProblemDescriptor( message( "outdated.version.inspection.msg", library.library.name, latestVersion ) ) ) } }</ID>
+    <ID>LoopWithTooManyJumpStatements:SkinPsiUtils.kt$while (i &lt; length) { var c = get(i++) if (c != '\\') { result.append(c) continue } if (i == length) break c = get(i++) if (c == 'u') { try { result.append(Character.toChars(Integer.parseInt(substring(i, i + 4), 16))) } catch (e: Exception) { if (e is IllegalArgumentException || e is NumberFormatException || e is IndexOutOfBoundsException) { onError?.invoke(i - 2, minOf(i + 3, length)) } else { throw e } } i += 4 continue } when (c) { '"', '\\', '/' -&gt; { } 'b' -&gt; c = '\b' 'f' -&gt; c = '\u000c' 'n' -&gt; c = '\n' 'r' -&gt; c = '\r' 't' -&gt; c = '\t' else -&gt; { onError?.invoke(i - 2, i) } } result.append(c) }</ID>
+    <ID>LoopWithTooManyJumpStatements:SkinPsiUtils.kt$while (node != null) { val elementType = node.elementType if (elementType == expectedType) { lastSeen = node } else if (elementType == TokenType.WHITE_SPACE) { if (expectedType == SkinElementTypes.LINE_COMMENT &amp;&amp; node.text.indexOf('\n', 1) != -1) { break } } else if (!SKIN_COMMENTARIES.contains(elementType) || SKIN_COMMENTARIES.contains(expectedType)) { break } node = if (after) node.treeNext else node.treePrev }</ID>
+    <ID>MagicNumber:AtlasRegionMixin.kt$AtlasRegionMixin$16</ID>
+    <ID>MagicNumber:ColorPsiElementsUtils.kt$16</ID>
+    <ID>MagicNumber:ColorPsiElementsUtils.kt$255f</ID>
+    <ID>MagicNumber:ColorPsiElementsUtils.kt$3</ID>
+    <ID>MagicNumber:ColorPsiElementsUtils.kt$4</ID>
+    <ID>MagicNumber:ColorUtils.kt$0x000000ff</ID>
+    <ID>MagicNumber:ColorUtils.kt$0x0000ff00</ID>
+    <ID>MagicNumber:ColorUtils.kt$0x00ff0000</ID>
+    <ID>MagicNumber:ColorUtils.kt$0xff000000</ID>
+    <ID>MagicNumber:ColorUtils.kt$12</ID>
+    <ID>MagicNumber:ColorUtils.kt$16</ID>
+    <ID>MagicNumber:ColorUtils.kt$24</ID>
+    <ID>MagicNumber:ColorUtils.kt$255</ID>
+    <ID>MagicNumber:ColorUtils.kt$255f</ID>
+    <ID>MagicNumber:ColorUtils.kt$3</ID>
+    <ID>MagicNumber:ColorUtils.kt$4</ID>
+    <ID>MagicNumber:ColorUtils.kt$6</ID>
+    <ID>MagicNumber:ColorUtils.kt$8</ID>
+    <ID>MagicNumber:DesignedForTabletsInspection.kt$DesignedForTabletsGradleVisitor$11</ID>
+    <ID>MagicNumber:DesignedForTabletsInspection.kt$DesignedForTabletsInspection$11</ID>
+    <ID>MagicNumber:DesignedForTabletsInspection.kt$DesignedForTabletsInspection$13</ID>
+    <ID>MagicNumber:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$3</ID>
+    <ID>MagicNumber:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$4</ID>
+    <ID>MagicNumber:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$6</ID>
+    <ID>MagicNumber:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$8</ID>
+    <ID>MagicNumber:GdxJsonEditorNotificationProvider.kt$GdxJsonEditorNotificationProvider.Companion$5</ID>
+    <ID>MagicNumber:Icons.kt$Icons$128</ID>
+    <ID>MagicNumber:Icons.kt$Icons$233</ID>
+    <ID>MagicNumber:Icons.kt$Icons$39</ID>
+    <ID>MagicNumber:ImagePreviewComponent.kt$ImagePreviewComponent$4</ID>
+    <ID>MagicNumber:ImagePreviewComponent.kt$ImagePreviewComponent$5</ID>
+    <ID>MagicNumber:ImagePreviewComponent.kt$ImagePreviewComponent$6</ID>
+    <ID>MagicNumber:ImagePreviewComponent.kt$ImagePreviewComponent.MyImageComponent$3</ID>
+    <ID>MagicNumber:ImagePreviewComponent.kt$ImagePreviewComponent.MyImageComponent$32</ID>
+    <ID>MagicNumber:ImageUtils.kt$16</ID>
+    <ID>MagicNumber:ImageUtils.kt$24</ID>
+    <ID>MagicNumber:ImageUtils.kt$255f</ID>
+    <ID>MagicNumber:ImageUtils.kt$8</ID>
+    <ID>MagicNumber:JavaLogLevelInspection.kt$JavaLogLevelInspection.&lt;no name provided&gt;$3</ID>
+    <ID>MagicNumber:LibGDXColorObjectRenderer.kt$LibGDXColorObjectRenderer$12</ID>
+    <ID>MagicNumber:LibGDXColorObjectRenderer.kt$LibGDXColorObjectRenderer$16</ID>
+    <ID>MagicNumber:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$16</ID>
+    <ID>MagicNumber:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$4</ID>
+    <ID>MagicNumber:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$6</ID>
+    <ID>MagicNumber:ManifestModel.kt$ManifestModel$0x00010000</ID>
+    <ID>MagicNumber:OpenGLESDirectiveInspection.kt$OpenGLESDirectiveInspection.&lt;no name provided&gt;$0x00020000</ID>
+    <ID>MagicNumber:SkinElementFactory.kt$SkinElementFactory$3</ID>
+    <ID>MagicNumber:SkinObjectMixin.kt$SkinObjectMixin$3</ID>
+    <ID>MagicNumber:SkinObjectMixin.kt$SkinObjectMixin$4</ID>
+    <ID>MagicNumber:SkinPsiModificationUtils.kt$3</ID>
+    <ID>MagicNumber:SkinPsiUtils.kt$16</ID>
+    <ID>MagicNumber:SkinPsiUtils.kt$3</ID>
+    <ID>MagicNumber:SkinPsiUtils.kt$4</ID>
+    <ID>MagicNumber:SupportsScreens.kt$SupportsScreens.Companion$3</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$100</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$20</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$200</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$4</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$4.0</ID>
+    <ID>MagicNumber:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$50</ID>
+    <ID>MatchingDeclarationName:CreateAssetQuickfix.kt$CreateAssetQuickFix : LocalQuickFixOnPsiElement</ID>
+    <ID>MatchingDeclarationName:FlushingMethods.kt$FlushingMethodsUtils</ID>
+    <ID>MaxLineLength:AnnotationUtils.kt$(((qualifierExpression as? PsiMethodCallExpression)?.methodExpression?.resolve() as? KtLightMethod)?.kotlinOrigin as? KtProperty)</ID>
+    <ID>MaxLineLength:AnnotationUtils.kt$((psiAnnotation as? KtLightAnnotationForSourceEntry)?.navigationElement as? KtAnnotationEntry)</ID>
+    <ID>MaxLineLength:AnnotationUtils.kt$if</ID>
+    <ID>MaxLineLength:AssetReference.kt$AssetReference$if</ID>
+    <ID>MaxLineLength:AssetReference.kt$AssetReference.Resolver$if</ID>
+    <ID>MaxLineLength:AssetReferenceProvider.kt$AssetReferenceProvider$private</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$"""</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;char&lt;/keyword&gt; &lt;key&gt;id&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;32&lt;/value&gt; &lt;key&gt;x&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;y&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;width&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;10&lt;/value&gt; &lt;key&gt;height&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;32&lt;/value&gt; &lt;key&gt;xoffset&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;yoffset&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;30&lt;/value&gt; &lt;key&gt;xadvance&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;9&lt;/value&gt; &lt;key&gt;page&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;chnl&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt;</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;char&lt;/keyword&gt; &lt;key&gt;id&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;64&lt;/value&gt; &lt;key&gt;x&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;y&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;width&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;31&lt;/value&gt; &lt;key&gt;height&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;32&lt;/value&gt; &lt;key&gt;xoffset&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;2&lt;/value&gt; &lt;key&gt;yoffset&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;6&lt;/value&gt; &lt;key&gt;xadvance&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;32&lt;/value&gt; &lt;key&gt;page&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;chnl&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt;</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;common&lt;/keyword&gt; &lt;key&gt;lineHeight&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;38&lt;/value&gt; &lt;key&gt;base&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;30&lt;/value&gt; &lt;key&gt;scaleW&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;512&lt;/value&gt; &lt;key&gt;scaleH&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;128&lt;/value&gt; &lt;key&gt;pages&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;1&lt;/value&gt; &lt;key&gt;packed&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt;</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;kerning&lt;/keyword&gt; &lt;key&gt;first&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;121&lt;/value&gt; &lt;key&gt;second&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;44&lt;/value&gt; &lt;key&gt;amount&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;-2&lt;/value&gt;</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;kerning&lt;/keyword&gt; &lt;key&gt;first&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;49&lt;/value&gt; &lt;key&gt;second&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;49&lt;/value&gt; &lt;key&gt;amount&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;-2&lt;/value&gt;</ID>
+    <ID>MaxLineLength:BitmapFontColorSettingsPage.kt$BitmapFontColorSettingsPage$&lt;keyword&gt;page&lt;/keyword&gt; &lt;key&gt;id&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;0&lt;/value&gt; &lt;key&gt;file&lt;/key&gt;&lt;equals&gt;=&lt;/equals&gt;&lt;value&gt;</ID>
+    <ID>MaxLineLength:ColorPsiElementsUtils.kt$?:</ID>
+    <ID>MaxLineLength:ColorPsiElementsUtils.kt$if (this is KtCallExpression || this is KtDotQualifiedExpression || this is PsiMethodCallExpression) isSpecialColorMethod() else false</ID>
+    <ID>MaxLineLength:ColorsFindUsagesHandler.kt$ColorsFindUsagesHandler$override</ID>
+    <ID>MaxLineLength:DesignedForTabletsInspection.kt$DesignedForTabletsInspection$if</ID>
+    <ID>MaxLineLength:FlushingMethods.kt$FlushingMethodsUtils$if</ID>
+    <ID>MaxLineLength:GDXPropertyReference.kt$GDXPropertyReference$return results.firstOrNull { (it.element as? Property)?.propertiesFile == firstResourceBundle.defaultPropertiesFile }?.element</ID>
+    <ID>MaxLineLength:GdxJsonBlock.kt$GdxJsonBlock$}</ID>
+    <ID>MaxLineLength:GdxJsonErrorAnnotator.kt$GdxJsonErrorAnnotator$if</ID>
+    <ID>MaxLineLength:JavaLogLevelInspection.kt$JavaLogLevelInspection.&lt;no name provided&gt;$(containingClassName == "com.badlogic.gdx.Application" &amp;&amp; (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO"))</ID>
+    <ID>MaxLineLength:JavaLogLevelInspection.kt$JavaLogLevelInspection.&lt;no name provided&gt;$||</ID>
+    <ID>MaxLineLength:KotlinGDXAssetsInspection.kt$KotlinGDXAssetsInspection.&lt;no name provided&gt;$if</ID>
+    <ID>MaxLineLength:LibGDXSkinColorsPage.kt$LibGDXSkinColorsPage$ &lt;propertyName&gt;down&lt;/propertyName&gt;: round-down, &lt;propertyName&gt;up&lt;/propertyName&gt;: round, &lt;propertyName&gt;checked&lt;/propertyName&gt;: round-down,</ID>
+    <ID>MaxLineLength:LibGDXSkinColorsPage.kt$LibGDXSkinColorsPage$ &lt;propertyName&gt;font&lt;/propertyName&gt;: medium, &lt;propertyName&gt;fontColor&lt;/propertyName&gt;: white, &lt;propertyName&gt;checkedFontColor&lt;/propertyName&gt;: red</ID>
+    <ID>MaxLineLength:LibGDXSkinColorsPage.kt$LibGDXSkinColorsPage$ &lt;resourceName&gt;medium&lt;/resourceName&gt;: { &lt;propertyName&gt;file&lt;/propertyName&gt;: medium.fnt, &lt;propertyName&gt;keyword&lt;/propertyName&gt;: &lt;keyword&gt;true&lt;/keyword&gt; }</ID>
+    <ID>MaxLineLength:LibGDXSkinColorsPage.kt$LibGDXSkinColorsPage$ &lt;resourceName&gt;red&lt;/resourceName&gt;: { &lt;propertyName&gt;r&lt;/propertyName&gt;: &lt;number&gt;1&lt;/number&gt;, &lt;propertyName&gt;g&lt;/propertyName&gt;: &lt;number&gt;0&lt;/number&gt;, &lt;propertyName&gt;b&lt;/propertyName&gt;: &lt;number&gt;0&lt;/number&gt;, &lt;propertyName&gt;a&lt;/propertyName&gt;: &lt;number&gt;1&lt;/number&gt; },</ID>
+    <ID>MaxLineLength:LibGDXSkinColorsPage.kt$LibGDXSkinColorsPage$ &lt;resourceName&gt;yellow&lt;/resourceName&gt;: { &lt;propertyName&gt;r&lt;/propertyName&gt;: &lt;number&gt;0.5&lt;/number&gt;, &lt;propertyName&gt;g&lt;/propertyName&gt;: &lt;number&gt;0.5&lt;/number&gt;, &lt;propertyName&gt;b&lt;/propertyName&gt;: &lt;number&gt;0&lt;/number&gt;, &lt;propertyName&gt;a&lt;/propertyName&gt;: &lt;number&gt;1&lt;/number&gt; }</ID>
+    <ID>MaxLineLength:Library.kt$Library.Companion$if</ID>
+    <ID>MaxLineLength:LibraryUtils.kt$internal</ID>
+    <ID>MaxLineLength:LibraryUtils.kt$private</ID>
+    <ID>MaxLineLength:PsiUtils.kt$internal inline</ID>
+    <ID>MaxLineLength:SkinCompletionContributor.kt$SkinCompletionContributor$val isParentProperty = stringLiteral.property?.name == PROPERTY_NAME_PARENT &amp;&amp; parameters.position.project.isLibGDX199()</ID>
+    <ID>MaxLineLength:SkinFoldingBuilder.kt$SkinFoldingBuilder$SkinElementTypes.CLASS_SPECIFICATION</ID>
+    <ID>MaxLineLength:SkinNonExistingResourceAliasInspection.kt$SkinNonExistingResourceAliasInspection.&lt;no name provided&gt;$}</ID>
+    <ID>MaxLineLength:SkinResourceReference.kt$SkinResourceReference.Resolver$val</ID>
+    <ID>MaxLineLength:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$if</ID>
+    <ID>MaxLineLength:SkinTypeInspection.kt$SkinTypeInspection.&lt;no name provided&gt;$if</ID>
+    <ID>MaxLineLength:TagUtils.kt$(reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments</ID>
+    <ID>MaxLineLength:TestAnnotationUtils.kt$TestAnnotationUtils$ (((KotlinClass()!!.kotlinClass as? KotlinClass)!!.kotlinClassNA!!.kotlinClass!!) as (KotlinClass)).kotlinClass!!.m&lt;caret&gt;()</ID>
+    <ID>MaxLineLength:TestFindUsages.kt$TestFindUsages$||</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="10" android:targetSdkVersion="11" android:maxSdkVersion="11" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="10" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="10" android:targetSdkVersion="9" android:maxSdkVersion="11" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="true" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:xlargeScreens="true" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="11" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:xlargeScreens="true" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" /&gt;&lt;supports-screens android:largeScreens="true" android:xlargeScreens="true" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="10" android:maxSdkVersion="11" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11" android:maxSdkVersion="10" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11" android:maxSdkVersion="11" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="false" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:normalScreens="true" android:smallScreens="false" android:xlargeScreens="true" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:largeScreens="true" android:smallScreens="false" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:normalScreens="false" android:smallScreens="false" /&gt;""" to null</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:xlargeScreens="false" /&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"""&lt;uses-sdk android:minSdkVersion="13" android:targetSdkVersion="11"/&gt;&lt;supports-screens android:xlargeScreens="true" android:largeScreens="false"/&gt;"""</ID>
+    <ID>MaxLineLength:TestInspections.kt$TestInspections$"AndroidManifest.xml" to """&lt;manifest&gt;&lt;supports-screens android:largeScreens="true" android:xlargeScreens="true" /&gt;&lt;/manifest&gt;"""</ID>
+    <ID>MaxLineLength:TestReferences.kt$TestReferences$ KotlinSkinTestKt.skin.get(</ID>
+    <ID>MaxLineLength:TestReferences.kt$TestReferences$ staticSkin.get(</ID>
+    <ID>MaxLineLength:TestVersionHandling.kt$TestVersionHandling$ val s = f(group = </ID>
+    <ID>MaxLineLength:TestVersionHandling.kt$TestVersionHandling$"""compile 'group': 'com.badlogicgames.gdx', name: "gdx-ai", version: '99.a', d: '1'""" to (Libraries.AI to "99.a")</ID>
+    <ID>MaxLineLength:TestVersionHandling.kt$TestVersionHandling$"""compile 'group': 'com.underwaterapps.overlap2druntime', name: 'overlap2d-runtime-libgdx', version: '1.0a'""" to (Libraries.OVERLAP2D to "1.0a")</ID>
+    <ID>MaxLineLength:TestVersionHandling.kt$TestVersionHandling$groovyGradleVersionTests.map { it to GroovyFileType.GROOVY_FILE_TYPE } + kotlinGradleVersionTests.map { it to KotlinFileType.INSTANCE }</ID>
+    <ID>MemberNameEqualsClassName:TestErrorsAnnotator.kt$TestErrorsAnnotator$fun testErrorsAnnotator()</ID>
+    <ID>MemberNameEqualsClassName:TestFolding.kt$TestFolding$fun testFolding()</ID>
+    <ID>MemberNameEqualsClassName:TestRename.kt$TestRename$fun testRename()</ID>
+    <ID>NestedBlockDepth:AnnotationUtils.kt$internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): AnnotationWrapper?</ID>
+    <ID>NestedBlockDepth:AnnotationUtils.kt$internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): AnnotationWrapper?</ID>
+    <ID>NestedBlockDepth:AssetReference.kt$AssetReference$@Suppress("CascadeIf") override fun getVariants(): Array&lt;out Any&gt;</ID>
+    <ID>NestedBlockDepth:AssetReference.kt$AssetReference.Resolver$override fun resolve(assetReference: AssetReference, incompleteCode: Boolean): Array&lt;ResolveResult&gt;</ID>
+    <ID>NestedBlockDepth:AssetReferenceProvider.kt$AssetReferenceProvider$private fun createSkinReferences( element: PsiElement, methodCall: PsiElement, methodName: String ): Array&lt;PsiReference&gt;</ID>
+    <ID>NestedBlockDepth:BitmapFontHighlighter.kt$BitmapFontHighlighter$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>NestedBlockDepth:ColorPsiElementsUtils.kt$private fun PsiElement.isSpecialColorMethod(): Boolean</ID>
+    <ID>NestedBlockDepth:ColorPsiElementsUtils.kt$private fun PsiElement.ktInt(): Int?</ID>
+    <ID>NestedBlockDepth:ColorPsiElementsUtils.kt$private fun PsiElement.psiFloat(): Float?</ID>
+    <ID>NestedBlockDepth:ColorsFindUsagesHandler.kt$MyCachedValueProvider$override fun compute(): CachedValueProvider.Result&lt;Collection&lt;PsiElement&gt;&gt;</ID>
+    <ID>NestedBlockDepth:ColorsUtils.kt$private fun getColorDefFromArgs(callExpression: PsiElement): Pair&lt;PsiElement, PsiElement&gt;?</ID>
+    <ID>NestedBlockDepth:CreateAssetQuickfix.kt$CreateAssetQuickFix$override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement)</ID>
+    <ID>NestedBlockDepth:FileReference.kt$FileReference$override fun getVariants(): Array&lt;out Any&gt;</ID>
+    <ID>NestedBlockDepth:FlushingMethods.kt$FlushingMethodsUtils$fun getAllFlushingMethods(project: Project): Pair&lt;Set&lt;PsiElement&gt;, Set&lt;PsiElement&gt;&gt;</ID>
+    <ID>NestedBlockDepth:GDXPropertiesReferenceProvider.kt$GDXPropertiesReferenceProvider$override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array&lt;PsiReference&gt;</ID>
+    <ID>NestedBlockDepth:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>NestedBlockDepth:GdxJsonEditorNotificationProvider.kt$GdxJsonEditorNotificationProvider.Companion$fun showNotification( project: Project, currentLanguage: Language?, file: VirtualFile, settings: LibGDXPluginSettings ): Boolean</ID>
+    <ID>NestedBlockDepth:GdxJsonErrorAnnotator.kt$GdxJsonErrorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>NestedBlockDepth:GdxJsonFoldingBuilder.kt$GdxJsonFoldingBuilder$override fun getPlaceholderText(node: ASTNode): String</ID>
+    <ID>NestedBlockDepth:GdxJsonMoveArrayElementBaseIntention.kt$GdxJsonMoveArrayElementBaseIntention$override fun invoke(project: Project, editor: Editor?, element: PsiElement)</ID>
+    <ID>NestedBlockDepth:GdxJsonParserUtil.kt$GdxJsonParserUtil$@JvmStatic fun no_comment_or_newline(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean</ID>
+    <ID>NestedBlockDepth:GdxJsonSmartEnterProcessor.kt$GdxJsonSmartEnterProcessor.GdxJsonObjectPropertyFixer$override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement)</ID>
+    <ID>NestedBlockDepth:GradlePropertiesOutdatedVersionsInspection.kt$GradlePropertiesOutdatedVersionsInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor</ID>
+    <ID>NestedBlockDepth:GwtOutdatedListener.kt$GwtOutdatedListener$override fun after(events: MutableList&lt;out VFileEvent&gt;)</ID>
+    <ID>NestedBlockDepth:JavaFlushInsideLoopInspection.kt$LoopChecker$override fun visitNewExpression(expression: PsiNewExpression?)</ID>
+    <ID>NestedBlockDepth:JavaGDXAssetsInspection.kt$JavaGDXAssetsInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor</ID>
+    <ID>NestedBlockDepth:JavaLogLevelInspection.kt$JavaLogLevelInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean)</ID>
+    <ID>NestedBlockDepth:KotlinFlushInsideLoopInspection.kt$LoopBodyChecker$override fun visitCallExpression(expression: KtCallExpression)</ID>
+    <ID>NestedBlockDepth:KotlinGDXAssetsInspection.kt$KotlinGDXAssetsInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean)</ID>
+    <ID>NestedBlockDepth:KotlinLogLevelInspection.kt$KotlinLogLevelInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean)</ID>
+    <ID>NestedBlockDepth:KotlinStaticResourceInspection.kt$KotlinStaticResourceInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean)</ID>
+    <ID>NestedBlockDepth:LibGDXCodeInsightFixtureTestCase.kt$LibGDXCodeInsightFixtureTestCase$fun addDummyLibrary(library: Libraries, version: String)</ID>
+    <ID>NestedBlockDepth:LibGDXCompletionConfidence.kt$LibGDXCompletionConfidence$override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState</ID>
+    <ID>NestedBlockDepth:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor</ID>
+    <ID>NestedBlockDepth:LibGDXTagUsageTargetProvider.kt$LibGDXTagUsageTargetProvider$override fun getTargets(editor: Editor, file: PsiFile): Array&lt;UsageTarget&gt;?</ID>
+    <ID>NestedBlockDepth:Library.kt$Library$open fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean</ID>
+    <ID>NestedBlockDepth:PersistentFileSetManager.kt$PersistentFileSetManager$override fun loadState(state: Element)</ID>
+    <ID>NestedBlockDepth:PsiUtils.kt$internal fun PsiMethodCallExpression.resolveCall(): Pair&lt;PsiClass, PsiMethod&gt;?</ID>
+    <ID>NestedBlockDepth:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>NestedBlockDepth:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>NestedBlockDepth:SkinCompletionContributor.kt$SkinCompletionContributor$private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>NestedBlockDepth:SkinCompletionContributor.kt$SkinCompletionContributor$private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>NestedBlockDepth:SkinErrorsAnnotator.kt$SkinErrorsAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>NestedBlockDepth:SkinFileImpl.kt$SkinFileImpl$override fun getResources( resourceClass: PsiClass, resourceName: String?, beforeElement: PsiElement?, includingSuperClasses: Boolean, includeAll: Boolean // keep looking up the superclass list after finding resources ): Collection&lt;SkinResource&gt;</ID>
+    <ID>NestedBlockDepth:SkinFileReference.kt$SkinFileReference$override fun multiResolve(incompleteCode: Boolean): Array&lt;out ResolveResult&gt;</ID>
+    <ID>NestedBlockDepth:SkinNonExistingResourceAliasInspection.kt$SkinNonExistingResourceAliasInspection$override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean)</ID>
+    <ID>NestedBlockDepth:SkinObjectMixin.kt$SkinObjectMixin$override fun asColor(force: Boolean): Color?</ID>
+    <ID>NestedBlockDepth:SkinPsiModificationUtils.kt$fun SkinObject.addCommentExt(comment: PsiComment)</ID>
+    <ID>NestedBlockDepth:SkinPsiModificationUtils.kt$fun SkinObject.addPropertyExt(property: SkinProperty)</ID>
+    <ID>NestedBlockDepth:SkinPsiUtils.kt$internal fun String.unescape(onError: ((Int, Int) -&gt; Unit)? = null): String</ID>
+    <ID>NestedBlockDepth:SkinRefactoringElementListenerProvider.kt$SkinRefactoringElementListenerProvider$override fun getListener(element: PsiElement?): RefactoringElementListener?</ID>
+    <ID>NestedBlockDepth:SkinResourceReference.kt$SkinResourceReference.Resolver$override fun resolve(resourceReference: SkinResourceReference, incompleteCode: Boolean): Array&lt;ResolveResult&gt;</ID>
+    <ID>NestedBlockDepth:SkinSmartEnterProcessor.kt$SkinSmartEnterProcessor.SkinFixer$override fun apply(editor: Editor, processor: SkinSmartEnterProcessor, element: PsiElement)</ID>
+    <ID>NestedBlockDepth:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$override fun getReference(): PsiReference?</ID>
+    <ID>NestedBlockDepth:TagUtils.kt$private fun Project.collectCustomTags(): TagMap</ID>
+    <ID>NestedBlockDepth:TaggedClassUsagesSearcher.kt$TaggedClassUsagesSearcher$override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor&lt;in PsiReference&gt;)</ID>
+    <ID>NestedBlockDepth:TestFindUsages.kt$TestFindUsages$fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String)</ID>
+    <ID>NestedBlockDepth:TestFindUsages.kt$TestFindUsages$fun testFindPropertiesFileUsagesInAnnotation()</ID>
+    <ID>NestedBlockDepth:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$override fun getPreviewComponent(element: PsiElement): JComponent?</ID>
+    <ID>NewLineAtEndOfFile:AlwaysTruePattern.kt$com.gmail.blueboxware.libgdxplugin.utils.AlwaysTruePattern.kt</ID>
+    <ID>NewLineAtEndOfFile:AssetReference.kt$com.gmail.blueboxware.libgdxplugin.references.AssetReference.kt</ID>
+    <ID>NewLineAtEndOfFile:AssetReferenceProvider.kt$com.gmail.blueboxware.libgdxplugin.references.AssetReferenceProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:AssetUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.AssetUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:AssetsInCodeCodeInsightFixtureTestCase.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.AssetsInCodeCodeInsightFixtureTestCase.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasAdditionalHighlighter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasAdditionalHighlighter.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasColorSettingsPage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasColorSettingsPage.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElement.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasElementImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.AtlasElementImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasElementType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasElementType.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasFile.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasFindUsagesProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFindUsagesProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasLexer.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasLexer.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasNamedElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasNamedElement.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasPageMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasPageMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasParserDefinition.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasProperty.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasProperty.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasRegionMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasRegionMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasStructureViewElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewElement.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasStructureViewFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasStructureViewModel.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasSyntaxHighlighter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasSyntaxHighlighter.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasSyntaxHighlighterFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasSyntaxHighlighterFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasTokenType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasTokenType.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasTreeChangePreprocessor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasTreeChangePreprocessor.kt</ID>
+    <ID>NewLineAtEndOfFile:AtlasValueMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.impl.mixins.AtlasValueMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontCharReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.references.BitmapFontCharReference.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontColorSettingsPage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.highlighting.BitmapFontColorSettingsPage.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontCommonMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontCommonMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontElement.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontElementImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.BitmapFontElementImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontElementType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontElementType.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontFile.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFile.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontFileType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontFileType.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontFoldingBuilder.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.editor.BitmapFontFoldingBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontFontCharMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontFontCharMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontHighlighter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.highlighting.BitmapFontHighlighter.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontInfoMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontInfoMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontKerningMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontKerningMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontLanguage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontLanguage.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontPageDefinitionMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontPageDefinitionMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontParserDefinition.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontParserDefinition.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontPropertyMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontPropertyMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontStructureViewElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontStructureViewElement.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontStructureViewFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontStructureViewFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontStructureViewModel.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontStructureViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontTokenType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.BitmapFontTokenType.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontTreeChangePreprocessor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.structureView.BitmapFontTreeChangePreprocessor.kt</ID>
+    <ID>NewLineAtEndOfFile:BitmapFontValueMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontValueMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:ChangeKotlinPackageListener.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener.kt</ID>
+    <ID>NewLineAtEndOfFile:ClassTagFindUsagesHandlerFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:ClassUseScopeEnlarger.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassUseScopeEnlarger.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorAnnotationsHighlightingPassFactory.kt$com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorToComponentsIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorToHexIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToHexIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.ColorUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorsFindUsagesHandlerFactory.kt$com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorsReference.kt$com.gmail.blueboxware.libgdxplugin.references.ColorsReference.kt</ID>
+    <ID>NewLineAtEndOfFile:ColorsReferenceContributor.kt$com.gmail.blueboxware.libgdxplugin.references.ColorsReferenceContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:CreateColorAction.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.actions.CreateColorAction.kt</ID>
+    <ID>NewLineAtEndOfFile:DesignedForTabletsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:DisposableProvider.kt$com.gmail.blueboxware.libgdxplugin.DisposableProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:DollarClassName.kt$com.gmail.blueboxware.libgdxplugin.utils.DollarClassName.kt</ID>
+    <ID>NewLineAtEndOfFile:DummyItemPresentation.kt$com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation.kt</ID>
+    <ID>NewLineAtEndOfFile:FilePresentation.kt$com.gmail.blueboxware.libgdxplugin.utils.FilePresentation.kt</ID>
+    <ID>NewLineAtEndOfFile:FileReference.kt$com.gmail.blueboxware.libgdxplugin.references.FileReference.kt</ID>
+    <ID>NewLineAtEndOfFile:FileTypeEditorNotificationProvider.kt$com.gmail.blueboxware.libgdxplugin.utils.FileTypeEditorNotificationProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:FileUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.FileUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:FlushingMethods.kt$com.gmail.blueboxware.libgdxplugin.utils.FlushingMethods.kt</ID>
+    <ID>NewLineAtEndOfFile:GDXImplicitPropertyUsageProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXImplicitPropertyUsageProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:GDXPropertiesCompletionContributor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesCompletionContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:GDXPropertiesReferenceContributor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesReferenceContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:GDXPropertiesReferenceProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertiesReferenceProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:GDXPropertyReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonAddQuotesIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonArrayMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonBaseInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.GdxJsonBaseInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonBaseIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonBaseIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonBlock.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.formatting.GdxJsonBlock.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonBraceMatcher.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBraceMatcher.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonBreadcrumbsProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBreadcrumbsProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonColorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonColorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonCommenter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCommenter.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonEditorNotificationProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonEditorNotificationProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonElementFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonElementImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonElementImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonElementType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementType.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonErrorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonErrorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonFile.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonFile.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonFileImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.GdxJsonFileImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonFindUsagesProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.references.GdxJsonFindUsagesProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonHighlightingAnnotator.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonHighlightingAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonJobjectMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonLexer.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonLexer.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonLiteral.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonLiteral.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonMoveArrayElementBackwardIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonMoveArrayElementBaseIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBaseIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonMoveArrayElementForwardIntention.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonParserDefinition.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonParserUtil.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonPropertyMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonPropertyNameMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonPropertyNameMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonPropertyNameReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.references.GdxJsonPropertyNameReference.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonPsiUtils.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.GdxJsonPsiUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonQuoteHandler.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonSchemaWidgetSuppressor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSchemaWidgetSuppressor.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonSmartEnterProcessor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSmartEnterProcessor.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonSpellcheckerStrategy.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSpellcheckerStrategy.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonStringMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonStringMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonStructureViewElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewElement.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonStructureViewModel.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonSyntaxHighlighterFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSyntaxHighlighterFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonTokenType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonTokenType.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonValueMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonValueMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:GdxJsonWordSelectionFilter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonWordSelectionFilter.kt</ID>
+    <ID>NewLineAtEndOfFile:GradleKotlinOutdatedVersionInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleKotlinOutdatedVersionInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:GradlePropertiesOutdatedVersionsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:GradlePropertiesTestIdsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesTestIdsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:GradleTestIdsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleTestIdsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:GradleUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.GradleUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaFlushInsideLoopInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaFlushInsideLoopInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaGDXAssetsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaGDXAssetsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaInvalidPropertyKeyInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaInvalidPropertyKeyInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaNonExistingAssetInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaNonExistingAssetInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaProfilingCodeInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaProfilingCodeInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaReferenceContributor.kt$com.gmail.blueboxware.libgdxplugin.references.JavaReferenceContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:JavaUnusedClassTagInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.java.JavaUnusedClassTagInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinFlushInsideLoopInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinFlushInsideLoopInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinGDXAssetsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinGDXAssetsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinInvalidPropertyKeyInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinInvalidPropertyKeyInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinLogLevelInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinLogLevelInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinNonExistingAssetInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinNonExistingAssetInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinReferenceContributor.kt$com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:KotlinUnusedClassTagInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinUnusedClassTagInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXAtlasFileType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXAtlasLanguage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXCodeInsightFixtureTestCase.kt$com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXColorObjectRenderer.kt$com.gmail.blueboxware.libgdxplugin.ui.LibGDXColorObjectRenderer.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXCompletionConfidence.kt$com.gmail.blueboxware.libgdxplugin.completion.LibGDXCompletionConfidence.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXDuplicatePropertyInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXDuplicatePropertyInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXElementDescriptionProvider.kt$com.gmail.blueboxware.libgdxplugin.ui.LibGDXElementDescriptionProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXGdxJsonFileSubstitutor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXGdxJsonFileSubstitutor.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXGradleBaseInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.LibGDXGradleBaseInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXGradlePropertiesBaseInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.gradle.LibGDXGradlePropertiesBaseInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXIconProvider.kt$com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXJsonFileType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXJsonInvalidEscapeInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXJsonInvalidEscapeInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXJsonLanuage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXLibrary.kt$com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXPluginBundle.kt$com.gmail.blueboxware.libgdxplugin.LibGDXPluginBundle.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXSkinColorsPage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.LibGDXSkinColorsPage.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXSkinFileSubstitutor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileSubstitutor.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXSkinFileType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXSkinLanguage.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXStartupActivity.kt$com.gmail.blueboxware.libgdxplugin.LibGDXStartupActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXTagUsageTargetProvider.kt$com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXTopLevelValueInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXTopLevelValueInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:LibGDXXmlBaseInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.xml.LibGDXXmlBaseInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:Libraries.kt$com.gmail.blueboxware.libgdxplugin.versions.Libraries.kt</ID>
+    <ID>NewLineAtEndOfFile:LibraryUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.LibraryUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:ManifestModel.kt$com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel.kt</ID>
+    <ID>NewLineAtEndOfFile:ManifestValue.kt$com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestValue.kt</ID>
+    <ID>NewLineAtEndOfFile:ManifestVisitor.kt$com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestVisitor.kt</ID>
+    <ID>NewLineAtEndOfFile:MarkAsSkinAction.kt$com.gmail.blueboxware.libgdxplugin.actions.MarkAsSkinAction.kt</ID>
+    <ID>NewLineAtEndOfFile:MissingExternalFilesPermissionInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:OutdatedVersionsInspection.kt$com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:PersistentFileSetManager.kt$com.gmail.blueboxware.libgdxplugin.utils.PersistentFileSetManager.kt</ID>
+    <ID>NewLineAtEndOfFile:ProjectOpenCloseListener.kt$com.gmail.blueboxware.libgdxplugin.versions.ProjectOpenCloseListener.kt</ID>
+    <ID>NewLineAtEndOfFile:PropertiesCodeInsightFixtureTestCase.kt$com.gmail.blueboxware.libgdxplugin.properties.PropertiesCodeInsightFixtureTestCase.kt</ID>
+    <ID>NewLineAtEndOfFile:PropertiesFileUsageScopeEnlarger.kt$com.gmail.blueboxware.libgdxplugin.filetypes.properties.PropertiesFileUsageScopeEnlarger.kt</ID>
+    <ID>NewLineAtEndOfFile:PropertyContainer.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.PropertyContainer.kt</ID>
+    <ID>NewLineAtEndOfFile:PropertyContainerImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.PropertyContainerImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:PsiTreeChangePreprocessorBase.kt$com.gmail.blueboxware.libgdxplugin.utils.PsiTreeChangePreprocessorBase.kt</ID>
+    <ID>NewLineAtEndOfFile:PsiUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.PsiUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:Repository.kt$com.gmail.blueboxware.libgdxplugin.versions.Repository.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinAbbrClassInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinAbbrClassInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinAdditionalHighlighter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinAdditionalHighlighter.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinArrayMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinArrayMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinBaseInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinBaseInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinBraceMatcher.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinBreadcrumbsProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBreadcrumbsProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinClassNameMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinClassSpecificationMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinCodeStyleSettings.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinColorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinColorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinCommenter.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinCommenter.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinCompletionContributor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinCompletionContributor.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinDeprecatedInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinDeprecatedInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinDuplicatePropertyInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinDuplicatePropertyInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinDuplicateResourceNameInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinDuplicateResourceNameInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinEditorNotificationProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinEditorNotificationProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinElementFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinElementImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinElementType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementType.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinErrorsAnnotator.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinFile.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinFileImpl.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinFileImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinFileReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinFileReference.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinFindUsagesProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinFindUsagesProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinFoldingBuilder.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinFoldingBuilder.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinJavaClassReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinJavaFieldReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaFieldReference.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinLexer.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinLexer.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinMalformedColorStringInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMalformedColorStringInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinMissingPropertyInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinMissingPropertyInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinNamedElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinNamedElement.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinNonExistingClassInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingClassInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinNonExistingFieldInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFieldInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinNonExistingFontFileInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingFontFileInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinNonExistingResourceAliasInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinNonExistingResourceAliasInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinObjectMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinParserDefinition.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinParserUtil.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserUtil.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinPropertyNameMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyNameMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinPropertyValueMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinPsiModificationUtils.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinPsiModificationUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinPsiUtils.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinPsiUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinQuoteHandler.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinRefactoringElementListenerProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringElementListenerProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinRefactoringSupportProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinReference.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinReference.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinResourceMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinResourceNameMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceNameMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinSpellcheckerStrategy.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSpellcheckerStrategy.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinStringLiteralMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinStringLiteralMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinStructureViewElement.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewElement.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinStructureViewModel.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinStructureViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinSyntaxHighlighterFactory.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinTokenType.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinTokenType.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinTreeChangePreprocessor.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.structureView.SkinTreeChangePreprocessor.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinTypeInspection.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.SkinTypeInspection.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinUsageTypeProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinUsageTypeProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:SkinValueMixin.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin.kt</ID>
+    <ID>NewLineAtEndOfFile:SupportsScreens.kt$com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SupportsScreens.kt</ID>
+    <ID>NewLineAtEndOfFile:SuppressionUtils.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SuppressionUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:TagMap.kt$com.gmail.blueboxware.libgdxplugin.utils.TagMap.kt</ID>
+    <ID>NewLineAtEndOfFile:TaggedClassImplicitUsageProvider.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassImplicitUsageProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:TestAnnotationUtils.kt$com.gmail.blueboxware.libgdxplugin.TestAnnotationUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:TestAnnotators.kt$com.gmail.blueboxware.libgdxplugin.json.TestAnnotators.kt</ID>
+    <ID>NewLineAtEndOfFile:TestAssetUtils.kt$com.gmail.blueboxware.libgdxplugin.TestAssetUtils.kt</ID>
+    <ID>NewLineAtEndOfFile:TestColorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.TestColorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:TestColorAnnotator.kt$com.gmail.blueboxware.libgdxplugin.skin.TestColorAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:TestColorsHandling.kt$com.gmail.blueboxware.libgdxplugin.TestColorsHandling.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCompletion.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestCompletion.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCompletion.kt$com.gmail.blueboxware.libgdxplugin.json.TestCompletion.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCompletion.kt$com.gmail.blueboxware.libgdxplugin.properties.TestCompletion.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCompletion.kt$com.gmail.blueboxware.libgdxplugin.skin.TestCompletion.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCreateAssetQuickFix.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestCreateAssetQuickFix.kt</ID>
+    <ID>NewLineAtEndOfFile:TestCreateAssetQuickFix.kt$com.gmail.blueboxware.libgdxplugin.skin.TestCreateAssetQuickFix.kt</ID>
+    <ID>NewLineAtEndOfFile:TestEditing.kt$com.gmail.blueboxware.libgdxplugin.json.TestEditing.kt</ID>
+    <ID>NewLineAtEndOfFile:TestEditorFeatures.kt$com.gmail.blueboxware.libgdxplugin.json.TestEditorFeatures.kt</ID>
+    <ID>NewLineAtEndOfFile:TestEditorFeatures.kt$com.gmail.blueboxware.libgdxplugin.skin.TestEditorFeatures.kt</ID>
+    <ID>NewLineAtEndOfFile:TestErrorsAnnotator.kt$com.gmail.blueboxware.libgdxplugin.skin.TestErrorsAnnotator.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFindClassTagUsages.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestFindClassTagUsages.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFindUsages.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestFindUsages.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFindUsages.kt$com.gmail.blueboxware.libgdxplugin.json.TestFindUsages.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFindUsages.kt$com.gmail.blueboxware.libgdxplugin.properties.TestFindUsages.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFindUsages.kt$com.gmail.blueboxware.libgdxplugin.skin.TestFindUsages.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFolding.kt$com.gmail.blueboxware.libgdxplugin.atlas.TestFolding.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFolding.kt$com.gmail.blueboxware.libgdxplugin.bitmapFont.TestFolding.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFormatting.kt$com.gmail.blueboxware.libgdxplugin.json.TestFormatting.kt</ID>
+    <ID>NewLineAtEndOfFile:TestFormatting.kt$com.gmail.blueboxware.libgdxplugin.skin.TestFormatting.kt</ID>
+    <ID>NewLineAtEndOfFile:TestInspections.kt$com.gmail.blueboxware.libgdxplugin.json.TestInspections.kt</ID>
+    <ID>NewLineAtEndOfFile:TestInspections.kt$com.gmail.blueboxware.libgdxplugin.properties.TestInspections.kt</ID>
+    <ID>NewLineAtEndOfFile:TestInspections.kt$com.gmail.blueboxware.libgdxplugin.skin.TestInspections.kt</ID>
+    <ID>NewLineAtEndOfFile:TestIntentions.kt$com.gmail.blueboxware.libgdxplugin.json.TestIntentions.kt</ID>
+    <ID>NewLineAtEndOfFile:TestIntentions.kt$com.gmail.blueboxware.libgdxplugin.skin.TestIntentions.kt</ID>
+    <ID>NewLineAtEndOfFile:TestNotification.kt$com.gmail.blueboxware.libgdxplugin.json.TestNotification.kt</ID>
+    <ID>NewLineAtEndOfFile:TestParsing.kt$com.gmail.blueboxware.libgdxplugin.bitmapFont.TestParsing.kt</ID>
+    <ID>NewLineAtEndOfFile:TestQuoteHandling.kt$com.gmail.blueboxware.libgdxplugin.json.TestQuoteHandling.kt</ID>
+    <ID>NewLineAtEndOfFile:TestQuoteHandling.kt$com.gmail.blueboxware.libgdxplugin.skin.TestQuoteHandling.kt</ID>
+    <ID>NewLineAtEndOfFile:TestRefactor.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestRefactor.kt</ID>
+    <ID>NewLineAtEndOfFile:TestRefactor.kt$com.gmail.blueboxware.libgdxplugin.properties.TestRefactor.kt</ID>
+    <ID>NewLineAtEndOfFile:TestRefactor.kt$com.gmail.blueboxware.libgdxplugin.skin.TestRefactor.kt</ID>
+    <ID>NewLineAtEndOfFile:TestReferences.kt$com.gmail.blueboxware.libgdxplugin.assetsInCode.TestReferences.kt</ID>
+    <ID>NewLineAtEndOfFile:TestReferences.kt$com.gmail.blueboxware.libgdxplugin.bitmapFont.TestReferences.kt</ID>
+    <ID>NewLineAtEndOfFile:TestReferences.kt$com.gmail.blueboxware.libgdxplugin.properties.TestReferences.kt</ID>
+    <ID>NewLineAtEndOfFile:TestReferences.kt$com.gmail.blueboxware.libgdxplugin.skin.TestReferences.kt</ID>
+    <ID>NewLineAtEndOfFile:TestRename.kt$com.gmail.blueboxware.libgdxplugin.json.TestRename.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSetColor.kt$com.gmail.blueboxware.libgdxplugin.skin.TestSetColor.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSmartEnter.kt$com.gmail.blueboxware.libgdxplugin.json.TestSmartEnter.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSmartEnter.kt$com.gmail.blueboxware.libgdxplugin.skin.TestSmartEnter.kt</ID>
+    <ID>NewLineAtEndOfFile:TestStructureView.kt$com.gmail.blueboxware.libgdxplugin.json.TestStructureView.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSuppressQuickfixes.kt$com.gmail.blueboxware.libgdxplugin.json.TestSuppressQuickfixes.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSuppressQuickfixes.kt$com.gmail.blueboxware.libgdxplugin.skin.TestSuppressQuickfixes.kt</ID>
+    <ID>NewLineAtEndOfFile:TestSyntaxHighlighting.kt$com.gmail.blueboxware.libgdxplugin.json.TestSyntaxHighlighting.kt</ID>
+    <ID>NewLineAtEndOfFile:TestTextTextureRegionPreview.kt$com.gmail.blueboxware.libgdxplugin.TestTextTextureRegionPreview.kt</ID>
+    <ID>NewLineAtEndOfFile:TestVersionHandling.kt$com.gmail.blueboxware.libgdxplugin.TestVersionHandling.kt</ID>
+    <ID>NewLineAtEndOfFile:TestVersionHandlingLocalhost.kt$com.gmail.blueboxware.libgdxplugin.TestVersionHandlingLocalhost.kt</ID>
+    <ID>NewLineAtEndOfFile:TextureRegionPreviewHintProvider.kt$com.gmail.blueboxware.libgdxplugin.ui.TextureRegionPreviewHintProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:Utils.kt$com.gmail.blueboxware.libgdxplugin.inspections.Utils.kt</ID>
+    <ID>ReturnCount:AnnotationUtils.kt$KtAnnotationWrapper$override fun getValue(key: String): List&lt;String&gt;</ID>
+    <ID>ReturnCount:AnnotationUtils.kt$PsiAnnotationWrapper$override fun getValue(key: String): List&lt;String&gt;</ID>
+    <ID>ReturnCount:AnnotationUtils.kt$internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): AnnotationWrapper?</ID>
+    <ID>ReturnCount:AnnotationUtils.kt$internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): AnnotationWrapper?</ID>
+    <ID>ReturnCount:AssetReferenceProvider.kt$AssetReferenceProvider$override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:AssetReferenceProvider.kt$AssetReferenceProvider$private fun createSkinReferences( element: PsiElement, methodCall: PsiElement, methodName: String ): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:AtlasFoldingBuilder.kt$AtlasFoldingBuilder$override fun getPlaceholderText(node: ASTNode): String</ID>
+    <ID>ReturnCount:AtlasRegionMixin.kt$AtlasRegionMixin$override fun getImage(): BufferedImage?</ID>
+    <ID>ReturnCount:BitmapFontFoldingBuilder.kt$BitmapFontFoldingBuilder$override fun getPlaceholderText(node: ASTNode): String</ID>
+    <ID>ReturnCount:BitmapFontFoldingBuilder.kt$BitmapFontFoldingBuilder$private fun getFoldingDescriptorForCollection(collection: Collection&lt;PsiElement&gt;, text: String): FoldingDescriptor?</ID>
+    <ID>ReturnCount:BitmapFontStructureViewElement.kt$BitmapFontStructureViewElement$override fun getAlphaSortKey(): String</ID>
+    <ID>ReturnCount:ChangeKotlinPackageListener.kt$ChangeKotlinPackageListener$override fun childReplaced(event: PsiTreeChangeEvent)</ID>
+    <ID>ReturnCount:ChangeKotlinPackageListener.kt$ChangeKotlinPackageListener.&lt;no name provided&gt;$fun refactored(element: PsiElement)</ID>
+    <ID>ReturnCount:ClassUseScopeEnlarger.kt$ClassUseScopeEnlarger$override fun getAdditionalUseScope(element: PsiElement): SearchScope?</ID>
+    <ID>ReturnCount:ColorAnnotationsHighlightingPassFactory.kt$ColorAnnotationsHighlightingPassFactory$override fun createHighlightingPass(file: PsiFile, editor: Editor): TextEditorHighlightingPass?</ID>
+    <ID>ReturnCount:ColorPsiElementsUtils.kt$private fun PsiElement.findInitializer(): PsiElement?</ID>
+    <ID>ReturnCount:ColorPsiElementsUtils.kt$private fun PsiElement.isSpecialColorMethod(): Boolean</ID>
+    <ID>ReturnCount:ColorPsiElementsUtils.kt$private fun PsiElement.psiFloat(): Float?</ID>
+    <ID>ReturnCount:ColorUtils.kt$internal fun color(string: String): Color?</ID>
+    <ID>ReturnCount:ColorsReferenceContributor.kt$ColorsReferenceContributor.&lt;no name provided&gt;$override fun getReferencesByElement( element: PsiElement, context: ProcessingContext ): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:ColorsUtils.kt$internal fun KtCallExpression.isColorsCall(isPut: Boolean): Boolean</ID>
+    <ID>ReturnCount:ColorsUtils.kt$private fun PsiMethodCallExpression.isColorsCall(isPut: Boolean): Boolean</ID>
+    <ID>ReturnCount:CreateScreenAction.kt$CreateScreenAction$override fun isAvailable(dataContext: DataContext): Boolean</ID>
+    <ID>ReturnCount:DesignedForTabletsInspection.kt$DesignedForTabletsGradleVisitor$private fun updateVersionMap(call: GrMethodCall)</ID>
+    <ID>ReturnCount:FileTypeEditorNotificationProvider.kt$FileTypeEditorNotificationProvider$override fun createNotificationPanel( file: VirtualFile, fileEditor: FileEditor, project: Project ): EditorNotificationPanel?</ID>
+    <ID>ReturnCount:GDXImplicitPropertyUsageProvider.kt$GDXImplicitPropertyUsageProvider$public override fun isUsed(property: Property): Boolean</ID>
+    <ID>ReturnCount:GDXPropertiesReferenceProvider.kt$GDXPropertiesReferenceProvider$override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:GDXPropertiesReferenceProvider.kt$GDXPropertiesReferenceProvider$private fun processKtCallExpression(element: PsiElement, callExpression: KtCallExpression): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:GDXPropertiesReferenceProvider.kt$GDXPropertiesReferenceProvider$private fun processPsiMethodCallExpression( element: PsiElement, methodCallExpression: PsiMethodCallExpression ): Array&lt;PsiReference&gt;</ID>
+    <ID>ReturnCount:GdxJsonAddQuotesIntention.kt$GdxJsonAddQuotesIntention$override fun invoke(project: Project, editor: Editor?, element: PsiElement)</ID>
+    <ID>ReturnCount:GdxJsonBreadcrumbsProvider.kt$GdxJsonBreadcrumbsProvider$override fun getElementInfo(element: PsiElement): String</ID>
+    <ID>ReturnCount:GdxJsonColorAnnotator.kt$GdxJsonColorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>ReturnCount:GdxJsonEditorNotificationProvider.kt$GdxJsonEditorNotificationProvider.Companion$fun showNotification( project: Project, currentLanguage: Language?, file: VirtualFile, settings: LibGDXPluginSettings ): Boolean</ID>
+    <ID>ReturnCount:GdxJsonErrorAnnotator.kt$GdxJsonErrorAnnotator$override fun annotate(element: PsiElement, holder: AnnotationHolder)</ID>
+    <ID>ReturnCount:GdxJsonFoldingBuilder.kt$GdxJsonFoldingBuilder$override fun getPlaceholderText(node: ASTNode): String</ID>
+    <ID>ReturnCount:GdxJsonParserUtil.kt$GdxJsonParserUtil$@JvmStatic fun no_comment_or_newline(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean</ID>
+    <ID>ReturnCount:GdxJsonParserUtil.kt$GdxJsonParserUtil$@JvmStatic fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean</ID>
+    <ID>ReturnCount:GdxJsonStructureViewElement.kt$GdxJsonStructureViewElement$override fun getChildren(): Array&lt;out TreeElement&gt;</ID>
+    <ID>ReturnCount:IsProfilingCall.kt$fun isProfilingCall(fqClassName: String, methodName: String): Boolean</ID>
+    <ID>ReturnCount:IsSetLogLevel.kt$fun isSetLogLevel(clazz: PsiClass, methodName: String): Boolean</ID>
+    <ID>ReturnCount:JavaFlushInsideLoopInspection.kt$LoopChecker$override fun visitCallExpression(callExpression: PsiCallExpression?)</ID>
+    <ID>ReturnCount:JavaFlushInsideLoopInspection.kt$LoopChecker$override fun visitNewExpression(expression: PsiNewExpression?)</ID>
+    <ID>ReturnCount:JavaLogLevelInspection.kt$JavaLogLevelInspection.&lt;no name provided&gt;$override fun visitMethodCallExpression(expression: PsiMethodCallExpression?)</ID>
+    <ID>ReturnCount:JavaMissingFlushInspection.kt$JavaMissingFlushInspection.MissingFlushInspectionMethodChecker$override fun visitMethodCallExpression(expression: PsiMethodCallExpression?)</ID>
+    <ID>ReturnCount:JavaProfilingCodeInspection.kt$JavaProfilingCodeInspection.&lt;no name provided&gt;$override fun visitMethodCallExpression(expression: PsiMethodCallExpression?)</ID>
+    <ID>ReturnCount:JavaUnsafeIteratorInspection.kt$JavaUnsafeIteratorInspection.&lt;no name provided&gt;$override fun visitForeachStatement(statement: PsiForeachStatement?)</ID>
+    <ID>ReturnCount:JavaUnsafeIteratorInspection.kt$JavaUnsafeIteratorInspection.&lt;no name provided&gt;$override fun visitMethodCallExpression(expression: PsiMethodCallExpression?)</ID>
+    <ID>ReturnCount:KotlinFlushInsideLoopInspection.kt$LoopBodyChecker$override fun visitQualifiedExpression(expression: KtQualifiedExpression)</ID>
+    <ID>ReturnCount:KotlinLogLevelInspection.kt$KotlinLogLevelInspection.&lt;no name provided&gt;$override fun visitQualifiedExpression(expression: KtQualifiedExpression)</ID>
+    <ID>ReturnCount:KotlinLogLevelInspection.kt$private fun isLogLevelArgument(expression: KtExpression?): Boolean</ID>
+    <ID>ReturnCount:KotlinUnsafeIteratorInspection.kt$KotlinUnsafeIteratorInspection.&lt;no name provided&gt;$override fun visitQualifiedExpression(expression: KtQualifiedExpression)</ID>
+    <ID>ReturnCount:LibGDXCompletionConfidence.kt$LibGDXCompletionConfidence$override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState</ID>
+    <ID>ReturnCount:LibGDXGdxJsonFileSubstitutor.kt$LibGDXGdxJsonFileSubstitutor$override fun getLanguage(file: VirtualFile, project: Project): Language?</ID>
+    <ID>ReturnCount:LibGDXSkinFileSubstitutor.kt$LibGDXSkinFileSubstitutor$override fun getLanguage(file: VirtualFile, project: Project): Language?</ID>
+    <ID>ReturnCount:LibGDXTagUsageTargetProvider.kt$LibGDXTagUsageTargetProvider$override fun getTargets(editor: Editor, file: PsiFile): Array&lt;UsageTarget&gt;?</ID>
+    <ID>ReturnCount:Library.kt$Library$open fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean</ID>
+    <ID>ReturnCount:Library.kt$Library.Companion$fun extractVersionsFromMavenMetaData(input: String): List&lt;String&gt;?</ID>
+    <ID>ReturnCount:LibraryUtils.kt$internal fun getLibraryFromGroovyArgumentList(groovyCommandArgumentList: GrCommandArgumentList): Libraries?</ID>
+    <ID>ReturnCount:LibraryUtils.kt$internal fun getLibraryFromKotlinArgumentList(ktValueArgumentList: KtValueArgumentList): Libraries?</ID>
+    <ID>ReturnCount:LibraryUtils.kt$internal fun getLibraryInfoFromIdeaLibrary(library: Library): Pair&lt;Libraries, MavenComparableVersion&gt;?</ID>
+    <ID>ReturnCount:MarkAsGdxJsonAction.kt$MarkAsGdxJsonAction$override fun actionPerformed(event: AnActionEvent)</ID>
+    <ID>ReturnCount:MarkAsSkinAction.kt$MarkAsSkinAction$override fun actionPerformed(event: AnActionEvent)</ID>
+    <ID>ReturnCount:MissingExternalFilesPermissionInspection.kt$MissingExternalFilesPermissionInspection.&lt;no name provided&gt;$override fun visitXmlFile(file: XmlFile?)</ID>
+    <ID>ReturnCount:PsiTreeChangePreprocessorBase.kt$PsiTreeChangePreprocessorBase$override fun treeChanged(event: PsiTreeChangeEventImpl)</ID>
+    <ID>ReturnCount:PsiTreeChangePreprocessorBase.kt$PsiTreeChangePreprocessorBase$private fun isInsideCodeBlock(element: PsiElement?): Boolean</ID>
+    <ID>ReturnCount:PsiUtils.kt$internal fun KtCallExpression.resolveCall(): Pair&lt;ClassDescriptor, KtNameReferenceExpression&gt;?</ID>
+    <ID>ReturnCount:PsiUtils.kt$internal fun KtQualifiedExpression.resolveCall(): Pair&lt;DeclarationDescriptor, String&gt;?</ID>
+    <ID>ReturnCount:SkinBlock.kt$SkinBlock$private fun isInsideBraces(elementIndex: Int): Boolean</ID>
+    <ID>ReturnCount:SkinBreadcrumbsProvider.kt$SkinBreadcrumbsProvider$override fun getElementInfo(element: PsiElement): String</ID>
+    <ID>ReturnCount:SkinCompletionContributor.kt$SkinCompletionContributor$private fun classPriority(className: String): Double</ID>
+    <ID>ReturnCount:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ReturnCount:SkinCompletionContributor.kt$SkinCompletionContributor$private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ReturnCount:SkinCompletionContributor.kt$SkinCompletionContributor$private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet)</ID>
+    <ID>ReturnCount:SkinFileImpl.kt$SkinFileImpl$override fun getResources( resourceClass: PsiClass, resourceName: String?, beforeElement: PsiElement?, includingSuperClasses: Boolean, includeAll: Boolean // keep looking up the superclass list after finding resources ): Collection&lt;SkinResource&gt;</ID>
+    <ID>ReturnCount:SkinNonExistingFieldInspection.kt$SkinNonExistingFieldInspection.&lt;no name provided&gt;$override fun visitPropertyName(propertyName: SkinPropertyName)</ID>
+    <ID>ReturnCount:SkinNonExistingFontFileInspection.kt$SkinNonExistingFontFileInspection.&lt;no name provided&gt;$override fun visitPropertyValue(propertyValue: SkinPropertyValue)</ID>
+    <ID>ReturnCount:SkinPropertyMixin.kt$SkinPropertyMixin$override fun resolveToType(): PsiType?</ID>
+    <ID>ReturnCount:SkinPropertyMixin.kt$SkinPropertyMixin.&lt;no name provided&gt;$override fun getIcon(unused: Boolean): Icon</ID>
+    <ID>ReturnCount:SkinPsiUtils.kt$/* * Copyright 2016 Blue Box Ware * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ internal fun String.stripQuotes(): String</ID>
+    <ID>ReturnCount:SkinResourceReference.kt$SkinResourceReference.Resolver$override fun resolve(resourceReference: SkinResourceReference, incompleteCode: Boolean): Array&lt;ResolveResult&gt;</ID>
+    <ID>ReturnCount:SkinStringLiteralMixin.kt$SkinStringLiteralMixin$override fun getReference(): PsiReference?</ID>
+    <ID>ReturnCount:SkinStructureViewElement.kt$SkinStructureViewElement$// // Adapted from https://github.com/JetBrains/intellij-community/blob/ab08c979a5826bf293ae03cd67463941b0066eb8/json/src/com/intellij/json/structureView/JsonStructureViewElement.java // override fun getChildren(): Array&lt;out TreeElement&gt;</ID>
+    <ID>ReturnCount:SkinTypeInspection.kt$SkinTypeInspection.&lt;no name provided&gt;$override fun visitValue(skinValue: SkinValue)</ID>
+    <ID>ReturnCount:SkinValueMixin.kt$SkinValueMixin$override fun resolveToType(): PsiType?</ID>
+    <ID>ReturnCount:SuppressionUtils.kt$/* * Copyright 2019 Blue Box Ware * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ fun GdxJsonElement.isSuppressed(id: String): Boolean</ID>
+    <ID>ReturnCount:SuppressionUtils.kt$fun SkinElement.isSuppressed(id: String): Boolean</ID>
+    <ID>ReturnCount:TaggedClassUsagesSearcher.kt$TaggedClassUsagesSearcher$override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor&lt;in PsiReference&gt;)</ID>
+    <ID>ReturnCount:TestInspections.kt$TestInspections$private fun doOpenGLDirectiveInspectionTest( name: String, warningExpected: Boolean, problemElement: String? = "uses-feature" )</ID>
+    <ID>ReturnCount:TextureRegionPreviewHintProvider.kt$TextureRegionPreviewHintProvider$override fun getPreviewComponent(element: PsiElement): JComponent?</ID>
+    <ID>ReturnCount:Utils.kt$/* * Copyright 2020 Blue Box Ware * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ fun SyntheticPropertyAccessorReference.isGetter(): Boolean</ID>
+    <ID>ReturnCount:Utils.kt$internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean</ID>
+    <ID>ReturnCount:Utils.kt$internal fun isValidProperty(element: PsiElement): Boolean</ID>
+    <ID>SpreadOperator:SkinFileReference.kt$SkinFileReference$(baseFile.parent, *fileNameToPathList(fileName))</ID>
+    <ID>SpreadOperator:Utils.kt$( element, message("nonexisting.asset.problem.descriptor", elementName, type, files), *fixes ?: arrayOf() )</ID>
+    <ID>SwallowedException:AssetUtils.kt$catch (e: IOException) { // Do nothing }</ID>
+    <ID>SwallowedException:AtlasRegionMixin.kt$AtlasRegionMixin$catch (e: IOException) { null }</ID>
+    <ID>SwallowedException:AtlasRegionMixin.kt$AtlasRegionMixin$catch (e: RasterFormatException) { null }</ID>
+    <ID>SwallowedException:LibGDXColorObjectRenderer.kt$LibGDXColorObjectRenderer$catch (e: ClassNotPreparedException) { // Nothing }</ID>
+    <ID>SwallowedException:LibGDXColorObjectRenderer.kt$LibGDXColorObjectRenderer$catch (e: IllegalArgumentException) { // Nothing }</ID>
+    <ID>SwallowedException:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$catch (e: Exception) { val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length holder.registerProblem( o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message") ) }</ID>
+    <ID>SwallowedException:Library.kt$Library$catch (e: IOException) { onFailure() }</ID>
+    <ID>TooGenericExceptionCaught:LibGDXJsonInvalidEscapeInspection.kt$LibGDXJsonInvalidEscapeInspection.&lt;no name provided&gt;$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Library.kt$Library.Companion$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SkinPsiUtils.kt$e: Exception</ID>
+    <ID>TooManyFunctions:AssetUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.AssetUtils.kt</ID>
+    <ID>TooManyFunctions:AtlasRegionMixin.kt$AtlasRegionMixin : AtlasRegionAtlasElementImpl</ID>
+    <ID>TooManyFunctions:BitmapFontFile.kt$BitmapFontFile : PsiFileBase</ID>
+    <ID>TooManyFunctions:GdxJsonBlock.kt$GdxJsonBlock : ASTBlock</ID>
+    <ID>TooManyFunctions:LibraryUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.LibraryUtils.kt</ID>
+    <ID>TooManyFunctions:MiscUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.MiscUtils.kt</ID>
+    <ID>TooManyFunctions:PsiUtils.kt$com.gmail.blueboxware.libgdxplugin.utils.PsiUtils.kt</ID>
+    <ID>TooManyFunctions:SkinBlock.kt$SkinBlock : ASTBlock</ID>
+    <ID>TooManyFunctions:SkinClassSpecificationMixin.kt$SkinClassSpecificationMixin : SkinClassSpecificationSkinElementImpl</ID>
+    <ID>TooManyFunctions:SkinElementFactory.kt$SkinElementFactory</ID>
+    <ID>TooManyFunctions:SkinFileImpl.kt$SkinFileImpl : PsiFileBaseSkinFile</ID>
+    <ID>TooManyFunctions:SkinPsiUtils.kt$com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinPsiUtils.kt</ID>
+    <ID>TooManyFunctions:SkinResourceMixin.kt$SkinResourceMixin : SkinResourceSkinElementImpl</ID>
+    <ID>TopLevelPropertyNaming:SkinUtils.kt$/* * Copyright 2016 Blue Box Ware * * Licensed under the Apache License, Version 2.0 (the "License"); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an "AS IS" BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ private const val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""</ID>
+    <ID>TopLevelPropertyNaming:SkinUtils.kt$private const val className = """[\p{javaJavaIdentifierStart}&amp;&amp;[\p{Lu}]]\p{javaJavaIdentifierPart}*"""</ID>
+    <ID>TopLevelPropertyNaming:SkinUtils.kt$private const val commonClassNames = """(?:Color|BitmapFont|TintedDrawable|ButtonStyle)"""</ID>
+    <ID>TopLevelPropertyNaming:SkinUtils.kt$private const val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""</ID>
+    <ID>UnnecessaryAbstractClass:AnnotationUtils.kt$AnnotationWrapper</ID>
+    <ID>VariableNaming:ColorAnnotator.kt$ColorAnnotator$private val ANNOTATIONS_KEY = key&lt;MutableList&lt;Pair&lt;Int, Color&gt;&gt;&gt;("annotations")</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var DO_NOT_WRAP_COLORS = true</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_ALWAYS</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var PROPERTY_ALIGNMENT = DO_NOT_ALIGN_PROPERTY</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var SPACE_AFTER_COLON = true</ID>
+    <ID>VariableNaming:SkinCodeStyleSettings.kt$SkinCodeStyleSettings$@JvmField var SPACE_BEFORE_COLON = false</ID>
+  </CurrentIssues>
+</SmellBaseline>

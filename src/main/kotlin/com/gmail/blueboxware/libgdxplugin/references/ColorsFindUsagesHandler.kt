@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.gmail.blueboxware.libgdxplugin.utils.compat.FindUsagesHandlerBaseCompat
+import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.progress.ProgressManager
@@ -38,17 +38,13 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandlerBaseCompat(element) {
+class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
 
   constructor(element: PsiLiteralExpression): this(element as PsiElement)
 
   constructor(element: KtStringTemplateExpression): this(element as PsiElement)
 
-  override fun doProcessElementUsages(
-          element: PsiElement,
-          processor: Processor<UsageInfo>,
-          options: FindUsagesOptions
-  ): Boolean {
+  override fun processElementUsages(element: PsiElement, processor: Processor<in UsageInfo>, options: FindUsagesOptions): Boolean {
 
     val colorNameToFind = ReadAction.compute<String, Throwable> {
       (element as? PsiLiteralExpression)?.asString()

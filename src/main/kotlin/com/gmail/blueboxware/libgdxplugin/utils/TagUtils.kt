@@ -85,7 +85,7 @@ internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
         "scenes.scene2d.ui.Touchpad.TouchpadStyle",
         "scenes.scene2d.ui.Tree.TreeStyle",
         "scenes.scene2d.ui.Window.WindowStyle"
-).map { StringUtil.getShortName(it) to "com.badlogic.gdx.$it" }.toMap()
+).associate { StringUtil.getShortName(it) to "com.badlogic.gdx.$it" }
 
 private fun Project.collectCustomTags(): TagMap {
 

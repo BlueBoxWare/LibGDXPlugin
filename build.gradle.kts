@@ -32,12 +32,14 @@ intellij {
 
 detekt {
   config = files("./detekt-config.yml")
+  baseline = file("./detekt-baseline.xml")
   buildUponDefaultConfig = true
 
   reports {
     html.enabled = true
     xml.enabled = false
     txt.enabled = false
+    sarif.enabled = false
   }
 }
 
