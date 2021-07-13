@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeInsight.completion.CompletionContributor
 import com.intellij.codeInsight.completion.CompletionParameters
 import com.intellij.codeInsight.completion.CompletionProvider
@@ -35,6 +36,10 @@ class GDXPropertiesCompletionContributor: CompletionContributor() {
               context: ProcessingContext,
               result: CompletionResultSet
       ) {
+
+        if (!parameters.position.project.isLibGDXProject()) {
+          return
+        }
 
         val position =
                 parameters.position.context ?: return

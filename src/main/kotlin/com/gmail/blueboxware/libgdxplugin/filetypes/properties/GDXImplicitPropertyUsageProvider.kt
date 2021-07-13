@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeInspection.unused.ImplicitPropertyUsageProvider
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.search.PsiSearchHelper
@@ -27,6 +28,11 @@ class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
   public override fun isUsed(property: Property): Boolean {
 
     val project = property.project
+
+    if (!project.isLibGDXProject()) {
+      return false
+    }
+
     val name = property.name ?: return false
     val scope = project.allScope()
 
