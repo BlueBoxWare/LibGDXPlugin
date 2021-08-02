@@ -6,7 +6,6 @@ import com.intellij.json.JsonLanguage
 import com.intellij.json.formatter.JsonCodeStyleSettings
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.tree.TokenSet
@@ -20,7 +19,9 @@ class GdxJsonFormattingBuilderModel: FormattingModelBuilder {
 
   override fun getRangeAffectingIndent(file: PsiFile?, offset: Int, elementAtOffset: ASTNode?): TextRange? = null
 
-  override fun createModel(element: PsiElement, settings: CodeStyleSettings): FormattingModel {
+  override fun createModel(formattingContext: FormattingContext): FormattingModel {
+    val element = formattingContext.psiElement
+    val settings = formattingContext.codeStyleSettings
     val customSettings = settings.getCustomSettings(JsonCodeStyleSettings::class.java)
     val spacingBuilder = createSpacingBuilder(settings)
     val block = GdxJsonBlock(

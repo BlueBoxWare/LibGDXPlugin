@@ -5,7 +5,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
-import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.codeStyle.CodeStyleSettings
 
@@ -18,7 +17,9 @@ class SkinFormattingBuilderModel: FormattingModelBuilder {
 
   override fun getRangeAffectingIndent(file: PsiFile?, offset: Int, elementAtOffset: ASTNode?): TextRange? = null
 
-  override fun createModel(element: PsiElement, settings: CodeStyleSettings): FormattingModel {
+  override fun createModel(formattingContext: FormattingContext): FormattingModel {
+    val element = formattingContext.psiElement
+    val settings = formattingContext.codeStyleSettings
     val block = SkinBlock(null, element.node, settings, null, Indent.getNoneIndent(), null)
     return FormattingModelProvider.createFormattingModelForPsiFile(element.containingFile, block, settings)
   }

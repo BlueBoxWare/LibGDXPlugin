@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.application.options.SmartIndentOptionsEditor
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable
-import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable.SPACES_OTHER
+import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizableOptions
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 
@@ -15,6 +15,7 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
 class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider() {
 
   override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
+    val wrapOptions = CodeStyleSettingsCustomizableOptions.getInstance().WRAP_OPTIONS
     @Suppress("NON_EXHAUSTIVE_WHEN")
     when (settingsType) {
       SettingsType.SPACING_SETTINGS -> {
@@ -25,8 +26,9 @@ class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider()
                 "SPACE_BEFORE_COMMA"
         )
         consumer.renameStandardOption("SPACE_WITHIN_BRACES", "Braces")
-        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_BEFORE_COLON", "Before ':'", SPACES_OTHER)
-        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_AFTER_COLON", "After ':'", SPACES_OTHER)
+        val spacesOther = CodeStyleSettingsCustomizableOptions.getInstance().SPACES_OTHER
+        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_BEFORE_COLON", "Before ':'", spacesOther)
+        consumer.showCustomOption(SkinCodeStyleSettings::class.java, "SPACE_AFTER_COLON", "After ':'", spacesOther)
       }
       SettingsType.BLANK_LINES_SETTINGS -> consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE")
       SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
@@ -41,7 +43,7 @@ class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider()
                 "ARRAY_WRAPPING",
                 "Arrays",
                 null,
-                CodeStyleSettingsCustomizable.WRAP_OPTIONS,
+                wrapOptions,
                 CodeStyleSettingsCustomizable.WRAP_VALUES
         )
         consumer.showCustomOption(
@@ -49,7 +51,7 @@ class SkinLanguageCodeStyleSettingsProvider: LanguageCodeStyleSettingsProvider()
                 "OBJECT_WRAPPING",
                 "Objects",
                 null,
-                CodeStyleSettingsCustomizable.WRAP_OPTIONS,
+                wrapOptions,
                 CodeStyleSettingsCustomizable.WRAP_VALUES
         )
         consumer.showCustomOption(
