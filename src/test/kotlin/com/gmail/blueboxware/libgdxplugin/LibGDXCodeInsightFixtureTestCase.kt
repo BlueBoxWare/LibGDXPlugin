@@ -78,7 +78,7 @@ abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTest
   fun addAnnotations() {
     addLibrary(File("build/libs/").listFiles { _, name ->
       name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
-    }!!.maxBy { file ->
+    }!!.maxByOrNull { file ->
       MavenComparableVersion(file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")))
     }!!.absolutePath)
   }

@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
@@ -12,6 +13,7 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
+import com.intellij.testFramework.runInEdtAndWait
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -100,12 +102,17 @@ class VersionService(val project: Project): Disposable {
       }
 
       if (usedVersions[Libraries.LIBGDX] == null) {
-        ReadAction.nonBlocking {
+        val runnable = {
           project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
             ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
                     ?.let(::MavenComparableVersion)
                     ?.let { usedVersions[Libraries.LIBGDX] = it }
           }
+        }
+        if (ApplicationManager.getApplication().isUnitTestMode) {
+          runInEdtAndWait(runnable)
+        } else {
+          ReadAction.nonBlocking(runnable)
         }
       }
 
