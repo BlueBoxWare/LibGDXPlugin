@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -99,10 +100,12 @@ class VersionService(val project: Project): Disposable {
       }
 
       if (usedVersions[Libraries.LIBGDX] == null) {
-        project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
-          ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
-                  ?.let(::MavenComparableVersion)
-                  ?.let { usedVersions[Libraries.LIBGDX] = it }
+        ReadAction.nonBlocking {
+          project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
+            ((psiClass.findFieldByName("VERSION", false)?.initializer as? PsiLiteralExpression)?.value as? String)
+                    ?.let(::MavenComparableVersion)
+                    ?.let { usedVersions[Libraries.LIBGDX] = it }
+          }
         }
       }
 
