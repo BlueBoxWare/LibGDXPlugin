@@ -185,7 +185,7 @@ internal open class Library(
                   ?.let { versions ->
                     return Regex("""<version>([^<]+)</version>""")
                             .findAll(versions)
-                            .mapNotNull { it.groupValues[1] }
+                            .map { it.groupValues[1] }
                             .toList()
                   }
 
