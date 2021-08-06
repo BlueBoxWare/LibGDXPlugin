@@ -2,8 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.ide.highlighter.JavaClassFileType
 import com.intellij.notification.Notification
-import com.intellij.notification.NotificationDisplayType
-import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
@@ -89,10 +88,13 @@ class GwtOutdatedListener(val project: Project):
               }
             } else {
               if (outDated) {
-                balloon = GROUP.createNotification(
-                        message("gwt.build.outdated.title"),
-                        message("gwt.build.outdated.body"),
-                        NotificationType.WARNING)
+                balloon = NotificationGroupManager
+                        .getInstance()
+                        ?.getNotificationGroup("GWT Outdated")
+                        ?.createNotification(
+                                message("gwt.build.outdated.title"),
+                                message("gwt.build.outdated.body"),
+                                NotificationType.WARNING)
                 balloon?.notify(project)
               }
             }
@@ -105,14 +107,6 @@ class GwtOutdatedListener(val project: Project):
 
     }
 
-  }
-
-  companion object {
-    val GROUP = NotificationGroup(
-            "Outdated GWT",
-            NotificationDisplayType.STICKY_BALLOON,
-            false
-    )
   }
 
 }

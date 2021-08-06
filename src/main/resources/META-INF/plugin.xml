@@ -18,7 +18,6 @@
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <!--suppress PluginXmlCapitalization -->
     <name>libGDX</name>
-    <version>1.23.2</version>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -32,12 +31,10 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix IllegalAccessError with IntelliJ 2021.1.*.</li>
+            <li>Fix "Slow operations are prohibited on EDT" error with IntelliJ 2021.2.</li>
         </ul>
         ]]>
     </change-notes>
-
-    <idea-version since-build="202.7660.26"/>
 
     <depends>com.intellij.modules.java</depends>
     <depends>org.jetbrains.kotlin</depends>
@@ -52,7 +49,7 @@
 
     <projectListeners>
         <listener class="com.gmail.blueboxware.libgdxplugin.GwtOutdatedListener"
-                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener" />
+                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
     </projectListeners>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -77,6 +74,13 @@
         />
         <projectService
                 serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
+        />
+
+        <notificationGroup
+                displayType="STICKY_BALLOON"
+                id="GWT Outdated"
+                bundle="libgdxplugin"
+                key="gwt.build.outdated.title"
         />
 
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider"/>
@@ -150,7 +154,7 @@
         <annotator language="LibGDXJson"
                    implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonColorAnnotator"/>
         <annotator language="LibGDXJson"
-                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonErrorAnnotator" />
+                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators.GdxJsonErrorAnnotator"/>
 
         <basicWordSelectionFilter
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonWordSelectionFilter"/>
@@ -177,7 +181,7 @@
                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.structureView.GdxJsonStructureViewBuilderFactory"/>
 
         <lang.findUsagesProvider language="LibGDXJson"
-                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.references.GdxJsonFindUsagesProvider" />
+                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.references.GdxJsonFindUsagesProvider"/>
 
         <breadcrumbsInfoProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonBreadcrumbsProvider"/>
@@ -185,20 +189,26 @@
         <spellchecker.support language="LibGDXJson"
                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSpellcheckerStrategy"/>
 
-        <json.jsonWidgetSuppressor implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSchemaWidgetSuppressor" />
+        <json.jsonWidgetSuppressor
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSchemaWidgetSuppressor"/>
 
         <intentionAction>
-            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention</className>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention
+            </className>
             <category>LibGDX/JSON</category>
             <descriptionDirectoryName>WrapWithQuotesIntention</descriptionDirectoryName>
         </intentionAction>
         <intentionAction>
-            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention</className>
+            <className>
+                com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention
+            </className>
             <category>LibGDX/JSON</category>
             <descriptionDirectoryName>MoveElementForwardIntention</descriptionDirectoryName>
         </intentionAction>
         <intentionAction>
-            <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention</className>
+            <className>
+                com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention
+            </className>
             <category>LibGDX/JSON</category>
             <descriptionDirectoryName>MoveElementBackwardIntention</descriptionDirectoryName>
         </intentionAction>
@@ -310,7 +320,8 @@
                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSpellcheckerStrategy"/>
 
         <intentionAction>
-            <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention</className>
+            <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention
+            </className>
             <category>LibGDX/Skin</category>
             <descriptionDirectoryName>ColorToComponentsIntention</descriptionDirectoryName>
         </intentionAction>
