@@ -46,6 +46,7 @@ detekt {
 sourceSets {
   main {
     java.srcDirs("gen")
+    java.srcDirs("src/main/kotlin")
     java.exclude("com/gmail/blueboxware/libgdxplugin/annotations/**")
     resources.srcDirs("resources")
   }
@@ -63,6 +64,7 @@ tasks {
   }
   withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.apiVersion = "1.4"
   }
 
   withType<Detekt> {

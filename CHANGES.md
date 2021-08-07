@@ -1,3 +1,6 @@
+### 1.23.3
+* Fix "Slow operations are prohibited on EDT" error with IntelliJ 2021.2.
+
 ### 1.23.2 
 * Fix IllegalAccessError with IntelliJ 2021.1.*.
 
