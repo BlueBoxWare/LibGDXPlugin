@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
@@ -96,9 +96,6 @@ internal fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, f: () -> R)
         CachedValuesManager.getCachedValue(this, key) {
           CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
         }
-
-internal fun <R> Project.getCachedValue(key: String, f: () -> R): R? =
-        getCachedValue(key(key), f)
 
 internal fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R? =
         CachedValuesManager.getManager(this).getCachedValue(this, key, {

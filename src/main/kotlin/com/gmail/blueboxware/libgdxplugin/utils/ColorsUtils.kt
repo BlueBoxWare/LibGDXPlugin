@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
+import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.search.allScope
@@ -111,7 +112,9 @@ internal class ColorsDefinition(
 
 }
 
-internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue("colorsMap") {
+private val KEY = key<CachedValue<Map<String, ColorsDefinition?>>>("colorsMap")
+
+internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY) {
 
   if (!isLibGDXProject()) {
     mapOf<String, ColorsDefinition>()

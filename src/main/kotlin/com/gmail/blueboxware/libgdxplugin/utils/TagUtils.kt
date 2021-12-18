@@ -8,6 +8,7 @@ import com.intellij.psi.impl.source.PsiImmediateClassType
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
+import com.intellij.psi.util.CachedValue
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
@@ -45,7 +46,9 @@ internal const val PROPERTY_NAME_FONT_FLIP = "flip"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_NAME = "name"
 internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
-internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue("tag2classMap") {
+private val KEY = key<CachedValue<TagMap?>>("tag2classMap")
+
+internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue(KEY) {
 
   if (isLibGDX199()) {
     computeUnderProgressIfNecessary {
