@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix "Slow operations are prohibited on EDT" error with IntelliJ 2021.2.</li>
+            <li>Fix performance issue with Skin files (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/33">#33</a>)</li>
         </ul>
         ]]>
     </change-notes>

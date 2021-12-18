@@ -99,6 +99,10 @@ tasks {
 
   test {
     systemProperty("idea.home.path", System.getenv("LIBGDXPLUGIN_IDEA"))
+    isScanForTestClasses = false
+    include("**/Test*.class")
+    include("com/gmail/blueboxware/libgdxplugin/ShowInfo.class")
+    exclude("**/*$*.class")
   }
 
   register<Jar>("annotationsJar") {

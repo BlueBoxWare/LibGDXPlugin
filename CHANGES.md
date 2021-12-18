@@ -1,3 +1,6 @@
+### 1.23.4
+* Fix perfomance issue with Skin files ([#33](https://github.com/BlueBoxWare/LibGDXPlugin/issues/33))
+
 ### 1.23.3
 * Fix "Slow operations are prohibited on EDT" error with IntelliJ 2021.2.
 
