@@ -27,18 +27,18 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
+class ClassTagFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
 
-  override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
-          if (!forHighlightUsages) {
+    override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
+        if (!forHighlightUsages) {
             (element as? PsiLiteralExpression)?.let(::ClassTagFindUsagesHandler)
-                    ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
-          } else {
+                ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
+        } else {
             null
-          }
+        }
 
-  override fun canFindUsages(element: PsiElement): Boolean =
-          (element as? PsiLiteralExpression)?.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
-                  || (element as? KtStringTemplateExpression)?.getParentOfType<KtAnnotationEntry>()
-                  ?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
+    override fun canFindUsages(element: PsiElement): Boolean =
+        (element as? PsiLiteralExpression)?.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
+                || (element as? KtStringTemplateExpression)?.getParentOfType<KtAnnotationEntry>()
+            ?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
 }

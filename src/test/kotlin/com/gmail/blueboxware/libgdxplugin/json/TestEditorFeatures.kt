@@ -22,47 +22,47 @@ import com.intellij.spellchecker.inspections.SpellCheckingInspection
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
+class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testFolding1() {
-    myFixture.testFolding(testDataPath + "folding1.lson")
-  }
+    fun testFolding1() {
+        myFixture.testFolding(testDataPath + "folding1.lson")
+    }
 
-  fun testFolding2() {
-    myFixture.testFolding(testDataPath + "folding2.lson")
-  }
+    fun testFolding2() {
+        myFixture.testFolding(testDataPath + "folding2.lson")
+    }
 
-  fun testBreadcrumbs1() = doTestBreadcrumbs("1", "items", "3", "value", "2", "foo", "p")
+    fun testBreadcrumbs1() = doTestBreadcrumbs("1", "items", "3", "value", "2", "foo", "p")
 
-  fun testSpellChecking() {
-    myFixture.enableInspections(SpellCheckingInspection::class.java)
-    configureByFile("spellChecking.lson")
-    myFixture.checkHighlighting(true, false, true)
-  }
+    fun testSpellChecking() {
+        myFixture.enableInspections(SpellCheckingInspection::class.java)
+        configureByFile("spellChecking.lson")
+        myFixture.checkHighlighting(true, false, true)
+    }
 
-  fun testCommenting() {
-    configureByFileAsGdxJson("comments/comments.json")
-    val commentByLineAction = CommentByLineCommentAction()
-    commentByLineAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("comments/lineComment.txt")
-    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    commentByLineAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("comments/noComment.txt")
-    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
-    editor.caretModel.moveCaretRelatively(editor.caretModel.visualLineEnd - 1, 0, true, false, false)
-    val blockCommentAction = CommentByBlockCommentAction()
-    blockCommentAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("comments/blockComment.txt")
-    blockCommentAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("comments/noComment.txt")
-  }
+    fun testCommenting() {
+        configureByFileAsGdxJson("comments/comments.json")
+        val commentByLineAction = CommentByLineCommentAction()
+        commentByLineAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("comments/lineComment.txt")
+        editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+        commentByLineAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("comments/noComment.txt")
+        editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+        editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
+        editor.caretModel.moveCaretRelatively(editor.caretModel.visualLineEnd - 1, 0, true, false, false)
+        val blockCommentAction = CommentByBlockCommentAction()
+        blockCommentAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("comments/blockComment.txt")
+        blockCommentAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("comments/noComment.txt")
+    }
 
-  private fun doTestBreadcrumbs(vararg expectedComponents: String) {
-    configureByFile(testname() + ".lson")
-    assertOrderedEquals(myFixture.breadcrumbsAtCaret.map { it.text }, *expectedComponents)
-  }
+    private fun doTestBreadcrumbs(vararg expectedComponents: String) {
+        configureByFile(testname() + ".lson")
+        assertOrderedEquals(myFixture.breadcrumbsAtCaret.map { it.text }, *expectedComponents)
+    }
 
-  override fun getBasePath() = "/filetypes/json/editor/"
+    override fun getBasePath() = "/filetypes/json/editor/"
 
 }

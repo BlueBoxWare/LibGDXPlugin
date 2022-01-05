@@ -16,37 +16,37 @@ import com.intellij.psi.codeStyle.CustomCodeStyleSettings
  */
 
 
-class SkinCodeStyleSettings(container: CodeStyleSettings):
-        CustomCodeStyleSettings(LibGDXSkinLanguage.INSTANCE.id, container) {
+class SkinCodeStyleSettings(container: CodeStyleSettings) :
+    CustomCodeStyleSettings(LibGDXSkinLanguage.INSTANCE.id, container) {
 
-  companion object {
-    val DO_NOT_ALIGN_PROPERTY = PropertyAlignment.DO_NOT_ALIGN.id
-    val ALIGN_PROPERTY_ON_VALUE = PropertyAlignment.ALIGN_ON_VALUE.id
-    val ALIGN_PROPERTY_ON_COLON = PropertyAlignment.ALIGN_ON_COLON.id
-  }
+    companion object {
+        val DO_NOT_ALIGN_PROPERTY = PropertyAlignment.DO_NOT_ALIGN.id
+        val ALIGN_PROPERTY_ON_VALUE = PropertyAlignment.ALIGN_ON_VALUE.id
+        val ALIGN_PROPERTY_ON_COLON = PropertyAlignment.ALIGN_ON_COLON.id
+    }
 
-  @JvmField
-  var SPACE_BEFORE_COLON = false
+    @JvmField
+    var SPACE_BEFORE_COLON = false
 
-  @JvmField
-  var SPACE_AFTER_COLON = true
+    @JvmField
+    var SPACE_AFTER_COLON = true
 
-  @JvmField
-  var OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_ALWAYS
+    @JvmField
+    var OBJECT_WRAPPING = CommonCodeStyleSettings.WRAP_ALWAYS
 
-  @JvmField
-  var ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
+    @JvmField
+    var ARRAY_WRAPPING = CommonCodeStyleSettings.WRAP_AS_NEEDED
 
-  @JvmField
-  var PROPERTY_ALIGNMENT = DO_NOT_ALIGN_PROPERTY
+    @JvmField
+    var PROPERTY_ALIGNMENT = DO_NOT_ALIGN_PROPERTY
 
-  @JvmField
-  var DO_NOT_WRAP_COLORS = true
+    @JvmField
+    var DO_NOT_WRAP_COLORS = true
 
-  enum class PropertyAlignment(val description: String, val id: Int) {
-    DO_NOT_ALIGN(JsonBundle.message("formatter.align.properties.none"), 0),
-    ALIGN_ON_VALUE(JsonBundle.message("formatter.align.properties.on.value"), 1),
-    ALIGN_ON_COLON(JsonBundle.message("formatter.align.properties.on.colon"), 2);
-  }
+    enum class PropertyAlignment(val description: String, val id: Int) {
+        DO_NOT_ALIGN(JsonBundle.message("formatter.align.properties.none"), 0),
+        ALIGN_ON_VALUE(JsonBundle.message("formatter.align.properties.on.value"), 1),
+        ALIGN_ON_COLON(JsonBundle.message("formatter.align.properties.on.colon"), 2);
+    }
 
 }

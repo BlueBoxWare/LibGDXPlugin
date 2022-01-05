@@ -19,42 +19,42 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestTextTextureRegionPreview: LibGDXCodeInsightFixtureTestCase() {
+class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testPreviewInSkin() {
-    doTest("test.skin")
-  }
-
-  fun testPreviewInJavaWithSkin() {
-    doTest("Test1.java")
-  }
-
-  fun testPreviewInJavaWithTextureAtlas() {
-    doTest("Test2.java", false)
-  }
-
-  fun doTest(fileName: String, tinted: Boolean = true) {
-    configureByFile(fileName)
-    val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
-    val preview = TextureRegionPreviewHintProvider().getPreviewComponent(element)
-    val image = (preview as? ImagePreviewComponent)?.image ?: throw AssertionError()
-    assertEquals(50, image.width)
-    assertEquals(50, image.width)
-    if (tinted) {
-      assertEquals(Color.YELLOW, Color(image.getRGB(1, 1)))
+    fun testPreviewInSkin() {
+        doTest("test.skin")
     }
-  }
 
-  override fun setUp() {
-    super.setUp()
+    fun testPreviewInJavaWithSkin() {
+        doTest("Test1.java")
+    }
 
-    addLibGDX()
-    addAnnotations()
+    fun testPreviewInJavaWithTextureAtlas() {
+        doTest("Test2.java", false)
+    }
 
-    copyDirectoryToProject("", "")
+    fun doTest(fileName: String, tinted: Boolean = true) {
+        configureByFile(fileName)
+        val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
+        val preview = TextureRegionPreviewHintProvider().getPreviewComponent(element)
+        val image = (preview as? ImagePreviewComponent)?.image ?: throw AssertionError()
+        assertEquals(50, image.width)
+        assertEquals(50, image.width)
+        if (tinted) {
+            assertEquals(Color.YELLOW, Color(image.getRGB(1, 1)))
+        }
+    }
 
-  }
+    override fun setUp() {
+        super.setUp()
 
-  override fun getBasePath() = "textureRegionPreview/"
+        addLibGDX()
+        addAnnotations()
+
+        copyDirectoryToProject("", "")
+
+    }
+
+    override fun getBasePath() = "textureRegionPreview/"
 
 }

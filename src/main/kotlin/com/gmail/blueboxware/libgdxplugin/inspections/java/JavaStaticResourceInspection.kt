@@ -22,29 +22,29 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiField
 import com.intellij.psi.impl.source.PsiClassReferenceType
 
-class JavaStaticResourceInspection: LibGDXJavaBaseInspection() {
+class JavaStaticResourceInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("static.resources.html.description")
+    override fun getStaticDescription() = message("static.resources.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
+        val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 
-    override fun visitField(field: PsiField?) {
+        override fun visitField(field: PsiField?) {
 
-      if (field == null || disposableClass == null || !field.hasModifierProperty("static")) return
+            if (field == null || disposableClass == null || !field.hasModifierProperty("static")) return
 
-      val theType = field.type
+            val theType = field.type
 
-      if (theType is PsiClassReferenceType) {
-        val theClass = theType.resolve()
-        if (theClass != null && theClass.isInheritor(disposableClass, true)) {
-          holder.registerProblem(field, message("static.resources.problem.descriptor"))
+            if (theType is PsiClassReferenceType) {
+                val theClass = theType.resolve()
+                if (theClass != null && theClass.isInheritor(disposableClass, true)) {
+                    holder.registerProblem(field, message("static.resources.problem.descriptor"))
+                }
+            }
+
         }
-      }
-
     }
-  }
 
 }
 

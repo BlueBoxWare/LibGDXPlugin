@@ -21,22 +21,22 @@ import com.intellij.psi.PsiModifier
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingClassInspection: SkinBaseInspection() {
+class SkinNonExistingClassInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.non.existing.class.description")
+    override fun getStaticDescription() = message("skin.inspection.non.existing.class.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitClassName(o: SkinClassName) {
+        override fun visitClassName(o: SkinClassName) {
 
-      val clazz = o.resolve()
+            val clazz = o.resolve()
 
-      if (clazz == null) {
-        holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value.plainName))
-      } else if (clazz.containingClass != null && !clazz.hasModifierProperty(PsiModifier.STATIC)) {
-        holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.value.plainName))
-      }
+            if (clazz == null) {
+                holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value.plainName))
+            } else if (clazz.containingClass != null && !clazz.hasModifierProperty(PsiModifier.STATIC)) {
+                holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.value.plainName))
+            }
 
+        }
     }
-  }
 }

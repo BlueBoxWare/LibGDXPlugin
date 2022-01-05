@@ -30,48 +30,48 @@ import com.intellij.ui.EditorNotificationPanel
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinEditorNotificationProvider(project: Project): FileTypeEditorNotificationProvider(
-        project,
-        LibGDXSkinLanguage.INSTANCE
+class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
+    project,
+    LibGDXSkinLanguage.INSTANCE
 ) {
 
-  override val messageKey = "skin.file.detected"
+    override val messageKey = "skin.file.detected"
 
-  override fun onYes(file: VirtualFile) = project.markFileAsSkin(file)
+    override fun onYes(file: VirtualFile) = project.markFileAsSkin(file)
 
-  override fun onNo(file: VirtualFile) = project.markFileAsNonSkin(file)
+    override fun onNo(file: VirtualFile) = project.markFileAsNonSkin(file)
 
-  override fun onNever(settings: LibGDXPluginSettings) {
-    settings.neverAskAboutSkinFiles = true
-  }
+    override fun onNever(settings: LibGDXPluginSettings) {
+        settings.neverAskAboutSkinFiles = true
+    }
 
-  override fun shouldShowNotification(
-          currentLanguage: Language?,
-          file: VirtualFile,
-          fileEditor: TextEditor,
-          settings: LibGDXPluginSettings
-  ): Boolean =
-          if (
-                  currentLanguage != PlainTextLanguage.INSTANCE
-                  && currentLanguage != JsonLanguage.INSTANCE
-                  && currentLanguage != LibGDXJsonLanuage.INSTANCE
-          ) {
+    override fun shouldShowNotification(
+        currentLanguage: Language?,
+        file: VirtualFile,
+        fileEditor: TextEditor,
+        settings: LibGDXPluginSettings
+    ): Boolean =
+        if (
+            currentLanguage != PlainTextLanguage.INSTANCE
+            && currentLanguage != JsonLanguage.INSTANCE
+            && currentLanguage != LibGDXJsonLanuage.INSTANCE
+        ) {
             false
-          } else if (settings.neverAskAboutSkinFiles) {
+        } else if (settings.neverAskAboutSkinFiles) {
             false
-          } else {
+        } else {
             val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)
             if (nonSkinFiles.contains(file)) {
-              false
+                false
             } else {
-              fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
+                fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
             }
-          }
+        }
 
-  override fun getKey(): Key<EditorNotificationPanel> = KEY
+    override fun getKey(): Key<EditorNotificationPanel> = KEY
 
-  companion object {
-    val KEY = key<EditorNotificationPanel>("skin.file.detected")
-  }
+    companion object {
+        val KEY = key<EditorNotificationPanel>("skin.file.detected")
+    }
 
 }

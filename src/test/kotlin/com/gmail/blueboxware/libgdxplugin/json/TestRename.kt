@@ -18,18 +18,18 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestRename: LibGDXCodeInsightFixtureTestCase() {
+class TestRename : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testRename() {
-    configureByFile("rename.lson")
-    runCommand {
-      myFixture.renameElementAtCaret("abc")
+    fun testRename() {
+        configureByFile("rename.lson")
+        runCommand {
+            myFixture.renameElementAtCaret("abc")
+        }
+        myFixture.checkResultByFile("rename.after")
+        undo()
+        myFixture.checkResultByFile("rename.lson")
     }
-    myFixture.checkResultByFile("rename.after")
-    undo()
-    myFixture.checkResultByFile("rename.lson")
-  }
 
-  override fun getBasePath() = "/filetypes/json/refactor/"
+    override fun getBasePath() = "/filetypes/json/refactor/"
 
 }

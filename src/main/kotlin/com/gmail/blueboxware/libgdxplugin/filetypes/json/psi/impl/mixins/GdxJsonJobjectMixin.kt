@@ -24,25 +24,25 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonJobjectMixin(node: ASTNode): GdxJsonJobject, GdxJsonElementImpl(node) {
+abstract class GdxJsonJobjectMixin(node: ASTNode) : GdxJsonJobject, GdxJsonElementImpl(node) {
 
-  override fun getProperties(name: String) = propertyList.all { property ->
-    property.name == name
-  }
+    override fun getProperties(name: String) = propertyList.all { property ->
+        property.name == name
+    }
 
-  override fun getProperty(name: String) = propertyList.firstOrNull {
-    it.name == name
-  }
+    override fun getProperty(name: String) = propertyList.firstOrNull {
+        it.name == name
+    }
 
-  override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
+    override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
 
-    override fun getLocationString(): String? =
+        override fun getLocationString(): String? =
             ((getProperty("name") ?: getProperty("id"))?.value?.value as? GdxJsonString)?.presentation?.presentableText
 
-    override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Object
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Object
 
-    override fun getPresentableText(): String = "object"
+        override fun getPresentableText(): String = "object"
 
-  }
+    }
 
 }

@@ -23,29 +23,29 @@ import com.intellij.psi.PsiLiteralExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaInvalidPropertyKeyInspection: LibGDXJavaBaseInspection() {
+class JavaInvalidPropertyKeyInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
+    override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 
-      if (expression == null || expression.value !is String) {
-        return
-      }
+            if (expression == null || expression.value !is String) {
+                return
+            }
 
-      if (!isValidProperty(expression)) {
-        holder.registerProblem(
-                expression,
-                message(
+            if (!isValidProperty(expression)) {
+                holder.registerProblem(
+                    expression,
+                    message(
                         "invalid.property.key.inspection.problem.descriptor", expression.asString()
-                        ?: ""
+                            ?: ""
+                    )
                 )
-        )
-      }
+            }
 
+        }
     }
-  }
 
 }

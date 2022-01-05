@@ -38,69 +38,69 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorAnnotationsHighlightingPassFactory:
-        TextEditorHighlightingPassFactory,
-        TextEditorHighlightingPassFactoryRegistrar {
+class ColorAnnotationsHighlightingPassFactory :
+    TextEditorHighlightingPassFactory,
+    TextEditorHighlightingPassFactoryRegistrar {
 
-  override fun registerHighlightingPassFactory(registrar: TextEditorHighlightingPassRegistrar, project: Project) {
-    registrar.registerTextEditorHighlightingPass(this, null, null, true, -1)
-  }
-
-  override fun createHighlightingPass(file: PsiFile, editor: Editor): TextEditorHighlightingPass? {
-
-    if (file.fileType != JavaFileType.INSTANCE) {
-      return null
+    override fun registerHighlightingPassFactory(registrar: TextEditorHighlightingPassRegistrar, project: Project) {
+        registrar.registerTextEditorHighlightingPass(this, null, null, true, -1)
     }
 
-    if (file.originalFile !is PsiCompiledFile &&
+    override fun createHighlightingPass(file: PsiFile, editor: Editor): TextEditorHighlightingPass? {
+
+        if (file.fileType != JavaFileType.INSTANCE) {
+            return null
+        }
+
+        if (file.originalFile !is PsiCompiledFile &&
             (file.virtualFile.fileSystem !is DummyFileSystem || file.name.endsWith("decompiled.java"))
-    ) {
-      return null
-    }
-
-    return object: TextEditorHighlightingPass(file.project, editor.document) {
-
-      val annotations = mutableListOf<Pair<PsiElement, Color>>()
-
-      override fun doCollectInformation(progress: ProgressIndicator) {
-
-        file.accept(object: PsiRecursiveElementVisitor() {
-          override fun visitElement(element: PsiElement) {
-            super.visitElement(element)
-
-            element.getColor()?.let { color ->
-              annotations.add(element to color)
-            }
-
-            if (progress.isCanceled) {
-              throw ProcessCanceledException()
-            }
-          }
-        })
-
-      }
-
-      override fun doApplyInformationToEditor() {
-
-        for (highlighter in editor.markupModel.allHighlighters) {
-          if (highlighter.gutterIconRenderer is GutterColorRenderer) {
-            editor.markupModel.removeHighlighter(highlighter)
-          }
+        ) {
+            return null
         }
 
-        annotations.forEach { (element, color) ->
-          editor.markupModel.addRangeHighlighter(
-                  element.startOffset,
-                  element.endOffset,
-                  HighlighterLayer.ADDITIONAL_SYNTAX,
-                  null,
-                  HighlighterTargetArea.EXACT_RANGE
-          ).gutterIconRenderer = GutterColorRenderer(color)
+        return object : TextEditorHighlightingPass(file.project, editor.document) {
+
+            val annotations = mutableListOf<Pair<PsiElement, Color>>()
+
+            override fun doCollectInformation(progress: ProgressIndicator) {
+
+                file.accept(object : PsiRecursiveElementVisitor() {
+                    override fun visitElement(element: PsiElement) {
+                        super.visitElement(element)
+
+                        element.getColor()?.let { color ->
+                            annotations.add(element to color)
+                        }
+
+                        if (progress.isCanceled) {
+                            throw ProcessCanceledException()
+                        }
+                    }
+                })
+
+            }
+
+            override fun doApplyInformationToEditor() {
+
+                for (highlighter in editor.markupModel.allHighlighters) {
+                    if (highlighter.gutterIconRenderer is GutterColorRenderer) {
+                        editor.markupModel.removeHighlighter(highlighter)
+                    }
+                }
+
+                annotations.forEach { (element, color) ->
+                    editor.markupModel.addRangeHighlighter(
+                        element.startOffset,
+                        element.endOffset,
+                        HighlighterLayer.ADDITIONAL_SYNTAX,
+                        null,
+                        HighlighterTargetArea.EXACT_RANGE
+                    ).gutterIconRenderer = GutterColorRenderer(color)
+                }
+
+            }
         }
 
-      }
     }
-
-  }
 
 }

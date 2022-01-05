@@ -25,68 +25,68 @@ import org.jetbrains.kotlin.idea.search.projectScope
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestFindUsages: PropertiesCodeInsightFixtureTestCase() {
+class TestFindUsages : PropertiesCodeInsightFixtureTestCase() {
 
-  fun testFindUsages1() {
-    doTest(8, "messages.properties", "noTranslation")
-  }
-
-  fun testFindUsages2() {
-    doTest(4, "test_es.properties", "spain")
-  }
-
-  fun testFindPropertiesFileUsagesInAnnotation() {
-    FilenameIndex.getFilesByName(project, "messages.properties", project.projectScope()).first().let { psiFile ->
-      val usages = myFixture.findUsages(psiFile)
-      assertEquals(4, usages.size)
-      usages.forEach { usage ->
-        usage.element!!.references.forEach { reference ->
-          if (reference is FileReference) {
-            assertEquals("messages.properties", (reference.resolve() as PropertiesFileImpl).name)
-          }
-        }
-      }
+    fun testFindUsages1() {
+        doTest(8, "messages.properties", "noTranslation")
     }
-  }
 
-  fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {
+    fun testFindUsages2() {
+        doTest(4, "test_es.properties", "spain")
+    }
 
-    val property =
-            FilenameIndex.getFilesByName(
-                    project,
-                    propertiesFileName,
-                    project.projectScope()
-            )
-                    .first()
-                    .let { file ->
-                      (file as PropertiesFile).findPropertyByKey(key)!!.let {
-                        it as Property
-                      }
+    fun testFindPropertiesFileUsagesInAnnotation() {
+        FilenameIndex.getFilesByName(project, "messages.properties", project.projectScope()).first().let { psiFile ->
+            val usages = myFixture.findUsages(psiFile)
+            assertEquals(4, usages.size)
+            usages.forEach { usage ->
+                usage.element!!.references.forEach { reference ->
+                    if (reference is FileReference) {
+                        assertEquals("messages.properties", (reference.resolve() as PropertiesFileImpl).name)
                     }
-
-    val usagesInfos = myFixture.findUsages(property)
-    assertEquals(nrOfUsages, usagesInfos.size)
-
-    for (usageInfo in usagesInfos) {
-      usageInfo.element?.let { element ->
-        val references = element.references.filterIsInstance<GDXPropertyReference>()
-        assertFalse(references.isEmpty())
-        references.forEach { reference ->
-          (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolved ->
-            assertTrue(resolved.element is Property)
-            (resolved.element as? Property)?.let {
-              assertEquals(property.name, it.name)
+                }
             }
-          }
         }
-      }
     }
-  }
 
-  override fun setUp() {
-    super.setUp()
+    fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {
 
-    copyFileToProject("findUsages/JavaClass.java")
-    copyFileToProject("findUsages/KotlinFile.kt")
-  }
+        val property =
+            FilenameIndex.getFilesByName(
+                project,
+                propertiesFileName,
+                project.projectScope()
+            )
+                .first()
+                .let { file ->
+                    (file as PropertiesFile).findPropertyByKey(key)!!.let {
+                        it as Property
+                    }
+                }
+
+        val usagesInfos = myFixture.findUsages(property)
+        assertEquals(nrOfUsages, usagesInfos.size)
+
+        for (usageInfo in usagesInfos) {
+            usageInfo.element?.let { element ->
+                val references = element.references.filterIsInstance<GDXPropertyReference>()
+                assertFalse(references.isEmpty())
+                references.forEach { reference ->
+                    (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolved ->
+                        assertTrue(resolved.element is Property)
+                        (resolved.element as? Property)?.let {
+                            assertEquals(property.name, it.name)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun setUp() {
+        super.setUp()
+
+        copyFileToProject("findUsages/JavaClass.java")
+        copyFileToProject("findUsages/KotlinFile.kt")
+    }
 }

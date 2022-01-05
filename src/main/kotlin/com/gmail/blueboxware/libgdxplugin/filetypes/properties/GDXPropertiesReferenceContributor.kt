@@ -23,19 +23,19 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertiesReferenceContributor: PsiReferenceContributor() {
+class GDXPropertiesReferenceContributor : PsiReferenceContributor() {
 
-  override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
+    override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
-    registrar.registerReferenceProvider(
+        registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()),
             GDXPropertiesReferenceProvider()
-    )
+        )
 
-    registrar.registerReferenceProvider(
+        registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java),
             GDXPropertiesReferenceProvider()
-    )
+        )
 
-  }
+    }
 }

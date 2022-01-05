@@ -21,30 +21,30 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinDuplicatePropertyInspection: SkinBaseInspection() {
+class SkinDuplicatePropertyInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.duplicate.property.description")
+    override fun getStaticDescription() = message("skin.inspection.duplicate.property.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
-          object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+        object : SkinElementVisitor() {
 
             override fun visitObject(o: SkinObject) {
 
-              val seenPropertyNames = mutableSetOf<String>()
+                val seenPropertyNames = mutableSetOf<String>()
 
-              o.propertyList.forEach { property ->
-                if (seenPropertyNames.contains(property.name)) {
-                  holder.registerProblem(
-                          property.propertyName,
-                          message("skin.inspection.duplicate.property.message", property.name)
-                  )
-                } else {
-                  seenPropertyNames.add(property.name)
+                o.propertyList.forEach { property ->
+                    if (seenPropertyNames.contains(property.name)) {
+                        holder.registerProblem(
+                            property.propertyName,
+                            message("skin.inspection.duplicate.property.message", property.name)
+                        )
+                    } else {
+                        seenPropertyNames.add(property.name)
+                    }
                 }
-              }
 
             }
 
-          }
+        }
 
 }

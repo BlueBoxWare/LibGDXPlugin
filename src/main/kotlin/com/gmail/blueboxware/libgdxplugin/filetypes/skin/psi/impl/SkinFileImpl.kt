@@ -42,7 +42,7 @@ import java.awt.Color
  * limitations under the License.
  */
 class SkinFileImpl(
-        fileViewProvider: FileViewProvider
+    fileViewProvider: FileViewProvider
 ) : PsiFileBase(fileViewProvider, LibGDXSkinLanguage.INSTANCE), SkinFile {
 
     val factory = SkinElementFactory(project)
@@ -59,8 +59,8 @@ class SkinFileImpl(
         if (classNamesToSearch != null) {
 
             if (
-                    classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME)
-                    || classNamesToSearch.contains(BITMAPFONT_CLASS_NAME)
+                classNamesToSearch.contains(FREETYPE_FONT_PARAMETER_CLASS_NAME)
+                || classNamesToSearch.contains(BITMAPFONT_CLASS_NAME)
             ) {
                 classNamesToSearch.add(FREETYPE_GENERATOR_CLASS_NAME)
             }
@@ -74,33 +74,33 @@ class SkinFileImpl(
     }
 
     override fun getClassSpecifications(className: String): Collection<SkinClassSpecification> =
-            getClassSpecifications(listOf(className))
+        getClassSpecifications(listOf(className))
 
     override fun getResources(
-            classNames: Collection<String>?,
-            resourceName: String?,
-            beforeElement: PsiElement?
+        classNames: Collection<String>?,
+        resourceName: String?,
+        beforeElement: PsiElement?
     ): Collection<SkinResource> =
-            getClassSpecifications(classNames)
-                    .flatMap { skinClassSpecification ->
-                        skinClassSpecification.resourcesAsList.filter { resourceName == null || resourceName == it.name }
-                    }.filter {
-                        beforeElement == null || it.endOffset < beforeElement.startOffset
-                    }
+        getClassSpecifications(classNames)
+            .flatMap { skinClassSpecification ->
+                skinClassSpecification.resourcesAsList.filter { resourceName == null || resourceName == it.name }
+            }.filter {
+                beforeElement == null || it.endOffset < beforeElement.startOffset
+            }
 
     override fun getResources(
-            className: String,
-            resourceName: String?,
-            beforeElement: PsiElement?
+        className: String,
+        resourceName: String?,
+        beforeElement: PsiElement?
     ): Collection<SkinResource> =
-            getResources(listOf(className), resourceName, beforeElement)
+        getResources(listOf(className), resourceName, beforeElement)
 
     override fun getResources(
-            resourceClass: PsiClass,
-            resourceName: String?,
-            beforeElement: PsiElement?,
-            includingSuperClasses: Boolean,
-            includeAll: Boolean // keep looking up the superclass list after finding resources
+        resourceClass: PsiClass,
+        resourceName: String?,
+        beforeElement: PsiElement?,
+        includingSuperClasses: Boolean,
+        includeAll: Boolean // keep looking up the superclass list after finding resources
     ): Collection<SkinResource> {
 
         if (!includingSuperClasses) {
@@ -172,24 +172,24 @@ class SkinFileImpl(
 
     @Suppress("unused")
     fun getOpeningBrace(): PsiElement? =
-            allChildren.firstOrNull { it.isLeaf(SkinElementTypes.L_CURLY) }
+        allChildren.firstOrNull { it.isLeaf(SkinElementTypes.L_CURLY) }
 
     @Suppress("MemberVisibilityCanBePrivate")
     fun getClosingBrace(): PsiElement? =
-            allChildren.lastOrNull { it.isLeaf(SkinElementTypes.R_CURLY) }
+        allChildren.lastOrNull { it.isLeaf(SkinElementTypes.R_CURLY) }
 
     private fun isEmpty(): Boolean =
-            allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY, SkinElementTypes.R_CURLY) }
+        allChildren.none { it.isLeaf(SkinElementTypes.L_CURLY, SkinElementTypes.R_CURLY) }
 
     private fun insertBraces() =
-            factory.let {
-                it.createElementsOrNull(it::createLeftBrace, it::createNewLine, it::createRightBrace)
-                        ?.let { (lbrace, newline, rbrache) ->
-                            add(lbrace)
-                            add(newline)
-                            add(rbrache)
-                        }
-            }
+        factory.let {
+            it.createElementsOrNull(it::createLeftBrace, it::createNewLine, it::createRightBrace)
+                ?.let { (lbrace, newline, rbrache) ->
+                    add(lbrace)
+                    add(newline)
+                    add(rbrache)
+                }
+        }
 
     private fun addClassSpec(className: DollarClassName, cause: SkinElement? = null): SkinClassSpecification? {
         if (isEmpty()) {
@@ -197,14 +197,14 @@ class SkinFileImpl(
         }
 
         val actualClassName =
-                if (project.isLibGDX199()) {
-                    DEFAULT_TAGGED_CLASSES_NAMES.getKey(className.plainName) ?: className.dollarName
-                } else {
-                    className.dollarName
-                }
+            if (project.isLibGDX199()) {
+                DEFAULT_TAGGED_CLASSES_NAMES.getKey(className.plainName) ?: className.dollarName
+            } else {
+                className.dollarName
+            }
 
         val addBefore = cause?.firstParent<SkinClassSpecification>()
-                ?: getClosingBrace() ?: return null
+            ?: getClosingBrace() ?: return null
 
         val result = factory.createClassSpec(actualClassName)?.let { classSpec ->
             addBefore(classSpec, addBefore) as? SkinClassSpecification
@@ -229,8 +229,8 @@ class SkinFileImpl(
 
     private fun getClassSpecToInsertInto(className: DollarClassName, cause: SkinElement?): SkinClassSpecification? {
         val classSpecs =
-                getClassSpecifications(className.plainName).takeIf { !it.isEmpty() }
-                        ?: addClassSpec(className, cause)?.let(::listOf) ?: return null
+            getClassSpecifications(className.plainName).takeIf { !it.isEmpty() }
+                ?: addClassSpec(className, cause)?.let(::listOf) ?: return null
 
         return cause?.firstParent<SkinClassSpecification>()?.let { causingClassSpec ->
             classSpecs.find { it == causingClassSpec }
@@ -239,41 +239,41 @@ class SkinFileImpl(
     }
 
     fun addResource(
-            className: DollarClassName,
-            resourceName: String,
-            cause: SkinElement? = null
+        className: DollarClassName,
+        resourceName: String,
+        cause: SkinElement? = null
     ): Pair<SkinResource, Int>? =
-            getClassSpecToInsertInto(className, cause)?.addResource(resourceName, cause)
+        getClassSpecToInsertInto(className, cause)?.addResource(resourceName, cause)
 
     private fun addResource(
-            className: DollarClassName,
-            resource: SkinResource,
-            cause: SkinElement? = null
+        className: DollarClassName,
+        resource: SkinResource,
+        cause: SkinElement? = null
     ): SkinResource? =
-            getClassSpecToInsertInto(className, cause)?.addResource(resource, cause)
+        getClassSpecToInsertInto(className, cause)?.addResource(resource, cause)
 
     fun addColor(
-            name: String,
-            cause: SkinElement? = null,
-            color: Color? = null,
-            useComponents: Boolean = false
+        name: String,
+        cause: SkinElement? = null,
+        color: Color? = null,
+        useComponents: Boolean = false
     ): Pair<SkinResource, Int>? =
-            factory.createColorResource(name, color, useComponents)?.let { (resource, position) ->
-                addResource(DollarClassName(COLOR_CLASS_NAME), resource, cause)?.let {
-                    Pair(it, it.startOffset + position)
-                }
+        factory.createColorResource(name, color, useComponents)?.let { (resource, position) ->
+            addResource(DollarClassName(COLOR_CLASS_NAME), resource, cause)?.let {
+                Pair(it, it.startOffset + position)
             }
+        }
 
     fun addTintedDrawable(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
-            factory.createTintedDrawableResource(name)?.let { (resource, position) ->
-                addResource(
-                        DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"),
-                        resource,
-                        cause
-                )?.let {
-                    Pair(it, it.startOffset + position)
-                }
+        factory.createTintedDrawableResource(name)?.let { (resource, position) ->
+            addResource(
+                DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"),
+                resource,
+                cause
+            )?.let {
+                Pair(it, it.startOffset + position)
             }
+        }
 
     override fun getPresentation() = FilePresentation(project, virtualFile, name, Icons.SKIN_FILETYPE)
 

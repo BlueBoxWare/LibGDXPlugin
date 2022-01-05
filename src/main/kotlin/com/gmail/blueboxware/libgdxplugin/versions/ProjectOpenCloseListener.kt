@@ -20,11 +20,11 @@ import com.intellij.openapi.project.ProjectManagerListener
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ProjectOpenCloseListener: ProjectManagerListener {
+class ProjectOpenCloseListener : ProjectManagerListener {
 
-  override fun projectOpened(project: Project) =
-          project.service<VersionService>().projectOpened()
+    override fun projectOpened(project: Project) =
+        project.service<VersionService>().projectOpened()
 
-  override fun projectClosed(project: Project) =
-          project.service<VersionService>().projectClosed()
+    override fun projectClosed(project: Project) =
+        project.service<VersionService>().projectClosed()
 }

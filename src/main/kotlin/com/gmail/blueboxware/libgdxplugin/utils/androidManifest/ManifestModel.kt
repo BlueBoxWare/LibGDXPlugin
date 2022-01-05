@@ -23,91 +23,91 @@ enum class SdkVersionType { MIN, MAX, TARGET }
 
 class ManifestModel {
 
-  var supportScreens: ManifestValue<SupportsScreens>? = null
+    var supportScreens: ManifestValue<SupportsScreens>? = null
 
-  var hasLargeScreensSupportAttribute: Boolean = false
-  var hasXLargeScreenSupportAttribute: Boolean = false
+    var hasLargeScreensSupportAttribute: Boolean = false
+    var hasXLargeScreenSupportAttribute: Boolean = false
 
-  var minSDK: ManifestValue<Int> = ManifestValue(1)
-  var maxSDK: ManifestValue<Int>? = null
-  var targetSDK: ManifestValue<Int>? = null
+    var minSDK: ManifestValue<Int> = ManifestValue(1)
+    var maxSDK: ManifestValue<Int>? = null
+    var targetSDK: ManifestValue<Int>? = null
 
-  var openGLESVersion: ManifestValue<Int> = ManifestValue(0x00010000)
+    var openGLESVersion: ManifestValue<Int> = ManifestValue(0x00010000)
 
-  val permissions: MutableList<ManifestValue<String>> = mutableListOf()
+    val permissions: MutableList<ManifestValue<String>> = mutableListOf()
 
-  fun resolveTargetSDK(): Int =
-          targetSDK?.value ?: minSDK.value
+    fun resolveTargetSDK(): Int =
+        targetSDK?.value ?: minSDK.value
 
-  fun resolveSupportsScreens(): SupportsScreens =
-          supportScreens?.value?.resolveSupportsScreensValues(resolveTargetSDK())
-                  ?: SupportsScreens.getDefaultValues(resolveTargetSDK())
+    fun resolveSupportsScreens(): SupportsScreens =
+        supportScreens?.value?.resolveSupportsScreensValues(resolveTargetSDK())
+            ?: SupportsScreens.getDefaultValues(resolveTargetSDK())
 
-  fun applyExternalVersions(versionMap: Map<SdkVersionType, Int>) {
-    versionMap[SdkVersionType.MIN]?.let { extVersion ->
-      if (extVersion > minSDK.value) {
-        minSDK = ManifestValue(extVersion)
-      }
-    }
-    versionMap[SdkVersionType.TARGET]?.let { extVersion ->
-      if (targetSDK == null || extVersion > resolveTargetSDK()) {
-        targetSDK = ManifestValue(extVersion)
-      }
-    }
-    versionMap[SdkVersionType.MAX]?.let { extVersion ->
-      if (maxSDK == null || extVersion > maxSDK?.value ?: 0) {
-        maxSDK = ManifestValue(extVersion)
-      }
-    }
-  }
-
-  companion object {
-
-    fun fromFile(manifestFile: XmlFile): ManifestModel {
-
-      val model = ManifestModel()
-
-      manifestFile.accept(object: ManifestVisitor() {
-
-        override fun processOpenGLESVersion(value: Int, element: XmlTag) {
-          if (model.openGLESVersion.element == null || value >= model.openGLESVersion.value) {
-            model.openGLESVersion = ManifestValue(value, element)
-          }
+    fun applyExternalVersions(versionMap: Map<SdkVersionType, Int>) {
+        versionMap[SdkVersionType.MIN]?.let { extVersion ->
+            if (extVersion > minSDK.value) {
+                minSDK = ManifestValue(extVersion)
+            }
         }
-
-        override fun processMinSDKVersion(value: Int, element: XmlAttribute) {
-          model.minSDK = ManifestValue(value, element)
+        versionMap[SdkVersionType.TARGET]?.let { extVersion ->
+            if (targetSDK == null || extVersion > resolveTargetSDK()) {
+                targetSDK = ManifestValue(extVersion)
+            }
         }
-
-        override fun processTargetSDKVersion(value: Int, element: XmlAttribute) {
-          model.targetSDK = ManifestValue(value, element)
+        versionMap[SdkVersionType.MAX]?.let { extVersion ->
+            if (maxSDK == null || extVersion > maxSDK?.value ?: 0) {
+                maxSDK = ManifestValue(extVersion)
+            }
         }
-
-        override fun processMaxSDKVersion(value: Int, element: XmlAttribute) {
-          model.maxSDK = ManifestValue(value, element)
-        }
-
-        override fun processSupportsScreens(
-                value: SupportsScreens,
-                element: XmlTag,
-                hasLargeScreensSupportAttribute: Boolean,
-                hasXLargeScreensSupportAttribute: Boolean
-        ) {
-          model.supportScreens = ManifestValue(value, element)
-          model.hasLargeScreensSupportAttribute = hasLargeScreensSupportAttribute
-          model.hasXLargeScreenSupportAttribute = hasXLargeScreensSupportAttribute
-        }
-
-        override fun processPermission(value: String, element: XmlTag) {
-          model.permissions.add(ManifestValue(value, element))
-        }
-
-      })
-
-      return model
-
     }
 
-  }
+    companion object {
+
+        fun fromFile(manifestFile: XmlFile): ManifestModel {
+
+            val model = ManifestModel()
+
+            manifestFile.accept(object : ManifestVisitor() {
+
+                override fun processOpenGLESVersion(value: Int, element: XmlTag) {
+                    if (model.openGLESVersion.element == null || value >= model.openGLESVersion.value) {
+                        model.openGLESVersion = ManifestValue(value, element)
+                    }
+                }
+
+                override fun processMinSDKVersion(value: Int, element: XmlAttribute) {
+                    model.minSDK = ManifestValue(value, element)
+                }
+
+                override fun processTargetSDKVersion(value: Int, element: XmlAttribute) {
+                    model.targetSDK = ManifestValue(value, element)
+                }
+
+                override fun processMaxSDKVersion(value: Int, element: XmlAttribute) {
+                    model.maxSDK = ManifestValue(value, element)
+                }
+
+                override fun processSupportsScreens(
+                    value: SupportsScreens,
+                    element: XmlTag,
+                    hasLargeScreensSupportAttribute: Boolean,
+                    hasXLargeScreensSupportAttribute: Boolean
+                ) {
+                    model.supportScreens = ManifestValue(value, element)
+                    model.hasLargeScreensSupportAttribute = hasLargeScreensSupportAttribute
+                    model.hasXLargeScreenSupportAttribute = hasXLargeScreensSupportAttribute
+                }
+
+                override fun processPermission(value: String, element: XmlTag) {
+                    model.permissions.add(ManifestValue(value, element))
+                }
+
+            })
+
+            return model
+
+        }
+
+    }
 
 }

@@ -22,13 +22,13 @@ import org.jetbrains.kotlin.idea.search.projectScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PropertiesFileUsageScopeEnlarger: UseScopeEnlarger() {
+class PropertiesFileUsageScopeEnlarger : UseScopeEnlarger() {
 
-  override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
-    if (element is PropertiesFileImpl) {
-      return element.project.projectScope()
+    override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
+        if (element is PropertiesFileImpl) {
+            return element.project.projectScope()
+        }
+        return null
     }
-    return null
-  }
 
 }

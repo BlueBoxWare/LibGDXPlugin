@@ -24,29 +24,32 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradleTestIdsInspection: LibGDXGradleBaseInspection() {
+class GradleTestIdsInspection : LibGDXGradleBaseInspection() {
 
-  override fun getStaticDescription() = message("testid.html.description")
+    override fun getStaticDescription() = message("testid.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return GroovyPsiElementVisitor(object: GroovyElementVisitor() {
+        return GroovyPsiElementVisitor(object : GroovyElementVisitor() {
 
-      override fun visitLiteralExpression(literal: GrLiteral) {
+            override fun visitLiteralExpression(literal: GrLiteral) {
 
-        if (!literal.isInGradleBuildFile()) {
-          return
-        }
+                if (!literal.isInGradleBuildFile()) {
+                    return
+                }
 
-        (literal.value as? String)?.let { value ->
-          if (TEST_ID_MAP.containsKey(value)) {
-            holder.registerProblem(literal, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
-          }
-        }
+                (literal.value as? String)?.let { value ->
+                    if (TEST_ID_MAP.containsKey(value)) {
+                        holder.registerProblem(
+                            literal,
+                            message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value]
+                        )
+                    }
+                }
 
-      }
-    })
+            }
+        })
 
-  }
+    }
 
 }

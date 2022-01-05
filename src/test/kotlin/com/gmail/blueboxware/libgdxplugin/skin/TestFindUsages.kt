@@ -25,130 +25,133 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
+class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testFindUsages1() {
-    addFreeType()
-    doTest(9)
-  }
-
-  fun testFindUsages2() {
-    doTest(77)
-  }
-
-  fun testFindUsages3() {
-    doTest(4)
-  }
-
-  fun testFindUsages4() {
-    doTest(4)
-  }
-
-  fun testFindUsages5() {
-    doTest(11)
-  }
-
-  fun testFindUsages6() {
-    doTest(6)
-  }
-
-  fun testFindUsages7() {
-    doTest(6)
-  }
-
-  fun testFindUsagesWithTaggedClasses1() {
-    doTest(6)
-  }
-
-  fun testFindUsagesWithTaggedClasses2() {
-    doTest(5)
-  }
-
-  fun testFindUsagesWithTaggedClasses3() {
-    doTest(5)
-  }
-
-  fun testFindUsagesAsParentProperty() {
-    doTest(2)
-  }
-
-  fun testFindDrawableUsages() {
-    copyFileToProject("drawableUsages.skin")
-    val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
-    val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
-    assertEquals(10, usagesInfos.size)
-    usagesInfos.forEach { usagesInfo ->
-      assertNotNull(usagesInfo.element)
-      assertTrue(usagesInfo.element is SkinStringLiteral)
-      assertEquals(origin, usagesInfo.element?.reference?.resolve())
+    fun testFindUsages1() {
+        addFreeType()
+        doTest(9)
     }
-  }
 
-  fun testFindJavaClassUsagesWithTags() {
-    copyFileToProject("findJavaClassUsagesWithTags.skin")
-    configureByFile("FindJavaClassUsagesWithTags.java")
-    val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
-    assertEquals(4, usagesInfos.size)
-    usagesInfos.forEach { usageInfo ->
-      assertEquals(myFixture.elementAtCaret, (usageInfo.element as SkinClassName).resolve())
+    fun testFindUsages2() {
+        doTest(77)
     }
-  }
 
-  fun testFindKotlinClassUsagesWithTags() {
-    copyFileToProject("findKotlinClassUsagesWithTags.skin")
-    configureByFile("FindKotlinClassUsagesWithTags.kt")
-    val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
-    assertEquals(4, usagesInfos.size)
-    usagesInfos.forEach { usageInfo ->
-      assertEquals((myFixture.elementAtCaret as KtClass).toLightClass(), (usageInfo.element as SkinClassName).resolve())
+    fun testFindUsages3() {
+        doTest(4)
     }
-  }
 
-  fun doTest(nrOfUsages: Int) {
-    val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
-    assertEquals(nrOfUsages, usagesInfos.size)
+    fun testFindUsages4() {
+        doTest(4)
+    }
 
-    val classType =
+    fun testFindUsages5() {
+        doTest(11)
+    }
+
+    fun testFindUsages6() {
+        doTest(6)
+    }
+
+    fun testFindUsages7() {
+        doTest(6)
+    }
+
+    fun testFindUsagesWithTaggedClasses1() {
+        doTest(6)
+    }
+
+    fun testFindUsagesWithTaggedClasses2() {
+        doTest(5)
+    }
+
+    fun testFindUsagesWithTaggedClasses3() {
+        doTest(5)
+    }
+
+    fun testFindUsagesAsParentProperty() {
+        doTest(2)
+    }
+
+    fun testFindDrawableUsages() {
+        copyFileToProject("drawableUsages.skin")
+        val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
+        val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
+        assertEquals(10, usagesInfos.size)
+        usagesInfos.forEach { usagesInfo ->
+            assertNotNull(usagesInfo.element)
+            assertTrue(usagesInfo.element is SkinStringLiteral)
+            assertEquals(origin, usagesInfo.element?.reference?.resolve())
+        }
+    }
+
+    fun testFindJavaClassUsagesWithTags() {
+        copyFileToProject("findJavaClassUsagesWithTags.skin")
+        configureByFile("FindJavaClassUsagesWithTags.java")
+        val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
+        assertEquals(4, usagesInfos.size)
+        usagesInfos.forEach { usageInfo ->
+            assertEquals(myFixture.elementAtCaret, (usageInfo.element as SkinClassName).resolve())
+        }
+    }
+
+    fun testFindKotlinClassUsagesWithTags() {
+        copyFileToProject("findKotlinClassUsagesWithTags.skin")
+        configureByFile("FindKotlinClassUsagesWithTags.kt")
+        val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
+        assertEquals(4, usagesInfos.size)
+        usagesInfos.forEach { usageInfo ->
+            assertEquals(
+                (myFixture.elementAtCaret as KtClass).toLightClass(),
+                (usageInfo.element as SkinClassName).resolve()
+            )
+        }
+    }
+
+    fun doTest(nrOfUsages: Int) {
+        val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
+        assertEquals(nrOfUsages, usagesInfos.size)
+
+        val classType =
             (file.findElementAt(myFixture.caretOffset)
-                    ?.parent
-                    ?.parent
+                ?.parent
+                ?.parent
                     as? SkinResourceName)
-                    ?.resource
-                    ?.classSpecification
-                    ?.classNameAsString
+                ?.resource
+                ?.classSpecification
+                ?.classNameAsString
 
-    assertNotNull(classType)
-    for (usageInfo in usagesInfos) {
-      assertTrue(usageInfo.element is SkinStringLiteral)
-      (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
-        val type = propertyValue.property?.resolveToTypeString()
-        assertNotNull(type)
-        assertTrue(
-                classType?.dollarName == type
-                        || (classType?.dollarName == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == DRAWABLE_CLASS_NAME)
-        )
-      }
-      (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
-        assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)
-        assertEquals(
-                (stringLiteral.reference?.resolve() as? SkinResource)?.name,
-                (usageInfo.element as? SkinStringLiteral)?.value
-        )
-      }
+        assertNotNull(classType)
+        for (usageInfo in usagesInfos) {
+            assertTrue(usageInfo.element is SkinStringLiteral)
+            (usageInfo.element as? SkinPropertyValue)?.let { propertyValue ->
+                val type = propertyValue.property?.resolveToTypeString()
+                assertNotNull(type)
+                assertTrue(
+                    classType?.dollarName == type
+                            || (classType?.dollarName == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == DRAWABLE_CLASS_NAME)
+                )
+            }
+            (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->
+                assertNotNull((usageInfo.element as? SkinStringLiteral)?.value)
+                assertEquals(
+                    (stringLiteral.reference?.resolve() as? SkinResource)?.name,
+                    (usageInfo.element as? SkinStringLiteral)?.value
+                )
+            }
+        }
     }
-  }
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addLibGDX()
-    addDummyLibGDX199()
-    addKotlin()
-    addAnnotations()
+        addLibGDX()
+        addDummyLibGDX199()
+        addKotlin()
+        addAnnotations()
 
-    copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
-  }
+        copyFileToProject("KotlinClass.kt", "/KotlinClass.kt")
+    }
 
-  override fun getBasePath() = "/filetypes/skin/findUsages/"
+    override fun getBasePath() = "/filetypes/skin/findUsages/"
 
 }

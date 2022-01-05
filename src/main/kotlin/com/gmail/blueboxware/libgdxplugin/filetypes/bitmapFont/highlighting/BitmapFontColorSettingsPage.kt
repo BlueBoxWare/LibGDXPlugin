@@ -23,43 +23,43 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontColorSettingsPage: ColorSettingsPage {
+class BitmapFontColorSettingsPage : ColorSettingsPage {
 
-  companion object {
-    val EQUALS_SIGN = createTextAttributesKey("LIBGDX.FONT.EQUALS", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-    val COMMA = createTextAttributesKey("LIBGDX.FONT.COMMA", DefaultLanguageHighlighterColors.COMMA)
-    val KEYWORD = createTextAttributesKey("LIBGDX.FONT.KEYWORD", DefaultLanguageHighlighterColors.CONSTANT)
-    val KEY = createTextAttributesKey("LIBGDX.FONT.KEY", DefaultLanguageHighlighterColors.KEYWORD)
-    val VALUE = createTextAttributesKey("LIBGDX.FONT.VALUE", DefaultLanguageHighlighterColors.STRING)
-  }
+    companion object {
+        val EQUALS_SIGN = createTextAttributesKey("LIBGDX.FONT.EQUALS", DefaultLanguageHighlighterColors.OPERATION_SIGN)
+        val COMMA = createTextAttributesKey("LIBGDX.FONT.COMMA", DefaultLanguageHighlighterColors.COMMA)
+        val KEYWORD = createTextAttributesKey("LIBGDX.FONT.KEYWORD", DefaultLanguageHighlighterColors.CONSTANT)
+        val KEY = createTextAttributesKey("LIBGDX.FONT.KEY", DefaultLanguageHighlighterColors.KEYWORD)
+        val VALUE = createTextAttributesKey("LIBGDX.FONT.VALUE", DefaultLanguageHighlighterColors.STRING)
+    }
 
-  override fun getAdditionalHighlightingTagToDescriptorMap() = mutableMapOf(
-          "equals" to EQUALS_SIGN,
-          "comma" to COMMA,
-          "keyword" to KEYWORD,
-          "key" to KEY,
-          "value" to VALUE
-  )
+    override fun getAdditionalHighlightingTagToDescriptorMap() = mutableMapOf(
+        "equals" to EQUALS_SIGN,
+        "comma" to COMMA,
+        "keyword" to KEYWORD,
+        "key" to KEY,
+        "value" to VALUE
+    )
 
-  override fun getIcon() = Icons.FONT_FILETYPE
+    override fun getIcon() = Icons.FONT_FILETYPE
 
-  override fun getAttributeDescriptors() = arrayOf(
-          AttributesDescriptor("Equals sign", EQUALS_SIGN),
-          AttributesDescriptor("Comma", COMMA),
-          AttributesDescriptor("Keyword", KEYWORD),
-          AttributesDescriptor("Key", KEY),
-          AttributesDescriptor("Value", VALUE)
-  )
+    override fun getAttributeDescriptors() = arrayOf(
+        AttributesDescriptor("Equals sign", EQUALS_SIGN),
+        AttributesDescriptor("Comma", COMMA),
+        AttributesDescriptor("Keyword", KEYWORD),
+        AttributesDescriptor("Key", KEY),
+        AttributesDescriptor("Value", VALUE)
+    )
 
-  override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+    override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDisplayName() = "libGDX Bitmap Font"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDisplayName() = "libGDX Bitmap Font"
 
-  override fun getHighlighter() = PlainSyntaxHighlighter()
+    override fun getHighlighter() = PlainSyntaxHighlighter()
 
-  override fun getDemoText() =
-          """<keyword>info</keyword> <key>face</key><equals>=</equals><value>"Arial"</value> <key>size</key><equals>=</equals><value>32</value> <key>bold</key><equals>=</equals><value>0</value> <key>italic</key><equals>=</equals><value>0</value> <key>charset</key><equals>=</equals><value>""</value> <key>unicode</key><equals>=</equals><value>0</value> <key>stretchH</key><equals>=</equals><value>100</value> <key>smooth</key><equals>=</equals><value>1</value> <key>aa</key><equals>=</equals><value>1</value> <key>padding</key><equals>=</equals><value>0<comma>,</comma>0<comma>,</comma>0<comma>,</comma>0</value> <key>spacing</key><equals>=</equals><value>0<comma>,</comma>0</value>
+    override fun getDemoText() =
+        """<keyword>info</keyword> <key>face</key><equals>=</equals><value>"Arial"</value> <key>size</key><equals>=</equals><value>32</value> <key>bold</key><equals>=</equals><value>0</value> <key>italic</key><equals>=</equals><value>0</value> <key>charset</key><equals>=</equals><value>""</value> <key>unicode</key><equals>=</equals><value>0</value> <key>stretchH</key><equals>=</equals><value>100</value> <key>smooth</key><equals>=</equals><value>1</value> <key>aa</key><equals>=</equals><value>1</value> <key>padding</key><equals>=</equals><value>0<comma>,</comma>0<comma>,</comma>0<comma>,</comma>0</value> <key>spacing</key><equals>=</equals><value>0<comma>,</comma>0</value>
 <keyword>common</keyword> <key>lineHeight</key><equals>=</equals><value>38</value> <key>base</key><equals>=</equals><value>30</value> <key>scaleW</key><equals>=</equals><value>512</value> <key>scaleH</key><equals>=</equals><value>128</value> <key>pages</key><equals>=</equals><value>1</value> <key>packed</key><equals>=</equals><value>0</value>
 <keyword>page</keyword> <key>id</key><equals>=</equals><value>0</value> <key>file</key><equals>=</equals><value>"arial-32.png"</value>
 <keyword>chars</keyword> <key>count</key><equals>=</equals><value>95</value>

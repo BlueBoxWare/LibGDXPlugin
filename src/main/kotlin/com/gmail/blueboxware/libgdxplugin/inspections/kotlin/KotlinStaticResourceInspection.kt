@@ -26,38 +26,38 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinStaticResourceInspection: LibGDXKotlinBaseInspection() {
+class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() =
-          message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
+    override fun getStaticDescription() =
+        message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
+        val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 
-    override fun visitDeclaration(dcl: KtDeclaration) {
+        override fun visitDeclaration(dcl: KtDeclaration) {
 
-      if (dcl !is KtProperty || disposableClass == null) return
+            if (dcl !is KtProperty || disposableClass == null) return
 
-      val grandparent = dcl.parent.parent
+            val grandparent = dcl.parent.parent
 
-      if (!dcl.isTopLevel && grandparent !is KtObjectDeclaration) return
+            if (!dcl.isTopLevel && grandparent !is KtObjectDeclaration) return
 
-      LightClassUtil.getLightClassBackingField(dcl)?.let { backingField ->
-        (backingField as? KtLightField)?.let { field ->
-          (field.type as? PsiClassReferenceType)?.let { type ->
-            type.resolve()?.let { clazz ->
-              if (clazz.isInheritor(disposableClass, true)) {
-                holder.registerProblem(dcl, message("static.resources.problem.descriptor"))
-              }
+            LightClassUtil.getLightClassBackingField(dcl)?.let { backingField ->
+                (backingField as? KtLightField)?.let { field ->
+                    (field.type as? PsiClassReferenceType)?.let { type ->
+                        type.resolve()?.let { clazz ->
+                            if (clazz.isInheritor(disposableClass, true)) {
+                                holder.registerProblem(dcl, message("static.resources.problem.descriptor"))
+                            }
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
 
+
+        }
 
     }
-
-  }
 
 }

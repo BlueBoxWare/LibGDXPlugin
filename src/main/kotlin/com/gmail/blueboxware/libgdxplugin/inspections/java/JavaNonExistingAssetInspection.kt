@@ -23,21 +23,21 @@ import com.intellij.psi.PsiLiteralExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaNonExistingAssetInspection: LibGDXJavaBaseInspection() {
+class JavaNonExistingAssetInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
+    override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 
-      if (expression == null || expression.value !is String) {
-        return
-      }
+            if (expression == null || expression.value !is String) {
+                return
+            }
 
-      checkForNonExistingAssetReference(expression, expression.asString() ?: "<unknown>", holder)
+            checkForNonExistingAssetReference(expression, expression.asString() ?: "<unknown>", holder)
 
+        }
     }
-  }
 
 }

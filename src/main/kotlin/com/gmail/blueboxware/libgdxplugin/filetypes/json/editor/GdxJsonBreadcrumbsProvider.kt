@@ -25,27 +25,27 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonBreadcrumbsProvider: BreadcrumbsProvider {
+class GdxJsonBreadcrumbsProvider : BreadcrumbsProvider {
 
-  override fun getLanguages() = LANGUAGES
+    override fun getLanguages() = LANGUAGES
 
-  override fun acceptElement(element: PsiElement): Boolean =
-          element is GdxJsonProperty || (element as? GdxJsonElement)?.isArrayElement() == true
+    override fun acceptElement(element: PsiElement): Boolean =
+        element is GdxJsonProperty || (element as? GdxJsonElement)?.isArrayElement() == true
 
-  override fun getElementInfo(element: PsiElement): String {
-    if (element is GdxJsonProperty) {
-      return element.propertyName.getValue()
-    } else if (element is GdxJsonValue && element.isArrayElement()) {
-      element.getArrayIndexOfItem()?.let {
-        return it.toString()
-      }
+    override fun getElementInfo(element: PsiElement): String {
+        if (element is GdxJsonProperty) {
+            return element.propertyName.getValue()
+        } else if (element is GdxJsonValue && element.isArrayElement()) {
+            element.getArrayIndexOfItem()?.let {
+                return it.toString()
+            }
+        }
+
+        return ""
     }
 
-    return ""
-  }
-
-  companion object {
-    val LANGUAGES = arrayOf(LibGDXJsonLanuage.INSTANCE)
-  }
+    companion object {
+        val LANGUAGES = arrayOf(LibGDXJsonLanuage.INSTANCE)
+    }
 
 }

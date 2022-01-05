@@ -36,69 +36,73 @@ import com.intellij.ui.ColorChooser
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinColorAnnotator: Annotator {
+class SkinColorAnnotator : Annotator {
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (!ServiceManager.getService(element.project, LibGDXPluginSettings::class.java).enableColorAnnotationsInSkin) {
-      return
-    }
+        if (!ServiceManager.getService(
+                element.project,
+                LibGDXPluginSettings::class.java
+            ).enableColorAnnotationsInSkin
+        ) {
+            return
+        }
 
-    if (element is SkinObject) {
+        if (element is SkinObject) {
 
-      val force = element
-              .firstParent<SkinClassSpecification>()
-              ?.getRealClassNamesAsString()
-              ?.contains(COLOR_CLASS_NAME) == true
-              || element.resolveToTypeString() == COLOR_CLASS_NAME
+            val force = element
+                .firstParent<SkinClassSpecification>()
+                ?.getRealClassNamesAsString()
+                ?.contains(COLOR_CLASS_NAME) == true
+                    || element.resolveToTypeString() == COLOR_CLASS_NAME
 
-      element.asColor(force)?.let { color ->
+            element.asColor(force)?.let { color ->
 
-        val gutterIconRenderer = object: GutterColorRenderer(color) {
-          override fun getClickAction() = object: AnAction() {
-            override fun actionPerformed(e: AnActionEvent) {
-              if (!element.isWritable) return
+                val gutterIconRenderer = object : GutterColorRenderer(color) {
+                    override fun getClickAction() = object : AnAction() {
+                        override fun actionPerformed(e: AnActionEvent) {
+                            if (!element.isWritable) return
 
-              val editor = PsiEditorUtil.findEditor(element) ?: return
+                            val editor = PsiEditorUtil.findEditor(element) ?: return
 
-              val newColor = ColorChooser.chooseColor(editor.component, "Choose Color", color, true, true)
+                            val newColor = ColorChooser.chooseColor(editor.component, "Choose Color", color, true, true)
 
-              if (newColor != null) {
-                ApplicationManager.getApplication().runWriteAction {
-                  element.changeColor(newColor)?.let {
-                    element.replace(it)
-                  }
+                            if (newColor != null) {
+                                ApplicationManager.getApplication().runWriteAction {
+                                    element.changeColor(newColor)?.let {
+                                        element.replace(it)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-              }
+
+                createAnnotation(color, element, holder, createIcon = false, gutterIconRenderer)
+
             }
-          }
+
+        } else if (element is SkinStringLiteral) {
+
+            (element.context as? SkinResource)?.let { resource ->
+
+                resource.asColor(false)?.let { color ->
+                    createAnnotation(color, element, holder)
+                }
+
+                return
+
+            }
+
+            if (element.resolveToTypeString() == COLOR_CLASS_NAME) {
+
+                (element.reference?.resolve() as? SkinResource)?.asColor(false)?.let { color ->
+                    createAnnotation(color, element, holder)
+                }
+
+            }
         }
 
-        createAnnotation(color, element, holder, createIcon = false, gutterIconRenderer)
-
-      }
-
-    } else if (element is SkinStringLiteral) {
-
-      (element.context as? SkinResource)?.let { resource ->
-
-        resource.asColor(false)?.let { color ->
-          createAnnotation(color, element, holder)
-        }
-
-        return
-
-      }
-
-      if (element.resolveToTypeString() == COLOR_CLASS_NAME) {
-
-        (element.reference?.resolve() as? SkinResource)?.asColor(false)?.let { color ->
-          createAnnotation(color, element, holder)
-        }
-
-      }
     }
-
-  }
 
 }

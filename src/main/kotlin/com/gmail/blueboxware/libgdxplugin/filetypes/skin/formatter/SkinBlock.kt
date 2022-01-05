@@ -24,166 +24,166 @@ import com.intellij.psi.tree.TokenSet
  *
  */
 class SkinBlock(
-        val parent: SkinBlock?,
-        private val myNode: ASTNode,
-        val settings: CodeStyleSettings,
-        private val myAlignment: Alignment?,
-        private val myIndent: Indent,
-        private val myWrap: Wrap?
-): ASTBlock {
+    val parent: SkinBlock?,
+    private val myNode: ASTNode,
+    val settings: CodeStyleSettings,
+    private val myAlignment: Alignment?,
+    private val myIndent: Indent,
+    private val myWrap: Wrap?
+) : ASTBlock {
 
-  companion object {
-    val SKIN_OPEN_BRACES = TokenSet.create(L_BRACKET, L_CURLY)
-    private val SKIN_CLOSE_BRACES = TokenSet.create(R_BRACKET, R_CURLY)
-    val SKIN_ALL_BRACES = TokenSet.orSet(SKIN_OPEN_BRACES, SKIN_CLOSE_BRACES)
-  }
+    companion object {
+        val SKIN_OPEN_BRACES = TokenSet.create(L_BRACKET, L_CURLY)
+        private val SKIN_CLOSE_BRACES = TokenSet.create(R_BRACKET, R_CURLY)
+        val SKIN_ALL_BRACES = TokenSet.orSet(SKIN_OPEN_BRACES, SKIN_CLOSE_BRACES)
+    }
 
-  private val spacingBuilder: SpacingBuilder = SkinFormattingBuilderModel.createSpacingBuilder(settings)
+    private val spacingBuilder: SpacingBuilder = SkinFormattingBuilderModel.createSpacingBuilder(settings)
 
-  private val psiElement = node.psi
+    private val psiElement = node.psi
 
-  private val childWrap: Wrap? =
-          if (psiElement is SkinObject) {
+    private val childWrap: Wrap? =
+        if (psiElement is SkinObject) {
             if (psiElement.asColor(false) != null && getCustomSettings().DO_NOT_WRAP_COLORS) {
-              null
+                null
             } else {
-              Wrap.createWrap(getCustomSettings().OBJECT_WRAPPING, true)
+                Wrap.createWrap(getCustomSettings().OBJECT_WRAPPING, true)
             }
-          } else if (psiElement is SkinArray) {
+        } else if (psiElement is SkinArray) {
             Wrap.createWrap(getCustomSettings().ARRAY_WRAPPING, true)
-          } else {
+        } else {
             null
-          }
+        }
 
-  private val propertyValueAlignment =
-          if (psiElement is SkinObject) {
+    private val propertyValueAlignment =
+        if (psiElement is SkinObject) {
             Alignment.createAlignment(true)
-          } else {
+        } else {
             null
-          }
+        }
 
-  private var subBlocks: List<Block>? = null
+    private var subBlocks: List<Block>? = null
 
-  override fun isIncomplete() =
-          when {
+    override fun isIncomplete() =
+        when {
             hasElementType(myNode, OBJECT, CLASS_SPECIFICATION) -> myNode.lastChildNode?.elementType != R_CURLY
             hasElementType(myNode, ARRAY) -> myNode.lastChildNode?.elementType != R_BRACKET
             hasElementType(myNode, PROPERTY) -> (psiElement as? SkinProperty)?.value == null
             hasElementType(myNode, RESOURCE) -> (psiElement as? SkinResource)?.value == null
             else -> false
-          }
-
-  override fun getSubBlocks(): List<Block> {
-    if (subBlocks == null) {
-      subBlocks = myNode.getChildren(null).mapNotNull { node ->
-        if (isWhiteSpaceOrEmpty(node)) {
-          null
-        } else {
-          makeSubBlock(node)
         }
-      }
-    }
-    return subBlocks?.toMutableList() ?: listOf()
-  }
 
-  override fun getChildAttributes(newChildIndex: Int) =
-          if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-                  || myNode.elementType == CLASS_SPECIFICATION
-                  || myNode.elementType == RESOURCE
-          ) {
-            ChildAttributes(Indent.getNormalIndent(), null)
-          } else if (myNode.psi is PsiFile) {
-            if (isInsideBraces(newChildIndex)) {
-              ChildAttributes(Indent.getNormalIndent(), null)
-            } else {
-              ChildAttributes(Indent.getNoneIndent(), null)
+    override fun getSubBlocks(): List<Block> {
+        if (subBlocks == null) {
+            subBlocks = myNode.getChildren(null).mapNotNull { node ->
+                if (isWhiteSpaceOrEmpty(node)) {
+                    null
+                } else {
+                    makeSubBlock(node)
+                }
             }
-          } else {
+        }
+        return subBlocks?.toMutableList() ?: listOf()
+    }
+
+    override fun getChildAttributes(newChildIndex: Int) =
+        if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
+            || myNode.elementType == CLASS_SPECIFICATION
+            || myNode.elementType == RESOURCE
+        ) {
+            ChildAttributes(Indent.getNormalIndent(), null)
+        } else if (myNode.psi is PsiFile) {
+            if (isInsideBraces(newChildIndex)) {
+                ChildAttributes(Indent.getNormalIndent(), null)
+            } else {
+                ChildAttributes(Indent.getNoneIndent(), null)
+            }
+        } else {
             ChildAttributes(null, null)
-          }
+        }
 
-  override fun isLeaf() = myNode.firstChildNode == null
+    override fun isLeaf() = myNode.firstChildNode == null
 
-  override fun getTextRange(): TextRange = myNode.textRange
+    override fun getTextRange(): TextRange = myNode.textRange
 
-  override fun getNode() = myNode
+    override fun getNode() = myNode
 
-  override fun getWrap() = myWrap
+    override fun getWrap() = myWrap
 
-  override fun getIndent() = myIndent
+    override fun getIndent() = myIndent
 
-  override fun getAlignment() = myAlignment
+    override fun getAlignment() = myAlignment
 
-  private fun getCustomSettings() = settings.getCustomSettings(SkinCodeStyleSettings::class.java)
+    private fun getCustomSettings() = settings.getCustomSettings(SkinCodeStyleSettings::class.java)
 
-  override fun getSpacing(child1: Block?, child2: Block) =
-          if (child1?.isIncomplete == true) {
+    override fun getSpacing(child1: Block?, child2: Block) =
+        if (child1?.isIncomplete == true) {
             Spacing.getReadOnlySpacing()
-          } else {
+        } else {
             spacingBuilder.getSpacing(this, child1, child2)
-          }
+        }
 
-  private fun isWhiteSpaceOrEmpty(node: ASTNode) = node.elementType == TokenType.WHITE_SPACE || node.textLength == 0
+    private fun isWhiteSpaceOrEmpty(node: ASTNode) = node.elementType == TokenType.WHITE_SPACE || node.textLength == 0
 
-  private fun makeSubBlock(childNode: ASTNode): Block {
-    var indent = Indent.getNoneIndent()
-    val customSettings = getCustomSettings()
-    var wrap: Wrap? = null
-    var alignment: Alignment? = null
+    private fun makeSubBlock(childNode: ASTNode): Block {
+        var indent = Indent.getNoneIndent()
+        val customSettings = getCustomSettings()
+        var wrap: Wrap? = null
+        var alignment: Alignment? = null
 
-    if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
+        if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
             || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES)
                     && myNode.psi is SkinClassSpecification)
             || (myNode is FileElement && isInsideBraces(childNode.psi))
-    ) {
-      if (hasElementType(childNode, COMMA)) {
-        wrap = Wrap.createWrap(WrapType.NONE, true)
-      } else if (!hasElementType(childNode, SKIN_ALL_BRACES)) {
-        wrap = childWrap ?: Wrap.createWrap(WrapType.NONE, true)
-        indent = Indent.getNormalIndent()
-      } else if (hasElementType(childNode, SKIN_OPEN_BRACES)) {
-        if (psiElement is SkinPropertyValue && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_VALUE) {
-          alignment = parent?.parent?.propertyValueAlignment
+        ) {
+            if (hasElementType(childNode, COMMA)) {
+                wrap = Wrap.createWrap(WrapType.NONE, true)
+            } else if (!hasElementType(childNode, SKIN_ALL_BRACES)) {
+                wrap = childWrap ?: Wrap.createWrap(WrapType.NONE, true)
+                indent = Indent.getNormalIndent()
+            } else if (hasElementType(childNode, SKIN_OPEN_BRACES)) {
+                if (psiElement is SkinPropertyValue && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_VALUE) {
+                    alignment = parent?.parent?.propertyValueAlignment
+                }
+            }
+        } else if (hasElementType(myNode, PROPERTY)) {
+            if (hasElementType(childNode, COLON) && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_COLON) {
+                alignment = parent?.propertyValueAlignment
+            } else if (childNode.psi is SkinPropertyValue && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_VALUE) {
+                if (!hasElementType(childNode, SkinParserDefinition.SKIN_CONTAINERS)) {
+                    alignment = parent?.propertyValueAlignment
+                }
+            }
         }
-      }
-    } else if (hasElementType(myNode, PROPERTY)) {
-      if (hasElementType(childNode, COLON) && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_COLON) {
-        alignment = parent?.propertyValueAlignment
-      } else if (childNode.psi is SkinPropertyValue && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_VALUE) {
-        if (!hasElementType(childNode, SkinParserDefinition.SKIN_CONTAINERS)) {
-          alignment = parent?.propertyValueAlignment
-        }
-      }
+
+        return SkinBlock(this, childNode, settings, alignment, indent, wrap)
     }
 
-    return SkinBlock(this, childNode, settings, alignment, indent, wrap)
-  }
+    private fun isInsideBraces(elementIndex: Int): Boolean {
+        val subBlocks = getSubBlocks()
 
-  private fun isInsideBraces(elementIndex: Int): Boolean {
-    val subBlocks = getSubBlocks()
-
-    for (index in elementIndex - 1 downTo 0) {
-      (subBlocks.getOrNull(index) as? SkinBlock)?.let { block ->
-        val elementType = block.node.elementType
-        if (elementType == L_CURLY) {
-          return true
-        } else if (elementType == R_CURLY) {
-          return false
+        for (index in elementIndex - 1 downTo 0) {
+            (subBlocks.getOrNull(index) as? SkinBlock)?.let { block ->
+                val elementType = block.node.elementType
+                if (elementType == L_CURLY) {
+                    return true
+                } else if (elementType == R_CURLY) {
+                    return false
+                }
+            }
         }
-      }
+
+        return false
     }
 
-    return false
-  }
+    private fun isInsideBraces(psiElement: PsiElement): Boolean {
 
-  private fun isInsideBraces(psiElement: PsiElement): Boolean {
+        val prevBrace = findPreviousSibling(psiElement) { sibling ->
+            (sibling is LeafPsiElement && (sibling.text == "{" || sibling.text == "}"))
+        }
 
-    val prevBrace = findPreviousSibling(psiElement) { sibling ->
-      (sibling is LeafPsiElement && (sibling.text == "{" || sibling.text == "}"))
+        return prevBrace?.text == "{"
+
     }
-
-    return prevBrace?.text == "{"
-
-  }
 
 }

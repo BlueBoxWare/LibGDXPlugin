@@ -20,10 +20,10 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinResourceNameMixin(node: ASTNode): SkinResourceName, SkinElementImpl(node) {
+abstract class SkinResourceNameMixin(node: ASTNode) : SkinResourceName, SkinElementImpl(node) {
 
-  override fun getResource() = context as? SkinResource
+    override fun getResource() = context as? SkinResource
 
-  override fun toString(): String = "SkinResourceName(${stringLiteral.text})"
+    override fun toString(): String = "SkinResourceName(${stringLiteral.text})"
 
 }

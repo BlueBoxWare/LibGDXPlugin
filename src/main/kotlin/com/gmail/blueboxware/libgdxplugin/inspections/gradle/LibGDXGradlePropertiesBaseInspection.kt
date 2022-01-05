@@ -18,4 +18,4 @@ import com.intellij.lang.properties.PropertiesInspectionBase
  * limitations under the License.
  */
 
-abstract class LibGDXGradlePropertiesBaseInspection: PropertiesInspectionBase()
+abstract class LibGDXGradlePropertiesBaseInspection : PropertiesInspectionBase()

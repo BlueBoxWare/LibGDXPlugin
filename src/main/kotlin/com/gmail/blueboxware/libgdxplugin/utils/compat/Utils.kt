@@ -22,15 +22,15 @@ import kotlin.reflect.full.memberProperties
  * limitations under the License.
  */
 fun SyntheticPropertyAccessorReference.isGetter(): Boolean {
-  if (this::class.simpleName == "Getter") {
-    return true
-  } else if (this::class.simpleName == "Setter") {
-    return false
-  }
-  return this::class
-          .memberProperties
-          .firstOrNull { it.name == "getter" }
-          ?.castSafelyTo<KProperty1<SyntheticPropertyAccessorReference, Boolean>>()
-          ?.get(this)
-          ?: false
+    if (this::class.simpleName == "Getter") {
+        return true
+    } else if (this::class.simpleName == "Setter") {
+        return false
+    }
+    return this::class
+        .memberProperties
+        .firstOrNull { it.name == "getter" }
+        ?.castSafelyTo<KProperty1<SyntheticPropertyAccessorReference, Boolean>>()
+        ?.get(this)
+        ?: false
 }

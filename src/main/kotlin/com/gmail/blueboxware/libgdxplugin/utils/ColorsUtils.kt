@@ -37,78 +37,78 @@ internal fun KtCallExpression.isColorsPutCall(): Boolean = isColorsCall(true)
 
 private fun PsiMethodCallExpression.isColorsCall(isPut: Boolean): Boolean {
 
-  val (clazz, method) = resolveCallToStrings() ?: return false
+    val (clazz, method) = resolveCallToStrings() ?: return false
 
-  val expectedMethodName = if (isPut) "put" else "get"
+    val expectedMethodName = if (isPut) "put" else "get"
 
-  if (clazz == COLORS_CLASS_NAME && method == expectedMethodName) {
+    if (clazz == COLORS_CLASS_NAME && method == expectedMethodName) {
 
-    return true
-
-  } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
-
-    MethodCallUtils.getQualifierMethodCall(this)?.resolveCallToStrings()?.let { (clazz2, method2) ->
-      if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
         return true
-      }
+
+    } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
+
+        MethodCallUtils.getQualifierMethodCall(this)?.resolveCallToStrings()?.let { (clazz2, method2) ->
+            if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
+                return true
+            }
+        }
+
+        ((methodExpression.qualifierExpression as? PsiReferenceExpression)?.resolve() as? PsiField)?.let { psiField ->
+            if (psiField.containingClass?.qualifiedName == COLORS_CLASS_NAME && psiField.name == "map") {
+                return true
+            }
+        }
+
     }
 
-    ((methodExpression.qualifierExpression as? PsiReferenceExpression)?.resolve() as? PsiField)?.let { psiField ->
-      if (psiField.containingClass?.qualifiedName == COLORS_CLASS_NAME && psiField.name == "map") {
-        return true
-      }
-    }
-
-  }
-
-  return false
+    return false
 
 }
 
 internal fun KtCallExpression.isColorsCall(isPut: Boolean): Boolean {
 
-  val (clazz, method) = resolveCallToStrings() ?: return false
+    val (clazz, method) = resolveCallToStrings() ?: return false
 
-  val expectedMethodName = if (isPut) "put" else "get"
+    val expectedMethodName = if (isPut) "put" else "get"
 
-  if (clazz == COLORS_CLASS_NAME && method == expectedMethodName) {
+    if (clazz == COLORS_CLASS_NAME && method == expectedMethodName) {
 
-    return true
+        return true
 
-  } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
+    } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
 
-    ((parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
+        ((parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
             ?.resolveCallToStrings()
             ?.let { (clazz2, method2) ->
-              if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
-                return true
-              }
+                if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
+                    return true
+                }
             }
 
-  }
+    }
 
-  return false
+    return false
 
 }
 
 internal class ColorsDefinition(
-        nameElement: PsiElement,
-        valueElement: PsiElement
+    nameElement: PsiElement,
+    valueElement: PsiElement
 ) {
 
-  private val nameElements = mutableSetOf(nameElement)
+    private val nameElements = mutableSetOf(nameElement)
 
-  var valueElement: PsiElement? = valueElement
-    private set
+    var valueElement: PsiElement? = valueElement
+        private set
 
-  fun addNameElement(nameElement: PsiElement?) {
-    nameElement?.let {
-      nameElements.add(it)
+    fun addNameElement(nameElement: PsiElement?) {
+        nameElement?.let {
+            nameElements.add(it)
+        }
+        valueElement = null
     }
-    valueElement = null
-  }
 
-  fun nameElements(): Set<PsiElement> = nameElements
+    fun nameElements(): Set<PsiElement> = nameElements
 
 }
 
@@ -116,125 +116,125 @@ private val KEY = key<CachedValue<Map<String, ColorsDefinition?>>>("colorsMap")
 
 internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY, null) {
 
-  if (!isLibGDXProject()) {
-    mapOf<String, ColorsDefinition>()
-  }
+    if (!isLibGDXProject()) {
+        mapOf<String, ColorsDefinition>()
+    }
 
-  val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, allScope())
+    val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, allScope())
 
-  val callExpressions = mutableListOf<PsiElement>()
+    val callExpressions = mutableListOf<PsiElement>()
 
-  // map.put(String, Color)
-  colorsClasses.forEach { clazz ->
-    clazz.findFieldByName("map", false)?.navigationElement?.let { map ->
-      ReferencesSearch.search(map, allScope()).forEach { reference ->
-        reference.element.getParentOfType<PsiMethodCallExpression>()?.let { call ->
-          if (call.resolveMethod()?.name == "put") {
-            callExpressions.add(call)
-          }
+    // map.put(String, Color)
+    colorsClasses.forEach { clazz ->
+        clazz.findFieldByName("map", false)?.navigationElement?.let { map ->
+            ReferencesSearch.search(map, allScope()).forEach { reference ->
+                reference.element.getParentOfType<PsiMethodCallExpression>()?.let { call ->
+                    if (call.resolveMethod()?.name == "put") {
+                        callExpressions.add(call)
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  // getColors().put(String, Color)
-  val getColorsMethods =
-          colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }
+    // getColors().put(String, Color)
+    val getColorsMethods =
+        colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }
 
-  getColorsMethods.forEach { method ->
-    MethodReferencesSearch.search(method, allScope(), true).forEach { reference ->
-      reference
-              .element
-              .getParentOfType<KtDotQualifiedExpression>()
-              ?.getParentOfType<KtDotQualifiedExpression>()
-              ?.callExpression
-              ?.let { call ->
-                call.resolveCallToStrings()?.let { (_, methodName) ->
-                  if (methodName == "put") {
-                    callExpressions.add(call)
-                  }
+    getColorsMethods.forEach { method ->
+        MethodReferencesSearch.search(method, allScope(), true).forEach { reference ->
+            reference
+                .element
+                .getParentOfType<KtDotQualifiedExpression>()
+                ?.getParentOfType<KtDotQualifiedExpression>()
+                ?.callExpression
+                ?.let { call ->
+                    call.resolveCallToStrings()?.let { (_, methodName) ->
+                        if (methodName == "put") {
+                            callExpressions.add(call)
+                        }
+                    }
                 }
-              }
-      reference
-              .element
-              .getParentOfType<PsiCallExpression>()
-              ?.getParentOfType<PsiCallExpression>()
-              ?.let { call ->
-                if (call.resolveMethod()?.name == "put") {
-                  callExpressions.add(call)
+            reference
+                .element
+                .getParentOfType<PsiCallExpression>()
+                ?.getParentOfType<PsiCallExpression>()
+                ?.let { call ->
+                    if (call.resolveMethod()?.name == "put") {
+                        callExpressions.add(call)
+                    }
                 }
-              }
-    }
-  }
-
-  // Colors.put(String, Color)
-  val putMethods =
-          colorsClasses.mapNotNull { it.findMethodsByName("put", false).firstOrNull() }
-
-  putMethods.forEach { method ->
-    ReferencesSearch.search(method, allScope(), true).forEach { reference ->
-      reference.element.getParentOfType<PsiCallExpression>()?.let {
-        callExpressions.add(it)
-      }
-      reference.element.getParentOfType<KtCallExpression>()?.let {
-        callExpressions.add(it)
-      }
-    }
-  }
-
-  val colors = mutableMapOf<String, ColorsDefinition?>()
-
-  callExpressions.forEach { callExpression ->
-
-    val colorName: String = getColorNameFromArgs(callExpression)?.second ?: return@forEach
-    val colorDef = getColorDefFromArgs(callExpression)
-
-    colors[colorName]?.let {
-      it.addNameElement(colorDef?.first)
-      return@forEach
+        }
     }
 
-    if (colorDef != null) {
-      colors[colorName] = ColorsDefinition(colorDef.first, colorDef.second)
-    } else {
-      colors[colorName] = null
+    // Colors.put(String, Color)
+    val putMethods =
+        colorsClasses.mapNotNull { it.findMethodsByName("put", false).firstOrNull() }
+
+    putMethods.forEach { method ->
+        ReferencesSearch.search(method, allScope(), true).forEach { reference ->
+            reference.element.getParentOfType<PsiCallExpression>()?.let {
+                callExpressions.add(it)
+            }
+            reference.element.getParentOfType<KtCallExpression>()?.let {
+                callExpressions.add(it)
+            }
+        }
     }
 
-  }
+    val colors = mutableMapOf<String, ColorsDefinition?>()
 
-  colors.toMap()
+    callExpressions.forEach { callExpression ->
+
+        val colorName: String = getColorNameFromArgs(callExpression)?.second ?: return@forEach
+        val colorDef = getColorDefFromArgs(callExpression)
+
+        colors[colorName]?.let {
+            it.addNameElement(colorDef?.first)
+            return@forEach
+        }
+
+        if (colorDef != null) {
+            colors[colorName] = ColorsDefinition(colorDef.first, colorDef.second)
+        } else {
+            colors[colorName] = null
+        }
+
+    }
+
+    colors.toMap()
 
 } ?: mapOf()
 
 
 internal fun getColorNameFromArgs(callExpression: PsiElement): Pair<PsiElement, String?>? =
-        (callExpression as? PsiCallExpression)?.let { psiCallExpression ->
-          (psiCallExpression.argumentList?.expressions?.firstOrNull() as? PsiLiteralExpression)?.let {
+    (callExpression as? PsiCallExpression)?.let { psiCallExpression ->
+        (psiCallExpression.argumentList?.expressions?.firstOrNull() as? PsiLiteralExpression)?.let {
             it to it.asString()
-          }
-        } ?: (callExpression as? KtCallExpression)?.let { ktCallExpression ->
-          (ktCallExpression.valueArguments.firstOrNull()?.getArgumentExpression() as? KtStringTemplateExpression)?.let {
-            it to it.asPlainString()
-          }
         }
+    } ?: (callExpression as? KtCallExpression)?.let { ktCallExpression ->
+        (ktCallExpression.valueArguments.firstOrNull()?.getArgumentExpression() as? KtStringTemplateExpression)?.let {
+            it to it.asPlainString()
+        }
+    }
 
 
 private fun getColorDefFromArgs(callExpression: PsiElement): Pair<PsiElement, PsiElement>? =
-        (callExpression as? PsiCallExpression)?.let { psiCallExpression ->
-          psiCallExpression.argumentList?.expressions?.let { args ->
+    (callExpression as? PsiCallExpression)?.let { psiCallExpression ->
+        psiCallExpression.argumentList?.expressions?.let { args ->
             args.getOrNull(0)?.let { nameElement ->
-              args.getOrNull(1)?.let { valueElement ->
-                nameElement to valueElement
-              }
+                args.getOrNull(1)?.let { valueElement ->
+                    nameElement to valueElement
+                }
             }
-          }
-        } ?: (callExpression as? KtCallExpression)?.let { ktCallExpression ->
-          ktCallExpression.valueArguments.let { args ->
-            args.getOrNull(0)?.getArgumentExpression()?.let { nameElement ->
-              args.getOrNull(1)?.getArgumentExpression()?.let { valueElement ->
-                nameElement to valueElement
-              }
-            }
-          }
         }
+    } ?: (callExpression as? KtCallExpression)?.let { ktCallExpression ->
+        ktCallExpression.valueArguments.let { args ->
+            args.getOrNull(0)?.getArgumentExpression()?.let { nameElement ->
+                args.getOrNull(1)?.getArgumentExpression()?.let { valueElement ->
+                    nameElement to valueElement
+                }
+            }
+        }
+    }
 

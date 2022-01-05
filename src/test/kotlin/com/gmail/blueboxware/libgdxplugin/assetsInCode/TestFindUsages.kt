@@ -24,71 +24,71 @@ import com.intellij.usageView.UsageInfo
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestFindUsages: AssetsInCodeCodeInsightFixtureTestCase() {
+class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
 
-  fun testFindUsages1() {
-    doTest(2)
-  }
-
-  fun testFindUsages2() {
-    doTest(4)
-  }
-
-  fun testFindUsages3() {
-    doTest(6, ext = "atlas")
-  }
-
-  fun testFindUsagesWithTags1() {
-    doTest(2)
-  }
-
-  fun testFindUsagesWithTags2() {
-    doTest(4)
-  }
-
-  fun testFindUsagesWithTags3() {
-    doTest(4)
-  }
-
-  fun testFindUsages4() {
-    copyFileToProject("findUsages/findUsages4.skin")
-    val vf = copyFileToProject("findUsages/findUsages4.atlas")
-    val atlasFile = PsiManager.getInstance(project).findFile(vf) as? AtlasFile ?: throw AssertionError()
-    val target = atlasFile.getPages().flatMap { it.regionList }.find { it.name == "wallpaper" }!!
-    val usagesInfos = myFixture.findUsages(target)
-    assertEquals(4, usagesInfos.size)
-    checkUsages(usagesInfos, target)
-  }
-
-  fun doTest(nrOfUsages: Int, ext: String? = "skin") {
-    val usagesInfos = myFixture.testFindUsages("findUsages/" + testname() + "." + ext)
-    assertEquals(nrOfUsages, usagesInfos.size)
-    checkUsages(usagesInfos, myFixture.elementAtCaret as PsiNamedElement)
-  }
-
-  private fun checkUsages(usagesInfos: Collection<UsageInfo>, target: PsiNamedElement) {
-    for (usageInfo in usagesInfos) {
-      usageInfo.element?.let { element ->
-        assertEquals(target.name, StringUtil.stripQuotesAroundValue(element.text))
-
-        val references = element.references.filterIsInstance<AssetReference>()
-        assertEquals(1, references.size)
-        val resolved = references.firstOrNull()?.resolve() as? PsiNamedElement
-        assertNotNull(resolved)
-        assertEquals(StringUtil.stripQuotesAroundValue(element.text), resolved!!.name)
-      }
-
-    }
-  }
-
-  override fun setUp() {
-    super.setUp()
-
-    if (testname().contains("tags", ignoreCase = true)) {
-      addDummyLibGDX199()
+    fun testFindUsages1() {
+        doTest(2)
     }
 
-    copyFileToProject("findUsages/" + getTestName(false) + ".java")
-    copyFileToProject("findUsages/" + getTestName(false) + ".kt")
-  }
+    fun testFindUsages2() {
+        doTest(4)
+    }
+
+    fun testFindUsages3() {
+        doTest(6, ext = "atlas")
+    }
+
+    fun testFindUsagesWithTags1() {
+        doTest(2)
+    }
+
+    fun testFindUsagesWithTags2() {
+        doTest(4)
+    }
+
+    fun testFindUsagesWithTags3() {
+        doTest(4)
+    }
+
+    fun testFindUsages4() {
+        copyFileToProject("findUsages/findUsages4.skin")
+        val vf = copyFileToProject("findUsages/findUsages4.atlas")
+        val atlasFile = PsiManager.getInstance(project).findFile(vf) as? AtlasFile ?: throw AssertionError()
+        val target = atlasFile.getPages().flatMap { it.regionList }.find { it.name == "wallpaper" }!!
+        val usagesInfos = myFixture.findUsages(target)
+        assertEquals(4, usagesInfos.size)
+        checkUsages(usagesInfos, target)
+    }
+
+    fun doTest(nrOfUsages: Int, ext: String? = "skin") {
+        val usagesInfos = myFixture.testFindUsages("findUsages/" + testname() + "." + ext)
+        assertEquals(nrOfUsages, usagesInfos.size)
+        checkUsages(usagesInfos, myFixture.elementAtCaret as PsiNamedElement)
+    }
+
+    private fun checkUsages(usagesInfos: Collection<UsageInfo>, target: PsiNamedElement) {
+        for (usageInfo in usagesInfos) {
+            usageInfo.element?.let { element ->
+                assertEquals(target.name, StringUtil.stripQuotesAroundValue(element.text))
+
+                val references = element.references.filterIsInstance<AssetReference>()
+                assertEquals(1, references.size)
+                val resolved = references.firstOrNull()?.resolve() as? PsiNamedElement
+                assertNotNull(resolved)
+                assertEquals(StringUtil.stripQuotesAroundValue(element.text), resolved!!.name)
+            }
+
+        }
+    }
+
+    override fun setUp() {
+        super.setUp()
+
+        if (testname().contains("tags", ignoreCase = true)) {
+            addDummyLibGDX199()
+        }
+
+        copyFileToProject("findUsages/" + getTestName(false) + ".java")
+        copyFileToProject("findUsages/" + getTestName(false) + ".kt")
+    }
 }

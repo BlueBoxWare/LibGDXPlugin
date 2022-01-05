@@ -26,41 +26,41 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradleKotlinOutdatedVersionInspection: AbstractKotlinInspection() {
+class GradleKotlinOutdatedVersionInspection : AbstractKotlinInspection() {
 
-  override fun getStaticDescription() =
-          message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
+    override fun getStaticDescription() =
+        message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
-
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
-
-    override fun visitValueArgumentList(list: KtValueArgumentList) {
-
-      if (!list.isInGradleKotlinBuildFile()) {
-        return
-      }
-
-      getLibraryInfoFromKotlinArgumentList(list)?.let { (lib, version) ->
-        checkVersionAndReport(holder, list, lib, version)
-      }
-
+    override fun isSuppressedFor(element: PsiElement): Boolean {
+        return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
     }
 
-    override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-      if (!expression.isInGradleKotlinBuildFile()) {
-        return
-      }
+        override fun visitValueArgumentList(list: KtValueArgumentList) {
 
-      getLibraryInfoFromKotlinString(expression)?.let { (lib, version) ->
-        checkVersionAndReport(holder, expression, lib, version)
-      }
+            if (!list.isInGradleKotlinBuildFile()) {
+                return
+            }
+
+            getLibraryInfoFromKotlinArgumentList(list)?.let { (lib, version) ->
+                checkVersionAndReport(holder, list, lib, version)
+            }
+
+        }
+
+        override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
+
+            if (!expression.isInGradleKotlinBuildFile()) {
+                return
+            }
+
+            getLibraryInfoFromKotlinString(expression)?.let { (lib, version) ->
+                checkVersionAndReport(holder, expression, lib, version)
+            }
+
+        }
 
     }
-
-  }
 
 }

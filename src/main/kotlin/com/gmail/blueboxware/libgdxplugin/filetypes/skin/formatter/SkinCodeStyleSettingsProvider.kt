@@ -13,36 +13,36 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonCodeStyleSettingsProvider.java
  *
  */
-class SkinCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
+class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
-  @Suppress("DialogTitleCapitalization")
-  override fun createConfigurable(
-          settings: CodeStyleSettings,
-          originalSettings: CodeStyleSettings
-  ): CodeStyleConfigurable {
+    @Suppress("DialogTitleCapitalization")
+    override fun createConfigurable(
+        settings: CodeStyleSettings,
+        originalSettings: CodeStyleSettings
+    ): CodeStyleConfigurable {
 
-    return object: CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX skin") {
+        return object : CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX skin") {
 
-      override fun createPanel(settings: CodeStyleSettings?): CodeStyleAbstractPanel {
+            override fun createPanel(settings: CodeStyleSettings?): CodeStyleAbstractPanel {
 
-        return object: TabbedLanguageCodeStylePanel(LibGDXSkinLanguage.INSTANCE, currentSettings, settings) {
+                return object : TabbedLanguageCodeStylePanel(LibGDXSkinLanguage.INSTANCE, currentSettings, settings) {
 
-          override fun initTabs(settings: CodeStyleSettings) {
-            addIndentOptionsTab(settings)
-            addSpacesTab(settings)
-            addBlankLinesTab(settings)
-            addWrappingAndBracesTab(settings)
-          }
+                    override fun initTabs(settings: CodeStyleSettings) {
+                        addIndentOptionsTab(settings)
+                        addSpacesTab(settings)
+                        addBlankLinesTab(settings)
+                        addWrappingAndBracesTab(settings)
+                    }
+                }
+
+            }
+
+            override fun getHelpTopic(): String? = null
         }
 
-      }
-
-      override fun getHelpTopic(): String? = null
     }
 
-  }
+    override fun createCustomSettings(settings: CodeStyleSettings) = SkinCodeStyleSettings(settings)
 
-  override fun createCustomSettings(settings: CodeStyleSettings) = SkinCodeStyleSettings(settings)
-
-  override fun getConfigurableDisplayName() = LibGDXSkinLanguage.INSTANCE.displayName
+    override fun getConfigurableDisplayName() = LibGDXSkinLanguage.INSTANCE.displayName
 }

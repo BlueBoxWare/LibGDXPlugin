@@ -18,4 +18,4 @@ import com.gmail.blueboxware.libgdxplugin.utils.PsiTreeChangePreprocessorBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontTreeChangePreprocessor: PsiTreeChangePreprocessorBase(BitmapFontLanguage.INSTANCE)
+class BitmapFontTreeChangePreprocessor : PsiTreeChangePreprocessorBase(BitmapFontLanguage.INSTANCE)

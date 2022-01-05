@@ -44,243 +44,243 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class LibGDXCodeInsightFixtureTestCase: LightJavaCodeInsightFixtureTestCase() {
+abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTestCase() {
 
-  private fun getTestDataBasePath() =
-          FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
+    private fun getTestDataBasePath() =
+        FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
-  override fun getTestDataPath() =
-          FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
+    override fun getTestDataPath() =
+        FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
-  fun addLibGDX() =
-          addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+    fun addLibGDX() =
+        addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
 
-  fun addLibGDXSources() =
-          WriteCommandAction.runWriteCommandAction(project) {
+    fun addLibGDXSources() =
+        WriteCommandAction.runWriteCommandAction(project) {
             LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }
-                    ?.let { library ->
-                      library.modifiableModel.let {
+                ?.let { library ->
+                    library.modifiableModel.let {
                         it.addRoot(
-                                JarFileSystem
-                                        .getInstance()
-                                        .findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
-                                OrderRootType.SOURCES
+                            JarFileSystem
+                                .getInstance()
+                                .findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
+                            OrderRootType.SOURCES
                         )
                         it.commit()
-                      }
                     }
-          }
+                }
+        }
 
-  fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
+    fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
-  fun addFreeType() = addLibrary(getTestDataBasePath() + "/lib/gdx-freetype.jar")
+    fun addFreeType() = addLibrary(getTestDataBasePath() + "/lib/gdx-freetype.jar")
 
-  fun addAnnotations() {
-    addLibrary(File("build/libs/").listFiles { _, name ->
-      name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
-    }!!.maxByOrNull { file ->
-      MavenComparableVersion(file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")))
-    }!!.absolutePath)
-  }
+    fun addAnnotations() {
+        addLibrary(File("build/libs/").listFiles { _, name ->
+            name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
+        }!!.maxByOrNull { file ->
+            MavenComparableVersion(file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")))
+        }!!.absolutePath)
+    }
 
-  fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
+    fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
-  fun removeDummyLibGDX199() = removeDummyLibrary(Libraries.LIBGDX, "1.9.9")
+    fun removeDummyLibGDX199() = removeDummyLibrary(Libraries.LIBGDX, "1.9.9")
 
-  fun addDummyLibrary(library: Libraries, version: String) {
+    fun addDummyLibrary(library: Libraries, version: String) {
 
-    WriteCommandAction.writeCommandAction(project).run<Throwable> {
+        WriteCommandAction.writeCommandAction(project).run<Throwable> {
 
-      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
-      val libraryModel =
-              (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
+            val libraryModel =
+                (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
 
-      libraryModel.addRoot(
-              "/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/",
-              OrderRootType.CLASSES
-      )
+            libraryModel.addRoot(
+                "/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/",
+                OrderRootType.CLASSES
+            )
 
-      libraryModel.commit()
-      projectModel.commit()
+            libraryModel.commit()
+            projectModel.commit()
+
+        }
 
     }
 
-  }
+    inline fun <reified T : PsiElement> doAllIntentions(familyNamePrefix: String) =
+        doAllIntentions(familyNamePrefix, T::class.java)
 
-  inline fun <reified T: PsiElement> doAllIntentions(familyNamePrefix: String) =
-          doAllIntentions(familyNamePrefix, T::class.java)
+    fun <T : PsiElement> doAllIntentions(familyNamePrefix: String, elementType: Class<T>) {
 
-  fun <T: PsiElement> doAllIntentions(familyNamePrefix: String, elementType: Class<T>) {
+        file.accept(object : PsiRecursiveElementVisitor() {
 
-    file.accept(object: PsiRecursiveElementVisitor() {
+            override fun visitElement(element: PsiElement) {
+                super.visitElement(element)
 
-      override fun visitElement(element: PsiElement) {
-        super.visitElement(element)
+                if (elementType.isInstance(element)) {
+                    editor.caretModel.moveToOffset(element.startOffset)
+                    myFixture.availableIntentions.forEach {
+                        if (it.familyName.startsWith(familyNamePrefix)) {
+                            myFixture.launchAction(it)
+                        }
+                    }
+                }
 
-        if (elementType.isInstance(element)) {
-          editor.caretModel.moveToOffset(element.startOffset)
-          myFixture.availableIntentions.forEach {
-            if (it.familyName.startsWith(familyNamePrefix)) {
-              myFixture.launchAction(it)
             }
-          }
+        })
+
+    }
+
+    private fun assertIdeaHomePath() {
+        val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
+        if (path == null || path == "") {
+            throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
+        }
+    }
+
+    private fun removeDummyLibrary(library: Libraries, version: String? = null) {
+
+        WriteCommandAction.runWriteCommandAction(project) {
+
+            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+
+            for (lib in projectModel.libraries) {
+                getLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
+                    if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
+                        projectModel.removeLibrary(lib)
+                    }
+                }
+            }
+
+            projectModel.commit()
+
         }
 
-      }
-    })
-
-  }
-
-  private fun assertIdeaHomePath() {
-    val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
-    if (path == null || path == "") {
-      throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
     }
-  }
 
-  private fun removeDummyLibrary(library: Libraries, version: String? = null) {
+    private fun removeLibraries() {
 
-    WriteCommandAction.runWriteCommandAction(project) {
+        WriteCommandAction.runWriteCommandAction(project) {
 
-      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
-      for (lib in projectModel.libraries) {
-        getLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
-          if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
-            projectModel.removeLibrary(lib)
-          }
+            for (lib in projectModel.libraries) {
+
+                projectModel.removeLibrary(lib)
+
+            }
+
+            projectModel.commit()
+
         }
-      }
-
-      projectModel.commit()
 
     }
 
-  }
+    private fun addLibrary(lib: String) {
+        File(lib).let { file ->
+            PsiTestUtil.addLibrary(
+                myFixture.testRootDisposable,
+                myFixture.module,
+                file.name,
+                file.parent,
+                file.name
+            )
+        }
+        project.service<VersionService>().updateUsedVersions()
+    }
 
-  private fun removeLibraries() {
+    fun configureByFile(filePath: String): PsiFile =
+        myFixture.configureByFile(filePath)
 
-    WriteCommandAction.runWriteCommandAction(project) {
+    fun configureByFiles(vararg filePaths: String): Array<PsiFile> =
+        myFixture.configureByFiles(*filePaths)
 
-      val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+    fun copyFileToProject(sourceFilePath: String) =
+        myFixture.copyFileToProject(sourceFilePath)
 
-      for (lib in projectModel.libraries) {
+    fun copyFileToProject(sourceFilePath: String, targetPath: String) =
+        myFixture.copyFileToProject(sourceFilePath, targetPath)
 
-        projectModel.removeLibrary(lib)
+    fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) =
+        myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
 
-      }
+    fun configureByText(fileType: FileType, text: String): PsiFile =
+        myFixture.configureByText(fileType, text)
 
-      projectModel.commit()
+    fun configureByText(fileName: String, text: String): PsiFile =
+        myFixture.configureByText(fileName, text)
+
+    fun configureByFileAsGdxJson(filePath: String): PsiFile =
+        myFixture.configureByFile(filePath).apply { markAsGdxJson() }
+
+    fun doTestCompletion(
+        fileName: String,
+        content: String,
+        expectedCompletionStrings: List<String>,
+        notExpectedCompletionStrings: List<String> = listOf()
+    ) {
+
+        configureByText(fileName, content)
+
+        val completionResults = myFixture.complete(CompletionType.BASIC, 0)
+
+        if (completionResults == null) {
+
+            // the only item was auto-completed?
+            assertEquals(
+                "Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'",
+                1,
+                expectedCompletionStrings.size
+            )
+            val text = editor.document.text
+            val expectedString = expectedCompletionStrings.first()
+            val msg = "\nExpected string '$expectedString' not found. Content: '$content'"
+            assertTrue(msg, text.contains(expectedString))
+
+        } else {
+
+            val strings = myFixture.lookupElementStrings
+            assertNotNull(strings)
+
+            for (expected in expectedCompletionStrings) {
+                assertTrue("Expected to find $expected, content:\n$content\nFound: $strings", expected in strings!!)
+            }
+
+            for (notExpected in notExpectedCompletionStrings) {
+                assertFalse("Not expected to find '$notExpected'. Content: '$content'", strings!!.contains(notExpected))
+            }
+
+        }
 
     }
 
-  }
+    fun runCommand(f: () -> Unit) =
+        CommandProcessor
+            .getInstance()
+            .executeCommand(
+                project,
+                f,
+                "",
+                null,
+                UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
+            )
 
-  private fun addLibrary(lib: String) {
-    File(lib).let { file ->
-      PsiTestUtil.addLibrary(
-              myFixture.testRootDisposable,
-              myFixture.module,
-              file.name,
-              file.parent,
-              file.name
-      )
-    }
-    project.service<VersionService>().updateUsedVersions()
-  }
+    fun undo() {
+        val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
+        val undoManager = UndoManager.getInstance(project)
 
-  fun configureByFile(filePath: String): PsiFile =
-          myFixture.configureByFile(filePath)
-
-  fun configureByFiles(vararg filePaths: String): Array<PsiFile> =
-          myFixture.configureByFiles(*filePaths)
-
-  fun copyFileToProject(sourceFilePath: String) =
-          myFixture.copyFileToProject(sourceFilePath)
-
-  fun copyFileToProject(sourceFilePath: String, targetPath: String) =
-          myFixture.copyFileToProject(sourceFilePath, targetPath)
-
-  fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) =
-          myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
-
-  fun configureByText(fileType: FileType, text: String): PsiFile =
-          myFixture.configureByText(fileType, text)
-
-  fun configureByText(fileName: String, text: String): PsiFile =
-          myFixture.configureByText(fileName, text)
-
-  fun configureByFileAsGdxJson(filePath: String): PsiFile =
-          myFixture.configureByFile(filePath).apply { markAsGdxJson() }
-
-  fun doTestCompletion(
-          fileName: String,
-          content: String,
-          expectedCompletionStrings: List<String>,
-          notExpectedCompletionStrings: List<String> = listOf()
-  ) {
-
-    configureByText(fileName, content)
-
-    val completionResults = myFixture.complete(CompletionType.BASIC, 0)
-
-    if (completionResults == null) {
-
-      // the only item was auto-completed?
-      assertEquals(
-              "Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'",
-              1,
-              expectedCompletionStrings.size
-      )
-      val text = editor.document.text
-      val expectedString = expectedCompletionStrings.first()
-      val msg = "\nExpected string '$expectedString' not found. Content: '$content'"
-      assertTrue(msg, text.contains(expectedString))
-
-    } else {
-
-      val strings = myFixture.lookupElementStrings
-      assertNotNull(strings)
-
-      for (expected in expectedCompletionStrings) {
-        assertTrue("Expected to find $expected, content:\n$content\nFound: $strings", expected in strings!!)
-      }
-
-      for (notExpected in notExpectedCompletionStrings) {
-        assertFalse("Not expected to find '$notExpected'. Content: '$content'", strings!!.contains(notExpected))
-      }
-
+        assertTrue(undoManager.isUndoAvailable(fileEditor))
+        undoManager.undo(fileEditor)
     }
 
-  }
+    override fun setUp() {
+        assertIdeaHomePath()
 
-  fun runCommand(f: () -> Unit) =
-          CommandProcessor
-                  .getInstance()
-                  .executeCommand(
-                          project,
-                          f,
-                          "",
-                          null,
-                          UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
-                  )
+        Library.TEST_URL = "http://127.0.0.1/maven/"
 
-  fun undo() {
-    val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
-    val undoManager = UndoManager.getInstance(project)
-
-    assertTrue(undoManager.isUndoAvailable(fileEditor))
-    undoManager.undo(fileEditor)
-  }
-
-  override fun setUp() {
-    assertIdeaHomePath()
-
-    Library.TEST_URL = "http://127.0.0.1/maven/"
-
-    super.setUp()
-    removeLibraries()
-  }
+        super.setUp()
+        removeLibraries()
+    }
 
 }

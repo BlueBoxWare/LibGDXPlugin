@@ -24,31 +24,32 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontParserDefinition: ParserDefinition {
+class BitmapFontParserDefinition : ParserDefinition {
 
-  companion object {
+    companion object {
 
-    val FILE = IFileElementType(BitmapFontLanguage.INSTANCE)
-    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
+        val FILE = IFileElementType(BitmapFontLanguage.INSTANCE)
+        val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
 
-  }
+    }
 
-  override fun createParser(project: Project?) = BitmapFontParser()
+    override fun createParser(project: Project?) = BitmapFontParser()
 
-  override fun createFile(viewProvider: FileViewProvider) = BitmapFontFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider) = BitmapFontFile(viewProvider)
 
-  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) =
+        ParserDefinition.SpaceRequirements.MAY
 
-  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-  override fun getFileNodeType() = FILE
+    override fun getFileNodeType() = FILE
 
-  override fun getWhitespaceTokens() = WHITE_SPACES
+    override fun getWhitespaceTokens() = WHITE_SPACES
 
-  override fun createLexer(project: Project?) = BitmapFontLexer()
+    override fun createLexer(project: Project?) = BitmapFontLexer()
 
-  override fun createElement(node: ASTNode?): PsiElement = BitmapFontElementTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = BitmapFontElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
+    override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 
 }

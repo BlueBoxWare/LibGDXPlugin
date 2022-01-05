@@ -20,20 +20,20 @@ import com.intellij.codeInspection.LocalInspectionTool
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestInspections: PropertiesCodeInsightFixtureTestCase() {
+class TestInspections : PropertiesCodeInsightFixtureTestCase() {
 
-  fun testJavaInvalidPropertyKeyInspection() {
-    doTest(JavaInvalidPropertyKeyInspection(), "inspections/JavaClass.java")
-  }
+    fun testJavaInvalidPropertyKeyInspection() {
+        doTest(JavaInvalidPropertyKeyInspection(), "inspections/JavaClass.java")
+    }
 
-  fun testKotlinInvalidPropertyKeyInspection() {
-    addKotlin()
-    doTest(KotlinInvalidPropertyKeyInspection(), "inspections/KotlinFile.kt")
-  }
+    fun testKotlinInvalidPropertyKeyInspection() {
+        addKotlin()
+        doTest(KotlinInvalidPropertyKeyInspection(), "inspections/KotlinFile.kt")
+    }
 
-  private fun doTest(inspection: LocalInspectionTool, filename: String) {
-    myFixture.enableInspections(inspection::class.java)
-    myFixture.testHighlighting(true, false, false, filename)
-  }
+    private fun doTest(inspection: LocalInspectionTool, filename: String) {
+        myFixture.enableInspections(inspection::class.java)
+        myFixture.testHighlighting(true, false, false, filename)
+    }
 
 }

@@ -18,16 +18,16 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonLanuage private constructor(): Language("LibGDXJson") {
+class LibGDXJsonLanuage private constructor() : Language("LibGDXJson") {
 
-  companion object {
-    val INSTANCE = LibGDXJsonLanuage()
-  }
+    companion object {
+        val INSTANCE = LibGDXJsonLanuage()
+    }
 
-  override fun isCaseSensitive() = true
+    override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "libGDX JSON"
+    override fun getDisplayName() = "libGDX JSON"
 
-  override fun getID() = "LibGDXJson"
+    override fun getID() = "LibGDXJson"
 
 }

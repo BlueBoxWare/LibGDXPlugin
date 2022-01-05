@@ -18,54 +18,54 @@ import com.intellij.lang.parser.GeneratedParserUtilBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-object SkinParserUtil: GeneratedParserUtilBase() {
+object SkinParserUtil : GeneratedParserUtilBase() {
 
-  @JvmStatic
-  fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
+    @JvmStatic
+    fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
-    var i = builder.currentOffset
-    val originalText = builder.originalText
+        var i = builder.currentOffset
+        val originalText = builder.originalText
 
-    while (i > 0) {
-      val c = originalText[i - 1]
-      if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
-        break
-      }
-      i--
+        while (i > 0) {
+            val c = originalText[i - 1]
+            if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
+                break
+            }
+            i--
+        }
+
+        var separatorFound = false
+
+        val length = originalText.length
+        while (i < length) {
+            val c = originalText[i]
+            if (c != ' ' && c != '\t' && c != '\r' && c != '\n' && c != ',') {
+                break
+            }
+            if (c == '\r' || c == '\n' || c == ',') {
+                separatorFound = true
+                break
+            }
+            i++
+        }
+
+        while (builder.tokenType == SkinElementTypes.COMMA) {
+            builder.advanceLexer()
+        }
+
+        return separatorFound
+
     }
 
-    var separatorFound = false
+    @JvmStatic
+    fun parseOtionalComma(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
-    val length = originalText.length
-    while (i < length) {
-      val c = originalText[i]
-      if (c != ' ' && c != '\t' && c != '\r' && c != '\n' && c != ',') {
-        break
-      }
-      if (c == '\r' || c == '\n' || c == ',') {
-        separatorFound = true
-        break
-      }
-      i++
+        while (builder.tokenType == SkinElementTypes.COMMA) {
+            builder.advanceLexer()
+        }
+
+        return true
+
     }
-
-    while (builder.tokenType == SkinElementTypes.COMMA) {
-      builder.advanceLexer()
-    }
-
-    return separatorFound
-
-  }
-
-  @JvmStatic
-  fun parseOtionalComma(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
-
-    while (builder.tokenType == SkinElementTypes.COMMA) {
-      builder.advanceLexer()
-    }
-
-    return true
-
-  }
 
 }

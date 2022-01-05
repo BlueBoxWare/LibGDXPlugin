@@ -26,146 +26,146 @@ import com.intellij.profile.codeInspection.InspectionProjectProfileManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestInspections: LibGDXCodeInsightFixtureTestCase() {
+class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testNonExistingClassInspection() {
-    doTest(SkinNonExistingClassInspection())
-  }
-
-  fun testNonExistingClassInspectionWithTags() {
-    doTest(SkinNonExistingClassInspection())
-  }
-
-  fun testNonExistingFieldInspection() {
-    doTest(SkinNonExistingFieldInspection())
-  }
-
-  fun testNonExistingFieldInspectionWithTags() {
-    doTest(SkinNonExistingFieldInspection())
-  }
-
-  fun testMalformedColorStringInspection() {
-    doTest(SkinMalformedColorStringInspection())
-  }
-
-  fun testNonExistingResourceAliasInspection() {
-    doTest(SkinNonExistingResourceAliasInspection())
-  }
-
-  fun testNonExistingResourceAliasInspectionWithTags() {
-    doTest(SkinNonExistingResourceAliasInspection())
-  }
-
-  fun testTypeInspection1() {
-    doTest(SkinTypeInspection())
-  }
-
-  fun testTypeInspection2() {
-    doTest(SkinTypeInspection())
-  }
-
-  fun testTypeInspection3() {
-    doTest(SkinTypeInspection())
-  }
-
-  fun testTypeInspection4() {
-    doTest(SkinTypeInspection())
-  }
-
-  fun testTypeInspectionWithTags() {
-    doTest(SkinTypeInspection())
-  }
-
-  fun testDuplicateResourceNameInspection() {
-    doTest(SkinDuplicateResourceNameInspection())
-  }
-
-  fun testDuplicateResourceNameInspectionWithTags() {
-    doTest(SkinDuplicateResourceNameInspection())
-  }
-
-  fun testMissingPropertyInspection() {
-    doTest(SkinMissingPropertyInspection())
-  }
-
-  fun testMissingPropertyInspectionWithTags() {
-    doTest(SkinMissingPropertyInspection())
-  }
-
-  fun testDuplicatePropertyInspection() {
-    doTest(SkinDuplicatePropertyInspection())
-  }
-
-  fun testDeprecatedInspection() {
-    copyFileToProject("com/example/DeprecatedClass.java")
-    doTest(SkinDeprecatedInspection())
-  }
-
-  fun testAbbrClassInspectionWithTags() {
-    myFixture.enableInspections(SkinAbbrClassInspection::class.java)
-    InspectionProjectProfileManager.getInstance(project).currentProfile.allTools.forEach {
-      if (it.tool.displayName == message("skin.inspection.abbr.class.display.name")) {
-        it.level = HighlightDisplayLevel.WARNING
-      }
+    fun testNonExistingClassInspection() {
+        doTest(SkinNonExistingClassInspection())
     }
-    myFixture.testHighlighting(true, false, false, testname() + ".skin")
-  }
 
-  fun testNonExistingResourceAliasQuickfixes() {
-    myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
-    configureByFile("nonExistingResourceAliasFixes.skin")
-    doAllIntentions<SkinStringLiteral>(CreateAssetQuickFix.FAMILY_NAME)
-    myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
-  }
+    fun testNonExistingClassInspectionWithTags() {
+        doTest(SkinNonExistingClassInspection())
+    }
 
-  fun testAbbrClassInspectionWithTagsQuickfixes() {
-    myFixture.enableInspections(SkinAbbrClassInspection::class.java)
-    configureByFile("abbrClassInspectionFixes.skin")
-    doAllIntentions<SkinClassName>(SkinAbbrClassInspection.FAMILY_NAME)
-    myFixture.checkResultByFile("abbrClassInspectionFixes.after")
-  }
+    fun testNonExistingFieldInspection() {
+        doTest(SkinNonExistingFieldInspection())
+    }
 
-  fun testSuppression() {
-    myFixture.enableInspections(
+    fun testNonExistingFieldInspectionWithTags() {
+        doTest(SkinNonExistingFieldInspection())
+    }
+
+    fun testMalformedColorStringInspection() {
+        doTest(SkinMalformedColorStringInspection())
+    }
+
+    fun testNonExistingResourceAliasInspection() {
+        doTest(SkinNonExistingResourceAliasInspection())
+    }
+
+    fun testNonExistingResourceAliasInspectionWithTags() {
+        doTest(SkinNonExistingResourceAliasInspection())
+    }
+
+    fun testTypeInspection1() {
+        doTest(SkinTypeInspection())
+    }
+
+    fun testTypeInspection2() {
+        doTest(SkinTypeInspection())
+    }
+
+    fun testTypeInspection3() {
+        doTest(SkinTypeInspection())
+    }
+
+    fun testTypeInspection4() {
+        doTest(SkinTypeInspection())
+    }
+
+    fun testTypeInspectionWithTags() {
+        doTest(SkinTypeInspection())
+    }
+
+    fun testDuplicateResourceNameInspection() {
+        doTest(SkinDuplicateResourceNameInspection())
+    }
+
+    fun testDuplicateResourceNameInspectionWithTags() {
+        doTest(SkinDuplicateResourceNameInspection())
+    }
+
+    fun testMissingPropertyInspection() {
+        doTest(SkinMissingPropertyInspection())
+    }
+
+    fun testMissingPropertyInspectionWithTags() {
+        doTest(SkinMissingPropertyInspection())
+    }
+
+    fun testDuplicatePropertyInspection() {
+        doTest(SkinDuplicatePropertyInspection())
+    }
+
+    fun testDeprecatedInspection() {
+        copyFileToProject("com/example/DeprecatedClass.java")
+        doTest(SkinDeprecatedInspection())
+    }
+
+    fun testAbbrClassInspectionWithTags() {
+        myFixture.enableInspections(SkinAbbrClassInspection::class.java)
+        InspectionProjectProfileManager.getInstance(project).currentProfile.allTools.forEach {
+            if (it.tool.displayName == message("skin.inspection.abbr.class.display.name")) {
+                it.level = HighlightDisplayLevel.WARNING
+            }
+        }
+        myFixture.testHighlighting(true, false, false, testname() + ".skin")
+    }
+
+    fun testNonExistingResourceAliasQuickfixes() {
+        myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
+        configureByFile("nonExistingResourceAliasFixes.skin")
+        doAllIntentions<SkinStringLiteral>(CreateAssetQuickFix.FAMILY_NAME)
+        myFixture.checkResultByFile("nonExistingResourceAliasFixes.after", true)
+    }
+
+    fun testAbbrClassInspectionWithTagsQuickfixes() {
+        myFixture.enableInspections(SkinAbbrClassInspection::class.java)
+        configureByFile("abbrClassInspectionFixes.skin")
+        doAllIntentions<SkinClassName>(SkinAbbrClassInspection.FAMILY_NAME)
+        myFixture.checkResultByFile("abbrClassInspectionFixes.after")
+    }
+
+    fun testSuppression() {
+        myFixture.enableInspections(
             SkinMalformedColorStringInspection::class.java,
             SkinDuplicatePropertyInspection::class.java,
             SkinNonExistingFieldInspection::class.java
-    )
-    myFixture.testHighlighting(true, false, false, "suppression.skin")
-  }
-
-  fun testNonExistingFontFileInspection() {
-    copyDirectoryToProject("x", "x")
-    copyDirectoryToProject("z", "z")
-    doTest(SkinNonExistingFontFileInspection())
-  }
-
-  private fun doTest(inspection: LocalInspectionTool) {
-    myFixture.enableInspections(inspection::class.java)
-    myFixture.testHighlighting(true, false, false, testname() + ".skin")
-  }
-
-  override fun setUp() {
-    super.setUp()
-
-    myFixture.allowTreeAccessForAllFiles()
-
-    addLibGDX()
-    addKotlin()
-    addFreeType()
-
-    if (testname().contains("tags", ignoreCase = true)) {
-      addDummyLibGDX199()
-      addAnnotations()
-    } else {
-      removeDummyLibGDX199()
+        )
+        myFixture.testHighlighting(true, false, false, "suppression.skin")
     }
 
-    copyFileToProject("com/example/ColorArrayHolder.java")
-    copyFileToProject("com/example/KColorArrayHolder.kt")
-    copyFileToProject("atlas.atlas", testname() + ".atlas")
+    fun testNonExistingFontFileInspection() {
+        copyDirectoryToProject("x", "x")
+        copyDirectoryToProject("z", "z")
+        doTest(SkinNonExistingFontFileInspection())
+    }
 
-  }
+    private fun doTest(inspection: LocalInspectionTool) {
+        myFixture.enableInspections(inspection::class.java)
+        myFixture.testHighlighting(true, false, false, testname() + ".skin")
+    }
 
-  override fun getBasePath() = "/filetypes/skin/inspections/"
+    override fun setUp() {
+        super.setUp()
+
+        myFixture.allowTreeAccessForAllFiles()
+
+        addLibGDX()
+        addKotlin()
+        addFreeType()
+
+        if (testname().contains("tags", ignoreCase = true)) {
+            addDummyLibGDX199()
+            addAnnotations()
+        } else {
+            removeDummyLibGDX199()
+        }
+
+        copyFileToProject("com/example/ColorArrayHolder.java")
+        copyFileToProject("com/example/KColorArrayHolder.kt")
+        copyFileToProject("atlas.atlas", testname() + ".atlas")
+
+    }
+
+    override fun getBasePath() = "/filetypes/skin/inspections/"
 }

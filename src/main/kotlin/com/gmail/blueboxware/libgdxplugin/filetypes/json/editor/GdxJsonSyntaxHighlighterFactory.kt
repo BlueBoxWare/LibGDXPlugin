@@ -27,34 +27,35 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonSyntaxHighlighterFactory: SyntaxHighlighterFactory() {
+class GdxJsonSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
-  override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = GdxJsonHighlighter()
+    override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = GdxJsonHighlighter()
 
-  class GdxJsonHighlighter: SyntaxHighlighterBase() {
+    class GdxJsonHighlighter : SyntaxHighlighterBase() {
 
-    override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> = pack(attributes[tokenType])
+        override fun getTokenHighlights(tokenType: IElementType?): Array<TextAttributesKey> =
+            pack(attributes[tokenType])
 
-    override fun getHighlightingLexer(): Lexer = GdxJsonLexer()
+        override fun getHighlightingLexer(): Lexer = GdxJsonLexer()
 
-    companion object {
+        companion object {
 
-      val attributes = mapOf(
-              GdxJsonElementTypes.L_CURLY to JsonSyntaxHighlighterFactory.JSON_BRACES,
-              GdxJsonElementTypes.R_CURLY to JsonSyntaxHighlighterFactory.JSON_BRACES,
+            val attributes = mapOf(
+                GdxJsonElementTypes.L_CURLY to JsonSyntaxHighlighterFactory.JSON_BRACES,
+                GdxJsonElementTypes.R_CURLY to JsonSyntaxHighlighterFactory.JSON_BRACES,
 
-              GdxJsonElementTypes.L_BRACKET to JsonSyntaxHighlighterFactory.JSON_BRACKETS,
-              GdxJsonElementTypes.R_BRACKET to JsonSyntaxHighlighterFactory.JSON_BRACKETS,
+                GdxJsonElementTypes.L_BRACKET to JsonSyntaxHighlighterFactory.JSON_BRACKETS,
+                GdxJsonElementTypes.R_BRACKET to JsonSyntaxHighlighterFactory.JSON_BRACKETS,
 
-              GdxJsonElementTypes.COMMA to JsonSyntaxHighlighterFactory.JSON_COMMA,
-              GdxJsonElementTypes.COLON to JsonSyntaxHighlighterFactory.JSON_COLON,
+                GdxJsonElementTypes.COMMA to JsonSyntaxHighlighterFactory.JSON_COMMA,
+                GdxJsonElementTypes.COLON to JsonSyntaxHighlighterFactory.JSON_COLON,
 
-              GdxJsonElementTypes.LINE_COMMENT to JsonSyntaxHighlighterFactory.JSON_LINE_COMMENT,
-              GdxJsonElementTypes.BLOCK_COMMENT to JsonSyntaxHighlighterFactory.JSON_BLOCK_COMMENT
-      )
+                GdxJsonElementTypes.LINE_COMMENT to JsonSyntaxHighlighterFactory.JSON_LINE_COMMENT,
+                GdxJsonElementTypes.BLOCK_COMMENT to JsonSyntaxHighlighterFactory.JSON_BLOCK_COMMENT
+            )
+
+        }
 
     }
-
-  }
 
 }

@@ -31,83 +31,83 @@ import com.intellij.ui.EditorNotificationPanel
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonEditorNotificationProvider(project: Project): FileTypeEditorNotificationProvider(
-        project,
-        LibGDXSkinLanguage.INSTANCE
+class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
+    project,
+    LibGDXSkinLanguage.INSTANCE
 ) {
 
-  override val messageKey = "json.file.detected"
+    override val messageKey = "json.file.detected"
 
-  override fun onYes(file: VirtualFile) = project.markFileAsGdxJson(file)
+    override fun onYes(file: VirtualFile) = project.markFileAsGdxJson(file)
 
-  override fun onNo(file: VirtualFile) = project.markFileAsNonGdxJson(file)
+    override fun onNo(file: VirtualFile) = project.markFileAsNonGdxJson(file)
 
-  override fun onNever(settings: LibGDXPluginSettings) {
-    settings.neverAskAboutJsonFiles = true
-  }
+    override fun onNever(settings: LibGDXPluginSettings) {
+        settings.neverAskAboutJsonFiles = true
+    }
 
-  override fun shouldShowNotification(
-          currentLanguage: Language?,
-          file: VirtualFile,
-          fileEditor: TextEditor,
-          settings: LibGDXPluginSettings
-  ): Boolean =
-          showNotification(project, currentLanguage, file, settings)
+    override fun shouldShowNotification(
+        currentLanguage: Language?,
+        file: VirtualFile,
+        fileEditor: TextEditor,
+        settings: LibGDXPluginSettings
+    ): Boolean =
+        showNotification(project, currentLanguage, file, settings)
 
-  override fun getKey(): Key<EditorNotificationPanel> = KEY
+    override fun getKey(): Key<EditorNotificationPanel> = KEY
 
-  companion object {
-    val KEY = key<EditorNotificationPanel>("json.file.detected")
+    companion object {
+        val KEY = key<EditorNotificationPanel>("json.file.detected")
 
-    fun showNotification(
+        fun showNotification(
             project: Project,
             currentLanguage: Language?,
             file: VirtualFile,
             settings: LibGDXPluginSettings
-    ): Boolean {
+        ): Boolean {
 
-      if (settings.neverAskAboutJsonFiles) {
-        return false
-      } else if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
-        return false
-      } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
-        return false
-      } else {
+            if (settings.neverAskAboutJsonFiles) {
+                return false
+            } else if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
+                return false
+            } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
+                return false
+            } else {
 
-        val nonGdxJsonFiles = project.getComponent(LibGDXProjectNonGdxJsonFiles::class.java)
+                val nonGdxJsonFiles = project.getComponent(LibGDXProjectNonGdxJsonFiles::class.java)
 
-        if (nonGdxJsonFiles.contains(file)) {
-          return false
-        } else {
+                if (nonGdxJsonFiles.contains(file)) {
+                    return false
+                } else {
 
-          if (currentLanguage == JsonLanguage.INSTANCE) {
+                    if (currentLanguage == JsonLanguage.INSTANCE) {
 
-            var count = 0
+                        var count = 0
 
-            (PsiManager.getInstance(project).findFile(file) as? JsonFile)
-                    ?.childrenOfType<JsonValue>()
-                    ?.forEach { value ->
-                      if (value is JsonStringLiteral || value is JsonReferenceExpression) {
+                        (PsiManager.getInstance(project).findFile(file) as? JsonFile)
+                            ?.childrenOfType<JsonValue>()
+                            ?.forEach { value ->
+                                if (value is JsonStringLiteral || value is JsonReferenceExpression) {
 
-                        if (!JsonPsiUtil.getElementTextWithoutHostEscaping(value).startsWith("\"")) {
-                          count++
-                        }
+                                    if (!JsonPsiUtil.getElementTextWithoutHostEscaping(value).startsWith("\"")) {
+                                        count++
+                                    }
 
-                        if (count > 5) {
-                          return true
-                        }
-                      }
+                                    if (count > 5) {
+                                        return true
+                                    }
+                                }
+                            }
+
                     }
 
-          }
 
+                }
+            }
+
+            return false
 
         }
-      }
-
-      return false
 
     }
-
-  }
 }

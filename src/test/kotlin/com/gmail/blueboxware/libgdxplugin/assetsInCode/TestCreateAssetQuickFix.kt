@@ -23,14 +23,14 @@ import com.intellij.application.options.CodeStyle
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
+class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testCreateColor1() = doJavaTest(
-          "",
-          """
+    fun testCreateColor1() = doJavaTest(
+        "",
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             {
               com.badlogic.gdx.graphics.Color: {
                 yellow: {
@@ -39,14 +39,14 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor2() = doJavaTest(
-          "{}",
-          """
+    fun testCreateColor2() = doJavaTest(
+        "{}",
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             {
               com.badlogic.gdx.graphics.Color: {
                 yellow: {
@@ -55,10 +55,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor3() = doJavaTest(
-          """
+    fun testCreateColor3() = doJavaTest(
+        """
              {
               com.badlogic.gdx.graphics.Color: {
                 red: {
@@ -67,10 +67,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
            {
             com.badlogic.gdx.graphics.Color: {
               red: {
@@ -82,10 +82,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
             }
           }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor4() = doJavaTest(
-          """
+    fun testCreateColor4() = doJavaTest(
+        """
             // Comments
 
             /*
@@ -99,10 +99,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               */
             }
           """.trimIndent(),
-          """
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             // Comments
 
             /*
@@ -121,10 +121,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor5() = doJavaTest(
-          """
+    fun testCreateColor5() = doJavaTest(
+        """
            // Comments
            {
             // Comments
@@ -139,10 +139,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
             }
            }
           """.trimIndent(),
-          """
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             // Comments
             {
              // Comments
@@ -161,14 +161,14 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
              }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor991() = doJavaTest(
-          "",
-          """
+    fun testCreateColor991() = doJavaTest(
+        "",
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             {
               Color: {
                 yellow: {
@@ -177,10 +177,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor992() = doJavaTest(
-          """
+    fun testCreateColor992() = doJavaTest(
+        """
              {
               Color: {
                 red: {
@@ -189,10 +189,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
            {
             Color: {
               red: {
@@ -204,10 +204,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
             }
           }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColor993() = doJavaTest(
-          """
+    fun testCreateColor993() = doJavaTest(
+        """
             {
               Color: {
                 red: {
@@ -219,10 +219,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             skin.getColor("<caret>yellow");
           """,
-          """
+        """
             {
               Color: {
                 red: {
@@ -237,14 +237,14 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateColorKotlin1() = doKotlinTest(
-          "",
-          """
+    fun testCreateColorKotlin1() = doKotlinTest(
+        "",
+        """
             skin.getColor("<caret>yellow")
           """,
-          """
+        """
             {
               com.badlogic.gdx.graphics.Color: {
                 yellow: {
@@ -253,14 +253,14 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateTintedDrawable1() = doJavaTest(
-          "",
-          """
+    fun testCreateTintedDrawable1() = doJavaTest(
+        "",
+        """
             skin.getDrawable("tinted<caret>");
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 tinted: {
@@ -270,10 +270,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateTintedDrawable2() {
-    doJavaTest(
+    fun testCreateTintedDrawable2() {
+        doJavaTest(
             "",
             """
             skin.getDrawable("tinted<caret>");
@@ -288,17 +288,17 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
                 }
               }
             """.trimIndent()
-    ) {
-      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
+        ) {
+            CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).SPACE_AFTER_COLON = false
+        }
     }
-  }
 
-  fun testCreateTintedDrawableKotlin() = doKotlinTest(
-          "",
-          """
+    fun testCreateTintedDrawableKotlin() = doKotlinTest(
+        "",
+        """
             skin.newDrawable("tinted<caret>")
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 tinted: {
@@ -308,24 +308,24 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateResource1() = doJavaTest(
-          "",
-          """
+    fun testCreateResource1() = doJavaTest(
+        "",
+        """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 myButtonStyle: { <caret>  }
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateResource991() = doJavaTest(
-          """
+    fun testCreateResource991() = doJavaTest(
+        """
             {
               TextButtonStyle {
                 f: {}
@@ -335,10 +335,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-          """
+        """
             {
               TextButtonStyle {
                 f: {}
@@ -349,10 +349,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCreateResource992() = doJavaTest(
-          """
+    fun testCreateResource992() = doJavaTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
                 f: {}
@@ -362,10 +362,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
                 f: {}
@@ -376,9 +376,9 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  private val javaContent = """
+    private val javaContent = """
       import com.badlogic.gdx.scenes.scene2d.ui.Button;
       import com.badlogic.gdx.scenes.scene2d.ui.Skin;
       import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -395,7 +395,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
       }
   """.trimIndent()
 
-  private val kotlinContent = """
+    private val kotlinContent = """
     import com.badlogic.gdx.scenes.scene2d.ui.Button
     import com.badlogic.gdx.scenes.scene2d.ui.Skin
     import com.badlogic.gdx.scenes.scene2d.ui.TextButton
@@ -409,70 +409,70 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
     }
   """.trimIndent()
 
-  private fun doJavaTest(
-          skinFileContent: String,
-          codeFileContent: String,
-          expectedSkinContent: String,
-          init: (() -> Unit)? = null
-  ) {
-    doTest(
+    private fun doJavaTest(
+        skinFileContent: String,
+        codeFileContent: String,
+        expectedSkinContent: String,
+        init: (() -> Unit)? = null
+    ) {
+        doTest(
             skinFileContent,
             javaContent.replace("<content>", codeFileContent),
             ".java",
             expectedSkinContent,
             init
-    )
-  }
+        )
+    }
 
-  private fun doKotlinTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
-    addKotlin()
-    doTest(
+    private fun doKotlinTest(skinFileContent: String, codeFileContent: String, expectedSkinContent: String) {
+        addKotlin()
+        doTest(
             skinFileContent,
             kotlinContent.replace("<content>", codeFileContent),
             ".kt",
             expectedSkinContent
-    )
-  }
-
-  fun doTest(
-          skinFileContent: String,
-          codeFileContent: String,
-          extension: String,
-          expectedSkinContent: String,
-          init: (() -> Unit)? = null
-  ) {
-    myFixture.enableInspections(JavaNonExistingAssetInspection::class.java)
-    myFixture.enableInspections(KotlinNonExistingAssetInspection::class.java)
-
-    val skinFile = configureByText("skin.skin", skinFileContent)
-    configureByText("Test.$extension", codeFileContent)
-    init?.invoke()
-
-    for (intention in myFixture.availableIntentions) {
-      if (intention.familyName.startsWith("Create resource")) {
-        myFixture.launchAction(intention)
-        myFixture.openFileInEditor(skinFile.virtualFile)
-        myFixture.checkResult(expectedSkinContent, true)
-        return
-      }
+        )
     }
 
-    throw AssertionError("Intention not found")
+    fun doTest(
+        skinFileContent: String,
+        codeFileContent: String,
+        extension: String,
+        expectedSkinContent: String,
+        init: (() -> Unit)? = null
+    ) {
+        myFixture.enableInspections(JavaNonExistingAssetInspection::class.java)
+        myFixture.enableInspections(KotlinNonExistingAssetInspection::class.java)
 
-  }
+        val skinFile = configureByText("skin.skin", skinFileContent)
+        configureByText("Test.$extension", codeFileContent)
+        init?.invoke()
 
-  override fun setUp() {
-    super.setUp()
+        for (intention in myFixture.availableIntentions) {
+            if (intention.familyName.startsWith("Create resource")) {
+                myFixture.launchAction(intention)
+                myFixture.openFileInEditor(skinFile.virtualFile)
+                myFixture.checkResult(expectedSkinContent, true)
+                return
+            }
+        }
 
-    addAnnotations()
-    addLibGDX()
+        throw AssertionError("Intention not found")
 
-    if (testname().contains("99")) {
-      addDummyLibGDX199()
-    } else {
-      removeDummyLibGDX199()
     }
 
-  }
+    override fun setUp() {
+        super.setUp()
+
+        addAnnotations()
+        addLibGDX()
+
+        if (testname().contains("99")) {
+            addDummyLibGDX199()
+        } else {
+            removeDummyLibGDX199()
+        }
+
+    }
 
 }

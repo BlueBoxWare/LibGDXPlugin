@@ -26,40 +26,40 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinErrorsAnnotator: Annotator {
+class SkinErrorsAnnotator : Annotator {
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (element is SkinStringLiteral) {
+        if (element is SkinStringLiteral) {
 
-      // Missing closing quote
-      val length = element.text.length
-      if (length > 0) {
-        val firstChar = element.text.firstOrNull()
-        val lastChar = element.text.lastOrNull()
-        if (firstChar == '\"') {
-          if (length == 1 || (length > 1 && (lastChar != '\"' || element.text.isEscapedChar(length - 1)))) {
-            holder
-                    .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.closing.quote"))
-                    .range(element)
+            // Missing closing quote
+            val length = element.text.length
+            if (length > 0) {
+                val firstChar = element.text.firstOrNull()
+                val lastChar = element.text.lastOrNull()
+                if (firstChar == '\"') {
+                    if (length == 1 || (length > 1 && (lastChar != '\"' || element.text.isEscapedChar(length - 1)))) {
+                        holder
+                            .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.closing.quote"))
+                            .range(element)
+                            .create()
+                        return
+                    }
+                }
+            }
+
+            // Illegal escape sequences
+            element.text.unescape { start, end ->
+                val absStart = element.startOffset + start
+                val absEnd = element.startOffset + end
+                holder
+                    .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.escape"))
+                    .range(TextRange(absStart, absEnd))
                     .create()
-            return
-          }
-        }
-      }
+            }
 
-      // Illegal escape sequences
-      element.text.unescape { start, end ->
-        val absStart = element.startOffset + start
-        val absEnd = element.startOffset + end
-        holder
-                .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.escape"))
-                .range(TextRange(absStart, absEnd))
-                .create()
-      }
+        }
 
     }
-
-  }
 
 }

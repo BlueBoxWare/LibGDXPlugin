@@ -30,35 +30,35 @@ import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
+class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testCompletionJava() {
+    fun testCompletionJava() {
 
-    listOf(
+        listOf(
             """Colors.get("<caret>");""" to (
                     listOf(
-                            "BLUE",
-                            "RED",
-                            "singlePutJava",
-                            "multiJava",
-                            "singleGetColorsJava",
-                            "singlePutKotlin",
-                            "singleGetColorsKotlin",
-                            "multiKotlin"
+                        "BLUE",
+                        "RED",
+                        "singlePutJava",
+                        "multiJava",
+                        "singleGetColorsJava",
+                        "singlePutKotlin",
+                        "singleGetColorsKotlin",
+                        "multiKotlin"
                     ) to listOf("")
                     ),
             """Colors.get("sin<caret>");""" to (
                     listOf(
-                            "singlePutJava",
-                            "singleGetColorsJava",
-                            "singlePutKotlin",
-                            "singleGetColorsKotlin"
+                        "singlePutJava",
+                        "singleGetColorsJava",
+                        "singlePutKotlin",
+                        "singleGetColorsKotlin"
                     ) to listOf("multiJava", "multiKotlin", "RED")
                     )
-    ).forEach {
-      doTestCompletion(
-              "Test.java",
-              """
+        ).forEach {
+            doTestCompletion(
+                "Test.java",
+                """
                 import com.badlogic.gdx.graphics.Colors;
                 class Test {
                   void m() {
@@ -66,57 +66,57 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
                   }
                 }
               """.trimIndent(),
-              it.second.first,
-              it.second.second
-      )
+                it.second.first,
+                it.second.second
+            )
+        }
+
     }
 
-  }
+    fun testCompletionKotlin() {
 
-  fun testCompletionKotlin() {
-
-    listOf(
+        listOf(
             """Colors.get("<caret>")""" to (
                     listOf(
-                            "BLUE",
-                            "RED",
-                            "singlePutJava",
-                            "multiJava",
-                            "singleGetColorsJava",
-                            "singlePutKotlin",
-                            "singleGetColorsKotlin",
-                            "multiKotlin"
+                        "BLUE",
+                        "RED",
+                        "singlePutJava",
+                        "multiJava",
+                        "singleGetColorsJava",
+                        "singlePutKotlin",
+                        "singleGetColorsKotlin",
+                        "multiKotlin"
                     ) to listOf("")),
             """Colors.get("sin<caret>")""" to (
                     listOf(
-                            "singlePutJava",
-                            "singleGetColorsJava",
-                            "singlePutKotlin",
-                            "singleGetColorsKotlin"
+                        "singlePutJava",
+                        "singleGetColorsJava",
+                        "singlePutKotlin",
+                        "singleGetColorsKotlin"
                     ) to listOf(
-                            "multiJava",
-                            "multiKotlin",
-                            "RED"
+                        "multiJava",
+                        "multiKotlin",
+                        "RED"
                     ))
-    ).forEach {
-      doTestCompletion(
-              "Test.kt",
-              """
+        ).forEach {
+            doTestCompletion(
+                "Test.kt",
+                """
                 import com.badlogic.gdx.graphics.Colors
                 fun
                   val c = ${it.first}
                 }
               """.trimIndent(),
-              it.second.first,
-              it.second.second
-      )
+                it.second.first,
+                it.second.second
+            )
+        }
+
     }
 
-  }
+    fun testJavaReferences() {
 
-  fun testJavaReferences() {
-
-    listOf(
+        listOf(
             """Colors.get("singlePutJava");""",
             """Colors.get("multiJava");""",
             """Colors.get("singleGetColorsJava");""",
@@ -125,9 +125,9 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             """Colors.getColors().get("multiKotlin");""",
             """Colors.getColors().get("singleGetColorsKotlin");""",
             """Colors.get("YELLOW");"""
-    ).forEach {
-      doTestReference(
-              JavaFileType.INSTANCE, """
+        ).forEach {
+            doTestReference(
+                JavaFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
@@ -135,10 +135,10 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
           }
         }
       """.trimIndent()
-      )
-    }
+            )
+        }
 
-    doTestReference(
+        doTestReference(
             JavaFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
@@ -147,13 +147,13 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
           }
         }
     """.trimIndent(), shouldFindSomething = false
-    )
+        )
 
-  }
+    }
 
-  fun testKotlinReferences() {
+    fun testKotlinReferences() {
 
-    listOf(
+        listOf(
             """Colors.get("singlePutJava")""",
             """Colors.get("multiJava")""",
             """Colors.get("singleGetColorsJava")""",
@@ -162,29 +162,29 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             """Colors.getColors().get("multiKotlin")""",
             """Colors.getColors().get("singleGetColorsKotlin")""",
             """Colors.get("YELLOW")"""
-    ).forEach {
-      doTestReference(
-              KotlinFileType.INSTANCE, """
+        ).forEach {
+            doTestReference(
+                KotlinFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
           val c = ${it.replaceFirst("\"", "\"<caret>")}
         }
       """.trimIndent()
-      )
-    }
+            )
+        }
 
-    doTestReference(
+        doTestReference(
             KotlinFileType.INSTANCE, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
           val c = Colors.get("nothing")
         }
     """.trimIndent(), shouldFindSomething = false
-    )
-  }
+        )
+    }
 
-  fun testFindUsagesJava1() = doTestFindUsages(
-          JavaFileType.INSTANCE, 6, """
+    fun testFindUsagesJava1() = doTestFindUsages(
+        JavaFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
@@ -194,10 +194,10 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
           }
         }
   """.trimIndent()
-  )
+    )
 
-  fun testFindUsagesJava2() = doTestFindUsages(
-          JavaFileType.INSTANCE, 6, """
+    fun testFindUsagesJava2() = doTestFindUsages(
+        JavaFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors;
         class Test {
           void m() {
@@ -207,10 +207,10 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
           }
         }
   """.trimIndent()
-  )
+    )
 
-  fun testFindUsagesKotlin1() = doTestFindUsages(
-          KotlinFileType.INSTANCE, 6, """
+    fun testFindUsagesKotlin1() = doTestFindUsages(
+        KotlinFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
             Colors.get("c")
@@ -218,10 +218,10 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             Colors.getColors().get("c")
         }
   """.trimIndent()
-  )
+    )
 
-  fun testFindUsagesKotlin2() = doTestFindUsages(
-          KotlinFileType.INSTANCE, 6, """
+    fun testFindUsagesKotlin2() = doTestFindUsages(
+        KotlinFileType.INSTANCE, 6, """
         import com.badlogic.gdx.graphics.Colors
         fun f() {
             Colors.get("c")
@@ -229,59 +229,59 @@ class TestColorsHandling: LibGDXCodeInsightFixtureTestCase() {
             Colors.getColors().get("c")
         }
   """.trimIndent()
-  )
+    )
 
-  private fun doTestFindUsages(fileType: FileType, numberToFind: Int, content: String) {
+    private fun doTestFindUsages(fileType: FileType, numberToFind: Int, content: String) {
 
-    configureByText(fileType, content)
+        configureByText(fileType, content)
 
-    val targetElement = file.findElementAt(myFixture.caretOffset)!!.parent
-    val usages = myFixture.findUsages(targetElement)
+        val targetElement = file.findElementAt(myFixture.caretOffset)!!.parent
+        val usages = myFixture.findUsages(targetElement)
 
-    assertEquals(numberToFind, usages.size)
+        assertEquals(numberToFind, usages.size)
 
-    usages.forEach { usage ->
-      assertEquals(targetElement, usage.element!!.references.firstIsInstance<ColorsReference>().resolve()!!)
-    }
-  }
-
-  private fun doTestReference(fileType: FileType, content: String, shouldFindSomething: Boolean = true) {
-
-    configureByText(fileType, content)
-    val element = file.findElementAt(myFixture.caretOffset)!!.parent.let {
-      if (it is KtStringTemplateEntry) it.parent else it
-    }
-    val originalColorName = plainText(element)
-
-    element.references.filterIsInstance<ColorsReference>().let { references ->
-      TestCase.assertEquals(1, references.size)
-      val referents = references.first().multiResolve(true)
-      TestCase.assertEquals(shouldFindSomething, referents.isNotEmpty())
-      referents.map { it.element }.forEach { referent ->
-        TestCase.assertEquals(originalColorName, plainText(referent!!))
-      }
+        usages.forEach { usage ->
+            assertEquals(targetElement, usage.element!!.references.firstIsInstance<ColorsReference>().resolve()!!)
+        }
     }
 
-  }
+    private fun doTestReference(fileType: FileType, content: String, shouldFindSomething: Boolean = true) {
 
-  private fun plainText(element: PsiElement) =
-          (element as? PsiLiteralExpression)?.asString()
-                  ?: (element as? KtStringTemplateExpression)?.asPlainString()
-                  ?: throw AssertionError()
+        configureByText(fileType, content)
+        val element = file.findElementAt(myFixture.caretOffset)!!.parent.let {
+            if (it is KtStringTemplateEntry) it.parent else it
+        }
+        val originalColorName = plainText(element)
 
-  override fun setUp() {
+        element.references.filterIsInstance<ColorsReference>().let { references ->
+            TestCase.assertEquals(1, references.size)
+            val referents = references.first().multiResolve(true)
+            TestCase.assertEquals(shouldFindSomething, referents.isNotEmpty())
+            referents.map { it.element }.forEach { referent ->
+                TestCase.assertEquals(originalColorName, plainText(referent!!))
+            }
+        }
 
-    super.setUp()
+    }
 
-    addLibGDX()
-    addLibGDXSources()
-    addKotlin()
+    private fun plainText(element: PsiElement) =
+        (element as? PsiLiteralExpression)?.asString()
+            ?: (element as? KtStringTemplateExpression)?.asPlainString()
+            ?: throw AssertionError()
 
-    copyFileToProject("src/JavaColorDefinitions.java")
-    copyFileToProject("src/KotlinColorDefinitions.kt")
+    override fun setUp() {
 
-  }
+        super.setUp()
 
-  override fun getBasePath() = "colorsHandling"
+        addLibGDX()
+        addLibGDXSources()
+        addKotlin()
+
+        copyFileToProject("src/JavaColorDefinitions.java")
+        copyFileToProject("src/KotlinColorDefinitions.kt")
+
+    }
+
+    override fun getBasePath() = "colorsHandling"
 
 }

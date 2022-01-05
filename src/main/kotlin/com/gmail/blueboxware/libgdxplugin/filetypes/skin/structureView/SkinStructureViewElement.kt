@@ -30,79 +30,81 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinStructureViewElement(val element: PsiElement): StructureViewTreeElement, SortableTreeElement {
+class SkinStructureViewElement(val element: PsiElement) : StructureViewTreeElement, SortableTreeElement {
 
-  override fun getPresentation() = object: ItemPresentation {
-    override fun getLocationString(): String? {
-      if (element is SkinObject) {
-        return element.resolveToTypeString()
-      }
+    override fun getPresentation() = object : ItemPresentation {
+        override fun getLocationString(): String? {
+            if (element is SkinObject) {
+                return element.resolveToTypeString()
+            }
 
-      return null
-    }
-
-    override fun getIcon(unused: Boolean): Icon? = (element as? NavigationItem)?.presentation?.getIcon(true)
-
-    override fun getPresentableText(): String? = (element as? NavigationItem)?.presentation?.presentableText
-  }
-
-  override fun canNavigate() = element is NavigationItem && element.canNavigate()
-
-  override fun canNavigateToSource() = element is NavigationItem && element.canNavigateToSource()
-
-  override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
-
-  override fun getValue() = element
-
-  override fun getAlphaSortKey() = (element as? PsiNamedElement)?.name ?: ""
-
-  //
-  // Adapted from https://github.com/JetBrains/intellij-community/blob/ab08c979a5826bf293ae03cd67463941b0066eb8/json/src/com/intellij/json/structureView/JsonStructureViewElement.java
-  //
-  override fun getChildren(): Array<out TreeElement> {
-    var value: Any? = null
-
-    if (element is SkinFile) {
-      return ContainerUtil.map2Array(
-              element.getClassSpecifications(),
-              TreeElement::class.java,
-              Function(::SkinStructureViewElement)
-      )
-    } else if (element is SkinProperty) {
-      value = element.value
-    } else if (element is SkinElement
-            && PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)) {
-      value = element
-    } else if (element is SkinClassSpecification) {
-      value = element.resourcesAsList
-    } else if (element is SkinResource) {
-      value = element.`object`
-    }
-
-    when (value) {
-      is SkinObject -> {
-        return ContainerUtil.map2Array(
-                value.propertyList,
-                TreeElement::class.java,
-                Function(::SkinStructureViewElement)
-        )
-      }
-      is SkinArray -> {
-        val childObjects: List<SkinStructureViewElement?> = ContainerUtil.mapNotNull(value.valueList) { value1 ->
-          when (value1) {
-            is SkinObject -> SkinStructureViewElement(value1)
-            is SkinArray -> SkinStructureViewElement(value1)
-            else -> null
-          }
+            return null
         }
 
-        return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
-      }
-      is List<*> -> {
-        return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
-      }
-      else -> return EMPTY_ARRAY
+        override fun getIcon(unused: Boolean): Icon? = (element as? NavigationItem)?.presentation?.getIcon(true)
+
+        override fun getPresentableText(): String? = (element as? NavigationItem)?.presentation?.presentableText
     }
 
-  }
+    override fun canNavigate() = element is NavigationItem && element.canNavigate()
+
+    override fun canNavigateToSource() = element is NavigationItem && element.canNavigateToSource()
+
+    override fun navigate(requestFocus: Boolean) = (element as? NavigationItem)?.navigate(requestFocus) ?: Unit
+
+    override fun getValue() = element
+
+    override fun getAlphaSortKey() = (element as? PsiNamedElement)?.name ?: ""
+
+    //
+    // Adapted from https://github.com/JetBrains/intellij-community/blob/ab08c979a5826bf293ae03cd67463941b0066eb8/json/src/com/intellij/json/structureView/JsonStructureViewElement.java
+    //
+    override fun getChildren(): Array<out TreeElement> {
+        var value: Any? = null
+
+        if (element is SkinFile) {
+            return ContainerUtil.map2Array(
+                element.getClassSpecifications(),
+                TreeElement::class.java,
+                Function(::SkinStructureViewElement)
+            )
+        } else if (element is SkinProperty) {
+            value = element.value
+        } else if (element is SkinElement
+            && PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)
+        ) {
+            value = element
+        } else if (element is SkinClassSpecification) {
+            value = element.resourcesAsList
+        } else if (element is SkinResource) {
+            value = element.`object`
+        }
+
+        when (value) {
+            is SkinObject -> {
+                return ContainerUtil.map2Array(
+                    value.propertyList,
+                    TreeElement::class.java,
+                    Function(::SkinStructureViewElement)
+                )
+            }
+            is SkinArray -> {
+                val childObjects: List<SkinStructureViewElement?> =
+                    ContainerUtil.mapNotNull(value.valueList) { value1 ->
+                        when (value1) {
+                            is SkinObject -> SkinStructureViewElement(value1)
+                            is SkinArray -> SkinStructureViewElement(value1)
+                            else -> null
+                        }
+                    }
+
+                return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
+            }
+            is List<*> -> {
+                return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
+            }
+            else -> return EMPTY_ARRAY
+        }
+
+    }
 }

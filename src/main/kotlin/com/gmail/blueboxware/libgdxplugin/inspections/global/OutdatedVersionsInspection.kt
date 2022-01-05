@@ -26,43 +26,43 @@ import com.intellij.openapi.components.service
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class OutdatedVersionsInspection: GlobalInspectionTool() {
+class OutdatedVersionsInspection : GlobalInspectionTool() {
 
-  override fun getStaticDescription() =
-          message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
+    override fun getStaticDescription() =
+        message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
-  override fun runInspection(
-          scope: AnalysisScope,
-          manager: InspectionManager,
-          globalContext: GlobalInspectionContext,
-          problemDescriptionsProcessor: ProblemDescriptionsProcessor
-  ) {
+    override fun runInspection(
+        scope: AnalysisScope,
+        manager: InspectionManager,
+        globalContext: GlobalInspectionContext,
+        problemDescriptionsProcessor: ProblemDescriptionsProcessor
+    ) {
 
-    if (!globalContext.project.isLibGDXProject()) {
-      return
-    }
+        if (!globalContext.project.isLibGDXProject()) {
+            return
+        }
 
-    val versionManager = globalContext.project.service<VersionService>()
+        val versionManager = globalContext.project.service<VersionService>()
 
-    for (library in Libraries.values()) {
-      val usedVersion = versionManager.getUsedVersion(library) ?: continue
-      val latestVersion = versionManager.getLatestVersion(library) ?: continue
+        for (library in Libraries.values()) {
+            val usedVersion = versionManager.getUsedVersion(library) ?: continue
+            val latestVersion = versionManager.getLatestVersion(library) ?: continue
 
-      if (usedVersion < latestVersion) {
-        problemDescriptionsProcessor.addProblemElement(
-                // addProblemElement wants a reference or the problem won't be registered, so.. uhm.. yeah
-                globalContext.refManager.refProject,
-                manager.createProblemDescriptor(
+            if (usedVersion < latestVersion) {
+                problemDescriptionsProcessor.addProblemElement(
+                    // addProblemElement wants a reference or the problem won't be registered, so.. uhm.. yeah
+                    globalContext.refManager.refProject,
+                    manager.createProblemDescriptor(
                         message(
-                                "outdated.version.inspection.msg",
-                                library.library.name,
-                                latestVersion
+                            "outdated.version.inspection.msg",
+                            library.library.name,
+                            latestVersion
                         )
+                    )
                 )
-        )
-      }
-    }
+            }
+        }
 
-  }
+    }
 
 }

@@ -21,10 +21,10 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonWordSelectionFilter: Condition<PsiElement> {
+class GdxJsonWordSelectionFilter : Condition<PsiElement> {
 
-  override fun value(t: PsiElement?): Boolean =
-          t !is GdxJsonJobject
-                  && t !is GdxJsonArray
+    override fun value(t: PsiElement?): Boolean =
+        t !is GdxJsonJobject
+                && t !is GdxJsonArray
 
 }

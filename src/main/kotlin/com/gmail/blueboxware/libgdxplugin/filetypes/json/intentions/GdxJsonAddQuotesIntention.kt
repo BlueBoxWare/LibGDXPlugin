@@ -25,27 +25,27 @@ import com.intellij.psi.PsiElement
  * limitations under the License.
  */
 @Suppress("IntentionDescriptionNotFoundInspection")
-class GdxJsonAddQuotesIntention: GdxJsonBaseIntention() {
+class GdxJsonAddQuotesIntention : GdxJsonBaseIntention() {
 
-  override fun getFamilyName(): String = "Wrap with double quotes"
+    override fun getFamilyName(): String = "Wrap with double quotes"
 
-  override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-          (element.parent as? GdxJsonString)?.isQuoted == false
+    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
+        (element.parent as? GdxJsonString)?.isQuoted == false
 
-  override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
+    override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
 
-    (element.parent as? GdxJsonPropertyName)?.let { propertyName ->
-      val oldString = propertyName.getValue()
-      val newString = GdxJsonElementFactory(project).createPropertyName(oldString, true) ?: return
-      propertyName.replace(newString)
-      return
+        (element.parent as? GdxJsonPropertyName)?.let { propertyName ->
+            val oldString = propertyName.getValue()
+            val newString = GdxJsonElementFactory(project).createPropertyName(oldString, true) ?: return
+            propertyName.replace(newString)
+            return
+        }
+
+        (element.parent as? GdxJsonLiteral)?.let { string ->
+            val oldString = string.getValue()
+            val newString = GdxJsonElementFactory(project).createQuotedValueString(oldString) ?: return
+            string.replace(newString)
+        }
+
     }
-
-    (element.parent as? GdxJsonLiteral)?.let { string ->
-      val oldString = string.getValue()
-      val newString = GdxJsonElementFactory(project).createQuotedValueString(oldString) ?: return
-      string.replace(newString)
-    }
-
-  }
 }

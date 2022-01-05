@@ -17,25 +17,25 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
+class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testHighlighting1() {
-    configureByFile("1.skin")
-    myFixture.checkHighlighting(false, false, true)
-  }
+    fun testHighlighting1() {
+        configureByFile("1.skin")
+        myFixture.checkHighlighting(false, false, true)
+    }
 
-  fun testHighlighting2() {
-    configureByFile("2.skin")
-    myFixture.checkHighlighting(false, false, true)
-  }
+    fun testHighlighting2() {
+        configureByFile("2.skin")
+        myFixture.checkHighlighting(false, false, true)
+    }
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addLibGDX()
-    addDummyLibGDX199()
-    copyFileToProject("ColorArrayHolder.java")
-  }
+        addLibGDX()
+        addDummyLibGDX199()
+        copyFileToProject("ColorArrayHolder.java")
+    }
 
-  override fun getBasePath() = "filetypes/skin/colorAnnotator/"
+    override fun getBasePath() = "filetypes/skin/colorAnnotator/"
 }

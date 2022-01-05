@@ -29,23 +29,23 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class CreateColorAction: SimpleCodeInsightAction() {
+class CreateColorAction : SimpleCodeInsightAction() {
 
-  override fun isValidForFile(project: Project, editor: Editor, file: PsiFile): Boolean = file is SkinFile
+    override fun isValidForFile(project: Project, editor: Editor, file: PsiFile): Boolean = file is SkinFile
 
-  override fun startInWriteAction(): Boolean = false
+    override fun startInWriteAction(): Boolean = false
 
-  override fun update(e: AnActionEvent) {
-    super.update(e)
+    override fun update(e: AnActionEvent) {
+        super.update(e)
 
-    templatePresentation.icon = AllIcons.Gutter.Colors
-  }
+        templatePresentation.icon = AllIcons.Gutter.Colors
+    }
 
-  override fun invoke(project: Project, editor: Editor, file: PsiFile) {
+    override fun invoke(project: Project, editor: Editor, file: PsiFile) {
 
-    if (file !is SkinFileImpl) return
+        if (file !is SkinFileImpl) return
 
-    Messages.showInputDialogWithCheckBox(
+        Messages.showInputDialogWithCheckBox(
             "Name for the new color",
             "Name",
             "Use float components",
@@ -54,18 +54,18 @@ class CreateColorAction: SimpleCodeInsightAction() {
             AllIcons.Gutter.Colors,
             null,
             null
-    ).let { result ->
-      if (result.first.isNullOrBlank()) {
-        return
-      }
+        ).let { result ->
+            if (result.first.isNullOrBlank()) {
+                return
+            }
 
-      ColorChooser.chooseColor(editor.component, "Choose Color To Create", Color.WHITE, true)?.let { color ->
-        ApplicationManager.getApplication().runWriteAction {
-          file.addColor(result.first, color = color, useComponents = result.second ?: false)
+            ColorChooser.chooseColor(editor.component, "Choose Color To Create", Color.WHITE, true)?.let { color ->
+                ApplicationManager.getApplication().runWriteAction {
+                    file.addColor(result.first, color = color, useComponents = result.second ?: false)
+                }
+            }
         }
-      }
-    }
 
-  }
+    }
 
 }

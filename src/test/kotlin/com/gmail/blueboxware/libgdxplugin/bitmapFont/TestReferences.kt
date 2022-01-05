@@ -23,30 +23,30 @@ import com.intellij.psi.PsiFile
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestReferences: LibGDXCodeInsightFixtureTestCase() {
+class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testImageFileReference() {
-    configureByFile("assets/test1.atlas")
+    fun testImageFileReference() {
+        configureByFile("assets/test1.atlas")
 
-    val atlasValue = file.findElementAt(myFixture.caretOffset)?.getParentOfType<AtlasValue>()
-    assertNotNull(atlasValue)
-    val reference = atlasValue!!.reference
-    assertNotNull(reference)
-    val psiFile = reference?.resolve() as PsiFile
-    assertNotNull(psiFile)
-    assertEquals(
+        val atlasValue = file.findElementAt(myFixture.caretOffset)?.getParentOfType<AtlasValue>()
+        assertNotNull(atlasValue)
+        val reference = atlasValue!!.reference
+        assertNotNull(reference)
+        val psiFile = reference?.resolve() as PsiFile
+        assertNotNull(psiFile)
+        assertEquals(
             "assets/images/test.png",
             VfsUtilCore.getRelativeLocation(psiFile.virtualFile, project.guessProjectDir()!!)
-    )
+        )
 
-  }
+    }
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    copyFileToProject("assets/images/test.png", "assets/images/test.png")
-  }
+        copyFileToProject("assets/images/test.png", "assets/images/test.png")
+    }
 
-  override fun getBasePath() = "/filetypes/bitmapFont/references/"
+    override fun getBasePath() = "/filetypes/bitmapFont/references/"
 
 }

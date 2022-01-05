@@ -18,4 +18,4 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface GdxJsonFile: GdxJsonElement, PsiFile
+interface GdxJsonFile : GdxJsonElement, PsiFile

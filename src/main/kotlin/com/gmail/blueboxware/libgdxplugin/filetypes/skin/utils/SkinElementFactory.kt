@@ -33,9 +33,9 @@ import java.awt.Color
  */
 class SkinElementFactory(private val project: Project) {
 
-  fun createProperty(name: String, value: String): SkinProperty? =
-          createElement(
-                  """
+    fun createProperty(name: String, value: String): SkinProperty? =
+        createElement(
+            """
             {
               class: {
                 resource: {
@@ -44,11 +44,11 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """
-          )
+        )
 
-  fun createComma(): LeafPsiElement? =
-          createElement(
-                  """
+    fun createComma(): LeafPsiElement? =
+        createElement(
+            """
             {
               class: {
                 resource: {
@@ -57,68 +57,68 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """, ','
-          )
+        )
 
-  fun createNewLine(): PsiWhiteSpace? =
-          createElement(
-                  """
+    fun createNewLine(): PsiWhiteSpace? =
+        createElement(
+            """
             {
 
             }
           """, '\n'
-          )
+        )
 
-  @Suppress("unused")
-  fun createWhitespace(str: String): PsiWhiteSpace? =
-          createElement("{$str}", 1)
+    @Suppress("unused")
+    fun createWhitespace(str: String): PsiWhiteSpace? =
+        createElement("{$str}", 1)
 
-  fun createLeftBrace(): LeafPsiElement? =
-          createElement("{}", '{')
+    fun createLeftBrace(): LeafPsiElement? =
+        createElement("{}", '{')
 
-  fun createRightBrace(): LeafPsiElement? =
-          createElement("{}", '}')
+    fun createRightBrace(): LeafPsiElement? =
+        createElement("{}", '}')
 
-  fun createClassSpec(name: String): SkinClassSpecification? =
-          createElement(
-                  """
+    fun createClassSpec(name: String): SkinClassSpecification? =
+        createElement(
+            """
             {
               $name: {
               }
             }
           """
-          )
+        )
 
-  fun createResource(name: String): Pair<SkinResource, Int>? =
-          createElement<SkinResource>(
-                  """
+    fun createResource(name: String): Pair<SkinResource, Int>? =
+        createElement<SkinResource>(
+            """
             {
               className: {
                 $name: {   }
               }
             }
           """
-          )?.let { element ->
+        )?.let { element ->
             element.`object`?.getOpeningBrace()?.startOffset?.let {
-              Pair(element, it - element.startOffset + 2)
+                Pair(element, it - element.startOffset + 2)
             }
-          }
+        }
 
-  private fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
-          createElement<SkinResource>(
-                  """
+    private fun createColorResource(name: String, color: Color? = null): Pair<SkinResource, Int>? =
+        createElement<SkinResource>(
+            """
             {
               className: {
                 $name: { hex: "${color?.toHexString() ?: "#"}" }
               }
             }
           """
-          )?.let { element ->
+        )?.let { element ->
             Pair(element, element.text.indexOf('#') + 1)
-          }
+        }
 
-  private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
-    val c = (color ?: Color.WHITE).toRGBComponents().toMap()
-    return createElement<SkinResource>(
+    private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
+        val c = (color ?: Color.WHITE).toRGBComponents().toMap()
+        return createElement<SkinResource>(
             """
             {
               className: {
@@ -126,21 +126,21 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """
-    )?.let { element ->
-      Pair(element, element.text.indexOf('r') + 3)
+        )?.let { element ->
+            Pair(element, element.text.indexOf('r') + 3)
+        }
     }
-  }
 
-  fun createColorResource(name: String, color: Color?, useComponents: Boolean) =
-          if (useComponents) {
+    fun createColorResource(name: String, color: Color?, useComponents: Boolean) =
+        if (useComponents) {
             createColorResourceWithComponents(name, color)
-          } else {
+        } else {
             createColorResource(name, color)
-          }
+        }
 
-  fun createTintedDrawableResource(name: String): Pair<SkinResource, Int>? =
-          createElement<SkinResource>(
-                  """
+    fun createTintedDrawableResource(name: String): Pair<SkinResource, Int>? =
+        createElement<SkinResource>(
+            """
             {
               className: {
                 $name: {
@@ -150,82 +150,82 @@ class SkinElementFactory(private val project: Project) {
               }
             }
           """.trimIndent()
-          )?.let { element ->
+        )?.let { element ->
 
             Regex("""name\s*:""").find(element.text)?.range?.endInclusive?.let { end ->
 
-              if (
-                      CodeStyle
-                              .getCustomSettings(element.containingFile, SkinCodeStyleSettings::class.java)
-                              .SPACE_AFTER_COLON
-              ) {
-                end + 2
-              } else {
-                end + 1
-              }
+                if (
+                    CodeStyle
+                        .getCustomSettings(element.containingFile, SkinCodeStyleSettings::class.java)
+                        .SPACE_AFTER_COLON
+                ) {
+                    end + 2
+                } else {
+                    end + 1
+                }
             }?.let { Pair(element, it) }
 
-          }
+        }
 
-  fun createObject(): SkinObject? =
-          createElement(
-                  """
+    fun createObject(): SkinObject? =
+        createElement(
+            """
                     {
                       className: {
                         default: { }
                       }
                     }
                   """.trimIndent()
-          )
+        )
 
-  fun createPropertyName(name: String, quote: Boolean): SkinPropertyName? =
-          createElement("propertyName", name, quote)
+    fun createPropertyName(name: String, quote: Boolean): SkinPropertyName? =
+        createElement("propertyName", name, quote)
 
-  fun createResourceName(name: String, quote: Boolean): SkinResourceName? =
-          createElement("resourceName", name, quote)
+    fun createResourceName(name: String, quote: Boolean): SkinResourceName? =
+        createElement("resourceName", name, quote)
 
-  fun createStringLiteral(value: String, quote: Boolean): SkinStringLiteral? =
-          createElement<SkinPropertyValue>("propertyValue", value, quote)?.let {
+    fun createStringLiteral(value: String, quote: Boolean): SkinStringLiteral? =
+        createElement<SkinPropertyValue>("propertyValue", value, quote)?.let {
             it.value as? SkinStringLiteral
-          }
+        }
 
-  inline fun <reified FIRST, reified SECOND, reified THIRD> createElementsOrNull(
-          first: () -> FIRST?,
-          second: () -> SECOND?,
-          third: () -> THIRD?
-  ): Triple<FIRST, SECOND, THIRD>? =
-          first()?.let { f ->
+    inline fun <reified FIRST, reified SECOND, reified THIRD> createElementsOrNull(
+        first: () -> FIRST?,
+        second: () -> SECOND?,
+        third: () -> THIRD?
+    ): Triple<FIRST, SECOND, THIRD>? =
+        first()?.let { f ->
             second()?.let { s ->
-              third()?.let { t ->
-                Triple(f, s, t)
-              }
+                third()?.let { t ->
+                    Triple(f, s, t)
+                }
             }
-          }
+        }
 
-  private inline fun <reified T: PsiElement> createElement(replace: String, with: String, quote: Boolean): T? {
-    val quoteChar = if (quote) "\"" else ""
-    val replacement = if (quote) StringUtil.escapeStringCharacters(with) else with
-    val content = DUMMY_CONTENT.replace(replace, quoteChar + replacement + quoteChar)
-    return createElement(content)
-  }
+    private inline fun <reified T : PsiElement> createElement(replace: String, with: String, quote: Boolean): T? {
+        val quoteChar = if (quote) "\"" else ""
+        val replacement = if (quote) StringUtil.escapeStringCharacters(with) else with
+        val content = DUMMY_CONTENT.replace(replace, quoteChar + replacement + quoteChar)
+        return createElement(content)
+    }
 
-  private inline fun <reified T: PsiElement> createElement(content: String): T? =
-          createFile(content)?.childOfType()
+    private inline fun <reified T : PsiElement> createElement(content: String): T? =
+        createFile(content)?.childOfType()
 
-  private inline fun <reified T: PsiElement> createElement(content: String, position: Int): T? =
-          createFile(content)?.findElementAt(position) as? T
+    private inline fun <reified T : PsiElement> createElement(content: String, position: Int): T? =
+        createFile(content)?.findElementAt(position) as? T
 
-  private inline fun <reified T: PsiElement> createElement(content: String, character: Char): T? =
-          createElement(content, content.indexOf(character))
+    private inline fun <reified T : PsiElement> createElement(content: String, character: Char): T? =
+        createElement(content, content.indexOf(character))
 
-  private fun createFile(content: String) =
-          PsiFileFactory.getInstance(project)
-                  ?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
+    private fun createFile(content: String) =
+        PsiFileFactory.getInstance(project)
+            ?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
 
-  companion object {
+    companion object {
 
 
-    private val DUMMY_CONTENT = """
+        private val DUMMY_CONTENT = """
       {
           className: {
               resourceName: {
@@ -235,6 +235,6 @@ class SkinElementFactory(private val project: Project) {
       }
         """.trimIndent()
 
-  }
+    }
 
 }

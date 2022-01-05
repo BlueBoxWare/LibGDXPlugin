@@ -26,21 +26,21 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorToComponentsIntention: PsiElementBaseIntentionAction(), IntentionAction {
+class ColorToComponentsIntention : PsiElementBaseIntentionAction(), IntentionAction {
 
-  override fun getFamilyName(): String = "Convert to float components"
+    override fun getFamilyName(): String = "Convert to float components"
 
-  override fun getText(): String = familyName
+    override fun getText(): String = familyName
 
-  override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-          element.firstParent<SkinObjectImpl>()?.isHexColor() == true
+    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
+        element.firstParent<SkinObjectImpl>()?.isHexColor() == true
 
-  override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
-    element.firstParent<SkinObject>()?.let { skinObject ->
-      skinObject.asColor(true)?.let { color ->
-        skinObject.setColor(color, false)
-      }
+    override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
+        element.firstParent<SkinObject>()?.let { skinObject ->
+            skinObject.asColor(true)?.let { color ->
+                skinObject.setColor(color, false)
+            }
+        }
     }
-  }
 
 }

@@ -20,9 +20,9 @@ import com.intellij.openapi.components.Service
  * limitations under the License.
  */
 @Service
-class DisposableProvider: Disposable {
+class DisposableProvider : Disposable {
 
-  override fun dispose() {
-  }
+    override fun dispose() {
+    }
 
 }

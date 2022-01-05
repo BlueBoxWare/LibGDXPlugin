@@ -27,31 +27,31 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonSpellcheckerStrategy: SuppressibleSpellcheckingStrategy() {
+class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
 
-  override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
-          if (element is GdxJsonString) {
+    override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
+        if (element is GdxJsonString) {
             TOKENIZER
-          } else {
+        } else {
             super.getTokenizer(element)
-          }
+        }
 
-  override fun getSuppressActions(element: PsiElement, name: String): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                  SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                  SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                  SuppressForStringFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-          )
+    override fun getSuppressActions(element: PsiElement, name: String): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+            SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+            SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+            SuppressForStringFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+        )
 
-  override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
-          (element as? GdxJsonElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-                  ?: false
+    override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
+        (element as? GdxJsonElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+            ?: false
 
-  companion object {
+    companion object {
 
-    val TOKENIZER = TokenizerBase<GdxJsonString>(PlainTextSplitter.getInstance())
+        val TOKENIZER = TokenizerBase<GdxJsonString>(PlainTextSplitter.getInstance())
 
-  }
+    }
 
 }

@@ -20,33 +20,33 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface SkinFile: SkinElement, PsiFile {
+interface SkinFile : SkinElement, PsiFile {
 
-  fun getClassSpecifications(classNames: Collection<String>? = null): Collection<SkinClassSpecification>
+    fun getClassSpecifications(classNames: Collection<String>? = null): Collection<SkinClassSpecification>
 
-  fun getClassSpecifications(className: String): Collection<SkinClassSpecification>
+    fun getClassSpecifications(className: String): Collection<SkinClassSpecification>
 
-  fun getResources(
-          classNames: Collection<String>? = null,
-          resourceName: String? = null, beforeElement: PsiElement? = null
-  ): Collection<SkinResource>
+    fun getResources(
+        classNames: Collection<String>? = null,
+        resourceName: String? = null, beforeElement: PsiElement? = null
+    ): Collection<SkinResource>
 
-  fun getResources(
-          className: String,
-          resourceName: String? = null,
-          beforeElement: PsiElement? = null
-  ): Collection<SkinResource>
+    fun getResources(
+        className: String,
+        resourceName: String? = null,
+        beforeElement: PsiElement? = null
+    ): Collection<SkinResource>
 
-  fun getResources(
-          resourceClass: PsiClass,
-          resourceName: String?,
-          beforeElement: PsiElement? = null,
-          includingSuperClasses: Boolean = false,
-          includeAll: Boolean = false
-  ): Collection<SkinResource>
+    fun getResources(
+        resourceClass: PsiClass,
+        resourceName: String?,
+        beforeElement: PsiElement? = null,
+        includingSuperClasses: Boolean = false,
+        includeAll: Boolean = false
+    ): Collection<SkinResource>
 
-  fun addComment(comment: PsiComment)
+    fun addComment(comment: PsiComment)
 
-  fun replacePackage(className: String, oldPackage: String, newPackage: String)
+    fun replacePackage(className: String, oldPackage: String, newPackage: String)
 
 }

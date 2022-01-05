@@ -22,12 +22,12 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonValueMixin(node: ASTNode): GdxJsonValue, GdxJsonElementImpl(node) {
+abstract class GdxJsonValueMixin(node: ASTNode) : GdxJsonValue, GdxJsonElementImpl(node) {
 
-  override fun getValue(): GdxJsonElement? = jobject ?: array ?: string
+    override fun getValue(): GdxJsonElement? = jobject ?: array ?: string
 
-  override fun isObject(): Boolean = jobject != null
+    override fun isObject(): Boolean = jobject != null
 
-  override fun isPropertyValue(): Boolean = (parent as? GdxJsonProperty)?.let { it.value == this } ?: false
+    override fun isPropertyValue(): Boolean = (parent as? GdxJsonProperty)?.let { it.value == this } ?: false
 
 }

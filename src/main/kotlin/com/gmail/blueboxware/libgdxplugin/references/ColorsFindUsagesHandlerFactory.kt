@@ -27,24 +27,24 @@ import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsFindUsagesHandlerFactory: FindUsagesHandlerFactory() {
+class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
 
-  override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
-          if (!forHighlightUsages) {
+    override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
+        if (!forHighlightUsages) {
             (element as? PsiLiteralExpression)?.let(::ColorsFindUsagesHandler)
-                    ?: (element as? KtStringTemplateExpression)?.let(::ColorsFindUsagesHandler)
-          } else {
+                ?: (element as? KtStringTemplateExpression)?.let(::ColorsFindUsagesHandler)
+        } else {
             null
-          }
+        }
 
 
-  override fun canFindUsages(element: PsiElement): Boolean =
-          when (element) {
+    override fun canFindUsages(element: PsiElement): Boolean =
+        when (element) {
             is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
             is KtStringTemplateExpression -> element.isPlainWithEscapes()
                     && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
             else -> false
-          }
+        }
 
 
 }

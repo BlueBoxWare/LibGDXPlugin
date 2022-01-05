@@ -18,4 +18,4 @@ import com.intellij.lexer.FlexAdapter
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonLexer: FlexAdapter(_GdxJsonLexer())
+class GdxJsonLexer : FlexAdapter(_GdxJsonLexer())

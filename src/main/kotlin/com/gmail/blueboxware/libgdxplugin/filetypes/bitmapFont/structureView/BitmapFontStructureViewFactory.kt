@@ -20,13 +20,13 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontStructureViewFactory: PsiStructureViewFactory {
+class BitmapFontStructureViewFactory : PsiStructureViewFactory {
 
-  override fun getStructureViewBuilder(psiFile: PsiFile) = object: TreeBasedStructureViewBuilder() {
+    override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
 
-    override fun createStructureViewModel(editor: Editor?) = BitmapFontStructureViewModel(psiFile)
+        override fun createStructureViewModel(editor: Editor?) = BitmapFontStructureViewModel(psiFile)
 
-  }
+    }
 
 
 }

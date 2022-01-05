@@ -23,36 +23,36 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinBreadcrumbsProvider: BreadcrumbsProvider {
+class SkinBreadcrumbsProvider : BreadcrumbsProvider {
 
-  override fun getLanguages() = LANGUAGES
+    override fun getLanguages() = LANGUAGES
 
-  override fun acceptElement(element: PsiElement): Boolean =
-          element is SkinProperty
-                  || element is SkinClassSpecification
-                  || element is SkinResource
-                  || element is SkinArray
+    override fun acceptElement(element: PsiElement): Boolean =
+        element is SkinProperty
+                || element is SkinClassSpecification
+                || element is SkinResource
+                || element is SkinArray
 
-  override fun getElementInfo(element: PsiElement): String {
+    override fun getElementInfo(element: PsiElement): String {
 
-    if (element is SkinProperty) {
-      return element.name
-    } else if (element is SkinClassSpecification) {
-      return element.classNameAsString.plainName
-    } else if (element is SkinResource) {
-      return element.name
-    } else if (element is SkinValue && element.isArrayElement()) {
-      element.getArrayIndexOfItem()?.let {
-        return it.toString()
-      }
+        if (element is SkinProperty) {
+            return element.name
+        } else if (element is SkinClassSpecification) {
+            return element.classNameAsString.plainName
+        } else if (element is SkinResource) {
+            return element.name
+        } else if (element is SkinValue && element.isArrayElement()) {
+            element.getArrayIndexOfItem()?.let {
+                return it.toString()
+            }
+        }
+
+        return ""
+
     }
 
-    return ""
-
-  }
-
-  companion object {
-    val LANGUAGES = arrayOf(LibGDXSkinLanguage.INSTANCE)
-  }
+    companion object {
+        val LANGUAGES = arrayOf(LibGDXSkinLanguage.INSTANCE)
+    }
 
 }

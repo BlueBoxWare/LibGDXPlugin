@@ -26,53 +26,53 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 
-class KotlinUnsafeIteratorInspection: LibGDXKotlinBaseInspection() {
+class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("unsafeiterator.html.description")
+    override fun getStaticDescription() = message("unsafeiterator.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
-      super.visitQualifiedExpression(expression)
+        override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
+            super.visitQualifiedExpression(expression)
 
-      val (receiverType, methodName) = expression.resolveCall() ?: return
+            val (receiverType, methodName) = expression.resolveCall() ?: return
 
-      val receiverTypeFqName = receiverType.fqNameSafe.asString()
-      val receiverTypeShortName = receiverType.name
+            val receiverTypeFqName = receiverType.fqNameSafe.asString()
+            val receiverTypeShortName = receiverType.name
 
-      if (!iteratorsMap.containsKey(receiverTypeFqName)) return
+            if (!iteratorsMap.containsKey(receiverTypeFqName)) return
 
-      if (iteratorsMap[receiverTypeFqName]?.contains(methodName) != true) return
+            if (iteratorsMap[receiverTypeFqName]?.contains(methodName) != true) return
 
-      holder.registerProblem(
-              expression,
-              "${message("unsafeiterator.problem.descriptor")}: $receiverTypeShortName.$methodName()"
-      )
+            holder.registerProblem(
+                expression,
+                "${message("unsafeiterator.problem.descriptor")}: $receiverTypeShortName.$methodName()"
+            )
 
-    }
-
-    override fun visitForExpression(expression: KtForExpression) {
-      super.visitForExpression(expression)
-
-      expression.loopRange?.let { loopRange ->
-        val iteratorType = expression.analyze().getType(loopRange)?.constructor?.declarationDescriptor ?: return
-
-        val iteratorTypeFqName = iteratorType.fqNameSafe.asString()
-        val iteratorTypeShortName = iteratorType.name
-
-        if (iteratorsMap.containsKey(iteratorTypeFqName)
-                && (iteratorsMap[iteratorTypeFqName]?.contains("iterator") == true)
-        ) {
-          holder.registerProblem(
-                  loopRange,
-                  "${message("unsafeiterator.problem.descriptor")}: $iteratorTypeShortName.iterator()"
-          )
         }
 
-      }
+        override fun visitForExpression(expression: KtForExpression) {
+            super.visitForExpression(expression)
 
+            expression.loopRange?.let { loopRange ->
+                val iteratorType = expression.analyze().getType(loopRange)?.constructor?.declarationDescriptor ?: return
+
+                val iteratorTypeFqName = iteratorType.fqNameSafe.asString()
+                val iteratorTypeShortName = iteratorType.name
+
+                if (iteratorsMap.containsKey(iteratorTypeFqName)
+                    && (iteratorsMap[iteratorTypeFqName]?.contains("iterator") == true)
+                ) {
+                    holder.registerProblem(
+                        loopRange,
+                        "${message("unsafeiterator.problem.descriptor")}: $iteratorTypeShortName.iterator()"
+                    )
+                }
+
+            }
+
+        }
     }
-  }
 }
 
 

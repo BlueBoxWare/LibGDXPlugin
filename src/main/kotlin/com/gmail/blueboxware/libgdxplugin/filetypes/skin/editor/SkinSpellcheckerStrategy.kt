@@ -37,30 +37,30 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
 class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
-            if (element is PsiWhiteSpace) {
+        if (element is PsiWhiteSpace) {
+            EMPTY_TOKENIZER
+        } else if (element is SkinStringLiteral) {
+            if (element.parent is SkinClassName || element.parent is SkinPropertyName) {
                 EMPTY_TOKENIZER
-            } else if (element is SkinStringLiteral) {
-                if (element.parent is SkinClassName || element.parent is SkinPropertyName) {
-                    EMPTY_TOKENIZER
-                } else {
-                    TOKENIZER
-                }
-            } else if (element is PsiComment) {
-                super.getTokenizer(element)
             } else {
-                EMPTY_TOKENIZER
+                TOKENIZER
             }
+        } else if (element is PsiComment) {
+            super.getTokenizer(element)
+        } else {
+            EMPTY_TOKENIZER
+        }
 
     override fun getSuppressActions(element: PsiElement, name: String): Array<SuppressQuickFix> =
-            arrayOf(
-                    SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                    SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                    SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-            )
+        arrayOf(
+            SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+            SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+            SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+        )
 
     override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
-            (element as? SkinElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-                    ?: false
+        (element as? SkinElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+            ?: false
 
     companion object {
 

@@ -26,22 +26,24 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinUnusedClassTagInspection: LibGDXKotlinBaseInspection() {
+class KotlinUnusedClassTagInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("unused.class.tag.inspection.html.description")
+    override fun getStaticDescription() = message("unused.class.tag.inspection.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
+        override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      if (expression.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME) {
+            if (expression.getParentOfType<KtAnnotationEntry>()
+                    ?.toLightAnnotation()?.qualifiedName == TAG_ANNOTATION_NAME
+            ) {
 
-        checkForUnusedClassTag(expression, holder)
+                checkForUnusedClassTag(expression, holder)
 
-      }
+            }
+
+        }
 
     }
-
-  }
 
 }

@@ -24,33 +24,33 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonMoveArrayElementBaseIntention: GdxJsonBaseIntention() {
+abstract class GdxJsonMoveArrayElementBaseIntention : GdxJsonBaseIntention() {
 
-  abstract fun isAvailable(array: GdxJsonArray, index: Int): Boolean
+    abstract fun isAvailable(array: GdxJsonArray, index: Int): Boolean
 
-  abstract fun invoke(editor: Editor, array: GdxJsonArray, index: Int)
+    abstract fun invoke(editor: Editor, array: GdxJsonArray, index: Int)
 
-  override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-          element.parentWithParent<GdxJsonValue, GdxJsonArray>()?.let { value ->
+    override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
+        element.parentWithParent<GdxJsonValue, GdxJsonArray>()?.let { value ->
             (value.parent as? GdxJsonArray)?.let { array ->
-              value.getArrayIndexOfItem()?.let { elementIndex ->
-                array.valueList.size > 1 && isAvailable(array, elementIndex)
-              }
+                value.getArrayIndexOfItem()?.let { elementIndex ->
+                    array.valueList.size > 1 && isAvailable(array, elementIndex)
+                }
             }
-          } ?: false
+        } ?: false
 
-  override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
+    override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
 
-    element.parentWithParent<GdxJsonValue, GdxJsonArray>()?.let { value ->
-      (value.parent as? GdxJsonArray)?.let { array ->
-        value.getArrayIndexOfItem()?.let { index ->
-          editor?.let {
-            invoke(it, array, index)
-          }
+        element.parentWithParent<GdxJsonValue, GdxJsonArray>()?.let { value ->
+            (value.parent as? GdxJsonArray)?.let { array ->
+                value.getArrayIndexOfItem()?.let { index ->
+                    editor?.let {
+                        invoke(it, array, index)
+                    }
+                }
+            }
         }
-      }
-    }
 
-  }
+    }
 
 }

@@ -22,22 +22,22 @@ import com.intellij.psi.util.parentOfType
  * limitations under the License.
  */
 @Suppress("SameParameterValue")
-class TestFindUsages: LibGDXCodeInsightFixtureTestCase() {
+class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testFindUsages1() {
-    doTest(3)
-  }
-
-  private fun doTest(nrOfUsages: Int) {
-    val usages = myFixture.testFindUsages(testname() + ".lson")
-    val selectedElement = file.findElementAt(myFixture.caretOffset)?.parentOfType<GdxJsonProperty>(true)
-            ?: throw AssertionError()
-    assertEquals(nrOfUsages, usages.size)
-    for (usage in usages) {
-      assertTrue((usage.element as GdxJsonProperty).reference?.isReferenceTo(selectedElement) == true)
+    fun testFindUsages1() {
+        doTest(3)
     }
-  }
 
-  override fun getBasePath() = "/filetypes/json/findUsages/"
+    private fun doTest(nrOfUsages: Int) {
+        val usages = myFixture.testFindUsages(testname() + ".lson")
+        val selectedElement = file.findElementAt(myFixture.caretOffset)?.parentOfType<GdxJsonProperty>(true)
+            ?: throw AssertionError()
+        assertEquals(nrOfUsages, usages.size)
+        for (usage in usages) {
+            assertTrue((usage.element as GdxJsonProperty).reference?.isReferenceTo(selectedElement) == true)
+        }
+    }
+
+    override fun getBasePath() = "/filetypes/json/findUsages/"
 
 }

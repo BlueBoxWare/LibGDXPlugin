@@ -24,51 +24,51 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsReferenceContributor: PsiReferenceContributor() {
+class ColorsReferenceContributor : PsiReferenceContributor() {
 
-  override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
+    override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
-    registrar.registerReferenceProvider(
+        registrar.registerReferenceProvider(
             PlatformPatterns.psiElement(PsiLiteralExpression::class.java),
-            object: PsiReferenceProvider() {
-              override fun getReferencesByElement(
-                      element: PsiElement,
-                      context: ProcessingContext
-              ): Array<PsiReference> {
+            object : PsiReferenceProvider() {
+                override fun getReferencesByElement(
+                    element: PsiElement,
+                    context: ProcessingContext
+                ): Array<PsiReference> {
 
-                val psiLiteralExpression = element as? PsiLiteralExpression ?: return PsiReference.EMPTY_ARRAY
+                    val psiLiteralExpression = element as? PsiLiteralExpression ?: return PsiReference.EMPTY_ARRAY
 
-                element.getParentOfType<PsiMethodCallExpression>()?.let { methodCall ->
-                  if (methodCall.isColorsGetCall()) {
-                    return arrayOf(ColorsReference(psiLiteralExpression))
-                  }
+                    element.getParentOfType<PsiMethodCallExpression>()?.let { methodCall ->
+                        if (methodCall.isColorsGetCall()) {
+                            return arrayOf(ColorsReference(psiLiteralExpression))
+                        }
+                    }
+
+                    return PsiReference.EMPTY_ARRAY
+
                 }
-
-                return PsiReference.EMPTY_ARRAY
-
-              }
             }
-    )
+        )
 
-    registrar.registerReferenceProvider(
-            PlatformPatterns.psiElement(KtStringTemplateExpression::class.java), object: PsiReferenceProvider() {
-      override fun getReferencesByElement(
-              element: PsiElement,
-              context: ProcessingContext
-      ): Array<PsiReference> {
+        registrar.registerReferenceProvider(
+            PlatformPatterns.psiElement(KtStringTemplateExpression::class.java), object : PsiReferenceProvider() {
+                override fun getReferencesByElement(
+                    element: PsiElement,
+                    context: ProcessingContext
+                ): Array<PsiReference> {
 
-        val ktStringTemplateExpression = element as? KtStringTemplateExpression
-                ?: return PsiReference.EMPTY_ARRAY
-        element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
-          if (ktCallExpression.isColorsGetCall()) {
-            return arrayOf(ColorsReference(ktStringTemplateExpression))
-          }
-        }
+                    val ktStringTemplateExpression = element as? KtStringTemplateExpression
+                        ?: return PsiReference.EMPTY_ARRAY
+                    element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
+                        if (ktCallExpression.isColorsGetCall()) {
+                            return arrayOf(ColorsReference(ktStringTemplateExpression))
+                        }
+                    }
 
-        return PsiReference.EMPTY_ARRAY
+                    return PsiReference.EMPTY_ARRAY
 
-      }
-    })
-  }
+                }
+            })
+    }
 
 }

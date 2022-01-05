@@ -29,33 +29,33 @@ import org.jetbrains.kotlin.idea.KotlinFileType
  * limitations under the License.
  */
 @Suppress("DialogTitleCapitalization")
-class CreateScreenAction: CreateFileFromTemplateAction(
-        "libGDX Screen",
-        "Creates new libGDX Screen",
-        AllIcons.RunConfigurations.Application
+class CreateScreenAction : CreateFileFromTemplateAction(
+    "libGDX Screen",
+    "Creates new libGDX Screen",
+    AllIcons.RunConfigurations.Application
 ) {
 
-  override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = "libGDX Screen"
+    override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?) = "libGDX Screen"
 
-  override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
-    builder.setTitle("New libGDX Screen")
+    override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
+        builder.setTitle("New libGDX Screen")
             .addKind("Java", JavaFileType.INSTANCE.icon, "libGDX Screen (Java)")
             .addKind("Kotlin", KotlinFileType.INSTANCE.icon, "libGDX Screen (Kotlin)")
-  }
-
-  override fun isAvailable(dataContext: DataContext): Boolean {
-    if (super.isAvailable(dataContext)) {
-
-      val ideView = LangDataKeys.IDE_VIEW.getData(dataContext) ?: return false
-      val project = PlatformDataKeys.PROJECT.getData(dataContext) ?: return false
-      val projectFileIndex = ProjectRootManager.getInstance(project).fileIndex
-
-      return project.isLibGDXProject() && ideView.directories.any {
-        projectFileIndex.isInSourceContent(it.virtualFile)
-      }
-
     }
 
-    return false
-  }
+    override fun isAvailable(dataContext: DataContext): Boolean {
+        if (super.isAvailable(dataContext)) {
+
+            val ideView = LangDataKeys.IDE_VIEW.getData(dataContext) ?: return false
+            val project = PlatformDataKeys.PROJECT.getData(dataContext) ?: return false
+            val projectFileIndex = ProjectRootManager.getInstance(project).fileIndex
+
+            return project.isLibGDXProject() && ideView.directories.any {
+                projectFileIndex.isInSourceContent(it.virtualFile)
+            }
+
+        }
+
+        return false
+    }
 }

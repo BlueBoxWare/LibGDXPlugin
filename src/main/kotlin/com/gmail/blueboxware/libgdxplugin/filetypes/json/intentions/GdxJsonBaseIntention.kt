@@ -18,8 +18,8 @@ import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonBaseIntention: PsiElementBaseIntentionAction() {
+abstract class GdxJsonBaseIntention : PsiElementBaseIntentionAction() {
 
-  override fun getText() = familyName
+    override fun getText() = familyName
 
 }

@@ -22,26 +22,26 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonPropertyNameReference(val property: GdxJsonProperty): PsiReference {
+class GdxJsonPropertyNameReference(val property: GdxJsonProperty) : PsiReference {
 
-  override fun getElement(): PsiElement = property
+    override fun getElement(): PsiElement = property
 
-  override fun getRangeInElement(): TextRange =
-          ElementManipulators.getValueTextRange(property.propertyName)
+    override fun getRangeInElement(): TextRange =
+        ElementManipulators.getValueTextRange(property.propertyName)
 
-  override fun resolve(): PsiElement = property
+    override fun resolve(): PsiElement = property
 
-  override fun getCanonicalText(): String = property.propertyName.getValue()
+    override fun getCanonicalText(): String = property.propertyName.getValue()
 
-  override fun handleElementRename(newElementName: String): PsiElement =
-          property.setName(newElementName)
+    override fun handleElementRename(newElementName: String): PsiElement =
+        property.setName(newElementName)
 
-  override fun bindToElement(element: PsiElement): PsiElement? = null
+    override fun bindToElement(element: PsiElement): PsiElement? = null
 
-  override fun isReferenceTo(element: PsiElement): Boolean =
-          (element as? GdxJsonProperty)?.propertyName?.getValue() == property.propertyName.getValue()
-                  && element != property
+    override fun isReferenceTo(element: PsiElement): Boolean =
+        (element as? GdxJsonProperty)?.propertyName?.getValue() == property.propertyName.getValue()
+                && element != property
 
-  override fun isSoft(): Boolean = true
+    override fun isSoft(): Boolean = true
 
 }

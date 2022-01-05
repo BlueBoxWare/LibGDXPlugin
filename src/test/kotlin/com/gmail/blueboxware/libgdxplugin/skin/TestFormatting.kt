@@ -21,10 +21,10 @@ import com.intellij.psi.codeStyle.CodeStyleManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
+class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testWithError1() = doTest(
-          """
+    fun testWithError1() = doTest(
+        """
             {
             Color {
             c: {}
@@ -34,7 +34,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color {
                 c: { }
@@ -44,10 +44,10 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testWithError2() = doTest(
-          """
+    fun testWithError2() = doTest(
+        """
             {
             Color:
             c: {}
@@ -57,7 +57,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color:
               c: {
@@ -69,10 +69,10 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testWithError3() = doTest(
-          """
+    fun testWithError3() = doTest(
+        """
             {
             Color
             c: {}
@@ -82,7 +82,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color
               c: {
@@ -94,10 +94,10 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testWithError4() = doTest(
-          """
+    fun testWithError4() = doTest(
+        """
             {
             Color: {
             c: {
@@ -109,7 +109,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color: {
                 c: {
@@ -121,10 +121,10 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testWithError5() = doTest(
-          """
+    fun testWithError5() = doTest(
+        """
             {
             Color: {
             c: {
@@ -136,7 +136,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color: {
                 c: {
@@ -148,10 +148,10 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testWithError6() = doTest(
-          """
+    fun testWithError6() = doTest(
+        """
             {
             Color: {
             c: {
@@ -163,7 +163,7 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
             }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color: {
                 c: {
@@ -175,53 +175,53 @@ class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun testDefaultStyle() {
-    doFileTest("test.skin", "test_after.skin") {
-      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    fun testDefaultStyle() {
+        doFileTest("test.skin", "test_after.skin") {
+            CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+        }
     }
-  }
 
-  fun testWrapColors() {
-    doFileTest("test.skin", "test_wrap_colors_after.skin") {
-      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    fun testWrapColors() {
+        doFileTest("test.skin", "test_wrap_colors_after.skin") {
+            CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+        }
     }
-  }
 
-  fun test2DefaultStyle() {
-    doFileTest("test2.skin", "test2_after.skin") {
-      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+    fun test2DefaultStyle() {
+        doFileTest("test2.skin", "test2_after.skin") {
+            CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = true
+        }
     }
-  }
 
 
-  fun test2WrapColors() {
-    doFileTest("test2.skin", "test2_wrap_colors_after.skin") {
-      CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+    fun test2WrapColors() {
+        doFileTest("test2.skin", "test2_wrap_colors_after.skin") {
+            CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = false
+        }
     }
-  }
 
-  fun testComments() {
-    doFileTest("test_comments.skin", "test_comments_after.skin")
-  }
-
-  private fun doFileTest(before: String, after: String, init: (() -> Unit)? = null) {
-    configureByFile(before)
-    init?.invoke()
-    WriteCommandAction.runWriteCommandAction(null) {
-      CodeStyleManager.getInstance(project).reformat(file)
+    fun testComments() {
+        doFileTest("test_comments.skin", "test_comments_after.skin")
     }
-    myFixture.checkResultByFile(after)
-  }
 
-  private fun doTest(before: String, after: String) {
-    configureByText("skin.skin", before)
-    WriteCommandAction.runWriteCommandAction(null) {
-      CodeStyleManager.getInstance(project).reformat(file)
+    private fun doFileTest(before: String, after: String, init: (() -> Unit)? = null) {
+        configureByFile(before)
+        init?.invoke()
+        WriteCommandAction.runWriteCommandAction(null) {
+            CodeStyleManager.getInstance(project).reformat(file)
+        }
+        myFixture.checkResultByFile(after)
     }
-    myFixture.checkResult(after)
-  }
 
-  override fun getBasePath() = "/filetypes/skin/formatting/"
+    private fun doTest(before: String, after: String) {
+        configureByText("skin.skin", before)
+        WriteCommandAction.runWriteCommandAction(null) {
+            CodeStyleManager.getInstance(project).reformat(file)
+        }
+        myFixture.checkResult(after)
+    }
+
+    override fun getBasePath() = "/filetypes/skin/formatting/"
 }

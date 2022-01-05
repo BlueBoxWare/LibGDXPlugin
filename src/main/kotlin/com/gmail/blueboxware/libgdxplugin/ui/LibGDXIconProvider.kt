@@ -23,21 +23,21 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXIconProvider: IconProvider() {
+class LibGDXIconProvider : IconProvider() {
 
-  override fun getIcon(element: PsiElement, flags: Int): Icon? {
+    override fun getIcon(element: PsiElement, flags: Int): Icon? {
 
-    element.containingFile?.virtualFile?.let { virtualFile ->
-      LanguageUtil.getLanguageForPsi(element.project, virtualFile)?.let { language ->
-        return when (language) {
-          LibGDXSkinLanguage.INSTANCE -> Icons.SKIN_FILETYPE
-          LibGDXJsonLanuage.INSTANCE -> Icons.LIBGDX_JSON_FILETYPE
-          else -> null
+        element.containingFile?.virtualFile?.let { virtualFile ->
+            LanguageUtil.getLanguageForPsi(element.project, virtualFile)?.let { language ->
+                return when (language) {
+                    LibGDXSkinLanguage.INSTANCE -> Icons.SKIN_FILETYPE
+                    LibGDXJsonLanuage.INSTANCE -> Icons.LIBGDX_JSON_FILETYPE
+                    else -> null
+                }
+            }
         }
-      }
+
+        return null
+
     }
-
-    return null
-
-  }
 }

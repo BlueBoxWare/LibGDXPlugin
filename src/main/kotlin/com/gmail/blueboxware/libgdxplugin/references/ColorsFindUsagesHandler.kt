@@ -38,108 +38,112 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
+class ColorsFindUsagesHandler private constructor(element: PsiElement) : FindUsagesHandler(element) {
 
-  constructor(element: PsiLiteralExpression): this(element as PsiElement)
+    constructor(element: PsiLiteralExpression) : this(element as PsiElement)
 
-  constructor(element: KtStringTemplateExpression): this(element as PsiElement)
+    constructor(element: KtStringTemplateExpression) : this(element as PsiElement)
 
-  override fun processElementUsages(element: PsiElement, processor: Processor<in UsageInfo>, options: FindUsagesOptions): Boolean {
+    override fun processElementUsages(
+        element: PsiElement,
+        processor: Processor<in UsageInfo>,
+        options: FindUsagesOptions
+    ): Boolean {
 
-    val colorNameToFind = ReadAction.compute<String, Throwable> {
-      (element as? PsiLiteralExpression)?.asString()
-              ?: (element as? KtStringTemplateExpression)?.asPlainString()
-    } ?: return true
+        val colorNameToFind = ReadAction.compute<String, Throwable> {
+            (element as? PsiLiteralExpression)?.asString()
+                ?: (element as? KtStringTemplateExpression)?.asPlainString()
+        } ?: return true
 
-    ReadAction.run<Throwable> {
+        ReadAction.run<Throwable> {
 
-      val elements =
-              CachedValuesManager.getManager(element.project).getCachedValue(
-                      element,
-                      MyCachedValueProvider(
-                              project,
-                              colorNameToFind
-                      )
-              )
+            val elements =
+                CachedValuesManager.getManager(element.project).getCachedValue(
+                    element,
+                    MyCachedValueProvider(
+                        project,
+                        colorNameToFind
+                    )
+                )
 
-      elements?.forEach { element ->
-        processor.process(UsageInfo(element))
-      }
+            elements?.forEach { element ->
+                processor.process(UsageInfo(element))
+            }
+
+        }
+
+        return true
 
     }
-
-    return true
-
-  }
 
 }
 
 
 private class MyCachedValueProvider(
-        val project: Project,
-        val colorNameToFind: String
-): CachedValueProvider<Collection<PsiElement>> {
+    val project: Project,
+    val colorNameToFind: String
+) : CachedValueProvider<Collection<PsiElement>> {
 
-  override fun compute(): CachedValueProvider.Result<Collection<PsiElement>> {
+    override fun compute(): CachedValueProvider.Result<Collection<PsiElement>> {
 
-    val result = mutableListOf<PsiElement>()
+        val result = mutableListOf<PsiElement>()
 
-    fun process(element: PsiElement) {
+        fun process(element: PsiElement) {
 
-      ProgressManager.checkCanceled()
+            ProgressManager.checkCanceled()
 
-      val call =
-              element.getParentOfType<PsiMethodCallExpression>(false)
-                      ?: element.getParentOfType<KtCallExpression>(false)
-                      ?: return
+            val call =
+                element.getParentOfType<PsiMethodCallExpression>(false)
+                    ?: element.getParentOfType<KtCallExpression>(false)
+                    ?: return
 
-      getColorNameFromArgs(call)?.let { (argumentElement, name) ->
-        if (name == colorNameToFind) {
-          result += argumentElement
+            getColorNameFromArgs(call)?.let { (argumentElement, name) ->
+                if (name == colorNameToFind) {
+                    result += argumentElement
+                }
+            }
+
         }
-      }
 
-    }
+        val allScope = project.allScope()
+        val colorsClasses = project.psiFacade().findClasses(COLORS_CLASS_NAME, allScope)
 
-    val allScope = project.allScope()
-    val colorsClasses = project.psiFacade().findClasses(COLORS_CLASS_NAME, allScope)
+        // Colors.get(String)
+        colorsClasses.mapNotNull { it.findMethodsByName("get", false).firstOrNull() }.forEach { method ->
+            MethodReferencesSearch.search(method, allScope, true).forEach { reference ->
+                process(reference.element)
+            }
+        }
 
-    // Colors.get(String)
-    colorsClasses.mapNotNull { it.findMethodsByName("get", false).firstOrNull() }.forEach { method ->
-      MethodReferencesSearch.search(method, allScope, true).forEach { reference ->
-        process(reference.element)
-      }
-    }
-
-    // Colors.getColors().get(String)
-    colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }.forEach { method ->
-      MethodReferencesSearch.search(method, allScope, true).forEach { reference ->
-        reference
-                .element
-                .getParentOfType<KtDotQualifiedExpression>()
-                ?.getParentOfType<KtDotQualifiedExpression>()
-                ?.callExpression
-                ?.let { call ->
-                  call.resolveCallToStrings()?.let { (_, methodName) ->
-                    if (methodName == "get") {
-                      process(call)
+        // Colors.getColors().get(String)
+        colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }.forEach { method ->
+            MethodReferencesSearch.search(method, allScope, true).forEach { reference ->
+                reference
+                    .element
+                    .getParentOfType<KtDotQualifiedExpression>()
+                    ?.getParentOfType<KtDotQualifiedExpression>()
+                    ?.callExpression
+                    ?.let { call ->
+                        call.resolveCallToStrings()?.let { (_, methodName) ->
+                            if (methodName == "get") {
+                                process(call)
+                            }
+                        }
                     }
-                  }
-                }
-        reference
-                .element
-                .getParentOfType<PsiCallExpression>()
-                ?.getParentOfType<PsiCallExpression>()
-                ?.let { call ->
-                  if (call.resolveMethod()?.name == "get") {
-                    process(call)
-                  }
-                }
-      }
+                reference
+                    .element
+                    .getParentOfType<PsiCallExpression>()
+                    ?.getParentOfType<PsiCallExpression>()
+                    ?.let { call ->
+                        if (call.resolveMethod()?.name == "get") {
+                            process(call)
+                        }
+                    }
+            }
+        }
+
+        return CachedValueProvider.Result.create(result, PsiModificationTracker.MODIFICATION_COUNT)
+
     }
-
-    return CachedValueProvider.Result.create(result, PsiModificationTracker.MODIFICATION_COUNT)
-
-  }
 
 }

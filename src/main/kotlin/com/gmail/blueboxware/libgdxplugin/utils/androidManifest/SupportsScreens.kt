@@ -17,46 +17,46 @@ package com.gmail.blueboxware.libgdxplugin.utils.androidManifest
  */
 class SupportsScreens {
 
-  var resizeable: Boolean? = null
-  var anyDensity: Boolean? = null
-  var smallScreens: Boolean? = null
-  var normalScreens: Boolean? = null
-  var largeScreens: Boolean? = null
-  var xlargeScreens: Boolean? = null
+    var resizeable: Boolean? = null
+    var anyDensity: Boolean? = null
+    var smallScreens: Boolean? = null
+    var normalScreens: Boolean? = null
+    var largeScreens: Boolean? = null
+    var xlargeScreens: Boolean? = null
 
-  fun resolveSupportsScreensValues(targetSdkVersion: Int): SupportsScreens {
+    fun resolveSupportsScreensValues(targetSdkVersion: Int): SupportsScreens {
 
-    val result = getDefaultValues(targetSdkVersion)
+        val result = getDefaultValues(targetSdkVersion)
 
-    result.resizeable = resizeable ?: result.resizeable
-    result.anyDensity = anyDensity ?: result.anyDensity
-    result.smallScreens = smallScreens ?: result.smallScreens
-    result.normalScreens = normalScreens ?: result.normalScreens
-    result.largeScreens = largeScreens ?: result.largeScreens
-    result.xlargeScreens = xlargeScreens ?: result.xlargeScreens
+        result.resizeable = resizeable ?: result.resizeable
+        result.anyDensity = anyDensity ?: result.anyDensity
+        result.smallScreens = smallScreens ?: result.smallScreens
+        result.normalScreens = normalScreens ?: result.normalScreens
+        result.largeScreens = largeScreens ?: result.largeScreens
+        result.xlargeScreens = xlargeScreens ?: result.xlargeScreens
 
-    return result
-
-  }
-
-  companion object {
-
-    fun getDefaultValues(targetSdkVersion: Int): SupportsScreens {
-
-      val result = SupportsScreens()
-
-      result.normalScreens = true
-
-      result.resizeable = targetSdkVersion <= 3
-      result.anyDensity = targetSdkVersion <= 3
-      result.smallScreens = targetSdkVersion <= 3
-      result.largeScreens = targetSdkVersion <= 3
-      result.xlargeScreens = targetSdkVersion <= 3
-
-      return result
+        return result
 
     }
 
-  }
+    companion object {
+
+        fun getDefaultValues(targetSdkVersion: Int): SupportsScreens {
+
+            val result = SupportsScreens()
+
+            result.normalScreens = true
+
+            result.resizeable = targetSdkVersion <= 3
+            result.anyDensity = targetSdkVersion <= 3
+            result.smallScreens = targetSdkVersion <= 3
+            result.largeScreens = targetSdkVersion <= 3
+            result.xlargeScreens = targetSdkVersion <= 3
+
+            return result
+
+        }
+
+    }
 
 }

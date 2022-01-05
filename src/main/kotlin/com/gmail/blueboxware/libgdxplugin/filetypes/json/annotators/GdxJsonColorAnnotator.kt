@@ -30,62 +30,66 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonColorAnnotator: Annotator {
+class GdxJsonColorAnnotator : Annotator {
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (!ServiceManager.getService(element.project, LibGDXPluginSettings::class.java).enableColorAnnotationsInJson) {
-      return
-    }
-
-    if (element is GdxJsonString) {
-      if (element.getValue().firstOrNull() == '#' && COLOR_REGEX.matches(element.getValue())) {
-        color(element.getValue())?.let { color ->
-
-          createAnnotation(color, element, holder)
-
+        if (!ServiceManager.getService(
+                element.project,
+                LibGDXPluginSettings::class.java
+            ).enableColorAnnotationsInJson
+        ) {
+            return
         }
-      }
-    } else if (element is GdxJsonJobject) {
 
-      val r = element.getProperty("r") ?: return
-      val g = element.getProperty("g") ?: return
-      val b = element.getProperty("b") ?: return
-      val a = element.getProperty("a")
+        if (element is GdxJsonString) {
+            if (element.getValue().firstOrNull() == '#' && COLOR_REGEX.matches(element.getValue())) {
+                color(element.getValue())?.let { color ->
 
-      val nrOfProperties = element.propertyList.size
+                    createAnnotation(color, element, holder)
 
-      if (!(nrOfProperties == 3 || (nrOfProperties == 4 && a != null))) {
-        return
-      }
-
-      val rgbR = (r.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-      val rgbG = (g.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-      val rgbB = (b.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-      val rgbA = (a?.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: 1.0f
-
-      color(rgbR, rgbG, rgbB, rgbA)?.let { color ->
-
-        createAnnotation(color, element, holder)
-
-      }
-
-    } else if (element is GdxJsonProperty) {
-
-      if (element.propertyName.getValue().toLowerCase() in JSON_COLOR_PROPERTY_NAMES) {
-
-        (element.value?.value as? GdxJsonString)?.getValue()?.let { str ->
-          if (str.length == 6 || str.length == 8) {
-            color(str)?.let {
-              createAnnotation(it, element, holder)
+                }
             }
-          }
+        } else if (element is GdxJsonJobject) {
+
+            val r = element.getProperty("r") ?: return
+            val g = element.getProperty("g") ?: return
+            val b = element.getProperty("b") ?: return
+            val a = element.getProperty("a")
+
+            val nrOfProperties = element.propertyList.size
+
+            if (!(nrOfProperties == 3 || (nrOfProperties == 4 && a != null))) {
+                return
+            }
+
+            val rgbR = (r.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbG = (g.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbB = (b.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbA = (a?.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: 1.0f
+
+            color(rgbR, rgbG, rgbB, rgbA)?.let { color ->
+
+                createAnnotation(color, element, holder)
+
+            }
+
+        } else if (element is GdxJsonProperty) {
+
+            if (element.propertyName.getValue().toLowerCase() in JSON_COLOR_PROPERTY_NAMES) {
+
+                (element.value?.value as? GdxJsonString)?.getValue()?.let { str ->
+                    if (str.length == 6 || str.length == 8) {
+                        color(str)?.let {
+                            createAnnotation(it, element, holder)
+                        }
+                    }
+                }
+
+            }
+
         }
 
-      }
-
     }
-
-  }
 
 }

@@ -21,23 +21,23 @@ import com.intellij.psi.PsiNamedElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinFindUsagesProvider: FindUsagesProvider {
+class SkinFindUsagesProvider : FindUsagesProvider {
 
-  override fun getType(element: PsiElement) = when (element) {
-    is SkinResource -> "resource"
-    else -> ""
-  }
+    override fun getType(element: PsiElement) = when (element) {
+        is SkinResource -> "resource"
+        else -> ""
+    }
 
-  override fun getNodeText(element: PsiElement, useFullName: Boolean) = (element as? PsiNamedElement)?.name ?: ""
+    override fun getNodeText(element: PsiElement, useFullName: Boolean) = (element as? PsiNamedElement)?.name ?: ""
 
-  override fun getDescriptiveName(element: PsiElement) = when (element) {
-    is SkinResource -> element.name + element.classSpecification?.classNameAsString?.let { "($it)" }
-    else -> ""
-  }
+    override fun getDescriptiveName(element: PsiElement) = when (element) {
+        is SkinResource -> element.name + element.classSpecification?.classNameAsString?.let { "($it)" }
+        else -> ""
+    }
 
-  override fun getHelpId(psiElement: PsiElement): String? = null
+    override fun getHelpId(psiElement: PsiElement): String? = null
 
-  override fun canFindUsagesFor(psiElement: PsiElement) = psiElement is SkinResource
+    override fun canFindUsagesFor(psiElement: PsiElement) = psiElement is SkinResource
 
-  override fun getWordsScanner(): WordsScanner? = null
+    override fun getWordsScanner(): WordsScanner? = null
 }

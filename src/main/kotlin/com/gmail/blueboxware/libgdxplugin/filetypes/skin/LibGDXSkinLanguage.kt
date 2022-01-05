@@ -17,15 +17,15 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinLanguage private constructor(): Language("LibGDXSkin") {
+class LibGDXSkinLanguage private constructor() : Language("LibGDXSkin") {
 
-  companion object {
-    val INSTANCE = LibGDXSkinLanguage()
-  }
+    companion object {
+        val INSTANCE = LibGDXSkinLanguage()
+    }
 
-  override fun isCaseSensitive() = true
+    override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "libGDX Skin"
+    override fun getDisplayName() = "libGDX Skin"
 
-  override fun getID(): String = "LibGDXSkin"
+    override fun getID(): String = "LibGDXSkin"
 }

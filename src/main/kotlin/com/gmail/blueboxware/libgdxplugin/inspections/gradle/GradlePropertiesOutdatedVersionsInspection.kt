@@ -28,40 +28,40 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesOutdatedVersionsInspection: LibGDXGradlePropertiesBaseInspection() {
+class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
 
-  override fun getStaticDescription() =
-          message("outdated.version.inspection.static.description", listOfCheckedLibraries())
+    override fun getStaticDescription() =
+        message("outdated.version.inspection.static.description", listOfCheckedLibraries())
 
-  override fun isSuppressedFor(element: PsiElement): Boolean =
-          !element.project.isLibGDXProject() || super.isSuppressedFor(element)
+    override fun isSuppressedFor(element: PsiElement): Boolean =
+        !element.project.isLibGDXProject() || super.isSuppressedFor(element)
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return object: PsiElementVisitor() {
+        return object : PsiElementVisitor() {
 
-      override fun visitElement(element: PsiElement) {
+            override fun visitElement(element: PsiElement) {
 
-        if (element is Property && element.isInGradlePropertiesFile()) {
+                if (element is Property && element.isInGradlePropertiesFile()) {
 
-          element.name?.let { extKey ->
-            getLibraryFromExtKey(extKey)?.let { lib ->
-              element.project.service<VersionService>().getLatestVersion(lib)?.let { latestVersion ->
-                element.value?.let { value ->
-                  if (MavenComparableVersion(value) < latestVersion) {
-                    holder.registerProblem(
-                            element,
-                            message("outdated.version.inspection.msg", lib.library.name, latestVersion)
-                    )
-                  }
+                    element.name?.let { extKey ->
+                        getLibraryFromExtKey(extKey)?.let { lib ->
+                            element.project.service<VersionService>().getLatestVersion(lib)?.let { latestVersion ->
+                                element.value?.let { value ->
+                                    if (MavenComparableVersion(value) < latestVersion) {
+                                        holder.registerProblem(
+                                            element,
+                                            message("outdated.version.inspection.msg", lib.library.name, latestVersion)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-              }
+
             }
-          }
-
         }
-
-      }
     }
-  }
 }

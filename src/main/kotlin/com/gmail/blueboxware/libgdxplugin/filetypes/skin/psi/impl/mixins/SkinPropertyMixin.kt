@@ -31,78 +31,78 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinPropertyMixin(node: ASTNode): SkinProperty, SkinElementImpl(node) {
+abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(node) {
 
-  override fun getName(): String = propertyName.stringLiteral.value
+    override fun getName(): String = propertyName.stringLiteral.value
 
-  override fun getValue(): SkinValue? = propertyValue?.value
+    override fun getValue(): SkinValue? = propertyValue?.value
 
-  override fun getNameIdentifier(): SkinPropertyName = propertyName
+    override fun getNameIdentifier(): SkinPropertyName = propertyName
 
-  override fun getContainingObject(): SkinObject? = firstParent()
+    override fun getContainingObject(): SkinObject? = firstParent()
 
-  override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
+    override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
 
-  override fun resolveToType(): PsiType? {
-    if (name == PROPERTY_NAME_PARENT && project.isLibGDX199()) {
-      return containingObject?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
+    override fun resolveToType(): PsiType? {
+        if (name == PROPERTY_NAME_PARENT && project.isLibGDX199()) {
+            return containingObject?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
+        }
+
+        resolveToField()?.let {
+            return it.type
+        }
+
+        val objectType = containingObject?.resolveToTypeString()
+
+        if (objectType == BITMAPFONT_CLASS_NAME) {
+            if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
+                val clazz = project.findClass("java.lang.Integer") ?: return null
+                return PsiTypesUtil.getClassType(clazz)
+            } else if (name == PROPERTY_NAME_FONT_MARKUP || name == PROPERTY_NAME_FONT_FLIP) {
+                val clazz = project.findClass("java.lang.Boolean") ?: return null
+                return PsiTypesUtil.getClassType(clazz)
+            }
+        }
+
+        return null
     }
 
-    resolveToField()?.let {
-      return it.type
+    override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
+
+    override fun setName(@NonNls name: String): PsiElement? {
+        factory()?.createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
+            propertyName.replace(newPropertyName)
+            return newPropertyName
+        }
+
+        return null
     }
 
-    val objectType = containingObject?.resolveToTypeString()
+    override fun getPresentation() = object : ItemPresentation {
+        override fun getLocationString(): String? = null
 
-    if (objectType == BITMAPFONT_CLASS_NAME) {
-      if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
-        val clazz = project.findClass("java.lang.Integer") ?: return null
-        return PsiTypesUtil.getClassType(clazz)
-      } else if (name == PROPERTY_NAME_FONT_MARKUP || name == PROPERTY_NAME_FONT_FLIP) {
-        val clazz = project.findClass("java.lang.Boolean") ?: return null
-        return PsiTypesUtil.getClassType(clazz)
-      }
+        override fun getIcon(unused: Boolean): Icon {
+
+            val force =
+                this@SkinPropertyMixin.firstParent<SkinClassSpecification>()
+                    ?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) ?: false
+
+            (value as? SkinObject)?.asColor(force)?.let { color ->
+                return createColorIcon(color)
+            }
+
+            if (value is SkinArray) {
+                return AllIcons.Json.Array
+            }
+            if (value is SkinObject) {
+                return AllIcons.Json.Object
+            }
+            return PlatformIcons.PROPERTY_ICON
+        }
+
+        override fun getPresentableText() = (value as? SkinStringLiteral)?.value?.let { "$name: $it" } ?: name
     }
 
-    return null
-  }
-
-  override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
-
-  override fun setName(@NonNls name: String): PsiElement? {
-    factory()?.createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
-      propertyName.replace(newPropertyName)
-      return newPropertyName
-    }
-
-    return null
-  }
-
-  override fun getPresentation() = object: ItemPresentation {
-    override fun getLocationString(): String? = null
-
-    override fun getIcon(unused: Boolean): Icon {
-
-      val force =
-              this@SkinPropertyMixin.firstParent<SkinClassSpecification>()
-                      ?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) ?: false
-
-      (value as? SkinObject)?.asColor(force)?.let { color ->
-        return createColorIcon(color)
-      }
-
-      if (value is SkinArray) {
-        return AllIcons.Json.Array
-      }
-      if (value is SkinObject) {
-        return AllIcons.Json.Object
-      }
-      return PlatformIcons.PROPERTY_ICON
-    }
-
-    override fun getPresentableText() = (value as? SkinStringLiteral)?.value?.let { "$name: $it" } ?: name
-  }
-
-  override fun toString(): String = "SkinProperty(${propertyName.stringLiteral.text})"
+    override fun toString(): String = "SkinProperty(${propertyName.stringLiteral.text})"
 
 }

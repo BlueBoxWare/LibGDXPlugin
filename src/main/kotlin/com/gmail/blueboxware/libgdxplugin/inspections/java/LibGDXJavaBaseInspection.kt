@@ -20,10 +20,10 @@ import com.intellij.codeInspection.AbstractBaseJavaLocalInspectionTool
 import com.intellij.psi.PsiElement
 
 @Suppress("InspectionDescriptionNotFoundInspection")
-open class LibGDXJavaBaseInspection: AbstractBaseJavaLocalInspectionTool() {
+open class LibGDXJavaBaseInspection : AbstractBaseJavaLocalInspectionTool() {
 
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
+    override fun isSuppressedFor(element: PsiElement): Boolean {
+        return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
+    }
 
 }

@@ -18,11 +18,11 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class DummyItemPresentation: ItemPresentation {
+class DummyItemPresentation : ItemPresentation {
 
-  override fun getLocationString(): String? = null
+    override fun getLocationString(): String? = null
 
-  override fun getIcon(unused: Boolean): Icon? = null
+    override fun getIcon(unused: Boolean): Icon? = null
 
-  override fun getPresentableText(): String? = null
+    override fun getPresentableText(): String? = null
 }

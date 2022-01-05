@@ -22,25 +22,25 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMalformedColorStringInspection: SkinBaseInspection() {
+class SkinMalformedColorStringInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.malformed.color.description")
+    override fun getStaticDescription() = message("skin.inspection.malformed.color.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitPropertyValue(o: SkinPropertyValue) {
-      if (o.property?.containingObject?.resolveToTypeString() == COLOR_CLASS_NAME && o.property?.name == "hex") {
-        (o.value as? SkinStringLiteral)?.value?.let { str ->
-          if (!colorRegex.matches(str)) {
-            holder.registerProblem(o, message("skin.inspection.malformed.color.display.name"))
-          }
+        override fun visitPropertyValue(o: SkinPropertyValue) {
+            if (o.property?.containingObject?.resolveToTypeString() == COLOR_CLASS_NAME && o.property?.name == "hex") {
+                (o.value as? SkinStringLiteral)?.value?.let { str ->
+                    if (!colorRegex.matches(str)) {
+                        holder.registerProblem(o, message("skin.inspection.malformed.color.display.name"))
+                    }
+                }
+            }
         }
-      }
     }
-  }
 
-  companion object {
-    val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
-  }
+    companion object {
+        val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
+    }
 
 }

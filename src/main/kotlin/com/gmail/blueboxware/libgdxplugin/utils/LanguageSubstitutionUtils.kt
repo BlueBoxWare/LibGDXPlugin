@@ -40,144 +40,144 @@ import kotlin.reflect.KClass
  */
 
 internal fun resetSkinAssociations(component: JComponent) =
-        resetAssociations(
-                component,
-                LibGDXProjectSkinFiles::class,
-                LibGDXProjectNonSkinFiles::class,
-                "Skin"
-        )
+    resetAssociations(
+        component,
+        LibGDXProjectSkinFiles::class,
+        LibGDXProjectNonSkinFiles::class,
+        "Skin"
+    )
 
 internal fun resetJsonAssociations(component: JComponent) =
-        resetAssociations(
-                component,
-                LibGDXProjectGdxJsonFiles::class,
-                LibGDXProjectNonGdxJsonFiles::class,
-                "LibGDX JSON"
-        )
+    resetAssociations(
+        component,
+        LibGDXProjectGdxJsonFiles::class,
+        LibGDXProjectNonGdxJsonFiles::class,
+        "LibGDX JSON"
+    )
 
 
 internal fun Project.markFileAsSkin(file: VirtualFile) {
-  EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
-  changeFileSubstitution(
-          file,
-          listOf(LibGDXProjectNonSkinFiles::class, LibGDXProjectGdxJsonFiles::class),
-          LibGDXProjectSkinFiles::class
-  )
+    EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
+    changeFileSubstitution(
+        file,
+        listOf(LibGDXProjectNonSkinFiles::class, LibGDXProjectGdxJsonFiles::class),
+        LibGDXProjectSkinFiles::class
+    )
 }
 
 internal fun Project.markFileAsNonSkin(file: VirtualFile) =
-        changeFileSubstitution(
-                file,
-                listOf(LibGDXProjectSkinFiles::class),
-                LibGDXProjectNonSkinFiles::class
-        )
+    changeFileSubstitution(
+        file,
+        listOf(LibGDXProjectSkinFiles::class),
+        LibGDXProjectNonSkinFiles::class
+    )
 
 internal fun Project.markFileAsGdxJson(file: VirtualFile) {
-  EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
-  changeFileSubstitution(
-          file,
-          listOf(LibGDXProjectNonGdxJsonFiles::class, LibGDXProjectSkinFiles::class),
-          LibGDXProjectGdxJsonFiles::class
-  )
+    EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
+    changeFileSubstitution(
+        file,
+        listOf(LibGDXProjectNonGdxJsonFiles::class, LibGDXProjectSkinFiles::class),
+        LibGDXProjectGdxJsonFiles::class
+    )
 }
 
 internal fun Project.markFileAsNonGdxJson(file: VirtualFile) =
-        changeFileSubstitution(
-                file,
-                listOf(LibGDXProjectGdxJsonFiles::class),
-                LibGDXProjectNonGdxJsonFiles::class
-        )
+    changeFileSubstitution(
+        file,
+        listOf(LibGDXProjectGdxJsonFiles::class),
+        LibGDXProjectNonGdxJsonFiles::class
+    )
 
 private fun Project.changeFileSubstitution(
-        file: VirtualFile,
-        from: Collection<KClass<out PersistentFileSetManager>>,
-        to: KClass<out PersistentFileSetManager>
+    file: VirtualFile,
+    from: Collection<KClass<out PersistentFileSetManager>>,
+    to: KClass<out PersistentFileSetManager>
 ) {
 
-  if (isDisposed) {
-    return
-  }
+    if (isDisposed) {
+        return
+    }
 
-  for (fromFile in from) {
-    getComponent(fromFile.java)?.remove(file)
-  }
+    for (fromFile in from) {
+        getComponent(fromFile.java)?.remove(file)
+    }
 
-  val toFiles = getComponent(to.java)
+    val toFiles = getComponent(to.java)
 
-  toFiles.add(file)
+    toFiles.add(file)
 
-  reset(file)
+    reset(file)
 }
 
 private fun Project.reset(file: VirtualFile) {
-  LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
-    LanguageSubstitutors.getInstance().substituteLanguage(currentLanguage, file, this)
-  }
-
-  DaemonCodeAnalyzer.getInstance(this).restart()
-  FileBasedIndex.getInstance().requestReindex(file)
-  FileContentUtilCore.reparseFiles(file)
-
-  FileDocumentManager.getInstance().getDocument(file)?.let { document ->
-    EditorFactory.getInstance().getEditors(document).forEach { editor ->
-      (editor.foldingModel as? FoldingModelImpl)?.rebuild()
+    LanguageUtil.getFileLanguage(file)?.let { currentLanguage ->
+        LanguageSubstitutors.getInstance().substituteLanguage(currentLanguage, file, this)
     }
-  }
 
-  EditorNotifications.getInstance(this).updateNotifications(file)
+    DaemonCodeAnalyzer.getInstance(this).restart()
+    FileBasedIndex.getInstance().requestReindex(file)
+    FileContentUtilCore.reparseFiles(file)
+
+    FileDocumentManager.getInstance().getDocument(file)?.let { document ->
+        EditorFactory.getInstance().getEditors(document).forEach { editor ->
+            (editor.foldingModel as? FoldingModelImpl)?.rebuild()
+        }
+    }
+
+    EditorNotifications.getInstance(this).updateNotifications(file)
 }
 
 private fun resetAssociations(
-        component: JComponent,
-        set1: KClass<out PersistentFileSetManager>,
-        set2: KClass<out PersistentFileSetManager>,
-        type: String
+    component: JComponent,
+    set1: KClass<out PersistentFileSetManager>,
+    set2: KClass<out PersistentFileSetManager>,
+    type: String
 ) {
 
-  val project = guessCurrentProject(component)
+    val project = guessCurrentProject(component)
 
-  if (project == ProjectManager.getInstance().defaultProject) {
-    Messages.showWarningDialog(
+    if (project == ProjectManager.getInstance().defaultProject) {
+        Messages.showWarningDialog(
             component,
             "Cannot determine active project.",
             "Cannot Determine Active Project"
+        )
+        return
+    }
+
+    val result = Messages.showOkCancelDialog(
+        component,
+        "Reset all files marked as $type to their original file type for project '${project.name}'?",
+        "Reset $type associations?",
+        "Reset",
+        "Cancel",
+        null
     )
-    return
-  }
 
-  val result = Messages.showOkCancelDialog(
-          component,
-          "Reset all files marked as $type to their original file type for project '${project.name}'?",
-          "Reset $type associations?",
-          "Reset",
-          "Cancel",
-          null
-  )
+    if (result == Messages.OK) {
 
-  if (result == Messages.OK) {
+        val filesChanged = mutableSetOf<VirtualFile>()
 
-    val filesChanged = mutableSetOf<VirtualFile>()
+        project.getComponent(set1.java)?.let {
+            it.files.forEach { file ->
+                filesChanged.add(file)
+            }
+            it.removeAll()
+        }
 
-    project.getComponent(set1.java)?.let {
-      it.files.forEach { file ->
-        filesChanged.add(file)
-      }
-      it.removeAll()
+
+        project.getComponent(set2.java)?.let {
+            it.files.forEach { file ->
+                filesChanged.add(file)
+            }
+            it.removeAll()
+        }
+
+        filesChanged.forEach {
+            project.reset(it)
+        }
+
     }
-
-
-    project.getComponent(set2.java)?.let {
-      it.files.forEach { file ->
-        filesChanged.add(file)
-      }
-      it.removeAll()
-    }
-
-    filesChanged.forEach {
-      project.reset(it)
-    }
-
-  }
 
 }
 

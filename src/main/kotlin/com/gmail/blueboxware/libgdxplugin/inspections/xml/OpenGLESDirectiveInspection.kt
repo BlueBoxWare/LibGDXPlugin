@@ -22,33 +22,33 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlFile
 
-class OpenGLESDirectiveInspection: LibGDXXmlBaseInspection() {
+class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
 
-  override fun getStaticDescription() = message("no.opengl.html.description")
+    override fun getStaticDescription() = message("no.opengl.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    if (holder.file.name != "AndroidManifest.xml") {
-      return super.buildVisitor(holder, isOnTheFly)
-    }
-
-    return object: XmlElementVisitor() {
-
-      override fun visitXmlFile(file: XmlFile?) {
-        if (file == null) return
-
-        ManifestModel.fromFile(file).openGLESVersion.let { (value, element) ->
-          if (value < 0x00020000) {
-            holder.registerProblem(
-                    element ?: file,
-                    message("no.opengl.directive.problem.descriptor") +
-                            (if (element == null) ". " + message("no.opengl.html.description") else "")
-            )
-          }
+        if (holder.file.name != "AndroidManifest.xml") {
+            return super.buildVisitor(holder, isOnTheFly)
         }
-      }
 
+        return object : XmlElementVisitor() {
+
+            override fun visitXmlFile(file: XmlFile?) {
+                if (file == null) return
+
+                ManifestModel.fromFile(file).openGLESVersion.let { (value, element) ->
+                    if (value < 0x00020000) {
+                        holder.registerProblem(
+                            element ?: file,
+                            message("no.opengl.directive.problem.descriptor") +
+                                    (if (element == null) ". " + message("no.opengl.html.description") else "")
+                        )
+                    }
+                }
+            }
+
+        }
     }
-  }
 
 }

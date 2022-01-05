@@ -21,13 +21,13 @@ import com.intellij.psi.PsiElement
  * limitations under the License.
  */
 internal fun PsiElement.isInGradleBuildFile() =
-        FileUtilRt.extensionEquals(containingFile.name, "gradle")
+    FileUtilRt.extensionEquals(containingFile.name, "gradle")
 
 internal fun PsiElement.isInGradleKotlinBuildFile() =
-        FileUtilRt.extensionEquals(containingFile.name, "gradle.kts") ||
-                (FileUtilRt.extensionEquals(containingFile.name, "gradle.kt")
-                        && ApplicationManager.getApplication().isUnitTestMode
-                        )
+    FileUtilRt.extensionEquals(containingFile.name, "gradle.kts") ||
+            (FileUtilRt.extensionEquals(containingFile.name, "gradle.kt")
+                    && ApplicationManager.getApplication().isUnitTestMode
+                    )
 
 internal fun PsiElement.isInGradlePropertiesFile() =
-        containingFile.name == "gradle.properties"
+    containingFile.name == "gradle.properties"

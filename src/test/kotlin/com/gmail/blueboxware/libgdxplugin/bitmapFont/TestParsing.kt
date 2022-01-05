@@ -20,53 +20,53 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestParsing: ParsingTestCase("", "fnt", BitmapFontParserDefinition()) {
+class TestParsing : ParsingTestCase("", "fnt", BitmapFontParserDefinition()) {
 
-  fun test1() {
-    doTest()
-  }
+    fun test1() {
+        doTest()
+    }
 
-  fun test2() {
-    doTest()
-  }
+    fun test2() {
+        doTest()
+    }
 
-  fun test3() {
-    doTest()
-  }
+    fun test3() {
+        doTest()
+    }
 
-  fun doTest() {
-    doTest(true)
+    fun doTest() {
+        doTest(true)
 
-    val bitmapFontFile = myFile as? BitmapFontFile ?: throw AssertionError()
+        val bitmapFontFile = myFile as? BitmapFontFile ?: throw AssertionError()
 
-    val expectedCharacterIds = getCharacterIds(myFile.text)
+        val expectedCharacterIds = getCharacterIds(myFile.text)
 
-    assertEquals(expectedCharacterIds.size, bitmapFontFile.getCharacters().size)
-    assertTrue(bitmapFontFile.getCharacters().map { it.getValue("id") }.containsAll(expectedCharacterIds))
+        assertEquals(expectedCharacterIds.size, bitmapFontFile.getCharacters().size)
+        assertTrue(bitmapFontFile.getCharacters().map { it.getValue("id") }.containsAll(expectedCharacterIds))
 
-    val expectedPages = getPages(myFile.text)
+        val expectedPages = getPages(myFile.text)
 
-    assertEquals(expectedPages.size, bitmapFontFile.getPages().size)
-    assertTrue(bitmapFontFile.getPages().map { it.getValue("id") }.containsAll(expectedPages.map { it.first }))
-    assertTrue(bitmapFontFile.getPages().map { it.getValue("file") }.containsAll(expectedPages.map { it.second }))
-  }
+        assertEquals(expectedPages.size, bitmapFontFile.getPages().size)
+        assertTrue(bitmapFontFile.getPages().map { it.getValue("id") }.containsAll(expectedPages.map { it.first }))
+        assertTrue(bitmapFontFile.getPages().map { it.getValue("file") }.containsAll(expectedPages.map { it.second }))
+    }
 
-  private fun getCharacterIds(str: String): List<String> = Regex("""char\s+id=(\d+)""").findAll(str).map {
-    it.groups[1]?.value ?: ""
-  }.toList()
+    private fun getCharacterIds(str: String): List<String> = Regex("""char\s+id=(\d+)""").findAll(str).map {
+        it.groups[1]?.value ?: ""
+    }.toList()
 
-  private fun getPages(str: String): List<Pair<String, String>> =
-          Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map {
+    private fun getPages(str: String): List<Pair<String, String>> =
+        Regex("""page\s+id=(\d+)\sfile="([^"]*)"""").findAll(str).map {
             Pair(it.groups[1]?.value ?: "", it.groups[2]?.value ?: "")
-          }.toList()
+        }.toList()
 
-  override fun getTestDataPath() =
-          FileUtil.toSystemDependentName(
-                  System.getProperty("user.dir") + "/src/test/testdata/filetypes/bitmapFont/psi"
-          )
+    override fun getTestDataPath() =
+        FileUtil.toSystemDependentName(
+            System.getProperty("user.dir") + "/src/test/testdata/filetypes/bitmapFont/psi"
+        )
 
-  override fun skipSpaces() = true
+    override fun skipSpaces() = true
 
-  override fun includeRanges() = true
+    override fun includeRanges() = true
 
 }

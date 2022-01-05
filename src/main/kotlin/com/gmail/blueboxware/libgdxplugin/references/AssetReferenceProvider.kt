@@ -28,133 +28,149 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AssetReferenceProvider: PsiReferenceProvider() {
+class AssetReferenceProvider : PsiReferenceProvider() {
 
-  override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+    override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
 
-    if (!element.project.isLibGDXProject()) {
-      return PsiReference.EMPTY_ARRAY
-    }
-
-    val methodCall =
-            (element.context?.context as? PsiMethodCallExpression)
-                    ?: (element.context?.context?.context as? KtCallExpression)
-                    ?: return PsiReference.EMPTY_ARRAY
-
-    val (className, methodName) =
-            (methodCall as? PsiMethodCallExpression)?.resolveCallToStrings()
-                    ?: (methodCall as? KtCallExpression)?.resolveCallToStrings()
-                    ?: return PsiReference.EMPTY_ARRAY
-
-    return when (className) {
-      SKIN_CLASS_NAME -> createSkinReferences(element, methodCall, methodName)
-      TEXTURE_ATLAS_CLASS_NAME -> createAtlasReferences(element, methodCall, methodName)
-      else -> PsiReference.EMPTY_ARRAY
-    }
-
-  }
-
-  private fun createAtlasReferences(
-          element: PsiElement,
-          methodCall: PsiElement,
-          methodName: String
-  ): Array<PsiReference> {
-
-    if (methodName in TEXTURE_ATLAS_TEXTURE_METHODS) {
-      return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
-    }
-
-    return PsiReference.EMPTY_ARRAY
-  }
-
-  private fun createSkinReferences(
-          element: PsiElement,
-          methodCall: PsiElement,
-          methodName: String
-  ): Array<PsiReference> {
-
-    if (methodName == "getColor") {
-
-      return AssetReference.createReferences(element, methodCall, COLOR_CLASS_NAME)
-
-
-    } else if (methodName == "getDrawable" || methodName == "newDrawable") {
-
-      return AssetReference.createReferences(element, methodCall, DRAWABLE_CLASS_NAME)
-
-    } else if (methodName in SKIN_TEXTURE_REGION_METHODS) {
-
-      return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
-
-    } else if (methodName == "getFont") {
-
-      return AssetReference.createReferences(element, methodCall, BITMAPFONT_CLASS_NAME)
-
-    } else if (methodName in listOf("get", "optional", "has", "remove")) {
-
-      if (methodCall is PsiMethodCallExpression) {
-
-        val arg2 = methodCall.argumentList.expressions.getOrNull(1)
-
-        if (arg2 is PsiClassObjectAccessExpression) {
-
-          getClassFromClassObjectExpression(arg2)?.let { clazz ->
-            if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
-              return AssetReference.createReferences(element, methodCall, wantedClass = TEXTURE_REGION_CLASS_NAME)
-            } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
-              return AssetReference.createReferences(element, methodCall, wantedClass = DollarClassName(clazz))
-            }
-          }
-
+        if (!element.project.isLibGDXProject()) {
+            return PsiReference.EMPTY_ARRAY
         }
 
-        return AssetReference.createReferences(element, methodCall)
+        val methodCall =
+            (element.context?.context as? PsiMethodCallExpression)
+                ?: (element.context?.context?.context as? KtCallExpression)
+                ?: return PsiReference.EMPTY_ARRAY
 
-      } else if (methodCall is KtCallExpression) {
+        val (className, methodName) =
+            (methodCall as? PsiMethodCallExpression)?.resolveCallToStrings()
+                ?: (methodCall as? KtCallExpression)?.resolveCallToStrings()
+                ?: return PsiReference.EMPTY_ARRAY
 
-        val arg2receiver =
-                (methodCall
+        return when (className) {
+            SKIN_CLASS_NAME -> createSkinReferences(element, methodCall, methodName)
+            TEXTURE_ATLAS_CLASS_NAME -> createAtlasReferences(element, methodCall, methodName)
+            else -> PsiReference.EMPTY_ARRAY
+        }
+
+    }
+
+    private fun createAtlasReferences(
+        element: PsiElement,
+        methodCall: PsiElement,
+        methodName: String
+    ): Array<PsiReference> {
+
+        if (methodName in TEXTURE_ATLAS_TEXTURE_METHODS) {
+            return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
+        }
+
+        return PsiReference.EMPTY_ARRAY
+    }
+
+    private fun createSkinReferences(
+        element: PsiElement,
+        methodCall: PsiElement,
+        methodName: String
+    ): Array<PsiReference> {
+
+        if (methodName == "getColor") {
+
+            return AssetReference.createReferences(element, methodCall, COLOR_CLASS_NAME)
+
+
+        } else if (methodName == "getDrawable" || methodName == "newDrawable") {
+
+            return AssetReference.createReferences(element, methodCall, DRAWABLE_CLASS_NAME)
+
+        } else if (methodName in SKIN_TEXTURE_REGION_METHODS) {
+
+            return AssetReference.createReferences(element, methodCall, TEXTURE_REGION_CLASS_NAME)
+
+        } else if (methodName == "getFont") {
+
+            return AssetReference.createReferences(element, methodCall, BITMAPFONT_CLASS_NAME)
+
+        } else if (methodName in listOf("get", "optional", "has", "remove")) {
+
+            if (methodCall is PsiMethodCallExpression) {
+
+                val arg2 = methodCall.argumentList.expressions.getOrNull(1)
+
+                if (arg2 is PsiClassObjectAccessExpression) {
+
+                    getClassFromClassObjectExpression(arg2)?.let { clazz ->
+                        if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
+                            return AssetReference.createReferences(
+                                element,
+                                methodCall,
+                                wantedClass = TEXTURE_REGION_CLASS_NAME
+                            )
+                        } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
+                            return AssetReference.createReferences(
+                                element,
+                                methodCall,
+                                wantedClass = DollarClassName(clazz)
+                            )
+                        }
+                    }
+
+                }
+
+                return AssetReference.createReferences(element, methodCall)
+
+            } else if (methodCall is KtCallExpression) {
+
+                val arg2receiver =
+                    (methodCall
                         .valueArguments
                         .getOrNull(1)
                         ?.getArgumentExpression()
-                        as? KtDotQualifiedExpression
-                        )?.receiverExpression
+                            as? KtDotQualifiedExpression
+                            )?.receiverExpression
 
-        if (arg2receiver is KtClassLiteralExpression) {
+                if (arg2receiver is KtClassLiteralExpression) {
 
-          getClassFromClassLiteralExpression(arg2receiver, methodCall.analyzePartial())?.let { clazz ->
-            if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
-              return AssetReference.createReferences(element, methodCall, wantedClass = TEXTURE_REGION_CLASS_NAME)
-            } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
-              return AssetReference.createReferences(element, methodCall, wantedClass = DollarClassName(clazz))
+                    getClassFromClassLiteralExpression(arg2receiver, methodCall.analyzePartial())?.let { clazz ->
+                        if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
+                            return AssetReference.createReferences(
+                                element,
+                                methodCall,
+                                wantedClass = TEXTURE_REGION_CLASS_NAME
+                            )
+                        } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
+                            return AssetReference.createReferences(
+                                element,
+                                methodCall,
+                                wantedClass = DollarClassName(clazz)
+                            )
+                        }
+                    }
+
+                }
+
+                return AssetReference.createReferences(element, methodCall)
+
             }
-          }
 
         }
 
-        return AssetReference.createReferences(element, methodCall)
-
-      }
-
+        return PsiReference.EMPTY_ARRAY
     }
 
-    return PsiReference.EMPTY_ARRAY
-  }
+    private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): PsiClass? =
+        (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()
 
-  private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): PsiClass? =
-          (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()
-
-  private fun getClassFromClassLiteralExpression(
-          ktClassLiteralExpression: KtClassLiteralExpression,
-          bindingContext: BindingContext
-  ): PsiClass? =
-          (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression
-                  ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)
-                          ?.selectorExpression as? KtReferenceExpression)
-                  ?.getImportableTargets(bindingContext)
-                  ?.firstOrNull()
-                  ?.let { clazz ->
-                    ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
-                  }
+    private fun getClassFromClassLiteralExpression(
+        ktClassLiteralExpression: KtClassLiteralExpression,
+        bindingContext: BindingContext
+    ): PsiClass? =
+        (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression
+            ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)
+                ?.selectorExpression as? KtReferenceExpression)
+            ?.getImportableTargets(bindingContext)
+            ?.firstOrNull()
+            ?.let { clazz ->
+                ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
+            }
 
 }

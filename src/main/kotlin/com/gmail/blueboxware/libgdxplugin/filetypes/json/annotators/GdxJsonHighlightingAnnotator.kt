@@ -26,48 +26,48 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonHighlightingAnnotator: Annotator {
+class GdxJsonHighlightingAnnotator : Annotator {
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    fun a(textAttribute: TextAttributesKey) = element.annotate(holder, textAttribute)
+        fun a(textAttribute: TextAttributesKey) = element.annotate(holder, textAttribute)
 
-    if (element is GdxJsonPropertyName) {
-      a(JSON_PROPERTY_KEY)
-    } else if (element is GdxJsonString) {
-      when {
-        element.isKeyword -> {
-          a(JSON_KEYWORD)
+        if (element is GdxJsonPropertyName) {
+            a(JSON_PROPERTY_KEY)
+        } else if (element is GdxJsonString) {
+            when {
+                element.isKeyword -> {
+                    a(JSON_KEYWORD)
+                }
+                element.isNumber -> {
+                    a(JSON_NUMBER)
+                }
+                else -> {
+                    a(JSON_STRING)
+                }
+            }
         }
-        element.isNumber -> {
-          a(JSON_NUMBER)
-        }
-        else -> {
-          a(JSON_STRING)
-        }
-      }
+
     }
 
-  }
+    private fun PsiElement.annotate(holder: AnnotationHolder, textAttribute: TextAttributesKey) {
 
-  private fun PsiElement.annotate(holder: AnnotationHolder, textAttribute: TextAttributesKey) {
+        val msg = if (ApplicationManager.getApplication().isUnitTestMode) {
+            textAttribute.externalName
+        } else {
+            null
+        }
 
-    val msg = if (ApplicationManager.getApplication().isUnitTestMode) {
-      textAttribute.externalName
-    } else {
-      null
-    }
+        val annotation = if (msg != null)
+            holder.newAnnotation(HighlightSeverity.INFORMATION, msg)
+        else
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
 
-    val annotation = if (msg != null)
-      holder.newAnnotation(HighlightSeverity.INFORMATION, msg)
-    else
-      holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-
-    annotation
+        annotation
             .range(this)
             .textAttributes(textAttribute)
             .create()
 
-  }
+    }
 
 }

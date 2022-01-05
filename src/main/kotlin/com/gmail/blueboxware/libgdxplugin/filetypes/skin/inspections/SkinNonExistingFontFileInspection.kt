@@ -23,26 +23,29 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingFontFileInspection: SkinBaseInspection() {
+class SkinNonExistingFontFileInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.non.existing.file.description")
+    override fun getStaticDescription() = message("skin.inspection.non.existing.file.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitPropertyValue(propertyValue: SkinPropertyValue) {
+        override fun visitPropertyValue(propertyValue: SkinPropertyValue) {
 
-      val string = (propertyValue.value as? SkinStringLiteral) ?: return
-      val property = propertyValue.property ?: return
-      val className = property.containingObject?.resolveToTypeString() ?: return
+            val string = (propertyValue.value as? SkinStringLiteral) ?: return
+            val property = propertyValue.property ?: return
+            val className = property.containingObject?.resolveToTypeString() ?: return
 
-      if (className == BITMAPFONT_CLASS_NAME && property.name == PROPERTY_NAME_FONT_FILE) {
-        if (string.reference?.resolve() == null) {
-          holder.registerProblem(propertyValue, message("skin.inspection.non.existing.file.message", string.value))
+            if (className == BITMAPFONT_CLASS_NAME && property.name == PROPERTY_NAME_FONT_FILE) {
+                if (string.reference?.resolve() == null) {
+                    holder.registerProblem(
+                        propertyValue,
+                        message("skin.inspection.non.existing.file.message", string.value)
+                    )
+                }
+            }
+
         }
-      }
 
     }
-
-  }
 
 }

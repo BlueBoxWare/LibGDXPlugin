@@ -28,64 +28,67 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFoldingBuilder: FoldingBuilder, DumbAware {
+class BitmapFontFoldingBuilder : FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String {
+    override fun getPlaceholderText(node: ASTNode): String {
 
-    val element = node.psi
+        val element = node.psi
 
-    if (element is BitmapFontKerning) {
-      return " Kernings ..."
-    } else if (element is BitmapFontFontChar) {
-      return " Characters ..."
-    }
+        if (element is BitmapFontKerning) {
+            return " Kernings ..."
+        } else if (element is BitmapFontFontChar) {
+            return " Characters ..."
+        }
 
-    return "..."
-
-  }
-
-  override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
-
-    val fontFile = (node.psi as? BitmapFontFile) ?: return arrayOf()
-    val text = fontFile.text
-
-    val descriptors = mutableListOf<FoldingDescriptor>()
-
-    getFoldingDescriptorForCollection(fontFile.getCharacters(), text)?.let {
-      descriptors.add(it)
-    }
-
-    getFoldingDescriptorForCollection(fontFile.getKernings(), text)?.let {
-      descriptors.add(it)
-    }
-
-    return descriptors.toTypedArray()
-
-  }
-
-  private fun getFoldingDescriptorForCollection(collection: Collection<PsiElement>, text: String): FoldingDescriptor? {
-
-    val firstElement = collection.firstOrNull() ?: return null
-    val lastElement = collection.lastOrNull() ?: return null
-
-    if (firstElement != lastElement) {
-
-      var end = lastElement.endOffset
-
-      while (end > firstElement.startOffset && text[end - 1] == '\n') {
-        end--
-      }
-
-      return FoldingDescriptor(
-              firstElement,
-              TextRange(firstElement.startOffset, end)
-      )
+        return "..."
 
     }
 
-    return null
+    override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
 
-  }
+        val fontFile = (node.psi as? BitmapFontFile) ?: return arrayOf()
+        val text = fontFile.text
 
-  override fun isCollapsedByDefault(node: ASTNode) = false
+        val descriptors = mutableListOf<FoldingDescriptor>()
+
+        getFoldingDescriptorForCollection(fontFile.getCharacters(), text)?.let {
+            descriptors.add(it)
+        }
+
+        getFoldingDescriptorForCollection(fontFile.getKernings(), text)?.let {
+            descriptors.add(it)
+        }
+
+        return descriptors.toTypedArray()
+
+    }
+
+    private fun getFoldingDescriptorForCollection(
+        collection: Collection<PsiElement>,
+        text: String
+    ): FoldingDescriptor? {
+
+        val firstElement = collection.firstOrNull() ?: return null
+        val lastElement = collection.lastOrNull() ?: return null
+
+        if (firstElement != lastElement) {
+
+            var end = lastElement.endOffset
+
+            while (end > firstElement.startOffset && text[end - 1] == '\n') {
+                end--
+            }
+
+            return FoldingDescriptor(
+                firstElement,
+                TextRange(firstElement.startOffset, end)
+            )
+
+        }
+
+        return null
+
+    }
+
+    override fun isCollapsedByDefault(node: ASTNode) = false
 }

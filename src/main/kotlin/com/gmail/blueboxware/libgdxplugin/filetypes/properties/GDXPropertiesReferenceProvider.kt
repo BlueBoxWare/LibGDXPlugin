@@ -25,84 +25,84 @@ import org.jetbrains.kotlin.psi.KtValueArgumentList
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertiesReferenceProvider: PsiReferenceProvider() {
+class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
 
-  override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
+    override fun getReferencesByElement(element: PsiElement, context: ProcessingContext): Array<PsiReference> {
 
-    if (!element.project.isLibGDXProject()) {
-      return arrayOf()
-    }
-
-    (element.context as? PsiExpressionList)?.let { args ->
-      (args.context as? PsiMethodCallExpression)?.let { methodCall ->
-        if (args.expressions.firstOrNull() == element) {
-          return processPsiMethodCallExpression(element, methodCall)
+        if (!element.project.isLibGDXProject()) {
+            return arrayOf()
         }
-      }
-    }
 
-    (element.context as? KtValueArgument)?.let { valueArgument ->
-      (valueArgument.context as? KtValueArgumentList)?.let { valueArgumentList ->
-        if (valueArgumentList.arguments.firstOrNull() == valueArgument) {
-          (valueArgumentList.context as? KtCallExpression)?.let { callExpression ->
-            return processKtCallExpression(element, callExpression)
-          }
+        (element.context as? PsiExpressionList)?.let { args ->
+            (args.context as? PsiMethodCallExpression)?.let { methodCall ->
+                if (args.expressions.firstOrNull() == element) {
+                    return processPsiMethodCallExpression(element, methodCall)
+                }
+            }
         }
-      }
-    }
 
-    return arrayOf()
+        (element.context as? KtValueArgument)?.let { valueArgument ->
+            (valueArgument.context as? KtValueArgumentList)?.let { valueArgumentList ->
+                if (valueArgumentList.arguments.firstOrNull() == valueArgument) {
+                    (valueArgumentList.context as? KtCallExpression)?.let { callExpression ->
+                        return processKtCallExpression(element, callExpression)
+                    }
+                }
+            }
+        }
 
-  }
-
-  private fun processKtCallExpression(element: PsiElement, callExpression: KtCallExpression): Array<PsiReference> {
-
-    callExpression.resolveCallToStrings()?.let { (className, methodName) ->
-
-      if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {
-
-        val key = (element as? KtStringTemplateExpression)?.asPlainString() ?: return arrayOf()
-        val propertiesFiles = callExpression.getPropertiesFiles()
-
-        return createReferences(key, element, propertiesFiles)
-
-      }
+        return arrayOf()
 
     }
 
-    return arrayOf()
+    private fun processKtCallExpression(element: PsiElement, callExpression: KtCallExpression): Array<PsiReference> {
 
-  }
+        callExpression.resolveCallToStrings()?.let { (className, methodName) ->
 
-  private fun processPsiMethodCallExpression(
-          element: PsiElement,
-          methodCallExpression: PsiMethodCallExpression
-  ): Array<PsiReference> {
+            if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {
 
-    methodCallExpression.resolveCallToStrings()?.let { (className, methodName) ->
-      if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {
+                val key = (element as? KtStringTemplateExpression)?.asPlainString() ?: return arrayOf()
+                val propertiesFiles = callExpression.getPropertiesFiles()
 
-        val key = (element as? PsiLiteralExpression)?.asString() ?: return arrayOf()
-        val propertiesFiles = methodCallExpression.getPropertiesFiles()
+                return createReferences(key, element, propertiesFiles)
 
-        return createReferences(key, element, propertiesFiles)
+            }
 
-      }
+        }
+
+        return arrayOf()
+
     }
 
-    return arrayOf()
+    private fun processPsiMethodCallExpression(
+        element: PsiElement,
+        methodCallExpression: PsiMethodCallExpression
+    ): Array<PsiReference> {
 
-  }
+        methodCallExpression.resolveCallToStrings()?.let { (className, methodName) ->
+            if (className == I18NBUNDLE_CLASS_NAME && methodName in I18NBUNDLE_PROPERTIES_METHODS) {
 
-  private fun createReferences(key: String, element: PsiElement, propertiesFiles: List<String>): Array<PsiReference> =
-          if (propertiesFiles.isEmpty()) {
+                val key = (element as? PsiLiteralExpression)?.asString() ?: return arrayOf()
+                val propertiesFiles = methodCallExpression.getPropertiesFiles()
+
+                return createReferences(key, element, propertiesFiles)
+
+            }
+        }
+
+        return arrayOf()
+
+    }
+
+    private fun createReferences(key: String, element: PsiElement, propertiesFiles: List<String>): Array<PsiReference> =
+        if (propertiesFiles.isEmpty()) {
             arrayOf(GDXPropertyReference(key, element, null))
-          } else {
+        } else {
             propertiesFiles.mapNotNull { propertiesFileName ->
-              (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
-                GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
-              }
+                (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
+                    GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
+                }
             }.toTypedArray()
-          }
+        }
 
 }

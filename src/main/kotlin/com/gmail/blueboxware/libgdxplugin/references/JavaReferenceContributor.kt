@@ -35,72 +35,72 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaReferenceContributor: PsiReferenceContributor() {
+class JavaReferenceContributor : PsiReferenceContributor() {
 
-  override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
+    override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
-    registrar.registerReferenceProvider(
+        registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string()),
             AssetReferenceProvider()
-    )
+        )
 
-    createAssetAnnotationProvider(
+        createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_SKIN_PARAM_NAME,
             listOf(
-                    LibGDXSkinFileType.INSTANCE,
-                    JsonFileType.INSTANCE,
-                    PlainTextFileType.INSTANCE
+                LibGDXSkinFileType.INSTANCE,
+                JsonFileType.INSTANCE,
+                PlainTextFileType.INSTANCE
             ),
             listOf(LibGDXSkinLanguage.INSTANCE)
-    )
+        )
 
-    createAssetAnnotationProvider(
+        createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_ATLAS_PARAM_NAME,
             listOf(LibGDXAtlasFileType.INSTANCE, PlainTextFileType.INSTANCE),
             listOf(LibGDXAtlasLanguage.INSTANCE)
-    )
+        )
 
-    createAssetAnnotationProvider(
+        createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_PROPERTIES_PARAM_NAME,
             listOf(PropertiesFileType.INSTANCE),
             listOf(PropertiesLanguage.INSTANCE)
-    )
+        )
 
-  }
+    }
 
-  private fun createAssetAnnotationProvider(
-          registrar: PsiReferenceRegistrar,
-          paramName: String,
-          fileTypes: List<FileType>,
-          preferableLangs: List<Language>
-  ) {
+    private fun createAssetAnnotationProvider(
+        registrar: PsiReferenceRegistrar,
+        paramName: String,
+        fileTypes: List<FileType>,
+        preferableLangs: List<Language>
+    ) {
 
-    registrar.registerReferenceProvider(
+        registrar.registerReferenceProvider(
             PsiJavaPatterns.literalExpression(StandardPatterns.string())
-                    .insideAnnotationParam(StandardPatterns.string().equalTo(ASSET_ANNOTATION_NAME), paramName),
-            object: PsiReferenceProvider() {
-              override fun getReferencesByElement(
-                      element: PsiElement,
-                      context: ProcessingContext
-              ): Array<out PsiReference> {
-                ((element as? PsiLiteralExpression)?.value as? String)?.let { path ->
-                  return arrayOf(
-                          FileReference(
-                                  element,
-                                  PathUtil.toSystemIndependentName(path),
-                                  fileTypes = fileTypes,
-                                  preferableLanguages = preferableLangs
-                          )
-                  )
-                }
+                .insideAnnotationParam(StandardPatterns.string().equalTo(ASSET_ANNOTATION_NAME), paramName),
+            object : PsiReferenceProvider() {
+                override fun getReferencesByElement(
+                    element: PsiElement,
+                    context: ProcessingContext
+                ): Array<out PsiReference> {
+                    ((element as? PsiLiteralExpression)?.value as? String)?.let { path ->
+                        return arrayOf(
+                            FileReference(
+                                element,
+                                PathUtil.toSystemIndependentName(path),
+                                fileTypes = fileTypes,
+                                preferableLanguages = preferableLangs
+                            )
+                        )
+                    }
 
-                return arrayOf()
-              }
+                    return arrayOf()
+                }
             })
 
-  }
+    }
 
 }

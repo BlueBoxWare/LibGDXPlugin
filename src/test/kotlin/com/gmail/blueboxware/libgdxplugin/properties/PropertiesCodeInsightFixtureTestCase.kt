@@ -18,15 +18,15 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class PropertiesCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureTestCase() {
+abstract class PropertiesCodeInsightFixtureTestCase : LibGDXCodeInsightFixtureTestCase() {
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addLibGDX()
-    addAnnotations()
+        addLibGDX()
+        addAnnotations()
 
-    listOf(
+        listOf(
             "messages.properties",
             "messages_de.properties",
             "messages_en_GB.properties",
@@ -34,11 +34,11 @@ abstract class PropertiesCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureTes
             "test.properties",
             "test_es.properties",
             "extra.properties"
-    ).forEach {
-      copyFileToProject(it)
+        ).forEach {
+            copyFileToProject(it)
+        }
+
     }
 
-  }
-
-  override fun getBasePath(): String = "filetypes/properties"
+    override fun getBasePath(): String = "filetypes/properties"
 }

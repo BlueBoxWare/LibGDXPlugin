@@ -28,68 +28,68 @@ import com.intellij.ui.EditorNotifications
  * limitations under the License.
  */
 abstract class FileTypeEditorNotificationProvider(
-        protected val project: Project,
-        private val forLanguage: Language
-): EditorNotifications.Provider<EditorNotificationPanel>() {
+    protected val project: Project,
+    private val forLanguage: Language
+) : EditorNotifications.Provider<EditorNotificationPanel>() {
 
-  private val notifications: EditorNotifications = EditorNotifications.getInstance(project)
+    private val notifications: EditorNotifications = EditorNotifications.getInstance(project)
 
-  abstract val messageKey: String
+    abstract val messageKey: String
 
-  abstract fun onYes(file: VirtualFile)
-  abstract fun onNo(file: VirtualFile)
-  abstract fun onNever(settings: LibGDXPluginSettings)
+    abstract fun onYes(file: VirtualFile)
+    abstract fun onNo(file: VirtualFile)
+    abstract fun onNever(settings: LibGDXPluginSettings)
 
-  abstract fun shouldShowNotification(
-          currentLanguage: Language?,
-          file: VirtualFile,
-          fileEditor: TextEditor,
-          settings: LibGDXPluginSettings
-  ): Boolean
+    abstract fun shouldShowNotification(
+        currentLanguage: Language?,
+        file: VirtualFile,
+        fileEditor: TextEditor,
+        settings: LibGDXPluginSettings
+    ): Boolean
 
-  override fun createNotificationPanel(
-          file: VirtualFile,
-          fileEditor: FileEditor,
-          project: Project
-  ): EditorNotificationPanel? {
+    override fun createNotificationPanel(
+        file: VirtualFile,
+        fileEditor: FileEditor,
+        project: Project
+    ): EditorNotificationPanel? {
 
-    if (fileEditor !is TextEditor) {
-      return null
+        if (fileEditor !is TextEditor) {
+            return null
+        }
+
+        val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
+
+        if (currentLanguage == forLanguage) {
+            return null
+        }
+
+        val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return null
+
+        if (!shouldShowNotification(currentLanguage, file, fileEditor, settings)) {
+            return null
+        }
+
+        return EditorNotificationPanel().apply {
+
+            text = message(messageKey, file.fileType.description)
+
+            createActionLabel(message("filetype.yes")) {
+                onYes(file)
+                notifications.updateAllNotifications()
+            }
+
+            createActionLabel(message("filetype.no")) {
+                onNo(file)
+                notifications.updateAllNotifications()
+            }
+
+            createActionLabel(message("filetype.do.not.bother")) {
+                onNever(settings)
+                notifications.updateAllNotifications()
+            }
+
+        }
+
     }
-
-    val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
-
-    if (currentLanguage == forLanguage) {
-      return null
-    }
-
-    val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return null
-
-    if (!shouldShowNotification(currentLanguage, file, fileEditor, settings)) {
-      return null
-    }
-
-    return EditorNotificationPanel().apply {
-
-      text = message(messageKey, file.fileType.description)
-
-      createActionLabel(message("filetype.yes")) {
-        onYes(file)
-        notifications.updateAllNotifications()
-      }
-
-      createActionLabel(message("filetype.no")) {
-        onNo(file)
-        notifications.updateAllNotifications()
-      }
-
-      createActionLabel(message("filetype.do.not.bother")) {
-        onNever(settings)
-        notifications.updateAllNotifications()
-      }
-
-    }
-
-  }
 
 }

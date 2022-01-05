@@ -17,7 +17,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
  * limitations under the License.
  */
 internal enum class Repository(val baseUrl: String) {
-  MAVEN_CENTRAL("https://repo1.maven.org/maven2/"),
-  JCENTER("https://jcenter.bintray.com/"),
-  JITPACK("https://jitpack.io/api/builds/")
+    MAVEN_CENTRAL("https://repo1.maven.org/maven2/"),
+    JCENTER("https://jcenter.bintray.com/"),
+    JITPACK("https://jitpack.io/api/builds/")
 }

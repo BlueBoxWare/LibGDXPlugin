@@ -25,24 +25,24 @@ import com.intellij.util.PathUtil
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasPageMixin(node: ASTNode): AtlasPage, AtlasElementImpl(node) {
+abstract class AtlasPageMixin(node: ASTNode) : AtlasPage, AtlasElementImpl(node) {
 
-  override fun getIndex(): Int? = (containingFile as? AtlasFile)?.getPages()?.indexOf(this)
+    override fun getIndex(): Int? = (containingFile as? AtlasFile)?.getPages()?.indexOf(this)
 
-  override fun getImageFile(): VirtualFile? =
-          containingFile.virtualFile.parent?.findFileByRelativePath(PathUtil.toSystemIndependentName(pageName.text))
+    override fun getImageFile(): VirtualFile? =
+        containingFile.virtualFile.parent?.findFileByRelativePath(PathUtil.toSystemIndependentName(pageName.text))
 
-  override fun getPresentation() = object: ItemPresentation {
+    override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = AllIcons.FileTypes.Any_type
+        override fun getIcon(unused: Boolean) = AllIcons.FileTypes.Any_type
 
-    override fun getPresentableText(): String {
-      val index = (index ?: 0) + 1
-      return "Page " + index + " (" + pageName.getValue() + ")"
+        override fun getPresentableText(): String {
+            val index = (index ?: 0) + 1
+            return "Page " + index + " (" + pageName.getValue() + ")"
+        }
+
     }
-
-  }
 
 }

@@ -21,24 +21,24 @@ import com.intellij.psi.PsiNamedElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonFindUsagesProvider: FindUsagesProvider {
+class GdxJsonFindUsagesProvider : FindUsagesProvider {
 
-  override fun canFindUsagesFor(psiElement: PsiElement): Boolean =
-          psiElement is PsiNamedElement
+    override fun canFindUsagesFor(psiElement: PsiElement): Boolean =
+        psiElement is PsiNamedElement
 
-  override fun getHelpId(psiElement: PsiElement): String? = null
+    override fun getHelpId(psiElement: PsiElement): String? = null
 
-  override fun getType(element: PsiElement): String =
-          if (element is GdxJsonProperty) {
+    override fun getType(element: PsiElement): String =
+        if (element is GdxJsonProperty) {
             "property"
-          } else {
+        } else {
             ""
-          }
+        }
 
-  override fun getDescriptiveName(element: PsiElement): String =
-          (element as? PsiNamedElement)?.name ?: ""
+    override fun getDescriptiveName(element: PsiElement): String =
+        (element as? PsiNamedElement)?.name ?: ""
 
-  override fun getNodeText(element: PsiElement, useFullName: Boolean): String =
-          getDescriptiveName(element)
+    override fun getNodeText(element: PsiElement, useFullName: Boolean): String =
+        getDescriptiveName(element)
 
 }

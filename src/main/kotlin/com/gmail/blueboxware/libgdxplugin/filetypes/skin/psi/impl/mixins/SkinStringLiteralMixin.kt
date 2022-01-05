@@ -29,70 +29,70 @@ import com.intellij.psi.util.CachedValue
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinValueImpl(node) {
+abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinValueImpl(node) {
 
-  private var lastHash: Int? = null
-  private var lastString: String? = null
+    private var lastHash: Int? = null
+    private var lastString: String? = null
 
-  override fun getValue(): String {
-    val newHash = text.hashCode()
-    if (lastHash == newHash) {
-      return lastString ?: ""
+    override fun getValue(): String {
+        val newHash = text.hashCode()
+        if (lastHash == newHash) {
+            return lastString ?: ""
+        }
+        val str = text.stripQuotes().unescape()
+        lastHash = newHash
+        lastString = str
+        return str
     }
-    val str = text.stripQuotes().unescape()
-    lastHash = newHash
-    lastString = str
-    return str
-  }
 
-  override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
+    override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 
-  override fun isBoolean(): Boolean = text == "true" || text == "false"
+    override fun isBoolean(): Boolean = text == "true" || text == "false"
 
-  override fun getReference(): PsiReference? = getCachedValue(REFERENCE_KEY, null) {
+    override fun getReference(): PsiReference? = getCachedValue(REFERENCE_KEY, null) {
 
-    val containingObjectType = property?.containingObject?.resolveToTypeString()
+        val containingObjectType = property?.containingObject?.resolveToTypeString()
 
-    if (
+        if (
             (containingObjectType == BITMAPFONT_CLASS_NAME && property?.name == PROPERTY_NAME_FONT_FILE)
             || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME && property?.name == "font")
-    ) {
-      return@getCachedValue SkinFileReference(this, containingFile)
-    } else {
-      property?.let { property ->
-        property.resolveToType().let { type ->
-          if (
-                  isBoolean && type?.canonicalText == "java.lang.Boolean"
-                  || type?.canonicalText == "java.lang.Integer"
-                  || type is PsiPrimitiveType
-                  || type == null
-          ) {
-            return@getCachedValue null
-          } else if (type.isStringType(property)) {
-            if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
-              return@getCachedValue null
+        ) {
+            return@getCachedValue SkinFileReference(this, containingFile)
+        } else {
+            property?.let { property ->
+                property.resolveToType().let { type ->
+                    if (
+                        isBoolean && type?.canonicalText == "java.lang.Boolean"
+                        || type?.canonicalText == "java.lang.Integer"
+                        || type is PsiPrimitiveType
+                        || type == null
+                    ) {
+                        return@getCachedValue null
+                    } else if (type.isStringType(property)) {
+                        if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
+                            return@getCachedValue null
+                        }
+                    }
+                }
+
             }
-          }
+
         }
 
-      }
+        return@getCachedValue SkinResourceReference(this)
 
     }
 
-    return@getCachedValue SkinResourceReference(this)
-
-  }
-
-  override fun setValue(string: String) {
-    factory()?.createStringLiteral(string, isQuoted)?.let {
-      replace(it)
+    override fun setValue(string: String) {
+        factory()?.createStringLiteral(string, isQuoted)?.let {
+            replace(it)
+        }
     }
-  }
 
-  override fun isQuoted(): Boolean = text.firstOrNull() == '\"'
+    override fun isQuoted(): Boolean = text.firstOrNull() == '\"'
 
-companion object {
-  val REFERENCE_KEY = key<CachedValue<PsiReference?>>("reference")
-}
+    companion object {
+        val REFERENCE_KEY = key<CachedValue<PsiReference?>>("reference")
+    }
 
 }

@@ -16,10 +16,10 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface GdxJsonLiteral: GdxJsonElement {
+interface GdxJsonLiteral : GdxJsonElement {
 
-  fun toFloatOrNull(): Float?
+    fun toFloatOrNull(): Float?
 
-  fun getValue(): String
+    fun getValue(): String
 
 }

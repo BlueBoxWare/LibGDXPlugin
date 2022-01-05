@@ -20,37 +20,37 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestParsing: ParsingTestCase("", "atlas", AtlasParserDefinition()) {
+class TestParsing : ParsingTestCase("", "atlas", AtlasParserDefinition()) {
 
-  fun test1() {
-    doTest(listOf(3, 9, 13))
-  }
-
-  fun test2() {
-    doTest(listOf(4, 3, 3))
-  }
-
-  fun doTest(regionsPerPage: List<Int>) {
-    doTest(true)
-
-    val pages = (myFile as? AtlasFile)?.getPages()
-    assertNotNull(pages)
-    pages?.let { foundPages ->
-      assertEquals(regionsPerPage.size, foundPages.size)
-      for ((index, size) in regionsPerPage.withIndex()) {
-        assertEquals(size, foundPages[index].regionList.size)
-      }
+    fun test1() {
+        doTest(listOf(3, 9, 13))
     }
-  }
 
-  override fun getTestDataPath() =
-          FileUtil
-                  .toSystemDependentName(
-                          System.getProperty("user.dir") + "/src/test/testdata/filetypes/atlas/psi"
-                  )
+    fun test2() {
+        doTest(listOf(4, 3, 3))
+    }
 
-  override fun skipSpaces() = true
+    fun doTest(regionsPerPage: List<Int>) {
+        doTest(true)
 
-  override fun includeRanges() = true
+        val pages = (myFile as? AtlasFile)?.getPages()
+        assertNotNull(pages)
+        pages?.let { foundPages ->
+            assertEquals(regionsPerPage.size, foundPages.size)
+            for ((index, size) in regionsPerPage.withIndex()) {
+                assertEquals(size, foundPages[index].regionList.size)
+            }
+        }
+    }
+
+    override fun getTestDataPath() =
+        FileUtil
+            .toSystemDependentName(
+                System.getProperty("user.dir") + "/src/test/testdata/filetypes/atlas/psi"
+            )
+
+    override fun skipSpaces() = true
+
+    override fun includeRanges() = true
 
 }

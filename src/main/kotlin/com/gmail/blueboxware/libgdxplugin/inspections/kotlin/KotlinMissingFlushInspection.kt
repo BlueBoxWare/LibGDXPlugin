@@ -25,80 +25,80 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
 import org.jetbrains.kotlin.psi.*
 
-class KotlinMissingFlushInspection: LibGDXKotlinBaseInspection() {
+class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("missing.flush.html.description")
+    override fun getStaticDescription() = message("missing.flush.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitBlockExpression(expression: KtBlockExpression) {
+        override fun visitBlockExpression(expression: KtBlockExpression) {
 
-      super.visitBlockExpression(expression)
+            super.visitBlockExpression(expression)
 
-      if (
-              expression.parent !is KtNamedFunction
-              && expression.parent !is KtClassInitializer
-              && expression.parent !is KtFunctionLiteral
-      ) return
+            if (
+                expression.parent !is KtNamedFunction
+                && expression.parent !is KtClassInitializer
+                && expression.parent !is KtFunctionLiteral
+            ) return
 
-      val methodChecker = MissingFlushInspectionMethodChecker(getPreferenceSubClasses(holder.project))
+            val methodChecker = MissingFlushInspectionMethodChecker(getPreferenceSubClasses(holder.project))
 
-      expression.accept(methodChecker)
+            expression.accept(methodChecker)
 
-      methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
+            methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
 
-        if (holder.results.none { it.psiElement == lastPreferenceChange }) {
-          holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
+                if (holder.results.none { it.psiElement == lastPreferenceChange }) {
+                    holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
+                }
+
+            }
         }
 
-      }
     }
 
-  }
+    companion object {
 
-  companion object {
+        private var preferencesSubClasses: Collection<PsiClass>? = null
 
-    private var preferencesSubClasses: Collection<PsiClass>? = null
+        private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
+            if (preferencesSubClasses == null) {
+                val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
+                @Suppress("LiftReturnOrAssignment")
+                if (preferenceClass != null) {
+                    val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
+                    cs.add(preferenceClass)
+                    preferencesSubClasses = cs
+                } else {
+                    preferencesSubClasses = listOf()
+                }
+            }
 
-    private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
-      if (preferencesSubClasses == null) {
-        val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
-        @Suppress("LiftReturnOrAssignment")
-        if (preferenceClass != null) {
-          val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
-          cs.add(preferenceClass)
-          preferencesSubClasses = cs
-        } else {
-          preferencesSubClasses = listOf()
+            return preferencesSubClasses ?: listOf()
         }
-      }
-
-      return preferencesSubClasses ?: listOf()
     }
-  }
 
 }
 
 private class MissingFlushInspectionMethodChecker(
-        val preferencesSubClasses: Collection<PsiClass>
-): KtTreeVisitorVoid() {
+    val preferencesSubClasses: Collection<PsiClass>
+) : KtTreeVisitorVoid() {
 
-  var lastPreferenceChange: KtElement? = null
+    var lastPreferenceChange: KtElement? = null
 
-  override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
+    override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-    val (className, methodName) = expression.resolveCallToStrings() ?: return
+        val (className, methodName) = expression.resolveCallToStrings() ?: return
 
-    for (subClass in preferencesSubClasses) {
-      if (subClass.getKotlinFqName()?.asString() == className) {
-        if (methodName.startsWith("put") || methodName == "remove") {
-          lastPreferenceChange = expression
-        } else if (methodName == "flush") {
-          lastPreferenceChange = null
+        for (subClass in preferencesSubClasses) {
+            if (subClass.getKotlinFqName()?.asString() == className) {
+                if (methodName.startsWith("put") || methodName == "remove") {
+                    lastPreferenceChange = expression
+                } else if (methodName == "flush") {
+                    lastPreferenceChange = null
+                }
+            }
         }
-      }
-    }
 
-  }
+    }
 
 }

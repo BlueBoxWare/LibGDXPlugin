@@ -19,25 +19,25 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestIntentions: LibGDXCodeInsightFixtureTestCase() {
+class TestIntentions : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testColorConvertingIntentions() {
+    fun testColorConvertingIntentions() {
 
-    configureByFile("colorConvertingIntentions.skin")
-    doAllIntentions<SkinObject>("Convert")
-    myFixture.checkResultByFile("colorConvertingIntentions.after")
-    doAllIntentions<SkinObject>("Convert")
-    myFixture.checkResultByFile("colorConvertingIntentions.after2")
+        configureByFile("colorConvertingIntentions.skin")
+        doAllIntentions<SkinObject>("Convert")
+        myFixture.checkResultByFile("colorConvertingIntentions.after")
+        doAllIntentions<SkinObject>("Convert")
+        myFixture.checkResultByFile("colorConvertingIntentions.after2")
 
-  }
+    }
 
-  override fun getBasePath() = "/filetypes/skin/intentions/"
+    override fun getBasePath() = "/filetypes/skin/intentions/"
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addLibGDX()
-    addDummyLibGDX199()
-  }
+        addLibGDX()
+        addDummyLibGDX199()
+    }
 
 }

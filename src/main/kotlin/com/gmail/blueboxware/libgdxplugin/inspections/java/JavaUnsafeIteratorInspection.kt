@@ -20,61 +20,61 @@ import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
-class JavaUnsafeIteratorInspection: LibGDXJavaBaseInspection() {
+class JavaUnsafeIteratorInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("unsafeiterator.html.description")
+    override fun getStaticDescription() = message("unsafeiterator.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
-      super.visitMethodCallExpression(expression)
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+            super.visitMethodCallExpression(expression)
 
-      val qualifierExpression = expression?.methodExpression?.qualifierExpression ?: return
+            val qualifierExpression = expression?.methodExpression?.qualifierExpression ?: return
 
-      if (qualifierExpression is PsiNewExpression) return
+            if (qualifierExpression is PsiNewExpression) return
 
-      val receiverType = qualifierExpression.type as? PsiClassType ?: return
+            val receiverType = qualifierExpression.type as? PsiClassType ?: return
 
-      val receiverClass = receiverType.resolve() ?: return
-      val receiverFqClassName = receiverClass.qualifiedName ?: return
-      val receiverShortClassName = receiverClass.name
+            val receiverClass = receiverType.resolve() ?: return
+            val receiverFqClassName = receiverClass.qualifiedName ?: return
+            val receiverShortClassName = receiverClass.name
 
-      if (!iteratorsMap.containsKey(receiverFqClassName)) return
+            if (!iteratorsMap.containsKey(receiverFqClassName)) return
 
-      val methodName = expression.resolveMethod()?.name ?: return
+            val methodName = expression.resolveMethod()?.name ?: return
 
-      if (iteratorsMap[receiverFqClassName]?.contains(methodName) == true) {
+            if (iteratorsMap[receiverFqClassName]?.contains(methodName) == true) {
 
-        holder.registerProblem(
-                expression,
-                "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.$methodName()"
-        )
+                holder.registerProblem(
+                    expression,
+                    "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.$methodName()"
+                )
 
-      }
+            }
+        }
+
+        override fun visitForeachStatement(statement: PsiForeachStatement?) {
+            super.visitForeachStatement(statement)
+
+            val receiverType = (statement?.iteratedValue?.type ?: return) as? PsiClassType ?: return
+
+            val receiverClass = receiverType.resolve() ?: return
+            val receiverFqClassName = receiverClass.qualifiedName
+            val receiverShortClassName = receiverClass.name
+
+            if (!iteratorsMap.containsKey(receiverFqClassName)
+                || iteratorsMap[receiverFqClassName]?.contains("iterator") != true
+            ) return
+
+            statement.iteratedValue?.let { iteratedValue ->
+                holder.registerProblem(
+                    iteratedValue,
+                    "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.iterator()"
+                )
+            }
+
+        }
     }
-
-    override fun visitForeachStatement(statement: PsiForeachStatement?) {
-      super.visitForeachStatement(statement)
-
-      val receiverType = (statement?.iteratedValue?.type ?: return) as? PsiClassType ?: return
-
-      val receiverClass = receiverType.resolve() ?: return
-      val receiverFqClassName = receiverClass.qualifiedName
-      val receiverShortClassName = receiverClass.name
-
-      if (!iteratorsMap.containsKey(receiverFqClassName)
-              || iteratorsMap[receiverFqClassName]?.contains("iterator") != true
-      ) return
-
-      statement.iteratedValue?.let { iteratedValue ->
-        holder.registerProblem(
-                iteratedValue,
-                "${message("unsafeiterator.problem.descriptor")}: $receiverShortClassName.iterator()"
-        )
-      }
-
-    }
-  }
 
 }
 

@@ -17,4 +17,4 @@ import com.intellij.psi.PsiNamedElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface AtlasNamedElement: AtlasElement, PsiNamedElement
+interface AtlasNamedElement : AtlasElement, PsiNamedElement

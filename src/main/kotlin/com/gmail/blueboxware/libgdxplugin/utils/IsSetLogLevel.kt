@@ -20,21 +20,21 @@ import com.intellij.psi.PsiClass
 
 fun isSetLogLevel(clazz: PsiClass, methodName: String): Boolean {
 
-  val applicationClass = "com.badlogic.gdx.Application"
-  val loggerClass = "com.badlogic.gdx.utils.Logger"
+    val applicationClass = "com.badlogic.gdx.Application"
+    val loggerClass = "com.badlogic.gdx.utils.Logger"
 
-  if (clazz.qualifiedName == applicationClass) return methodName == "setLogLevel"
-  if (clazz.qualifiedName == loggerClass) return methodName == "setLevel"
+    if (clazz.qualifiedName == applicationClass) return methodName == "setLogLevel"
+    if (clazz.qualifiedName == loggerClass) return methodName == "setLevel"
 
-  for (superClass in clazz.supers.flatMap { it.supers.toList() }) {
-    if (superClass.qualifiedName == applicationClass) {
-      return methodName == "setLogLevel"
-    } else if (superClass.qualifiedName == loggerClass) {
-      return methodName == "setLevel"
+    for (superClass in clazz.supers.flatMap { it.supers.toList() }) {
+        if (superClass.qualifiedName == applicationClass) {
+            return methodName == "setLogLevel"
+        } else if (superClass.qualifiedName == loggerClass) {
+            return methodName == "setLevel"
+        }
     }
-  }
 
-  return false
+    return false
 }
 
 

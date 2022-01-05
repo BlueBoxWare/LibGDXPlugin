@@ -26,55 +26,55 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinDuplicateResourceNameInspection: SkinBaseInspection() {
+class SkinDuplicateResourceNameInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.duplicate.resource.description")
+    override fun getStaticDescription() = message("skin.inspection.duplicate.resource.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
-          object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+        object : SkinElementVisitor() {
 
             override fun visitResource(skinResource: SkinResource) {
-              val classNames =
-                      skinResource
-                              .classSpecification
-                              ?.getRealClassNamesAsString()
-                              ?.toMutableList()
-                              ?: return
+                val classNames =
+                    skinResource
+                        .classSpecification
+                        ?.getRealClassNamesAsString()
+                        ?.toMutableList()
+                        ?: return
 
-              if (classNames.contains(FREETYPE_GENERATOR_CLASS_NAME)) {
-                classNames.add(BITMAPFONT_CLASS_NAME)
-              }
+                if (classNames.contains(FREETYPE_GENERATOR_CLASS_NAME)) {
+                    classNames.add(BITMAPFONT_CLASS_NAME)
+                }
 
-              (skinResource.containingFile as? SkinFile)
-                      ?.getResources(classNames, skinResource.name)
-                      ?.let { resources ->
+                (skinResource.containingFile as? SkinFile)
+                    ?.getResources(classNames, skinResource.name)
+                    ?.let { resources ->
                         if (resources.size > 1) {
-                          val msg = if (
-                                  classNames.all {
+                            val msg = if (
+                                classNames.all {
                                     it in listOf(
-                                            FREETYPE_GENERATOR_CLASS_NAME,
-                                            FREETYPE_FONT_PARAMETER_CLASS_NAME,
-                                            BITMAPFONT_CLASS_NAME
+                                        FREETYPE_GENERATOR_CLASS_NAME,
+                                        FREETYPE_FONT_PARAMETER_CLASS_NAME,
+                                        BITMAPFONT_CLASS_NAME
                                     )
-                                  }
-                          ) {
-                            "skin.inspection.duplicate.font.message"
-                          } else {
-                            "skin.inspection.duplicate.resource.message"
-                          }
-                          holder.registerProblem(
-                                  skinResource.resourceName,
-                                  message(
-                                          msg,
-                                          skinResource.name,
-                                          classNames.firstOrNull() ?: "<unknown>"
-                                  )
-                          )
+                                }
+                            ) {
+                                "skin.inspection.duplicate.font.message"
+                            } else {
+                                "skin.inspection.duplicate.resource.message"
+                            }
+                            holder.registerProblem(
+                                skinResource.resourceName,
+                                message(
+                                    msg,
+                                    skinResource.name,
+                                    classNames.firstOrNull() ?: "<unknown>"
+                                )
+                            )
                         }
-                      }
+                    }
 
             }
 
-          }
+        }
 
 }

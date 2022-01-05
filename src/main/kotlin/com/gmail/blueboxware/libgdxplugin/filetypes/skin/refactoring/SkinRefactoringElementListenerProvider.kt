@@ -27,59 +27,59 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinRefactoringElementListenerProvider: RefactoringElementListenerProvider {
+class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvider {
 
-  override fun getListener(element: PsiElement?): RefactoringElementListener? {
-    val classes = if (element is PsiClass || element is KtClass) {
-      arrayOf(element)
-    } else if (element is PsiPackage) {
-      element.classes
-    } else {
-      return null
-    }
+    override fun getListener(element: PsiElement?): RefactoringElementListener? {
+        val classes = if (element is PsiClass || element is KtClass) {
+            arrayOf(element)
+        } else if (element is PsiPackage) {
+            element.classes
+        } else {
+            return null
+        }
 
-    val refToClassMap = mutableMapOf<SkinJavaClassReference, PsiClass>()
+        val refToClassMap = mutableMapOf<SkinJavaClassReference, PsiClass>()
 
-    for (clazz in classes) {
-      (((clazz as? KtClass)?.toLightClass() ?: clazz) as? PsiClass)?.let { psiClass ->
+        for (clazz in classes) {
+            (((clazz as? KtClass)?.toLightClass() ?: clazz) as? PsiClass)?.let { psiClass ->
 
-        for (innerClass in psiClass.findAllInnerClasses()) {
-          ReferencesSearch.search(innerClass).forEach { reference ->
-            if (reference is SkinJavaClassReference) {
-              refToClassMap[reference] = innerClass
+                for (innerClass in psiClass.findAllInnerClasses()) {
+                    ReferencesSearch.search(innerClass).forEach { reference ->
+                        if (reference is SkinJavaClassReference) {
+                            refToClassMap[reference] = innerClass
+                        }
+                    }
+                }
             }
-          }
+
         }
-      }
 
-    }
-
-    return if (refToClassMap.isNotEmpty()) {
-      MyRefactoringElementListener(refToClassMap)
-    } else {
-      null
-    }
-
-  }
-
-  class MyRefactoringElementListener(
-          private val refToClassMap: Map<SkinJavaClassReference, PsiClass>
-  ): RefactoringElementListener {
-
-    override fun elementRenamed(newElement: PsiElement) = refactored()
-
-    override fun elementMoved(newElement: PsiElement) = refactored()
-
-    private fun refactored() {
-
-      ApplicationManager.getApplication().runWriteAction {
-        refToClassMap.forEach { (reference, clazz) ->
-          reference.bindToElement(clazz)
+        return if (refToClassMap.isNotEmpty()) {
+            MyRefactoringElementListener(refToClassMap)
+        } else {
+            null
         }
-      }
 
     }
 
-  }
+    class MyRefactoringElementListener(
+        private val refToClassMap: Map<SkinJavaClassReference, PsiClass>
+    ) : RefactoringElementListener {
+
+        override fun elementRenamed(newElement: PsiElement) = refactored()
+
+        override fun elementMoved(newElement: PsiElement) = refactored()
+
+        private fun refactored() {
+
+            ApplicationManager.getApplication().runWriteAction {
+                refToClassMap.forEach { (reference, clazz) ->
+                    reference.bindToElement(clazz)
+                }
+            }
+
+        }
+
+    }
 
 }

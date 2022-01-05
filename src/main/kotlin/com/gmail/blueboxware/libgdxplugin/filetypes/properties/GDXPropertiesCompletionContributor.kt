@@ -26,44 +26,44 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertiesCompletionContributor: CompletionContributor() {
+class GDXPropertiesCompletionContributor : CompletionContributor() {
 
-  init {
-    extend(null, PlatformPatterns.psiElement(), object: CompletionProvider<CompletionParameters>() {
+    init {
+        extend(null, PlatformPatterns.psiElement(), object : CompletionProvider<CompletionParameters>() {
 
-      override fun addCompletions(
-              parameters: CompletionParameters,
-              context: ProcessingContext,
-              result: CompletionResultSet
-      ) {
+            override fun addCompletions(
+                parameters: CompletionParameters,
+                context: ProcessingContext,
+                result: CompletionResultSet
+            ) {
 
-        if (!parameters.position.project.isLibGDXProject()) {
-          return
-        }
+                if (!parameters.position.project.isLibGDXProject()) {
+                    return
+                }
 
-        val position =
-                parameters.position.context ?: return
-        val references =
-                ArrayUtil.mergeArrays(position.references, position.context?.references ?: arrayOf())
+                val position =
+                    parameters.position.context ?: return
+                val references =
+                    ArrayUtil.mergeArrays(position.references, position.context?.references ?: arrayOf())
 
-        val startOffset = parameters.offset
+                val startOffset = parameters.offset
 
-        references.forEach { reference ->
-          if (reference is GDXPropertyReference) {
-            val element = reference.element
-            val offsetInElement = startOffset - element.textRange.startOffset
-            val range = reference.rangeInElement
-            if (offsetInElement >= range.startOffset) {
-              val prefix = element.text.substring(range.startOffset, offsetInElement)
-              val variants = PropertiesCompletionContributor.getVariants(reference)
-              result.withPrefixMatcher(prefix).addAllElements(variants.toMutableList())
+                references.forEach { reference ->
+                    if (reference is GDXPropertyReference) {
+                        val element = reference.element
+                        val offsetInElement = startOffset - element.textRange.startOffset
+                        val range = reference.rangeInElement
+                        if (offsetInElement >= range.startOffset) {
+                            val prefix = element.text.substring(range.startOffset, offsetInElement)
+                            val variants = PropertiesCompletionContributor.getVariants(reference)
+                            result.withPrefixMatcher(prefix).addAllElements(variants.toMutableList())
+                        }
+                    }
+                }
+
             }
-          }
-        }
 
-      }
-
-    })
-  }
+        })
+    }
 
 }

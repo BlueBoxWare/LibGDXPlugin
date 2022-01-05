@@ -19,19 +19,19 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXAtlasFileType private constructor(): LanguageFileType(LibGDXAtlasLanguage.INSTANCE) {
+class LibGDXAtlasFileType private constructor() : LanguageFileType(LibGDXAtlasLanguage.INSTANCE) {
 
-  companion object {
-    val INSTANCE = LibGDXAtlasFileType()
-  }
+    companion object {
+        val INSTANCE = LibGDXAtlasFileType()
+    }
 
-  override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
+    override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
 
-  override fun getName(): String = "libGDX Atlas"
+    override fun getName(): String = "libGDX Atlas"
 
-  override fun getDefaultExtension() = "atlas"
+    override fun getDefaultExtension() = "atlas"
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDescription() = "libGDX texture atlas file"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDescription() = "libGDX texture atlas file"
 
 }

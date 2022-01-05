@@ -22,35 +22,35 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasColorSettingsPage: ColorSettingsPage {
+class AtlasColorSettingsPage : ColorSettingsPage {
 
-  override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = mutableMapOf(
-          "fileName" to AtlasSyntaxHighlighter.FILE_NAME,
-          "textureName" to AtlasSyntaxHighlighter.TEXTURE_NAME,
-          "key" to AtlasSyntaxHighlighter.KEY,
-          "value" to AtlasSyntaxHighlighter.VALUE
-  )
+    override fun getAdditionalHighlightingTagToDescriptorMap(): MutableMap<String, TextAttributesKey> = mutableMapOf(
+        "fileName" to AtlasSyntaxHighlighter.FILE_NAME,
+        "textureName" to AtlasSyntaxHighlighter.TEXTURE_NAME,
+        "key" to AtlasSyntaxHighlighter.KEY,
+        "value" to AtlasSyntaxHighlighter.VALUE
+    )
 
-  override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
+    override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
 
-  override fun getAttributeDescriptors(): Array<AttributesDescriptor> = arrayOf(
-          AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),
-          AttributesDescriptor("Comma", AtlasSyntaxHighlighter.COMMA),
+    override fun getAttributeDescriptors(): Array<AttributesDescriptor> = arrayOf(
+        AttributesDescriptor("Colon", AtlasSyntaxHighlighter.COLON),
+        AttributesDescriptor("Comma", AtlasSyntaxHighlighter.COMMA),
 
-          AttributesDescriptor("Pack file name", AtlasSyntaxHighlighter.FILE_NAME),
-          AttributesDescriptor("Texture name", AtlasSyntaxHighlighter.TEXTURE_NAME),
-          AttributesDescriptor("Key", AtlasSyntaxHighlighter.KEY),
-          AttributesDescriptor("Value", AtlasSyntaxHighlighter.VALUE)
-  )
+        AttributesDescriptor("Pack file name", AtlasSyntaxHighlighter.FILE_NAME),
+        AttributesDescriptor("Texture name", AtlasSyntaxHighlighter.TEXTURE_NAME),
+        AttributesDescriptor("Key", AtlasSyntaxHighlighter.KEY),
+        AttributesDescriptor("Value", AtlasSyntaxHighlighter.VALUE)
+    )
 
-  override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+    override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDisplayName(): String = "libGDX Atlas"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDisplayName(): String = "libGDX Atlas"
 
-  override fun getHighlighter(): AtlasSyntaxHighlighter = AtlasSyntaxHighlighter()
+    override fun getHighlighter(): AtlasSyntaxHighlighter = AtlasSyntaxHighlighter()
 
-  override fun getDemoText(): String = """<fileName>uiskin1.png</fileName>
+    override fun getDemoText(): String = """<fileName>uiskin1.png</fileName>
 <key>size</key>: <value>256</value>,<value>128</value>
 <key>format</key>: <value>Alpha</value>
 <key>filter</key>: <value>Linear</value>,<value>Linear</value>

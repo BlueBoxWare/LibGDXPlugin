@@ -33,87 +33,87 @@ import com.intellij.psi.PsiWhiteSpace
  */
 fun GdxJsonElement.isSuppressed(id: String): Boolean {
 
-  if ((parent as? GdxJsonElement)?.isSuppressed(id) == true) {
-    return true
-  }
-
-  var prev: PsiElement? = prevSibling
-  while (prev is PsiWhiteSpace || prev?.node?.elementType in GdxJsonParserDefinition.COMMENTS) {
-    (prev as? PsiComment)?.let { comment ->
-      if (SuppressionUtil.isSuppressionComment(comment)) {
-        return SuppressionUtil.isInspectionToolIdMentioned(comment.text, id)
-      }
+    if ((parent as? GdxJsonElement)?.isSuppressed(id) == true) {
+        return true
     }
-    prev = prev?.prevSibling
-  }
 
-  return false
-
-}
-
-abstract class SuppressFix(val id: String): ContainerBasedSuppressQuickFix {
-
-  override fun getName(): String = familyName
-
-  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-    getContainer(descriptor.psiElement)?.let { container ->
-      if (!container.isPrecededByNewline()) {
-        GdxJsonElementFactory(project).createNewline()?.let { newline ->
-          container.parent.addBefore(newline, container)
+    var prev: PsiElement? = prevSibling
+    while (prev is PsiWhiteSpace || prev?.node?.elementType in GdxJsonParserDefinition.COMMENTS) {
+        (prev as? PsiComment)?.let { comment ->
+            if (SuppressionUtil.isSuppressionComment(comment)) {
+                return SuppressionUtil.isInspectionToolIdMentioned(comment.text, id)
+            }
         }
-      }
-      SuppressionUtil.createSuppression(project, container, id, LibGDXJsonLanuage.INSTANCE)
-      GdxJsonElementFactory(project).createNewline()?.let { newLine ->
-        container.parent.addBefore(newLine, container)
-      }
+        prev = prev?.prevSibling
     }
-  }
 
-  override fun isAvailable(project: Project, context: PsiElement): Boolean =
-          context.isValid && getContainer(context) != null
-
-  override fun isSuppressAll(): Boolean = false
+    return false
 
 }
 
-class SuppressForFileFix(id: String): SuppressFix(id) {
+abstract class SuppressFix(val id: String) : ContainerBasedSuppressQuickFix {
 
-  override fun getContainer(context: PsiElement?) = context?.containingFile as? GdxJsonFile
+    override fun getName(): String = familyName
 
-  override fun getFamilyName(): String = message("suppress.file")
-
-  override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-    (descriptor.psiElement.containingFile as? GdxJsonFile)?.firstChild?.let { firstChild ->
-      GdxJsonElementFactory(project).createNewline()?.let { newline ->
-        SuppressionUtil.createSuppression(project, firstChild, id, LibGDXJsonLanuage.INSTANCE)
-        firstChild.parent.addBefore(newline, firstChild)
-      }
+    override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+        getContainer(descriptor.psiElement)?.let { container ->
+            if (!container.isPrecededByNewline()) {
+                GdxJsonElementFactory(project).createNewline()?.let { newline ->
+                    container.parent.addBefore(newline, container)
+                }
+            }
+            SuppressionUtil.createSuppression(project, container, id, LibGDXJsonLanuage.INSTANCE)
+            GdxJsonElementFactory(project).createNewline()?.let { newLine ->
+                container.parent.addBefore(newLine, container)
+            }
+        }
     }
-  }
+
+    override fun isAvailable(project: Project, context: PsiElement): Boolean =
+        context.isValid && getContainer(context) != null
+
+    override fun isSuppressAll(): Boolean = false
 
 }
 
-class SuppressForObjectFix(id: String): SuppressFix(id) {
+class SuppressForFileFix(id: String) : SuppressFix(id) {
 
-  override fun getFamilyName(): String = message("suppress.object")
+    override fun getContainer(context: PsiElement?) = context?.containingFile as? GdxJsonFile
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonJobject>()
+    override fun getFamilyName(): String = message("suppress.file")
+
+    override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+        (descriptor.psiElement.containingFile as? GdxJsonFile)?.firstChild?.let { firstChild ->
+            GdxJsonElementFactory(project).createNewline()?.let { newline ->
+                SuppressionUtil.createSuppression(project, firstChild, id, LibGDXJsonLanuage.INSTANCE)
+                firstChild.parent.addBefore(newline, firstChild)
+            }
+        }
+    }
 
 }
 
-class SuppressForStringFix(id: String): SuppressFix(id) {
+class SuppressForObjectFix(id: String) : SuppressFix(id) {
 
-  override fun getFamilyName(): String = message("suppress.string")
+    override fun getFamilyName(): String = message("suppress.object")
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonString>()
+    override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonJobject>()
 
 }
 
-class SuppressForPropertyFix(id: String): SuppressFix(id) {
+class SuppressForStringFix(id: String) : SuppressFix(id) {
 
-  override fun getFamilyName(): String = message("suppress.property")
+    override fun getFamilyName(): String = message("suppress.string")
 
-  override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonProperty>()
+    override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonString>()
+
+}
+
+class SuppressForPropertyFix(id: String) : SuppressFix(id) {
+
+    override fun getFamilyName(): String = message("suppress.property")
+
+    override fun getContainer(context: PsiElement?): PsiElement? = context?.firstParent<GdxJsonProperty>()
 
 }
 

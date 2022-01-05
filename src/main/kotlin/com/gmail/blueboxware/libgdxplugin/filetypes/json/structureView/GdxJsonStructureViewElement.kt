@@ -26,52 +26,52 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonStructureViewElement(val element: GdxJsonElement): StructureViewTreeElement {
+class GdxJsonStructureViewElement(val element: GdxJsonElement) : StructureViewTreeElement {
 
-  override fun navigate(requestFocus: Boolean) = element.navigate(requestFocus)
+    override fun navigate(requestFocus: Boolean) = element.navigate(requestFocus)
 
-  override fun canNavigate(): Boolean = element.canNavigate()
+    override fun canNavigate(): Boolean = element.canNavigate()
 
-  override fun getValue(): PsiElement = element
+    override fun getValue(): PsiElement = element
 
-  override fun canNavigateToSource(): Boolean = element.canNavigateToSource()
+    override fun canNavigateToSource(): Boolean = element.canNavigateToSource()
 
-  override fun getPresentation(): ItemPresentation = element.presentation ?: object: ItemPresentation {
-    override fun getLocationString(): String? = null
-    override fun getIcon(unused: Boolean): Icon? = null
-    override fun getPresentableText(): String? = element.text
-  }
-
-  override fun getChildren(): Array<out TreeElement> {
-
-    var value: GdxJsonElement? = null
-
-    if (element is GdxJsonFile) {
-      value = element.childOfType<GdxJsonValue>()?.value
-    } else if (element is GdxJsonProperty) {
-      value = element.value?.value
-    } else if (element is GdxJsonJobject || element is GdxJsonArray) {
-      value = element
+    override fun getPresentation(): ItemPresentation = element.presentation ?: object : ItemPresentation {
+        override fun getLocationString(): String? = null
+        override fun getIcon(unused: Boolean): Icon? = null
+        override fun getPresentableText(): String? = element.text
     }
 
-    if (value is GdxJsonJobject) {
-      return value.propertyList.map { GdxJsonStructureViewElement(it) }.toTypedArray()
-    } else if (value is GdxJsonArray) {
-      return value.valueList.mapNotNull { it.value }.mapNotNull {
+    override fun getChildren(): Array<out TreeElement> {
 
-        if (it is GdxJsonJobject && it.propertyList.isNotEmpty()) {
-          GdxJsonStructureViewElement(it)
-        } else if (it is GdxJsonArray && PsiTreeUtil.findChildOfType(it, GdxJsonProperty::class.java) != null) {
-          GdxJsonStructureViewElement(it)
-        } else {
-          null
+        var value: GdxJsonElement? = null
+
+        if (element is GdxJsonFile) {
+            value = element.childOfType<GdxJsonValue>()?.value
+        } else if (element is GdxJsonProperty) {
+            value = element.value?.value
+        } else if (element is GdxJsonJobject || element is GdxJsonArray) {
+            value = element
         }
 
-      }.toTypedArray()
+        if (value is GdxJsonJobject) {
+            return value.propertyList.map { GdxJsonStructureViewElement(it) }.toTypedArray()
+        } else if (value is GdxJsonArray) {
+            return value.valueList.mapNotNull { it.value }.mapNotNull {
+
+                if (it is GdxJsonJobject && it.propertyList.isNotEmpty()) {
+                    GdxJsonStructureViewElement(it)
+                } else if (it is GdxJsonArray && PsiTreeUtil.findChildOfType(it, GdxJsonProperty::class.java) != null) {
+                    GdxJsonStructureViewElement(it)
+                } else {
+                    null
+                }
+
+            }.toTypedArray()
+        }
+
+        return EMPTY_ARRAY
+
     }
-
-    return EMPTY_ARRAY
-
-  }
 
 }

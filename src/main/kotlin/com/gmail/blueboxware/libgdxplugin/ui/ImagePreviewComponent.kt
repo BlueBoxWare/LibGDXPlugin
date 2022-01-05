@@ -24,79 +24,79 @@ import javax.swing.JPanel
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ImagePreviewComponent(val image: BufferedImage, description: String): JPanel() {
+class ImagePreviewComponent(val image: BufferedImage, description: String) : JPanel() {
 
-  init {
-    val innerComponent = JPanel(BorderLayout(6, 6))
+    init {
+        val innerComponent = JPanel(BorderLayout(6, 6))
 
-    innerComponent.add(MyImageComponent(), BorderLayout.CENTER)
-    innerComponent.add(Label(description), BorderLayout.SOUTH)
+        innerComponent.add(MyImageComponent(), BorderLayout.CENTER)
+        innerComponent.add(Label(description), BorderLayout.SOUTH)
 
-    innerComponent.border = BorderFactory.createEmptyBorder(4, 4, 4, 4)
-    innerComponent.background = UIUtil.getToolTipBackground()
+        innerComponent.border = BorderFactory.createEmptyBorder(4, 4, 4, 4)
+        innerComponent.background = UIUtil.getToolTipBackground()
 
-    add(innerComponent)
+        add(innerComponent)
 
-    background = UIUtil.getToolTipBackground()
-    border = BorderFactory.createCompoundBorder(
+        background = UIUtil.getToolTipBackground()
+        border = BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(JBColor.BLACK),
             BorderFactory.createEmptyBorder(5, 5, 5, 5)
-    )
-  }
+        )
+    }
 
-  private inner class MyImageComponent: JComponent() {
+    private inner class MyImageComponent : JComponent() {
 
-    private val prefSize: Dimension = Dimension(image.width + 32, image.height + 32)
+        private val prefSize: Dimension = Dimension(image.width + 32, image.height + 32)
 
-    override fun paint(g: Graphics?) {
-      super.paint(g)
+        override fun paint(g: Graphics?) {
+            super.paint(g)
 
-      bounds?.let { bounds ->
+            bounds?.let { bounds ->
 
-        val width = if (bounds.width > image.width) image.width else bounds.width
-        val height = if (bounds.height > image.height) image.height else bounds.height
+                val width = if (bounds.width > image.width) image.width else bounds.width
+                val height = if (bounds.height > image.height) image.height else bounds.height
 
-        (g as? Graphics2D)?.let {
-          drawChessBoard(it)
+                (g as? Graphics2D)?.let {
+                    drawChessBoard(it)
+                }
+
+                g?.drawImage(
+                    image,
+                    bounds.width / 2 - width / 2,
+                    bounds.height / 2 - height / 2,
+                    width,
+                    height,
+                    this
+                )
+            }
+
         }
 
-        g?.drawImage(
-                image,
-                bounds.width / 2 - width / 2,
-                bounds.height / 2 - height / 2,
-                width,
-                height,
-                this
-        )
-      }
+        private fun drawChessBoard(g: Graphics2D) {
+
+            val cellSize = 3
+            val patternSize = 2 * cellSize
+
+            val pattern = ImageUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
+            pattern.graphics.let {
+                it.color = Color.BLACK
+                it.fillRect(0, 0, patternSize, patternSize)
+                it.color = Color.WHITE
+                it.fillRect(0, cellSize, cellSize, cellSize)
+                it.fillRect(cellSize, 0, cellSize, cellSize)
+            }
+
+            g.paint = TexturePaint(pattern, Rectangle(0, 0, patternSize, patternSize))
+            g.fillRect(0, 0, bounds.width, bounds.height)
+        }
+
+        override fun getPreferredSize() = prefSize
+
+        override fun getMaximumSize() = prefSize
+
+        override fun getMinimumSize() = prefSize
 
     }
-
-    private fun drawChessBoard(g: Graphics2D) {
-
-      val cellSize = 3
-      val patternSize = 2 * cellSize
-
-      val pattern = ImageUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
-      pattern.graphics.let {
-        it.color = Color.BLACK
-        it.fillRect(0, 0, patternSize, patternSize)
-        it.color = Color.WHITE
-        it.fillRect(0, cellSize, cellSize, cellSize)
-        it.fillRect(cellSize, 0, cellSize, cellSize)
-      }
-
-      g.paint = TexturePaint(pattern, Rectangle(0, 0, patternSize, patternSize))
-      g.fillRect(0, 0, bounds.width, bounds.height)
-    }
-
-    override fun getPreferredSize() = prefSize
-
-    override fun getMaximumSize() = prefSize
-
-    override fun getMinimumSize() = prefSize
-
-  }
 
 }
 

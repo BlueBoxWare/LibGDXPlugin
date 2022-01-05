@@ -28,48 +28,48 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXColorObjectRenderer: CompoundReferenceRenderer(
-        NodeRendererSettings.getInstance() ?: NodeRendererSettings(),
-        "libGDX Color",
-        null,
-        null
+class LibGDXColorObjectRenderer : CompoundReferenceRenderer(
+    NodeRendererSettings.getInstance() ?: NodeRendererSettings(),
+    "libGDX Color",
+    null,
+    null
 ) {
 
-  init {
-    className = COLOR_CLASS_NAME
-    isEnabled = true
-  }
-
-  override fun calcValueIcon(
-          descriptor: ValueDescriptor?,
-          evaluationContext: EvaluationContext?,
-          listener: DescriptorLabelListener?
-  ): Icon? {
-
-    val value = descriptor?.value as? ObjectReference ?: return null
-
-    val r = getValue(value, "r")
-    val g = getValue(value, "g")
-    val b = getValue(value, "b")
-    val a = getValue(value, "a")
-
-    return color(r, g, b, a)?.let {
-      ColorIcon(16, 12, it, true)
+    init {
+        className = COLOR_CLASS_NAME
+        isEnabled = true
     }
 
-  }
+    override fun calcValueIcon(
+        descriptor: ValueDescriptor?,
+        evaluationContext: EvaluationContext?,
+        listener: DescriptorLabelListener?
+    ): Icon? {
 
-  private fun getValue(objectReference: ObjectReference, fieldName: String): Float {
-    try {
-      val field = objectReference.referenceType()?.fieldByName(fieldName)
-      return (objectReference.getValue(field) as? FloatValue)?.value() ?: 0f
-    } catch (e: IllegalArgumentException) {
-      // Nothing
-    } catch (e: ClassNotPreparedException) {
-      // Nothing
+        val value = descriptor?.value as? ObjectReference ?: return null
+
+        val r = getValue(value, "r")
+        val g = getValue(value, "g")
+        val b = getValue(value, "b")
+        val a = getValue(value, "a")
+
+        return color(r, g, b, a)?.let {
+            ColorIcon(16, 12, it, true)
+        }
+
     }
 
-    return 0f
-  }
+    private fun getValue(objectReference: ObjectReference, fieldName: String): Float {
+        try {
+            val field = objectReference.referenceType()?.fieldByName(fieldName)
+            return (objectReference.getValue(field) as? FloatValue)?.value() ?: 0f
+        } catch (e: IllegalArgumentException) {
+            // Nothing
+        } catch (e: ClassNotPreparedException) {
+            // Nothing
+        }
+
+        return 0f
+    }
 
 }

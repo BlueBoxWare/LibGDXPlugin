@@ -18,25 +18,25 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSyntaxHighlighting: LibGDXCodeInsightFixtureTestCase() {
+class TestSyntaxHighlighting : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testSyntaxHighlighting1() {
-    doTest("1.json")
-  }
+    fun testSyntaxHighlighting1() {
+        doTest("1.json")
+    }
 
-  fun testSyntaxHighlighting2() {
-    doTest("2.json")
-  }
+    fun testSyntaxHighlighting2() {
+        doTest("2.json")
+    }
 
-  fun testSyntaxHighlighting3() {
-    doTest("3.json")
-  }
+    fun testSyntaxHighlighting3() {
+        doTest("3.json")
+    }
 
-  fun doTest(fileName: String) {
-    configureByFileAsGdxJson(fileName)
-    myFixture.checkHighlighting(false, true, false)
-  }
+    fun doTest(fileName: String) {
+        configureByFileAsGdxJson(fileName)
+        myFixture.checkHighlighting(false, true, false)
+    }
 
-  override fun getBasePath() = "filetypes/json/syntaxHighlighting"
+    override fun getBasePath() = "filetypes/json/syntaxHighlighting"
 
 }

@@ -17,13 +17,13 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestErrorsAnnotator: LibGDXCodeInsightFixtureTestCase() {
+class TestErrorsAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testErrorsAnnotator() {
-    configureByFile("errorsAnnotator.skin")
-    myFixture.checkHighlighting(false, false, false)
-  }
+    fun testErrorsAnnotator() {
+        configureByFile("errorsAnnotator.skin")
+        myFixture.checkHighlighting(false, false, false)
+    }
 
-  override fun getBasePath() = "/filetypes/skin/errorsAnnotator/"
+    override fun getBasePath() = "/filetypes/skin/errorsAnnotator/"
 
 }

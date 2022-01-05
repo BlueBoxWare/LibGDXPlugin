@@ -20,58 +20,58 @@ import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
-class JavaMissingFlushInspection: LibGDXJavaBaseInspection() {
+class JavaMissingFlushInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("missing.flush.html.description")
+    override fun getStaticDescription() = message("missing.flush.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitMethod(method: PsiMethod?) {
+        override fun visitMethod(method: PsiMethod?) {
 
-      val methodChecker = MissingFlushInspectionMethodChecker()
+            val methodChecker = MissingFlushInspectionMethodChecker()
 
-      method?.accept(methodChecker)
+            method?.accept(methodChecker)
 
-      methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
-        holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
-      }
-    }
-  }
-
-  private class MissingFlushInspectionMethodChecker: JavaRecursiveElementVisitor() {
-
-    var lastPreferenceChange: PsiExpression? = null
-
-    override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
-      super.visitMethodCallExpression(expression)
-
-      if (expression == null) return
-
-      val (receiverClass, method) = expression.resolveCall() ?: return
-
-      var isPreferences = false
-
-      val superTypes = receiverClass.supers.flatMap { it.supers.toList() }.toMutableList()
-      superTypes.add(receiverClass)
-
-      for (superType in superTypes) {
-        if (superType.qualifiedName == "com.badlogic.gdx.Preferences") {
-          isPreferences = true
-          break
+            methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
+                holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
+            }
         }
-      }
-
-      if (!isPreferences) return
-
-      if (method.name.startsWith("put") || method.name == "remove") {
-        lastPreferenceChange = expression
-      } else if (method.name == "flush") {
-        lastPreferenceChange = null
-      }
-
     }
 
-  }
+    private class MissingFlushInspectionMethodChecker : JavaRecursiveElementVisitor() {
+
+        var lastPreferenceChange: PsiExpression? = null
+
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+            super.visitMethodCallExpression(expression)
+
+            if (expression == null) return
+
+            val (receiverClass, method) = expression.resolveCall() ?: return
+
+            var isPreferences = false
+
+            val superTypes = receiverClass.supers.flatMap { it.supers.toList() }.toMutableList()
+            superTypes.add(receiverClass)
+
+            for (superType in superTypes) {
+                if (superType.qualifiedName == "com.badlogic.gdx.Preferences") {
+                    isPreferences = true
+                    break
+                }
+            }
+
+            if (!isPreferences) return
+
+            if (method.name.startsWith("put") || method.name == "remove") {
+                lastPreferenceChange = expression
+            } else if (method.name == "flush") {
+                lastPreferenceChange = null
+            }
+
+        }
+
+    }
 
 }
 

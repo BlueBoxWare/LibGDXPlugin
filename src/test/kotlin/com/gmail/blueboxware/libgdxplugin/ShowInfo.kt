@@ -23,41 +23,41 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ShowInfo: LibGDXCodeInsightFixtureTestCase() {
+class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testShowInfo() {
-    println("IntelliJ version: " + ApplicationInfo.getInstance().fullVersion)
-    println("IntelliJ build: " + ApplicationInfo.getInstance().build)
-    println("Kotlin version: " + KotlinVersion.CURRENT + "\n")
+    fun testShowInfo() {
+        println("IntelliJ version: " + ApplicationInfo.getInstance().fullVersion)
+        println("IntelliJ build: " + ApplicationInfo.getInstance().build)
+        println("Kotlin version: " + KotlinVersion.CURRENT + "\n")
 
-    println("PLUGINS:")
-    PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->
-      println("\t${plugin.name}: ${plugin.version} (enabled: ${plugin.isEnabled})")
+        println("PLUGINS:")
+        PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->
+            println("\t${plugin.name}: ${plugin.version} (enabled: ${plugin.isEnabled})")
+        }
+
+        println("\nPATHS:")
+        println("\tSystem: " + PathManager.getSystemPath())
+        println("\tConfig: " + PathManager.getConfigPath())
     }
 
-    println("\nPATHS:")
-    println("\tSystem: " + PathManager.getSystemPath())
-    println("\tConfig: " + PathManager.getConfigPath())
-  }
-
-  fun testCreateShortnameList() {
-    val str = StringBuilder("| Suppression ID | Name | Description |\n")
-    str.append("|---|---|---|\n")
-    ApplicationManager
+    fun testCreateShortnameList() {
+        val str = StringBuilder("| Suppression ID | Name | Description |\n")
+        str.append("|---|---|---|\n")
+        ApplicationManager
             .getApplication()
             .extensionArea
             .getExtensionPoint<LocalInspectionEP>("com.intellij.localInspection")
             .extensionList
             .filter {
-              it.pluginDescriptor.pluginId?.idString == "com.gmail.blueboxware.libgdxplugin"
+                it.pluginDescriptor.pluginId?.idString == "com.gmail.blueboxware.libgdxplugin"
             }
             .sortedBy { it.shortName }
             .forEach {
-              it.instantiateTool().let { tool ->
-                str.append("| ${it.shortName} | ${tool.displayName} | ${tool.staticDescription} |\n")
-              }
+                it.instantiateTool().let { tool ->
+                    str.append("| ${it.shortName} | ${tool.displayName} | ${tool.staticDescription} |\n")
+                }
             }
-    File("Inspections.md").writeText(str.toString())
-  }
+        File("Inspections.md").writeText(str.toString())
+    }
 
 }

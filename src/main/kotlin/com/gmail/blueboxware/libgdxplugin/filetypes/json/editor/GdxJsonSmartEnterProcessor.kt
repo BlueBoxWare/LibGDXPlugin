@@ -18,96 +18,100 @@ import com.intellij.psi.PsiFile
  * Adapted from https://github.com/JetBrains/intellij-community/blob/191.4738/json/src/com/intellij/json/editor/smartEnter/JsonSmartEnterProcessor.java
  *
  */
-class GdxJsonSmartEnterProcessor: SmartEnterProcessorWithFixers() {
+class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
 
-  private var shouldAddNewline = false
+    private var shouldAddNewline = false
 
-  init {
-    addFixers(GdxJsonObjectPropertyFixer(), GdxJsonArrayElementFixer())
-    addEnterProcessors(GdxJsonEnterProcessor())
-  }
-
-  override fun collectAdditionalElements(element: PsiElement, result: MutableList<PsiElement>) {
-
-    var parent = element.parent
-
-    while (parent != null && parent !is GdxJsonFile) {
-      result.add(parent)
-      parent = parent.parent
+    init {
+        addFixers(GdxJsonObjectPropertyFixer(), GdxJsonArrayElementFixer())
+        addEnterProcessors(GdxJsonEnterProcessor())
     }
 
-  }
+    override fun collectAdditionalElements(element: PsiElement, result: MutableList<PsiElement>) {
 
-  private inner class GdxJsonEnterProcessor: SmartEnterProcessorWithFixers.FixEnterProcessor() {
+        var parent = element.parent
 
-    override fun doEnter(atCaret: PsiElement?, file: PsiFile?, editor: Editor, modified: Boolean): Boolean {
-
-      if (shouldAddNewline) {
-
-        try {
-          plainEnter(editor)
-        } finally {
-          shouldAddNewline = false
+        while (parent != null && parent !is GdxJsonFile) {
+            result.add(parent)
+            parent = parent.parent
         }
 
-      }
-
-      return true
-
     }
-  }
 
-  private class GdxJsonArrayElementFixer: SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
+    private inner class GdxJsonEnterProcessor : SmartEnterProcessorWithFixers.FixEnterProcessor() {
 
-    override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
+        override fun doEnter(atCaret: PsiElement?, file: PsiFile?, editor: Editor, modified: Boolean): Boolean {
 
-      if (element is GdxJsonValue && element.parent is GdxJsonArray) {
+            if (shouldAddNewline) {
 
-        if (terminatedOnCurrentLine(editor, element) && !isFollowedByTerminal(element, COMMA)) {
-          editor.document.insertString(element.textRange.endOffset, ",")
-          processor.shouldAddNewline = true
-        }
+                try {
+                    plainEnter(editor)
+                } finally {
+                    shouldAddNewline = false
+                }
 
-      }
-
-    }
-  }
-
-  private class GdxJsonObjectPropertyFixer: SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
-
-    override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
-
-      (element as? GdxJsonProperty)?.let { property ->
-
-        property.value.let { propertyValue ->
-
-          if (propertyValue != null) {
-
-            if (terminatedOnCurrentLine(editor, propertyValue) && !isFollowedByTerminal(propertyValue, COMMA)) {
-              editor.document.insertString(propertyValue.textRange.endOffset, ",")
-              processor.shouldAddNewline = true
             }
 
-          } else {
+            return true
 
-            val keyEndOffset = property.propertyName.textRange.endOffset
+        }
+    }
 
-            if (terminatedOnCurrentLine(editor, property.propertyName)
-                    && !isFollowedByTerminal(property.propertyName, COLON)
-            ) {
-              processor.myFirstErrorOffset = keyEndOffset + 2
-              editor.document.insertString(keyEndOffset, ": ")
+    private class GdxJsonArrayElementFixer : SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
+
+        override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
+
+            if (element is GdxJsonValue && element.parent is GdxJsonArray) {
+
+                if (terminatedOnCurrentLine(editor, element) && !isFollowedByTerminal(element, COMMA)) {
+                    editor.document.insertString(element.textRange.endOffset, ",")
+                    processor.shouldAddNewline = true
+                }
+
             }
 
-          }
+        }
+    }
 
+    private class GdxJsonObjectPropertyFixer : SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
+
+        override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
+
+            (element as? GdxJsonProperty)?.let { property ->
+
+                property.value.let { propertyValue ->
+
+                    if (propertyValue != null) {
+
+                        if (terminatedOnCurrentLine(editor, propertyValue) && !isFollowedByTerminal(
+                                propertyValue,
+                                COMMA
+                            )
+                        ) {
+                            editor.document.insertString(propertyValue.textRange.endOffset, ",")
+                            processor.shouldAddNewline = true
+                        }
+
+                    } else {
+
+                        val keyEndOffset = property.propertyName.textRange.endOffset
+
+                        if (terminatedOnCurrentLine(editor, property.propertyName)
+                            && !isFollowedByTerminal(property.propertyName, COLON)
+                        ) {
+                            processor.myFirstErrorOffset = keyEndOffset + 2
+                            editor.document.insertString(keyEndOffset, ": ")
+                        }
+
+                    }
+
+
+                }
+
+            }
 
         }
 
-      }
-
     }
-
-  }
 
 }

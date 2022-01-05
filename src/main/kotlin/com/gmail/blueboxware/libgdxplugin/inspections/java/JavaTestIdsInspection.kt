@@ -24,26 +24,29 @@ import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 import com.intellij.psi.util.PsiLiteralUtil
 
-class JavaTestIdsInspection: LibGDXJavaBaseInspection() {
+class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("testid.html.description")
+    override fun getStaticDescription() = message("testid.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
 
-      if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
+            if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
 
-        PsiLiteralUtil.getStringLiteralContent(expression)?.trim().let { value ->
-          if (TEST_ID_MAP.containsKey(value)) {
-            holder.registerProblem(expression, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
-          }
+                PsiLiteralUtil.getStringLiteralContent(expression)?.trim().let { value ->
+                    if (TEST_ID_MAP.containsKey(value)) {
+                        holder.registerProblem(
+                            expression,
+                            message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value]
+                        )
+                    }
+                }
+
+            }
+
         }
-
-      }
-
     }
-  }
 
 }
 

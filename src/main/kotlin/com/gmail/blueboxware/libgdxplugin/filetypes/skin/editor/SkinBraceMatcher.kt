@@ -21,19 +21,19 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinBraceMatcher: PairedBraceMatcher {
+class SkinBraceMatcher : PairedBraceMatcher {
 
-  override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int) = openingBraceOffset
+    override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int) = openingBraceOffset
 
-  override fun getPairs() = PAIRS
+    override fun getPairs() = PAIRS
 
-  override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) = true
+    override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) = true
 
-  companion object {
-    val PAIRS = arrayOf(
+    companion object {
+        val PAIRS = arrayOf(
             BracePair(SkinElementTypes.L_BRACKET, SkinElementTypes.R_BRACKET, true),
             BracePair(SkinElementTypes.L_CURLY, SkinElementTypes.R_CURLY, true)
-    )
-  }
+        )
+    }
 
 }

@@ -24,16 +24,16 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinArrayMixin(node: ASTNode): SkinArray, SkinValueImpl(node) {
+abstract class SkinArrayMixin(node: ASTNode) : SkinArray, SkinValueImpl(node) {
 
-  override fun getValueList(): List<SkinValue> = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinValue::class.java)
+    override fun getValueList(): List<SkinValue> = PsiTreeUtil.getChildrenOfTypeAsList(this, SkinValue::class.java)
 
-  override fun getPresentation(): ItemPresentation = object: ItemPresentation {
-    override fun getPresentableText() = "array"
+    override fun getPresentation(): ItemPresentation = object : ItemPresentation {
+        override fun getPresentableText() = "array"
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Array
-  }
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Json.Array
+    }
 
 }

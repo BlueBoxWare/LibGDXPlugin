@@ -27,26 +27,26 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasAdditionalHighlighter: Annotator {
+class AtlasAdditionalHighlighter : Annotator {
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (!element.isLeaf(AtlasElementTypes.STRING)) return
+        if (!element.isLeaf(AtlasElementTypes.STRING)) return
 
-    var attributes: TextAttributesKey? = null
+        var attributes: TextAttributesKey? = null
 
-    if (element.parent is AtlasValueElement && element.parent.parent is AtlasPage) {
-      attributes = AtlasSyntaxHighlighter.FILE_NAME
-    } else if (element.parent is AtlasValueElement && element.parent.parent is AtlasRegion) {
-      attributes = AtlasSyntaxHighlighter.TEXTURE_NAME
-    } else if (element.parent is AtlasProperty) {
-      attributes = AtlasSyntaxHighlighter.KEY
-    } else if (element.parent is AtlasValueElement) {
-      attributes = AtlasSyntaxHighlighter.VALUE
+        if (element.parent is AtlasValueElement && element.parent.parent is AtlasPage) {
+            attributes = AtlasSyntaxHighlighter.FILE_NAME
+        } else if (element.parent is AtlasValueElement && element.parent.parent is AtlasRegion) {
+            attributes = AtlasSyntaxHighlighter.TEXTURE_NAME
+        } else if (element.parent is AtlasProperty) {
+            attributes = AtlasSyntaxHighlighter.KEY
+        } else if (element.parent is AtlasValueElement) {
+            attributes = AtlasSyntaxHighlighter.VALUE
+        }
+
+        attributes?.let {
+            holder.newSilentAnnotation(HighlightSeverity.INFORMATION).textAttributes(it).range(element).create()
+        }
     }
-
-    attributes?.let {
-      holder.newSilentAnnotation(HighlightSeverity.INFORMATION).textAttributes(it).range(element).create()
-    }
-  }
 }

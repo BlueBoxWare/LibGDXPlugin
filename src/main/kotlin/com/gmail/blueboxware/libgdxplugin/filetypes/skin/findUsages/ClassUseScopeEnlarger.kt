@@ -22,19 +22,19 @@ import com.intellij.psi.search.UseScopeEnlarger
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassUseScopeEnlarger: UseScopeEnlarger() {
+class ClassUseScopeEnlarger : UseScopeEnlarger() {
 
-  override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
+    override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
 
-    if (element !is PsiClass) return null
+        if (element !is PsiClass) return null
 
-    if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
+        if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
 
-    ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
-      return module.moduleWithDependentsScope
+        ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
+            return module.moduleWithDependentsScope
+        }
+
+        return null
     }
-
-    return null
-  }
 
 }

@@ -22,26 +22,27 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasSyntaxHighlighter: SyntaxHighlighterBase() {
+class AtlasSyntaxHighlighter : SyntaxHighlighterBase() {
 
-  companion object {
-    val COLON = createTextAttributesKey("ATLAS.COLON", DefaultLanguageHighlighterColors.SEMICOLON)
-    val COMMA = createTextAttributesKey("ATLAS.COMMA")
+    companion object {
+        val COLON = createTextAttributesKey("ATLAS.COLON", DefaultLanguageHighlighterColors.SEMICOLON)
+        val COMMA = createTextAttributesKey("ATLAS.COMMA")
 
-    // The following are handled by AtlasAdditionalHighlighter
-    val FILE_NAME = createTextAttributesKey("ATLAS.FILE_NAME", DefaultLanguageHighlighterColors.KEYWORD)
-    val TEXTURE_NAME = createTextAttributesKey("ATLAS.TEXTURE_NAME", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
-    val KEY = createTextAttributesKey("ATLAS.KEY", DefaultLanguageHighlighterColors.CLASS_NAME)
-    val VALUE = createTextAttributesKey("ATLAS.VALUE", DefaultLanguageHighlighterColors.STRING)
-  }
+        // The following are handled by AtlasAdditionalHighlighter
+        val FILE_NAME = createTextAttributesKey("ATLAS.FILE_NAME", DefaultLanguageHighlighterColors.KEYWORD)
+        val TEXTURE_NAME =
+            createTextAttributesKey("ATLAS.TEXTURE_NAME", DefaultLanguageHighlighterColors.INSTANCE_FIELD)
+        val KEY = createTextAttributesKey("ATLAS.KEY", DefaultLanguageHighlighterColors.CLASS_NAME)
+        val VALUE = createTextAttributesKey("ATLAS.VALUE", DefaultLanguageHighlighterColors.STRING)
+    }
 
-  override fun getTokenHighlights(tokenType: IElementType?) = arrayOf(
-          when (tokenType) {
+    override fun getTokenHighlights(tokenType: IElementType?) = arrayOf(
+        when (tokenType) {
             AtlasElementTypes.COMMA -> COMMA
             AtlasElementTypes.COLON -> COLON
             else -> VALUE
-          }
-  )
+        }
+    )
 
-  override fun getHighlightingLexer() = AtlasLexer()
+    override fun getHighlightingLexer() = AtlasLexer()
 }

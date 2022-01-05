@@ -22,30 +22,30 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsReference(element: PsiElement): PsiPolyVariantReferenceBase<PsiElement>(element) {
+class ColorsReference(element: PsiElement) : PsiPolyVariantReferenceBase<PsiElement>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
-          ((element as? PsiLiteralExpression)?.asString()
-                  ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
+    override fun multiResolve(incompleteCode: Boolean): Array<ResolveResult> =
+        ((element as? PsiLiteralExpression)?.asString()
+            ?: (element as? KtStringTemplateExpression)?.asPlainString())?.let { colorName ->
             element
-                    .project
-                    .getColorsMap()[colorName]
-                    ?.nameElements()
-                    ?.map(::PsiElementResolveResult)
-                    ?.toTypedArray()
-          } ?: PsiElementResolveResult.EMPTY_ARRAY
+                .project
+                .getColorsMap()[colorName]
+                ?.nameElements()
+                ?.map(::PsiElementResolveResult)
+                ?.toTypedArray()
+        } ?: PsiElementResolveResult.EMPTY_ARRAY
 
 
-  override fun getVariants(): Array<Any> = element.project.getColorsMap().entries.map { (colorName, colorDef) ->
+    override fun getVariants(): Array<Any> = element.project.getColorsMap().entries.map { (colorName, colorDef) ->
 
-    val icon = colorDef?.valueElement?.let {
-      it.getColor(ignoreContext = true)?.let(::createColorIcon)
-    } ?: AllIcons.FileTypes.Properties
+        val icon = colorDef?.valueElement?.let {
+            it.getColor(ignoreContext = true)?.let(::createColorIcon)
+        } ?: AllIcons.FileTypes.Properties
 
-    LookupElementBuilder
+        LookupElementBuilder
             .create(colorName)
             .withIcon(icon)
 
-  }.toTypedArray()
+    }.toTypedArray()
 
 }

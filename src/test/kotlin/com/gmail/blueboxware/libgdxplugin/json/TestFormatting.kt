@@ -24,89 +24,89 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFormatting: LibGDXCodeInsightFixtureTestCase() {
+class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testDefaultStyle1() = doFileTest("1.lson", "1.default")
+    fun testDefaultStyle1() = doFileTest("1.lson", "1.default")
 
-  fun testDefaultStyle2() = doFileTest("2.lson", "2.default")
+    fun testDefaultStyle2() = doFileTest("2.lson", "2.default")
 
-  fun testErrors() = doFileTest("3.lson", "3.default")
+    fun testErrors() = doFileTest("3.lson", "3.default")
 
-  fun testEdgeCases() = doFileTest("4.lson", "4.default")
+    fun testEdgeCases() = doFileTest("4.lson", "4.default")
 
-  fun testEdgeCasesAllSpaces() {
-    CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).apply {
-      SPACE_WITHIN_BRACES = true
-      SPACE_WITHIN_BRACKETS = true
-      SPACE_AFTER_COLON = true
-      SPACE_AFTER_COMMA = true
-      SPACE_BEFORE_COLON = true
-      SPACE_BEFORE_COMMA = true
+    fun testEdgeCasesAllSpaces() {
+        CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).apply {
+            SPACE_WITHIN_BRACES = true
+            SPACE_WITHIN_BRACKETS = true
+            SPACE_AFTER_COLON = true
+            SPACE_AFTER_COMMA = true
+            SPACE_BEFORE_COLON = true
+            SPACE_BEFORE_COMMA = true
+        }
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+            CommonCodeStyleSettings.WRAP_AS_NEEDED
+        doFileTest("4.lson", "4.spaces")
     }
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
-            CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
-            CommonCodeStyleSettings.WRAP_AS_NEEDED
-    doFileTest("4.lson", "4.spaces")
-  }
 
-  fun testEdgeCasesWrap() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+    fun testEdgeCasesWrap() {
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
             CommonCodeStyleSettings.WRAP_ALWAYS
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_ALWAYS
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-    doFileTest("4.lson", "4.wrap")
-  }
+        doFileTest("4.lson", "4.wrap")
+    }
 
-  fun testSpacesInsideBrackets() {
-    CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).SPACE_WITHIN_BRACES = true
-    CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).SPACE_WITHIN_BRACKETS = true
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+    fun testSpacesInsideBrackets() {
+        CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).SPACE_WITHIN_BRACES = true
+        CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).SPACE_WITHIN_BRACKETS = true
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    doFileTest("1.lson", "1.spacesInsideBrackets")
-  }
+        doFileTest("1.lson", "1.spacesInsideBrackets")
+    }
 
-  fun testAlignOnColon1() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
+    fun testAlignOnColon1() {
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-    doFileTest("1.lson", "1.alignOnColon")
-  }
+        doFileTest("1.lson", "1.alignOnColon")
+    }
 
-  fun testAlignOnColon2() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
+    fun testAlignOnColon2() {
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-    doFileTest("2.lson", "2.alignOnColon")
-  }
+        doFileTest("2.lson", "2.alignOnColon")
+    }
 
-  fun testWrapIfLong1() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+    fun testWrapIfLong1() {
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    doFileTest("1.lson", "1.wrapIfLong")
-  }
+        doFileTest("1.lson", "1.wrapIfLong")
+    }
 
-  fun testWrapIfLong2() {
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
+    fun testWrapIfLong2() {
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).ARRAY_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
+        CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-    doFileTest("2.lson", "2.wrapIfLong")
-  }
+        doFileTest("2.lson", "2.wrapIfLong")
+    }
 
-  private fun doFileTest(beforeFile: String, afterFile: String) =
-          FormatterTestUtils.testFormatting(
-                  project,
-                  "lson",
-                  File(testDataPath, beforeFile).readText(),
-                  File(testDataPath, afterFile).readText(),
-                  FormatterTestUtils.Action.REFORMAT
-          )
+    private fun doFileTest(beforeFile: String, afterFile: String) =
+        FormatterTestUtils.testFormatting(
+            project,
+            "lson",
+            File(testDataPath, beforeFile).readText(),
+            File(testDataPath, afterFile).readText(),
+            FormatterTestUtils.Action.REFORMAT
+        )
 
-  override fun getBasePath() = "/filetypes/json/formatting/"
+    override fun getBasePath() = "/filetypes/json/formatting/"
 
 }

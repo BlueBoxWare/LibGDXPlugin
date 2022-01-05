@@ -23,26 +23,26 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinInvalidPropertyKeyInspection: LibGDXKotlinBaseInspection() {
+class KotlinInvalidPropertyKeyInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
+    override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
+        override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      if (!isValidProperty(expression)) {
-        holder.registerProblem(
-                expression,
-                message(
+            if (!isValidProperty(expression)) {
+                holder.registerProblem(
+                    expression,
+                    message(
                         "invalid.property.key.inspection.problem.descriptor", expression.asPlainString()
-                        ?: ""
+                            ?: ""
+                    )
                 )
-        )
-      }
+            }
+
+        }
 
     }
-
-  }
 
 }

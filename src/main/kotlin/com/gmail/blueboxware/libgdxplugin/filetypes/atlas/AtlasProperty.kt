@@ -23,32 +23,32 @@ import com.intellij.navigation.NavigationItem
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasProperty(node: ASTNode): AtlasElementImpl(node), NavigationItem {
+abstract class AtlasProperty(node: ASTNode) : AtlasElementImpl(node), NavigationItem {
 
-  fun getKey(): String = when (this) {
-    is AtlasFormat -> "Format"
-    is AtlasFilter -> "Filter"
-    is AtlasRepeat -> "Repeat"
-    is AtlasRotate -> "Rotate"
-    is AtlasXy -> "XY"
-    is AtlasSize -> "Size"
-    is AtlasSplit -> "Split"
-    is AtlasPad -> "Pad"
-    is AtlasOrig -> "Orig"
-    is AtlasOffset -> "Offset"
-    is AtlasIndex -> "Index"
-    else -> "<unknown>"
-  }
+    fun getKey(): String = when (this) {
+        is AtlasFormat -> "Format"
+        is AtlasFilter -> "Filter"
+        is AtlasRepeat -> "Repeat"
+        is AtlasRotate -> "Rotate"
+        is AtlasXy -> "XY"
+        is AtlasSize -> "Size"
+        is AtlasSplit -> "Split"
+        is AtlasPad -> "Pad"
+        is AtlasOrig -> "Orig"
+        is AtlasOffset -> "Offset"
+        is AtlasIndex -> "Index"
+        else -> "<unknown>"
+    }
 
-  fun getValueAsString() = childrenOfType<AtlasValueElement>().joinToString(separator = ", ") { it.text }
+    fun getValueAsString() = childrenOfType<AtlasValueElement>().joinToString(separator = ", ") { it.text }
 
-  override fun getPresentation() = object: ItemPresentation {
+    override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = AllIcons.Nodes.Property
+        override fun getIcon(unused: Boolean) = AllIcons.Nodes.Property
 
-    override fun getPresentableText() = getKey() + ": " + getValueAsString()
-  }
+        override fun getPresentableText() = getKey() + ": " + getValueAsString()
+    }
 
 }

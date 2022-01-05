@@ -36,73 +36,74 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * limitations under the License.
  */
 class FileReference(
-        element: PsiElement,
-        val path: String,
-        val fileTypes: List<FileType>,
-        val preferableLanguages: List<Language> = listOf()
-): PsiReferenceBase<PsiElement>(element) {
+    element: PsiElement,
+    val path: String,
+    val fileTypes: List<FileType>,
+    val preferableLanguages: List<Language> = listOf()
+) : PsiReferenceBase<PsiElement>(element) {
 
-  override fun resolve(): PsiElement? = myElement.project.getPsiFile(path)
+    override fun resolve(): PsiElement? = myElement.project.getPsiFile(path)
 
-  override fun getVariants(): Array<out Any> {
+    override fun getVariants(): Array<out Any> {
 
-    val result = mutableListOf<LookupElement>()
-    val searchScope = myElement.project.projectScope()
-    val psiManager = PsiManager.getInstance(myElement.project)
-    val baseDir = myElement.project.getProjectBaseDir() ?: return arrayOf()
+        val result = mutableListOf<LookupElement>()
+        val searchScope = myElement.project.projectScope()
+        val psiManager = PsiManager.getInstance(myElement.project)
+        val baseDir = myElement.project.getProjectBaseDir() ?: return arrayOf()
 
-    for (fileType in fileTypes) {
-      FileTypeIndex.getFiles(fileType, searchScope).forEach { virtualFile ->
+        for (fileType in fileTypes) {
+            FileTypeIndex.getFiles(fileType, searchScope).forEach { virtualFile ->
 
-        psiManager.findFile(virtualFile)?.let { psiFile ->
+                psiManager.findFile(virtualFile)?.let { psiFile ->
 
-          if (psiFile !is PropertiesFileImpl || psiFile.isDefaultFile()) {
+                    if (psiFile !is PropertiesFileImpl || psiFile.isDefaultFile()) {
 
-            val relativePath = PathUtil.toSystemDependentName(VfsUtil.getRelativePath(virtualFile, baseDir))
-            val prioritized = LanguageUtil.getLanguageForPsi(element.project, virtualFile) in preferableLanguages
+                        val relativePath = PathUtil.toSystemDependentName(VfsUtil.getRelativePath(virtualFile, baseDir))
+                        val prioritized =
+                            LanguageUtil.getLanguageForPsi(element.project, virtualFile) in preferableLanguages
 
-            PrioritizedLookupElement.withPriority(
-                    LookupElementBuilder
-                            .create(psiFile, relativePath.replace("\\", "\\\\", false))
-                            .withPresentableText(relativePath)
-                            .withIcon(psiFile.getIcon(0))
-                            .withBoldness(prioritized),
-                    if (prioritized) Double.MAX_VALUE else 0.0
-            )?.let {
-              result.add(it)
+                        PrioritizedLookupElement.withPriority(
+                            LookupElementBuilder
+                                .create(psiFile, relativePath.replace("\\", "\\\\", false))
+                                .withPresentableText(relativePath)
+                                .withIcon(psiFile.getIcon(0))
+                                .withBoldness(prioritized),
+                            if (prioritized) Double.MAX_VALUE else 0.0
+                        )?.let {
+                            result.add(it)
+                        }
+
+                    }
+
+                }
+
             }
+        }
 
-          }
+        return result.toTypedArray()
+
+    }
+
+    override fun handleElementRename(newElementName: String): PsiElement {
+
+        return if (element is AtlasValue) {
+
+            // we don't handle renaming of the image file in Atlas files
+            element
+
+        } else if (element is KtStringTemplateExpression || element is PsiLiteralExpression) {
+
+            val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
+            super.handleElementRename(newPath)
+
+        } else {
+
+            throw IncorrectOperationException()
 
         }
 
-      }
     }
 
-    return result.toTypedArray()
-
-  }
-
-  override fun handleElementRename(newElementName: String): PsiElement {
-
-    return if (element is AtlasValue) {
-
-      // we don't handle renaming of the image file in Atlas files
-      element
-
-    } else if (element is KtStringTemplateExpression || element is PsiLiteralExpression) {
-
-      val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
-      super.handleElementRename(newPath)
-
-    } else {
-
-      throw IncorrectOperationException()
-
-    }
-
-  }
-
-  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
+    override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
 }

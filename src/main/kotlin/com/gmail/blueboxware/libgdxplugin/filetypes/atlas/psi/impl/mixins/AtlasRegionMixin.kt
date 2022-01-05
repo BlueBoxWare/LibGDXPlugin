@@ -33,63 +33,63 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasRegionMixin(node: ASTNode): AtlasRegion, AtlasElementImpl(node) {
+abstract class AtlasRegionMixin(node: ASTNode) : AtlasRegion, AtlasElementImpl(node) {
 
-  override fun getName(): String = regionName.text
+    override fun getName(): String = regionName.text
 
-  override fun getX() = xy.valueList.firstOrNull()?.text?.toIntOrNull()
+    override fun getX() = xy.valueList.firstOrNull()?.text?.toIntOrNull()
 
-  override fun getY() = xy.valueList.getOrNull(1)?.text?.toIntOrNull()
+    override fun getY() = xy.valueList.getOrNull(1)?.text?.toIntOrNull()
 
-  override fun getWidth() = size.valueList.firstOrNull()?.text?.toIntOrNull()
+    override fun getWidth() = size.valueList.firstOrNull()?.text?.toIntOrNull()
 
-  override fun getHeight() = size.valueList.getOrNull(1)?.text?.toIntOrNull()
+    override fun getHeight() = size.valueList.getOrNull(1)?.text?.toIntOrNull()
 
-  override fun getOriginalWidth() = orig.valueList.firstOrNull()?.text?.toIntOrNull() ?: 0
+    override fun getOriginalWidth() = orig.valueList.firstOrNull()?.text?.toIntOrNull() ?: 0
 
-  override fun getOriginalHeight() = orig.valueList.getOrNull(1)?.text?.toIntOrNull() ?: 0
+    override fun getOriginalHeight() = orig.valueList.getOrNull(1)?.text?.toIntOrNull() ?: 0
 
-  override fun getOriginalSize() = originalWidth * originalHeight
+    override fun getOriginalSize() = originalWidth * originalHeight
 
-  override fun getPage(): AtlasPage? = getParentOfType()
+    override fun getPage(): AtlasPage? = getParentOfType()
 
-  override fun setName(name: String): PsiElement = throw IncorrectOperationException()
+    override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 
-  override fun getUseScope() = project.allScope()
+    override fun getUseScope() = project.allScope()
 
-  override fun getPreviewIcon(): Icon? = myPreviewIcon
+    override fun getPreviewIcon(): Icon? = myPreviewIcon
 
-  override fun getImage(): BufferedImage? {
-    val virtualFile = page?.imageFile ?: return null
-    val x = x ?: return null
-    val y = y ?: return null
-    val width = width ?: return null
-    val height = height ?: return null
+    override fun getImage(): BufferedImage? {
+        val virtualFile = page?.imageFile ?: return null
+        val x = x ?: return null
+        val y = y ?: return null
+        val width = width ?: return null
+        val height = height ?: return null
 
-    return try {
-      ImagePreviewComponent.readImageFromBytes(virtualFile.contentsToByteArray()).getSubimage(x, y, width, height)
-    } catch (e: IOException) {
-      null
-    } catch (e: RasterFormatException) {
-      null
+        return try {
+            ImagePreviewComponent.readImageFromBytes(virtualFile.contentsToByteArray()).getSubimage(x, y, width, height)
+        } catch (e: IOException) {
+            null
+        } catch (e: RasterFormatException) {
+            null
+        }
+
     }
 
-  }
-
-  private val myPreviewIcon: Icon? by lazy {
-    image?.let { image: BufferedImage ->
-      IconUtil.createImageIcon(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT))
+    private val myPreviewIcon: Icon? by lazy {
+        image?.let { image: BufferedImage ->
+            IconUtil.createImageIcon(image.getScaledInstance(16, 16, BufferedImage.SCALE_DEFAULT))
+        }
     }
-  }
 
-  override fun getPresentation() = object: ItemPresentation {
+    override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = AllIcons.FileTypes.UiForm
+        override fun getIcon(unused: Boolean) = AllIcons.FileTypes.UiForm
 
-    override fun getPresentableText() = name + index.value?.getValue()?.let { if (it != "-1") " ($it)" else "" }
+        override fun getPresentableText() = name + index.value?.getValue()?.let { if (it != "-1") " ($it)" else "" }
 
-  }
+    }
 
 }

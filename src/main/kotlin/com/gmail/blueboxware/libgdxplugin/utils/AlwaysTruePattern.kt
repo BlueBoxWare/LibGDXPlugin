@@ -23,15 +23,15 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AlwaysTruePattern: ElementPattern<PsiElement> {
+class AlwaysTruePattern : ElementPattern<PsiElement> {
 
-  override fun accepts(o: Any?): Boolean = true
+    override fun accepts(o: Any?): Boolean = true
 
-  override fun accepts(o: Any?, context: ProcessingContext?): Boolean = true
+    override fun accepts(o: Any?, context: ProcessingContext?): Boolean = true
 
-  override fun getCondition(): ElementPatternCondition<PsiElement> =
-          ElementPatternCondition(object: InitialPatternCondition<PsiElement>(PsiElement::class.java) {
+    override fun getCondition(): ElementPatternCondition<PsiElement> =
+        ElementPatternCondition(object : InitialPatternCondition<PsiElement>(PsiElement::class.java) {
             override fun accepts(o: Any?, context: ProcessingContext?): Boolean = true
-          })
+        })
 
 }

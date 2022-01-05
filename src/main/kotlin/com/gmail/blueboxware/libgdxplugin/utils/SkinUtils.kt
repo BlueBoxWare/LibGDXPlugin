@@ -31,10 +31,10 @@ private const val commonClassNames = """(?:Color|BitmapFont|TintedDrawable|Butto
 val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$fqClassName|\b$commonClassNames)\s*["']?\s*:\s*\{""")
 
 fun getSkinFiles(project: Project): List<VirtualFile> {
-  val result = mutableListOf<VirtualFile>()
-  result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, project.allScope()))
-  project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
-  return result.filter { it.isValid }.toList()
+    val result = mutableListOf<VirtualFile>()
+    result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, project.allScope()))
+    project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
+    return result.filter { it.isValid }.toList()
 }
 
 

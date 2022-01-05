@@ -20,69 +20,69 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestEditing: LibGDXCodeInsightFixtureTestCase() {
+class TestEditing : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testIndentOnEnter1() = doTest(
-          """
+    fun testIndentOnEnter1() = doTest(
+        """
           {
           <caret>
           }
           """.trimIndent(),
-          """
+        """
           {
           
           ____<caret>
           }
           """.trimIndent()
-  )
+    )
 
-  fun testIndentOnEnter2() = doTest(
-          """
+    fun testIndentOnEnter2() = doTest(
+        """
           {<caret>}
           """.trimIndent(),
-          """
+        """
           {
           ____<caret>
           }
           """.trimIndent()
-  )
+    )
 
-  fun testIndentOnEnter3() = doTest(
-          """
+    fun testIndentOnEnter3() = doTest(
+        """
             {
                 foo: bar<caret>
             }
           """.trimIndent(),
-          """
+        """
             {
                 foo: bar
             ____<caret>
             }
           """.trimIndent()
-  )
+    )
 
-  fun testCompletingObject() = doTest(
-          """
+    fun testCompletingObject() = doTest(
+        """
             {
             foo:bar
             <caret>
           """.trimIndent(),
-          """
+        """
             {
             ____foo: bar
             }
           """.trimIndent(),
-          '}'
-  )
+        '}'
+    )
 
-  fun doTest(source: String, expected: String, key: Char = '\n') {
-    myFixture.configureByText(LibGDXJsonFileType.INSTANCE, source.replace('_', ' '))
-    if (key == '\b') {
-      LightPlatformCodeInsightTestCase.backspace(editor, project)
-    } else {
-      myFixture.type(key)
+    fun doTest(source: String, expected: String, key: Char = '\n') {
+        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, source.replace('_', ' '))
+        if (key == '\b') {
+            LightPlatformCodeInsightTestCase.backspace(editor, project)
+        } else {
+            myFixture.type(key)
+        }
+        myFixture.checkResult(expected.replace('_', ' '))
     }
-    myFixture.checkResult(expected.replace('_', ' '))
-  }
 
 }

@@ -26,41 +26,42 @@ import com.intellij.psi.impl.compiled.ClsFieldImpl
  * limitations under the License.
  */
 
-class JavaLogLevelInspection: LibGDXJavaBaseInspection() {
+class JavaLogLevelInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("log.level.html.description")
+    override fun getStaticDescription() = message("log.level.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
 
-      if (expression == null) return
+            if (expression == null) return
 
-      val (receiverClass, method) = expression.resolveCall() ?: return
+            val (receiverClass, method) = expression.resolveCall() ?: return
 
-      if (isSetLogLevel(receiverClass, method.name)) {
-        val argument = expression.argumentList.expressions.firstOrNull() ?: return
+            if (isSetLogLevel(receiverClass, method.name)) {
+                val argument = expression.argumentList.expressions.firstOrNull() ?: return
 
-        if (argument is PsiReferenceExpression) {
-          val resolved = argument.resolve()
-          if (resolved is ClsFieldImpl) {
-            val containingClassName = resolved.containingClass?.qualifiedName
-            if (
-                    (containingClassName == "com.badlogic.gdx.Application" && (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO"))
-                    || (containingClassName == "com.badlogic.gdx.utils.Logger" && (resolved.name == "DEBUG" || resolved.name == "INFO"))) {
-              holder.registerProblem(expression, message("log.level.problem.descriptor"))
+                if (argument is PsiReferenceExpression) {
+                    val resolved = argument.resolve()
+                    if (resolved is ClsFieldImpl) {
+                        val containingClassName = resolved.containingClass?.qualifiedName
+                        if (
+                            (containingClassName == "com.badlogic.gdx.Application" && (resolved.name == "LOG_DEBUG" || resolved.name == "LOG_INFO"))
+                            || (containingClassName == "com.badlogic.gdx.utils.Logger" && (resolved.name == "DEBUG" || resolved.name == "INFO"))
+                        ) {
+                            holder.registerProblem(expression, message("log.level.problem.descriptor"))
+                        }
+                    }
+                } else if (argument is PsiLiteral) {
+                    val value = argument.value
+                    if (value == 2 || value == 3) {
+                        holder.registerProblem(expression, message("log.level.problem.descriptor"))
+                    }
+                }
+
             }
-          }
-        } else if (argument is PsiLiteral) {
-          val value = argument.value
-          if (value == 2 || value == 3) {
-            holder.registerProblem(expression, message("log.level.problem.descriptor"))
-          }
+
         }
 
-      }
-
     }
-
-  }
 }

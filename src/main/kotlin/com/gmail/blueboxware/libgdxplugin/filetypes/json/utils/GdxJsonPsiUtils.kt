@@ -28,34 +28,34 @@ fun GdxJsonElement.factory() = (containingFile as? GdxJsonFileImpl)?.factory
 fun GdxJsonElement.isArrayElement() = this is GdxJsonValue && parent is GdxJsonArray
 
 fun GdxJsonValue.getArrayIndexOfItem(): Int? =
-        (parent as? GdxJsonArray)?.valueList?.indexOfOrNull(this)
+    (parent as? GdxJsonArray)?.valueList?.indexOfOrNull(this)
 
 fun GdxJsonArray.switch(editor: Editor, index1: Int, index2: Int) =
-        valueList.getOrNull(index1)?.let { element1 ->
-          valueList.getOrNull(index2)?.let { element2 ->
+    valueList.getOrNull(index1)?.let { element1 ->
+        valueList.getOrNull(index2)?.let { element2 ->
             switch(editor, element1, element2)
-          }
         }
+    }
 
 
 fun GdxJsonArray.switch(editor: Editor, element1: GdxJsonValue, element2: GdxJsonValue) {
 
-  if (element1.parent != this || element2.parent != this) {
-    return
-  }
+    if (element1.parent != this || element2.parent != this) {
+        return
+    }
 
-  val element1range = element1.textRange
-  val element2range = element2.textRange
+    val element1range = element1.textRange
+    val element2range = element2.textRange
 
-  val element1text = element1.text
-  val element2text = element2.text
+    val element1text = element1.text
+    val element2text = element2.text
 
-  if (element1range.startOffset < element2range.startOffset) {
-    editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
-    editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
-  } else {
-    editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
-    editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
-  }
+    if (element1range.startOffset < element2range.startOffset) {
+        editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
+        editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
+    } else {
+        editor.document.replaceString(element1range.startOffset, element1range.endOffset, element2text)
+        editor.document.replaceString(element2range.startOffset, element2range.endOffset, element1text)
+    }
 
 }

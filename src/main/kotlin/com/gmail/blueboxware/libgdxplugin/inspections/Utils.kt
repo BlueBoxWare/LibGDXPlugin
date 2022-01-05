@@ -39,128 +39,128 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  */
 internal fun checkForNonExistingAssetReference(element: PsiElement, elementName: String, holder: ProblemsHolder) {
 
-  element
-          .references
-          .filterIsInstance<AssetReference>()
-          .takeIf { it.isNotEmpty() }
-          ?.firstOrNull { it.multiResolve(true).isEmpty() }
-          ?.let { reference ->
+    element
+        .references
+        .filterIsInstance<AssetReference>()
+        .takeIf { it.isNotEmpty() }
+        ?.firstOrNull { it.multiResolve(true).isEmpty() }
+        ?.let { reference ->
 
             val type = reference.className ?: "<unknown>"
             val files = reference.filesPresentableText(true).takeIf { it != "" }?.let { "in $it" } ?: ""
             val fixes =
-                    if (elementName.isNotBlank()) {
-                      reference.className?.takeIf { it.plainName != TEXTURE_REGION_CLASS_NAME }?.let { className ->
+                if (elementName.isNotBlank()) {
+                    reference.className?.takeIf { it.plainName != TEXTURE_REGION_CLASS_NAME }?.let { className ->
                         reference.skinFiles.map { skinFile ->
-                          CreateAssetQuickFix(skinFile, elementName, className, skinFile.name)
+                            CreateAssetQuickFix(skinFile, elementName, className, skinFile.name)
                         }.toTypedArray()
-                      }
-                    } else {
-                      null
                     }
+                } else {
+                    null
+                }
 
             holder.registerProblem(
-                    element,
-                    message("nonexisting.asset.problem.descriptor", elementName, type, files),
-                    *fixes ?: arrayOf()
+                element,
+                message("nonexisting.asset.problem.descriptor", elementName, type, files),
+                *fixes ?: arrayOf()
             )
 
-          }
+        }
 
 }
 
 internal fun checkForUnusedClassTag(element: PsiElement, holder: ProblemsHolder) {
 
-  val tagName =
-          (element as? PsiLiteralExpression)?.asString()
-                  ?: (element as? KtStringTemplateExpression)?.asPlainString()
-                  ?: return
+    val tagName =
+        (element as? PsiLiteralExpression)?.asString()
+            ?: (element as? KtStringTemplateExpression)?.asPlainString()
+            ?: return
 
-  var found = false
+    var found = false
 
-  val findUsagesHandler =
-          (element as? PsiLiteralExpression)?.let(::ClassTagFindUsagesHandler)
-                  ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
-                  ?: return
+    val findUsagesHandler =
+        (element as? PsiLiteralExpression)?.let(::ClassTagFindUsagesHandler)
+            ?: (element as? KtStringTemplateExpression)?.let(::ClassTagFindUsagesHandler)
+            ?: return
 
-  findUsagesHandler.processElementUsages(
-          element,
-          {
+    findUsagesHandler.processElementUsages(
+        element,
+        {
             found = true
             false
-          },
-          FindUsagesOptions(element.allScope())
-  )
+        },
+        FindUsagesOptions(element.allScope())
+    )
 
-  if (!found) {
-    holder.registerProblem(element, message("unused.class.tag.problem.descriptor", tagName))
-  }
+    if (!found) {
+        holder.registerProblem(element, message("unused.class.tag.problem.descriptor", tagName))
+    }
 
 }
 
 internal fun isValidProperty(element: PsiElement): Boolean {
 
-  element.references.filterIsInstance<GDXPropertyReference>().let { references ->
-    if (references.isEmpty()) {
-      return true
+    element.references.filterIsInstance<GDXPropertyReference>().let { references ->
+        if (references.isEmpty()) {
+            return true
+        }
+        references.forEach { reference ->
+            if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
+                return true
+            }
+        }
     }
-    references.forEach { reference ->
-      if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
-        return true
-      }
-    }
-  }
 
-  return false
+    return false
 
 }
 
 internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean {
 
-  project.service<VersionService>().let { versionManager ->
-    val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return false
+    project.service<VersionService>().let { versionManager ->
+        val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return false
 
-    if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
-      return true
+        if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
+            return true
+        }
     }
-  }
 
-  return false
+    return false
 }
 
 internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
 
-  checkFilename(element, fileName, holder)?.let { psiFile ->
-    if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
-      holder.registerProblem(
-              element,
-              message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName),
-              ProblemHighlightType.WEAK_WARNING
-      )
+    checkFilename(element, fileName, holder)?.let { psiFile ->
+        if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
+            holder.registerProblem(
+                element,
+                message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName),
+                ProblemHighlightType.WEAK_WARNING
+            )
+        }
     }
-  }
 
 }
 
 internal fun checkFilename(element: PsiElement, fileName: String, holder: ProblemsHolder): PsiFile? {
 
-  if (fileName == "") return null
+    if (fileName == "") return null
 
-  val psiFile = element.project.getPsiFile(fileName)
+    val psiFile = element.project.getPsiFile(fileName)
 
-  if (psiFile == null) {
-    holder.registerProblem(
+    if (psiFile == null) {
+        holder.registerProblem(
             element,
             message(
-                    "gdxassets.annotation.problem.descriptor.nofile",
-                    fileName,
-                    element.project.getProjectBaseDir()?.path ?: ""
+                "gdxassets.annotation.problem.descriptor.nofile",
+                fileName,
+                element.project.getProjectBaseDir()?.path ?: ""
             ),
             ProblemHighlightType.ERROR
-    )
-  }
+        )
+    }
 
-  return psiFile
+    return psiFile
 
 }
 
@@ -169,11 +169,11 @@ private val keyPreviousProject = key<Project>("previousproject")
 
 internal fun getFlushingMethods(project: Project, session: LocalInspectionToolSession): Set<PsiElement>? {
 
-  if (session.getUserData(keyMethods) == null || session.getUserData(keyPreviousProject) != project) {
-    val methods = FlushingMethodsUtils.getAllFlushingMethods(project)
-    session.putUserData(keyMethods, methods)
-    session.putUserData(keyPreviousProject, project)
-  }
+    if (session.getUserData(keyMethods) == null || session.getUserData(keyPreviousProject) != project) {
+        val methods = FlushingMethodsUtils.getAllFlushingMethods(project)
+        session.putUserData(keyMethods, methods)
+        session.putUserData(keyPreviousProject, project)
+    }
 
-  return session.getUserData(keyMethods)?.second
+    return session.getUserData(keyMethods)?.second
 }

@@ -19,10 +19,10 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.psi.PsiElement
 
-abstract class LibGDXGradleBaseInspection: LocalInspectionTool() {
+abstract class LibGDXGradleBaseInspection : LocalInspectionTool() {
 
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
+    override fun isSuppressedFor(element: PsiElement): Boolean {
+        return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
+    }
 
 }

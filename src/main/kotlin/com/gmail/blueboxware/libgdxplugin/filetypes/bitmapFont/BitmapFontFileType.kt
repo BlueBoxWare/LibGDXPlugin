@@ -19,19 +19,19 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFileType: LanguageFileType(BitmapFontLanguage.INSTANCE) {
+class BitmapFontFileType : LanguageFileType(BitmapFontLanguage.INSTANCE) {
 
-  companion object {
-    val INSTANCE = BitmapFontFileType()
-  }
+    companion object {
+        val INSTANCE = BitmapFontFileType()
+    }
 
-  override fun getIcon(): Icon = Icons.FONT_FILETYPE
+    override fun getIcon(): Icon = Icons.FONT_FILETYPE
 
-  override fun getName(): String = "libGDX Bitmap Font"
+    override fun getName(): String = "libGDX Bitmap Font"
 
-  override fun getDefaultExtension() = "fnt"
+    override fun getDefaultExtension() = "fnt"
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDescription() = "libGDX bitmap font file"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDescription() = "libGDX bitmap font file"
 
 }

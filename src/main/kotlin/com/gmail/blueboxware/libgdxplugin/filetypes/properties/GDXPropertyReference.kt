@@ -29,50 +29,50 @@ import org.jetbrains.kotlin.idea.search.allScope
  */
 
 class GDXPropertyReference(
-        key: String,
-        element: PsiElement,
-        private val bundleName: String?
-):
-        PropertyReferenceBase(
-                key,
-                bundleName == null,
-                element,
-                ElementManipulators.getValueTextRange(element)
-        ) {
+    key: String,
+    element: PsiElement,
+    private val bundleName: String?
+) :
+    PropertyReferenceBase(
+        key,
+        bundleName == null,
+        element,
+        ElementManipulators.getValueTextRange(element)
+    ) {
 
-  override fun resolve(): PsiElement? {
-    val results = multiResolve(false)
+    override fun resolve(): PsiElement? {
+        val results = multiResolve(false)
 
-    results.firstOrNull()?.element?.getResourceBundle()?.let { firstResourceBundle ->
-      if (results.all { it.element?.getResourceBundle() == firstResourceBundle }) {
-        return results.firstOrNull { (it.element as? Property)?.propertiesFile == firstResourceBundle.defaultPropertiesFile }?.element
-      }
-    }
-
-    return null
-  }
-
-  override fun getPropertiesFiles(): MutableList<PropertiesFile>? {
-    if (bundleName == null) {
-      return null
-    }
-    return retrievePropertyFilesByBundleName()
-  }
-
-  private fun retrievePropertyFilesByBundleName(): MutableList<PropertiesFile> {
-    bundleName?.let { bundleName ->
-      element.project.let { project ->
-        PropertiesReferenceManager.getInstance(project)?.let { refManager ->
-          return refManager.findPropertiesFiles(project.allScope(), bundleName, BundleNameEvaluator.DEFAULT)
+        results.firstOrNull()?.element?.getResourceBundle()?.let { firstResourceBundle ->
+            if (results.all { it.element?.getResourceBundle() == firstResourceBundle }) {
+                return results.firstOrNull { (it.element as? Property)?.propertiesFile == firstResourceBundle.defaultPropertiesFile }?.element
+            }
         }
-      }
+
+        return null
     }
 
-    return mutableListOf()
-  }
+    override fun getPropertiesFiles(): MutableList<PropertiesFile>? {
+        if (bundleName == null) {
+            return null
+        }
+        return retrievePropertyFilesByBundleName()
+    }
 
-  private fun PsiElement.getResourceBundle(): ResourceBundle? = (this as? Property)?.propertiesFile?.resourceBundle
+    private fun retrievePropertyFilesByBundleName(): MutableList<PropertiesFile> {
+        bundleName?.let { bundleName ->
+            element.project.let { project ->
+                PropertiesReferenceManager.getInstance(project)?.let { refManager ->
+                    return refManager.findPropertiesFiles(project.allScope(), bundleName, BundleNameEvaluator.DEFAULT)
+                }
+            }
+        }
 
-  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
+        return mutableListOf()
+    }
+
+    private fun PsiElement.getResourceBundle(): ResourceBundle? = (this as? Property)?.propertiesFile?.resourceBundle
+
+    override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
 }

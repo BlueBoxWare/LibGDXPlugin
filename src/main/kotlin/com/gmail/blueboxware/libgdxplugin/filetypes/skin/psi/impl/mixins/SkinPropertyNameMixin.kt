@@ -23,14 +23,14 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinPropertyNameMixin(node: ASTNode): SkinPropertyName, SkinElementImpl(node) {
+abstract class SkinPropertyNameMixin(node: ASTNode) : SkinPropertyName, SkinElementImpl(node) {
 
-  override fun getProperty(): SkinProperty? = firstParent()
+    override fun getProperty(): SkinProperty? = firstParent()
 
-  override fun getValue() = stringLiteral.value
+    override fun getValue() = stringLiteral.value
 
-  override fun getReference(): PsiReference? = SkinJavaFieldReference(this)
+    override fun getReference(): PsiReference? = SkinJavaFieldReference(this)
 
-  override fun toString(): String = "SkinPropertyName(${stringLiteral.text})"
+    override fun toString(): String = "SkinPropertyName(${stringLiteral.text})"
 
 }

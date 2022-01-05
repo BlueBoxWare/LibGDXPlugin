@@ -21,16 +21,16 @@ import com.gmail.blueboxware.libgdxplugin.versions.Repository
  * limitations under the License.
  */
 internal class LibGDXLibrary(
-        name: String,
-        groupId: String,
-        artifactId: String,
-        reposity: Repository = Repository.MAVEN_CENTRAL
-): Library(name, groupId, artifactId, reposity) {
+    name: String,
+    groupId: String,
+    artifactId: String,
+    reposity: Repository = Repository.MAVEN_CENTRAL
+) : Library(name, groupId, artifactId, reposity) {
 
-  override fun getLatestVersion(versionService: VersionService) =
-          versionService.getLatestVersion(Libraries.LIBGDX)
+    override fun getLatestVersion(versionService: VersionService) =
+        versionService.getLatestVersion(Libraries.LIBGDX)
 
-  override fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean =
-          false
+    override fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean =
+        false
 
 }

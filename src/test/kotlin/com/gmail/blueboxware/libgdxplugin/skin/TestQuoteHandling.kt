@@ -20,55 +20,55 @@ import com.intellij.testFramework.LightPlatformCodeInsightTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestQuoteHandling: LibGDXCodeInsightFixtureTestCase() {
+class TestQuoteHandling : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testDoubleQuote1() = doTest(
-          "<caret>",
-          "\"\""
-  )
+    fun testDoubleQuote1() = doTest(
+        "<caret>",
+        "\"\""
+    )
 
-  fun testDoubleQuote2() = doTest(
-          "\"<caret>\"",
-          "\"\""
-  )
+    fun testDoubleQuote2() = doTest(
+        "\"<caret>\"",
+        "\"\""
+    )
 
-  fun testDoubleQuoteAtEndOfUnquotedString() = doTest(
-          "[foo<caret>]",
-          "[foo\"]"
-  )
+    fun testDoubleQuoteAtEndOfUnquotedString() = doTest(
+        "[foo<caret>]",
+        "[foo\"]"
+    )
 
-  fun testSingleQuote() = doTest(
-          "<caret>",
-          "'",
-          '\''
-  )
+    fun testSingleQuote() = doTest(
+        "<caret>",
+        "'",
+        '\''
+    )
 
-  fun testBackSpaceInQuotes() = doTest(
-          "\"<caret>\"",
-          "",
-          '\b'
+    fun testBackSpaceInQuotes() = doTest(
+        "\"<caret>\"",
+        "",
+        '\b'
 
-  )
+    )
 
-  fun testBackSpaceInQuotesInUnquotedString() = doTest(
-          "foo\"<caret>\"bar",
-          "foo\"bar",
-          '\b'
-  )
+    fun testBackSpaceInQuotesInUnquotedString() = doTest(
+        "foo\"<caret>\"bar",
+        "foo\"bar",
+        '\b'
+    )
 
-  fun testDoubleQuoteInUnquotedString() = doTest(
-          "foo<caret>bar",
-          "foo\"bar"
-  )
+    fun testDoubleQuoteInUnquotedString() = doTest(
+        "foo<caret>bar",
+        "foo\"bar"
+    )
 
-  fun doTest(source: String, expected: String, char: Char = '\"') {
-    myFixture.configureByText(LibGDXSkinFileType.INSTANCE, source)
-    if (char == '\b') {
-      LightPlatformCodeInsightTestCase.backspace(editor, project)
-    } else {
-      myFixture.type(char)
+    fun doTest(source: String, expected: String, char: Char = '\"') {
+        myFixture.configureByText(LibGDXSkinFileType.INSTANCE, source)
+        if (char == '\b') {
+            LightPlatformCodeInsightTestCase.backspace(editor, project)
+        } else {
+            myFixture.type(char)
+        }
+        myFixture.checkResult(expected)
     }
-    myFixture.checkResult(expected)
-  }
 
 }

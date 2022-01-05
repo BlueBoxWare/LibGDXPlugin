@@ -26,94 +26,95 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getCalleeExpressionIfAny
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinLogLevelInspection: LibGDXKotlinBaseInspection() {
+class KotlinLogLevelInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("log.level.html.description")
+    override fun getStaticDescription() = message("log.level.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitCallExpression(expression: KtCallExpression) {
+        override fun visitCallExpression(expression: KtCallExpression) {
 
-      val refs = expression.calleeExpression?.references ?: return
+            val refs = expression.calleeExpression?.references ?: return
 
-      for (ref in refs) {
-        val target = ref.resolve() ?: continue
-        if (target is PsiMethod) {
-          val clazz = target.containingClass ?: continue
-          val methodName = expression.calleeExpression?.text ?: continue
-          if (isSetLogLevel(clazz, methodName)) {
+            for (ref in refs) {
+                val target = ref.resolve() ?: continue
+                if (target is PsiMethod) {
+                    val clazz = target.containingClass ?: continue
+                    val methodName = expression.calleeExpression?.text ?: continue
+                    if (isSetLogLevel(clazz, methodName)) {
 
-            val argument = expression.valueArgumentList?.arguments?.firstOrNull()?.getArgumentExpression() ?: return
+                        val argument =
+                            expression.valueArgumentList?.arguments?.firstOrNull()?.getArgumentExpression() ?: return
 
-            if (isLogLevelArgument(argument)) {
-              holder.registerProblem(expression, message("log.level.problem.descriptor"))
-            }
+                        if (isLogLevelArgument(argument)) {
+                            holder.registerProblem(expression, message("log.level.problem.descriptor"))
+                        }
 
-          }
-        }
-      }
-
-    }
-
-    override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
-
-      (expression.context as? KtBinaryExpression)?.let { context ->
-
-        val operator = (context.operationToken as? KtSingleValueToken)?.value ?: return
-
-        if (operator != "=") return
-
-        val refs = expression.selectorExpression?.references ?: return
-
-        for (ref in refs) {
-
-          if ((ref as? SyntheticPropertyAccessorReference)?.isGetter() == false) {
-            val target = ref.resolve()
-            if (target is PsiMethod) {
-              val clazz = target.containingClass ?: continue
-              val methodName = target.name
-
-              if (isSetLogLevel(clazz, methodName)) {
-
-                val argument = context.right ?: continue
-                if (isLogLevelArgument(argument)) {
-                  holder.registerProblem(context, message("log.level.problem.descriptor"))
+                    }
                 }
-
-              }
             }
-          }
 
         }
-      }
 
+        override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
+
+            (expression.context as? KtBinaryExpression)?.let { context ->
+
+                val operator = (context.operationToken as? KtSingleValueToken)?.value ?: return
+
+                if (operator != "=") return
+
+                val refs = expression.selectorExpression?.references ?: return
+
+                for (ref in refs) {
+
+                    if ((ref as? SyntheticPropertyAccessorReference)?.isGetter() == false) {
+                        val target = ref.resolve()
+                        if (target is PsiMethod) {
+                            val clazz = target.containingClass ?: continue
+                            val methodName = target.name
+
+                            if (isSetLogLevel(clazz, methodName)) {
+
+                                val argument = context.right ?: continue
+                                if (isLogLevelArgument(argument)) {
+                                    holder.registerProblem(context, message("log.level.problem.descriptor"))
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
     }
-  }
 
 }
 
 private fun isLogLevelArgument(expression: KtExpression?): Boolean {
 
-  if (expression is KtConstantExpression && (expression.text == "3" || expression.text == "4")) {
-    return true
-  } else if (expression is KtDotQualifiedExpression) {
-    val refs = expression.getCalleeExpressionIfAny()?.references ?: return false
-    for (ref in refs) {
-
-      val target = ref.resolve()?.getKotlinFqName()?.asString() ?: continue
-      if (
-              target == "com.badlogic.gdx.Application.LOG_DEBUG"
-              || target == "com.badlogic.gdx.Application.LOG_INFO"
-              || target == "com.badlogic.gdx.utils.Logger.DEBUG"
-              || target == "com.badlogic.gdx.utils.Logger.INFO"
-      ) {
-
+    if (expression is KtConstantExpression && (expression.text == "3" || expression.text == "4")) {
         return true
+    } else if (expression is KtDotQualifiedExpression) {
+        val refs = expression.getCalleeExpressionIfAny()?.references ?: return false
+        for (ref in refs) {
 
-      }
+            val target = ref.resolve()?.getKotlinFqName()?.asString() ?: continue
+            if (
+                target == "com.badlogic.gdx.Application.LOG_DEBUG"
+                || target == "com.badlogic.gdx.Application.LOG_INFO"
+                || target == "com.badlogic.gdx.utils.Logger.DEBUG"
+                || target == "com.badlogic.gdx.utils.Logger.INFO"
+            ) {
 
+                return true
+
+            }
+
+        }
     }
-  }
 
-  return false
+    return false
 }

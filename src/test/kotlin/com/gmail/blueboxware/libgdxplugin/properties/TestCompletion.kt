@@ -16,105 +16,105 @@ package com.gmail.blueboxware.libgdxplugin.properties
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
+class TestCompletion : PropertiesCodeInsightFixtureTestCase() {
 
-  private val javaTests = listOf(
-          """
+    private val javaTests = listOf(
+        """
             new I18NBundle().get("<caret>");
           """ to (listOf(
-                  "noTranslation",
-                  "germanTranslation",
-                  "french.Only",
-                  "default",
-                  "spain",
-                  "something"
-          ) to listOf()),
-          """
+            "noTranslation",
+            "germanTranslation",
+            "french.Only",
+            "default",
+            "spain",
+            "something"
+        ) to listOf()),
+        """
             new I18NBundle().get("s<caret>");
           """ to (listOf(
-                  "spain",
-                  "something",
-                  "noTranslation",
-                  "germanTranslation"
-          ) to listOf("french.Only", "default")),
-          """
+            "spain",
+            "something",
+            "noTranslation",
+            "germanTranslation"
+        ) to listOf("french.Only", "default")),
+        """
             new I18NBundle().get("so<caret>");
           """ to (listOf("something") to listOf(
-                  "spain",
-                  "noTranslation",
-                  "germanTranslation",
-                  "french.Only",
-                  "default"
-          )),
+            "spain",
+            "noTranslation",
+            "germanTranslation",
+            "french.Only",
+            "default"
+        )),
 
-          """
+        """
             i18NBundle.format("<caret>");
           """ to (listOf("noTranslation", "french.Only") to listOf("something", "default", "spain")),
-          """
+        """
             i18NBundle.format("no<caret>", "2", "3");
           """ to (listOf("noTranslation") to listOf("something", "default", "spain", "french.Only")),
-          """
+        """
             i18NBundle.get("foo<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
 
-          """
+        """
             i18NBundle2.get("<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
-          """
+        """
             i18NBundle3.get("<caret>");
           """ to (listOf("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
-  )
+    )
 
-  private val kotlinTests = listOf(
-          """
+    private val kotlinTests = listOf(
+        """
             I18NBundle().get("<caret>");
           """ to (listOf(
-                  "noTranslation",
-                  "germanTranslation",
-                  "french.Only",
-                  "default",
-                  "spain",
-                  "something"
-          ) to listOf()),
-          """
+            "noTranslation",
+            "germanTranslation",
+            "french.Only",
+            "default",
+            "spain",
+            "something"
+        ) to listOf()),
+        """
             I18NBundle().get("s<caret>");
           """ to (listOf(
-                  "spain",
-                  "something",
-                  "noTranslation",
-                  "germanTranslation"
-          ) to listOf("french.Only", "default")),
-          """
+            "spain",
+            "something",
+            "noTranslation",
+            "germanTranslation"
+        ) to listOf("french.Only", "default")),
+        """
             I18NBundle().get("so<caret>");
           """ to (listOf("something") to listOf(
-                  "spain",
-                  "noTranslation",
-                  "germanTranslation",
-                  "french.Only",
-                  "default"
-          )),
+            "spain",
+            "noTranslation",
+            "germanTranslation",
+            "french.Only",
+            "default"
+        )),
 
-          """
+        """
             i18NBundle.format("<caret>");
           """ to (listOf("noTranslation", "french.Only") to listOf("something", "default", "spain")),
-          """
+        """
             i18NBundle.format("no<caret>", "2", "3");
           """ to (listOf("noTranslation") to listOf("something", "default", "spain", "french.Only")),
-          """
+        """
             i18NBundle.get("foo<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
 
-          """
+        """
             i18NBundle2.get("<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
-          """
+        """
             i18NBundle3.get("<caret>");
           """ to (listOf("spain", "default", "something", "extra", "also") to listOf("french.Only", "noTranslation"))
-  )
+    )
 
-  fun testKotlinCompletion() {
-    for ((text, expectedResults) in kotlinTests) {
-      val content = """
+    fun testKotlinCompletion() {
+        for ((text, expectedResults) in kotlinTests) {
+            val content = """
         import com.badlogic.gdx.utils.I18NBundle
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -129,13 +129,13 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           $text
         }
         """
-      doTestCompletion("Test.kt", content, expectedResults.first, expectedResults.second)
+            doTestCompletion("Test.kt", content, expectedResults.first, expectedResults.second)
+        }
     }
-  }
 
-  fun testJavaCompletion() {
-    for ((text, expectedResults) in javaTests) {
-      val content = """
+    fun testJavaCompletion() {
+        for ((text, expectedResults) in javaTests) {
+            val content = """
         import com.badlogic.gdx.utils.I18NBundle;
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -153,8 +153,8 @@ class TestCompletion: PropertiesCodeInsightFixtureTestCase() {
           }
         }
       """
-      doTestCompletion("Test.java", content, expectedResults.first, expectedResults.second)
+            doTestCompletion("Test.java", content, expectedResults.first, expectedResults.second)
+        }
     }
-  }
 
 }

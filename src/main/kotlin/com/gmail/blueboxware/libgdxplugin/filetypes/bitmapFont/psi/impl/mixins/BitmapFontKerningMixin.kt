@@ -26,32 +26,32 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontKerningMixin(node: ASTNode): BitmapFontKerning, PropertyContainerImpl(node) {
+abstract class BitmapFontKerningMixin(node: ASTNode) : BitmapFontKerning, PropertyContainerImpl(node) {
 
-  override fun getFirstCharacter(): BitmapFontFontCharImpl? =
-          getValue("first")
-                  ?.toIntOrNull()
-                  ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
+    override fun getFirstCharacter(): BitmapFontFontCharImpl? =
+        getValue("first")
+            ?.toIntOrNull()
+            ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
 
-  override fun getSecondCharacter(): BitmapFontFontCharImpl? =
-          getValue("second")
-                  ?.toIntOrNull()
-                  ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
+    override fun getSecondCharacter(): BitmapFontFontCharImpl? =
+        getValue("second")
+            ?.toIntOrNull()
+            ?.let { (containingFile as? BitmapFontFile)?.getCharacter(it) as? BitmapFontFontCharImpl }
 
-  override fun getPresentation() = object: ItemPresentation {
+    override fun getPresentation() = object : ItemPresentation {
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = IconLoader.getDisabledIcon(AllIcons.Nodes.Tag)
+        override fun getIcon(unused: Boolean) = IconLoader.getDisabledIcon(AllIcons.Nodes.Tag)
 
-    override fun getPresentableText() =
+        override fun getPresentableText() =
             firstCharacter?.presentation?.presentableText +
                     " - " +
                     secondCharacter?.presentation?.presentableText +
                     ": " +
                     (getValue("amount") ?: "<unknown>")
 
-  }
+    }
 
-  override fun getReference(): PsiReference? = BitmapFontCharReference(this)
+    override fun getReference(): PsiReference? = BitmapFontCharReference(this)
 }

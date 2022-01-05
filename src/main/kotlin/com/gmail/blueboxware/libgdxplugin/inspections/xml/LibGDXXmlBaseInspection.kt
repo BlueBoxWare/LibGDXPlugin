@@ -19,10 +19,10 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class LibGDXXmlBaseInspection: XmlSuppressableInspectionTool() {
+abstract class LibGDXXmlBaseInspection : XmlSuppressableInspectionTool() {
 
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
+    override fun isSuppressedFor(element: PsiElement): Boolean {
+        return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
+    }
 
 }

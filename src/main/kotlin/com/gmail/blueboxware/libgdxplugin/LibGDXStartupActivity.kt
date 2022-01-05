@@ -25,21 +25,21 @@ import com.intellij.psi.PsiManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXStartupActivity: StartupActivity.DumbAware {
+class LibGDXStartupActivity : StartupActivity.DumbAware {
 
-  override fun runActivity(project: Project) {
-    PsiManager.getInstance(project).addPsiTreeChangeListener(
+    override fun runActivity(project: Project) {
+        PsiManager.getInstance(project).addPsiTreeChangeListener(
             ChangeKotlinPackageListener(project),
             project.service<DisposableProvider>()
-    )
+        )
 
-    project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
-      ApplicationManager.getApplication().invokeLater {
-        for (skinFile in skins.files) {
-          EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(project, skinFile)
+        project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { skins ->
+            ApplicationManager.getApplication().invokeLater {
+                for (skinFile in skins.files) {
+                    EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(project, skinFile)
+                }
+            }
         }
-      }
     }
-  }
 
 }

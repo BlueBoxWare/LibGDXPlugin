@@ -25,24 +25,24 @@ import com.intellij.psi.ResolveResult
  * limitations under the License.
  */
 class SkinFileReference(
-        element: SkinStringLiteral,
-        private val baseFile: VirtualFile?
-): SkinReference<SkinStringLiteral>(element) {
+    element: SkinStringLiteral,
+    private val baseFile: VirtualFile?
+) : SkinReference<SkinStringLiteral>(element) {
 
-  constructor(element: SkinStringLiteral, baseFile: PsiFile): this(element, baseFile.virtualFile)
+    constructor(element: SkinStringLiteral, baseFile: PsiFile) : this(element, baseFile.virtualFile)
 
-  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-    baseFile?.let { baseFile ->
-      element.value.let { fileName ->
-        VfsUtil.findRelativeFile(baseFile.parent, *fileNameToPathList(fileName))?.let { virtualFile ->
-          PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
-            return arrayOf(PsiElementResolveResult(psiFile))
-          }
+    override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+        baseFile?.let { baseFile ->
+            element.value.let { fileName ->
+                VfsUtil.findRelativeFile(baseFile.parent, *fileNameToPathList(fileName))?.let { virtualFile ->
+                    PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
+                        return arrayOf(PsiElementResolveResult(psiFile))
+                    }
+                }
+            }
         }
-      }
-    }
 
-    return ResolveResult.EMPTY_ARRAY
-  }
+        return ResolveResult.EMPTY_ARRAY
+    }
 
 }

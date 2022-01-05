@@ -18,32 +18,32 @@ package com.gmail.blueboxware.libgdxplugin.utils
 
 fun isProfilingCall(fqClassName: String, methodName: String): Boolean {
 
-  if (fqClassName == "com.badlogic.gdx.graphics.FPSLogger" && methodName == "log") {
+    if (fqClassName == "com.badlogic.gdx.graphics.FPSLogger" && methodName == "log") {
 
-    return true
+        return true
 
-  } else if (fqClassName == "com.badlogic.gdx.utils.PerformanceCounter") {
+    } else if (fqClassName == "com.badlogic.gdx.utils.PerformanceCounter") {
 
-    if (methodName == "start" || methodName == "tick" || methodName == "stop" || methodName == "reset") {
-      return true
+        if (methodName == "start" || methodName == "tick" || methodName == "stop" || methodName == "reset") {
+            return true
+        }
+
+    } else if (fqClassName == "com.badlogic.gdx.utils.PerformanceCounters" && methodName == "tick") {
+
+        return true
+
+    } else if (
+        fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
+        || fqClassName == "com.badlogic.gdx.graphics.profiling.GL20Profiler"
+        || fqClassName == "com.badlogic.gdx.graphics.profiling.GL30Profiler"
+    ) {
+
+        if (methodName == "enable") {
+            return true
+        }
+
     }
 
-  } else if (fqClassName == "com.badlogic.gdx.utils.PerformanceCounters" && methodName == "tick") {
-
-    return true
-
-  } else if (
-          fqClassName == "com.badlogic.gdx.graphics.profiling.GLProfiler"
-          || fqClassName == "com.badlogic.gdx.graphics.profiling.GL20Profiler"
-          || fqClassName == "com.badlogic.gdx.graphics.profiling.GL30Profiler"
-  ) {
-
-    if (methodName == "enable") {
-      return true
-    }
-
-  }
-
-  return false
+    return false
 }
 

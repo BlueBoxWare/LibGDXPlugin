@@ -21,20 +21,20 @@ import java.awt.image.BufferedImage
  */
 internal fun BufferedImage.tint(color: Color): BufferedImage {
 
-  val tintedImage = ImageUtil.createImage(width, height, BufferedImage.TYPE_INT_ARGB)
+    val tintedImage = ImageUtil.createImage(width, height, BufferedImage.TYPE_INT_ARGB)
 
-  for (x in 0 until width) {
-    for (y in 0 until height) {
-      val oldColor = Color(getRGB(x, y))
-      val r = mul(oldColor.red, color.red)
-      val g = mul(oldColor.green, color.green)
-      val b = mul(oldColor.blue, color.blue)
-      val a = mul(oldColor.alpha, color.alpha)
-      tintedImage.setRGB(x, y, (a shl 24) or (r shl 16) or (g shl 8) or b)
+    for (x in 0 until width) {
+        for (y in 0 until height) {
+            val oldColor = Color(getRGB(x, y))
+            val r = mul(oldColor.red, color.red)
+            val g = mul(oldColor.green, color.green)
+            val b = mul(oldColor.blue, color.blue)
+            val a = mul(oldColor.alpha, color.alpha)
+            tintedImage.setRGB(x, y, (a shl 24) or (r shl 16) or (g shl 8) or b)
+        }
     }
-  }
 
-  return tintedImage
+    return tintedImage
 
 }
 

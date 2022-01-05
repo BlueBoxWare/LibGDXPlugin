@@ -22,120 +22,120 @@ import org.jetbrains.kotlin.psi.psiUtil.children
  * Adapted from https://github.com/JetBrains/intellij-community/blob/master/json/src/com/intellij/json/editor/folding/JsonFoldingBuilder.java
  *
  */
-class GdxJsonFoldingBuilder: FoldingBuilder, DumbAware {
+class GdxJsonFoldingBuilder : FoldingBuilder, DumbAware {
 
-  override fun isCollapsedByDefault(node: ASTNode): Boolean = false
+    override fun isCollapsedByDefault(node: ASTNode): Boolean = false
 
-  override fun buildFoldRegions(node: ASTNode, document: Document): Array<FoldingDescriptor> {
-    val descriptors = mutableListOf<FoldingDescriptor>()
-    collectDescriptorsRecursively(node, document, descriptors)
-    return descriptors.toTypedArray()
-  }
+    override fun buildFoldRegions(node: ASTNode, document: Document): Array<FoldingDescriptor> {
+        val descriptors = mutableListOf<FoldingDescriptor>()
+        collectDescriptorsRecursively(node, document, descriptors)
+        return descriptors.toTypedArray()
+    }
 
-  override fun getPlaceholderText(node: ASTNode): String {
+    override fun getPlaceholderText(node: ASTNode): String {
 
-    (node.psi as? GdxJsonJobject)?.let { jObject ->
+        (node.psi as? GdxJsonJobject)?.let { jObject ->
 
-      var candidate: GdxJsonProperty? = null
-      for (property: GdxJsonProperty? in jObject.propertyList) {
-        val name = property?.name ?: continue
-        val value = property.value?.value
-        if (value is GdxJsonLiteral) {
-          if (name == "id" || name == "name") {
-            candidate = property
-            break
-          }
-          if (candidate == null) {
-            candidate = property
-          }
+            var candidate: GdxJsonProperty? = null
+            for (property: GdxJsonProperty? in jObject.propertyList) {
+                val name = property?.name ?: continue
+                val value = property.value?.value
+                if (value is GdxJsonLiteral) {
+                    if (name == "id" || name == "name") {
+                        candidate = property
+                        break
+                    }
+                    if (candidate == null) {
+                        candidate = property
+                    }
+                }
+            }
+
+            if (candidate != null) {
+                return "{ \"${candidate.name}\": ${candidate.value?.text ?: ""} ... }"
+            }
+
+            return "{ ... }"
+
         }
-      }
 
-      if (candidate != null) {
-        return "{ \"${candidate.name}\": ${candidate.value?.text ?: ""} ... }"
-      }
+        if (node.elementType == ARRAY) {
 
-      return "{ ... }"
+            return "[ ... ]"
+
+        } else if (node.elementType in GdxJsonParserDefinition.COMMENTS) {
+
+            return if (node.elementType == LINE_COMMENT)
+                "//... "
+            else
+                "/*...*/ "
+        }
+
+        return "..."
 
     }
 
-    if (node.elementType == ARRAY) {
+    companion object {
 
-      return "[ ... ]"
-
-    } else if (node.elementType in GdxJsonParserDefinition.COMMENTS) {
-
-      return if (node.elementType == LINE_COMMENT)
-        "//... "
-      else
-        "/*...*/ "
-    }
-
-    return "..."
-
-  }
-
-  companion object {
-
-    private fun collectDescriptorsRecursively(
+        private fun collectDescriptorsRecursively(
             node: ASTNode,
             document: Document,
             descriptors: MutableList<FoldingDescriptor>
-    ) {
+        ) {
 
-      val type = node.elementType
+            val type = node.elementType
 
-      if (type in CONTAINERS && spansMultipleLines(node, document)) {
-        descriptors.add(FoldingDescriptor(node, node.textRange))
-      } else if (type == BLOCK_COMMENT) {
-        descriptors.add(FoldingDescriptor(node, node.textRange))
-      } else if (type == LINE_COMMENT) {
-        expandLineCommentsRange(node.psi).let { (start, end) ->
-          if (document.getLineNumber(start) != document.getLineNumber(end)) {
-            descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
-          }
+            if (type in CONTAINERS && spansMultipleLines(node, document)) {
+                descriptors.add(FoldingDescriptor(node, node.textRange))
+            } else if (type == BLOCK_COMMENT) {
+                descriptors.add(FoldingDescriptor(node, node.textRange))
+            } else if (type == LINE_COMMENT) {
+                expandLineCommentsRange(node.psi).let { (start, end) ->
+                    if (document.getLineNumber(start) != document.getLineNumber(end)) {
+                        descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
+                    }
+                }
+            }
+
+            for (child in node.children()) {
+                collectDescriptorsRecursively(child, document, descriptors)
+            }
+
         }
-      }
 
-      for (child in node.children()) {
-        collectDescriptorsRecursively(child, document, descriptors)
-      }
+        private fun spansMultipleLines(node: ASTNode, document: Document): Boolean {
+            val range = node.textRange
+            val endOffset = range.endOffset
+            return document.getLineNumber(range.startOffset) <
+                    if (endOffset < document.textLength)
+                        document.getLineNumber(endOffset)
+                    else
+                        document.lineCount - 1
+        }
 
-    }
-
-    private fun spansMultipleLines(node: ASTNode, document: Document): Boolean {
-      val range = node.textRange
-      val endOffset = range.endOffset
-      return document.getLineNumber(range.startOffset) <
-              if (endOffset < document.textLength)
-                document.getLineNumber(endOffset)
-              else
-                document.lineCount - 1
-    }
-
-    private fun expandLineCommentsRange(element: PsiElement): Pair<Int, Int> =
+        private fun expandLineCommentsRange(element: PsiElement): Pair<Int, Int> =
             Pair(
-                    findLineComment(element, false).textRange.startOffset,
-                    findLineComment(element, true).textRange.endOffset
+                findLineComment(element, false).textRange.startOffset,
+                findLineComment(element, true).textRange.endOffset
             )
 
-    private fun findLineComment(element: PsiElement, after: Boolean): PsiElement {
-      var node = element.node
-      var lastSeen = node
-      while (node != null) {
-        if (node.elementType == LINE_COMMENT) {
-          lastSeen = node
-        } else if (node.elementType == WHITE_SPACE) {
-          if (node.text.indexOf('\n', 1) != -1) {
-            break
-          }
-        } else if (node.elementType != BLOCK_COMMENT) {
-          break
+        private fun findLineComment(element: PsiElement, after: Boolean): PsiElement {
+            var node = element.node
+            var lastSeen = node
+            while (node != null) {
+                if (node.elementType == LINE_COMMENT) {
+                    lastSeen = node
+                } else if (node.elementType == WHITE_SPACE) {
+                    if (node.text.indexOf('\n', 1) != -1) {
+                        break
+                    }
+                } else if (node.elementType != BLOCK_COMMENT) {
+                    break
+                }
+                node = if (after) node.treeNext else node.treePrev
+            }
+            return lastSeen.psi
         }
-        node = if (after) node.treeNext else node.treePrev
-      }
-      return lastSeen.psi
-    }
 
-  }
+    }
 }

@@ -24,42 +24,42 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFile(fileViewProvider: FileViewProvider): PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
+class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, BitmapFontLanguage.INSTANCE) {
 
-  private fun getCharacterMap(): Map<Int, BitmapFontFontChar> {
+    private fun getCharacterMap(): Map<Int, BitmapFontFontChar> {
 
-    val map = mutableMapOf<Int, BitmapFontFontChar>()
+        val map = mutableMapOf<Int, BitmapFontFontChar>()
 
-    childrenOfType<BitmapFontFontChar>().forEach { fontChar ->
-      fontChar.character?.let { id ->
-        map[id] = fontChar
-      }
+        childrenOfType<BitmapFontFontChar>().forEach { fontChar ->
+            fontChar.character?.let { id ->
+                map[id] = fontChar
+            }
+        }
+
+        return map
+
     }
 
-    return map
+    fun getKernings(): Collection<BitmapFontKerning> = childrenOfType()
 
-  }
+    override fun getFileType() = viewProvider.fileType
 
-  fun getKernings(): Collection<BitmapFontKerning> = childrenOfType()
+    fun getInfoElement(): BitmapFontInfo? = childOfType()
 
-  override fun getFileType() = viewProvider.fileType
+    fun getCommonElement(): BitmapFontCommon? = childOfType()
 
-  fun getInfoElement(): BitmapFontInfo? = childOfType()
+    fun getCharsElement(): BitmapFontChars? = childOfType()
 
-  fun getCommonElement(): BitmapFontCommon? = childOfType()
+    fun getKerningsElement(): BitmapFontKernings? = childOfType()
 
-  fun getCharsElement(): BitmapFontChars? = childOfType()
+    fun getPages(): MutableCollection<BitmapFontPageDefinition> =
+        childrenOfType<BitmapFontPageDefinition>().toMutableList()
 
-  fun getKerningsElement(): BitmapFontKernings? = childOfType()
+    fun getCharacters() = getCharacterMap().values
 
-  fun getPages(): MutableCollection<BitmapFontPageDefinition> =
-          childrenOfType<BitmapFontPageDefinition>().toMutableList()
+    fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap()[id]
 
-  fun getCharacters() = getCharacterMap().values
-
-  fun getCharacter(id: Int): BitmapFontFontChar? = getCharacterMap()[id]
-
-  override fun getPresentation(): ItemPresentation =
-          FilePresentation(project, virtualFile, name, Icons.FONT_FILETYPE)
+    override fun getPresentation(): ItemPresentation =
+        FilePresentation(project, virtualFile, name, Icons.FONT_FILETYPE)
 
 }

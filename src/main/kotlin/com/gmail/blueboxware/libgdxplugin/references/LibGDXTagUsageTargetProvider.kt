@@ -31,55 +31,60 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXTagUsageTargetProvider: DefaultUsageTargetProvider() {
+class LibGDXTagUsageTargetProvider : DefaultUsageTargetProvider() {
 
-  override fun getTargets(editor: Editor, file: PsiFile): Array<UsageTarget>? {
+    override fun getTargets(editor: Editor, file: PsiFile): Array<UsageTarget>? {
 
-    file.findElementAt(editor.caretModel.offset)?.let { sourceElement ->
+        file.findElementAt(editor.caretModel.offset)?.let { sourceElement ->
 
-      if (sourceElement.isLeaf(JavaTokenType.STRING_LITERAL)) {
+            if (sourceElement.isLeaf(JavaTokenType.STRING_LITERAL)) {
 
-        if (
-                sourceElement.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
-                || (sourceElement.parent.parent is PsiExpressionList
-                        && sourceElement.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
-                        )
-        ) {
+                if (
+                    sourceElement.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME
+                    || (sourceElement.parent.parent is PsiExpressionList
+                            && sourceElement.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+                            )
+                ) {
 
-          sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
-            return arrayOf(PsiElement2UsageTargetAdapter(it))
-          }
+                    sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
+                        return arrayOf(PsiElement2UsageTargetAdapter(it))
+                    }
 
-        }
+                }
 
 
-      } else if (sourceElement.isLeaf(KtTokens.REGULAR_STRING_PART, KtTokens.CLOSING_QUOTE, KtTokens.OPEN_QUOTE)) {
+            } else if (sourceElement.isLeaf(
+                    KtTokens.REGULAR_STRING_PART,
+                    KtTokens.CLOSING_QUOTE,
+                    KtTokens.OPEN_QUOTE
+                )
+            ) {
 
-        if (
-                sourceElement
+                if (
+                    sourceElement
                         .getParentOfType<KtAnnotationEntry>()
                         ?.toLightAnnotation()
                         ?.qualifiedName == TAG_ANNOTATION_NAME
-                || sourceElement
+                    || sourceElement
                         .getParentOfType<KtCallExpression>()
                         ?.isColorsPutCall() == true
-        ) {
+                ) {
 
-          sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {
-            return arrayOf(PsiElement2UsageTargetAdapter(it))
-          }
+                    sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {
+                        return arrayOf(PsiElement2UsageTargetAdapter(it))
+                    }
+
+                }
+
+            }
 
         }
 
-      }
-
+        return UsageTarget.EMPTY_ARRAY
     }
 
-    return UsageTarget.EMPTY_ARRAY
-  }
-
-  override fun getTargets(psiElement: PsiElement): Array<UsageTarget>? {
-    return null
-  }
+    override fun getTargets(psiElement: PsiElement): Array<UsageTarget>? {
+        return null
+    }
 
 }

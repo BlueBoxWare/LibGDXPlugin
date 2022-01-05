@@ -28,89 +28,90 @@ import java.awt.Color
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestSetColor: LibGDXCodeInsightFixtureTestCase() {
+class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() = doTest { keepColorOnOneLine(true) }
+    fun test1() = doTest { keepColorOnOneLine(true) }
 
-  fun test2() = doTest { keepColorOnOneLine(true) }
+    fun test2() = doTest { keepColorOnOneLine(true) }
 
-  fun test3() = doTest { keepColorOnOneLine(true) }
+    fun test3() = doTest { keepColorOnOneLine(true) }
 
-  fun test4() = doTest { keepColorOnOneLine(true) }
+    fun test4() = doTest { keepColorOnOneLine(true) }
 
-  fun test5() = doTest { keepColorOnOneLine(true) }
+    fun test5() = doTest { keepColorOnOneLine(true) }
 
-  fun test6() = doTest { keepColorOnOneLine(true) }
+    fun test6() = doTest { keepColorOnOneLine(true) }
 
-  fun test7() = doTest { keepColorOnOneLine(false) }
+    fun test7() = doTest { keepColorOnOneLine(false) }
 
-  fun test8() = doTest { keepColorOnOneLine(false) }
+    fun test8() = doTest { keepColorOnOneLine(false) }
 
-  fun test9() = doTest { keepColorOnOneLine(true) }
+    fun test9() = doTest { keepColorOnOneLine(true) }
 
-  fun test10() {
-    configureByFile("10.skin")
-    val colorElement = myFixture.elementAtCaret.firstParent<SkinObject>()!!
-    colorElement.changeColor(Color(128, 128, 128))?.let { newObject ->
-      WriteCommandAction.runWriteCommandAction(project) {
-        colorElement.replace(newObject)
-      }
-    }
-    myFixture.checkResultByFile("10.after")
-  }
-
-  fun testWithTags1() {
-    addDummyLibGDX199()
-    doTest {
-      keepColorOnOneLine(true)
-    }
-  }
-
-  fun testWithTags2() {
-    addDummyLibGDX199()
-    doTest {
-      keepColorOnOneLine(true)
-    }
-  }
-
-  private fun keepColorOnOneLine(yesOrNo: Boolean) {
-    CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
-  }
-
-  fun doTest(init: (() -> Unit)? = null) {
-    configureByFile(testname() + ".skin")
-    init?.invoke()
-    (file as? SkinFile).let { skinFile ->
-      assertNotNull(skinFile)
-
-      val newColor =
-              skinFile!!
-                      .getClassSpecifications("newColor")
-                      .firstOrNull()
-                      ?.getResource("color")
-                      ?.`object`
-                      ?.asColor(true)
-
-      assertNotNull(newColor)
-      val colorObject = skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
-      assertNotNull(colorObject)
-      colorObject!!.changeColor(newColor!!)?.let { newObject ->
-        WriteCommandAction.runWriteCommandAction(project) {
-          colorObject.replace(newObject)
+    fun test10() {
+        configureByFile("10.skin")
+        val colorElement = myFixture.elementAtCaret.firstParent<SkinObject>()!!
+        colorElement.changeColor(Color(128, 128, 128))?.let { newObject ->
+            WriteCommandAction.runWriteCommandAction(project) {
+                colorElement.replace(newObject)
+            }
         }
-      }
+        myFixture.checkResultByFile("10.after")
     }
-    myFixture.checkResultByFile(testname() + ".after")
-  }
 
-  override fun setUp() {
-    super.setUp()
+    fun testWithTags1() {
+        addDummyLibGDX199()
+        doTest {
+            keepColorOnOneLine(true)
+        }
+    }
 
-    addLibGDX()
+    fun testWithTags2() {
+        addDummyLibGDX199()
+        doTest {
+            keepColorOnOneLine(true)
+        }
+    }
 
-    copyFileToProject("ColorArrayHolder.java")
-  }
+    private fun keepColorOnOneLine(yesOrNo: Boolean) {
+        CodeStyle.getCustomSettings(file, SkinCodeStyleSettings::class.java).DO_NOT_WRAP_COLORS = yesOrNo
+    }
 
-  override fun getBasePath() = "/filetypes/skin/setColor/"
+    fun doTest(init: (() -> Unit)? = null) {
+        configureByFile(testname() + ".skin")
+        init?.invoke()
+        (file as? SkinFile).let { skinFile ->
+            assertNotNull(skinFile)
+
+            val newColor =
+                skinFile!!
+                    .getClassSpecifications("newColor")
+                    .firstOrNull()
+                    ?.getResource("color")
+                    ?.`object`
+                    ?.asColor(true)
+
+            assertNotNull(newColor)
+            val colorObject =
+                skinFile.getClassSpecifications(COLOR_CLASS_NAME).firstOrNull()?.getResource("color")?.`object`
+            assertNotNull(colorObject)
+            colorObject!!.changeColor(newColor!!)?.let { newObject ->
+                WriteCommandAction.runWriteCommandAction(project) {
+                    colorObject.replace(newObject)
+                }
+            }
+        }
+        myFixture.checkResultByFile(testname() + ".after")
+    }
+
+    override fun setUp() {
+        super.setUp()
+
+        addLibGDX()
+
+        copyFileToProject("ColorArrayHolder.java")
+    }
+
+    override fun getBasePath() = "/filetypes/skin/setColor/"
 
 }

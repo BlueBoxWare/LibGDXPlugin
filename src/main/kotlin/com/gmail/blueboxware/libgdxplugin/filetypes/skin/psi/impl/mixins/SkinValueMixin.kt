@@ -35,15 +35,15 @@ abstract class SkinValueMixin(node: ASTNode) : SkinValue, SkinElementImpl(node) 
     override fun isBoolean(): Boolean = false
 
     override fun resolveToClass(): PsiClass? =
-            getCachedValue(RESOLVED_CLASS_KEY, this) {
-                (parent as? SkinResource)?.let { resource ->
-                    resource.classSpecification?.resolveClass()
-                } ?: (resolveToType() as? PsiClassType)?.resolve()
+        getCachedValue(RESOLVED_CLASS_KEY, this) {
+            (parent as? SkinResource)?.let { resource ->
+                resource.classSpecification?.resolveClass()
+            } ?: (resolveToType() as? PsiClassType)?.resolve()
 
-            }
+        }
 
     override fun resolveToTypeString(): String? =
-            getCachedValue(RESOLVED_STRING_KEY, null) { resolveToType()?.canonicalText }
+        getCachedValue(RESOLVED_STRING_KEY, null) { resolveToType()?.canonicalText }
 
     override fun resolveToType(): PsiType? = getCachedValue(RESOLVED_TYPE_KEY, null) {
 

@@ -34,106 +34,107 @@ import javax.swing.JComponent
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TextureRegionPreviewHintProvider: PreviewHintProvider {
+class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
-  override fun isSupportedFile(file: PsiFile?): Boolean =
-          file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
+    override fun isSupportedFile(file: PsiFile?): Boolean =
+        file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
 
-  override fun getPreviewComponent(element: PsiElement): JComponent? {
+    override fun getPreviewComponent(element: PsiElement): JComponent? {
 
-    if (element.containingFile is AtlasFile) {
+        if (element.containingFile is AtlasFile) {
 
-      element.getParentOfType<AtlasRegion>()?.let { atlasRegion ->
-        atlasRegion.image?.let { image ->
-          return createPreviewComponent(image, atlasRegion.name)
-        }
-      }
-
-    } else {
-
-      when (element.containingFile) {
-        is SkinFile -> element.getParentOfType<SkinStringLiteral>()
-        is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
-        is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
-        else -> null
-      }?.references?.forEach { reference ->
-        reference.resolve()?.let { target ->
-          @Suppress("ControlFlowWithEmptyBody")
-          if (target is AtlasRegion) {
-            target.image?.let { image ->
-              return createPreviewComponent(image, target.name)
-            }
-          } else if (
-                  target is SkinResource
-                  && target
-                          .classSpecification
-                          ?.getRealClassNamesAsString()
-                          ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
-          ) {
-
-            val tintedDrawableName = target.name
-
-            var colorElement = target.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.value
-
-            while (colorElement is SkinStringLiteral) {
-              colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
+            element.getParentOfType<AtlasRegion>()?.let { atlasRegion ->
+                atlasRegion.image?.let { image ->
+                    return createPreviewComponent(image, atlasRegion.name)
+                }
             }
 
-            val color = (colorElement as? SkinObject)?.asColor(true)
+        } else {
 
-            var nameTarget: PsiElement? = target
-
-            while (
-                    (nameTarget as? SkinResource)
-                            ?.classSpecification
+            when (element.containingFile) {
+                is SkinFile -> element.getParentOfType<SkinStringLiteral>()
+                is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
+                is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
+                else -> null
+            }?.references?.forEach { reference ->
+                reference.resolve()?.let { target ->
+                    @Suppress("ControlFlowWithEmptyBody")
+                    if (target is AtlasRegion) {
+                        target.image?.let { image ->
+                            return createPreviewComponent(image, target.name)
+                        }
+                    } else if (
+                        target is SkinResource
+                        && target
+                            .classSpecification
                             ?.getRealClassNamesAsString()
                             ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
-            ) {
-              nameTarget =
-                      (nameTarget as? SkinResource)
-                              ?.`object`
-                              ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)
-                              ?.value
-                              ?.reference
-                              ?.resolve()
+                    ) {
+
+                        val tintedDrawableName = target.name
+
+                        var colorElement = target.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.value
+
+                        while (colorElement is SkinStringLiteral) {
+                            colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
+                        }
+
+                        val color = (colorElement as? SkinObject)?.asColor(true)
+
+                        var nameTarget: PsiElement? = target
+
+                        while (
+                            (nameTarget as? SkinResource)
+                                ?.classSpecification
+                                ?.getRealClassNamesAsString()
+                                ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
+                        ) {
+                            nameTarget =
+                                (nameTarget as? SkinResource)
+                                    ?.`object`
+                                    ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)
+                                    ?.value
+                                    ?.reference
+                                    ?.resolve()
+                        }
+
+                        (nameTarget as? AtlasRegion)?.let { atlasRegion ->
+                            atlasRegion.image?.let { image ->
+                                return createPreviewComponent(color?.let { image.tint(color) } ?: image,
+                                    tintedDrawableName)
+                            }
+                        }
+
+                    } else {
+
+                    }
+                }
             }
 
-            (nameTarget as? AtlasRegion)?.let { atlasRegion ->
-              atlasRegion.image?.let { image ->
-                return createPreviewComponent(color?.let { image.tint(color) } ?: image, tintedDrawableName)
-              }
-            }
-
-          } else {
-
-          }
         }
-      }
+
+        return null
 
     }
 
-    return null
+    private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent {
 
-  }
+        var previewImage = image
+        var scale = 1
 
-  private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent {
+        if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
+            previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0))
+            scale = 4
+        } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
+            previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0))
+            scale = 2
+        }
 
-    var previewImage = image
-    var scale = 1
+        val txt = (name ?: "<unknown>") + " (" + image.width + " x " + image.height +
+                (if (scale != 1) ", shown at scale ${scale}x" else "") + ")"
 
-    if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
-      previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0))
-      scale = 4
-    } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
-      previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0))
-      scale = 2
+        return ImagePreviewComponent(previewImage, txt)
+
     }
-
-    val txt = (name ?: "<unknown>") + " (" + image.width + " x " + image.height +
-            (if (scale != 1) ", shown at scale ${scale}x" else "") + ")"
-
-    return ImagePreviewComponent(previewImage, txt)
-
-  }
 
 }

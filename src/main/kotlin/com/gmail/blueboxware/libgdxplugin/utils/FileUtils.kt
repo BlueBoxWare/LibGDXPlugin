@@ -23,11 +23,11 @@ import com.intellij.psi.PsiManager
  * limitations under the License.
  */
 internal fun Project.getProjectBaseDir() =
-        if (ApplicationManager.getApplication().isUnitTestMode) {
-          VirtualFileManager.getInstance().findFileByUrl("temp:///")
-        } else {
-          guessProjectDir()
-        }
+    if (ApplicationManager.getApplication().isUnitTestMode) {
+        VirtualFileManager.getInstance().findFileByUrl("temp:///")
+    } else {
+        guessProjectDir()
+    }
 
 internal fun fileNameToPathList(fileName: String): Array<String> = fileName.replace('\\', '/').split("/").toTypedArray()
 

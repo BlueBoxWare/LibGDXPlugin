@@ -38,34 +38,34 @@ const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 private val GDX198VERSION = MavenComparableVersion("1.9.8")
 
 internal fun Project.isLibGDXProject(): Boolean =
-        service<VersionService>().getUsedVersion(Libraries.LIBGDX) != null
+    service<VersionService>().getUsedVersion(Libraries.LIBGDX) != null
 
 internal fun Project.isLibGDX199(): Boolean =
-        service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
+    service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
 
 internal fun <T> key(key: String) =
-        Key<T>("$PREFIX.$key")
+    Key<T>("$PREFIX.$key")
 
 internal fun <T> T?.singletonOrNull(): Collection<T>? =
-        this?.let { listOf(this) }
+    this?.let { listOf(this) }
 
 internal fun trimQuotes(str: String?) =
-        str?.trim { it == '"' || it == '\'' }
+    str?.trim { it == '"' || it == '\'' }
 
 internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = allScope()) =
-        psiFacade().findClass(fqName, scope)
+    psiFacade().findClass(fqName, scope)
 
 internal fun Project.findClasses(fqName: String, scope: GlobalSearchScope = allScope()) =
-        psiFacade().findClasses(fqName, scope)
+    psiFacade().findClasses(fqName, scope)
 
 internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = project.allScope()) =
-        project.findClass(fqName, scope)
+    project.findClass(fqName, scope)
 
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
-        project.findClasses(fqName, scope)
+    project.findClasses(fqName, scope)
 
 internal fun <K, V> Map<K, V>.getKey(value: V): K? =
-        keys.find { get(it) == value }
+    keys.find { get(it) == value }
 
 @Suppress("unused")
 internal fun runUnderProgressIfNecessary(action: () -> Unit) {
@@ -80,28 +80,32 @@ internal fun runUnderProgressIfNecessary(action: () -> Unit) {
 }
 
 internal fun <T> computeUnderProgressIfNecessary(f: () -> T): T =
-        if (ProgressManager.getGlobalProgressIndicator() == null) {
-            ProgressManager.getInstance().runProcess(Computable { f() }, EmptyProgressIndicator())
-        } else {
-            f()
-        }
+    if (ProgressManager.getGlobalProgressIndicator() == null) {
+        ProgressManager.getInstance().runProcess(Computable { f() }, EmptyProgressIndicator())
+    } else {
+        f()
+    }
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
 
 internal inline fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, crossinline f: () -> R): R? =
-        CachedValuesManager.getCachedValue(this, key) {
-            CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
-        }
+    CachedValuesManager.getCachedValue(this, key) {
+        CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
+    }
 
-internal inline fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R): R? =
-        CachedValuesManager.getManager(project).getCachedValue(this, key, {
-            CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
-        }, false)
+internal inline fun <R> PsiElement.getCachedValue(
+    key: Key<CachedValue<R>>,
+    dependency: Any?,
+    crossinline f: () -> R
+): R? =
+    CachedValuesManager.getManager(project).getCachedValue(this, key, {
+        CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
+    }, false)
 
 internal inline fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R): R? =
-        CachedValuesManager.getManager(this).getCachedValue(this, key, {
-            CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
-        }, false)
+    CachedValuesManager.getManager(this).getCachedValue(this, key, {
+        CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
+    }, false)
 
 internal fun <E> List<E>.indexOfOrNull(element: E): Int? =
-        indexOf(element).takeIf { it >= 0 }
+    indexOf(element).takeIf { it >= 0 }

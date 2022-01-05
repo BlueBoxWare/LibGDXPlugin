@@ -18,4 +18,4 @@ import org.jetbrains.annotations.NonNls
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontTokenType(@NonNls debugName: String): IElementType(debugName, BitmapFontLanguage.INSTANCE)
+class BitmapFontTokenType(@NonNls debugName: String) : IElementType(debugName, BitmapFontLanguage.INSTANCE)

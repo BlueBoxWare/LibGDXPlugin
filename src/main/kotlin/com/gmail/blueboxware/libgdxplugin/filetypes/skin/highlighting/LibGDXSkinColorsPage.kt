@@ -42,20 +42,20 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
+class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
 
-  companion object {
+    companion object {
 
-    private val additionalHighlighting = mapOf(
+        private val additionalHighlighting = mapOf(
             "resourceName" to SKIN_RESOURCE_NAME,
             "propertyName" to SKIN_PROPERTY_NAME,
             "className" to SKIN_CLASS_NAME,
             "number" to SKIN_NUMBER,
             "keyword" to SKIN_KEYWORD,
             "parent" to SKIN_PARENT_PROPERTY
-    )
+        )
 
-    private val myAttributeDescriptors = arrayOf(
+        private val myAttributeDescriptors = arrayOf(
             AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
             AttributesDescriptor("Parent property", SKIN_PARENT_PROPERTY),
             AttributesDescriptor("Braces", SKIN_BRACES),
@@ -78,20 +78,20 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 
             AttributesDescriptor("Class name", SKIN_CLASS_NAME),
             AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)
-    )
+        )
 
-  }
+    }
 
-  override fun getIcon(): Icon = Icons.SKIN_FILETYPE
+    override fun getIcon(): Icon = Icons.SKIN_FILETYPE
 
-  override fun getHighlighter(): SyntaxHighlighter =
-          SyntaxHighlighterFactory.getSyntaxHighlighter(
-                  LibGDXSkinLanguage.INSTANCE,
-                  null,
-                  null
-          )
+    override fun getHighlighter(): SyntaxHighlighter =
+        SyntaxHighlighterFactory.getSyntaxHighlighter(
+            LibGDXSkinLanguage.INSTANCE,
+            null,
+            null
+        )
 
-  override fun getDemoText() = """
+    override fun getDemoText() = """
 {
     // Line comment
     /* Block comment */
@@ -116,15 +116,15 @@ class LibGDXSkinColorsPage: ColorSettingsPage, InspectionColorSettingsPage, Disp
 }
   """
 
-  override fun getAdditionalHighlightingTagToDescriptorMap() = additionalHighlighting
+    override fun getAdditionalHighlightingTagToDescriptorMap() = additionalHighlighting
 
-  override fun getAttributeDescriptors(): Array<out AttributesDescriptor> = myAttributeDescriptors
+    override fun getAttributeDescriptors(): Array<out AttributesDescriptor> = myAttributeDescriptors
 
-  override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
+    override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDisplayName() = "libGDX skin"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDisplayName() = "libGDX skin"
 
-  override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
+    override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
 
 }

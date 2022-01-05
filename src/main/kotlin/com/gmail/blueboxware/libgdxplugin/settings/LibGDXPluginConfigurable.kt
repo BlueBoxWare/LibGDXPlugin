@@ -25,59 +25,59 @@ import javax.swing.JComponent
  */
 
 @State(name = "LibGDXPluginConfigurable")
-class LibGDXPluginConfigurable(val project: Project): Configurable {
+class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
-  private var form: LibGDXPluginSettingsPane? = null
+    private var form: LibGDXPluginSettingsPane? = null
 
-  override fun isModified() = getForm()?.isModified == true
+    override fun isModified() = getForm()?.isModified == true
 
-  override fun disposeUIResources() {
-    form = null
-  }
-
-  override fun getDisplayName() = "LibGDXPlugin"
-
-  override fun apply() {
-    getForm()?.apply()
-    EditorNotifications.getInstance(project).updateAllNotifications()
-  }
-
-  override fun createComponent(): JComponent? {
-    val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java)
-    return getForm()?.createPanel(settings)
-  }
-
-  override fun reset() {
-    getForm()?.reset()
-  }
-
-  override fun getHelpTopic(): String? = null
-
-  private fun getForm(): LibGDXPluginSettingsPane? {
-    if (form == null) {
-      form = LibGDXPluginSettingsPane()
+    override fun disposeUIResources() {
+        form = null
     }
-    return form
-  }
+
+    override fun getDisplayName() = "LibGDXPlugin"
+
+    override fun apply() {
+        getForm()?.apply()
+        EditorNotifications.getInstance(project).updateAllNotifications()
+    }
+
+    override fun createComponent(): JComponent? {
+        val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java)
+        return getForm()?.createPanel(settings)
+    }
+
+    override fun reset() {
+        getForm()?.reset()
+    }
+
+    override fun getHelpTopic(): String? = null
+
+    private fun getForm(): LibGDXPluginSettingsPane? {
+        if (form == null) {
+            form = LibGDXPluginSettingsPane()
+        }
+        return form
+    }
 
 }
 
 @State(name = "LibGDXPluginSettings")
-class LibGDXPluginSettings: PersistentStateComponent<LibGDXPluginSettings> {
-  var enableColorAnnotations: Boolean = true
-  var enableColorAnnotationsInJson: Boolean = true
-  var enableColorAnnotationsInSkin: Boolean = true
-  var neverAskAboutSkinFiles: Boolean = false
-  var neverAskAboutJsonFiles: Boolean = false
+class LibGDXPluginSettings : PersistentStateComponent<LibGDXPluginSettings> {
+    var enableColorAnnotations: Boolean = true
+    var enableColorAnnotationsInJson: Boolean = true
+    var enableColorAnnotationsInSkin: Boolean = true
+    var neverAskAboutSkinFiles: Boolean = false
+    var neverAskAboutJsonFiles: Boolean = false
 
-  override fun loadState(state: LibGDXPluginSettings) {
-    enableColorAnnotations = state.enableColorAnnotations
-    enableColorAnnotationsInJson = state.enableColorAnnotationsInJson
-    enableColorAnnotationsInSkin = state.enableColorAnnotationsInSkin
-    neverAskAboutSkinFiles = state.neverAskAboutSkinFiles
-    neverAskAboutJsonFiles = state.neverAskAboutJsonFiles
-  }
+    override fun loadState(state: LibGDXPluginSettings) {
+        enableColorAnnotations = state.enableColorAnnotations
+        enableColorAnnotationsInJson = state.enableColorAnnotationsInJson
+        enableColorAnnotationsInSkin = state.enableColorAnnotationsInSkin
+        neverAskAboutSkinFiles = state.neverAskAboutSkinFiles
+        neverAskAboutJsonFiles = state.neverAskAboutJsonFiles
+    }
 
-  override fun getState() = this
+    override fun getState() = this
 }
 

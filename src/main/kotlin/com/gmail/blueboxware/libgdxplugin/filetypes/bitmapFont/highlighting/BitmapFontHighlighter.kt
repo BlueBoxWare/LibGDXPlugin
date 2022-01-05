@@ -27,62 +27,62 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontHighlighter: Annotator {
+class BitmapFontHighlighter : Annotator {
 
-  companion object {
-    val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")
-  }
-
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-
-    if (element is BitmapFontProperty) {
-      holder
-              .newSilentAnnotation(HighlightSeverity.INFORMATION)
-              .range(element.keyElement)
-              .textAttributes(BitmapFontColorSettingsPage.KEY)
-              .create()
-      element.valueElement?.let {
-        holder
-                .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(it)
-                .textAttributes(BitmapFontColorSettingsPage.VALUE)
-                .create()
-      }
-
-      element.node.getChildren(null).forEach { node ->
-        if (node.text == "=") {
-          holder
-                  .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                  .range(node)
-                  .textAttributes(BitmapFontColorSettingsPage.EQUALS_SIGN)
-                  .create()
-        }
-      }
-
-      element.valueElement?.let { valueElement ->
-        val valueText = valueElement.text
-        val start = valueElement.startOffset
-        for (i in valueText.indices) {
-          if (valueText[i] == ',') {
-            holder
-                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                    .range(TextRange(start + i, start + i + 1))
-                    .textAttributes(BitmapFontColorSettingsPage.COMMA)
-                    .create()
-          }
-        }
-      }
-
-    } else if (element.isLeaf(BitmapFontElementTypes.UNQUOTED_STRING)) {
-      if (KEYWORDS.contains(element.text) && element.parent !is BitmapFontKey && element.parent !is BitmapFontValue) {
-        holder
-                .newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(element)
-                .textAttributes(BitmapFontColorSettingsPage.KEYWORD)
-                .create()
-      }
+    companion object {
+        val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")
     }
 
-  }
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+
+        if (element is BitmapFontProperty) {
+            holder
+                .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                .range(element.keyElement)
+                .textAttributes(BitmapFontColorSettingsPage.KEY)
+                .create()
+            element.valueElement?.let {
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(it)
+                    .textAttributes(BitmapFontColorSettingsPage.VALUE)
+                    .create()
+            }
+
+            element.node.getChildren(null).forEach { node ->
+                if (node.text == "=") {
+                    holder
+                        .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                        .range(node)
+                        .textAttributes(BitmapFontColorSettingsPage.EQUALS_SIGN)
+                        .create()
+                }
+            }
+
+            element.valueElement?.let { valueElement ->
+                val valueText = valueElement.text
+                val start = valueElement.startOffset
+                for (i in valueText.indices) {
+                    if (valueText[i] == ',') {
+                        holder
+                            .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                            .range(TextRange(start + i, start + i + 1))
+                            .textAttributes(BitmapFontColorSettingsPage.COMMA)
+                            .create()
+                    }
+                }
+            }
+
+        } else if (element.isLeaf(BitmapFontElementTypes.UNQUOTED_STRING)) {
+            if (KEYWORDS.contains(element.text) && element.parent !is BitmapFontKey && element.parent !is BitmapFontValue) {
+                holder
+                    .newSilentAnnotation(HighlightSeverity.INFORMATION)
+                    .range(element)
+                    .textAttributes(BitmapFontColorSettingsPage.KEYWORD)
+                    .create()
+            }
+        }
+
+    }
 
 }

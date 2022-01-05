@@ -28,31 +28,31 @@ import com.intellij.psi.PsiWhiteSpace
  */
 class GdxJsonElementFactory(private val project: Project) {
 
-  fun createQuotedValueString(value: String): GdxJsonValue? {
-    val content = "\"${StringUtil.escapeStringCharacters(value)}\""
-    return createElement(content)
-  }
+    fun createQuotedValueString(value: String): GdxJsonValue? {
+        val content = "\"${StringUtil.escapeStringCharacters(value)}\""
+        return createElement(content)
+    }
 
-  fun createPropertyName(name: String, doQuote: Boolean): GdxJsonPropertyName? {
-    val quote = if (doQuote) "\"" else ""
-    val content = "{ $quote${StringUtil.escapeStringCharacters(name)}$quote: bar }"
-    return createElement(content)
-  }
+    fun createPropertyName(name: String, doQuote: Boolean): GdxJsonPropertyName? {
+        val quote = if (doQuote) "\"" else ""
+        val content = "{ $quote${StringUtil.escapeStringCharacters(name)}$quote: bar }"
+        return createElement(content)
+    }
 
-  fun createNewline(): PsiWhiteSpace? = createElement("f\n", '\n')
+    fun createNewline(): PsiWhiteSpace? = createElement("f\n", '\n')
 
-  private inline fun <reified T: PsiElement> createElement(content: String, character: Char): T? =
-          createElement(content, content.indexOf(character))
+    private inline fun <reified T : PsiElement> createElement(content: String, character: Char): T? =
+        createElement(content, content.indexOf(character))
 
-  private inline fun <reified T: PsiElement> createElement(content: String, position: Int): T? =
-          createFile(content)?.findElementAt(position) as? T
+    private inline fun <reified T : PsiElement> createElement(content: String, position: Int): T? =
+        createFile(content)?.findElementAt(position) as? T
 
-  private inline fun <reified T: PsiElement> createElement(content: String): T? =
-          createFile(content)?.childOfType()
+    private inline fun <reified T : PsiElement> createElement(content: String): T? =
+        createFile(content)?.childOfType()
 
-  private fun createFile(content: String) =
-          PsiFileFactory
-                  .getInstance(project)
-                  .createFileFromText("dummy.lson", LibGDXJsonFileType.INSTANCE, content) as? GdxJsonFile
+    private fun createFile(content: String) =
+        PsiFileFactory
+            .getInstance(project)
+            .createFileFromText("dummy.lson", LibGDXJsonFileType.INSTANCE, content) as? GdxJsonFile
 
 }

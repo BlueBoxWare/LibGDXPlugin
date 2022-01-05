@@ -17,16 +17,16 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontLanguage: Language("LibGDXBitmapFont") {
+class BitmapFontLanguage : Language("LibGDXBitmapFont") {
 
-  companion object {
-    val INSTANCE = BitmapFontLanguage()
-  }
+    companion object {
+        val INSTANCE = BitmapFontLanguage()
+    }
 
-  override fun isCaseSensitive() = true
+    override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "libGDX Bitmap Font"
+    override fun getDisplayName() = "libGDX Bitmap Font"
 
-  override fun getID(): String = "LibGDXBitmapFont"
+    override fun getID(): String = "LibGDXBitmapFont"
 
 }

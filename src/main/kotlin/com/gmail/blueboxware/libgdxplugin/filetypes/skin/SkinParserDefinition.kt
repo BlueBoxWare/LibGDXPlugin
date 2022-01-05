@@ -27,33 +27,33 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinParserDefinition: ParserDefinition {
+class SkinParserDefinition : ParserDefinition {
 
-  companion object {
-    val FILE = IFileElementType(LibGDXSkinLanguage.INSTANCE)
+    companion object {
+        val FILE = IFileElementType(LibGDXSkinLanguage.INSTANCE)
 
-    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-    val SKIN_COMMENTARIES = TokenSet.create(BLOCK_COMMENT, LINE_COMMENT)
+        val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
+        val SKIN_COMMENTARIES = TokenSet.create(BLOCK_COMMENT, LINE_COMMENT)
 
-    val SKIN_CONTAINERS = TokenSet.create(OBJECT, ARRAY, RESOURCES)
-  }
+        val SKIN_CONTAINERS = TokenSet.create(OBJECT, ARRAY, RESOURCES)
+    }
 
-  override fun createParser(project: Project?) = SkinParser()
+    override fun createParser(project: Project?) = SkinParser()
 
-  override fun createFile(viewProvider: FileViewProvider) = SkinFileImpl(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider) = SkinFileImpl(viewProvider)
 
-  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements =
-          ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?): ParserDefinition.SpaceRequirements =
+        ParserDefinition.SpaceRequirements.MAY
 
-  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-  override fun getFileNodeType(): IFileElementType = FILE
+    override fun getFileNodeType(): IFileElementType = FILE
 
-  override fun getWhitespaceTokens(): TokenSet = WHITE_SPACES
+    override fun getWhitespaceTokens(): TokenSet = WHITE_SPACES
 
-  override fun createLexer(project: Project?): Lexer = SkinLexer()
+    override fun createLexer(project: Project?): Lexer = SkinLexer()
 
-  override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet = SKIN_COMMENTARIES
+    override fun getCommentTokens(): TokenSet = SKIN_COMMENTARIES
 }

@@ -30,112 +30,115 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getCalleeExpressionIfAny
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MissingExternalFilesPermissionInspection: LibGDXXmlBaseInspection() {
+class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
 
-  override fun getStaticDescription() = message("missing.files.permissions.html.desciption")
+    override fun getStaticDescription() = message("missing.files.permissions.html.desciption")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    if (holder.file.name != "AndroidManifest.xml") {
-      return super.buildVisitor(holder, isOnTheFly)
-    }
-
-    return object: XmlElementVisitor() {
-
-      override fun visitXmlFile(file: XmlFile?) {
-        if (file == null) return
-
-        if (ManifestModel.fromFile(file).permissions.any { it.value == "android.permission.WRITE_EXTERNAL_STORAGE" }) {
-          return
+        if (holder.file.name != "AndroidManifest.xml") {
+            return super.buildVisitor(holder, isOnTheFly)
         }
 
-        val module = ModuleUtilCore.findModuleForPsiElement(file) ?: return
-        val moduleWithDepsScope = module.moduleWithDependenciesScope
-        val moduleWithDepsAndLibsScope = module.getModuleWithDependenciesAndLibrariesScope(false)
-        val psiFacade = file.project.psiFacade()
+        return object : XmlElementVisitor() {
 
-        val externalFilesMethods = mutableListOf<PsiMethod>()
+            override fun visitXmlFile(file: XmlFile?) {
+                if (file == null) return
 
-        // com.badlogic.gdx.Files
-        psiFacade.findClass("com.badlogic.gdx.Files", moduleWithDepsAndLibsScope)?.let { clazz ->
-          listOf("absolute", "external", "getFileHandle").forEach {
-            externalFilesMethods.addAll(clazz.findMethodsByName(it, false))
-          }
-        }
+                if (ManifestModel.fromFile(file).permissions.any { it.value == "android.permission.WRITE_EXTERNAL_STORAGE" }) {
+                    return
+                }
 
-        // com.badlogic.gdx.files.FileHandle
-        psiFacade.findClass("com.badlogic.gdx.files.FileHandle", moduleWithDepsAndLibsScope)?.let { clazz ->
-          clazz.constructors.forEach { constructor ->
-            if (constructor.parameterList.parametersCount == 1) {
-              externalFilesMethods.add(constructor)
+                val module = ModuleUtilCore.findModuleForPsiElement(file) ?: return
+                val moduleWithDepsScope = module.moduleWithDependenciesScope
+                val moduleWithDepsAndLibsScope = module.getModuleWithDependenciesAndLibrariesScope(false)
+                val psiFacade = file.project.psiFacade()
+
+                val externalFilesMethods = mutableListOf<PsiMethod>()
+
+                // com.badlogic.gdx.Files
+                psiFacade.findClass("com.badlogic.gdx.Files", moduleWithDepsAndLibsScope)?.let { clazz ->
+                    listOf("absolute", "external", "getFileHandle").forEach {
+                        externalFilesMethods.addAll(clazz.findMethodsByName(it, false))
+                    }
+                }
+
+                // com.badlogic.gdx.files.FileHandle
+                psiFacade.findClass("com.badlogic.gdx.files.FileHandle", moduleWithDepsAndLibsScope)?.let { clazz ->
+                    clazz.constructors.forEach { constructor ->
+                        if (constructor.parameterList.parametersCount == 1) {
+                            externalFilesMethods.add(constructor)
+                        }
+                    }
+                }
+
+                // find method usages
+                var found = false
+                externalFilesMethods.forEach { method ->
+                    JavaFindUsagesHelper.processElementUsages(
+                        method,
+                        JavaMethodFindUsagesOptions(moduleWithDepsScope)
+                    ) { usage ->
+
+                        usage
+                            .element
+                            ?.firstParent {
+                                it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression
+                            }
+                            ?.let { callExpression ->
+
+                                val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text
+                                    ?: (usage.reference?.resolve() as? PsiMethod)?.name
+
+                                if (methodName == "getFileHandle") {
+                                    ((callExpression as? PsiMethodCallExpression)
+                                        ?.argumentList
+                                        ?.expressions
+                                        ?.getOrNull(1)
+                                        ?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()
+                                        ?.let { fqName ->
+                                            if (
+                                                fqName == "com.badlogic.gdx.Files.FileType.External"
+                                                || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
+                                            ) {
+                                                found = true
+                                                return@processElementUsages false
+                                            }
+                                        }
+                                    ((callExpression as? KtCallExpression)
+                                        ?.valueArguments
+                                        ?.getOrNull(1)
+                                        ?.getArgumentExpression()
+                                        ?.getCalleeExpressionIfAny()
+                                        ?.references
+                                        ?.firstOrNull { it is KtSimpleNameReference }
+                                        ?.resolve() as? PsiEnumConstant
+                                            )?.getKotlinFqName()?.asString()?.let { fqName ->
+                                            if (
+                                                fqName == "com.badlogic.gdx.Files.FileType.External"
+                                                || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
+                                            ) {
+                                                found = true
+                                                return@processElementUsages false
+                                            }
+                                        }
+                                } else {
+                                    found = true
+                                    return@processElementUsages false
+                                }
+
+                            }
+
+                        return@processElementUsages true
+                    }
+                }
+
+                if (found) {
+                    holder.registerProblem(file, message("missing.files.permissions.problem.descriptor"))
+                }
             }
-          }
+
         }
-
-        // find method usages
-        var found = false
-        externalFilesMethods.forEach { method ->
-          JavaFindUsagesHelper.processElementUsages(method, JavaMethodFindUsagesOptions(moduleWithDepsScope)) { usage ->
-
-            usage
-                    .element
-                    ?.firstParent {
-                      it is KtCallExpression || it is PsiMethodCallExpression || it is PsiNewExpression
-                    }
-                    ?.let { callExpression ->
-
-                      val methodName = (callExpression as? KtCallExpression)?.calleeExpression?.text
-                              ?: (usage.reference?.resolve() as? PsiMethod)?.name
-
-                      if (methodName == "getFileHandle") {
-                        ((callExpression as? PsiMethodCallExpression)
-                                ?.argumentList
-                                ?.expressions
-                                ?.getOrNull(1)
-                                ?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()
-                                ?.let { fqName ->
-                                  if (
-                                          fqName == "com.badlogic.gdx.Files.FileType.External"
-                                          || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
-                                  ) {
-                                    found = true
-                                    return@processElementUsages false
-                                  }
-                                }
-                        ((callExpression as? KtCallExpression)
-                                ?.valueArguments
-                                ?.getOrNull(1)
-                                ?.getArgumentExpression()
-                                ?.getCalleeExpressionIfAny()
-                                ?.references
-                                ?.firstOrNull { it is KtSimpleNameReference }
-                                ?.resolve() as? PsiEnumConstant
-                                )?.getKotlinFqName()?.asString()?.let { fqName ->
-                                  if (
-                                          fqName == "com.badlogic.gdx.Files.FileType.External"
-                                          || fqName == "com.badlogic.gdx.Files.FileType.Absolute"
-                                  ) {
-                                    found = true
-                                    return@processElementUsages false
-                                  }
-                                }
-                      } else {
-                        found = true
-                        return@processElementUsages false
-                      }
-
-                    }
-
-            return@processElementUsages true
-          }
-        }
-
-        if (found) {
-          holder.registerProblem(file, message("missing.files.permissions.problem.descriptor"))
-        }
-      }
-
     }
-  }
 
 }

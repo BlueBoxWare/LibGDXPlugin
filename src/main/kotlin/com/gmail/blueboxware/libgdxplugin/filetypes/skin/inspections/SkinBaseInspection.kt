@@ -22,29 +22,29 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinBaseInspection: LocalInspectionTool() {
+abstract class SkinBaseInspection : LocalInspectionTool() {
 
-  init {
-    if (ApplicationManager.getApplication().isUnitTestMode) {
-      assert(INSPECTION_NAMES.contains(id))
+    init {
+        if (ApplicationManager.getApplication().isUnitTestMode) {
+            assert(INSPECTION_NAMES.contains(id))
+        }
     }
-  }
 
-  override fun getGroupPath() = arrayOf("libGDX", "Skin files")
+    override fun getGroupPath() = arrayOf("libGDX", "Skin files")
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
+    @Suppress("DialogTitleCapitalization")
+    override fun getGroupDisplayName() = "libGDX"
 
-  override fun isEnabledByDefault() = true
+    override fun isEnabledByDefault() = true
 
-  override fun isSuppressedFor(element: PsiElement): Boolean =
-          (element as? SkinElement)?.isSuppressed(id) ?: false
+    override fun isSuppressedFor(element: PsiElement): Boolean =
+        (element as? SkinElement)?.isSuppressed(id) ?: false
 
-  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForPropertyFix(id),
-                  SuppressForObjectFix(id),
-                  SuppressForFileFix(id)
-          )
+    override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForPropertyFix(id),
+            SuppressForObjectFix(id),
+            SuppressForFileFix(id)
+        )
 
 }

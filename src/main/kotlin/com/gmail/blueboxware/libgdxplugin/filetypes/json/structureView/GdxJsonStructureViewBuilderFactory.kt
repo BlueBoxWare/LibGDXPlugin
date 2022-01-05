@@ -24,16 +24,16 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonStructureViewBuilderFactory: PsiStructureViewFactory {
+class GdxJsonStructureViewBuilderFactory : PsiStructureViewFactory {
 
-  override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder? = (psiFile as? GdxJsonFile)?.let {
+    override fun getStructureViewBuilder(psiFile: PsiFile): StructureViewBuilder? = (psiFile as? GdxJsonFile)?.let {
 
-    object: TreeBasedStructureViewBuilder() {
+        object : TreeBasedStructureViewBuilder() {
 
-      override fun createStructureViewModel(editor: Editor?): StructureViewModel = GdxJsonStructureViewModel(it)
+            override fun createStructureViewModel(editor: Editor?): StructureViewModel = GdxJsonStructureViewModel(it)
+
+        }
 
     }
-
-  }
 
 }

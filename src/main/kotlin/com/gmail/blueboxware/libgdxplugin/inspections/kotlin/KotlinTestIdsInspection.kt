@@ -21,22 +21,22 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinTestIdsInspection: LibGDXKotlinBaseInspection() {
+class KotlinTestIdsInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("testid.html.description")
+    override fun getStaticDescription() = message("testid.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitLiteralStringTemplateEntry(entry: KtLiteralStringTemplateEntry) {
+        override fun visitLiteralStringTemplateEntry(entry: KtLiteralStringTemplateEntry) {
 
-      entry.text.trim().let { value ->
-        if (TEST_ID_MAP.containsKey(value)) {
-          holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
+            entry.text.trim().let { value ->
+                if (TEST_ID_MAP.containsKey(value)) {
+                    holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
+                }
+            }
+
         }
-      }
 
     }
-
-  }
 
 }

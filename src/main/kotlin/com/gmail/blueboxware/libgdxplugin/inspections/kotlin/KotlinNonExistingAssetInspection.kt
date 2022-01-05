@@ -23,20 +23,20 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinNonExistingAssetInspection: LibGDXKotlinBaseInspection() {
+class KotlinNonExistingAssetInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
+    override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
+        override fun visitStringTemplateExpression(expression: KtStringTemplateExpression) {
 
-      expression.asPlainString()?.let { str ->
-        checkForNonExistingAssetReference(expression, str, holder)
-      }
+            expression.asPlainString()?.let { str ->
+                checkForNonExistingAssetReference(expression, str, holder)
+            }
+
+        }
 
     }
-
-  }
 
 }

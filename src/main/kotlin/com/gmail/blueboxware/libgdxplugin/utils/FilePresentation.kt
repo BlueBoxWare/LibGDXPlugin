@@ -25,22 +25,22 @@ import javax.swing.Icon
  * limitations under the License.
  */
 class FilePresentation(
-        project: Project,
-        virtualFile: VirtualFile?,
-        val name: String,
-        val icon: Icon
-): ItemPresentation {
+    project: Project,
+    virtualFile: VirtualFile?,
+    val name: String,
+    val icon: Icon
+) : ItemPresentation {
 
-  private val location: String =
-          project.guessProjectDir()?.let { baseDir ->
+    private val location: String =
+        project.guessProjectDir()?.let { baseDir ->
             virtualFile?.let { virtualFile ->
-              VfsUtil.findRelativePath(baseDir, virtualFile, File.separatorChar) ?: ""
+                VfsUtil.findRelativePath(baseDir, virtualFile, File.separatorChar) ?: ""
             }
-          } ?: ""
+        } ?: ""
 
-  override fun getLocationString(): String = location
+    override fun getLocationString(): String = location
 
-  override fun getIcon(unused: Boolean): Icon = icon
+    override fun getIcon(unused: Boolean): Icon = icon
 
-  override fun getPresentableText(): String = name
+    override fun getPresentableText(): String = name
 }

@@ -19,10 +19,10 @@ import com.intellij.lang.ASTNode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class PropertyContainerImpl(node: ASTNode): PropertyContainer, BitmapFontElementImpl(node) {
+abstract class PropertyContainerImpl(node: ASTNode) : PropertyContainer, BitmapFontElementImpl(node) {
 
-  override fun getProperty(name: String): BitmapFontProperty? = getPropertyList().find { it.key == name }
+    override fun getProperty(name: String): BitmapFontProperty? = getPropertyList().find { it.key == name }
 
-  override fun getValue(name: String): String? = getProperty(name)?.value
+    override fun getValue(name: String): String? = getProperty(name)?.value
 
 }

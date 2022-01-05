@@ -23,33 +23,33 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesTestIdsInspection: LibGDXGradlePropertiesBaseInspection() {
+class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseInspection() {
 
-  override fun getStaticDescription() = message("testid.html.description")
+    override fun getStaticDescription() = message("testid.html.description")
 
-  override fun getDisplayName() = message("testid.name.gradle.properties")
+    override fun getDisplayName() = message("testid.name.gradle.properties")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
 
-    return object: PsiElementVisitor() {
+        return object : PsiElementVisitor() {
 
-      override fun visitElement(element: PsiElement) {
+            override fun visitElement(element: PsiElement) {
 
-        if (element !is Property || !element.isInGradlePropertiesFile()) {
-          return
-        }
+                if (element !is Property || !element.isInGradlePropertiesFile()) {
+                    return
+                }
 
-        element.value?.let { str ->
-          for ((key, value) in TEST_ID_MAP) {
-            if (str.contains(key)) {
-              holder.registerProblem(element, message("testid.problem.descriptor") + ": " + value)
+                element.value?.let { str ->
+                    for ((key, value) in TEST_ID_MAP) {
+                        if (str.contains(key)) {
+                            holder.registerProblem(element, message("testid.problem.descriptor") + ": " + value)
+                        }
+                    }
+                }
+
             }
-          }
         }
 
-      }
     }
-
-  }
 
 }

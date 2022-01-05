@@ -22,21 +22,21 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonBaseInspection: LocalInspectionTool() {
+abstract class GdxJsonBaseInspection : LocalInspectionTool() {
 
-  protected fun getShortID() = id.removePrefix("LibGDXJson")
+    protected fun getShortID() = id.removePrefix("LibGDXJson")
 
-  override fun getGroupPath() = arrayOf("libGDX", "JSON")
+    override fun getGroupPath() = arrayOf("libGDX", "JSON")
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getGroupDisplayName() = "libGDX"
+    @Suppress("DialogTitleCapitalization")
+    override fun getGroupDisplayName() = "libGDX"
 
-  override fun isEnabledByDefault() = true
+    override fun isEnabledByDefault() = true
 
-  override fun isSuppressedFor(element: PsiElement): Boolean =
-          (element as? GdxJsonElement)?.isSuppressed(getShortID()) ?: false
+    override fun isSuppressedFor(element: PsiElement): Boolean =
+        (element as? GdxJsonElement)?.isSuppressed(getShortID()) ?: false
 
-  abstract override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix>
+    abstract override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix>
 
 
 }

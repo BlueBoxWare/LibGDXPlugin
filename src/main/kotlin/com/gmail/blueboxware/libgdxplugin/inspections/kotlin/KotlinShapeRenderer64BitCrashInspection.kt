@@ -22,21 +22,21 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinShapeRenderer64BitCrashInspection: LibGDXKotlinBaseInspection() {
+class KotlinShapeRenderer64BitCrashInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
+    override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitCallExpression(expression: KtCallExpression) {
-      if (getClassIfConstructorCall(expression)?.fqName() == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
+        override fun visitCallExpression(expression: KtCallExpression) {
+            if (getClassIfConstructorCall(expression)?.fqName() == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-        if (isProblematicGDXVersionFor64Bit(expression.project)) {
-          holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+                if (isProblematicGDXVersionFor64Bit(expression.project)) {
+                    holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+                }
+
+            }
         }
 
-      }
     }
-
-  }
 }

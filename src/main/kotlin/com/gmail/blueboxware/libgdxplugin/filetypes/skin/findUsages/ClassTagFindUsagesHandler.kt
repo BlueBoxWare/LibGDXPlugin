@@ -45,22 +45,22 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindU
     constructor(element: KtStringTemplateExpression) : this(element as PsiElement)
 
     override fun processElementUsages(
-            element: PsiElement,
-            processor: Processor<in UsageInfo>,
-            options: FindUsagesOptions
+        element: PsiElement,
+        processor: Processor<in UsageInfo>,
+        options: FindUsagesOptions
     ): Boolean {
 
         ReadAction.run<Throwable> {
 
             val usages =
-                    CachedValuesManager.getManager(element.project).getCachedValue(
-                            element,
-                            MyCachedValueProvider(
-                                    project,
-                                    element,
-                                    (options.searchScope as? GlobalSearchScope) ?: project.allScope()
-                            )
+                CachedValuesManager.getManager(element.project).getCachedValue(
+                    element,
+                    MyCachedValueProvider(
+                        project,
+                        element,
+                        (options.searchScope as? GlobalSearchScope) ?: project.allScope()
                     )
+                )
 
             usages?.forEach { usage ->
                 processor.process(UsageInfo(usage))
@@ -75,9 +75,9 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindU
 }
 
 private class MyCachedValueProvider(
-        val project: Project,
-        val element: PsiElement,
-        val scope: GlobalSearchScope
+    val project: Project,
+    val element: PsiElement,
+    val scope: GlobalSearchScope
 ) : CachedValueProvider<Collection<SkinClassName>> {
 
     override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>> {

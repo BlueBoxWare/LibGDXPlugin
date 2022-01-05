@@ -23,33 +23,33 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinStructureViewModel(file: PsiFile):
-        StructureViewModelBase(
-                file,
-                SkinStructureViewElement(file)
-        ),
-        StructureViewModel.ElementInfoProvider,
-        StructureViewModel.ExpandInfoProvider {
+class SkinStructureViewModel(file: PsiFile) :
+    StructureViewModelBase(
+        file,
+        SkinStructureViewElement(file)
+    ),
+    StructureViewModel.ElementInfoProvider,
+    StructureViewModel.ExpandInfoProvider {
 
-  init {
-    withSuitableClasses(
+    init {
+        withSuitableClasses(
             SkinFile::class.java,
             SkinClassSpecification::class.java,
             SkinResource::class.java,
             SkinObject::class.java,
             SkinArray::class.java,
             SkinProperty::class.java
-    )
-  }
+        )
+    }
 
-  override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
+    override fun getSorters() = arrayOf(Sorter.ALPHA_SORTER)
 
-  override fun isAlwaysShowsPlus(element: StructureViewTreeElement?) = false
+    override fun isAlwaysShowsPlus(element: StructureViewTreeElement?) = false
 
-  override fun isAlwaysLeaf(element: StructureViewTreeElement?) = element is SkinFile
+    override fun isAlwaysLeaf(element: StructureViewTreeElement?) = element is SkinFile
 
-  override fun isSmartExpand() = false
+    override fun isSmartExpand() = false
 
-  override fun isAutoExpand(element: StructureViewTreeElement) =
-          element is SkinFile || ApplicationManager.getApplication().isUnitTestMode
+    override fun isAutoExpand(element: StructureViewTreeElement) =
+        element is SkinFile || ApplicationManager.getApplication().isUnitTestMode
 }

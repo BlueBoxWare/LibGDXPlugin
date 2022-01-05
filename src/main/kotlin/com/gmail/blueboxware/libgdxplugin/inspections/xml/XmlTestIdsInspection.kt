@@ -21,25 +21,25 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
 
-class XmlTestIdsInspection: LibGDXXmlBaseInspection() {
+class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
 
-  override fun getStaticDescription() = message("testid.html.description")
+    override fun getStaticDescription() = message("testid.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: XmlElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : XmlElementVisitor() {
 
-    override fun visitXmlTag(tag: XmlTag?) {
-      super.visitXmlTag(tag)
+        override fun visitXmlTag(tag: XmlTag?) {
+            super.visitXmlTag(tag)
 
-      tag?.value?.trimmedText?.let { content ->
+            tag?.value?.trimmedText?.let { content ->
 
-        if (TEST_ID_MAP.containsKey(content)) {
-          holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[content])
+                if (TEST_ID_MAP.containsKey(content)) {
+                    holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[content])
+                }
+
+            }
+
         }
 
-      }
-
     }
-
-  }
 
 }

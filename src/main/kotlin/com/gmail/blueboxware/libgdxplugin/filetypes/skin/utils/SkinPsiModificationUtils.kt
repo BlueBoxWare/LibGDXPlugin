@@ -32,161 +32,162 @@ import java.awt.Color
 fun SkinElement.factory() = (containingFile as? SkinFileImpl)?.factory
 
 fun SkinObject.removeAllProperties() =
-        allChildren.filter { it is SkinProperty || it.isLeaf(SkinElementTypes.COMMA) }.toList().forEach {
-          removeChild(it)
-        }
+    allChildren.filter { it is SkinProperty || it.isLeaf(SkinElementTypes.COMMA) }.toList().forEach {
+        removeChild(it)
+    }
 
 
 fun SkinObject.addCommentExt(comment: PsiComment) {
 
-  if (firstChild?.text == "{") {
+    if (firstChild?.text == "{") {
 
-    PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
-      TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
-        factory()?.createNewLine()?.let { newLine ->
-          addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+        PsiTreeUtil.nextLeaf(firstChild)?.node?.let { nextNode ->
+            TreeUtil.skipWhitespaceAndComments(nextNode, true)?.let { anchor ->
+                factory()?.createNewLine()?.let { newLine ->
+                    addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+                }
+            }
         }
-      }
-    }
 
-  }
+    }
 
 }
 
 fun SkinClassSpecification.addCommentExt(comment: PsiComment) {
 
-  var leaf: PsiElement? = firstChild
+    var leaf: PsiElement? = firstChild
 
-  while (leaf != null && leaf.node?.elementType != SkinElementTypes.L_CURLY) {
-    leaf = leaf.nextLeaf()
-  }
-
-  leaf?.nextLeaf()?.node?.let { curlyNode ->
-
-    TreeUtil.skipWhitespaceAndComments(curlyNode, true)?.let { anchor ->
-      factory()?.createNewLine()?.let { newLine ->
-        addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
-      }
+    while (leaf != null && leaf.node?.elementType != SkinElementTypes.L_CURLY) {
+        leaf = leaf.nextLeaf()
     }
 
-  }
+    leaf?.nextLeaf()?.node?.let { curlyNode ->
+
+        TreeUtil.skipWhitespaceAndComments(curlyNode, true)?.let { anchor ->
+            factory()?.createNewLine()?.let { newLine ->
+                addAfter(newLine, addBefore(comment, anchor.psi.findParentWhichIsChildOf(this)))
+            }
+        }
+
+    }
 
 }
 
 fun SkinClassSpecification.addResource(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
-        factory()?.createResource(name)?.let { (resource, position) ->
-          addResource(resource, cause)?.let {
+    factory()?.createResource(name)?.let { (resource, position) ->
+        addResource(resource, cause)?.let {
             Pair(it, it.startOffset + position)
-          }
         }
+    }
 
 fun SkinClassSpecification.addResource(resource: SkinResource, cause: SkinElement? = null): SkinResource? {
 
-  val resources = resources ?: return null
+    val resources = resources ?: return null
 
-  val addBefore = cause?.firstParent<SkinResource>()?.let { targetResource ->
-    resourcesAsList.firstOrNull { it == targetResource }
-  }
-
-  val result = if (addBefore == null) {
-    resources.add(resource) as? SkinResource
-  } else {
-    resources.addBefore(resource, addBefore) as? SkinResource
-  }
-
-  result?.let { actualResult ->
-    if (!actualResult.isPrecededByNewline()) {
-      factory()?.createNewLine()?.let { newline ->
-        resources.addBefore(newline, actualResult)
-      }
+    val addBefore = cause?.firstParent<SkinResource>()?.let { targetResource ->
+        resourcesAsList.firstOrNull { it == targetResource }
     }
-    if (!actualResult.isFollowByNewLine()) {
-      factory()?.createNewLine()?.let { newline ->
-        resources.addAfter(newline, actualResult)
-      }
-    }
-  }
 
-  return result
+    val result = if (addBefore == null) {
+        resources.add(resource) as? SkinResource
+    } else {
+        resources.addBefore(resource, addBefore) as? SkinResource
+    }
+
+    result?.let { actualResult ->
+        if (!actualResult.isPrecededByNewline()) {
+            factory()?.createNewLine()?.let { newline ->
+                resources.addBefore(newline, actualResult)
+            }
+        }
+        if (!actualResult.isFollowByNewLine()) {
+            factory()?.createNewLine()?.let { newline ->
+                resources.addAfter(newline, actualResult)
+            }
+        }
+    }
+
+    return result
 }
 
 fun SkinObject.addPropertyExt(property: SkinProperty) {
 
-  if (firstChild?.text == "{") {
+    if (firstChild?.text == "{") {
 
-    addAfter(property, firstChild)?.let {
-      if (propertyList.size > 1) {
-        factory()?.createComma()?.let { comma ->
-          addAfter(comma, it)
+        addAfter(property, firstChild)?.let {
+            if (propertyList.size > 1) {
+                factory()?.createComma()?.let { comma ->
+                    addAfter(comma, it)
+                }
+            }
         }
-      }
-    }
 
-  }
+    }
 
 }
 
 fun SkinObject.changeColor(color: Color): SkinObject? {
 
-  val newObject = factory()?.createObject() ?: return null
+    val newObject = factory()?.createObject() ?: return null
 
-  if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
+    if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
 
-    var quotationChar = "\""
+        var quotationChar = "\""
 
-    (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
-      quotationChar = if (oldValue.isQuoted) "\"" else ""
+        (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
+            quotationChar = if (oldValue.isQuoted) "\"" else ""
+        }
+
+        factory()?.createProperty("hex", quotationChar + color.toHexString() + quotationChar)
+            ?.let(newObject::addProperty)
+
+    } else {
+
+        val components = color.getRGBComponents(null)
+
+        for (rgb in listOf("r", "g", "b", "a")) {
+
+            val value = when (rgb) {
+                "r" -> components[0]
+                "g" -> components[1]
+                "b" -> components[2]
+                else -> components[3]
+            }
+            factory()?.createProperty(rgb, value.toString())?.let(newObject::addProperty)
+
+        }
+
     }
 
-    factory()?.createProperty("hex", quotationChar + color.toHexString() + quotationChar)?.let(newObject::addProperty)
-
-  } else {
-
-    val components = color.getRGBComponents(null)
-
-    for (rgb in listOf("r", "g", "b", "a")) {
-
-      val value = when (rgb) {
-        "r" -> components[0]
-        "g" -> components[1]
-        "b" -> components[2]
-        else -> components[3]
-      }
-      factory()?.createProperty(rgb, value.toString())?.let(newObject::addProperty)
-
-    }
-
-  }
-
-  return newObject
+    return newObject
 
 }
 
 fun SkinObject.setColor(color: Color, useHex: Boolean) {
 
-  if (useHex) {
+    if (useHex) {
 
-    factory()?.createProperty("hex", "\"" + color.toHexString() + "\"")?.let { property ->
-      removeAllProperties()
-      addProperty(property)
+        factory()?.createProperty("hex", "\"" + color.toHexString() + "\"")?.let { property ->
+            removeAllProperties()
+            addProperty(property)
+        }
+
+    } else {
+
+        val propertiesToAdd = mutableListOf<SkinProperty>()
+
+        color.toRGBComponents().reversed().forEach { (component, value) ->
+            factory()?.createProperty(component, value.toString())?.let {
+                propertiesToAdd.add(it)
+            } ?: return
+        }
+
+        removeAllProperties()
+
+        propertiesToAdd.forEach { property ->
+            addProperty(property)
+        }
+
     }
-
-  } else {
-
-    val propertiesToAdd = mutableListOf<SkinProperty>()
-
-    color.toRGBComponents().reversed().forEach { (component, value) ->
-      factory()?.createProperty(component, value.toString())?.let {
-        propertiesToAdd.add(it)
-      } ?: return
-    }
-
-    removeAllProperties()
-
-    propertiesToAdd.forEach { property ->
-      addProperty(property)
-    }
-
-  }
 
 }

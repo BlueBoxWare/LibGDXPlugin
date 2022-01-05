@@ -29,168 +29,168 @@ import org.jetbrains.kotlin.psi.*
 
 object FlushingMethodsUtils {
 
-  private val flushingMethodsMap: Map<String, List<String>> by lazy {
-    mapOf(
+    private val flushingMethodsMap: Map<String, List<String>> by lazy {
+        mapOf(
             "com.badlogic.gdx.graphics.g2d.Batch" to
                     listOf(
-                            "disableBlending",
-                            "enableBlending",
-                            "end",
-                            "flush",
-                            "flushAndSyncTransformMatrix",
-                            "setBlendFunction",
-                            "setProjectionMatrix",
-                            "setShader"
+                        "disableBlending",
+                        "enableBlending",
+                        "end",
+                        "flush",
+                        "flushAndSyncTransformMatrix",
+                        "setBlendFunction",
+                        "setProjectionMatrix",
+                        "setShader"
                     ),
             "com.badlogic.gdx.graphics.g2d.SpriteBatch" to
                     listOf(
-                            "disableBlending",
-                            "enableBlending",
-                            "end",
-                            "flush",
-                            "setBlendFunction",
-                            "setProjectionMatrix",
-                            "setShader",
-                            "setTransformMatrix"
+                        "disableBlending",
+                        "enableBlending",
+                        "end",
+                        "flush",
+                        "setBlendFunction",
+                        "setProjectionMatrix",
+                        "setShader",
+                        "setTransformMatrix"
                     ),
             "com.badlogic.gdx.graphics.g2d.CpuSpriteBatch" to
                     listOf(
-                            "disableBlending",
-                            "enableBlending",
-                            "end",
-                            "flush",
-                            "flushAndSyncTransformMatrix",
-                            "setBlendFunction",
-                            "setProjectionMatrix",
-                            "setShader"
+                        "disableBlending",
+                        "enableBlending",
+                        "end",
+                        "flush",
+                        "flushAndSyncTransformMatrix",
+                        "setBlendFunction",
+                        "setProjectionMatrix",
+                        "setShader"
                     ),
             "com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch" to
                     listOf(
-                            "disableBlending",
-                            "enableBlending",
-                            "end",
-                            "flush",
-                            "setBlendFunction",
-                            "setProjectionMatrix",
-                            "setShader",
-                            "setTransformMatrix"
+                        "disableBlending",
+                        "enableBlending",
+                        "end",
+                        "flush",
+                        "setBlendFunction",
+                        "setProjectionMatrix",
+                        "setShader",
+                        "setTransformMatrix"
                     ),
             "com.badlogic.gdx.graphics.glutils.ShapeRenderer" to
                     listOf(
-                            "end",
-                            "flush",
-                            "updateMatrices",
-                            "setProjectionMatrix",
-                            "setTransformMatrix",
-                            "identity",
-                            "translate",
-                            "rotate",
-                            "scale",
-                            "set"
+                        "end",
+                        "flush",
+                        "updateMatrices",
+                        "setProjectionMatrix",
+                        "setTransformMatrix",
+                        "identity",
+                        "translate",
+                        "rotate",
+                        "scale",
+                        "set"
                     ),
             "com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20" to
                     listOf(
-                            "end",
-                            "flush"
+                        "end",
+                        "flush"
                     ),
             "com.badlogic.gdx.graphics.g3d.decals.DecalBatch" to
                     listOf(
-                            "flush"
+                        "flush"
                     ),
             "com.badlogic.gdx.graphics.g3d.ModelBatch" to
                     listOf(
-                            "flush",
-                            "end",
-                            "setCamera"
+                        "flush",
+                        "end",
+                        "setCamera"
                     )
-    )
-  }
-
-  private fun getFlushingMethods(project: Project): Set<PsiMethod> {
-
-    val result = mutableSetOf<PsiMethod>()
-
-    for ((className, methodNames) in flushingMethodsMap) {
-      val clazz = project.findClass(className) ?: continue
-      for (methodName in methodNames) {
-        val methods = clazz.findMethodsByName(methodName, false)
-        result.addAll(methods)
-      }
+        )
     }
 
-    return result
+    private fun getFlushingMethods(project: Project): Set<PsiMethod> {
 
-  }
+        val result = mutableSetOf<PsiMethod>()
 
-  fun getAllFlushingMethods(project: Project): Pair<Set<PsiElement>, Set<PsiElement>> {
-
-    val result = mutableSetOf<PsiElement>()
-    val queue = mutableSetOf<PsiElement>()
-    val seeds = getFlushingMethods(project)
-
-    val scope = project.projectScope()
-
-    queue.addAll(seeds)
-
-    while (queue.isNotEmpty()) {
-
-      val method = queue.first()
-      result.add(method)
-
-      var refs: Query<PsiReference>?
-
-      if (method is PsiMethod) {
-        refs = MethodReferencesSearch.search(method, scope, true)
-      } else {
-        refs = ReferencesSearch.search(method, scope)
-
-        (method.context as? KtProperty)?.let {
-          queue.add(it)
-        }
-      }
-
-      refs?.let { refsNotNull ->
-        for (ref in refsNotNull) {
-          if (!ref.isReferenceTo(method)) {
-            continue // Workaround for https://youtrack.jetbrains.com/issue/IDEA-90019
-          }
-          if (
-                  ref.element.context is PsiMethodCallExpression
-                  || ref.element.context is KtProperty
-                  || ref.element.context is KtCallExpression
-                  || ref is SyntheticPropertyAccessorReference
-          ) {
-            val functionalParent = getFunctionalParent(ref.element)
-            functionalParent?.let { parent ->
-              if (!result.contains(parent)) {
-                queue.add(parent)
-              }
+        for ((className, methodNames) in flushingMethodsMap) {
+            val clazz = project.findClass(className) ?: continue
+            for (methodName in methodNames) {
+                val methods = clazz.findMethodsByName(methodName, false)
+                result.addAll(methods)
             }
-          }
         }
-      }
 
-      queue.remove(method)
+        return result
 
     }
 
-    return Pair(seeds, result)
+    fun getAllFlushingMethods(project: Project): Pair<Set<PsiElement>, Set<PsiElement>> {
 
-  }
+        val result = mutableSetOf<PsiElement>()
+        val queue = mutableSetOf<PsiElement>()
+        val seeds = getFlushingMethods(project)
 
-  private fun getFunctionalParent(element: PsiElement): PsiElement? {
+        val scope = project.projectScope()
 
-    var parent = element.parent
+        queue.addAll(seeds)
 
-    while (parent != null) {
-      if (parent is PsiMethod || parent is KtFunction || parent is KtClassInitializer || parent is KtProperty || parent is KtPropertyAccessor) {
-        return parent
-      }
-      parent = parent.parent
+        while (queue.isNotEmpty()) {
+
+            val method = queue.first()
+            result.add(method)
+
+            var refs: Query<PsiReference>?
+
+            if (method is PsiMethod) {
+                refs = MethodReferencesSearch.search(method, scope, true)
+            } else {
+                refs = ReferencesSearch.search(method, scope)
+
+                (method.context as? KtProperty)?.let {
+                    queue.add(it)
+                }
+            }
+
+            refs?.let { refsNotNull ->
+                for (ref in refsNotNull) {
+                    if (!ref.isReferenceTo(method)) {
+                        continue // Workaround for https://youtrack.jetbrains.com/issue/IDEA-90019
+                    }
+                    if (
+                        ref.element.context is PsiMethodCallExpression
+                        || ref.element.context is KtProperty
+                        || ref.element.context is KtCallExpression
+                        || ref is SyntheticPropertyAccessorReference
+                    ) {
+                        val functionalParent = getFunctionalParent(ref.element)
+                        functionalParent?.let { parent ->
+                            if (!result.contains(parent)) {
+                                queue.add(parent)
+                            }
+                        }
+                    }
+                }
+            }
+
+            queue.remove(method)
+
+        }
+
+        return Pair(seeds, result)
+
     }
 
-    return null
+    private fun getFunctionalParent(element: PsiElement): PsiElement? {
 
-  }
+        var parent = element.parent
+
+        while (parent != null) {
+            if (parent is PsiMethod || parent is KtFunction || parent is KtClassInitializer || parent is KtProperty || parent is KtPropertyAccessor) {
+                return parent
+            }
+            parent = parent.parent
+        }
+
+        return null
+
+    }
 
 }

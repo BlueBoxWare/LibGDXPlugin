@@ -23,75 +23,75 @@ import org.jetbrains.kotlin.idea.search.allScope
  * limitations under the License.
  */
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
-class TestAssetUtils: LibGDXCodeInsightFixtureTestCase() {
+class TestAssetUtils : LibGDXCodeInsightFixtureTestCase() {
 
-  private var skinFile: VirtualFile? = null
-  private var atlasFile: VirtualFile? = null
+    private var skinFile: VirtualFile? = null
+    private var atlasFile: VirtualFile? = null
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    copyDirectoryToProject("assets/", "assets/")
+        copyDirectoryToProject("assets/", "assets/")
 
-    FilenameIndex.getVirtualFilesByName(project, "ui.json", project.allScope()).firstOrNull()?.let { file ->
-      skinFile = file
+        FilenameIndex.getVirtualFilesByName(project, "ui.json", project.allScope()).firstOrNull()?.let { file ->
+            skinFile = file
+        }
+
+        FilenameIndex.getVirtualFilesByName(project, "ui.atlas", project.allScope()).firstOrNull()?.let { file ->
+            atlasFile = file
+        }
+
+        assertNotNull(skinFile)
+        assertNotNull(atlasFile)
     }
 
-    FilenameIndex.getVirtualFilesByName(project, "ui.atlas", project.allScope()).firstOrNull()?.let { file ->
-      atlasFile = file
+    fun testgetAssociatedAtlas() {
+        assertEquals(skinFile!!.getAssociatedAtlas(), atlasFile!!)
     }
 
-    assertNotNull(skinFile)
-    assertNotNull(atlasFile)
-  }
-
-  fun testgetAssociatedAtlas() {
-    assertEquals(skinFile!!.getAssociatedAtlas(), atlasFile!!)
-  }
-
-  fun testgetAssociatedFiles() {
-    assertTrue(
+    fun testgetAssociatedFiles() {
+        assertTrue(
             skinFile!!
-                    .getAssociatedFiles()
-                    .map { it.name }
-                    .containsAll(listOf("somefile", "anotherfile", "ui.atlas"))
-    )
-  }
+                .getAssociatedFiles()
+                .map { it.name }
+                .containsAll(listOf("somefile", "anotherfile", "ui.atlas"))
+        )
+    }
 
-  fun testReadImageNamesFromAtlas() {
-    val imageNames = atlasFile!!.readImageNamesFromAtlas()
-    assertEquals(25, imageNames.size)
-    assertTrue(
+    fun testReadImageNamesFromAtlas() {
+        val imageNames = atlasFile!!.readImageNamesFromAtlas()
+        assertEquals(25, imageNames.size)
+        assertTrue(
             imageNames.containsAll(
-                    listOf(
-                            "check-off",
-                            "textfield",
-                            "check-on",
-                            "cursor",
-                            "default",
-                            "default-pane",
-                            "default-rect-pad",
-                            "default-pane-noborder",
-                            "default-rect",
-                            "default-rect-down",
-                            "default-round",
-                            "default-round-down",
-                            "default-round-large",
-                            "default-scroll",
-                            "default-select",
-                            "default-select-selection",
-                            "default-slider",
-                            "default-slider-knob",
-                            "default-splitpane",
-                            "default-splitpane-vertical",
-                            "default-window",
-                            "selection",
-                            "tree-minus",
-                            "tree-plus",
-                            "white"
-                    )
+                listOf(
+                    "check-off",
+                    "textfield",
+                    "check-on",
+                    "cursor",
+                    "default",
+                    "default-pane",
+                    "default-rect-pad",
+                    "default-pane-noborder",
+                    "default-rect",
+                    "default-rect-down",
+                    "default-round",
+                    "default-round-down",
+                    "default-round-large",
+                    "default-scroll",
+                    "default-select",
+                    "default-select-selection",
+                    "default-slider",
+                    "default-slider-knob",
+                    "default-splitpane",
+                    "default-splitpane-vertical",
+                    "default-window",
+                    "selection",
+                    "tree-minus",
+                    "tree-plus",
+                    "white"
+                )
             )
-    )
-  }
+        )
+    }
 
 }

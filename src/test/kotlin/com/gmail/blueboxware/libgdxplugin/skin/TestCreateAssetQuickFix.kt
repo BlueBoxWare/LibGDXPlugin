@@ -20,17 +20,17 @@ import com.gmail.blueboxware.libgdxplugin.testname
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
+class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() = doTest(
-          """
+    fun test1() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 default: foo<caret>
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 foo: { <caret>  }
@@ -38,10 +38,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test2() = doTest(
-          """
+    fun test2() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 bar: { }
@@ -49,7 +49,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 bar: { }
@@ -58,10 +58,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test3() = doTest(
-          """
+    fun test3() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
               }
@@ -73,7 +73,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
               }
@@ -86,17 +86,17 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test4() = doTest(
-          """
+    fun test4() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Button${"$"}ButtonStyle: {
                 f: { checked: fo<caret>o }
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: {
@@ -109,10 +109,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test5() = doTest(
-          """
+    fun test5() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: {
@@ -121,12 +121,12 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          "",
-          intentionShouldBeAvailable = false
-  )
+        "",
+        intentionShouldBeAvailable = false
+    )
 
-  fun test6() = doTest(
-          """
+    fun test6() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: {
@@ -135,7 +135,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.graphics.Color: {
                 foo: {
@@ -149,10 +149,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test7() = doTest(
-          """
+    fun test7() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: {
@@ -167,7 +167,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: {
@@ -185,29 +185,29 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test8() = doTest(
-          """
+    fun test8() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
                 foo: bar<caret>
               }
             }
           """.trimIndent(),
-          "",
-          intentionShouldBeAvailable = false
-  )
+        "",
+        intentionShouldBeAvailable = false
+    )
 
-  fun test991() = doTest(
-          """
+    fun test991() = doTest(
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 default: { parent: foo<caret> }
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
                 foo: { <caret>  }
@@ -215,10 +215,10 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test992() = doTest(
-          """
+    fun test992() = doTest(
+        """
             {
               TintedDrawable: {
                 foo: {
@@ -227,7 +227,7 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               Color: {
                 foo: {
@@ -241,46 +241,46 @@ class TestCreateAssetQuickFix: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun doTest(
-          test: String,
-          expectedResult: String,
-          intentionShouldBeAvailable: Boolean = true
-  ) {
+    fun doTest(
+        test: String,
+        expectedResult: String,
+        intentionShouldBeAvailable: Boolean = true
+    ) {
 
-    configureByText("skin.skin", test)
+        configureByText("skin.skin", test)
 
-    for (intention in myFixture.availableIntentions) {
-      if (intention.familyName.startsWith("Create resource")) {
-        if (!intentionShouldBeAvailable) {
-          throw AssertionError("Unexpected intention found")
+        for (intention in myFixture.availableIntentions) {
+            if (intention.familyName.startsWith("Create resource")) {
+                if (!intentionShouldBeAvailable) {
+                    throw AssertionError("Unexpected intention found")
+                }
+                myFixture.launchAction(intention)
+                myFixture.checkResult(expectedResult)
+                return
+            }
         }
-        myFixture.launchAction(intention)
-        myFixture.checkResult(expectedResult)
-        return
-      }
+
+        if (intentionShouldBeAvailable) {
+            throw AssertionError("Intention not found")
+        }
+
     }
 
-    if (intentionShouldBeAvailable) {
-      throw AssertionError("Intention not found")
+    override fun setUp() {
+        super.setUp()
+
+        addLibGDX()
+
+        if (testname().contains("99")) {
+            addDummyLibGDX199()
+        } else {
+            removeDummyLibGDX199()
+        }
+
+        myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
+
     }
-
-  }
-
-  override fun setUp() {
-    super.setUp()
-
-    addLibGDX()
-
-    if (testname().contains("99")) {
-      addDummyLibGDX199()
-    } else {
-      removeDummyLibGDX199()
-    }
-
-    myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)
-
-  }
 
 }

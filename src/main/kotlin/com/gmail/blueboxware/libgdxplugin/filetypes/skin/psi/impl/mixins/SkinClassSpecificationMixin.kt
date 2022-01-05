@@ -32,46 +32,46 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinClassSpecificationMixin(node: ASTNode): SkinClassSpecification, SkinElementImpl(node) {
+abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecification, SkinElementImpl(node) {
 
-  override fun getNameIdentifier(): SkinStringLiteral = className.stringLiteral
+    override fun getNameIdentifier(): SkinStringLiteral = className.stringLiteral
 
-  override fun getClassNameAsString(): DollarClassName = className.value
+    override fun getClassNameAsString(): DollarClassName = className.value
 
-  override fun resolveClass(): PsiClass? = className.resolve()
+    override fun resolveClass(): PsiClass? = className.resolve()
 
-  override fun setName(name: String): PsiElement? {
-    factory()?.createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
-      className.stringLiteral.replace(newClassName)
-      return newClassName
+    override fun setName(name: String): PsiElement? {
+        factory()?.createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
+            className.stringLiteral.replace(newClassName)
+            return newClassName
+        }
+
+        return null
     }
 
-    return null
-  }
+    override fun getResourcesAsList(): List<SkinResource> = resources?.resourceList ?: listOf()
 
-  override fun getResourcesAsList(): List<SkinResource> = resources?.resourceList ?: listOf()
-
-  override fun getResourcesAsList(beforeElement: PsiElement?): List<SkinResource> =
-          beforeElement?.let { beforeElementNotNull ->
+    override fun getResourcesAsList(beforeElement: PsiElement?): List<SkinResource> =
+        beforeElement?.let { beforeElementNotNull ->
             resourcesAsList.filter { it.endOffset < beforeElementNotNull.startOffset }
-          } ?: resourcesAsList
+        } ?: resourcesAsList
 
-  override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
+    override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
 
-  override fun getResource(name: String) = resources?.resourceList?.firstOrNull { it.name == name }
+    override fun getResource(name: String) = resources?.resourceList?.firstOrNull { it.name == name }
 
-  override fun getName() = nameIdentifier.value
+    override fun getName() = nameIdentifier.value
 
-  override fun addComment(comment: PsiComment) = addCommentExt(comment)
+    override fun addComment(comment: PsiComment) = addCommentExt(comment)
 
-  override fun getPresentation() = object: ItemPresentation {
-    override fun getLocationString(): String? = null
+    override fun getPresentation() = object : ItemPresentation {
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
+        override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-    override fun getPresentableText() = StringUtil.getShortName(name)
-  }
+        override fun getPresentableText() = StringUtil.getShortName(name)
+    }
 
-  override fun toString(): String = "SkinClassSpecification(${nameIdentifier.text})"
+    override fun toString(): String = "SkinClassSpecification(${nameIdentifier.text})"
 
 }

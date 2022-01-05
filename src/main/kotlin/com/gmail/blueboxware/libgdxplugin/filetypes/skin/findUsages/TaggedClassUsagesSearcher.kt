@@ -34,58 +34,62 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TaggedClassUsagesSearcher: QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
+class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
 
-  override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<in PsiReference>) {
+    override fun processQuery(
+        queryParameters: ReferencesSearch.SearchParameters,
+        consumer: Processor<in PsiReference>
+    ) {
 
-    val element = queryParameters.elementToSearch
+        val element = queryParameters.elementToSearch
 
-    if (element !is PsiClass && element !is KtClass) {
-      return
-    }
-
-    if (!element.project.isLibGDX199()) {
-      return
-    }
-
-    if (queryParameters.effectiveSearchScope is LocalSearchScope) {
-      return
-    }
-
-    val qualifiedName = when (element) {
-      is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
-      is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
-      else -> null
-    }
-
-    if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
-      return
-    }
-
-    ReadAction.run<Throwable> {
-      val tagsToFind = queryParameters.project.getSkinTag2ClassMapLazy()?.getTags(qualifiedName)?.filter { tag ->
-        StringUtil.getShortName(qualifiedName) != tag
-      } ?: return@run
-
-      if (tagsToFind.isEmpty()) {
-        return@run
-      }
-
-      val psiManager = PsiManager.getInstance(queryParameters.project)
-
-      FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, queryParameters.project.allScope()).forEach { virtualFile ->
-        (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
-          skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
-            if (classSpec.className.stringLiteral.value in tagsToFind) {
-              classSpec.className.references.forEach { reference ->
-                consumer.process(reference)
-              }
-            }
-          }
+        if (element !is PsiClass && element !is KtClass) {
+            return
         }
-      }
+
+        if (!element.project.isLibGDX199()) {
+            return
+        }
+
+        if (queryParameters.effectiveSearchScope is LocalSearchScope) {
+            return
+        }
+
+        val qualifiedName = when (element) {
+            is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
+            is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
+            else -> null
+        }
+
+        if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
+            return
+        }
+
+        ReadAction.run<Throwable> {
+            val tagsToFind = queryParameters.project.getSkinTag2ClassMapLazy()?.getTags(qualifiedName)?.filter { tag ->
+                StringUtil.getShortName(qualifiedName) != tag
+            } ?: return@run
+
+            if (tagsToFind.isEmpty()) {
+                return@run
+            }
+
+            val psiManager = PsiManager.getInstance(queryParameters.project)
+
+            FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, queryParameters.project.allScope())
+                .forEach { virtualFile ->
+                    (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
+                        skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
+                            if (classSpec.className.stringLiteral.value in tagsToFind) {
+                                classSpec.className.references.forEach { reference ->
+                                    consumer.process(reference)
+                                }
+                            }
+                        }
+                    }
+                }
+
+        }
 
     }
-
-  }
 }

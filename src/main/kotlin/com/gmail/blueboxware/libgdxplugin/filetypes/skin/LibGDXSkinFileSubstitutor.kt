@@ -21,18 +21,18 @@ import com.intellij.psi.LanguageSubstitutor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileSubstitutor: LanguageSubstitutor() {
+class LibGDXSkinFileSubstitutor : LanguageSubstitutor() {
 
-  override fun getLanguage(file: VirtualFile, project: Project): Language? {
+    override fun getLanguage(file: VirtualFile, project: Project): Language? {
 
-    val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return null
+        val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return null
 
-    if (skinFiles.contains(file)) {
-      return LibGDXSkinLanguage.INSTANCE
+        if (skinFiles.contains(file)) {
+            return LibGDXSkinLanguage.INSTANCE
+        }
+
+        return null
     }
-
-    return null
-  }
 
 
 }

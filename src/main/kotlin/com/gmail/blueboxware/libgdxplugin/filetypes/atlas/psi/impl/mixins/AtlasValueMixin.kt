@@ -24,27 +24,27 @@ import com.intellij.psi.PsiReference
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AtlasValueMixin(node: ASTNode): AtlasValue, AtlasElementImpl(node) {
+abstract class AtlasValueMixin(node: ASTNode) : AtlasValue, AtlasElementImpl(node) {
 
-  override fun getReference(): PsiReference? {
+    override fun getReference(): PsiReference? {
 
-    (parent as? AtlasPage)?.imageFile?.let { imageFile ->
+        (parent as? AtlasPage)?.imageFile?.let { imageFile ->
 
-      project.getProjectBaseDir()?.let { baseDir ->
+            project.getProjectBaseDir()?.let { baseDir ->
 
-        VfsUtilCore.getRelativePath(imageFile, baseDir)?.let { relativePath ->
+                VfsUtilCore.getRelativePath(imageFile, baseDir)?.let { relativePath ->
 
-          return FileReference(this, relativePath, listOf())
+                    return FileReference(this, relativePath, listOf())
+
+                }
+
+            }
 
         }
 
-      }
+        return null
 
     }
-
-    return null
-
-  }
 
 
 }

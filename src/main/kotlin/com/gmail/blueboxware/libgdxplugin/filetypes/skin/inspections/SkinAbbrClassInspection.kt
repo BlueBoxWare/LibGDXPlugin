@@ -33,62 +33,63 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinAbbrClassInspection: SkinBaseInspection() {
+class SkinAbbrClassInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.abbr.class.description")
+    override fun getStaticDescription() = message("skin.inspection.abbr.class.description")
 
-  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForObjectFix(id),
-                  SuppressForFileFix(id)
-          )
+    override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForObjectFix(id),
+            SuppressForFileFix(id)
+        )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
-          object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+        object : SkinElementVisitor() {
 
             override fun visitClassName(skinClassName: SkinClassName) {
 
-              if (!skinClassName.project.isLibGDX199()) {
-                return
-              }
+                if (!skinClassName.project.isLibGDX199()) {
+                    return
+                }
 
-              skinClassName
-                      .resolve()
-                      ?.let(::DollarClassName)
-                      ?.takeIf { it == skinClassName.value }
-                      ?.let { fqName ->
+                skinClassName
+                    .resolve()
+                    ?.let(::DollarClassName)
+                    ?.takeIf { it == skinClassName.value }
+                    ?.let { fqName ->
 
                         DEFAULT_TAGGED_CLASSES_NAMES.getKey(fqName.plainName)?.let { shortName ->
 
-                          holder.registerProblem(
-                                  skinClassName,
-                                  message("skin.inspection.abbr.class.message", shortName),
-                                  QuickFix(skinClassName, DollarClassName(shortName))
-                          )
+                            holder.registerProblem(
+                                skinClassName,
+                                message("skin.inspection.abbr.class.message", shortName),
+                                QuickFix(skinClassName, DollarClassName(shortName))
+                            )
 
                         }
 
-                      }
+                    }
 
             }
-          }
+        }
 
-  private class QuickFix(element: SkinClassName, val shortName: DollarClassName): LocalQuickFixOnPsiElement(element) {
+    private class QuickFix(element: SkinClassName, val shortName: DollarClassName) :
+        LocalQuickFixOnPsiElement(element) {
 
-    override fun getFamilyName(): String = FAMILY_NAME
+        override fun getFamilyName(): String = FAMILY_NAME
 
-    override fun getText(): String = familyName
+        override fun getText(): String = familyName
 
-    override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
-      (startElement as? SkinClassName)?.value = shortName
+        override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
+            (startElement as? SkinClassName)?.value = shortName
+        }
+
     }
 
-  }
+    companion object {
 
-  companion object {
+        const val FAMILY_NAME = "Change to short class name"
 
-    const val FAMILY_NAME = "Change to short class name"
-
-  }
+    }
 
 }

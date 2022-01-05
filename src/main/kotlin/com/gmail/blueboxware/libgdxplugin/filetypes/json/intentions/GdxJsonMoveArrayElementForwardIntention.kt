@@ -21,14 +21,14 @@ import com.intellij.openapi.editor.Editor
  * limitations under the License.
  */
 @Suppress("IntentionDescriptionNotFoundInspection")
-class GdxJsonMoveArrayElementForwardIntention: GdxJsonMoveArrayElementBaseIntention() {
+class GdxJsonMoveArrayElementForwardIntention : GdxJsonMoveArrayElementBaseIntention() {
 
-  override fun getFamilyName(): String = "Move array element forward"
+    override fun getFamilyName(): String = "Move array element forward"
 
-  override fun isAvailable(array: GdxJsonArray, index: Int): Boolean =
-          index < array.valueList.size - 1
+    override fun isAvailable(array: GdxJsonArray, index: Int): Boolean =
+        index < array.valueList.size - 1
 
-  override fun invoke(editor: Editor, array: GdxJsonArray, index: Int) =
-          array.switch(editor, index, index + 1) ?: Unit
+    override fun invoke(editor: Editor, array: GdxJsonArray, index: Int) =
+        array.switch(editor, index, index + 1) ?: Unit
 
 }

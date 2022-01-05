@@ -23,30 +23,30 @@ import com.intellij.psi.search.searches.ReferencesSearch
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TaggedClassImplicitUsageProvider: ImplicitUsageProvider {
+class TaggedClassImplicitUsageProvider : ImplicitUsageProvider {
 
-  override fun isImplicitUsage(element: PsiElement): Boolean {
+    override fun isImplicitUsage(element: PsiElement): Boolean {
 
-    if (element !is PsiClass || !element.project.isLibGDX199()) {
-      return false
-    }
+        if (element !is PsiClass || !element.project.isLibGDX199()) {
+            return false
+        }
 
-    val parameters =
+        val parameters =
             ReferencesSearch.SearchParameters(element, element.allScope(), true)
 
-    var found = false
+        var found = false
 
-    TaggedClassUsagesSearcher().execute(parameters) {
-      found = true
-      return@execute false
+        TaggedClassUsagesSearcher().execute(parameters) {
+            found = true
+            return@execute false
+        }
+
+        return found
+
     }
 
-    return found
+    override fun isImplicitRead(element: PsiElement): Boolean = false
 
-  }
-
-  override fun isImplicitRead(element: PsiElement): Boolean = false
-
-  override fun isImplicitWrite(element: PsiElement): Boolean = false
+    override fun isImplicitWrite(element: PsiElement): Boolean = false
 
 }

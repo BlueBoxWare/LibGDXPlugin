@@ -30,65 +30,65 @@ import kotlin.math.min
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonInvalidEscapeInspection: GdxJsonBaseInspection() {
+class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
 
-  override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
+    override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
 
-  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForFileFix(getShortID()),
-                  SuppressForObjectFix(getShortID()),
-                  SuppressForPropertyFix(getShortID()),
-                  SuppressForStringFix(getShortID())
-          )
+    override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForFileFix(getShortID()),
+            SuppressForObjectFix(getShortID()),
+            SuppressForPropertyFix(getShortID()),
+            SuppressForStringFix(getShortID())
+        )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
 
-          object: GdxJsonElementVisitor() {
+        object : GdxJsonElementVisitor() {
 
             override fun visitString(o: GdxJsonString) {
 
-              var i = 0
+                var i = 0
 
-              while (i < o.text.length - 1) {
+                while (i < o.text.length - 1) {
 
-                if (o.text[i] != '\\') {
-                  i++
-                  continue
+                    if (o.text[i] != '\\') {
+                        i++
+                        continue
+                    }
+
+                    val c = o.text[i + 1]
+
+                    if (c == 'u') {
+                        try {
+                            Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16))
+                        } catch (e: Exception) {
+                            val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length
+                            holder.registerProblem(
+                                o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message")
+                            )
+                        }
+                        i += 4
+                        continue
+                    } else {
+                        i++
+                    }
+
+                    if (c !in ESCAPABLE_CHARS) {
+                        holder.registerProblem(
+                            o, TextRange(i - 1, min(i + 1, o.text.length)),
+                            message("json.inspection.invalid.escape.message")
+                        )
+                    }
+
                 }
-
-                val c = o.text[i + 1]
-
-                if (c == 'u') {
-                  try {
-                    Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16))
-                  } catch (e: Exception) {
-                    val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length
-                    holder.registerProblem(
-                            o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message")
-                    )
-                  }
-                  i += 4
-                  continue
-                } else {
-                  i++
-                }
-
-                if (c !in ESCAPABLE_CHARS) {
-                  holder.registerProblem(
-                          o, TextRange(i - 1, min(i + 1, o.text.length)),
-                          message("json.inspection.invalid.escape.message")
-                  )
-                }
-
-              }
 
             }
 
-          }
+        }
 
-  companion object {
-    val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')
-  }
+    companion object {
+        val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')
+    }
 
 }

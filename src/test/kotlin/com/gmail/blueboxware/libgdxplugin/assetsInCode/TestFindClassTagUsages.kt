@@ -22,54 +22,54 @@ import junit.framework.TestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestFindClassTagUsages: LibGDXCodeInsightFixtureTestCase() {
+class TestFindClassTagUsages : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testJava() {
-    doTest("TaggedJavaClass.java", 3, "java2")
-  }
+    fun testJava() {
+        doTest("TaggedJavaClass.java", 3, "java2")
+    }
 
-  fun testKotlin() {
-    doTest("TaggedKotlinClass.kt", 3, "kotlin2")
-  }
+    fun testKotlin() {
+        doTest("TaggedKotlinClass.kt", 3, "kotlin2")
+    }
 
-  fun testDuplicateTags() {
-    doTest("DuplicateTags.kt", 3, "kotlin2")
-  }
+    fun testDuplicateTags() {
+        doTest("DuplicateTags.kt", 3, "kotlin2")
+    }
 
-  fun doTest(
-          filename: String,
-          numberOfUsagesToFind: Int,
-          tagName: String
-  ) {
+    fun doTest(
+        filename: String,
+        numberOfUsagesToFind: Int,
+        tagName: String
+    ) {
 
-    configureByFile(filename)
-    LibGDXTagUsageTargetProvider().getTargets(editor, file)?.firstOrNull()?.let { usageTarget ->
-      (usageTarget as? PsiElement2UsageTargetAdapter)?.element?.let { targetElement ->
-        val usages = myFixture.findUsages(targetElement)
-        TestCase.assertEquals(numberOfUsagesToFind, usages.size)
-        usages.forEach { usage ->
-          TestCase.assertEquals(tagName, (usage.element as? SkinClassName)?.value?.plainName)
+        configureByFile(filename)
+        LibGDXTagUsageTargetProvider().getTargets(editor, file)?.firstOrNull()?.let { usageTarget ->
+            (usageTarget as? PsiElement2UsageTargetAdapter)?.element?.let { targetElement ->
+                val usages = myFixture.findUsages(targetElement)
+                TestCase.assertEquals(numberOfUsagesToFind, usages.size)
+                usages.forEach { usage ->
+                    TestCase.assertEquals(tagName, (usage.element as? SkinClassName)?.value?.plainName)
+                }
+                return
+            }
         }
-        return
-      }
+
+        throw AssertionError()
+
     }
 
-    throw AssertionError()
+    override fun getBasePath() = "assetsInCode/findClassTagUsages"
 
-  }
+    override fun setUp() {
+        super.setUp()
 
-  override fun getBasePath() = "assetsInCode/findClassTagUsages"
+        addDummyLibGDX199()
+        addAnnotations()
 
-  override fun setUp() {
-    super.setUp()
+        listOf("skin1.skin", "skin2.skin").forEach {
+            copyFileToProject(it)
+        }
 
-    addDummyLibGDX199()
-    addAnnotations()
-
-    listOf("skin1.skin", "skin2.skin").forEach {
-      copyFileToProject(it)
     }
-
-  }
 
 }

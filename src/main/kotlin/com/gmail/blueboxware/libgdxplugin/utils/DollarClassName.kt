@@ -20,21 +20,21 @@ import com.intellij.psi.PsiClass
  */
 class DollarClassName(val dollarName: String) {
 
-  constructor(clazz: PsiClass): this(clazz.putDollarInInnerClassName())
+    constructor(clazz: PsiClass) : this(clazz.putDollarInInnerClassName())
 
-  val plainName = dollarName.replace('$', '.')
+    val plainName = dollarName.replace('$', '.')
 
-  companion object {
-    private fun PsiClass.putDollarInInnerClassName(): String =
+    companion object {
+        private fun PsiClass.putDollarInInnerClassName(): String =
             containingClass?.let {
-              it.putDollarInInnerClassName() + "$" + name
+                it.putDollarInInnerClassName() + "$" + name
             } ?: qualifiedName ?: ""
-  }
+    }
 
-  override fun equals(other: Any?): Boolean = dollarName == (other as? DollarClassName)?.dollarName
+    override fun equals(other: Any?): Boolean = dollarName == (other as? DollarClassName)?.dollarName
 
-  override fun hashCode(): Int = dollarName.hashCode()
+    override fun hashCode(): Int = dollarName.hashCode()
 
-  override fun toString(): String = plainName
+    override fun toString(): String = plainName
 
 }

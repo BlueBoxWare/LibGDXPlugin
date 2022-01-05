@@ -20,58 +20,58 @@ import com.intellij.spellchecker.inspections.SpellCheckingInspection
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestEditorFeatures: LibGDXCodeInsightFixtureTestCase() {
+class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testFolding1() {
-    myFixture.testFolding(testDataPath + "folding.skin")
-  }
+    fun testFolding1() {
+        myFixture.testFolding(testDataPath + "folding.skin")
+    }
 
-  fun testFolding2() {
-    myFixture.testFolding(testDataPath + "folding2.skin")
-  }
+    fun testFolding2() {
+        myFixture.testFolding(testDataPath + "folding2.skin")
+    }
 
-  fun testBreadcrumbs() {
-    configureByFile("breadcrumbs.skin")
-    assertOrderedEquals(
+    fun testBreadcrumbs() {
+        configureByFile("breadcrumbs.skin")
+        assertOrderedEquals(
             myFixture.breadcrumbsAtCaret.map { it.text },
             listOf(
-                    "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle",
-                    "green",
-                    "fontColor",
-                    "b"
+                "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle",
+                "green",
+                "fontColor",
+                "b"
             )
-    )
-  }
+        )
+    }
 
-  fun testSpellChecking() {
-    myFixture.enableInspections(SpellCheckingInspection::class.java)
-    configureByFile("spellChecking.skin")
-    myFixture.checkHighlighting(true, false, false)
-  }
+    fun testSpellChecking() {
+        myFixture.enableInspections(SpellCheckingInspection::class.java)
+        configureByFile("spellChecking.skin")
+        myFixture.checkHighlighting(true, false, false)
+    }
 
-  fun testComments() {
-    configureByFile("comments.skin")
-    val commentByLineAction = CommentByLineCommentAction()
-    commentByLineAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("lineComment.txt")
-    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    commentByLineAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("noComment.txt")
-    editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
-    editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
-    editor.caretModel.moveCaretRelatively(
+    fun testComments() {
+        configureByFile("comments.skin")
+        val commentByLineAction = CommentByLineCommentAction()
+        commentByLineAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("lineComment.txt")
+        editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+        commentByLineAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("noComment.txt")
+        editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
+        editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
+        editor.caretModel.moveCaretRelatively(
             editor.caretModel.visualLineEnd - 1,
             0,
             true,
             false,
             false
-    )
-    val blockCommentAction = CommentByBlockCommentAction()
-    blockCommentAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("blockComment.txt")
-    blockCommentAction.actionPerformedImpl(project, editor)
-    myFixture.checkResultByFile("noComment.txt")
-  }
+        )
+        val blockCommentAction = CommentByBlockCommentAction()
+        blockCommentAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("blockComment.txt")
+        blockCommentAction.actionPerformedImpl(project, editor)
+        myFixture.checkResultByFile("noComment.txt")
+    }
 
-  override fun getBasePath() = "/filetypes/skin/editor/"
+    override fun getBasePath() = "/filetypes/skin/editor/"
 }

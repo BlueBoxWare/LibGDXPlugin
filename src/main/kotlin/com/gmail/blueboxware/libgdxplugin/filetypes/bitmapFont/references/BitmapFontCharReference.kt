@@ -20,33 +20,33 @@ import com.intellij.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontCharReference<T: BitmapFontKerning>(element: T):
-        PsiReferenceBase<T>(element, element.textRange),
-        PsiPolyVariantReference {
+class BitmapFontCharReference<T : BitmapFontKerning>(element: T) :
+    PsiReferenceBase<T>(element, element.textRange),
+    PsiPolyVariantReference {
 
-  override fun getVariants(): Array<out Any> = arrayOf()
+    override fun getVariants(): Array<out Any> = arrayOf()
 
-  override fun resolve(): PsiElement? = null
+    override fun resolve(): PsiElement? = null
 
-  override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
+    override fun getRangeInElement(): TextRange = ElementManipulators.getValueTextRange(element)
 
-  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+    override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
 
-    val result = mutableListOf<ResolveResult>()
+        val result = mutableListOf<ResolveResult>()
 
-    element.getValue("first")?.toIntOrNull()?.let { id ->
-      (element.containingFile as? BitmapFontFile)?.getCharacter(id)?.let { ch ->
-        result.add(PsiElementResolveResult(ch))
-      }
+        element.getValue("first")?.toIntOrNull()?.let { id ->
+            (element.containingFile as? BitmapFontFile)?.getCharacter(id)?.let { ch ->
+                result.add(PsiElementResolveResult(ch))
+            }
+        }
+
+        element.getValue("second")?.toIntOrNull()?.let { id ->
+            (element.containingFile as? BitmapFontFile)?.getCharacter(id)?.let { ch ->
+                result.add(PsiElementResolveResult(ch))
+            }
+        }
+
+        return result.toTypedArray()
+
     }
-
-    element.getValue("second")?.toIntOrNull()?.let { id ->
-      (element.containingFile as? BitmapFontFile)?.getCharacter(id)?.let { ch ->
-        result.add(PsiElementResolveResult(ch))
-      }
-    }
-
-    return result.toTypedArray()
-
-  }
 }

@@ -71,49 +71,50 @@ class SkinTagsModificationTracker : SimpleModificationTracker() {
     }
 }
 
-internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue(KEY, SkinTagsModificationTracker.getInstance(this)) {
+internal fun Project.getSkinTag2ClassMap(): TagMap? =
+    getCachedValue(KEY, SkinTagsModificationTracker.getInstance(this)) {
 
-    if (isLibGDX199()) {
-        computeUnderProgressIfNecessary {
-            collectCustomTags().apply {
-                addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-                addAll(collectTagsFromAnnotations())
+        if (isLibGDX199()) {
+            computeUnderProgressIfNecessary {
+                collectCustomTags().apply {
+                    addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+                    addAll(collectTagsFromAnnotations())
+                }
             }
+        } else {
+            null
         }
-    } else {
-        null
+
     }
 
-}
-
 internal fun Project.getSkinTag2ClassMapLazy(): TagMap? =
-        getUserData(KEY)?.value ?: getSkinTag2ClassMap()
+    getUserData(KEY)?.value ?: getSkinTag2ClassMap()
 
 internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
-        "graphics.g2d.BitmapFont",
-        "graphics.Color",
-        "scenes.scene2d.ui.Skin.TintedDrawable",
-        "scene2d.utils.NinePatchDrawable",
-        "scenes.scene2d.utils.SpriteDrawable",
-        "scenes.scene2d.utils.TextureRegionDrawable",
-        "scenes.scene2d.utils.TiledDrawable",
-        "scenes.scene2d.ui.Button.ButtonStyle",
-        "scenes.scene2d.ui.CheckBox.CheckBoxStyle",
-        "scenes.scene2d.ui.ImageButton.ImageButtonStyle",
-        "scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle",
-        "scenes.scene2d.ui.Label.LabelStyle",
-        "scenes.scene2d.ui.List.ListStyle",
-        "scenes.scene2d.ui.ProgressBar.ProgressBarStyle",
-        "scenes.scene2d.ui.ScrollPane.ScrollPaneStyle",
-        "scenes.scene2d.ui.SelectBox.SelectBoxStyle",
-        "scenes.scene2d.ui.Slider.SliderStyle",
-        "scenes.scene2d.ui.SplitPane.SplitPaneStyle",
-        "scenes.scene2d.ui.TextButton.TextButtonStyle",
-        "scenes.scene2d.ui.TextField.TextFieldStyle",
-        "scenes.scene2d.ui.TextTooltip.TextTooltipStyle",
-        "scenes.scene2d.ui.Touchpad.TouchpadStyle",
-        "scenes.scene2d.ui.Tree.TreeStyle",
-        "scenes.scene2d.ui.Window.WindowStyle"
+    "graphics.g2d.BitmapFont",
+    "graphics.Color",
+    "scenes.scene2d.ui.Skin.TintedDrawable",
+    "scene2d.utils.NinePatchDrawable",
+    "scenes.scene2d.utils.SpriteDrawable",
+    "scenes.scene2d.utils.TextureRegionDrawable",
+    "scenes.scene2d.utils.TiledDrawable",
+    "scenes.scene2d.ui.Button.ButtonStyle",
+    "scenes.scene2d.ui.CheckBox.CheckBoxStyle",
+    "scenes.scene2d.ui.ImageButton.ImageButtonStyle",
+    "scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle",
+    "scenes.scene2d.ui.Label.LabelStyle",
+    "scenes.scene2d.ui.List.ListStyle",
+    "scenes.scene2d.ui.ProgressBar.ProgressBarStyle",
+    "scenes.scene2d.ui.ScrollPane.ScrollPaneStyle",
+    "scenes.scene2d.ui.SelectBox.SelectBoxStyle",
+    "scenes.scene2d.ui.Slider.SliderStyle",
+    "scenes.scene2d.ui.SplitPane.SplitPaneStyle",
+    "scenes.scene2d.ui.TextButton.TextButtonStyle",
+    "scenes.scene2d.ui.TextField.TextFieldStyle",
+    "scenes.scene2d.ui.TextTooltip.TextTooltipStyle",
+    "scenes.scene2d.ui.Touchpad.TouchpadStyle",
+    "scenes.scene2d.ui.Tree.TreeStyle",
+    "scenes.scene2d.ui.Window.WindowStyle"
 ).associate { StringUtil.getShortName(it) to "com.badlogic.gdx.$it" }
 
 private fun Project.collectCustomTags(): TagMap {
@@ -131,22 +132,23 @@ private fun Project.collectCustomTags(): TagMap {
                     (reference.element.context as? PsiMethodCallExpression)?.argumentList?.let { argumentsList ->
 
                         if (argumentsList.expressions.size == 2
-                                && argumentsList.expressionTypes.getOrNull(0)?.isStringType(reference.element) == true
-                                && argumentsList.expressionTypes.getOrNull(1) is PsiImmediateClassType) {
+                            && argumentsList.expressionTypes.getOrNull(0)?.isStringType(reference.element) == true
+                            && argumentsList.expressionTypes.getOrNull(1) is PsiImmediateClassType
+                        ) {
 
 
                             (argumentsList.expressions.getOrNull(0) as? PsiLiteralExpression)?.asString()?.let { tag ->
                                 (
                                         (argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)
-                                                ?.operand
-                                                ?.type as? PsiClassType
+                                            ?.operand
+                                            ?.type as? PsiClassType
                                         )
-                                        ?.resolve()
-                                        ?.let { clazz ->
-                                            clazz.qualifiedName?.let { fqName ->
-                                                tagMap.add(tag, fqName)
-                                            }
+                                    ?.resolve()
+                                    ?.let { clazz ->
+                                        clazz.qualifiedName?.let { fqName ->
+                                            tagMap.add(tag, fqName)
                                         }
+                                    }
                             }
 
                         }
@@ -155,24 +157,25 @@ private fun Project.collectCustomTags(): TagMap {
 
                     (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
 
-                        (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }
-                                ?.asPlainString()?.let { firstArgument ->
+                        (arguments.getOrNull(0)
+                            ?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }
+                            ?.asPlainString()?.let { firstArgument ->
 
-                                    arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
+                                arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
 
-                                        (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
-                                                ?.takeIf { it.isClassType }
-                                                ?.arguments
-                                                ?.firstOrNull()
-                                                ?.type
-                                                ?.fqName()
-                                                ?.let { fqName ->
-                                                    tagMap.add(firstArgument, fqName)
-                                                }
-
-                                    }
+                                    (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
+                                        ?.takeIf { it.isClassType }
+                                        ?.arguments
+                                        ?.firstOrNull()
+                                        ?.type
+                                        ?.fqName()
+                                        ?.let { fqName ->
+                                            tagMap.add(firstArgument, fqName)
+                                        }
 
                                 }
+
+                            }
 
                     }
 

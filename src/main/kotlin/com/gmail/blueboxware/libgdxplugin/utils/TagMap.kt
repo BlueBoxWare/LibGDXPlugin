@@ -18,31 +18,31 @@ package com.gmail.blueboxware.libgdxplugin.utils
  */
 class TagMap {
 
-  private val map = mutableMapOf<String, MutableList<String>>()
+    private val map = mutableMapOf<String, MutableList<String>>()
 
-  fun add(tagName: String, className: String) {
-    val entry = map[tagName]
+    fun add(tagName: String, className: String) {
+        val entry = map[tagName]
 
-    if (entry == null) {
-      map[tagName] = mutableListOf(className)
-    } else {
-      entry.add(className)
+        if (entry == null) {
+            map[tagName] = mutableListOf(className)
+        } else {
+            entry.add(className)
+        }
     }
-  }
 
-  fun addAll(tags: Collection<Pair<String, String>>) =
-          tags.forEach { (tagName, className) ->
+    fun addAll(tags: Collection<Pair<String, String>>) =
+        tags.forEach { (tagName, className) ->
             add(tagName, className)
-          }
+        }
 
-  fun addAll(tags: Map<String, String>) =
-          tags.forEach { (tagName, className) ->
+    fun addAll(tags: Map<String, String>) =
+        tags.forEach { (tagName, className) ->
             add(tagName, className)
-          }
+        }
 
-  fun getClassNames(tag: String): List<String>? = map[tag]
+    fun getClassNames(tag: String): List<String>? = map[tag]
 
-  fun getTags(className: String? = null): Set<String> =
-          map.filter { className == null || it.value.contains(className) }.keys
+    fun getTags(className: String? = null): Set<String> =
+        map.filter { className == null || it.value.contains(className) }.keys
 
 }

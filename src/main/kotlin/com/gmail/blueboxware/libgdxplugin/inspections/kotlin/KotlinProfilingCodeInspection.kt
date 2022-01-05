@@ -22,22 +22,22 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinProfilingCodeInspection: LibGDXKotlinBaseInspection() {
+class KotlinProfilingCodeInspection : LibGDXKotlinBaseInspection() {
 
-  override fun getStaticDescription() = message("profiling.code.html.description")
+    override fun getStaticDescription() = message("profiling.code.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: KtVisitorVoid() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : KtVisitorVoid() {
 
-    override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
+        override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-      val (className, methodName) = expression.resolveCallToStrings() ?: return
+            val (className, methodName) = expression.resolveCallToStrings() ?: return
 
-      if (isProfilingCall(className, methodName)) {
-        holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
-      }
+            if (isProfilingCall(className, methodName)) {
+                holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
+            }
+
+        }
 
     }
-    
-  }
 
 }

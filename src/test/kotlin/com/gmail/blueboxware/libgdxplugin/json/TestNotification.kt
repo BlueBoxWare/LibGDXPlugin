@@ -22,30 +22,30 @@ import com.intellij.openapi.components.ServiceManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestNotification: LibGDXCodeInsightFixtureTestCase() {
+class TestNotification : LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() = doTest(
-          "test.json",
-          true,
-          SKIN
-  )
+    fun test1() = doTest(
+        "test.json",
+        true,
+        SKIN
+    )
 
-  fun test2() = doTest(
-          "test.txt",
-          false,
-          SKIN
-  )
+    fun test2() = doTest(
+        "test.txt",
+        false,
+        SKIN
+    )
 
-  fun test3() = doTest(
-          "test.json",
-          false,
-          "{}"
-  )
+    fun test3() = doTest(
+        "test.json",
+        false,
+        "{}"
+    )
 
-  fun test4() = doTest(
-          "test.json",
-          true,
-          """
+    fun test4() = doTest(
+        "test.json",
+        true,
+        """
             {
               foo: "foo",
               foo: "foo",
@@ -55,12 +55,12 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               foo: "foo",
             }
           """.trimIndent()
-  )
+    )
 
-  fun test5() = doTest(
-          "test.json",
-          true,
-          """
+    fun test5() = doTest(
+        "test.json",
+        true,
+        """
             {
               "foo": foo,
               "foo": foo,
@@ -70,12 +70,12 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               "foo": foo,
             }
           """.trimIndent()
-  )
+    )
 
-  fun test6() = doTest(
-          "test.json",
-          false,
-          """
+    fun test6() = doTest(
+        "test.json",
+        false,
+        """
             {
               "foo": "foo",
               "foo": foo,
@@ -85,12 +85,12 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               "foo": foo,
             }
           """.trimIndent()
-  )
+    )
 
-  fun test7() = doTest(
-          "test.json",
-          true,
-          """
+    fun test7() = doTest(
+        "test.json",
+        true,
+        """
             {
               "foo": {
                 "bar": [
@@ -101,12 +101,12 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test8() = doTest(
-          "test.json",
-          false,
-          """
+    fun test8() = doTest(
+        "test.json",
+        false,
+        """
             {
               "foo": {
                 "bar": [
@@ -117,25 +117,25 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
 
-  fun doTest(fileName: String, expectedResult: Boolean, content: String) {
-    configureByText(fileName, content)
-    assertEquals(
+    fun doTest(fileName: String, expectedResult: Boolean, content: String) {
+        configureByText(fileName, content)
+        assertEquals(
             expectedResult,
             GdxJsonEditorNotificationProvider.showNotification(
-                    project,
-                    LanguageUtil.getLanguageForPsi(project, file.virtualFile),
-                    file.virtualFile,
-                    ServiceManager.getService(project, LibGDXPluginSettings::class.java)
+                project,
+                LanguageUtil.getLanguageForPsi(project, file.virtualFile),
+                file.virtualFile,
+                ServiceManager.getService(project, LibGDXPluginSettings::class.java)
             )
-    )
-  }
+        )
+    }
 
-  companion object {
+    companion object {
 
-    val SKIN = """
+        val SKIN = """
               {
                 com.badlogic.gdx.graphics.Color: {
                   white: { r: 1, g: 1, b: 1, a: 1 },
@@ -162,6 +162,6 @@ class TestNotification: LibGDXCodeInsightFixtureTestCase() {
               }
     """.trimIndent()
 
-  }
+    }
 
 }

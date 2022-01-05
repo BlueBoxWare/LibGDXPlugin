@@ -21,25 +21,25 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiNewExpression
 
-class JavaShapeRenderer64BitCrashInspection: LibGDXJavaBaseInspection() {
+class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
+    override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitNewExpression(expression: PsiNewExpression?) {
-      super.visitNewExpression(expression)
+        override fun visitNewExpression(expression: PsiNewExpression?) {
+            super.visitNewExpression(expression)
 
-      if (expression == null) return
+            if (expression == null) return
 
-      if (expression.classReference?.qualifiedName == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
+            if (expression.classReference?.qualifiedName == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 
-        if (isProblematicGDXVersionFor64Bit(expression.project)) {
-          holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+                if (isProblematicGDXVersionFor64Bit(expression.project)) {
+                    holder.registerProblem(expression, message("shaperenderer.64bit.crash.problem.descriptor"))
+                }
+            }
+
         }
-      }
-
     }
-  }
 }
 

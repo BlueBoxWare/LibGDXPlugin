@@ -20,20 +20,20 @@ import com.intellij.psi.ResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinJavaFieldReference(element: SkinPropertyName): SkinReference<SkinPropertyName>(element) {
+class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinPropertyName>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-    element.property?.resolveToField()?.let { field ->
-      return arrayOf(PsiElementResolveResult(field))
+    override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
+        element.property?.resolveToField()?.let { field ->
+            return arrayOf(PsiElementResolveResult(field))
+        }
+
+        return ResolveResult.EMPTY_ARRAY
     }
 
-    return ResolveResult.EMPTY_ARRAY
-  }
-
-  override fun handleElementRename(newElementName: String): PsiElement {
-    element.stringLiteral.let { stringLiteral ->
-      newElementName.let(stringLiteral::setValue)
-      return element
+    override fun handleElementRename(newElementName: String): PsiElement {
+        element.stringLiteral.let { stringLiteral ->
+            newElementName.let(stringLiteral::setValue)
+            return element
+        }
     }
-  }
 }

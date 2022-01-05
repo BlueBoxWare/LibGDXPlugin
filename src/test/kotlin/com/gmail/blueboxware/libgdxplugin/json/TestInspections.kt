@@ -24,52 +24,52 @@ import com.intellij.codeInspection.LocalInspectionTool
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestInspections: LibGDXCodeInsightFixtureTestCase() {
+class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testInvalidEscapesInspection() {
-    doFileTest(LibGDXJsonInvalidEscapeInspection())
-  }
+    fun testInvalidEscapesInspection() {
+        doFileTest(LibGDXJsonInvalidEscapeInspection())
+    }
 
-  fun testDuplicatePropertyInspection() {
-    doFileTest(LibGDXDuplicatePropertyInspection())
-  }
+    fun testDuplicatePropertyInspection() {
+        doFileTest(LibGDXDuplicatePropertyInspection())
+    }
 
-  fun testToplevelInspection1() = doCodeTest(
-          LibGDXTopLevelValueInspection(),
-          "<weak_warning></weak_warning>"
-  )
+    fun testToplevelInspection1() = doCodeTest(
+        LibGDXTopLevelValueInspection(),
+        "<weak_warning></weak_warning>"
+    )
 
-  fun testToplevelInspection2() = doCodeTest(
-          LibGDXTopLevelValueInspection(),
-          "\n// foo \n\n/* */ {} /* */\n//\n"
-  )
+    fun testToplevelInspection2() = doCodeTest(
+        LibGDXTopLevelValueInspection(),
+        "\n// foo \n\n/* */ {} /* */\n//\n"
+    )
 
-  fun testToplevelInspection3() = doCodeTest(
-          LibGDXTopLevelValueInspection(),
-          "// \n /* */ <weak_warning>[]</weak_warning>"
-  )
+    fun testToplevelInspection3() = doCodeTest(
+        LibGDXTopLevelValueInspection(),
+        "// \n /* */ <weak_warning>[]</weak_warning>"
+    )
 
-  fun testToplevelInspection4() = doCodeTest(
-          LibGDXTopLevelValueInspection(),
-          "\n<weak_warning>foo</weak_warning>\n"
-  )
+    fun testToplevelInspection4() = doCodeTest(
+        LibGDXTopLevelValueInspection(),
+        "\n<weak_warning>foo</weak_warning>\n"
+    )
 
-  fun testToplevelInspection5() = doCodeTest(
-          LibGDXTopLevelValueInspection(),
-          "//noinspection GDXToplevel \n[]"
-  )
+    fun testToplevelInspection5() = doCodeTest(
+        LibGDXTopLevelValueInspection(),
+        "//noinspection GDXToplevel \n[]"
+    )
 
-  private fun doFileTest(inspection: LocalInspectionTool) {
-    myFixture.enableInspections(inspection::class.java)
-    myFixture.testHighlighting(true, false, true, testname() + ".lson")
-  }
+    private fun doFileTest(inspection: LocalInspectionTool) {
+        myFixture.enableInspections(inspection::class.java)
+        myFixture.testHighlighting(true, false, true, testname() + ".lson")
+    }
 
-  private fun doCodeTest(inspection: LocalInspectionTool, text: String) {
-    myFixture.enableInspections(inspection::class.java)
-    myFixture.configureByText(LibGDXJsonFileType.INSTANCE, text)
-    myFixture.checkHighlighting(true, false, true)
-  }
+    private fun doCodeTest(inspection: LocalInspectionTool, text: String) {
+        myFixture.enableInspections(inspection::class.java)
+        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, text)
+        myFixture.checkHighlighting(true, false, true)
+    }
 
-  override fun getBasePath() = "/filetypes/json/inspections/"
+    override fun getBasePath() = "/filetypes/json/inspections/"
 
 }

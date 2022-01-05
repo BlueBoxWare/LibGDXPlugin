@@ -27,79 +27,81 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXCompletionConfidence: CompletionConfidence() {
+class LibGDXCompletionConfidence : CompletionConfidence() {
 
-  override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState {
+    override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState {
 
-    if (!contextElement.project.isLibGDXProject()) {
-      return ThreeState.UNSURE
-    }
+        if (!contextElement.project.isLibGDXProject()) {
+            return ThreeState.UNSURE
+        }
 
-    if (psiFile.fileType == JavaFileType.INSTANCE) {
+        if (psiFile.fileType == JavaFileType.INSTANCE) {
 
-      if (contextElement.parent is PsiLiteralExpression) {
+            if (contextElement.parent is PsiLiteralExpression) {
 
-        (contextElement.parent.parent.parent as? PsiMethodCallExpression)?.let { methodCall ->
-          // Colors.get() and Colors.getColors().get()
-          if (methodCall.isColorsGetCall()) {
-            return ThreeState.NO
-          } else {
-            val (clazz, method) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
+                (contextElement.parent.parent.parent as? PsiMethodCallExpression)?.let { methodCall ->
+                    // Colors.get() and Colors.getColors().get()
+                    if (methodCall.isColorsGetCall()) {
+                        return ThreeState.NO
+                    } else {
+                        val (clazz, method) = methodCall.resolveCallToStrings() ?: return ThreeState.UNSURE
 
-            if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
-              // Skin.*() and TextureAtlas.*()
-              return ThreeState.NO
-            } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
-              // I18NBundle.get()
-              return ThreeState.NO
+                        if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
+                            // Skin.*() and TextureAtlas.*()
+                            return ThreeState.NO
+                        } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
+                            // I18NBundle.get()
+                            return ThreeState.NO
+                        }
+
+                    }
+                }
+
+                // GDXAssets annotation
+                contextElement.getParentOfType<PsiAnnotation>()?.let { annotation ->
+                    if (annotation.qualifiedName == ASSET_ANNOTATION_NAME) {
+                        return ThreeState.NO
+                    }
+                }
             }
 
-          }
-        }
+        } else if (psiFile.fileType == KotlinFileType.INSTANCE) {
 
-        // GDXAssets annotation
-        contextElement.getParentOfType<PsiAnnotation>()?.let { annotation ->
-          if (annotation.qualifiedName == ASSET_ANNOTATION_NAME) {
-            return ThreeState.NO
-          }
-        }
-      }
+            if (contextElement.parent.parent is KtStringTemplateExpression) {
 
-    } else if (psiFile.fileType == KotlinFileType.INSTANCE) {
+                (contextElement.parent.parent.parent.parent.parent as? KtCallExpression)?.let { call ->
 
-      if (contextElement.parent.parent is KtStringTemplateExpression) {
+                    if (call.isColorsGetCall()) {
+                        // Colors.get() and Colors.getColors().get()
+                        return ThreeState.NO
+                    } else {
+                        call.resolveCallToStrings()?.let { (clazz, method) ->
 
-        (contextElement.parent.parent.parent.parent.parent as? KtCallExpression)?.let { call ->
+                            if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
+                                // Skin.*() and TextureAtlas.*()
+                                return ThreeState.NO
+                            } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
+                                // I18NBundle.get()
+                                return ThreeState.NO
+                            }
+                        }
 
-          if (call.isColorsGetCall()) {
-            // Colors.get() and Colors.getColors().get()
-            return ThreeState.NO
-          } else {
-            call.resolveCallToStrings()?.let { (clazz, method) ->
+                    }
 
-              if (clazz == SKIN_CLASS_NAME || clazz == TEXTURE_ATLAS_CLASS_NAME) {
-                // Skin.*() and TextureAtlas.*()
-                return ThreeState.NO
-              } else if (clazz == I18NBUNDLE_CLASS_NAME && method == "get") {
-                // I18NBundle.get()
-                return ThreeState.NO
-              }
+                    // GDXAssets annotation
+                    if (call.getParentOfType<KtAnnotationEntry>()
+                            ?.toLightAnnotation()?.qualifiedName == ASSET_ANNOTATION_NAME
+                    ) {
+                        return ThreeState.NO
+                    }
+                }
+
             }
 
-          }
-
-          // GDXAssets annotation
-          if (call.getParentOfType<KtAnnotationEntry>()?.toLightAnnotation()?.qualifiedName == ASSET_ANNOTATION_NAME) {
-            return ThreeState.NO
-          }
         }
 
-      }
+        return ThreeState.UNSURE
 
     }
-
-    return ThreeState.UNSURE
-
-  }
 
 }

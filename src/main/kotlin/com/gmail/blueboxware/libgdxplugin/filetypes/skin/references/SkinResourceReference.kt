@@ -27,90 +27,91 @@ import com.intellij.psi.impl.source.resolve.ResolveCache
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinResourceReference(element: SkinStringLiteral): SkinReference<SkinStringLiteral>(element) {
+class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStringLiteral>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
-          ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
+    override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
+        ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
-  override fun handleElementRename(newElementName: String): PsiElement {
-    newElementName.let(element::setValue)
-    return element
-  }
+    override fun handleElementRename(newElementName: String): PsiElement {
+        newElementName.let(element::setValue)
+        return element
+    }
 
-  class Resolver: ResolveCache.PolyVariantResolver<SkinResourceReference> {
+    class Resolver : ResolveCache.PolyVariantResolver<SkinResourceReference> {
 
-    override fun resolve(resourceReference: SkinResourceReference, incompleteCode: Boolean): Array<ResolveResult> {
+        override fun resolve(resourceReference: SkinResourceReference, incompleteCode: Boolean): Array<ResolveResult> {
 
-      val result = mutableListOf<PsiElementResolveResult>()
-      val element = resourceReference.element
+            val result = mutableListOf<PsiElementResolveResult>()
+            val element = resourceReference.element
 
-      element.resolveToType()?.let { valueType ->
+            element.resolveToType()?.let { valueType ->
 
-        if (valueType.canonicalText == TINTED_DRAWABLE_CLASS_NAME && element.parent is SkinResource) {
-          // Aliases for TintedDrawables are not allowed
-          return PsiElementResolveResult.EMPTY_ARRAY
-        }
-
-        val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
-
-        val isTintedDrawableNameProperty =
-                element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
-                        && element.property?.containingObject?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
-        val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
-        val isFreeTypeFontGeneratorEnum = element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
-                && (valueType as? PsiClassType)?.resolve()?.isEnum == true
-
-        if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
-          skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
-            result.add(PsiElementResolveResult(it))
-          }
-        } else if (isFreeTypeFontGeneratorEnum) {
-          (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
-            clazz.findFieldByName(element.value, false)?.navigationElement?.let {
-              result.add(PsiElementResolveResult(it))
-            }
-          }
-        } else {
-          (valueType as? PsiClassType)?.resolve()?.let { psiClass ->
-            (element.containingFile as? SkinFile)?.getResources(
-                    psiClass,
-                    element.value,
-                    element,
-                    isParentProperty
-            )?.forEach {
-              result.add(PsiElementResolveResult(it))
-            }
-          }
-        }
-
-        if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
-          element.containingFile.virtualFile?.let { virtualFile ->
-            virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
-              (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->
-                atlasFile.getPages().forEach { page ->
-                  page.regionList.forEach { region ->
-                    if (region.name == element.value) {
-                      result.add(PsiElementResolveResult(region))
-                    }
-                  }
+                if (valueType.canonicalText == TINTED_DRAWABLE_CLASS_NAME && element.parent is SkinResource) {
+                    // Aliases for TintedDrawables are not allowed
+                    return PsiElementResolveResult.EMPTY_ARRAY
                 }
-              }
+
+                val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
+
+                val isTintedDrawableNameProperty =
+                    element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
+                            && element.property?.containingObject?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
+                val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
+                val isFreeTypeFontGeneratorEnum =
+                    element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
+                            && (valueType as? PsiClassType)?.resolve()?.isEnum == true
+
+                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
+                        result.add(PsiElementResolveResult(it))
+                    }
+                } else if (isFreeTypeFontGeneratorEnum) {
+                    (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
+                        clazz.findFieldByName(element.value, false)?.navigationElement?.let {
+                            result.add(PsiElementResolveResult(it))
+                        }
+                    }
+                } else {
+                    (valueType as? PsiClassType)?.resolve()?.let { psiClass ->
+                        (element.containingFile as? SkinFile)?.getResources(
+                            psiClass,
+                            element.value,
+                            element,
+                            isParentProperty
+                        )?.forEach {
+                            result.add(PsiElementResolveResult(it))
+                        }
+                    }
+                }
+
+                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+                    element.containingFile.virtualFile?.let { virtualFile ->
+                        virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
+                            (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->
+                                atlasFile.getPages().forEach { page ->
+                                    page.regionList.forEach { region ->
+                                        if (region.name == element.value) {
+                                            result.add(PsiElementResolveResult(region))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
-          }
+
+            return result.toTypedArray()
+
         }
-
-      }
-
-      return result.toTypedArray()
 
     }
 
-  }
+    companion object {
 
-  companion object {
+        val RESOLVER = Resolver()
 
-    val RESOLVER = Resolver()
-
-  }
+    }
 
 }

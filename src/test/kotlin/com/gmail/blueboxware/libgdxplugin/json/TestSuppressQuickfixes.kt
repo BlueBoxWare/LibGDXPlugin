@@ -21,76 +21,76 @@ import com.gmail.blueboxware.libgdxplugin.message
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
+class TestSuppressQuickfixes : LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() = doTest(
-          message("suppress.object"),
-          """
+    fun test1() = doTest(
+        message("suppress.object"),
+        """
             {
               <caret>a: a
               a: b
             }
           """.trimIndent(),
-          """
+        """
             //noinspection GDXJsonDuplicateProperty
             {
               a: a
               a: b
             }
           """.trimIndent()
-  )
+    )
 
-  fun test2() = doTest(
-          message("suppress.file"),
-          """
+    fun test2() = doTest(
+        message("suppress.file"),
+        """
             {
               <caret>a: a
               a: b
             }
           """.trimIndent(),
-          """
+        """
             //noinspection GDXJsonDuplicateProperty
             {
               a: a
               a: b
             }
           """.trimIndent()
-  )
+    )
 
-  fun test3() = doTest(
-          message("suppress.object"),
-          """
+    fun test3() = doTest(
+        message("suppress.object"),
+        """
             {
               a: [{a: 1}, {a: a, <caret>a: b}]
             }
           """.trimIndent(),
-          """
+        """
             {
               a: [{a: 1},
                   //noinspection GDXJsonDuplicateProperty
                   {a: a, a: b}]
             }
           """.trimIndent()
-  )
+    )
 
-  fun test4() = doTest(
-          message("suppress.file"),
-          """
+    fun test4() = doTest(
+        message("suppress.file"),
+        """
             {
               a: [{a: 1}, {a: a, <caret>a: b}]
             }
           """.trimIndent(),
-          """
+        """
             //noinspection GDXJsonDuplicateProperty
             {
               a: [{a: 1}, {a: a, a: b}]
             }
           """.trimIndent()
-  )
+    )
 
-  fun test5() = doTest(
-          message("suppress.file"),
-          """
+    fun test5() = doTest(
+        message("suppress.file"),
+        """
             // Comment
             /* Comment */
 
@@ -100,7 +100,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               a: [{a: 1}, {a: a, <caret>a: b}]
             }
           """.trimIndent(),
-          """
+        """
             //noinspection GDXJsonDuplicateProperty
             // Comment
             /* Comment */
@@ -111,11 +111,11 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               a: [{a: 1}, {a: a, a: b}]
             }
           """.trimIndent()
-  )
+    )
 
-  fun test6() = doTest(
-          message("suppress.object"),
-          """
+    fun test6() = doTest(
+        message("suppress.object"),
+        """
             // Comment
             /* Comment */
 
@@ -131,7 +131,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               ]
             }
           """.trimIndent(),
-          """
+        """
             // Comment
             /* Comment */
 
@@ -148,11 +148,11 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               ]
             }
           """.trimIndent()
-  )
+    )
 
-  fun test7() = doTest(
-          message("suppress.object"),
-          """
+    fun test7() = doTest(
+        message("suppress.object"),
+        """
             {
               a: [
                 {a: 1},
@@ -162,7 +162,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               ]
             }
           """.trimIndent(),
-          """
+        """
             {
               a: [
                 {a: 1},
@@ -174,18 +174,18 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               ]
             }
           """.trimIndent()
-  )
+    )
 
-  fun test8() = doTest(
-          message("suppress.property"),
-          """
+    fun test8() = doTest(
+        message("suppress.property"),
+        """
             {
               a: a
               <caret>a: b
               a: c
             }
           """.trimIndent(),
-          """
+        """
             {
               a: a
                 //noinspection GDXJsonDuplicateProperty
@@ -193,18 +193,18 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               a: c
             }
           """.trimIndent()
-  )
+    )
 
-  fun test9() = doTest(
-          message("suppress.property"),
-          """
+    fun test9() = doTest(
+        message("suppress.property"),
+        """
             {
               foo: {
                 a: a, /* c */ <caret>a: b, a: c
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               foo: {
                 a: a, /* c */
@@ -213,11 +213,11 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test10() = doTest(
-          message("suppress.property"),
-          """
+    fun test10() = doTest(
+        message("suppress.property"),
+        """
             {
               foo: {
                 a: a, //
@@ -225,7 +225,7 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-          """
+        """
             {
               foo: {
                 a: a, //
@@ -234,18 +234,18 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-  )
+    )
 
-  fun test11() = doTest(
-          message("suppress.string"),
-          """
+    fun test11() = doTest(
+        message("suppress.string"),
+        """
            {
             a: [
               <caret>\e
             ],
           }
           """.trimIndent(),
-          """
+        """
            {
             a: [
               //noinspection GDXInvalidEscape
@@ -253,24 +253,24 @@ class TestSuppressQuickfixes: LibGDXCodeInsightFixtureTestCase() {
             ],
           }
           """.trimIndent()
-  )
-
-
-  fun doTest(familyName: String, content: String, expectedResult: String) {
-    myFixture.enableInspections(
-            LibGDXDuplicatePropertyInspection::class.java, LibGDXJsonInvalidEscapeInspection::class.java
     )
-    configureByText("test.lson", content)
-    for (intention in myFixture.availableIntentions) {
-      if (intention.familyName == familyName) {
-        myFixture.launchAction(intention)
-      }
+
+
+    fun doTest(familyName: String, content: String, expectedResult: String) {
+        myFixture.enableInspections(
+            LibGDXDuplicatePropertyInspection::class.java, LibGDXJsonInvalidEscapeInspection::class.java
+        )
+        configureByText("test.lson", content)
+        for (intention in myFixture.availableIntentions) {
+            if (intention.familyName == familyName) {
+                myFixture.launchAction(intention)
+            }
+        }
+
+        myFixture.checkResult(expectedResult)
+
     }
 
-    myFixture.checkResult(expectedResult)
-
-  }
-
-  override fun getBasePath() = "filetypes/json/suppressQuickfixes"
+    override fun getBasePath() = "filetypes/json/suppressQuickfixes"
 
 }

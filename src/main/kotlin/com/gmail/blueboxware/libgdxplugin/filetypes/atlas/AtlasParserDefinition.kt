@@ -24,30 +24,31 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasParserDefinition: ParserDefinition {
+class AtlasParserDefinition : ParserDefinition {
 
-  companion object {
+    companion object {
 
-    val FILE = IFileElementType(LibGDXAtlasLanguage.INSTANCE)
-    val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
+        val FILE = IFileElementType(LibGDXAtlasLanguage.INSTANCE)
+        val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
 
-  }
+    }
 
-  override fun createParser(project: Project?) = AtlasParser()
+    override fun createParser(project: Project?) = AtlasParser()
 
-  override fun createFile(viewProvider: FileViewProvider) = AtlasFile(viewProvider)
+    override fun createFile(viewProvider: FileViewProvider) = AtlasFile(viewProvider)
 
-  override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) = ParserDefinition.SpaceRequirements.MAY
+    override fun spaceExistenceTypeBetweenTokens(left: ASTNode?, right: ASTNode?) =
+        ParserDefinition.SpaceRequirements.MAY
 
-  override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-  override fun getFileNodeType() = FILE
+    override fun getFileNodeType() = FILE
 
-  override fun getWhitespaceTokens() = WHITE_SPACES
+    override fun getWhitespaceTokens() = WHITE_SPACES
 
-  override fun createLexer(project: Project?) = AtlasLexer()
+    override fun createLexer(project: Project?) = AtlasLexer()
 
-  override fun createElement(node: ASTNode?): PsiElement = AtlasElementTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = AtlasElementTypes.Factory.createElement(node)
 
-  override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
+    override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 }

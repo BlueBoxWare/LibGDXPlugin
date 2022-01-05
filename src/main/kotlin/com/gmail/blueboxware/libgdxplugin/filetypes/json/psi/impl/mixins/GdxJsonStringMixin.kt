@@ -23,36 +23,36 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonStringMixin(node: ASTNode): GdxJsonString, GdxJsonElementImpl(node) {
+abstract class GdxJsonStringMixin(node: ASTNode) : GdxJsonString, GdxJsonElementImpl(node) {
 
-  override fun isQuoted(): Boolean = text.length > 1 && text.first() == '"' && text.last() == '"'
+    override fun isQuoted(): Boolean = text.length > 1 && text.first() == '"' && text.last() == '"'
 
-  override fun getValue(): String =
-          if (isQuoted) {
+    override fun getValue(): String =
+        if (isQuoted) {
             text.substring(1, text.length - 1)
-          } else {
+        } else {
             text
-          }
+        }
 
-  override fun toFloatOrNull(): Float? = getValue().toFloatOrNull()
+    override fun toFloatOrNull(): Float? = getValue().toFloatOrNull()
 
-  override fun isKeyword(): Boolean = !isQuoted && getValue() in KEYWORDS
+    override fun isKeyword(): Boolean = !isQuoted && getValue() in KEYWORDS
 
-  override fun isNumber(): Boolean =
-          getValue().toFloatOrNull() != null || getValue().toLongOrNull() != null
+    override fun isNumber(): Boolean =
+        getValue().toFloatOrNull() != null || getValue().toLongOrNull() != null
 
-  override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
+    override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
 
-    override fun getLocationString(): String? = null
+        override fun getLocationString(): String? = null
 
-    override fun getIcon(unused: Boolean): Icon? = null
+        override fun getIcon(unused: Boolean): Icon? = null
 
-    override fun getPresentableText(): String = StringUtil.unescapeStringCharacters(getValue())
+        override fun getPresentableText(): String = StringUtil.unescapeStringCharacters(getValue())
 
-  }
+    }
 
-  companion object {
-    val KEYWORDS = listOf("null", "true", "false")
-  }
+    companion object {
+        val KEYWORDS = listOf("null", "true", "false")
+    }
 
 }

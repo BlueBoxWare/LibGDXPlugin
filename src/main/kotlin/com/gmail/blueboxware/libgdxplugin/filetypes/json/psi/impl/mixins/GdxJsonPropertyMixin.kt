@@ -31,30 +31,30 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class GdxJsonPropertyMixin(node: ASTNode): GdxJsonProperty, GdxJsonElementImpl(node) {
+abstract class GdxJsonPropertyMixin(node: ASTNode) : GdxJsonProperty, GdxJsonElementImpl(node) {
 
-  override fun getName(): String? = propertyName.getValue()
+    override fun getName(): String? = propertyName.getValue()
 
-  override fun setName(name: String): PsiElement? =
-          GdxJsonElementFactory(project).createPropertyName(name, propertyName.isQuoted)?.let {
+    override fun setName(name: String): PsiElement? =
+        GdxJsonElementFactory(project).createPropertyName(name, propertyName.isQuoted)?.let {
             propertyName.replace(it)
-          }
+        }
 
-  override fun getReference(): PsiReference? = GdxJsonPropertyNameReference(this)
+    override fun getReference(): PsiReference? = GdxJsonPropertyNameReference(this)
 
-  override fun getPresentation(): ItemPresentation? = object: ItemPresentation {
+    override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
 
-    override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.getValue()
+        override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.getValue()
 
-    override fun getIcon(unused: Boolean): Icon? =
+        override fun getIcon(unused: Boolean): Icon? =
             when (value?.value) {
-              is GdxJsonArray -> AllIcons.Json.Array
-              is GdxJsonJobject -> AllIcons.Json.Object
-              else -> PlatformIcons.PROPERTY_ICON
+                is GdxJsonArray -> AllIcons.Json.Array
+                is GdxJsonJobject -> AllIcons.Json.Object
+                else -> PlatformIcons.PROPERTY_ICON
             }
 
-    override fun getPresentableText(): String? = name
+        override fun getPresentableText(): String? = name
 
-  }
+    }
 
 }

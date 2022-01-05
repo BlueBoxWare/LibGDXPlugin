@@ -23,25 +23,25 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiMethodCallExpression
 
 
-class JavaProfilingCodeInspection: LibGDXJavaBaseInspection() {
+class JavaProfilingCodeInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("profiling.code.html.description")
+    override fun getStaticDescription() = message("profiling.code.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-    override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
-      super.visitMethodCallExpression(expression)
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+            super.visitMethodCallExpression(expression)
 
-      if (expression == null) return
+            if (expression == null) return
 
-      val (receiverClass, method) = expression.resolveCall() ?: return
-      val className = receiverClass.qualifiedName ?: return
+            val (receiverClass, method) = expression.resolveCall() ?: return
+            val className = receiverClass.qualifiedName ?: return
 
-      if (isProfilingCall(className, method.name)) {
-        holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
-      }
+            if (isProfilingCall(className, method.name)) {
+                holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
+            }
+        }
+
     }
-
-  }
 
 }

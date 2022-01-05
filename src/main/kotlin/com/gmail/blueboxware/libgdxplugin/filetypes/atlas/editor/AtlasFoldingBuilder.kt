@@ -28,54 +28,54 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class AtlasFoldingBuilder: FoldingBuilder, DumbAware {
+class AtlasFoldingBuilder : FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String {
+    override fun getPlaceholderText(node: ASTNode): String {
 
-    val element = node.psi
+        val element = node.psi
 
-    if (element is AtlasPage) {
-      return "Page: " + element.pageName.getValue() + " ..."
-    } else if (element is AtlasRegion) {
-      return "Texture: " + element.name + " ..."
+        if (element is AtlasPage) {
+            return "Page: " + element.pageName.getValue() + " ..."
+        } else if (element is AtlasRegion) {
+            return "Texture: " + element.name + " ..."
+        }
+
+        return "..."
+
     }
 
-    return "..."
+    override fun isCollapsedByDefault(node: ASTNode) = false
 
-  }
+    override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
 
-  override fun isCollapsedByDefault(node: ASTNode) = false
+        val descriptors = mutableListOf<FoldingDescriptor>()
 
-  override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
+        collectDescriptorsRecursively(node.psi, document, descriptors)
 
-    val descriptors = mutableListOf<FoldingDescriptor>()
+        return descriptors.toTypedArray()
 
-    collectDescriptorsRecursively(node.psi, document, descriptors)
-
-    return descriptors.toTypedArray()
-
-  }
-
-  private fun collectDescriptorsRecursively(
-          element: PsiElement,
-          document: Document,
-          descriptors: MutableList<FoldingDescriptor>
-  ) {
-
-    if (element is AtlasPage) {
-      descriptors.add(FoldingDescriptor(element, element.textRange))
-    } else if (element is AtlasRegion) {
-      val start = element.startOffset
-      var end = element.endOffset
-      while (end > start && element.text[end - start - 1] == '\n') {
-        end--
-      }
-      descriptors.add(FoldingDescriptor(element, TextRange(start, end)))
     }
 
-    for (child in element.children) {
-      collectDescriptorsRecursively(child, document, descriptors)
+    private fun collectDescriptorsRecursively(
+        element: PsiElement,
+        document: Document,
+        descriptors: MutableList<FoldingDescriptor>
+    ) {
+
+        if (element is AtlasPage) {
+            descriptors.add(FoldingDescriptor(element, element.textRange))
+        } else if (element is AtlasRegion) {
+            val start = element.startOffset
+            var end = element.endOffset
+            while (end > start && element.text[end - start - 1] == '\n') {
+                end--
+            }
+            descriptors.add(FoldingDescriptor(element, TextRange(start, end)))
+        }
+
+        for (child in element.children) {
+            collectDescriptorsRecursively(child, document, descriptors)
+        }
     }
-  }
 }
 

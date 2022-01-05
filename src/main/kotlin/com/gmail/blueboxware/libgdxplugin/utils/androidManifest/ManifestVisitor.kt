@@ -20,74 +20,74 @@ import java.lang.NumberFormatException
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class ManifestVisitor: XmlRecursiveElementVisitor() {
+abstract class ManifestVisitor : XmlRecursiveElementVisitor() {
 
-  abstract fun processOpenGLESVersion(value: Int, element: XmlTag)
+    abstract fun processOpenGLESVersion(value: Int, element: XmlTag)
 
-  abstract fun processMinSDKVersion(value: Int, element: XmlAttribute)
-  abstract fun processTargetSDKVersion(value: Int, element: XmlAttribute)
-  abstract fun processMaxSDKVersion(value: Int, element: XmlAttribute)
+    abstract fun processMinSDKVersion(value: Int, element: XmlAttribute)
+    abstract fun processTargetSDKVersion(value: Int, element: XmlAttribute)
+    abstract fun processMaxSDKVersion(value: Int, element: XmlAttribute)
 
-  abstract fun processSupportsScreens(
-          value: SupportsScreens,
-          element: XmlTag,
-          hasLargeScreensSupportAttribute: Boolean,
-          hasXLargeScreensSupportAttribute: Boolean
-  )
+    abstract fun processSupportsScreens(
+        value: SupportsScreens,
+        element: XmlTag,
+        hasLargeScreensSupportAttribute: Boolean,
+        hasXLargeScreensSupportAttribute: Boolean
+    )
 
-  abstract fun processPermission(value: String, element: XmlTag)
+    abstract fun processPermission(value: String, element: XmlTag)
 
-  override fun visitXmlTag(tag: XmlTag?) {
+    override fun visitXmlTag(tag: XmlTag?) {
 
-    if (tag?.name == "uses-feature" && tag.parentTag?.name == "manifest") {
-      tag.getAttribute("android:glEsVersion")?.value?.let { value ->
-        try {
-          processOpenGLESVersion(Integer.decode(value), tag)
-        } catch (e: NumberFormatException) {
-          // Nothing
+        if (tag?.name == "uses-feature" && tag.parentTag?.name == "manifest") {
+            tag.getAttribute("android:glEsVersion")?.value?.let { value ->
+                try {
+                    processOpenGLESVersion(Integer.decode(value), tag)
+                } catch (e: NumberFormatException) {
+                    // Nothing
+                }
+            }
+        } else if (tag?.name == "uses-sdk" && tag.parentTag?.name == "manifest") {
+            tag.getAttribute("android:minSdkVersion")?.let { attribute ->
+                attribute.value?.toIntOrNull()?.let { value ->
+                    processMinSDKVersion(value, attribute)
+                }
+            }
+            tag.getAttribute("android:targetSdkVersion")?.let { attribute ->
+                attribute.value?.toIntOrNull()?.let { value ->
+                    processTargetSDKVersion(value, attribute)
+                }
+            }
+            tag.getAttribute("android:maxSdkVersion")?.let { attribute ->
+                attribute.value?.toIntOrNull()?.let { value ->
+                    processMaxSDKVersion(value, attribute)
+                }
+            }
+        } else if (tag?.name == "supports-screens" && tag.parentTag?.name == "manifest") {
+            val supportsScreens = SupportsScreens()
+            var hasExplicitLarge = false
+            var hasExplicitXLarge = false
+            tag.getAttribute("android:smallScreens")?.value?.let {
+                supportsScreens.smallScreens = it == "true"
+            }
+            tag.getAttribute("android:normalScreens")?.value?.let {
+                supportsScreens.normalScreens = it == "true"
+            }
+            tag.getAttribute("android:largeScreens")?.value?.let {
+                supportsScreens.largeScreens = it == "true"
+                hasExplicitLarge = true
+            }
+            tag.getAttribute("android:xlargeScreens")?.value?.let {
+                supportsScreens.xlargeScreens = it == "true"
+                hasExplicitXLarge = true
+            }
+            processSupportsScreens(supportsScreens, tag, hasExplicitLarge, hasExplicitXLarge)
+        } else if (tag?.name == "uses-permission" && tag.parentTag?.name == "manifest") {
+            tag.getAttribute("android:name")?.value?.let {
+                processPermission(it, tag)
+            }
         }
-      }
-    } else if (tag?.name == "uses-sdk" && tag.parentTag?.name == "manifest") {
-      tag.getAttribute("android:minSdkVersion")?.let { attribute ->
-        attribute.value?.toIntOrNull()?.let { value ->
-          processMinSDKVersion(value, attribute)
-        }
-      }
-      tag.getAttribute("android:targetSdkVersion")?.let { attribute ->
-        attribute.value?.toIntOrNull()?.let { value ->
-          processTargetSDKVersion(value, attribute)
-        }
-      }
-      tag.getAttribute("android:maxSdkVersion")?.let { attribute ->
-        attribute.value?.toIntOrNull()?.let { value ->
-          processMaxSDKVersion(value, attribute)
-        }
-      }
-    } else if (tag?.name == "supports-screens" && tag.parentTag?.name == "manifest") {
-      val supportsScreens = SupportsScreens()
-      var hasExplicitLarge = false
-      var hasExplicitXLarge = false
-      tag.getAttribute("android:smallScreens")?.value?.let {
-        supportsScreens.smallScreens = it == "true"
-      }
-      tag.getAttribute("android:normalScreens")?.value?.let {
-        supportsScreens.normalScreens = it == "true"
-      }
-      tag.getAttribute("android:largeScreens")?.value?.let {
-        supportsScreens.largeScreens = it == "true"
-        hasExplicitLarge = true
-      }
-      tag.getAttribute("android:xlargeScreens")?.value?.let {
-        supportsScreens.xlargeScreens = it == "true"
-        hasExplicitXLarge = true
-      }
-      processSupportsScreens(supportsScreens, tag, hasExplicitLarge, hasExplicitXLarge)
-    } else if (tag?.name == "uses-permission" && tag.parentTag?.name == "manifest") {
-      tag.getAttribute("android:name")?.value?.let {
-        processPermission(it, tag)
-      }
+
+        super.visitXmlTag(tag)
     }
-
-    super.visitXmlTag(tag)
-  }
 }

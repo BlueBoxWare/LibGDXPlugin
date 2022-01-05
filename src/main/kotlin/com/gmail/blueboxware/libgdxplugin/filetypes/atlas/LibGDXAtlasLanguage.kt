@@ -17,15 +17,15 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXAtlasLanguage private constructor(): Language("LibGDXAtlas") {
+class LibGDXAtlasLanguage private constructor() : Language("LibGDXAtlas") {
 
-  companion object {
-    val INSTANCE = LibGDXAtlasLanguage()
-  }
+    companion object {
+        val INSTANCE = LibGDXAtlasLanguage()
+    }
 
-  override fun isCaseSensitive() = true
+    override fun isCaseSensitive() = true
 
-  override fun getDisplayName() = "libGDX Texture Atlas"
+    override fun getDisplayName() = "libGDX Texture Atlas"
 
-  override fun getID(): String = "LibGDXAtlas"
+    override fun getID(): String = "LibGDXAtlas"
 }

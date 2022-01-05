@@ -27,39 +27,42 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXDuplicatePropertyInspection: GdxJsonBaseInspection() {
+class LibGDXDuplicatePropertyInspection : GdxJsonBaseInspection() {
 
-  override fun getStaticDescription() = message("json.inspection.duplicate.property.description")
+    override fun getStaticDescription() = message("json.inspection.duplicate.property.description")
 
-  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForFileFix(getShortID()),
-                  SuppressForObjectFix(getShortID()),
-                  SuppressForPropertyFix(getShortID())
-          )
+    override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForFileFix(getShortID()),
+            SuppressForObjectFix(getShortID()),
+            SuppressForPropertyFix(getShortID())
+        )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: GdxJsonElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : GdxJsonElementVisitor() {
 
-    override fun visitJobject(o: GdxJsonJobject) {
+        override fun visitJobject(o: GdxJsonJobject) {
 
-      val properties = mutableMapOf<String, MutableList<GdxJsonPropertyName>>()
+            val properties = mutableMapOf<String, MutableList<GdxJsonPropertyName>>()
 
-      o.propertyList.forEach { property ->
-        property.name?.let { name ->
-          properties.getOrPut(name, ::mutableListOf).add(property.propertyName)
+            o.propertyList.forEach { property ->
+                property.name?.let { name ->
+                    properties.getOrPut(name, ::mutableListOf).add(property.propertyName)
+                }
+            }
+
+            properties.forEach { (name, propertyNames) ->
+                if (propertyNames.size > 1) {
+                    propertyNames.forEach { propertyName ->
+                        holder.registerProblem(
+                            propertyName,
+                            message("json.inspection.duplicate.property.message", name)
+                        )
+                    }
+                }
+            }
+
         }
-      }
-
-      properties.forEach { (name, propertyNames) ->
-        if (propertyNames.size > 1) {
-          propertyNames.forEach { propertyName ->
-            holder.registerProblem(propertyName, message("json.inspection.duplicate.property.message", name))
-          }
-        }
-      }
 
     }
-
-  }
 
 }

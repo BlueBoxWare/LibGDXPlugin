@@ -20,8 +20,8 @@ import com.intellij.openapi.util.text.StringUtil
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinElementImpl(node: ASTNode): ASTWrapperPsiElement(node), SkinElement {
+abstract class SkinElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), SkinElement {
 
-  override fun toString() = StringUtil.trimEnd(javaClass.simpleName, "Impl")
+    override fun toString() = StringUtil.trimEnd(javaClass.simpleName, "Impl")
 
 }

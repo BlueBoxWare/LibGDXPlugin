@@ -27,28 +27,28 @@ import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXTopLevelValueInspection: GdxJsonBaseInspection() {
+class LibGDXTopLevelValueInspection : GdxJsonBaseInspection() {
 
-  override fun getStaticDescription() = message("json.inspection.toplevel.value.description")
+    override fun getStaticDescription() = message("json.inspection.toplevel.value.description")
 
-  override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForFileFix(getShortID()),
-          )
+    override fun getBatchSuppressActions(element: PsiElement?): Array<SuppressQuickFix> =
+        arrayOf(
+            SuppressForFileFix(getShortID()),
+        )
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
-          object: GdxJsonElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
+        object : GdxJsonElementVisitor() {
             override fun visitFile(file: PsiFile) {
-              if (file.children.filterIsInstance<GdxJsonValue>().size != 1) {
-                holder.registerProblem(file, message("json.inspection.toplevel.value.message"))
-              } else {
-                file.children.firstIsInstanceOrNull<GdxJsonValue>()?.let { element ->
-                  if (!element.isObject) {
-                    holder.registerProblem(element, message("json.inspection.toplevel.value.message"))
-                  }
+                if (file.children.filterIsInstance<GdxJsonValue>().size != 1) {
+                    holder.registerProblem(file, message("json.inspection.toplevel.value.message"))
+                } else {
+                    file.children.firstIsInstanceOrNull<GdxJsonValue>()?.let { element ->
+                        if (!element.isObject) {
+                            holder.registerProblem(element, message("json.inspection.toplevel.value.message"))
+                        }
+                    }
                 }
-              }
             }
-          }
+        }
 
 }

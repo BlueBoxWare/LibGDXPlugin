@@ -21,25 +21,25 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinFileType private constructor(): LanguageFileType(LibGDXSkinLanguage.INSTANCE) {
+class LibGDXSkinFileType private constructor() : LanguageFileType(LibGDXSkinLanguage.INSTANCE) {
 
-  companion object {
-    val INSTANCE = LibGDXSkinFileType()
-  }
-
-  init {
-    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
-      LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
+    companion object {
+        val INSTANCE = LibGDXSkinFileType()
     }
-  }
 
-  override fun getIcon() = Icons.SKIN_FILETYPE
+    init {
+        FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
+            LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
+        }
+    }
 
-  override fun getName() = "libGDX Skin"
+    override fun getIcon() = Icons.SKIN_FILETYPE
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDescription() = "libGDX skin file"
+    override fun getName() = "libGDX Skin"
 
-  override fun getDefaultExtension() = "skin"
+    @Suppress("DialogTitleCapitalization")
+    override fun getDescription() = "libGDX skin file"
+
+    override fun getDefaultExtension() = "skin"
 
 }

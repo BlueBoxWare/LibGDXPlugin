@@ -23,48 +23,48 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingResourceAliasInspection: SkinBaseInspection() {
+class SkinNonExistingResourceAliasInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.non.existing.resource.alias.description")
+    override fun getStaticDescription() = message("skin.inspection.non.existing.resource.alias.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
-          object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
+        object : SkinElementVisitor() {
 
             override fun visitStringLiteral(stringLiteral: SkinStringLiteral) {
 
-              if (stringLiteral.parent is SkinPropertyName
-                      || stringLiteral.parent is SkinClassName
-                      || stringLiteral.parent is SkinResourceName
-              ) {
-                return
-              }
-
-              val reference = stringLiteral.reference
-
-              if (reference is SkinResourceReference) {
-                val referent = reference.resolve()
-                if (referent == null) {
-                  val quickfix = stringLiteral.resolveToClass()?.let { clazz ->
-
-                    if (clazz.qualifiedName == "java.lang.String") {
-                      null
-                    } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
-                      null
-                    } else {
-                      CreateAssetQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
-                    }
-
-                  }
-                  holder.registerProblem(
-                          stringLiteral,
-                          message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value),
-                          quickfix
-                  )
+                if (stringLiteral.parent is SkinPropertyName
+                    || stringLiteral.parent is SkinClassName
+                    || stringLiteral.parent is SkinResourceName
+                ) {
+                    return
                 }
-              }
+
+                val reference = stringLiteral.reference
+
+                if (reference is SkinResourceReference) {
+                    val referent = reference.resolve()
+                    if (referent == null) {
+                        val quickfix = stringLiteral.resolveToClass()?.let { clazz ->
+
+                            if (clazz.qualifiedName == "java.lang.String") {
+                                null
+                            } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
+                                null
+                            } else {
+                                CreateAssetQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
+                            }
+
+                        }
+                        holder.registerProblem(
+                            stringLiteral,
+                            message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value),
+                            quickfix
+                        )
+                    }
+                }
 
             }
 
-          }
+        }
 
 }

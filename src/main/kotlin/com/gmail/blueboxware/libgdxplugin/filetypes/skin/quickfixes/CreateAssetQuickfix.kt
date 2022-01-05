@@ -32,55 +32,55 @@ import com.intellij.psi.PsiFile
  * limitations under the License.
  */
 class CreateAssetQuickFix(
-        element: SkinElement,
-        private val assetName: String,
-        val className: DollarClassName,
-        val filename: String? = null
-): LocalQuickFixOnPsiElement(element) {
+    element: SkinElement,
+    private val assetName: String,
+    val className: DollarClassName,
+    val filename: String? = null
+) : LocalQuickFixOnPsiElement(element) {
 
-  override fun getFamilyName(): String = FAMILY_NAME
+    override fun getFamilyName(): String = FAMILY_NAME
 
-  override fun getText(): String = "Create resource '$assetName'" + if (filename != null) " in '$filename'" else ""
+    override fun getText(): String = "Create resource '$assetName'" + if (filename != null) " in '$filename'" else ""
 
-  override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
+    override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
 
-    val skinFile = startElement.containingFile as? SkinFileImpl ?: return
+        val skinFile = startElement.containingFile as? SkinFileImpl ?: return
 
-    FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
+        FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
 
-    val (_, position) = when (className.plainName) {
-      DRAWABLE_CLASS_NAME -> skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
-      COLOR_CLASS_NAME -> skinFile.addColor(assetName, startElement as? SkinElement)
-      else -> skinFile.addResource(className, assetName, startElement as? SkinElement)
-    } ?: return
+        val (_, position) = when (className.plainName) {
+            DRAWABLE_CLASS_NAME -> skinFile.addTintedDrawable(assetName, startElement as? SkinElement)
+            COLOR_CLASS_NAME -> skinFile.addColor(assetName, startElement as? SkinElement)
+            else -> skinFile.addResource(className, assetName, startElement as? SkinElement)
+        } ?: return
 
-    FileEditorManager.getInstance(project).selectedTextEditor?.let { editor ->
-      FileDocumentManager.getInstance().let { fileDocumentManager ->
-        if (fileDocumentManager.getFile(editor.document) == file.virtualFile) {
-          editor.caretModel.moveToOffset(position)
+        FileEditorManager.getInstance(project).selectedTextEditor?.let { editor ->
+            FileDocumentManager.getInstance().let { fileDocumentManager ->
+                if (fileDocumentManager.getFile(editor.document) == file.virtualFile) {
+                    editor.caretModel.moveToOffset(position)
 
-          if (
-                  className.plainName != DRAWABLE_CLASS_NAME
-                  && className.plainName != COLOR_CLASS_NAME
-                  && CodeStyle
-                          .getLanguageSettings(file, LibGDXSkinLanguage.INSTANCE)
-                          .SPACE_WITHIN_BRACES
-          ) {
-            PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
-            editor.document.insertString(editor.caretModel.offset, "  ")
-            editor.caretModel.moveToOffset(editor.caretModel.offset - 2)
-          }
+                    if (
+                        className.plainName != DRAWABLE_CLASS_NAME
+                        && className.plainName != COLOR_CLASS_NAME
+                        && CodeStyle
+                            .getLanguageSettings(file, LibGDXSkinLanguage.INSTANCE)
+                            .SPACE_WITHIN_BRACES
+                    ) {
+                        PsiDocumentManager.getInstance(project).doPostponedOperationsAndUnblockDocument(editor.document)
+                        editor.document.insertString(editor.caretModel.offset, "  ")
+                        editor.caretModel.moveToOffset(editor.caretModel.offset - 2)
+                    }
 
+                }
+            }
         }
-      }
+
     }
 
-  }
+    companion object {
 
-  companion object {
+        const val FAMILY_NAME = "Create resource"
 
-    const val FAMILY_NAME = "Create resource"
-
-  }
+    }
 
 }

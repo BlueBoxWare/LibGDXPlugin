@@ -25,100 +25,100 @@ import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPropertyAccessor
 
-class JavaFlushInsideLoopInspection: LibGDXJavaBaseInspection() {
+class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
 
-  override fun getStaticDescription() = message("flushing.inside.loop.html.description")
+    override fun getStaticDescription() = message("flushing.inside.loop.html.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
-          object: JavaElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
+        object : JavaElementVisitor() {
 
             override fun visitMethod(method: PsiMethod?) {
-              if (method == null) return
+                if (method == null) return
 
-              val statements = method.body?.statements ?: return
+                val statements = method.body?.statements ?: return
 
-              for (statement in statements) {
-                (statement as? PsiLoopStatement)?.accept(LoopChecker(holder, session))
-              }
+                for (statement in statements) {
+                    (statement as? PsiLoopStatement)?.accept(LoopChecker(holder, session))
+                }
 
             }
 
-          }
+        }
 }
 
 private class LoopChecker(
-        val holder: ProblemsHolder,
-        session: LocalInspectionToolSession
-): JavaRecursiveElementVisitor() {
+    val holder: ProblemsHolder,
+    session: LocalInspectionToolSession
+) : JavaRecursiveElementVisitor() {
 
-  val allFlushingMethods = getFlushingMethods(holder.project, session)
+    val allFlushingMethods = getFlushingMethods(holder.project, session)
 
-  override fun visitCallExpression(callExpression: PsiCallExpression?) {
+    override fun visitCallExpression(callExpression: PsiCallExpression?) {
 
-    if (allFlushingMethods == null || callExpression == null) return
+        if (allFlushingMethods == null || callExpression == null) return
 
-    val method = callExpression.resolveMethod() ?: return
+        val method = callExpression.resolveMethod() ?: return
 
-    if (allFlushingMethods.contains(method)) {
-      registerProblem(callExpression)
-    } else if (method is KtLightMethod) {
-      val originalElement = method.kotlinOrigin ?: return
-      if (originalElement is KtProperty) {
-        var accessor: KtPropertyAccessor? = null
-        if (method.name.startsWith("get")) {
-          accessor = originalElement.getter
-        } else if (method.name.startsWith("set")) {
-          accessor = originalElement.setter
+        if (allFlushingMethods.contains(method)) {
+            registerProblem(callExpression)
+        } else if (method is KtLightMethod) {
+            val originalElement = method.kotlinOrigin ?: return
+            if (originalElement is KtProperty) {
+                var accessor: KtPropertyAccessor? = null
+                if (method.name.startsWith("get")) {
+                    accessor = originalElement.getter
+                } else if (method.name.startsWith("set")) {
+                    accessor = originalElement.setter
+                }
+                if (accessor != null && allFlushingMethods.contains(accessor)) {
+                    registerProblem(callExpression)
+                }
+            } else {
+                if (allFlushingMethods.contains(originalElement)) {
+                    registerProblem(callExpression)
+                }
+            }
         }
-        if (accessor != null && allFlushingMethods.contains(accessor)) {
-          registerProblem(callExpression)
-        }
-      } else {
-        if (allFlushingMethods.contains(originalElement)) {
-          registerProblem(callExpression)
-        }
-      }
-    }
-  }
-
-  override fun visitNewExpression(expression: PsiNewExpression?) {
-    if (expression == null || allFlushingMethods == null) return
-
-    val method = expression.resolveMethod()
-
-    if (method != null) {
-
-      if (allFlushingMethods.contains(method)) {
-        registerProblem(expression)
-        return
-      }
-      if (method is KtLightMethod) {
-        method.kotlinOrigin?.let { kotlinOrigin ->
-          if (allFlushingMethods.contains(kotlinOrigin)) {
-            registerProblem(expression)
-          }
-        }
-      }
-
-      val clazz = expression.classReference?.resolve()
-
-      if (clazz is KtLightClass) {
-        val initializers = clazz.kotlinOrigin?.getAnonymousInitializers() ?: return
-        for (initializer in initializers) {
-          if (allFlushingMethods.contains(initializer)) {
-            registerProblem(expression)
-            break
-          }
-        }
-      }
-    }
-  }
-
-  fun registerProblem(expression: PsiElement) {
-    for (problem in holder.results) {
-      if (problem.psiElement == expression) return
     }
 
-    holder.registerProblem(expression, message("flushing.inside.loop.problem.descriptor"))
-  }
+    override fun visitNewExpression(expression: PsiNewExpression?) {
+        if (expression == null || allFlushingMethods == null) return
+
+        val method = expression.resolveMethod()
+
+        if (method != null) {
+
+            if (allFlushingMethods.contains(method)) {
+                registerProblem(expression)
+                return
+            }
+            if (method is KtLightMethod) {
+                method.kotlinOrigin?.let { kotlinOrigin ->
+                    if (allFlushingMethods.contains(kotlinOrigin)) {
+                        registerProblem(expression)
+                    }
+                }
+            }
+
+            val clazz = expression.classReference?.resolve()
+
+            if (clazz is KtLightClass) {
+                val initializers = clazz.kotlinOrigin?.getAnonymousInitializers() ?: return
+                for (initializer in initializers) {
+                    if (allFlushingMethods.contains(initializer)) {
+                        registerProblem(expression)
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+    fun registerProblem(expression: PsiElement) {
+        for (problem in holder.results) {
+            if (problem.psiElement == expression) return
+        }
+
+        holder.registerProblem(expression, message("flushing.inside.loop.problem.descriptor"))
+    }
 }

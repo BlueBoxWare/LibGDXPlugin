@@ -26,26 +26,26 @@ import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.kotlin.types.KotlinType
 
 @Suppress("InspectionDescriptionNotFoundInspection")
-open class LibGDXKotlinBaseInspection: LocalInspectionTool() {
+open class LibGDXKotlinBaseInspection : LocalInspectionTool() {
 
-  override fun isSuppressedFor(element: PsiElement): Boolean {
-    return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
-  }
-
-  companion object {
-
-    fun getClassIfConstructorCall(expression: KtCallExpression): KotlinType? {
-
-      val context = expression.analyze()
-      val descriptor = expression.getCall(context)?.getResolvedCall(context)?.candidateDescriptor
-
-      if (descriptor is ConstructorDescriptor) {
-        return descriptor.returnType
-      }
-
-      return null
+    override fun isSuppressedFor(element: PsiElement): Boolean {
+        return !element.project.isLibGDXProject() || super.isSuppressedFor(element)
     }
-  }
+
+    companion object {
+
+        fun getClassIfConstructorCall(expression: KtCallExpression): KotlinType? {
+
+            val context = expression.analyze()
+            val descriptor = expression.getCall(context)?.getResolvedCall(context)?.candidateDescriptor
+
+            if (descriptor is ConstructorDescriptor) {
+                return descriptor.returnType
+            }
+
+            return null
+        }
+    }
 
 
 }

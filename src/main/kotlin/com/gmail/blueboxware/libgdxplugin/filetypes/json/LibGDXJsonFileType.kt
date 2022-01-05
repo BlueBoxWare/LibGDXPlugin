@@ -22,25 +22,25 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonFileType private constructor(): LanguageFileType(LibGDXJsonLanuage.INSTANCE) {
+class LibGDXJsonFileType private constructor() : LanguageFileType(LibGDXJsonLanuage.INSTANCE) {
 
-  companion object {
-    val INSTANCE = LibGDXJsonFileType()
-  }
-
-  init {
-    FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
-      LayeredLexerEditorHighlighter(GdxJsonSyntaxHighlighterFactory.GdxJsonHighlighter(), colors)
+    companion object {
+        val INSTANCE = LibGDXJsonFileType()
     }
-  }
 
-  override fun getIcon() = Icons.LIBGDX_JSON_FILETYPE
+    init {
+        FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
+            LayeredLexerEditorHighlighter(GdxJsonSyntaxHighlighterFactory.GdxJsonHighlighter(), colors)
+        }
+    }
 
-  override fun getName() = "libGDX JSON"
+    override fun getIcon() = Icons.LIBGDX_JSON_FILETYPE
 
-  override fun getDefaultExtension() = "lson"
+    override fun getName() = "libGDX JSON"
 
-  @Suppress("DialogTitleCapitalization")
-  override fun getDescription() = "libGDX JSON file"
+    override fun getDefaultExtension() = "lson"
+
+    @Suppress("DialogTitleCapitalization")
+    override fun getDescription() = "libGDX JSON file"
 
 }

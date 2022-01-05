@@ -15,50 +15,50 @@ package com.gmail.blueboxware.libgdxplugin
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestColorAnnotator: LibGDXCodeInsightFixtureTestCase() {
+class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
 
-  fun testJava1() {
-    doTest("Java1.java")
-  }
+    fun testJava1() {
+        doTest("Java1.java")
+    }
 
-  fun testJava2() {
-    doTest("Java2.java")
-  }
+    fun testJava2() {
+        doTest("Java2.java")
+    }
 
-  fun testJava3() {
-    doTest("Java3.java")
-  }
+    fun testJava3() {
+        doTest("Java3.java")
+    }
 
-  fun testKotlin() {
-    doTest("Kotlin1.kt")
-  }
+    fun testKotlin() {
+        doTest("Kotlin1.kt")
+    }
 
-  fun testJavaToKotlin() {
-    doTest("JavaToKotlin.kt", "JavaToKotlin.java")
-  }
+    fun testJavaToKotlin() {
+        doTest("JavaToKotlin.kt", "JavaToKotlin.java")
+    }
 
-  fun testKotlinToJava() {
-    doTest("KotlinToJava.java", "KotlinToJava.kt")
-  }
+    fun testKotlinToJava() {
+        doTest("KotlinToJava.java", "KotlinToJava.kt")
+    }
 
-  fun doTest(vararg files: String) {
-    configureByFiles(*(files.map { "annotators/colorAnnotator/$it" }.toTypedArray()))
-    myFixture.checkHighlighting(false, false, true)
-  }
+    fun doTest(vararg files: String) {
+        configureByFiles(*(files.map { "annotators/colorAnnotator/$it" }.toTypedArray()))
+        myFixture.checkHighlighting(false, false, true)
+    }
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addAnnotations()
-    addLibGDX()
-    addLibGDXSources()
-    addDummyLibGDX199()
-    addKotlin()
+        addAnnotations()
+        addLibGDX()
+        addLibGDXSources()
+        addDummyLibGDX199()
+        addKotlin()
 
-    myFixture.allowTreeAccessForAllFiles()
+        myFixture.allowTreeAccessForAllFiles()
 
-    copyFileToProject("annotators/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
+        copyFileToProject("annotators/colorAnnotator/assets/libgdx.skin", "libgdx.skin")
 
-  }
+    }
 
 }

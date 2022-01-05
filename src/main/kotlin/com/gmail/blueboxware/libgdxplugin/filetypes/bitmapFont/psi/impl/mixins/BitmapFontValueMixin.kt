@@ -21,8 +21,8 @@ import com.intellij.openapi.util.text.StringUtil
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontValueMixin(node: ASTNode): BitmapFontValue, BitmapFontElementImpl(node) {
+abstract class BitmapFontValueMixin(node: ASTNode) : BitmapFontValue, BitmapFontElementImpl(node) {
 
-  override fun getValue() = StringUtil.unescapeStringCharacters(text.stripQuotes())
+    override fun getValue() = StringUtil.unescapeStringCharacters(text.stripQuotes())
 
 }

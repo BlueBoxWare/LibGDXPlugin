@@ -35,65 +35,65 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(node) {
+abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(node) {
 
-  override fun getName() = resourceName.stringLiteral.value
+    override fun getName() = resourceName.stringLiteral.value
 
-  override fun getNameIdentifier() = resourceName
+    override fun getNameIdentifier() = resourceName
 
-  override fun getObject(): SkinObject? = value as? SkinObject
+    override fun getObject(): SkinObject? = value as? SkinObject
 
-  override fun getString(): SkinStringLiteral? = value as? SkinStringLiteral
+    override fun getString(): SkinStringLiteral? = value as? SkinStringLiteral
 
-  override fun getClassSpecification(): SkinClassSpecification? = firstParent()
+    override fun getClassSpecification(): SkinClassSpecification? = firstParent()
 
-  override fun getUseScope() = project.allScope()
+    override fun getUseScope() = project.allScope()
 
-  override fun findDefinition(): SkinResource? {
+    override fun findDefinition(): SkinResource? {
 
-    var element: SkinResource? = this
+        var element: SkinResource? = this
 
-    while (element?.string != null) {
-      element = element.string?.reference?.resolve() as? SkinResource
+        while (element?.string != null) {
+            element = element.string?.reference?.resolve() as? SkinResource
+        }
+
+        return element
+
     }
 
-    return element
+    override fun asColor(force: Boolean): Color? =
+        (findDefinition()?.value as? SkinObject)
+            ?.asColor(
+                force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
+            )
 
-  }
+    override fun setName(name: String): PsiElement? {
+        factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
+            resourceName.replace(newResourceName)
+            return newResourceName
+        }
 
-  override fun asColor(force: Boolean): Color? =
-          (findDefinition()?.value as? SkinObject)
-                  ?.asColor(
-                          force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
-                  )
-
-  override fun setName(name: String): PsiElement? {
-    factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
-      resourceName.replace(newResourceName)
-      return newResourceName
+        return null
     }
 
-    return null
-  }
-
-  override fun getPresentation(): ItemPresentation = object: ItemPresentation {
-    override fun getLocationString(): String? =
+    override fun getPresentation(): ItemPresentation = object : ItemPresentation {
+        override fun getLocationString(): String? =
             project.guessProjectDir()?.let {
-              VfsUtil.getRelativeLocation(containingFile.virtualFile, it)
+                VfsUtil.getRelativeLocation(containingFile.virtualFile, it)
             }
 
-    override fun getIcon(unused: Boolean): Icon {
-      val force = this@SkinResourceMixin
-              .firstParent<SkinClassSpecification>()
-              ?.getRealClassNamesAsString()
-              ?.contains(COLOR_CLASS_NAME)
-              ?: false
-      return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
+        override fun getIcon(unused: Boolean): Icon {
+            val force = this@SkinResourceMixin
+                .firstParent<SkinClassSpecification>()
+                ?.getRealClassNamesAsString()
+                ?.contains(COLOR_CLASS_NAME)
+                ?: false
+            return (value as? SkinObject)?.asColor(force)?.let { createColorIcon(it) } ?: AllIcons.FileTypes.Properties
+        }
+
+        override fun getPresentableText(): String = name
     }
 
-    override fun getPresentableText(): String = name
-  }
-
-  override fun toString(): String = "SkinResource(${resourceName.stringLiteral.text})"
+    override fun toString(): String = "SkinResource(${resourceName.stringLiteral.text})"
 
 }

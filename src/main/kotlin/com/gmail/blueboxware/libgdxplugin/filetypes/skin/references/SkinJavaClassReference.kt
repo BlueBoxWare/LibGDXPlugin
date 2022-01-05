@@ -22,23 +22,23 @@ import com.intellij.psi.PsiElementResolveResult
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinJavaClassReference(element: SkinClassName): SkinReference<SkinClassName>(element) {
+class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassName>(element) {
 
-  override fun multiResolve(incompleteCode: Boolean) =
-          element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
+    override fun multiResolve(incompleteCode: Boolean) =
+        element.multiResolve().map(::PsiElementResolveResult).toTypedArray()
 
-  override fun handleElementRename(newElementName: String): PsiElement = element
+    override fun handleElementRename(newElementName: String): PsiElement = element
 
-  override fun bindToElement(target: PsiElement): PsiElement {
-    if (target is PsiClass) {
-      if (element.project.collectTagsFromAnnotations().none { it.first == element.value.plainName }) {
-        element.stringLiteral.value = DollarClassName(target).dollarName
-      }
-    } else {
-      super.bindToElement(target)
+    override fun bindToElement(target: PsiElement): PsiElement {
+        if (target is PsiClass) {
+            if (element.project.collectTagsFromAnnotations().none { it.first == element.value.plainName }) {
+                element.stringLiteral.value = DollarClassName(target).dollarName
+            }
+        } else {
+            super.bindToElement(target)
+        }
+
+        return element
     }
-
-    return element
-  }
 
 }

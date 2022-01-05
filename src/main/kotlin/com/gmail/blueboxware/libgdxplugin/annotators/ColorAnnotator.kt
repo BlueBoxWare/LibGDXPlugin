@@ -27,47 +27,47 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorAnnotator: Annotator {
+class ColorAnnotator : Annotator {
 
-  private val ANNOTATIONS_KEY = key<MutableList<Pair<Int, Color>>>("annotations")
+    private val ANNOTATIONS_KEY = key<MutableList<Pair<Int, Color>>>("annotations")
 
-  override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+    override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-    if (element.project.isLibGDXProject() &&
+        if (element.project.isLibGDXProject() &&
             (ServiceManager.getService(
-                    element.project,
-                    LibGDXPluginSettings::class.java
+                element.project,
+                LibGDXPluginSettings::class.java
             )?.enableColorAnnotations == true)
-    ) {
+        ) {
 
-      element.getColor()?.let { color ->
-        annotateWithColor(color, element, holder)
-      }
-    }
-
-  }
-
-
-  private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder) {
-
-    val annotationSessions = holder.currentAnnotationSession
-
-    if (annotationSessions.getUserData(ANNOTATIONS_KEY) == null) {
-      annotationSessions.putUserData(ANNOTATIONS_KEY, mutableListOf())
-    }
-
-    annotationSessions.getUserData(ANNOTATIONS_KEY)?.let { currentAnnotations ->
-      for ((first, second) in currentAnnotations) {
-        if (first == element.getLineNumber() && second == color) {
-          return
+            element.getColor()?.let { color ->
+                annotateWithColor(color, element, holder)
+            }
         }
-      }
 
-      currentAnnotations.add(element.getLineNumber() to color)
     }
 
-    createAnnotation(color, element, holder)
 
-  }
+    private fun annotateWithColor(color: Color, element: PsiElement, holder: AnnotationHolder) {
+
+        val annotationSessions = holder.currentAnnotationSession
+
+        if (annotationSessions.getUserData(ANNOTATIONS_KEY) == null) {
+            annotationSessions.putUserData(ANNOTATIONS_KEY, mutableListOf())
+        }
+
+        annotationSessions.getUserData(ANNOTATIONS_KEY)?.let { currentAnnotations ->
+            for ((first, second) in currentAnnotations) {
+                if (first == element.getLineNumber() && second == color) {
+                    return
+                }
+            }
+
+            currentAnnotations.add(element.getLineNumber() to color)
+        }
+
+        createAnnotation(color, element, holder)
+
+    }
 
 }

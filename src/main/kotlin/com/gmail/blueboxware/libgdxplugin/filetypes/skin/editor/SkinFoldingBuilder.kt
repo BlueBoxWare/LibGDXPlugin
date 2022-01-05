@@ -16,65 +16,66 @@ import com.intellij.openapi.util.TextRange
  * Adapted from https://github.com/JetBrains/intellij-community/tree/ab08c979a5826bf293ae03cd67463941b0066eb8/json
  *
  */
-class SkinFoldingBuilder: FoldingBuilder, DumbAware {
+class SkinFoldingBuilder : FoldingBuilder, DumbAware {
 
-  override fun getPlaceholderText(node: ASTNode): String =
-          when (node.elementType) {
+    override fun getPlaceholderText(node: ASTNode): String =
+        when (node.elementType) {
             SkinElementTypes.OBJECT -> "{...}"
             SkinElementTypes.ARRAY -> "[...]"
             SkinElementTypes.LINE_COMMENT -> "//..."
             SkinElementTypes.BLOCK_COMMENT -> "/*...*/"
             SkinElementTypes.RESOURCE -> "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
             SkinElementTypes.CLASS_SPECIFICATION -> "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName
-                    ?: "") + " ...}"
+                ?: "") + " ...}"
             else -> "..."
-          }
+        }
 
-  override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
+    override fun buildFoldRegions(node: ASTNode, document: Document): Array<out FoldingDescriptor> {
 
-    val descriptors = mutableListOf<FoldingDescriptor>()
+        val descriptors = mutableListOf<FoldingDescriptor>()
 
-    collectDescriptorsRecursively(node, document, descriptors)
+        collectDescriptorsRecursively(node, document, descriptors)
 
-    return descriptors.toTypedArray()
+        return descriptors.toTypedArray()
 
-  }
+    }
 
-  override fun isCollapsedByDefault(node: ASTNode) = false
+    override fun isCollapsedByDefault(node: ASTNode) = false
 
-  private fun collectDescriptorsRecursively(
-          node: ASTNode,
-          document: Document,
-          descriptors: MutableList<FoldingDescriptor>
-  ) {
+    private fun collectDescriptorsRecursively(
+        node: ASTNode,
+        document: Document,
+        descriptors: MutableList<FoldingDescriptor>
+    ) {
 
-    val type = node.elementType
+        val type = node.elementType
 
-    if ((type == SkinElementTypes.OBJECT
+        if ((type == SkinElementTypes.OBJECT
                     || type == SkinElementTypes.ARRAY
                     || type == SkinElementTypes.BLOCK_COMMENT
                     || type == SkinElementTypes.CLASS_SPECIFICATION
                     || type == SkinElementTypes.RESOURCE
-                    ) && spansMultipleLines(node, document)) {
-      descriptors.add(FoldingDescriptor(node, node.textRange))
-    } else if (type == SkinElementTypes.LINE_COMMENT) {
-      val firstNode = findFurthestSiblingOfSameType(node.psi, false)
-      val lastNode = findFurthestSiblingOfSameType(node.psi, true)
-      val start = firstNode.textRange.startOffset
-      val end = lastNode.textRange.endOffset
-      if (document.getLineNumber(start) != document.getLineNumber(end)) {
-        descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
-      }
+                    ) && spansMultipleLines(node, document)
+        ) {
+            descriptors.add(FoldingDescriptor(node, node.textRange))
+        } else if (type == SkinElementTypes.LINE_COMMENT) {
+            val firstNode = findFurthestSiblingOfSameType(node.psi, false)
+            val lastNode = findFurthestSiblingOfSameType(node.psi, true)
+            val start = firstNode.textRange.startOffset
+            val end = lastNode.textRange.endOffset
+            if (document.getLineNumber(start) != document.getLineNumber(end)) {
+                descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
+            }
+        }
+
+        for (child in node.getChildren(null)) {
+            collectDescriptorsRecursively(child, document, descriptors)
+        }
     }
 
-    for (child in node.getChildren(null)) {
-      collectDescriptorsRecursively(child, document, descriptors)
+    private fun spansMultipleLines(node: ASTNode, document: Document): Boolean {
+        val range = node.textRange
+        return document.getLineNumber(range.startOffset) < document.getLineNumber(range.endOffset)
     }
-  }
-
-  private fun spansMultipleLines(node: ASTNode, document: Document): Boolean {
-    val range = node.textRange
-    return document.getLineNumber(range.startOffset) < document.getLineNumber(range.endOffset)
-  }
 
 }

@@ -27,94 +27,94 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences: PropertiesCodeInsightFixtureTestCase() {
+class TestReferences : PropertiesCodeInsightFixtureTestCase() {
 
-  private val kotlinTests = listOf(
-          """
+    private val kotlinTests = listOf(
+        """
             I18NBundle().get("<caret>noTranslation");
           """ to true,
-          """
+        """
             I18NBundle().format("<caret>noTranslation", "germanTranslation");
           """ to true,
-          """
+        """
             I18NBundle().format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             I18NBundle().get("<caret>french.Only");
           """ to true,
 
-          """
+        """
             i18NBundle.get("<caret>noTranslation");
           """ to true,
-          """
+        """
             i18NBundle.format("<caret>noTranslation", "germanTranslation");
           """ to true,
-          """
+        """
             i18NBundle.format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle.get("<caret>french.Only");
           """ to true,
 
-          """
+        """
             i18NBundle2.get("<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.format("<caret>noTranslation", "germanTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.get("<caret>french.Only");
           """ to false
-  )
+    )
 
-  private val javaTests = listOf(
-          """
+    private val javaTests = listOf(
+        """
             new I18NBundle().get("<caret>noTranslation");
           """ to true,
-          """
+        """
             new I18NBundle().format("<caret>noTranslation", "germanTranslation");
           """ to true,
-          """
+        """
             new I18NBundle().format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             new I18NBundle().get("<caret>french.Only");
           """ to true,
 
-          """
+        """
             i18NBundle.get("<caret>noTranslation");
           """ to true,
-          """
+        """
             i18NBundle.format("<caret>noTranslation", "germanTranslation");
           """ to true,
-          """
+        """
             i18NBundle.format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle.get("<caret>french.Only");
           """ to true,
 
-          """
+        """
             i18NBundle2.get("<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.format("<caret>noTranslation", "germanTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.format("noTranslation", "<caret>noTranslation");
           """ to false,
-          """
+        """
             i18NBundle2.get("<caret>french.Only");
           """ to false
-  )
+    )
 
-  fun testKotlinPropertiesReferences() {
-    addKotlin()
-    for ((test, shouldBeFound) in kotlinTests) {
-      val content = """
+    fun testKotlinPropertiesReferences() {
+        addKotlin()
+        for ((test, shouldBeFound) in kotlinTests) {
+            val content = """
         import com.badlogic.gdx.utils.I18NBundle
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -127,13 +127,13 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
           $test
         }
         """
-      doTest(KotlinFileType.INSTANCE, content, shouldBeFound)
+            doTest(KotlinFileType.INSTANCE, content, shouldBeFound)
+        }
     }
-  }
 
-  fun testJavaPropertiesReferences() {
-    for ((test, shouldBeFound) in javaTests) {
-      val content = """
+    fun testJavaPropertiesReferences() {
+        for ((test, shouldBeFound) in javaTests) {
+            val content = """
         import com.badlogic.gdx.utils.I18NBundle;
         import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -149,35 +149,35 @@ class TestReferences: PropertiesCodeInsightFixtureTestCase() {
           }
         }
       """
-      doTest(JavaFileType.INSTANCE, content, shouldBeFound)
-    }
-  }
-
-  fun doTest(fileType: LanguageFileType, content: String, shouldBeFound: Boolean = true) {
-
-    configureByText(fileType, content)
-
-    val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
-      elementAtCaret.firstParent { it is KtStringTemplateExpression || it is PsiLiteralExpression }
-    } ?: throw AssertionError("Referencing element not found")
-
-    var found = false
-    referencingElement.references.forEach { reference ->
-      (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolveResult ->
-        assertTrue(resolveResult.element is Property)
-        val text =
-                when (referencingElement) {
-                  is PsiLiteralExpression -> referencingElement.asString()
-                  is KtStringTemplateExpression -> referencingElement.asPlainString()
-                  else -> throw AssertionError()
-                }
-        assertEquals((resolveResult.element as? Property)?.name, text)
-        found = true
-      }
+            doTest(JavaFileType.INSTANCE, content, shouldBeFound)
+        }
     }
 
-    assertEquals(content, shouldBeFound, found)
+    fun doTest(fileType: LanguageFileType, content: String, shouldBeFound: Boolean = true) {
 
-  }
+        configureByText(fileType, content)
+
+        val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
+            elementAtCaret.firstParent { it is KtStringTemplateExpression || it is PsiLiteralExpression }
+        } ?: throw AssertionError("Referencing element not found")
+
+        var found = false
+        referencingElement.references.forEach { reference ->
+            (reference as? GDXPropertyReference)?.multiResolve(true)?.forEach { resolveResult ->
+                assertTrue(resolveResult.element is Property)
+                val text =
+                    when (referencingElement) {
+                        is PsiLiteralExpression -> referencingElement.asString()
+                        is KtStringTemplateExpression -> referencingElement.asPlainString()
+                        else -> throw AssertionError()
+                    }
+                assertEquals((resolveResult.element as? Property)?.name, text)
+                found = true
+            }
+        }
+
+        assertEquals(content, shouldBeFound, found)
+
+    }
 
 }

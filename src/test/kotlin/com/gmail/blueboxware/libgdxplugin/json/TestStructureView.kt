@@ -20,20 +20,20 @@ import java.io.File
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestStructureView: LibGDXCodeInsightFixtureTestCase() {
+class TestStructureView : LibGDXCodeInsightFixtureTestCase() {
 
-  fun test1() {
-    doTest("1.lson", "1.result")
-  }
-
-  private fun doTest(content: String, expected: String) {
-    configureByFile(content)
-    myFixture.testStructureView { structureView ->
-      PlatformTestUtil.assertTreeEqual(structureView.tree, File(testDataPath + expected).readText())
-
+    fun test1() {
+        doTest("1.lson", "1.result")
     }
-  }
 
-  override fun getBasePath() = "/filetypes/json/structureView/"
+    private fun doTest(content: String, expected: String) {
+        configureByFile(content)
+        myFixture.testStructureView { structureView ->
+            PlatformTestUtil.assertTreeEqual(structureView.tree, File(testDataPath + expected).readText())
+
+        }
+    }
+
+    override fun getBasePath() = "/filetypes/json/structureView/"
 
 }

@@ -23,32 +23,32 @@ import org.jetbrains.kotlin.idea.search.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXImplicitPropertyUsageProvider: ImplicitPropertyUsageProvider() {
+class GDXImplicitPropertyUsageProvider : ImplicitPropertyUsageProvider() {
 
-  public override fun isUsed(property: Property): Boolean {
+    public override fun isUsed(property: Property): Boolean {
 
-    val project = property.project
+        val project = property.project
 
-    if (!project.isLibGDXProject()) {
-      return false
-    }
-
-    val name = property.name ?: return false
-    val scope = project.allScope()
-
-    val psiSearchHelper = PsiSearchHelper.getInstance(property.project)
-
-    when (psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)) {
-      PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES -> return false
-      PsiSearchHelper.SearchCostResult.TOO_MANY_OCCURRENCES -> return true
-      else -> ReferencesSearch.search(property, scope, false).forEach { reference ->
-        if (reference is GDXPropertyReference) {
-          return true
+        if (!project.isLibGDXProject()) {
+            return false
         }
-      }
+
+        val name = property.name ?: return false
+        val scope = project.allScope()
+
+        val psiSearchHelper = PsiSearchHelper.getInstance(property.project)
+
+        when (psiSearchHelper.isCheapEnoughToSearch(name, scope, null, null)) {
+            PsiSearchHelper.SearchCostResult.ZERO_OCCURRENCES -> return false
+            PsiSearchHelper.SearchCostResult.TOO_MANY_OCCURRENCES -> return true
+            else -> ReferencesSearch.search(property, scope, false).forEach { reference ->
+                if (reference is GDXPropertyReference) {
+                    return true
+                }
+            }
+        }
+
+        return false
+
     }
-
-    return false
-
-  }
 }

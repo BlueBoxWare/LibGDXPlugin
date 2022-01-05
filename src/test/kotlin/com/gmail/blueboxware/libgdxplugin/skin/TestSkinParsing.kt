@@ -19,51 +19,51 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestSkinParsing: ParsingTestCase("", "json", SkinParserDefinition()) {
+class TestSkinParsing : ParsingTestCase("", "json", SkinParserDefinition()) {
 
-  fun doTest() {
-    doTest(true)
-  }
+    fun doTest() {
+        doTest(true)
+    }
 
-  fun test1() {
-    doTest()
-  }
+    fun test1() {
+        doTest()
+    }
 
-  fun test2() {
-    doTest()
-  }
+    fun test2() {
+        doTest()
+    }
 
-  fun test3() {
-    doTest()
-  }
+    fun test3() {
+        doTest()
+    }
 
-  fun test4() {
-    doTest()
-  }
+    fun test4() {
+        doTest()
+    }
 
-  fun test5() {
-    doTest()
-  }
+    fun test5() {
+        doTest()
+    }
 
-  fun test6() {
-    doTest()
-  }
+    fun test6() {
+        doTest()
+    }
 
-  fun test7() {
-    doTest()
-  }
+    fun test7() {
+        doTest()
+    }
 
-  fun test8() {
-    doTest()
-  }
+    fun test8() {
+        doTest()
+    }
 
-  override fun getTestDataPath() =
-          FileUtil.toSystemDependentName(
-                  System.getProperty("user.dir") + "/src/test/testdata/filetypes/skin/psi"
-          )
+    override fun getTestDataPath() =
+        FileUtil.toSystemDependentName(
+            System.getProperty("user.dir") + "/src/test/testdata/filetypes/skin/psi"
+        )
 
-  override fun skipSpaces() = true
+    override fun skipSpaces() = true
 
-  override fun includeRanges() = true
+    override fun includeRanges() = true
 
 }

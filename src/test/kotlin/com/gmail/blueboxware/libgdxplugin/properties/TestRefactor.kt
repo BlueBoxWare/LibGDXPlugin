@@ -21,22 +21,22 @@ import org.jetbrains.kotlin.idea.search.projectScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestRefactor: PropertiesCodeInsightFixtureTestCase() {
+class TestRefactor : PropertiesCodeInsightFixtureTestCase() {
 
-  fun testRename() {
-    FilenameIndex.getFilesByName(
+    fun testRename() {
+        FilenameIndex.getFilesByName(
             project,
             "messages_en_GB.properties",
             project.projectScope()
-    ).first().let { propertiesFile ->
-      val property = (propertiesFile as PropertiesFile).findPropertyByKey("oldName") as Property
-      configureByFile("refactor/JavaClass.java")
-      myFixture.renameElement(property, "newName1")
-      myFixture.checkResultByFile("refactor/JavaClass.after")
-      configureByFile("refactor/KotlinFile.kt")
-      myFixture.renameElement(property, "newName2")
-      myFixture.checkResultByFile("refactor/KotlinFile.after")
+        ).first().let { propertiesFile ->
+            val property = (propertiesFile as PropertiesFile).findPropertyByKey("oldName") as Property
+            configureByFile("refactor/JavaClass.java")
+            myFixture.renameElement(property, "newName1")
+            myFixture.checkResultByFile("refactor/JavaClass.after")
+            configureByFile("refactor/KotlinFile.kt")
+            myFixture.renameElement(property, "newName2")
+            myFixture.checkResultByFile("refactor/KotlinFile.after")
+        }
     }
-  }
 
 }

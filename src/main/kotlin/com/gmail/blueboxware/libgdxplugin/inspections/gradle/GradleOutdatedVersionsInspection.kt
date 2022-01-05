@@ -25,46 +25,46 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssign
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 
-class GradleOutdatedVersionsInspection: LibGDXGradleBaseInspection() {
+class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
-  override fun getStaticDescription() =
-          message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
+    override fun getStaticDescription() =
+        message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
-          GroovyPsiElementVisitor(object: GroovyElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) =
+        GroovyPsiElementVisitor(object : GroovyElementVisitor() {
 
             override fun visitLiteralExpression(literal: GrLiteral) {
 
-              if (!literal.isInGradleBuildFile()) {
-                return
-              }
+                if (!literal.isInGradleBuildFile()) {
+                    return
+                }
 
-              getLibraryInfoFromGroovyLiteral(literal)?.let { (lib, version) ->
-                checkVersionAndReport(holder, literal, lib, version)
-              }
+                getLibraryInfoFromGroovyLiteral(literal)?.let { (lib, version) ->
+                    checkVersionAndReport(holder, literal, lib, version)
+                }
 
             }
 
             override fun visitCommandArguments(argumentList: GrCommandArgumentList) {
 
-              if (!argumentList.isInGradleBuildFile()) {
-                return
-              }
+                if (!argumentList.isInGradleBuildFile()) {
+                    return
+                }
 
-              getLibraryInfoFromGroovyArgumentList(argumentList)?.let { (lib, version) ->
-                checkVersionAndReport(holder, argumentList, lib, version)
-              }
+                getLibraryInfoFromGroovyArgumentList(argumentList)?.let { (lib, version) ->
+                    checkVersionAndReport(holder, argumentList, lib, version)
+                }
 
             }
 
             override fun visitAssignmentExpression(expression: GrAssignmentExpression) {
 
-              getLibraryInfoFromGroovyAssignment(expression)?.let { (lib, version) ->
-                checkVersionAndReport(holder, expression, lib, version)
-              }
+                getLibraryInfoFromGroovyAssignment(expression)?.let { (lib, version) ->
+                    checkVersionAndReport(holder, expression, lib, version)
+                }
 
             }
 
-          })
+        })
 
 }

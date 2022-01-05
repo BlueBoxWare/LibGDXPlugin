@@ -17,16 +17,16 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class AssetsInCodeCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureTestCase() {
+abstract class AssetsInCodeCodeInsightFixtureTestCase : LibGDXCodeInsightFixtureTestCase() {
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addLibGDX()
-    addAnnotations()
-    addKotlin()
+        addLibGDX()
+        addAnnotations()
+        addKotlin()
 
-    listOf(
+        listOf(
             "assets/libgdx.skin",
             "assets/dir/holo.json",
             "assets/dir/holo.skin",
@@ -40,15 +40,15 @@ abstract class AssetsInCodeCodeInsightFixtureTestCase: LibGDXCodeInsightFixtureT
             "assets/test_en_GB.properties",
             "assets/dir/foo.properties",
             "assets/dir/foo_es.properties"
-    ).forEach {
-      copyFileToProject(it)
+        ).forEach {
+            copyFileToProject(it)
+        }
+
+        copyFileToProject("src/JavaSkinTest.java", "JavaSkinTest.java")
+        copyFileToProject("src/KotlinSkinTest.kt", "KotlinSkinTest.kt")
+
     }
 
-    copyFileToProject("src/JavaSkinTest.java", "JavaSkinTest.java")
-    copyFileToProject("src/KotlinSkinTest.kt", "KotlinSkinTest.kt")
-
-  }
-
-  override fun getBasePath() = "assetsInCode"
+    override fun getBasePath() = "assetsInCode"
 
 }

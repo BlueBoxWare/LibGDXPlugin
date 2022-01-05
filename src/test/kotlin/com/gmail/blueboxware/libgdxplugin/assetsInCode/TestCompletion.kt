@@ -15,10 +15,10 @@ package com.gmail.blueboxware.libgdxplugin.assetsInCode
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
+class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
 
-  private val javaResourceCompletionTests = listOf(
-          """
+    private val javaResourceCompletionTests = listOf(
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin"})
@@ -30,20 +30,20 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf(
-                  "c1",
-                  "medium",
-                  "default",
-                  "toggle",
-                  "green"
-          )),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf(
+            "c1",
+            "medium",
+            "default",
+            "toggle",
+            "green"
+        )),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = "src/assets/libgdx.skin")
@@ -56,7 +56,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin", "src/assets/dir/skin.json"})
@@ -68,22 +68,22 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "c1",
-                  "c2",
-                  "c3",
-                  "taggedColor1"
-          ) to listOf(
-                  "medium",
-                  "default",
-                  "toggle",
-                  "green",
-                  "round-green"
-          )),
+            "red",
+            "white",
+            "yellow",
+            "c1",
+            "c2",
+            "c3",
+            "taggedColor1"
+        ) to listOf(
+            "medium",
+            "default",
+            "toggle",
+            "green",
+            "round-green"
+        )),
 
-          """
+        """
             class Test {
 
               void test() {
@@ -92,15 +92,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "inverse",
-                  "ui",
-                  "default",
-                  "grey",
-                  "black",
-                  "taggedColor3"
-          ) to listOf("c1", "c2", "dialogDim")),
+            "inverse",
+            "ui",
+            "default",
+            "grey",
+            "black",
+            "taggedColor3"
+        ) to listOf("c1", "c2", "dialogDim")),
 
-          """
+        """
             class Test {
 
               void test() {
@@ -109,19 +109,19 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1"
-          ) to listOf(
-                  "c1",
-                  "medium",
-                  "default",
-                  "toggle",
-                  "green"
-          )),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1"
+        ) to listOf(
+            "c1",
+            "medium",
+            "default",
+            "toggle",
+            "green"
+        )),
 
-          """
+        """
             class Test {
 
               void test() {
@@ -130,18 +130,18 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "c1",
-                  "c2"
-          ) to listOf(
-                  "medium",
-                  "default",
-                  "blue",
-                  "round-green"
-          )),
+            "red",
+            "white",
+            "c1",
+            "c2"
+        ) to listOf(
+            "medium",
+            "default",
+            "blue",
+            "round-green"
+        )),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin"})
@@ -153,16 +153,16 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "default",
-                  "medium",
-                  "green",
-                  "toggle"
-          ) to listOf()),
+            "red",
+            "white",
+            "yellow",
+            "default",
+            "medium",
+            "green",
+            "toggle"
+        ) to listOf()),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin"})
@@ -174,16 +174,16 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "default",
-                  "medium",
-                  "green",
-                  "toggle"
-          ) to listOf()),
+            "red",
+            "white",
+            "yellow",
+            "default",
+            "medium",
+            "green",
+            "toggle"
+        ) to listOf()),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin"})
@@ -195,14 +195,14 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf("default", "medium", "green", "toggle")),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf("default", "medium", "green", "toggle")),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"src/assets/libgdx.skin"})
@@ -214,14 +214,14 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "toggle",
-                  "default",
-                  "green",
-                  "taggedStyle1",
-                  "taggedStyle1"
-          ) to listOf("medium", "red", "white", "yellow")),
+            "toggle",
+            "default",
+            "green",
+            "taggedStyle1",
+            "taggedStyle1"
+        ) to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             class Test {
 
                 void test() {
@@ -235,7 +235,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("toggle", "default", "green") to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             class Test {
 
                 void test() {
@@ -248,16 +248,16 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "user-red",
-                  "lightGrey",
-                  "button back",
-                  "button-back-disabled",
-                  "select-box-over",
-                  "taggedTinted1",
-                  "taggedTinted2"
-          ) to listOf("medium", "red", "white", "yellow")),
+            "user-red",
+            "lightGrey",
+            "button back",
+            "button-back-disabled",
+            "select-box-over",
+            "taggedTinted1",
+            "taggedTinted2"
+        ) to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             class Test {
 
                 void test() {
@@ -270,19 +270,19 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "button back",
-                  "button-back-disabled",
-                  "select-box-over"
-          ) to listOf(
-                  "medium",
-                  "red",
-                  "white",
-                  "yellow",
-                  "user-red",
-                  "lightGrey"
-          )),
+            "button back",
+            "button-back-disabled",
+            "select-box-over"
+        ) to listOf(
+            "medium",
+            "red",
+            "white",
+            "yellow",
+            "user-red",
+            "lightGrey"
+        )),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
             class Test {
@@ -297,13 +297,13 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "slider-knob",
-                  "slider",
-                  "logo small",
-                  "progress-bar-horizontal-knob"
-          ) to listOf("medium", "red", "white", "yellow", "user-red", "lightGrey")),
+            "slider-knob",
+            "slider",
+            "logo small",
+            "progress-bar-horizontal-knob"
+        ) to listOf("medium", "red", "white", "yellow", "user-red", "lightGrey")),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
             class Test {
@@ -318,20 +318,20 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "slider-knob",
-                  "slider",
-                  "scroll-background-v"
-          ) to listOf(
-                  "medium",
-                  "red",
-                  "white",
-                  "yellow",
-                  "user-red",
-                  "lightGrey",
-                  "user-red"
-          )),
+            "slider-knob",
+            "slider",
+            "scroll-background-v"
+        ) to listOf(
+            "medium",
+            "red",
+            "white",
+            "yellow",
+            "user-red",
+            "lightGrey",
+            "user-red"
+        )),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
             class C {
@@ -348,7 +348,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf()),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
             class C {
@@ -364,18 +364,18 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "abstractClass",
-                  "aspect",
-                  "compiledClassesFolder",
-                  "scroll-corner",
-                  "tooltip",
-                  "button back"
-          ) to listOf())
-  )
+            "abstractClass",
+            "aspect",
+            "compiledClassesFolder",
+            "scroll-corner",
+            "tooltip",
+            "button back"
+        ) to listOf())
+    )
 
-  private val kotlinResourceCompletionTests = listOf(
+    private val kotlinResourceCompletionTests = listOf(
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin = Skin()
 
@@ -383,14 +383,14 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf("c1", "medium", "default", "toggle", "green")),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["src/assets/libgdx.skin"])
             val s: Skin = Skin()
 
@@ -399,7 +399,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin", "src/assets/dir/skin.json"))
             val s: Skin = Skin()
 
@@ -407,17 +407,17 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "c1",
-                  "c2",
-                  "c3",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf("medium", "default", "toggle", "green", "round-green")),
+            "red",
+            "white",
+            "yellow",
+            "c1",
+            "c2",
+            "c3",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf("medium", "default", "toggle", "green", "round-green")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["src/assets/libgdx.skin", "src/assets/dir/skin.json"])
             val s: Skin = Skin()
 
@@ -425,21 +425,21 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "c1",
-                  "c2",
-                  "c3"
-          ) to listOf(
-                  "medium",
-                  "default",
-                  "toggle",
-                  "green",
-                  "round-green"
-          )),
+            "red",
+            "white",
+            "yellow",
+            "c1",
+            "c2",
+            "c3"
+        ) to listOf(
+            "medium",
+            "default",
+            "toggle",
+            "green",
+            "round-green"
+        )),
 
-          """
+        """
             class Test {
               @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
               val s: Skin = Skin()
@@ -450,7 +450,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             class Test {
               companion object {
                 @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
@@ -463,19 +463,19 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             fun f() {
               JavaSkinTest().skin.getColor("<caret>")
             }
           """ to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
 
-          """
+        """
             fun f() {
               JavaSkinTest.staticSkin.getColor("<caret>")
             }
           """ to (listOf("c1", "c2") to listOf("grey", "black")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin = Skin()
 
@@ -483,18 +483,18 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "toggle",
-                  "default",
-                  "green",
-                  "medium",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf()),
+            "red",
+            "white",
+            "yellow",
+            "toggle",
+            "default",
+            "green",
+            "medium",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf()),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin = Skin()
 
@@ -503,7 +503,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow", "toggle", "default", "green", "medium") to listOf()),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin = Skin()
 
@@ -511,14 +511,14 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("<caret>", Color::class.java)
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1",
-                  "taggedColor2"
-          ) to listOf("toggle", "default", "green", "medium")),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1",
+            "taggedColor2"
+        ) to listOf("toggle", "default", "green", "medium")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["src/assets/libgdx.skin"])
             val s: Skin = Skin()
 
@@ -527,7 +527,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("toggle", "default", "green", "medium")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin = Skin()
 
@@ -535,14 +535,14 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("<caret>", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle::class.java)
             }
           """ to (listOf(
-                  "toggle",
-                  "default",
-                  "green",
-                  "taggedStyle2",
-                  "taggedStyle2"
-          ) to listOf("medium", "red", "white", "yellow")),
+            "toggle",
+            "default",
+            "green",
+            "taggedStyle2",
+            "taggedStyle2"
+        ) to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             fun f() {
                 @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
                 val s: Skin = Skin()
@@ -551,7 +551,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("toggle", "default", "green") to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             fun f() {
                 @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
                 val s: Skin = Skin()
@@ -560,7 +560,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("medium") to listOf("red", "white", "yellow", "toggle", "default", "green")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin", "src/assets/dir/holo.json"))
             val s: Skin = Skin()
 
@@ -568,16 +568,16 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getDrawable("<caret>")
             }
           """ to (listOf(
-                  "user-red",
-                  "lightGrey",
-                  "button back",
-                  "button-back-disabled",
-                  "select-box-over",
-                  "taggedTinted1",
-                  "taggedTinted2"
-          ) to listOf("medium", "red", "white", "yellow")),
+            "user-red",
+            "lightGrey",
+            "button back",
+            "button-back-disabled",
+            "select-box-over",
+            "taggedTinted1",
+            "taggedTinted2"
+        ) to listOf("medium", "red", "white", "yellow")),
 
-          """
+        """
             @GDXAssets(atlasFiles = arrayOf("src/assets/libgdx.atlas", "src/assets/dir/holo.atlas"))
             val s: Skin = Skin()
 
@@ -585,19 +585,19 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getDrawable("<caret>")
             }
           """ to (listOf(
-                  "button back",
-                  "button-back-disabled",
-                  "select-box-over"
-          ) to listOf(
-                  "medium",
-                  "red",
-                  "white",
-                  "yellow",
-                  "user-red",
-                  "lightGrey"
-          )),
+            "button back",
+            "button-back-disabled",
+            "select-box-over"
+        ) to listOf(
+            "medium",
+            "red",
+            "white",
+            "yellow",
+            "user-red",
+            "lightGrey"
+        )),
 
-          """
+        """
             @GDXAssets(atlasFiles = ["src/assets/libgdx.atlas", "src/assets/dir/holo.atlas"])
             val s: Skin = Skin()
 
@@ -605,20 +605,20 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.getDrawable("<caret>")
             }
           """ to (listOf(
-                  "button back",
-                  "button-back-disabled",
-                  "select-box-over"
-          ) to listOf(
-                  "medium",
-                  "red",
-                  "white",
-                  "yellow",
-                  "user-red",
-                  "lightGrey"
-          )),
+            "button back",
+            "button-back-disabled",
+            "select-box-over"
+        ) to listOf(
+            "medium",
+            "red",
+            "white",
+            "yellow",
+            "user-red",
+            "lightGrey"
+        )),
 
 
-          """
+        """
             import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin", "src/assets/dir/holo.skin"))
@@ -628,15 +628,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("<caret>", Drawable::class.java)
             }
           """ to (listOf(
-                  "user-red",
-                  "lightGrey",
-                  "scroll-background-v",
-                  "logo small",
-                  "taggedTinted1",
-                  "taggedTinted2"
-          ) to listOf()),
+            "user-red",
+            "lightGrey",
+            "scroll-background-v",
+            "logo small",
+            "taggedTinted1",
+            "taggedTinted2"
+        ) to listOf()),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.Sprite
 
 
@@ -647,16 +647,16 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("<caret>", Sprite::class.java)
             }
           """ to (listOf(
-                  "scroll-background-v",
-                  "logo small"
-          ) to listOf(
-                  "user-red",
-                  "lightGrey",
-                  "taggedTinted1",
-                  "taggedTinted2"
-          )),
+            "scroll-background-v",
+            "logo small"
+        ) to listOf(
+            "user-red",
+            "lightGrey",
+            "taggedTinted1",
+            "taggedTinted2"
+        )),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
             object O {
@@ -669,7 +669,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf()),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
             val s: Skin? = Skin()
 
@@ -677,13 +677,13 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s?.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "taggedColor1"
-          ) to listOf("c1", "medium", "default", "toggle", "green")),
+            "red",
+            "white",
+            "yellow",
+            "taggedColor1"
+        ) to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin", "src/assets/dir/skin.json"))
             val s: Skin = Skin()
 
@@ -691,15 +691,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s?.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "c1",
-                  "c2",
-                  "c3"
-          ) to listOf("medium", "default", "toggle", "green", "round-green")),
+            "red",
+            "white",
+            "yellow",
+            "c1",
+            "c2",
+            "c3"
+        ) to listOf("medium", "default", "toggle", "green", "round-green")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["src/assets/libgdx.skin", "src/assets/dir/skin.json"])
             val s: Skin = Skin()
 
@@ -707,15 +707,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
                 s?.getColor("<caret>")
             }
           """ to (listOf(
-                  "red",
-                  "white",
-                  "yellow",
-                  "c1",
-                  "c2",
-                  "c3"
-          ) to listOf("medium", "default", "toggle", "green", "round-green")),
+            "red",
+            "white",
+            "yellow",
+            "c1",
+            "c2",
+            "c3"
+        ) to listOf("medium", "default", "toggle", "green", "round-green")),
 
-          """
+        """
             class Test {
               @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
               val s: Skin? = Skin()
@@ -726,7 +726,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             class Test {
               companion object {
                 @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
@@ -739,13 +739,13 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             fun f() {
               JavaSkinTest()?.skin?.getColor("<caret>")
             }
           """ to (listOf("inverse", "ui", "default", "grey", "black") to listOf("c1", "c2", "dialogDim")),
 
-          """
+        """
             class Test {
               companion object {
                 @GDXAssets(skinFiles = arrayOf("src/assets/libgdx.skin"))
@@ -758,7 +758,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             class Test {
               companion object {
                 @GDXAssets(skinFiles = ["src/assets/libgdx.skin"])
@@ -771,7 +771,7 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("red", "white", "yellow") to listOf("c1", "medium", "default", "toggle", "green")),
 
-          """
+        """
             import com.badlogic.gdx.graphics.g2d.TextureAtlas
 
             object O {
@@ -784,10 +784,10 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             }
           """ to (listOf("abstractClass", "aspect", "compiledClassesFolder") to listOf())
 
-  )
+    )
 
-  private val javaAssetFileNameCompletionTests = listOf(
-          """
+    private val javaAssetFileNameCompletionTests = listOf(
+        """
             class Test {
 
                 @GDXAssets(skinFiles = "<caret>", atlasFiles = "")
@@ -795,12 +795,12 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf("src/assets/dir/something")),
+            "src/assets/libgdx.skin",
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf("src/assets/dir/something")),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(propertiesFiles = "<caret>", atlasFiles = "")
@@ -808,15 +808,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "src/assets/test.properties",
-                  "src/assets/dir/foo.properties"
-          ) to listOf(
-                  "src/assets/test_en.properties",
-                  "src/assets/test_en_GB.properties",
-                  "src/assets/dir/foo_es.properties"
-          )),
+            "src/assets/test.properties",
+            "src/assets/dir/foo.properties"
+        ) to listOf(
+            "src/assets/test_en.properties",
+            "src/assets/test_en_GB.properties",
+            "src/assets/dir/foo_es.properties"
+        )),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = "src/assets/d<caret>", atlasFiles = "")
@@ -824,15 +824,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf(
-                  "src/assets/dir/something",
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/test.pack"
-          )),
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf(
+            "src/assets/dir/something",
+            "src/assets/libgdx.skin",
+            "src/assets/dir/test.pack"
+        )),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = {"something", "<caret>"}, atlasFiles = "")
@@ -840,15 +840,15 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf(
-                  "src/assets/dir/something",
-                  "src/assets/dir/test.pack"
-          )),
+            "src/assets/libgdx.skin",
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf(
+            "src/assets/dir/something",
+            "src/assets/dir/test.pack"
+        )),
 
-          """
+        """
             class Test {
 
                 @GDXAssets(skinFiles = "", atlasFiles = {"<caret>"})
@@ -856,103 +856,103 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """ to (listOf(
-                  "src/assets/dir/test.pack",
-                  "src/assets/libgdx.atlas",
-                  "src/assets/dir/holo.atlas"
-          ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin"))
+            "src/assets/dir/test.pack",
+            "src/assets/libgdx.atlas",
+            "src/assets/dir/holo.atlas"
+        ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin"))
 
-  )
+    )
 
-  private val kotlinAssetFileNameCompletionTests = listOf(
-          """
+    private val kotlinAssetFileNameCompletionTests = listOf(
+        """
             @GDXAssets(skinFiles = arrayOf("<caret>"))
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf("src/assets/dir/something")),
+            "src/assets/libgdx.skin",
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf("src/assets/dir/something")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["<caret>"])
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf("src/assets/dir/something")),
+            "src/assets/libgdx.skin",
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf("src/assets/dir/something")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("src/assets/d<caret>"))
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf(
-                  "src/assets/dir/something",
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/test.pack"
-          )),
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf(
+            "src/assets/dir/something",
+            "src/assets/libgdx.skin",
+            "src/assets/dir/test.pack"
+        )),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("test", "<caret>"))
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/libgdx.skin",
-                  "src/assets/dir/holo.json",
-                  "src/assets/dir/skin.json"
-          ) to listOf("src/assets/dir/something")),
+            "src/assets/libgdx.skin",
+            "src/assets/dir/holo.json",
+            "src/assets/dir/skin.json"
+        ) to listOf("src/assets/dir/something")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("test"), atlasFiles = arrayOf("", "<caret>"))
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/dir/test.pack",
-                  "src/assets/libgdx.atlas",
-                  "src/assets/dir/holo.atlas"
-          ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin")),
+            "src/assets/dir/test.pack",
+            "src/assets/libgdx.atlas",
+            "src/assets/dir/holo.atlas"
+        ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin")),
 
-          """
+        """
             @GDXAssets(skinFiles = ["test"], atlasFiles = ["", "<caret>"])
             val s: Skin = Skin()
           """ to (listOf(
-                  "src/assets/dir/test.pack",
-                  "src/assets/libgdx.atlas",
-                  "src/assets/dir/holo.atlas"
-          ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin")),
+            "src/assets/dir/test.pack",
+            "src/assets/libgdx.atlas",
+            "src/assets/dir/holo.atlas"
+        ) to listOf("src/assets/dir/something", "src/assets/libgdx.skin")),
 
-          """
+        """
             @GDXAssets(skinFiles = arrayOf("test"), atlasFiles = arrayOf("", ""), propertiesFiles = arrayOf("<caret>"))
             val s = I18NBundle()
           """ to (listOf(
-                  "src/assets/test.properties",
-                  "src/assets/dir/foo.properties"
-          ) to listOf(
-                  "src/assets/test_en.properties",
-                  "src/assets/test_en_GB.properties",
-                  "src/assets/dir/foo_es.properties"
-          ))
-  )
+            "src/assets/test.properties",
+            "src/assets/dir/foo.properties"
+        ) to listOf(
+            "src/assets/test_en.properties",
+            "src/assets/test_en_GB.properties",
+            "src/assets/dir/foo_es.properties"
+        ))
+    )
 
-  fun testJavaAssetFileNameCompletion() {
-    doJavaTest(javaAssetFileNameCompletionTests)
-  }
+    fun testJavaAssetFileNameCompletion() {
+        doJavaTest(javaAssetFileNameCompletionTests)
+    }
 
-  fun testKotlinAssetFileNameCompletion() {
-    doKotlinTest(kotlinAssetFileNameCompletionTests)
-  }
+    fun testKotlinAssetFileNameCompletion() {
+        doKotlinTest(kotlinAssetFileNameCompletionTests)
+    }
 
-  fun testJavaResourceCompletion() {
-    doJavaTest(javaResourceCompletionTests)
-  }
+    fun testJavaResourceCompletion() {
+        doJavaTest(javaResourceCompletionTests)
+    }
 
-  fun testKotlinResourceCompletion() {
-    doKotlinTest(kotlinResourceCompletionTests)
-  }
+    fun testKotlinResourceCompletion() {
+        doKotlinTest(kotlinResourceCompletionTests)
+    }
 
-  private fun doJavaTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
-    for ((content, expected) in tests) {
-      val source = """
+    private fun doJavaTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
+        for ((content, expected) in tests) {
+            val source = """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
             import com.badlogic.gdx.graphics.Color;
@@ -961,13 +961,13 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             $content
       """
 
-      doTestCompletion("Test.java", source, expected.first, expected.second)
+            doTestCompletion("Test.java", source, expected.first, expected.second)
+        }
     }
-  }
 
-  private fun doKotlinTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
-    for ((content, expected) in tests) {
-      val source = """
+    private fun doKotlinTest(tests: List<Pair<String, Pair<List<String>, List<String>>>>) {
+        for ((content, expected) in tests) {
+            val source = """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
             import com.badlogic.gdx.graphics.Color
@@ -976,13 +976,13 @@ class TestCompletion: AssetsInCodeCodeInsightFixtureTestCase() {
             $content
       """
 
-      doTestCompletion("Test.kt", source, expected.first, expected.second)
+            doTestCompletion("Test.kt", source, expected.first, expected.second)
+        }
     }
-  }
 
-  override fun setUp() {
-    super.setUp()
+    override fun setUp() {
+        super.setUp()
 
-    addDummyLibGDX199()
-  }
+        addDummyLibGDX199()
+    }
 }

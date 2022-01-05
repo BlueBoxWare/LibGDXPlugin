@@ -21,44 +21,51 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingFieldInspection: SkinBaseInspection() {
+class SkinNonExistingFieldInspection : SkinBaseInspection() {
 
-  override fun getStaticDescription() = message("skin.inspection.non.existing.field.description")
+    override fun getStaticDescription() = message("skin.inspection.non.existing.field.description")
 
-  override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object: SkinElementVisitor() {
+    override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
-    override fun visitPropertyName(propertyName: SkinPropertyName) {
-      val name = propertyName.value
+        override fun visitPropertyName(propertyName: SkinPropertyName) {
+            val name = propertyName.value
 
-      if (name == PROPERTY_NAME_PARENT && propertyName.project.isLibGDX199()) {
-        return
-      }
+            if (name == PROPERTY_NAME_PARENT && propertyName.project.isLibGDX199()) {
+                return
+            }
 
-      val property = propertyName.property ?: return
-      val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
+            val property = propertyName.property ?: return
+            val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
 
-      if (typeString == COLOR_CLASS_NAME && name == "hex") {
-        return
-      } else if (typeString == BITMAPFONT_CLASS_NAME) {
-        if (!listOf(
+            if (typeString == COLOR_CLASS_NAME && name == "hex") {
+                return
+            } else if (typeString == BITMAPFONT_CLASS_NAME) {
+                if (!listOf(
                         PROPERTY_NAME_FONT_FILE,
                         PROPERTY_NAME_FONT_SCALED_SIZE,
                         PROPERTY_NAME_FONT_FLIP,
                         PROPERTY_NAME_FONT_MARKUP
-                ).contains(name)) {
-          holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message.BitmapFont", name))
-        }
-        return
-      } else if (typeString == FREETYPE_FONT_PARAMETER_CLASS_NAME && name == "font") {
-        return
-      }
+                    ).contains(name)
+                ) {
+                    holder.registerProblem(
+                        propertyName,
+                        message("skin.inspection.non.existing.field.message.BitmapFont", name)
+                    )
+                }
+                return
+            } else if (typeString == FREETYPE_FONT_PARAMETER_CLASS_NAME && name == "font") {
+                return
+            }
 
-      if (property.resolveToField() == null) {
-        holder.registerProblem(propertyName, message("skin.inspection.non.existing.field.message", typeString, name))
-      }
+            if (property.resolveToField() == null) {
+                holder.registerProblem(
+                    propertyName,
+                    message("skin.inspection.non.existing.field.message", typeString, name)
+                )
+            }
+
+        }
 
     }
-
-  }
 
 }

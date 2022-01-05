@@ -32,12 +32,12 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
+class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
 
-  fun testJavaResourceReference() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaResourceReference() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -52,13 +52,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
+    )
 
-  fun testJavaResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -72,13 +72,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          shouldBeFound = false
-  )
+        shouldBeFound = false
+    )
 
-  fun testJavaResourceReferenceWithTag1() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaResourceReferenceWithTag1() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -93,13 +93,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
+    )
 
-  fun testJavaResourceReferenceWithTag2() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaResourceReferenceWithTag2() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -114,13 +114,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
+    )
 
-  fun testKotlinResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinResourceReferenceWithoutAnnotation() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -131,13 +131,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
             }
           """,
-          shouldBeFound = false
-  )
+        shouldBeFound = false
+    )
 
-  fun testKotlinResourceReference() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinResourceReference() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -149,13 +149,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
+    )
 
-  fun testKotlinResourceReference2() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinResourceReference2() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -167,13 +167,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("sw<caret>itch", com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle::class.java)
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.CheckBox.CheckBoxStyle"
+    )
 
-  fun testKotlinResourceReferenceWithTag() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinResourceReferenceWithTag() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -184,13 +184,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
                 s.get("tagged<caret>Style2", com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle::class.java)
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle"
+    )
 
-  fun testKotlinAndJavaResourceReference() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinAndJavaResourceReference() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -198,13 +198,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("inv<caret>erse")
             }
           """,
-          expectedType = COLOR_CLASS_NAME
-  )
+        expectedType = COLOR_CLASS_NAME
+    )
 
-  fun testKotlinAndJavaResourceReferenceWithTags() = doTest<SkinResource>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinAndJavaResourceReferenceWithTags() = doTest<SkinResource>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
@@ -212,13 +212,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
               JavaSkinTest().skin.getColor("tagged<caret>Color3")
             }
           """,
-          expectedType = COLOR_CLASS_NAME
-  )
+        expectedType = COLOR_CLASS_NAME
+    )
 
-  fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -230,13 +230,13 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle"
-  )
+        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle"
+    )
 
-  fun testJavaAndKotlinResourceReferenceWithTags() = doTest<SkinResource>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaAndKotlinResourceReferenceWithTags() = doTest<SkinResource>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -248,37 +248,37 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """,
-          expectedType = BITMAPFONT_CLASS_NAME
-  )
+        expectedType = BITMAPFONT_CLASS_NAME
+    )
 
-  fun testKotlinSkinFileReferenceInAnnotation() = doTest<SkinFile>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinSkinFileReferenceInAnnotation() = doTest<SkinFile>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
             @GDXAssets(atlasFiles = arrayOf(""), skinFiles = arrayOf("src/assets\\dir/ho<caret>lo.skin"))
             val s: Skin = Skin()
           """
-  )
+    )
 
-  fun testKotlinSkinFileReferenceInAnnotation2() = doTest<SkinFile>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinSkinFileReferenceInAnnotation2() = doTest<SkinFile>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
             @GDXAssets(atlasFiles = arrayOf(""), skinFiles = ["src/assets\\dir/ho<caret>lo.skin"])
             val s: Skin = Skin()
           """
-  )
+    )
 
-  fun testJavaSkinFileReferenceInAnnotation() = doTest<SkinFile>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaSkinFileReferenceInAnnotation() = doTest<SkinFile>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -289,36 +289,36 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """
-  )
+    )
 
-  fun testKotlinPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
             @GDXAssets(propertiesFiles = arrayOf("src/assets\\test<caret>.properties"))
             val s: Skin = Skin()
           """
-  )
+    )
 
-  fun testKotlinPropertiesFileReferenceInAnnotation2() = doTest<PropertiesFileImpl>(
-          KotlinFileType.INSTANCE,
-          KtStringTemplateExpression::class.java,
-          """
+    fun testKotlinPropertiesFileReferenceInAnnotation2() = doTest<PropertiesFileImpl>(
+        KotlinFileType.INSTANCE,
+        KtStringTemplateExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
             @GDXAssets(propertiesFiles = ["src/assets\\test<caret>.properties"])
             val s: Skin = Skin()
           """
-  )
+    )
 
-  fun testJavaPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
-          JavaFileType.INSTANCE,
-          PsiLiteralExpression::class.java,
-          """
+    fun testJavaPropertiesFileReferenceInAnnotation() = doTest<PropertiesFileImpl>(
+        JavaFileType.INSTANCE,
+        PsiLiteralExpression::class.java,
+        """
             import com.badlogic.gdx.scenes.scene2d.ui.Skin;
             import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
 
@@ -329,50 +329,50 @@ class TestReferences: AssetsInCodeCodeInsightFixtureTestCase() {
 
             }
           """
-  )
+    )
 
-  private inline fun <reified expectedReferentType: PsiElement> doTest(
-          fileType: LanguageFileType,
-          referencingElementType: Class<out PsiElement>,
-          content: String,
-          expectedType: String? = null,
-          shouldBeFound: Boolean = true
-  ) {
+    private inline fun <reified expectedReferentType : PsiElement> doTest(
+        fileType: LanguageFileType,
+        referencingElementType: Class<out PsiElement>,
+        content: String,
+        expectedType: String? = null,
+        shouldBeFound: Boolean = true
+    ) {
 
-    configureByText(fileType, content)
-    val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
-      PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
-    } ?: throw AssertionError("Referencing element not found")
+        configureByText(fileType, content)
+        val referencingElement = file.findElementAt(myFixture.caretOffset)?.let { elementAtCaret ->
+            PsiTreeUtil.getParentOfType(elementAtCaret, referencingElementType)
+        } ?: throw AssertionError("Referencing element not found")
 
-    val referentElement =
+        val referentElement =
             referencingElement.references.firstOrNull { it is AssetReference || it is FileReference }?.let {
-              if (!shouldBeFound) {
-                throw AssertionError("Unexpected reference found")
-              }
-              it.resolve()
+                if (!shouldBeFound) {
+                    throw AssertionError("Unexpected reference found")
+                }
+                it.resolve()
             }
 
-    if (!shouldBeFound && referentElement == null) {
-      return
+        if (!shouldBeFound && referentElement == null) {
+            return
+        }
+
+        assertTrue(referentElement is expectedReferentType)
+
+        if (referentElement is SkinResource) {
+            assertEquals(referentElement.name, StringUtil.stripQuotesAroundValue(referencingElement.text))
+            assertEquals(expectedType, referentElement.classSpecification?.resolveClass()?.qualifiedName)
+        }
+
     }
 
-    assertTrue(referentElement is expectedReferentType)
+    override fun setUp() {
+        super.setUp()
 
-    if (referentElement is SkinResource) {
-      assertEquals(referentElement.name, StringUtil.stripQuotesAroundValue(referencingElement.text))
-      assertEquals(expectedType, referentElement.classSpecification?.resolveClass()?.qualifiedName)
+        if (testname().contains("tag", ignoreCase = true)) {
+            addDummyLibGDX199()
+            copyFileToProject("src/JavaSkinTest.java")
+            copyFileToProject("src/KotlinSkinTest.kt")
+        }
+
     }
-
-  }
-
-  override fun setUp() {
-    super.setUp()
-
-    if (testname().contains("tag", ignoreCase = true)) {
-      addDummyLibGDX199()
-      copyFileToProject("src/JavaSkinTest.java")
-      copyFileToProject("src/KotlinSkinTest.kt")
-    }
-
-  }
 }

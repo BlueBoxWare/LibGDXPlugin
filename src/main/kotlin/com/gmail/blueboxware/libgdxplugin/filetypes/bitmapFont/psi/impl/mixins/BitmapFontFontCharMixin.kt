@@ -21,36 +21,36 @@ import com.intellij.navigation.ItemPresentation
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-abstract class BitmapFontFontCharMixin(node: ASTNode): BitmapFontFontChar, PropertyContainerImpl(node) {
+abstract class BitmapFontFontCharMixin(node: ASTNode) : BitmapFontFontChar, PropertyContainerImpl(node) {
 
-  override fun getCharacter(): Int? = getValue("id")?.toIntOrNull()
+    override fun getCharacter(): Int? = getValue("id")?.toIntOrNull()
 
-  override fun getLetter(): String? {
+    override fun getLetter(): String? {
 
-    getValue("letter")?.firstOrNull()?.let { letter ->
+        getValue("letter")?.firstOrNull()?.let { letter ->
 
-      return when {
-        letter == ' ' -> "space"
-        letter == '\t' -> "tab"
-        letter == '\n' -> "newline"
-        letter == '\r' -> "return"
-        Character.isISOControl(letter) -> null
-        else -> "'$letter'"
-      }
+            return when {
+                letter == ' ' -> "space"
+                letter == '\t' -> "tab"
+                letter == '\n' -> "newline"
+                letter == '\r' -> "return"
+                Character.isISOControl(letter) -> null
+                else -> "'$letter'"
+            }
+
+        }
+
+        return null
 
     }
 
-    return null
+    override fun getPresentation() = object : ItemPresentation {
 
-  }
+        override fun getLocationString() = ""
 
-  override fun getPresentation() = object: ItemPresentation {
+        override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-    override fun getLocationString() = ""
+        override fun getPresentableText() = character.toString() + (letter?.let { " ($it)" } ?: "")
 
-    override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
-
-    override fun getPresentableText() = character.toString() + (letter?.let { " ($it)" } ?: "")
-
-  }
+    }
 }

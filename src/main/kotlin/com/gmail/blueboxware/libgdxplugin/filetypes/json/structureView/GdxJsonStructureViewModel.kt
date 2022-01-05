@@ -26,27 +26,27 @@ import com.intellij.openapi.application.ApplicationManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonStructureViewModel(file: GdxJsonFile):
-        StructureViewModelBase(file, GdxJsonStructureViewElement(file)),
-        StructureViewModel.ElementInfoProvider,
-        StructureViewModel.ExpandInfoProvider {
+class GdxJsonStructureViewModel(file: GdxJsonFile) :
+    StructureViewModelBase(file, GdxJsonStructureViewElement(file)),
+    StructureViewModel.ElementInfoProvider,
+    StructureViewModel.ExpandInfoProvider {
 
-  init {
-    withSuitableClasses(
+    init {
+        withSuitableClasses(
             GdxJsonFile::class.java,
             GdxJsonProperty::class.java,
             GdxJsonJobject::class.java,
             GdxJsonArray::class.java
-    )
-    withSorters(Sorter.ALPHA_SORTER)
-  }
+        )
+        withSorters(Sorter.ALPHA_SORTER)
+    }
 
-  override fun isAlwaysShowsPlus(element: StructureViewTreeElement?): Boolean = false
+    override fun isAlwaysShowsPlus(element: StructureViewTreeElement?): Boolean = false
 
-  override fun isAlwaysLeaf(element: StructureViewTreeElement?): Boolean = false
+    override fun isAlwaysLeaf(element: StructureViewTreeElement?): Boolean = false
 
-  override fun isAutoExpand(element: StructureViewTreeElement): Boolean =
-          element is GdxJsonFile || ApplicationManager.getApplication().isUnitTestMode
+    override fun isAutoExpand(element: StructureViewTreeElement): Boolean =
+        element is GdxJsonFile || ApplicationManager.getApplication().isUnitTestMode
 
-  override fun isSmartExpand(): Boolean = true
+    override fun isSmartExpand(): Boolean = true
 }

@@ -29,62 +29,62 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MarkAsGdxJsonAction: AnAction() {
+class MarkAsGdxJsonAction : AnAction() {
 
-  override fun update(event: AnActionEvent) {
+    override fun update(event: AnActionEvent) {
 
-    val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
+        val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
 
-    val presentation = event.presentation
+        val presentation = event.presentation
 
-    presentation.isEnabled = false
+        presentation.isEnabled = false
 
-    if (!file.isDirectory) {
+        if (!file.isDirectory) {
 
-      event.project?.let { project ->
-        val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
+            event.project?.let { project ->
+                val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
-        if (currentLanguage != LibGDXJsonLanuage.INSTANCE && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
+                if (currentLanguage != LibGDXJsonLanuage.INSTANCE && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
 
-          @Suppress("DialogTitleCapitalization")
-          presentation.text = message("context.menu.mark.as.gdx.json")
-          presentation.icon = Icons.LIBGDX_JSON_FILETYPE
-          presentation.isEnabled = true
+                    @Suppress("DialogTitleCapitalization")
+                    presentation.text = message("context.menu.mark.as.gdx.json")
+                    presentation.icon = Icons.LIBGDX_JSON_FILETYPE
+                    presentation.isEnabled = true
 
-        } else if (
-                currentLanguage == LibGDXJsonLanuage.INSTANCE
-                && LanguageUtil.getFileLanguage(file) != LibGDXJsonLanuage.INSTANCE
-        ) {
+                } else if (
+                    currentLanguage == LibGDXJsonLanuage.INSTANCE
+                    && LanguageUtil.getFileLanguage(file) != LibGDXJsonLanuage.INSTANCE
+                ) {
 
-          @Suppress("DialogTitleCapitalization")
-          presentation.text = message("context.menu.mark.as.non.gdx.json")
-          presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)
-          presentation.isEnabled = true
+                    @Suppress("DialogTitleCapitalization")
+                    presentation.text = message("context.menu.mark.as.non.gdx.json")
+                    presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)
+                    presentation.isEnabled = true
+
+                }
+
+            }
 
         }
 
-      }
-
     }
 
-  }
+    override fun actionPerformed(event: AnActionEvent) {
 
-  override fun actionPerformed(event: AnActionEvent) {
+        val project = event.project ?: return
+        val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
+        val text = event.presentation.text ?: return
 
-    val project = event.project ?: return
-    val file = event.getData(PlatformDataKeys.VIRTUAL_FILE) ?: return
-    val text = event.presentation.text ?: return
+        if (text == message("context.menu.mark.as.gdx.json")) {
 
-    if (text == message("context.menu.mark.as.gdx.json")) {
+            project.markFileAsGdxJson(file)
 
-      project.markFileAsGdxJson(file)
+        } else {
 
-    } else {
+            project.markFileAsNonGdxJson(file)
 
-      project.markFileAsNonGdxJson(file)
+        }
 
     }
-
-  }
 
 }
