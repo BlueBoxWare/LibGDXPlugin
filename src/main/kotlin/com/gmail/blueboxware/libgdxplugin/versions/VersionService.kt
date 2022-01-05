@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.versions
 
+import com.gmail.blueboxware.libgdxplugin.utils.SkinTagsModificationTracker
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
@@ -120,6 +121,7 @@ class VersionService(val project: Project) : Disposable {
             }
 
             if (isLibGDXProject()) {
+                SkinTagsModificationTracker.getInstance(project).incModificationCount()
                 LOG.debug("libGDX detected")
             } else {
                 LOG.debug("No libGDX detected")

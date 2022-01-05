@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMapLazy
+import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.openapi.application.ReadAction
@@ -47,27 +47,28 @@ class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSear
             return
         }
 
-        if (!element.project.isLibGDX199()) {
-            return
-        }
-
         if (queryParameters.effectiveSearchScope is LocalSearchScope) {
             return
         }
 
-        val qualifiedName = when (element) {
-            is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
-            is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
-            else -> null
-        }
-
-        if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
-            return
-        }
-
         ReadAction.run<Throwable> {
-            val tagsToFind = queryParameters.project.getSkinTag2ClassMapLazy()?.getTags(qualifiedName)?.filter { tag ->
-                StringUtil.getShortName(qualifiedName) != tag
+            if (!element.project.isLibGDX199()) {
+                return@run
+            }
+
+            val qualifiedName = when (element) {
+                is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
+                is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
+                else -> null
+            }
+
+            if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
+                return@run
+            }
+
+
+            val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)?.filter { tag ->
+                StringUtil.getShortName(qualifiedName) == tag
             } ?: return@run
 
             if (tagsToFind.isEmpty()) {
