@@ -114,7 +114,7 @@ internal class ColorsDefinition(
 
 private val KEY = key<CachedValue<Map<String, ColorsDefinition?>>>("colorsMap")
 
-internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY) {
+internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY, null) {
 
   if (!isLibGDXProject()) {
     mapOf<String, ColorsDefinition>()

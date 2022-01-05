@@ -61,7 +61,6 @@ internal fun Project.findClasses(fqName: String, scope: GlobalSearchScope = allS
 internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClass(fqName, scope)
 
-@Suppress("unused")
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
         project.findClasses(fqName, scope)
 
@@ -71,35 +70,37 @@ internal fun <K, V> Map<K, V>.getKey(value: V): K? =
 @Suppress("unused")
 internal fun runUnderProgressIfNecessary(action: () -> Unit) {
 
-  if (ProgressManager.getGlobalProgressIndicator() == null) {
-    ProgressManager.getInstance().runProcess(action, EmptyProgressIndicator())
-    return
-  }
+    if (ProgressManager.getGlobalProgressIndicator() == null) {
+        ProgressManager.getInstance().runProcess(action, EmptyProgressIndicator())
+        return
+    }
 
-  action()
+    action()
 
 }
 
 internal fun <T> computeUnderProgressIfNecessary(f: () -> T): T =
         if (ProgressManager.getGlobalProgressIndicator() == null) {
-          ProgressManager.getInstance().runProcess(Computable { f() }, EmptyProgressIndicator())
+            ProgressManager.getInstance().runProcess(Computable { f() }, EmptyProgressIndicator())
         } else {
-          f()
+            f()
         }
 
 internal fun PsiElement.allScope(): GlobalSearchScope = project.allScope()
 
-internal fun <R> PsiElement.getCachedValue(key: String, f: () -> R): R? =
-        getCachedValue(key(key), f)
-
-internal fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R? =
+internal inline fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, crossinline f: () -> R): R? =
         CachedValuesManager.getCachedValue(this, key) {
-          CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
+            CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
         }
 
-internal fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, f: () -> R): R? =
+internal inline fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R): R? =
+        CachedValuesManager.getManager(project).getCachedValue(this, key, {
+            CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
+        }, false)
+
+internal inline fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R): R? =
         CachedValuesManager.getManager(this).getCachedValue(this, key, {
-          CachedValueProvider.Result.create(f(), PsiModificationTracker.MODIFICATION_COUNT)
+            CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
         }, false)
 
 internal fun <E> List<E>.indexOfOrNull(element: E): Int? =

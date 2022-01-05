@@ -72,6 +72,6 @@ abstract class SkinClassSpecificationMixin(node: ASTNode): SkinClassSpecificatio
     override fun getPresentableText() = StringUtil.getShortName(name)
   }
 
-  override fun toString(): String = "SkinClassSpecification(${className.value})"
+  override fun toString(): String = "SkinClassSpecification(${nameIdentifier.text})"
 
 }

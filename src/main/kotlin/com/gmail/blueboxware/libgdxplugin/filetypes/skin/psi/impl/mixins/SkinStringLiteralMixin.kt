@@ -12,6 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiPrimitiveType
 import com.intellij.psi.PsiReference
+import com.intellij.psi.util.CachedValue
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -30,13 +31,25 @@ import com.intellij.psi.PsiReference
  */
 abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinValueImpl(node) {
 
-  override fun getValue(): String = text.stripQuotes().unescape()
+  private var lastHash: Int? = null
+  private var lastString: String? = null
+
+  override fun getValue(): String {
+    val newHash = text.hashCode()
+    if (lastHash == newHash) {
+      return lastString ?: ""
+    }
+    val str = text.stripQuotes().unescape()
+    lastHash = newHash
+    lastString = str
+    return str
+  }
 
   override fun asPropertyName(): SkinPropertyName? = this.parent as? SkinPropertyName
 
   override fun isBoolean(): Boolean = text == "true" || text == "false"
 
-  override fun getReference(): PsiReference? {
+  override fun getReference(): PsiReference? = getCachedValue(REFERENCE_KEY, null) {
 
     val containingObjectType = property?.containingObject?.resolveToTypeString()
 
@@ -44,7 +57,7 @@ abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinVal
             (containingObjectType == BITMAPFONT_CLASS_NAME && property?.name == PROPERTY_NAME_FONT_FILE)
             || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME && property?.name == "font")
     ) {
-      return SkinFileReference(this, containingFile)
+      return@getCachedValue SkinFileReference(this, containingFile)
     } else {
       property?.let { property ->
         property.resolveToType().let { type ->
@@ -54,10 +67,10 @@ abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinVal
                   || type is PsiPrimitiveType
                   || type == null
           ) {
-            return null
+            return@getCachedValue null
           } else if (type.isStringType(property)) {
             if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
-              return null
+              return@getCachedValue null
             }
           }
         }
@@ -66,7 +79,7 @@ abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinVal
 
     }
 
-    return SkinResourceReference(this)
+    return@getCachedValue SkinResourceReference(this)
 
   }
 
@@ -77,5 +90,9 @@ abstract class SkinStringLiteralMixin(node: ASTNode): SkinStringLiteral, SkinVal
   }
 
   override fun isQuoted(): Boolean = text.firstOrNull() == '\"'
+
+companion object {
+  val REFERENCE_KEY = key<CachedValue<PsiReference?>>("reference")
+}
 
 }

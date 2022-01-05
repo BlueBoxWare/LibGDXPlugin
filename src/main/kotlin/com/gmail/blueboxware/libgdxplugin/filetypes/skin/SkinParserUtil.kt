@@ -24,15 +24,25 @@ object SkinParserUtil: GeneratedParserUtilBase() {
   fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
 
     var i = builder.currentOffset
+    val originalText = builder.originalText
 
-    while (i > 0 && builder.originalText[i - 1] in listOf(' ', '\t', '\r', '\n')) {
+    while (i > 0) {
+      val c = originalText[i - 1]
+      if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
+        break
+      }
       i--
     }
 
     var separatorFound = false
 
-    while (i < builder.originalText.length && builder.originalText[i] in listOf(' ', '\t', '\r', '\n', ',')) {
-      if (builder.originalText[i] == '\r' || builder.originalText[i] == '\n' || builder.originalText[i] == ',') {
+    val length = originalText.length
+    while (i < length) {
+      val c = originalText[i]
+      if (c != ' ' && c != '\t' && c != '\r' && c != '\n' && c != ',') {
+        break
+      }
+      if (c == '\r' || c == '\n' || c == ',') {
         separatorFound = true
         break
       }

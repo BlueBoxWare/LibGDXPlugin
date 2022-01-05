@@ -1,7 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.codeInsight.AnnotationUtil
+import com.intellij.openapi.components.Service
+import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.SimpleModificationTracker
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiImmediateClassType
@@ -48,20 +51,43 @@ internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
 private val KEY = key<CachedValue<TagMap?>>("tag2classMap")
 
-internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue(KEY) {
+@Service
+class SkinTagsModificationTracker : SimpleModificationTracker() {
+    var isFresh: Boolean = false
+        private set
 
-  if (isLibGDX199()) {
-    computeUnderProgressIfNecessary {
-      collectCustomTags().apply {
-        addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-        addAll(collectTagsFromAnnotations())
-      }
+    override fun getModificationCount(): Long {
+        isFresh = false
+        return super.getModificationCount()
     }
-  } else {
-    null
-  }
+
+    override fun incModificationCount() {
+        isFresh = true
+        super.incModificationCount()
+    }
+
+    companion object {
+        fun getInstance(project: Project) = project.service<SkinTagsModificationTracker>()
+    }
+}
+
+internal fun Project.getSkinTag2ClassMap(): TagMap? = getCachedValue(KEY, SkinTagsModificationTracker.getInstance(this)) {
+
+    if (isLibGDX199()) {
+        computeUnderProgressIfNecessary {
+            collectCustomTags().apply {
+                addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+                addAll(collectTagsFromAnnotations())
+            }
+        }
+    } else {
+        null
+    }
 
 }
+
+internal fun Project.getSkinTag2ClassMapLazy(): TagMap? =
+        getUserData(KEY)?.value ?: getSkinTag2ClassMap()
 
 internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
         "graphics.g2d.BitmapFont",
@@ -92,105 +118,105 @@ internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
 
 private fun Project.collectCustomTags(): TagMap {
 
-  val tagMap = TagMap()
+    val tagMap = TagMap()
 
-  findClasses("com.badlogic.gdx.utils.Json").forEach { jsonClass ->
+    findClasses("com.badlogic.gdx.utils.Json").forEach { jsonClass ->
 
-    ClassInheritorsSearch.search(jsonClass).toMutableList().apply { add(jsonClass) }.forEach { jsonSubClass ->
+        ClassInheritorsSearch.search(jsonClass).toMutableList().apply { add(jsonClass) }.forEach { jsonSubClass ->
 
-      jsonSubClass.findMethodsByName("addClassTag", false).forEach { addTagMethod ->
+            jsonSubClass.findMethodsByName("addClassTag", false).forEach { addTagMethod ->
 
-        ReferencesSearch.search(addTagMethod).forEach { reference ->
+                ReferencesSearch.search(addTagMethod).forEach { reference ->
 
-          (reference.element.context as? PsiMethodCallExpression)?.argumentList?.let { argumentsList ->
+                    (reference.element.context as? PsiMethodCallExpression)?.argumentList?.let { argumentsList ->
 
-            if (argumentsList.expressions.size == 2
-                    && argumentsList.expressionTypes.getOrNull(0)?.isStringType(reference.element) == true
-                    && argumentsList.expressionTypes.getOrNull(1) is PsiImmediateClassType) {
+                        if (argumentsList.expressions.size == 2
+                                && argumentsList.expressionTypes.getOrNull(0)?.isStringType(reference.element) == true
+                                && argumentsList.expressionTypes.getOrNull(1) is PsiImmediateClassType) {
 
 
-              (argumentsList.expressions.getOrNull(0) as? PsiLiteralExpression)?.asString()?.let { tag ->
-                (
-                        (argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)
-                                ?.operand
-                                ?.type as? PsiClassType
-                        )
-                        ?.resolve()
-                        ?.let { clazz ->
-                          clazz.qualifiedName?.let { fqName ->
-                            tagMap.add(tag, fqName)
-                          }
+                            (argumentsList.expressions.getOrNull(0) as? PsiLiteralExpression)?.asString()?.let { tag ->
+                                (
+                                        (argumentsList.expressions.getOrNull(1) as? PsiClassObjectAccessExpression)
+                                                ?.operand
+                                                ?.type as? PsiClassType
+                                        )
+                                        ?.resolve()
+                                        ?.let { clazz ->
+                                            clazz.qualifiedName?.let { fqName ->
+                                                tagMap.add(tag, fqName)
+                                            }
+                                        }
+                            }
+
                         }
-              }
-
-            }
-
-          }
-
-          (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
-
-            (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }
-                    ?.asPlainString()?.let { firstArgument ->
-
-                      arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
-
-                        (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
-                                ?.takeIf { it.isClassType }
-                                ?.arguments
-                                ?.firstOrNull()
-                                ?.type
-                                ?.fqName()
-                                ?.let { fqName ->
-                                  tagMap.add(firstArgument, fqName)
-                                }
-
-                      }
 
                     }
 
-          }
+                    (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
+
+                        (arguments.getOrNull(0)?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }
+                                ?.asPlainString()?.let { firstArgument ->
+
+                                    arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
+
+                                        (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
+                                                ?.takeIf { it.isClassType }
+                                                ?.arguments
+                                                ?.firstOrNull()
+                                                ?.type
+                                                ?.fqName()
+                                                ?.let { fqName ->
+                                                    tagMap.add(firstArgument, fqName)
+                                                }
+
+                                    }
+
+                                }
+
+                    }
+
+                }
+            }
 
         }
-      }
-
     }
-  }
 
-  return tagMap
+    return tagMap
 
 }
 
 internal fun Project.collectTagsFromAnnotations(): Collection<Pair<String, String>> {
 
-  val tagAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
+    val tagAnnotation = findClass(TAG_ANNOTATION_NAME) ?: return listOf()
 
-  val tags = mutableListOf<Pair<String, String>>()
+    val tags = mutableListOf<Pair<String, String>>()
 
-  AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, allScope()).forEach { psiClass ->
-    psiClass.getSkinTagsFromAnnotation()?.forEach { tag ->
-      psiClass.qualifiedName?.let { fqName ->
-        tags.add(tag to fqName)
-      }
+    AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, allScope()).forEach { psiClass ->
+        psiClass.getSkinTagsFromAnnotation()?.forEach { tag ->
+            psiClass.qualifiedName?.let { fqName ->
+                tags.add(tag to fqName)
+            }
+        }
     }
-  }
 
 
-  return tags
+    return tags
 
 }
 
 internal fun PsiClass.getSkinTagsFromAnnotation(): Collection<String>? {
 
-  AnnotationUtil.findAnnotation(this, TAG_ANNOTATION_NAME)?.let { annotation ->
-    val wrapper = if (annotation is KtLightElement<*, *>) {
-      (annotation.kotlinOrigin as? KtAnnotationEntry)?.let(::KtAnnotationWrapper)
-    } else {
-      PsiAnnotationWrapper(annotation)
+    AnnotationUtil.findAnnotation(this, TAG_ANNOTATION_NAME)?.let { annotation ->
+        val wrapper = if (annotation is KtLightElement<*, *>) {
+            (annotation.kotlinOrigin as? KtAnnotationEntry)?.let(::KtAnnotationWrapper)
+        } else {
+            PsiAnnotationWrapper(annotation)
+        }
+        return wrapper?.getValue()
     }
-    return wrapper?.getValue()
-  }
 
-  return listOf()
+    return listOf()
 
 }
 

@@ -94,6 +94,6 @@ abstract class SkinClassNameMixin(node: ASTNode): SkinClassName, SkinElementImpl
 
   override fun getReference(): SkinJavaClassReference = SkinJavaClassReference(this)
 
-  override fun toString(): String = "SkinClassName(${value.plainName})"
+  override fun toString(): String = "SkinClassName(${stringLiteral.text})"
 
 }

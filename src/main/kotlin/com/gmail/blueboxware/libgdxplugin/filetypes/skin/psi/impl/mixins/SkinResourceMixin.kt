@@ -94,6 +94,6 @@ abstract class SkinResourceMixin(node: ASTNode): SkinResource, SkinElementImpl(n
     override fun getPresentableText(): String = name
   }
 
-  override fun toString(): String = "SkinResource($name)"
+  override fun toString(): String = "SkinResource(${resourceName.stringLiteral.text})"
 
 }

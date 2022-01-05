@@ -24,6 +24,6 @@ abstract class SkinResourceNameMixin(node: ASTNode): SkinResourceName, SkinEleme
 
   override fun getResource() = context as? SkinResource
 
-  override fun toString(): String = "SkinResourceName(${stringLiteral.value})"
+  override fun toString(): String = "SkinResourceName(${stringLiteral.text})"
 
 }

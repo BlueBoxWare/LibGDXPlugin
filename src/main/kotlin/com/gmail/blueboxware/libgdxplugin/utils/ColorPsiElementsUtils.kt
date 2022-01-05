@@ -19,6 +19,7 @@ import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
 import com.intellij.psi.impl.compiled.ClsElementImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
+import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
@@ -32,6 +33,9 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.callUtil.getType
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import java.awt.Color
+
+private val COLOR_KEY = key<CachedValue<Color?>>("color.color")
+private val COLOR_ROOT_KEY = key<CachedValue<PsiElement>>("color.root")
 
 internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
 
@@ -55,7 +59,7 @@ internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
 
 }
 
-private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCachedValue("color.color") {
+private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCachedValue(COLOR_KEY) {
 
   val type = when (this) {
     is KtExpression -> getType(analyzePartial())?.fqName()
@@ -373,7 +377,7 @@ private fun PsiReference.resolveForColor(): PsiElement? {
 
 }
 
-private fun PsiElement.findRoot(): PsiElement = getCachedValue("color.root") {
+private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
 
   if (this is KtNameReferenceExpression || this is PsiReferenceExpression) {
 

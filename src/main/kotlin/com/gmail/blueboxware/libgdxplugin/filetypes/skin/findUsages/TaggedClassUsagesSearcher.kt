@@ -3,7 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
+import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMapLazy
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.openapi.application.ReadAction
@@ -63,7 +63,7 @@ class TaggedClassUsagesSearcher: QueryExecutorBase<PsiReference, ReferencesSearc
     }
 
     ReadAction.run<Throwable> {
-      val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)?.filter { tag ->
+      val tagsToFind = queryParameters.project.getSkinTag2ClassMapLazy()?.getTags(qualifiedName)?.filter { tag ->
         StringUtil.getShortName(qualifiedName) != tag
       } ?: return@run
 

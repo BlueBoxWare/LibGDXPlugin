@@ -11,9 +11,9 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.isSuppressed
 import com.intellij.codeInspection.SuppressQuickFix
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiWhiteSpace
 import com.intellij.spellchecker.inspections.PlainTextSplitter
 import com.intellij.spellchecker.inspections.SpellCheckingInspection
-import com.intellij.spellchecker.tokenizer.SpellcheckingStrategy
 import com.intellij.spellchecker.tokenizer.SuppressibleSpellcheckingStrategy
 import com.intellij.spellchecker.tokenizer.Tokenizer
 import com.intellij.spellchecker.tokenizer.TokenizerBase
@@ -34,34 +34,38 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinSpellcheckerStrategy: SuppressibleSpellcheckingStrategy() {
+class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
 
-  override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
-          if (element?.parent is SkinClassName || element?.parent is SkinPropertyName) {
-            SpellcheckingStrategy.EMPTY_TOKENIZER
-          } else if (element is SkinStringLiteral) {
-            TOKENIZER
-          } else if (element is PsiComment) {
-            super.getTokenizer(element)
-          } else {
-            SpellcheckingStrategy.EMPTY_TOKENIZER
-          }
+    override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
+            if (element is PsiWhiteSpace) {
+                EMPTY_TOKENIZER
+            } else if (element is SkinStringLiteral) {
+                if (element.parent is SkinClassName || element.parent is SkinPropertyName) {
+                    EMPTY_TOKENIZER
+                } else {
+                    TOKENIZER
+                }
+            } else if (element is PsiComment) {
+                super.getTokenizer(element)
+            } else {
+                EMPTY_TOKENIZER
+            }
 
-  override fun getSuppressActions(element: PsiElement, name: String): Array<SuppressQuickFix> =
-          arrayOf(
-                  SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                  SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
-                  SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-          )
+    override fun getSuppressActions(element: PsiElement, name: String): Array<SuppressQuickFix> =
+            arrayOf(
+                    SuppressForPropertyFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+                    SuppressForObjectFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME),
+                    SuppressForFileFix(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+            )
 
-  override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
-          (element as? SkinElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
-                  ?: false
+    override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
+            (element as? SkinElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
+                    ?: false
 
-  companion object {
+    companion object {
 
-    val TOKENIZER = TokenizerBase<SkinElement>(PlainTextSplitter.getInstance())
+        val TOKENIZER = TokenizerBase<SkinElement>(PlainTextSplitter.getInstance())
 
-  }
+    }
 
 }

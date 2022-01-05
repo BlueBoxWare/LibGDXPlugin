@@ -38,81 +38,81 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandler private constructor(element: PsiElement): FindUsagesHandler(element) {
+class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindUsagesHandler(element) {
 
-  constructor(element: PsiLiteralExpression): this(element as PsiElement)
+    constructor(element: PsiLiteralExpression) : this(element as PsiElement)
 
-  constructor(element: KtStringTemplateExpression): this(element as PsiElement)
+    constructor(element: KtStringTemplateExpression) : this(element as PsiElement)
 
-  override fun processElementUsages(
-          element: PsiElement,
-          processor: Processor<in UsageInfo>,
-          options: FindUsagesOptions
-  ): Boolean {
+    override fun processElementUsages(
+            element: PsiElement,
+            processor: Processor<in UsageInfo>,
+            options: FindUsagesOptions
+    ): Boolean {
 
-    ReadAction.run<Throwable> {
+        ReadAction.run<Throwable> {
 
-      val text = when (element) {
-        is PsiLiteralExpression -> element.asString()
-        is KtStringTemplateExpression -> element.asPlainString()
-        else -> null
-      }
+            val usages =
+                    CachedValuesManager.getManager(element.project).getCachedValue(
+                            element,
+                            MyCachedValueProvider(
+                                    project,
+                                    element,
+                                    (options.searchScope as? GlobalSearchScope) ?: project.allScope()
+                            )
+                    )
 
-      val usages =
-              CachedValuesManager.getManager(element.project).getCachedValue(
-                      element,
-                      MyCachedValueProvider(
-                              project,
-                              text,
-                              (options.searchScope as? GlobalSearchScope) ?: project.allScope()
-                      )
-              )
+            usages?.forEach { usage ->
+                processor.process(UsageInfo(usage))
+            }
 
-      usages?.forEach { usage ->
-        processor.process(UsageInfo(usage))
-      }
+        }
+
+        return true
 
     }
-
-    return true
-
-  }
 
 }
 
 private class MyCachedValueProvider(
         val project: Project,
-        val text: String?,
+        val element: PsiElement,
         val scope: GlobalSearchScope
-): CachedValueProvider<Collection<SkinClassName>> {
+) : CachedValueProvider<Collection<SkinClassName>> {
 
-  override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>> {
+    override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>> {
 
-    // Don't store UsageInfo: it leads to double smart pointer removal
-    val usages = mutableListOf<SkinClassName>()
+        // Don't store UsageInfo: it leads to double smart pointer removal
+        val usages = mutableListOf<SkinClassName>()
 
-    text?.let {
-
-      FileTypeIndex.processFiles(LibGDXSkinFileType.INSTANCE, { virtualFile ->
-
-        (PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile)?.let { skinFile ->
-
-          skinFile.getClassSpecifications().forEach { classSpec ->
-            classSpec.className.let { className ->
-              if (className.value.plainName == text) {
-                usages.add(className)
-              }
-            }
-          }
+        val text = when (element) {
+            is PsiLiteralExpression -> element.asString()
+            is KtStringTemplateExpression -> element.asPlainString()
+            else -> null
         }
 
-        true
-      }, scope)
+        text?.let {
+
+            FileTypeIndex.processFiles(LibGDXSkinFileType.INSTANCE, { virtualFile ->
+
+                (PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile)?.let { skinFile ->
+
+                    skinFile.getClassSpecifications().forEach { classSpec ->
+                        classSpec.className.let { className ->
+                            if (className.value.plainName == text) {
+                                usages.add(className)
+                            }
+                        }
+                    }
+                }
+
+                true
+            }, scope)
+
+        }
+
+        return CachedValueProvider.Result.create(usages, PsiModificationTracker.MODIFICATION_COUNT)
 
     }
-
-    return CachedValueProvider.Result.create(usages, PsiModificationTracker.MODIFICATION_COUNT)
-
-  }
 
 }
