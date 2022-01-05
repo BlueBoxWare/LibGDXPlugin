@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix performance issue with Skin files (<a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/33">#33</a>)</li>
+            <li>Significant perfomance improvements in Skin handling and related functionality.</li>
         </ul>
         ]]>
     </change-notes>
