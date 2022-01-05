@@ -544,7 +544,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             if (warningExpected) {
                 if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
                     UsefulTestCase.fail(
-                        name + ": Hightlight starts at wrong element: '" + hightLight.text.substring(
+                        "$name: Hightlight starts at wrong element: '" + hightLight.text.substring(
                             0,
                             30
                         ) + "'"
@@ -555,7 +555,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
                 }
             } else {
                 UsefulTestCase.fail(
-                    name + ": Unexpected highlight starting at '" + hightLight.text.substring(
+                    "$name: Unexpected highlight starting at '" + hightLight.text.substring(
                         0,
                         30
                     ) + "'"

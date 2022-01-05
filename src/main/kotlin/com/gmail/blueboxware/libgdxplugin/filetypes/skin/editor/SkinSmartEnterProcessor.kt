@@ -26,7 +26,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
         addEnterProcessors(SkinEnterProcessor())
     }
 
-    private inner class SkinEnterProcessor : SmartEnterProcessorWithFixers.FixEnterProcessor() {
+    private inner class SkinEnterProcessor : FixEnterProcessor() {
 
         override fun doEnter(atCaret: PsiElement?, file: PsiFile?, editor: Editor, modified: Boolean): Boolean {
             if (shouldAddNewline) {
@@ -42,7 +42,7 @@ class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
     }
 
 
-    private class SkinFixer : SmartEnterProcessorWithFixers.Fixer<SkinSmartEnterProcessor>() {
+    private class SkinFixer : Fixer<SkinSmartEnterProcessor>() {
 
         override fun apply(editor: Editor, processor: SkinSmartEnterProcessor, element: PsiElement) {
 

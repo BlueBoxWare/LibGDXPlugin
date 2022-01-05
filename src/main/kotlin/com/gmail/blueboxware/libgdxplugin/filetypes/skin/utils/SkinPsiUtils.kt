@@ -11,7 +11,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
-import java.lang.*
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -29,7 +28,7 @@ import java.lang.*
  * limitations under the License.
  */
 internal fun String.stripQuotes(): String {
-    if (length > 0) {
+    if (isNotEmpty()) {
         val firstChar = firstOrNull()
         val lastChar = lastOrNull()
         if (firstChar == '\"') {
@@ -86,7 +85,7 @@ internal fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
             try {
                 result.append(Character.toChars(Integer.parseInt(substring(i, i + 4), 16)))
             } catch (e: Exception) {
-                if (e is IllegalArgumentException || e is NumberFormatException || e is IndexOutOfBoundsException) {
+                if (e is IllegalArgumentException || e is IndexOutOfBoundsException) {
                     onError?.invoke(i - 2, minOf(i + 3, length))
                 } else {
                     throw e

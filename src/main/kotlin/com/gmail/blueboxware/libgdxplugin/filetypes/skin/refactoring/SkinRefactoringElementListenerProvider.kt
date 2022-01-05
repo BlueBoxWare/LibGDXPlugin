@@ -30,12 +30,16 @@ import org.jetbrains.kotlin.psi.KtClass
 class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvider {
 
     override fun getListener(element: PsiElement?): RefactoringElementListener? {
-        val classes = if (element is PsiClass || element is KtClass) {
-            arrayOf(element)
-        } else if (element is PsiPackage) {
-            element.classes
-        } else {
-            return null
+        val classes = when (element) {
+            is PsiClass, is KtClass -> {
+                arrayOf(element)
+            }
+            is PsiPackage -> {
+                element.classes
+            }
+            else -> {
+                return null
+            }
         }
 
         val refToClassMap = mutableMapOf<SkinJavaClassReference, PsiClass>()

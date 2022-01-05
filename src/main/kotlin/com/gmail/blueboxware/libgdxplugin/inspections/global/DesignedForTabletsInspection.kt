@@ -115,7 +115,7 @@ class DesignedForTabletsInspection : GlobalInspectionTool() {
         } ?: manifest
         if (model.resolveTargetSDK() < 11 && model.minSDK.value < 11) {
             problems.add(versionTag to message("designed.for.tablets.problem.descriptor.target.or.min"))
-        } else if (model.maxSDK?.value ?: 11 < 11) {
+        } else if ((model.maxSDK?.value ?: 11) < 11) {
             problems.add(versionTag to message("designed.for.tablets.problem.descriptor.max"))
         }
 
@@ -169,13 +169,13 @@ private class DesignedForTabletsGradleVisitor(
         }
 
         type?.let { typeNotNull ->
-            if (version > versionsMap[typeNotNull] ?: 0) {
+            if (version > (versionsMap[typeNotNull] ?: 0)) {
                 versionsMap[typeNotNull] = version
             }
             foundElementMap[typeNotNull] = call
         }
 
-        if (invokedText == "maxSdkVersion" && versionsMap[SdkVersionType.MAX] ?: 11 < 11) {
+        if (invokedText == "maxSdkVersion" && (versionsMap[SdkVersionType.MAX] ?: 11) < 11) {
             if (problems.none { it.first == call }) {
                 problems.add(call to message("designed.for.tablets.problem.descriptor.max"))
             }
@@ -187,7 +187,7 @@ private class DesignedForTabletsGradleVisitor(
         super.visitFile(file)
 
         if (foundElementMap[SdkVersionType.TARGET] != null || foundElementMap[SdkVersionType.MIN] != null) {
-            if (versionsMap[SdkVersionType.TARGET] ?: 11 < 11 && versionsMap[SdkVersionType.MIN] ?: 11 < 11) {
+            if ((versionsMap[SdkVersionType.TARGET] ?: 11) < 11 && (versionsMap[SdkVersionType.MIN] ?: 11) < 11) {
                 foundElementMap[SdkVersionType.TARGET]?.let {
                     problems.add(
                         it to message("designed.for.tablets.problem.descriptor.target.or.min")

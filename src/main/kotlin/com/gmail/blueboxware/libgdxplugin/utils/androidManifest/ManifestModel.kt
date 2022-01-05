@@ -55,7 +55,7 @@ class ManifestModel {
             }
         }
         versionMap[SdkVersionType.MAX]?.let { extVersion ->
-            if (maxSDK == null || extVersion > maxSDK?.value ?: 0) {
+            if (maxSDK == null || extVersion > (maxSDK?.value ?: 0)) {
                 maxSDK = ManifestValue(extVersion)
             }
         }

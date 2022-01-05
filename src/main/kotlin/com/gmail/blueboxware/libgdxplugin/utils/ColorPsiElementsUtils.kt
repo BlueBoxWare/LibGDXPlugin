@@ -142,7 +142,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                         } else if (method == "getColor") {
                             // Skin.getColor(String)
                             val resourceName = StringUtil.unquoteString(arg.text)
-                            initialValue.getAssetFiles().let { (skinFiles) ->
+                            initialValue.getAssetFiles().let { (skinFiles, _) ->
                                 for (skinFile in skinFiles) {
                                     skinFile.getResources(COLOR_CLASS_NAME, resourceName).firstOrNull()?.let {
                                         return@getCachedValue it.asColor(true)
@@ -181,7 +181,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                                 if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
                                                     // Skin.get(string, Color::class.java)
                                                     val resourceName = StringUtil.unquoteString(arg.text)
-                                                    initialValue.getAssetFiles().let { (skinFiles) ->
+                                                    initialValue.getAssetFiles().let { (skinFiles, _) ->
                                                         for (skinFile in skinFiles) {
                                                             skinFile.getResources(COLOR_CLASS_NAME, resourceName)
                                                                 .firstOrNull()?.let {
@@ -243,7 +243,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                 return@getCachedValue color(arg.text)
                             } else if (method == "getColor") {
                                 // Skin.getColor(String)
-                                methodCallExpression.getAssetFiles().let { (skinFiles) ->
+                                methodCallExpression.getAssetFiles().let { (skinFiles, _) ->
                                     for (skinFile in skinFiles) {
                                         skinFile.getResources(COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text))
                                             .firstOrNull()?.let {
@@ -271,7 +271,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                         }
                                 }
                             } else if ((method == "get" || method == "optional") && arguments.size == 2) {
-                                methodCallExpression.getAssetFiles().let { (skinFiles) ->
+                                methodCallExpression.getAssetFiles().let { (skinFiles, _) ->
                                     for (skinFile in skinFiles) {
                                         skinFile.getResources(COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text))
                                             .firstOrNull()?.let {
@@ -496,7 +496,7 @@ private fun PsiElement.javaInt(): Long? {
             } else {
                 java.lang.Long.valueOf(text)
             }
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
 
         }
 
@@ -544,7 +544,7 @@ private fun PsiElement.psiFloat(): Float? {
 
         try {
             return arg.text.toFloat()
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
 
         }
 

@@ -74,7 +74,7 @@ internal open class Library(
 
             fetchVersions(
                 onSuccess = { versions ->
-                    latestVersion = versions.map(::MavenComparableVersion).maxOrNull()
+                    latestVersion = versions.maxOfOrNull(::MavenComparableVersion)
                     lastUpdated = System.currentTimeMillis()
                     PropertiesComponent.getInstance()?.let { propertiesComponent ->
                         propertiesComponent.setValue(versionKey, latestVersion.toString())

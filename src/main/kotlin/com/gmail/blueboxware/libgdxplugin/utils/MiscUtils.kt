@@ -41,7 +41,7 @@ internal fun Project.isLibGDXProject(): Boolean =
     service<VersionService>().getUsedVersion(Libraries.LIBGDX) != null
 
 internal fun Project.isLibGDX199(): Boolean =
-    service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0 > 0
+    (service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0) > 0
 
 internal fun <T> key(key: String) =
     Key<T>("$PREFIX.$key")

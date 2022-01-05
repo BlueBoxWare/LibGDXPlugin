@@ -44,7 +44,7 @@ class GwtOutdatedListener(val project: Project) :
                 if (file.name.endsWith(".gwt.xml")) {
                     VfsUtilCore.findContainingDirectory(file, "html")?.let { html ->
                         if (ProjectFileIndex.getInstance(project).isInContent(html)) {
-                            if (file.timeStamp >= gwtFile?.timeStamp ?: 0) {
+                            if (file.timeStamp >= (gwtFile?.timeStamp ?: 0)) {
                                 gwtFile = file
                                 doCheck = true
                             }

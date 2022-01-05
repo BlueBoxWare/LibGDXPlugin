@@ -38,7 +38,7 @@ class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
 
     }
 
-    private inner class GdxJsonEnterProcessor : SmartEnterProcessorWithFixers.FixEnterProcessor() {
+    private inner class GdxJsonEnterProcessor : FixEnterProcessor() {
 
         override fun doEnter(atCaret: PsiElement?, file: PsiFile?, editor: Editor, modified: Boolean): Boolean {
 
@@ -57,7 +57,7 @@ class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
         }
     }
 
-    private class GdxJsonArrayElementFixer : SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
+    private class GdxJsonArrayElementFixer : Fixer<GdxJsonSmartEnterProcessor>() {
 
         override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
 
@@ -73,7 +73,7 @@ class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
         }
     }
 
-    private class GdxJsonObjectPropertyFixer : SmartEnterProcessorWithFixers.Fixer<GdxJsonSmartEnterProcessor>() {
+    private class GdxJsonObjectPropertyFixer : Fixer<GdxJsonSmartEnterProcessor>() {
 
         override fun apply(editor: Editor, processor: GdxJsonSmartEnterProcessor, element: PsiElement) {
 
