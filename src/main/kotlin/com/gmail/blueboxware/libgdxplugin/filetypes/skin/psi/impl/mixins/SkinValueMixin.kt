@@ -5,11 +5,15 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinProperty
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.SkinElementImpl
+import com.gmail.blueboxware.libgdxplugin.utils.componentType
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.getCachedValue
 import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.lang.ASTNode
-import com.intellij.psi.*
+import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiClassType
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiType
 import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.PsiTypesUtil
 
@@ -55,11 +59,11 @@ abstract class SkinValueMixin(node: ASTNode) : SkinValue, SkinElementImpl(node) 
         }
 
         property?.resolveToType()?.let { type ->
-            var elementType = type
+            var elementType: PsiType? = type
             var arrayDepth = arrayDepth()
 
-            while (arrayDepth > 0 && elementType is PsiArrayType) {
-                elementType = elementType.componentType
+            while (arrayDepth > 0 && elementType != null) {
+                elementType = elementType.componentType(project)
                 arrayDepth--
             }
 

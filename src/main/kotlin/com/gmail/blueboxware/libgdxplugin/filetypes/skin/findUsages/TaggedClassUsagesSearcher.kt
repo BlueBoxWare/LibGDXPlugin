@@ -7,7 +7,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.openapi.application.ReadAction
-import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiReference
@@ -67,9 +66,7 @@ class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSear
             }
 
 
-            val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)?.filter { tag ->
-                StringUtil.getShortName(qualifiedName) == tag
-            } ?: return@run
+            val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName) ?: return@run
 
             if (tagsToFind.isEmpty()) {
                 return@run

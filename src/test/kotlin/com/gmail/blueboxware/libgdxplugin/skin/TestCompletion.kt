@@ -672,7 +672,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
                 '<caret>'
               }
             }
-          """ to (EMPTY to listOf("default")),
+          """ to (listOf("default") to listOf()),
 
         """
             {

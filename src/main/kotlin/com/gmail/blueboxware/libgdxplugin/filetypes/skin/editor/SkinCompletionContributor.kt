@@ -556,7 +556,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
     private fun doAdd(element: LookupElement, parameters: CompletionParameters, result: CompletionResultSet) {
         val dummyText = parameters.position.text
-        val prefix = if (dummyText.firstOrNull() == '"') {
+        val prefix = if (dummyText.firstOrNull() == '"' && result.prefixMatcher.prefix.isNotEmpty()) {
             result.prefixMatcher.prefix.substring(1)
         } else {
             result.prefixMatcher.prefix

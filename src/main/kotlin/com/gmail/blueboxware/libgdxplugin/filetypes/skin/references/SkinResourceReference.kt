@@ -61,11 +61,12 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                     element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
                             && (valueType as? PsiClassType)?.resolve()?.isEnum == true
 
-                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
-                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
-                        result.add(PsiElementResolveResult(it))
-                    }
-                } else if (isFreeTypeFontGeneratorEnum) {
+//                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+//                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
+//                        result.add(PsiElementResolveResult(it))
+//                    }
+//                } else
+                if (isFreeTypeFontGeneratorEnum) {
                     (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
                         clazz.findFieldByName(element.value, false)?.navigationElement?.let {
                             result.add(PsiElementResolveResult(it))
@@ -84,7 +85,11 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                     }
                 }
 
-                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
+                if (result.isEmpty() &&
+                    (valueType.canonicalText == DRAWABLE_CLASS_NAME
+                            || valueType.canonicalText == TEXTURE_REGION_CLASS_NAME
+                            || isTintedDrawableNameProperty)
+                ) {
                     element.containingFile.virtualFile?.let { virtualFile ->
                         virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
                             (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->

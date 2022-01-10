@@ -3,12 +3,12 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.BITMAPFONT_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_FLIP
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_MARKUP
-import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_FONT_SCALED_SIZE
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInspection.ProblemsHolder
-import com.intellij.psi.*
+import com.intellij.psi.PsiClassType
+import com.intellij.psi.PsiElementVisitor
+import com.intellij.psi.PsiPrimitiveType
+import com.intellij.psi.PsiType
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -50,7 +50,7 @@ class SkinTypeInspection : SkinBaseInspection() {
                 val containingClassName = property?.containingObject?.resolveToClass()?.qualifiedName
                 val propertyName = property?.propertyName?.value
 
-                if (expectedType is PsiArrayType) {
+                if (expectedType?.componentType(skinValue.project) != null) {
                     if (skinValue !is SkinArray) {
                         problem("Array")
                     }

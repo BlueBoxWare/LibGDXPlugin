@@ -43,12 +43,7 @@ internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
         if (this is KtCallExpression || this is KtDotQualifiedExpression || this is PsiMethodCallExpression) isSpecialColorMethod() else false
 
     if (!ignoreContext) {
-        if (context is PsiMethodCallExpression
-            || context is KtCallExpression
-            || context is PsiReferenceExpression
-            || context is KtNameReferenceExpression
-            || context is KtDotQualifiedExpression
-        ) {
+        if (context is PsiMethodCallExpression || context is KtCallExpression || context is PsiReferenceExpression || context is KtNameReferenceExpression || context is KtDotQualifiedExpression) {
             if (!isSpecialColorMethod) {
                 return null
             }
@@ -67,11 +62,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         else -> null
     }
 
-    if (type != COLOR_CLASS_NAME
-        && type != "java.lang.String"
-        && type != "kotlin.String"
-        && !isSpecialColorMethod
-    ) {
+    if (type != COLOR_CLASS_NAME && type != "java.lang.String" && type != "kotlin.String" && !isSpecialColorMethod) {
         return@getCachedValue null
     }
 
@@ -103,15 +94,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
 
             for (reference in references) {
                 val targetName = (reference.resolveForColor() as? PsiMethod)?.getKotlinFqName()?.asString() ?: continue
-                if (targetName == "com.badlogic.gdx.graphics.Color.Color"
-                    || targetName == "com.badlogic.gdx.graphics.Color.valueOf"
-                    || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor"
-                    || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get"
-                    || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional"
-                    || targetName == "com.badlogic.gdx.graphics.Colors.get"
-                    || targetName == "com.badlogic.gdx.graphics.Colors.put"
-                    || targetName == "com.badlogic.gdx.utils.ObjectMap.get"
-                ) {
+                if (targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional" || targetName == "com.badlogic.gdx.graphics.Colors.get" || targetName == "com.badlogic.gdx.graphics.Colors.put" || targetName == "com.badlogic.gdx.utils.ObjectMap.get") {
                     isColorCall = true
                 }
             }
@@ -157,8 +140,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                             }
                         } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
                             // Colors.getColors.get(String)
-                            ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
-                                ?.resolveCallToStrings()
+                            ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()
                                 ?.let { (clazz, method) ->
                                     if (clazz == COLORS_CLASS_NAME && method == "getColors") {
                                         ((arg as? PsiLiteralExpression)?.asString()
@@ -169,30 +151,28 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                 }
                         } else if ((method == "get" || method == "optional") && arguments.size == 2) {
                             ((initialValue.valueArguments.getOrNull(1)
-                                ?.getArgumentExpression() as? KtDotQualifiedExpression)
-                                ?.receiverExpression as? KtClassLiteralExpression)
-                                ?.let { classLiteralExpression ->
-                                    (classLiteralExpression.receiverExpression as? KtReferenceExpression
-                                        ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)
-                                        ?.getImportableTargets(initialValue.analyzePartial())
-                                        ?.firstOrNull()
-                                        ?.let { clazz ->
-                                            findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
-                                                if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
-                                                    // Skin.get(string, Color::class.java)
-                                                    val resourceName = StringUtil.unquoteString(arg.text)
-                                                    initialValue.getAssetFiles().let { (skinFiles, _) ->
-                                                        for (skinFile in skinFiles) {
-                                                            skinFile.getResources(COLOR_CLASS_NAME, resourceName)
-                                                                .firstOrNull()?.let {
-                                                                    return@getCachedValue it.asColor(true)
-                                                                }
-                                                        }
+                                ?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
+                                (classLiteralExpression.receiverExpression as? KtReferenceExpression
+                                    ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(
+                                    initialValue.analyzePartial()
+                                )?.firstOrNull()?.let { clazz ->
+                                    findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
+                                        if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
+                                            // Skin.get(string, Color::class.java)
+                                            val resourceName = StringUtil.unquoteString(arg.text)
+                                            initialValue.getAssetFiles().let { (skinFiles, _) ->
+                                                for (skinFile in skinFiles) {
+                                                    skinFile.getResources(
+                                                        COLOR_CLASS_NAME, resourceName
+                                                    ).firstOrNull()?.let {
+                                                        return@getCachedValue it.asColor(true)
                                                     }
                                                 }
                                             }
                                         }
+                                    }
                                 }
+                            }
                         }
                     }
                 }
@@ -245,10 +225,11 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                 // Skin.getColor(String)
                                 methodCallExpression.getAssetFiles().let { (skinFiles, _) ->
                                     for (skinFile in skinFiles) {
-                                        skinFile.getResources(COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text))
-                                            .firstOrNull()?.let {
-                                                return@getCachedValue it.asColor(true)
-                                            }
+                                        skinFile.getResources(
+                                            COLOR_CLASS_NAME, StringUtil.unquoteString(arg.text)
+                                        ).firstOrNull()?.let {
+                                            return@getCachedValue it.asColor(true)
+                                        }
                                     }
                                 }
                             } else if (clazz == COLORS_CLASS_NAME && method == "get") {
@@ -297,8 +278,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
             val floats = arrayOf(0f, 0f, 0f, 0f)
             for (i in 0..3) {
                 arguments[i]?.let { expr ->
-                    @Suppress("CascadeIf")
-                    if (expr.type == PsiType.FLOAT) {
+                    @Suppress("CascadeIf") if (expr.type == PsiType.FLOAT) {
                         val root = expr.findRoot()
                         val float = root.psiFloat() ?: return@getCachedValue null
                         floats[i] = float
@@ -384,44 +364,49 @@ private fun PsiReference.resolveForColor(): PsiElement? {
 
 private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
 
-    if (this is KtNameReferenceExpression || this is PsiReferenceExpression) {
+    when (this) {
+        is KtNameReferenceExpression, is PsiReferenceExpression -> {
 
-        for (reference in references) {
+            for (reference in references) {
 
-            if (reference is KtSimpleNameReference || reference is PsiReferenceExpression) {
+                if (reference is KtSimpleNameReference || reference is PsiReferenceExpression) {
 
-                reference.resolveForColor()?.let { origin ->
-                    origin.findInitializer()?.let { initializer ->
-                        return@getCachedValue initializer.findRoot()
+                    reference.resolveForColor()?.let { origin ->
+                        origin.findInitializer()?.let { initializer ->
+                            return@getCachedValue initializer.findRoot()
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+        is KtDotQualifiedExpression -> {
+
+            selectorExpression?.let { selector ->
+                return@getCachedValue selector.findRoot()
+            }
+
+        }
+        is KtQualifiedExpression -> {
+
+            callExpression?.let { callExpression ->
+                return@getCachedValue callExpression.findRoot()
+            }
+
+        }
+        is PsiMethodCallExpression -> {
+
+            resolveMethod()?.let { resolved ->
+                if (resolved is KtLightMethod) {
+                    resolved.findInitializer()?.let {
+                        return@getCachedValue it
                     }
                 }
-
             }
 
         }
-
-    } else if (this is KtDotQualifiedExpression) {
-
-        selectorExpression?.let { selector ->
-            return@getCachedValue selector.findRoot()
-        }
-
-    } else if (this is KtQualifiedExpression) {
-
-        callExpression?.let { callExpression ->
-            return@getCachedValue callExpression.findRoot()
-        }
-
-    } else if (this is PsiMethodCallExpression) {
-
-        resolveMethod()?.let { resolved ->
-            if (resolved is KtLightMethod) {
-                resolved.findInitializer()?.let {
-                    return@getCachedValue it
-                }
-            }
-        }
-
     }
 
     return@getCachedValue this

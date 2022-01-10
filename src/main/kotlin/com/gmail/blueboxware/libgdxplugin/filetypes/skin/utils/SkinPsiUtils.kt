@@ -11,6 +11,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.util.InheritanceUtil
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -157,6 +158,15 @@ fun SkinClassSpecification.getRealClassNamesAsString() =
     (containingFile as? SkinFile)?.let { file ->
         file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString.plainName)
     } ?: listOf(classNameAsString.plainName)
+
+fun SkinClassSpecification.getSuperClassNamesAsString(): Collection<String> =
+    resolveClass()?.let { psiClass ->
+        InheritanceUtil.getSuperClasses(psiClass)?.flatMap { c ->
+            c.qualifiedName?.let {
+                listOf(it) + (project.getSkinTag2ClassMap()?.getClassNames(it) ?: emptyList())
+            } ?: emptyList()
+        }
+    } ?: emptyList()
 
 fun SkinObject.getOpeningBrace() = findLeaf(SkinElementTypes.L_CURLY)
 

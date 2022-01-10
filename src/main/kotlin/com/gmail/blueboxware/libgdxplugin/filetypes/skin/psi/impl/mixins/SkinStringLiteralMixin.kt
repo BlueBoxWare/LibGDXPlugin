@@ -59,22 +59,19 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
         ) {
             return@getCachedValue SkinFileReference(this, containingFile)
         } else {
-            property?.let { property ->
-                property.resolveToType().let { type ->
-                    if (
-                        isBoolean && type?.canonicalText == "java.lang.Boolean"
-                        || type?.canonicalText == "java.lang.Integer"
-                        || type is PsiPrimitiveType
-                        || type == null
-                    ) {
+            resolveToType().let { type ->
+                if (
+                    isBoolean && type?.canonicalText == "java.lang.Boolean"
+                    || type?.canonicalText == "java.lang.Integer"
+                    || type is PsiPrimitiveType
+                    || type == null
+                ) {
+                    return@getCachedValue null
+                } else if (type.isStringType(this)) {
+                    if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property?.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
                         return@getCachedValue null
-                    } else if (type.isStringType(property)) {
-                        if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
-                            return@getCachedValue null
-                        }
                     }
                 }
-
             }
 
         }

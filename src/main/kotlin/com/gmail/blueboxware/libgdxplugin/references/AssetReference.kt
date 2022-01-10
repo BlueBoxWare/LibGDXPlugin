@@ -54,8 +54,7 @@ class AssetReference(
             assetFiles.first.forEach { skinFile ->
 
                 skinFile.getResources(
-                    if (isDrawable) listOf(TINTED_DRAWABLE_CLASS_NAME) else className?.plainName.singletonOrNull(),
-                    null
+                    if (isDrawable) listOf(TINTED_DRAWABLE_CLASS_NAME) else className?.plainName.singletonOrNull()
                 ).forEach { resource ->
                     val lookupElement = LookupElementBuilder
                         .create(resource)
@@ -145,7 +144,8 @@ class AssetReference(
                             if (isDrawable)
                                 listOf(TINTED_DRAWABLE_CLASS_NAME)
                             else
-                                assetReference.className?.plainName.singletonOrNull(), assetReference.resourceName
+                                assetReference.className?.plainName.singletonOrNull(),
+                            assetReference.resourceName
                         ).forEach { resource ->
                             result.add(PsiElementResolveResult(resource))
                         }

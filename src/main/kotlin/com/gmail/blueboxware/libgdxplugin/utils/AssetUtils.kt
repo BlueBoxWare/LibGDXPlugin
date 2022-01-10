@@ -50,6 +50,16 @@ const val DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.utils.Drawable"
 const val TINTED_DRAWABLE_CLASS_NAME = "com.badlogic.gdx.scenes.scene2d.ui.Skin.TintedDrawable"
 const val TEXTURE_REGION_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.TextureRegion"
 const val BITMAPFONT_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.BitmapFont"
+const val NINEPATCH_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.NinePatch"
+const val SPRITE_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.Sprite"
+
+// Resources with a type of subclasses of these classes are stored as these classes
+val SPECIAL_RESOURCE_CLASSES = listOf(
+    DRAWABLE_CLASS_NAME,
+    TEXTURE_REGION_CLASS_NAME,
+    NINEPATCH_CLASS_NAME,
+    SPRITE_CLASS_NAME
+)
 
 const val FREETYPE_GENERATOR_CLASS_NAME = "com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator"
 const val FREETYPE_FONT_PARAMETER_CLASS_NAME = "$FREETYPE_GENERATOR_CLASS_NAME.FreeTypeFontParameter"

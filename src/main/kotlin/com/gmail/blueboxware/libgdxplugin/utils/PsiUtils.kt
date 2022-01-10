@@ -3,13 +3,16 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.impl.LibraryScopeCache
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.PsiElementProcessor
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
 import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
+import com.intellij.psi.util.TypeConversionUtil
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
@@ -47,6 +50,16 @@ import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literal
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+private const val ARRAY_CLASS_NAME = "com.badlogic.gdx.utils.Array"
+private const val QUEUE_CLASS_NAME = "com.badlogic.gdx.utils.Queue"
+private const val COLLECTION_CLASS_NAME = "java.util.Collection"
+
+private val CONTAINER_CLASS_NAMES = listOf(
+    ARRAY_CLASS_NAME,
+    QUEUE_CLASS_NAME,
+    COLLECTION_CLASS_NAME
+)
+
 internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
 
 @Suppress("unused")
@@ -112,6 +125,25 @@ internal fun PsiElement.lastChild(condition: (PsiElement) -> Boolean): PsiElemen
 
 internal fun PsiClass.supersAndThis() =
     InheritanceUtil.getSuperClasses(this) + this
+
+internal fun PsiClass.getType() =
+    PsiElementFactory.getInstance(project).createType(this, PsiSubstitutor.EMPTY)
+
+internal fun PsiType.componentType(project: Project): PsiType? {
+    if (this is PsiArrayType) {
+        return componentType
+    } else if (this is PsiClassReferenceType) {
+        val scope = LibraryScopeCache.getInstance(project).librariesOnlyScope
+        for (fqName in CONTAINER_CLASS_NAMES) {
+            project.psiFacade().findClasses(fqName, scope).forEach { clazz ->
+                if (TypeConversionUtil.isAssignable(clazz.getType(), this.rawType())) {
+                    return this.parameters.firstOrNull()
+                }
+            }
+        }
+    }
+    return null
+}
 
 internal fun ClassDescriptor.supersAndThis() =
     getAllSuperclassesWithoutAny() + this

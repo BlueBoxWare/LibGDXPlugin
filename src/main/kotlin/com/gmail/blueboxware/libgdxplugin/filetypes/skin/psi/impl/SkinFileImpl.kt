@@ -6,10 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassSpecificat
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SkinElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.addResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.factory
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.*
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
@@ -51,7 +48,9 @@ class SkinFileImpl(
 
     override fun toString() = "SkinFile: " + (virtualFile?.name ?: "<unknown>")
 
-    override fun getClassSpecifications(classNames: Collection<String>?): Collection<SkinClassSpecification> {
+    override fun getClassSpecifications(
+        classNames: Collection<String>?
+    ): Collection<SkinClassSpecification> {
 
         val classSpecs = getCachedValue(CLASS_SPECS_KEY, this) { childrenOfType() } ?: listOf()
         val classNamesToSearch = classNames?.toMutableSet()
@@ -64,16 +63,34 @@ class SkinFileImpl(
             ) {
                 classNamesToSearch.add(FREETYPE_GENERATOR_CLASS_NAME)
             }
+            if (
+                classNamesToSearch.contains(DRAWABLE_CLASS_NAME)
+            ) {
+                classNamesToSearch.add(TINTED_DRAWABLE_CLASS_NAME)
+            }
 
-            return classSpecs.filter { classSpec ->
+            val result = classSpecs.filter { classSpec ->
                 classSpec.getRealClassNamesAsString().any { classNamesToSearch.contains(it) }
             }
+
+            if (classNamesToSearch.any { it in SPECIAL_RESOURCE_CLASSES }) {
+                return result + classSpecs.filter { classSpec ->
+                    classSpec.getSuperClassNamesAsString().any { clazz ->
+                        clazz in classNamesToSearch && clazz in SPECIAL_RESOURCE_CLASSES
+                    }
+                }
+            }
+
+            return result
+
         }
 
         return classSpecs
     }
 
-    override fun getClassSpecifications(className: String): Collection<SkinClassSpecification> =
+    override fun getClassSpecifications(
+        className: String
+    ): Collection<SkinClassSpecification> =
         getClassSpecifications(listOf(className))
 
     override fun getResources(
@@ -91,7 +108,7 @@ class SkinFileImpl(
     override fun getResources(
         className: String,
         resourceName: String?,
-        beforeElement: PsiElement?
+        beforeElement: PsiElement?,
     ): Collection<SkinResource> =
         getResources(listOf(className), resourceName, beforeElement)
 
@@ -104,7 +121,8 @@ class SkinFileImpl(
     ): Collection<SkinResource> {
 
         if (!includingSuperClasses) {
-            return resourceClass.qualifiedName?.let { getResources(it, resourceName, beforeElement) } ?: listOf()
+            return resourceClass.qualifiedName?.let { getResources(it, resourceName, beforeElement) }
+                ?: listOf()
         }
 
         val classesToSearch = generateSequence(resourceClass) { it.superClass }

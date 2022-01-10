@@ -22,13 +22,18 @@ import com.intellij.psi.PsiFile
  */
 interface SkinFile : SkinElement, PsiFile {
 
-    fun getClassSpecifications(classNames: Collection<String>? = null): Collection<SkinClassSpecification>
+    fun getClassSpecifications(
+        classNames: Collection<String>? = null
+    ): Collection<SkinClassSpecification>
 
-    fun getClassSpecifications(className: String): Collection<SkinClassSpecification>
+    fun getClassSpecifications(
+        className: String,
+    ): Collection<SkinClassSpecification>
 
     fun getResources(
-        classNames: Collection<String>? = null,
-        resourceName: String? = null, beforeElement: PsiElement? = null
+        classNames: Collection<String>?,
+        resourceName: String? = null,
+        beforeElement: PsiElement? = null
     ): Collection<SkinResource>
 
     fun getResources(
@@ -39,10 +44,10 @@ interface SkinFile : SkinElement, PsiFile {
 
     fun getResources(
         resourceClass: PsiClass,
-        resourceName: String?,
+        resourceName: String? = null,
         beforeElement: PsiElement? = null,
         includingSuperClasses: Boolean = false,
-        includeAll: Boolean = false
+        includeAll: Boolean = false,
     ): Collection<SkinResource>
 
     fun addComment(comment: PsiComment)
