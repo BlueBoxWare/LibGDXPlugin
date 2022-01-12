@@ -140,6 +140,28 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         doTest(SkinNonExistingFontFileInspection())
     }
 
+
+    fun testSkinComposerWithTags() {
+        copyDirectoryToProject("../skin-composer/assets", "assets")
+        copyDirectoryToProject("../skin-composer/com", "com")
+        listOf(
+            SkinDeprecatedInspection(),
+            SkinDuplicatePropertyInspection(),
+            SkinDuplicateResourceNameInspection(),
+            SkinMalformedColorStringInspection(),
+            SkinMissingPropertyInspection(),
+            SkinNonExistingClassInspection(),
+            SkinNonExistingFieldInspection(),
+            SkinNonExistingFontFileInspection(),
+            SkinNonExistingResourceAliasInspection(),
+            SkinTypeInspection()
+        ).forEach {
+            myFixture.enableInspections(it::class.java)
+        }
+
+        myFixture.testHighlighting(true, false, false, "assets/skin-composer-ui.skin")
+    }
+
     private fun doTest(inspection: LocalInspectionTool) {
         myFixture.enableInspections(inspection::class.java)
         myFixture.testHighlighting(true, false, false, testname() + ".skin")
@@ -161,9 +183,11 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             removeDummyLibGDX199()
         }
 
-        copyFileToProject("com/example/ColorArrayHolder.java")
-        copyFileToProject("com/example/KColorArrayHolder.kt")
-        copyFileToProject("atlas.atlas", testname() + ".atlas")
+        if (!testname().endsWith("Composer")) {
+            copyFileToProject("com/example/ColorArrayHolder.java")
+            copyFileToProject("com/example/KColorArrayHolder.kt")
+            copyFileToProject("atlas.atlas", testname() + ".atlas")
+        }
 
     }
 
