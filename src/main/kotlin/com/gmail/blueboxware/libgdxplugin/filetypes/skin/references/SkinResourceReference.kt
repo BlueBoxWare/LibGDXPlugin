@@ -51,7 +51,6 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                     return PsiElementResolveResult.EMPTY_ARRAY
                 }
 
-                val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
 
                 val isTintedDrawableNameProperty =
                     element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
@@ -61,11 +60,6 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                     element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
                             && (valueType as? PsiClassType)?.resolve()?.isEnum == true
 
-//                if (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty) {
-//                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
-//                        result.add(PsiElementResolveResult(it))
-//                    }
-//                } else
                 if (isFreeTypeFontGeneratorEnum) {
                     (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
                         clazz.findFieldByName(element.value, false)?.navigationElement?.let {
@@ -102,6 +96,13 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                                 }
                             }
                         }
+                    }
+                }
+
+                if (result.isEmpty() && (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty)) {
+                    val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
+                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
+                        result.add(PsiElementResolveResult(it))
                     }
                 }
 
