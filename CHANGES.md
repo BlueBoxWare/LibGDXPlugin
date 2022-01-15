@@ -1,3 +1,7 @@
+### 1.23.6
+* Improvements in Find Usages and type checking for Skin files.
+* Fix "Slow operations are prohibited on EDT" error in "Find Usages".
+
 ### 1.23.5
 * Significant perfomance improvements in Skin handling and related functionality ([#33](https://github.com/BlueBoxWare/LibGDXPlugin/issues/33)).
 

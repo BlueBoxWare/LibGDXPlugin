@@ -31,7 +31,8 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Significant perfomance improvements in Skin handling and related functionality.</li>
+            <li>Improvements in Find Usages and type checking for Skin files.</li>
+            <li>Fix "Slow operations are prohibited on EDT" error in "Find Usages".</li>
         </ul>
         ]]>
     </change-notes>
