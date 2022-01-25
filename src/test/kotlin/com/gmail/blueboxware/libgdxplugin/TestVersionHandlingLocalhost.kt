@@ -171,6 +171,10 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     override fun setUp() {
 
+        if (!RUN_TESTS) {
+            return
+        }
+
         VersionService.BATCH_SIZE = Libraries.values().size / 2
         VersionService.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND
         VersionService.LIBRARY_CHANGED_TIME_OUT = 5 * DateFormatUtil.SECOND

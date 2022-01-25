@@ -62,7 +62,7 @@ internal open class Library(
                         if (currentTime - lastUpdated < VersionService.SCHEDULED_UPDATE_INTERVAL) {
                             return false
                         }
-                    } else if (latestVersion != null) {
+                    } else {
                         propertiesComponent.setValue(versionKey, latestVersion.toString())
                         propertiesComponent.setValue(timeKey, lastUpdated.toString())
                     }
@@ -191,7 +191,7 @@ internal open class Library(
 
                 }
 
-            } catch (e: Exception) {
+            } catch (e: Throwable) {
                 if (e is FactoryConfigurationError || e is ParserConfigurationException || e is IOException || e is SAXException || e is IllegalArgumentException || e is DOMException) {
                     VersionService.LOG.info(e)
                     return null

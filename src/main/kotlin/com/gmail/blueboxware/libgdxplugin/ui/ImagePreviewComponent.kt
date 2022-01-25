@@ -74,12 +74,12 @@ class ImagePreviewComponent(val image: BufferedImage, description: String) : JPa
 
         private fun drawChessBoard(g: Graphics2D) {
 
-            val cellSize = 3
+            val cellSize = 6
             val patternSize = 2 * cellSize
 
             val pattern = ImageUtil.createImage(g, patternSize, patternSize, BufferedImage.TYPE_INT_ARGB)
             pattern.graphics.let {
-                it.color = Color.BLACK
+                it.color = Color.GRAY
                 it.fillRect(0, 0, patternSize, patternSize)
                 it.color = Color.WHITE
                 it.fillRect(0, cellSize, cellSize, cellSize)

@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.intellij.psi.ElementDescriptionLocation
 import com.intellij.psi.ElementDescriptionProvider
@@ -26,7 +26,7 @@ class LibGDXElementDescriptionProvider : ElementDescriptionProvider {
     override fun getElementDescription(element: PsiElement, location: ElementDescriptionLocation): String? =
         when (element) {
             is SkinResource -> element.name
-            is AtlasRegion -> element.name
+            is Atlas2Region -> element.name
             else -> null
         }
 }

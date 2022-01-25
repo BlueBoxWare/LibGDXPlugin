@@ -38,7 +38,7 @@ class SkinErrorsAnnotator : Annotator {
                 val firstChar = element.text.firstOrNull()
                 val lastChar = element.text.lastOrNull()
                 if (firstChar == '\"') {
-                    if (length == 1 || (length > 1 && (lastChar != '\"' || element.text.isEscapedChar(length - 1)))) {
+                    if (length == 1 || lastChar != '\"' || element.text.isEscapedChar(length - 1)) {
                         holder
                             .newAnnotation(HighlightSeverity.ERROR, message("skin.error.annotator.closing.quote"))
                             .range(element)

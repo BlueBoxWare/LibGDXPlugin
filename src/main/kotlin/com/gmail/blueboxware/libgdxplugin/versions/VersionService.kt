@@ -159,7 +159,7 @@ class VersionService(val project: Project) : Disposable {
 
     companion object {
 
-        val LOG = Logger.getInstance("#" + VersionService::class.java.name)
+        val LOG = Logger.getInstance(VersionService::class.java)
 
         var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
 

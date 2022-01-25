@@ -1,0 +1,43 @@
+-1.atlas
+ foo: bar
+ bar: 1, foo
+ -Page 1 (uiskin.png)
+  size: 256, 128
+  format: Alpha
+  filter: Linear, Linear
+  repeat: none
+  +check-off
+  +textfield
+  +check-on
+ -Page 2 (uiskin.png)
+  size: 256, 128
+  format: Alpha
+  filter: Linear, Linear
+  repeat: none
+  +cursor with spaces
+  +default
+  +default-pane
+  +default-rect-pad
+  +default-pane-noborder
+  +default-rect
+  +default-rect-down
+  +default-round
+  +default-round-down
+ -Page 3 (uiskin.png)
+  size: 256, 128
+  format: Alpha
+  filter: Linear, Linear
+  repeat: none
+  +default-round-large
+  +default-scroll
+  +default-select
+  +default-select-selection
+  +default-slider
+  +default-slider-knob
+  +default-splitpane
+  +default-splitpane-vertical
+  +default-window
+  +selection
+  +tree-minus
+  +tree-plus
+  +white

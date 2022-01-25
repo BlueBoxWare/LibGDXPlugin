@@ -7,7 +7,7 @@ plugins {
   id("java")
   id("maven-publish")
   id("org.jetbrains.kotlin.jvm") version "1.5.10"
-  id("org.jetbrains.intellij") version "1.0"
+  id("org.jetbrains.intellij") version "1.3.0"
   id("io.gitlab.arturbosch.detekt") version "1.17.1"
   id("com.github.blueboxware.tocme") version "1.3"
 }

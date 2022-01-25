@@ -1,86 +1,219 @@
 
-<fold text='Page: test.png ...'>test.png
-format: RGBA8888
-filter: Nearest,Nearest
+foo: bar
+bar: 1, foo
+<fold text='Page: uiskin.png ...'>uiskin.png
+size: 256,128
+format: Alpha
+filter: Linear,Linear
 repeat: none
-<fold text='Texture: abstractClass ...'>abstractClass
+<fold text='Texture: check-off ...'>check-off
+    foo     :           bar
+    bar       : 34
+        r:1,2   ,   3
+d: 123
+d: 3,4
   rotate: false
-  xy: 1, 37
-  size: 16, 16
-  orig: 16, 16
+  xy: 11, 5
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1</fold>
-<fold text='Texture: copyOfFolder ...'>copyOfFolder
+<fold text='Texture: textfield ...'>textfield
   rotate: false
-  xy: 1, 19
-  size: 16, 16
-  orig: 16, 16
+  xy: 11, 5
+  size: 14, 14
+  split: 3, 3, 3, 3
+  orig: 14, 14
   offset: 0, 0
   index: -1</fold>
-<fold text='Texture: classInitializer ...'>classInitializer
+<fold text='Texture: check-on ...'>check-on
   rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-<fold text='Texture: collapseNode ...'>collapseNode
-  rotate: false
-  xy: 19, 44
-  size: 9, 9
-  orig: 9, 9
-  offset: 0, 0
-  index: -1</fold>
-</fold>
-<fold text='Page: test2.png ...'>test2.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-<fold text='Texture: advice ...'>advice
-  rotate: false
-  xy: 1, 37
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-<fold text='Texture: annotationtype ...'>annotationtype
-  rotate: false
-  xy: 1, 19
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-<fold text='Texture: artifact ...'>artifact
-  rotate: false
-  xy: 1, 1
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-</fold>
-<fold text='Page: test3.png ...'>test3.png
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-<fold text='Texture: compiledClassesFolder ...'>compiledClassesFolder
-  rotate: false
-  xy: 1, 35
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-<fold text='Texture: class ...'>class
-  rotate: false
-  xy: 1, 17
-  size: 16, 16
-  orig: 16, 16
-  offset: 0, 0
-  index: -1</fold>
-<fold text='Texture: aspect ...'>aspect
-  rotate: false
-  xy: 1, 1
+  xy: 125, 35
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1</fold>
 </fold>
+<fold text='Page: uiskin.png ...'>uiskin.png
+size: 256,128
+format: Alpha
+filter: Linear,Linear
+repeat: none
+<fold text='Texture: cursor with spaces ...'>cursor with spaces
+  rotate: false
+  xy: 23, 1
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default ...'>default
+  rotate: false
+  xy: 1, 50
+  size: 254, 77
+  orig: 254, 77
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-pane ...'>default-pane
+  rotate: false
+  xy: 11, 1
+  size: 5, 3
+  split: 1, 1, 1, 1
+  orig: 5, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-rect-pad ...'>default-rect-pad
+  rotate: false
+  xy: 11, 1
+  size: 5, 3
+  split: 1, 1, 1, 1
+  orig: 5, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-pane-noborder ...'>default-pane-noborder
+  rotate: false
+  xy: 170, 44
+  size: 1, 1
+  split: 0, 0, 0, 0
+  orig: 1, 1
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-rect ...'>default-rect
+  rotate: false
+  xy: 38, 25
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-rect-down ...'>default-rect-down
+  rotate: false
+  xy: 170, 46
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-round ...'>default-round
+  rotate: false
+  xy: 112, 29
+  size: 12, 20
+  split: 5, 5, 5, 4
+  pad: 4, 4, 1, 1
+  orig: 12, 20
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-round-down ...'>default-round-down
+  rotate: false
+  xy: 99, 29
+  size: 12, 20
+  split: 5, 5, 5, 4
+  pad: 4, 4, 1, 1
+  orig: 12, 20
+  offset: 0, 0
+  index: -1</fold>
+</fold>
+<fold text='Page: uiskin.png ...'>uiskin.png
+size: 256,128
+format: Alpha
+filter: Linear,Linear
+repeat: none
+<fold text='Texture: default-round-large ...'>default-round-large
+  rotate: false
+  xy: 57, 29
+  size: 20, 20
+  split: 5, 5, 5, 4
+  orig: 20, 20
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-scroll ...'>default-scroll
+  rotate: false
+  xy: 78, 29
+  size: 20, 20
+  split: 2, 2, 2, 2
+  orig: 20, 20
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-select ...'>default-select
+  rotate: false
+  xy: 29, 29
+  size: 27, 20
+  split: 4, 14, 4, 4
+  orig: 27, 20
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-select-selection ...'>default-select-selection
+  rotate: false
+  xy: 26, 16
+  size: 3, 3
+  split: 1, 1, 1, 1
+  orig: 3, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-slider ...'>default-slider
+  rotate: false
+  xy: 29, 20
+  size: 8, 8
+  split: 2, 2, 2, 2
+  orig: 8, 8
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-slider-knob ...'>default-slider-knob
+  rotate: false
+  xy: 1, 1
+  size: 9, 18
+  orig: 9, 18
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-splitpane ...'>default-splitpane
+  rotate: false
+  xy: 17, 1
+  size: 5, 3
+  split: 0, 5, 0, 0
+  orig: 5, 3
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-splitpane-vertical ...'>default-splitpane-vertical
+  rotate: false
+  xy: 125, 29
+  size: 3, 5
+  split: 0, 0, 0, 5
+  orig: 3, 5
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: default-window ...'>default-window
+  rotate: false
+  xy: 1, 20
+  size: 27, 29
+  split: 4, 3, 20, 3
+  orig: 27, 29
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: selection ...'>selection
+  rotate: false
+  xy: 174, 48
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: tree-minus ...'>tree-minus
+  rotate: false
+  xy: 140, 35
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: tree-plus ...'>tree-plus
+  rotate: false
+  xy: 155, 35
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1</fold>
+<fold text='Texture: white ...'>white
+  rotate: false
+  xy: 129, 31
+  size: 3, 3
+  orig: 3, 3
+  offset: 0, 0
+  index: -1</fold></fold>

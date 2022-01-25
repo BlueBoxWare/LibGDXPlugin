@@ -90,12 +90,10 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
 
                 if (currentPackage == newPackage) {
 
-                    val fqNames = if (element is PsiClass || element is KtClass) {
-                        element.getKotlinFqName()?.let { listOf(it) } ?: return
-                    } else if (element is KtFile) {
-                        element.classes.mapNotNull { it.getKotlinFqName() }.toList()
-                    } else {
-                        return
+                    val fqNames = when (element) {
+                        is PsiClass, is KtClass -> element.getKotlinFqName()?.let { listOf(it) } ?: return
+                        is KtFile -> element.classes.mapNotNull { it.getKotlinFqName() }.toList()
+                        else -> return
                     }
 
                     ApplicationManager.getApplication().runWriteAction {

@@ -46,12 +46,10 @@ class GdxJsonStructureViewElement(val element: GdxJsonElement) : StructureViewTr
 
         var value: GdxJsonElement? = null
 
-        if (element is GdxJsonFile) {
-            value = element.childOfType<GdxJsonValue>()?.value
-        } else if (element is GdxJsonProperty) {
-            value = element.value?.value
-        } else if (element is GdxJsonJobject || element is GdxJsonArray) {
-            value = element
+        when (element) {
+            is GdxJsonFile -> value = element.childOfType<GdxJsonValue>()?.value
+            is GdxJsonProperty -> value = element.value?.value
+            is GdxJsonJobject, is GdxJsonArray -> value = element
         }
 
         if (value is GdxJsonJobject) {

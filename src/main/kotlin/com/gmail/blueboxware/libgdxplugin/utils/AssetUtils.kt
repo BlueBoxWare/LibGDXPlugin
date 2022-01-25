@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2Language
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.intellij.lang.Language
@@ -81,7 +81,7 @@ val I18NBUNDLE_PROPERTIES_METHODS = listOf("format", "get")
 
 val FAKE_FILE_KEY = key<Boolean>("fake")
 
-val NO_ASSET_FILES: Pair<List<SkinFile>, List<AtlasFile>> = Pair(listOf(), listOf())
+val NO_ASSET_FILES: Pair<List<SkinFile>, List<Atlas2File>> = Pair(listOf(), listOf())
 
 internal fun VirtualFile.getAssociatedFiles(): List<VirtualFile> {
 
@@ -147,10 +147,10 @@ private fun getAssetPsiFiles(
     project: Project,
     skinFileNames: List<String>,
     atlasFileNames: List<String>
-): Pair<List<SkinFile>, List<AtlasFile>> {
+): Pair<List<SkinFile>, List<Atlas2File>> {
 
     val skinFiles = mutableListOf<SkinFile>()
-    val atlasFiles = mutableListOf<AtlasFile>()
+    val atlasFiles = mutableListOf<Atlas2File>()
 
     for (skinFileName in skinFileNames) {
         if (skinFileName != "") {
@@ -176,10 +176,10 @@ private fun getAssetPsiFiles(
     for (atlasFileName in atlasFileNames + calculatedAtlasFilenames) {
         if (atlasFileName != "") {
             var atlasFile = project.getPsiFile(atlasFileName)
-            if (atlasFile != null && atlasFile !is AtlasFile) {
-                atlasFile = createFakePsiFile(atlasFile.name, project, atlasFile, LibGDXAtlasLanguage.INSTANCE)
+            if (atlasFile != null && atlasFile !is Atlas2File) {
+                atlasFile = createFakePsiFile(atlasFile.name, project, atlasFile, LibGDXAtlas2Language.INSTANCE)
             }
-            (atlasFile as? AtlasFile)?.let { atlasFiles.add(it) }
+            (atlasFile as? Atlas2File)?.let { atlasFiles.add(it) }
         }
     }
 
@@ -191,7 +191,7 @@ private fun getAssetPsiFiles(
 private fun getAssetFilesFromAnnotation(
     project: Project,
     annotation: AnnotationWrapper?
-): Pair<List<SkinFile>, List<AtlasFile>> {
+): Pair<List<SkinFile>, List<Atlas2File>> {
 
     if (annotation != null) {
         val skins = annotation.getValue(ASSET_ANNOTATION_SKIN_PARAM_NAME)
@@ -206,7 +206,7 @@ private fun getAssetFilesFromAnnotation(
 private fun findAssetsAnnotationClass(context: PsiElement): PsiClass? =
     context.findClass(ASSET_ANNOTATION_NAME)
 
-internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
+internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<Atlas2File>> {
 
     findAssetsAnnotationClass(this)?.let { annotation ->
         return getAssetFilesFromAnnotation(project, getAnnotation(annotation))
@@ -215,7 +215,7 @@ internal fun PsiMethodCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<
     return NO_ASSET_FILES
 }
 
-internal fun KtCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<AtlasFile>> {
+internal fun KtCallExpression.getAssetFiles(): Pair<List<SkinFile>, List<Atlas2File>> {
 
     findAssetsAnnotationClass(this)?.let { annotation ->
         return getAssetFilesFromAnnotation(project, getAnnotation(annotation))

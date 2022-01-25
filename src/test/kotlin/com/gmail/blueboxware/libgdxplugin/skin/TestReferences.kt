@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
@@ -368,7 +368,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         configureByFile(testname() + ".skin")
         val element = file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
         val reference = element.reference ?: throw AssertionError()
-        val target = reference.resolve() as AtlasRegion
+        val target = reference.resolve() as Atlas2Region
         assertEquals(element.value, target.name)
     }
 

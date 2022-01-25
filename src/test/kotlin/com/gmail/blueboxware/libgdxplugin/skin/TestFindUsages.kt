@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
@@ -75,7 +75,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     fun testFindDrawableUsages() {
         copyFileToProject("drawableUsages.skin")
         val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
-        val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<AtlasRegion>()
+        val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<Atlas2Region>()
         assertEquals(10, usagesInfos.size)
         usagesInfos.forEach { usagesInfo ->
             assertNotNull(usagesInfo.element)

@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.openapi.util.text.StringUtil
@@ -53,7 +53,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
     fun testFindUsages4() {
         copyFileToProject("findUsages/findUsages4.skin")
         val vf = copyFileToProject("findUsages/findUsages4.atlas")
-        val atlasFile = PsiManager.getInstance(project).findFile(vf) as? AtlasFile ?: throw AssertionError()
+        val atlasFile = PsiManager.getInstance(project).findFile(vf) as? Atlas2File ?: throw AssertionError()
         val target = atlasFile.getPages().flatMap { it.regionList }.find { it.name == "wallpaper" }!!
         val usagesInfos = myFixture.findUsages(target)
         assertEquals(4, usagesInfos.size)

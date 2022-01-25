@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.*
@@ -31,13 +31,13 @@ class AssetReference(
     element: PsiElement,
     val resourceName: String,
     val className: DollarClassName?,
-    private val assetFiles: Pair<Set<SkinFile>, Set<AtlasFile>>
+    private val assetFiles: Pair<Set<SkinFile>, Set<Atlas2File>>
 ) : PsiPolyVariantReferenceBase<PsiElement>(element) {
 
     val skinFiles: Set<SkinFile>
         get() = assetFiles.first
 
-    val atlasFiles: Set<AtlasFile>
+    val atlasFiles: Set<Atlas2File>
         get() = assetFiles.second
 
     override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
@@ -86,7 +86,7 @@ class AssetReference(
                 atlasFile.getPages().forEach { page ->
                     page.regionList.forEach { region ->
 
-                        if (result.find { (it.psiElement as? AtlasRegion)?.let { reg -> reg.name == region.name } == true } == null) {
+                        if (result.find { (it.psiElement as? Atlas2Region)?.let { reg -> reg.name == region.name } == true } == null) {
                             val lookupElement = LookupElementBuilder
                                 .create(region)
                                 .withTypeText(getOriginalFileName(atlasFile), true)

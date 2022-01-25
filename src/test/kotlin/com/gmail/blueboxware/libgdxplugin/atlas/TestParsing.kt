@@ -1,9 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin.atlas
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2ParserDefinition
+import com.gmail.blueboxware.libgdxplugin.loadAtlas
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.testFramework.ParsingTestCase
+import java.io.File
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -20,27 +22,26 @@ import com.intellij.testFramework.ParsingTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TestParsing : ParsingTestCase("", "atlas", AtlasParserDefinition()) {
+class TestParsing : ParsingTestCase("", "atlas", Atlas2ParserDefinition()) {
 
     fun test1() {
-        doTest(listOf(3, 9, 13))
+        doParseTest("1.atlas")
     }
 
     fun test2() {
-        doTest(listOf(4, 3, 3))
+        doParseTest("2.atlas")
     }
 
-    fun doTest(regionsPerPage: List<Int>) {
+    fun test3() {
+        doParseTest("3.atlas")
+    }
+
+    private fun doParseTest(file: String) {
         doTest(true)
 
-        val pages = (myFile as? AtlasFile)?.getPages()
-        assertNotNull(pages)
-        pages?.let { foundPages ->
-            assertEquals(regionsPerPage.size, foundPages.size)
-            for ((index, size) in regionsPerPage.withIndex()) {
-                assertEquals(size, foundPages[index].regionList.size)
-            }
-        }
+        val expected = loadAtlas(File(testDataPath, file))
+        val actual = loadAtlas(myFile as Atlas2File)
+        assertEquals(expected, actual)
     }
 
     override fun getTestDataPath() =

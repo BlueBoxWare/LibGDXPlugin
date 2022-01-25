@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element
 import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
 import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
 import com.gmail.blueboxware.libgdxplugin.utils.isDefaultFile
@@ -63,12 +63,9 @@ class FileReference(
                             LanguageUtil.getLanguageForPsi(element.project, virtualFile) in preferableLanguages
 
                         PrioritizedLookupElement.withPriority(
-                            LookupElementBuilder
-                                .create(psiFile, relativePath.replace("\\", "\\\\", false))
-                                .withPresentableText(relativePath)
-                                .withIcon(psiFile.getIcon(0))
-                                .withBoldness(prioritized),
-                            if (prioritized) Double.MAX_VALUE else 0.0
+                            LookupElementBuilder.create(psiFile, relativePath.replace("\\", "\\\\", false))
+                                .withPresentableText(relativePath).withIcon(psiFile.getIcon(0))
+                                .withBoldness(prioritized), if (prioritized) Double.MAX_VALUE else 0.0
                         )?.let {
                             result.add(it)
                         }
@@ -86,20 +83,13 @@ class FileReference(
 
     override fun handleElementRename(newElementName: String): PsiElement {
 
-        return if (element is AtlasValue) {
-
-            // we don't handle renaming of the image file in Atlas files
-            element
-
-        } else if (element is KtStringTemplateExpression || element is PsiLiteralExpression) {
-
-            val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
-            super.handleElementRename(newPath)
-
-        } else {
-
-            throw IncorrectOperationException()
-
+        return when (element) {
+            is Atlas2Element -> element // we don't handle renaming of the image file in Atlas files
+            is KtStringTemplateExpression, is PsiLiteralExpression -> {
+                val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
+                super.handleElementRename(newPath)
+            }
+            else -> throw IncorrectOperationException()
         }
 
     }

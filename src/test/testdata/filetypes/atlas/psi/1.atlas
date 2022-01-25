@@ -1,14 +1,21 @@
+foo: bar
+bar: 1, foo
 uiskin.png
 size: 256,128
 format: Alpha
 filter: Linear,Linear
 repeat: none
 check-off
+    foo     :           bar
+    bar       : 34
+        r:1,2   ,   3
+d: 123
+d: 3,4
   rotate: false
   xy: 11, 5
   size: 14, 14
   orig: 14, 14
-  offset: 0, 0f
+  offset: 0, 0
   index: -1
 textfield
   rotate: false

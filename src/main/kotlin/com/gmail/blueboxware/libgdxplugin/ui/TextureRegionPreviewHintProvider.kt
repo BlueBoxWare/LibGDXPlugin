@@ -1,11 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.psi.AtlasRegion
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.preview.PreviewHintProvider
@@ -37,13 +34,15 @@ import javax.swing.JComponent
 class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
     override fun isSupportedFile(file: PsiFile?): Boolean =
-        file is SkinFile || file is PsiJavaFile || file is KtFile || file is AtlasFile
+        file is SkinFile || file is PsiJavaFile || file is KtFile || file is Atlas2File
 
-    override fun getPreviewComponent(element: PsiElement): JComponent? {
+    override fun getPreviewComponent(el: PsiElement): JComponent? {
 
-        if (element.containingFile is AtlasFile) {
+        var element = el
 
-            element.getParentOfType<AtlasRegion>()?.let { atlasRegion ->
+        if (element.containingFile is Atlas2File) {
+
+            element.getParentOfType<Atlas2Region>()?.let { atlasRegion ->
                 atlasRegion.image?.let { image ->
                     return createPreviewComponent(image, atlasRegion.name)
                 }
@@ -51,15 +50,25 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
         } else {
 
+            if (element.containingFile is SkinFile && element.parent is SkinStringLiteral && element.parent.parent is SkinResourceName) {
+                element.getParentOfType<SkinResource>()?.let { resource ->
+                    if (resource.classSpecification?.classNameAsString?.plainName == TINTED_DRAWABLE_CLASS_NAME) {
+                        element =
+                            (resource.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value as? SkinStringLiteral)
+                                ?: element
+                    }
+                }
+            }
+
             when (element.containingFile) {
-                is SkinFile -> element.getParentOfType<SkinStringLiteral>()
+                is SkinFile -> element.getParentOfType<SkinStringLiteral>(false)
                 is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
                 is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
                 else -> null
             }?.references?.forEach { reference ->
                 reference.resolve()?.let { target ->
                     @Suppress("ControlFlowWithEmptyBody")
-                    if (target is AtlasRegion) {
+                    if (target is Atlas2Region) {
                         target.image?.let { image ->
                             return createPreviewComponent(image, target.name)
                         }
@@ -98,7 +107,7 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
                                     ?.resolve()
                         }
 
-                        (nameTarget as? AtlasRegion)?.let { atlasRegion ->
+                        (nameTarget as? Atlas2Region)?.let { atlasRegion ->
                             atlasRegion.image?.let { image ->
                                 return createPreviewComponent(color?.let { image.tint(color) } ?: image,
                                     tintedDrawableName)
@@ -119,16 +128,23 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
     private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent {
 
-        var previewImage = image
-        var scale = 1
 
-        if ((image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100) {
-            previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 4.0))
-            scale = 4
-        } else if ((image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200) {
-            previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, 2.0))
-            scale = 2
+        val scale = when {
+            (image.width < 10 || image.height < 10) && image.width < 100 && image.height < 100 -> {
+                8
+            }
+            (image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100 -> {
+                4
+            }
+            (image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200 -> {
+                2
+            }
+            else -> {
+                1
+            }
         }
+
+        val previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, scale.toDouble()))
 
         val txt = (name ?: "<unknown>") + " (" + image.width + " x " + image.height +
                 (if (scale != 1) ", shown at scale ${scale}x" else "") + ")"

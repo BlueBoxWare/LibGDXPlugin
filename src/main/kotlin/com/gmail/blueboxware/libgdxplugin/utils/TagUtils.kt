@@ -4,6 +4,7 @@ import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.RecursionManager
 import com.intellij.openapi.util.SimpleModificationTracker
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.*
@@ -74,21 +75,20 @@ class SkinTagsModificationTracker : SimpleModificationTracker() {
 internal fun Project.getSkinTag2ClassMap(): TagMap? =
     getCachedValue(KEY, SkinTagsModificationTracker.getInstance(this)) {
 
-        if (isLibGDX199()) {
-            computeUnderProgressIfNecessary {
-                collectCustomTags().apply {
-                    addAll(DEFAULT_TAGGED_CLASSES_NAMES)
-                    addAll(collectTagsFromAnnotations())
+        RecursionManager.doPreventingRecursion(this, true) {
+            if (isLibGDX199()) {
+                computeUnderProgressIfNecessary {
+                    collectCustomTags().apply {
+                        addAll(DEFAULT_TAGGED_CLASSES_NAMES)
+                        addAll(collectTagsFromAnnotations())
+                    }
                 }
+            } else {
+                null
             }
-        } else {
-            null
         }
 
     }
-
-internal fun Project.getSkinTag2ClassMapLazy(): TagMap? =
-    getUserData(KEY)?.value ?: getSkinTag2ClassMap()
 
 internal val DEFAULT_TAGGED_CLASSES_NAMES: Map<String, String> = listOf(
     "graphics.g2d.BitmapFont",

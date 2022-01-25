@@ -52,7 +52,7 @@
         <listener class="com.gmail.blueboxware.libgdxplugin.GwtOutdatedListener"
                   topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
         <listener class="com.gmail.blueboxware.libgdxplugin.SkinTagsFileListener"
-                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener" />
+                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
     </projectListeners>
 
     <extensions defaultExtensionNs="com.intellij">
@@ -195,6 +195,10 @@
         <json.jsonWidgetSuppressor
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSchemaWidgetSuppressor"/>
 
+        <renameInputValidator
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonRenameInputValidator"
+        />
+
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQuotesIntention
             </className>
@@ -224,7 +228,7 @@
         <annotator language="LibGDXSkin"
                    implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.annotators.SkinErrorsAnnotator"/>
 
-        <psi.treeChangeListener implementation="com.gmail.blueboxware.libgdxplugin.SkinTagsChangeListener" />
+        <psi.treeChangeListener implementation="com.gmail.blueboxware.libgdxplugin.SkinTagsChangeListener"/>
 
         <fileType
                 name="libGDX Skin"
@@ -287,6 +291,9 @@
         <langCodeStyleSettingsProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinLanguageCodeStyleSettingsProvider"/>
 
+        <renameInputValidator
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRenameInputValidator"
+        />
         <lang.refactoringSupport language="LibGDXSkin"
                                  implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider"/>
         <refactoring.elementListenerProvider
@@ -336,36 +343,54 @@
             <descriptionDirectoryName>ColorToHexIntention</descriptionDirectoryName>
         </intentionAction>
 
-        <!--Atlas files-->
+        <!-- Atlas 2 files -->
         <fileType
                 name="libGDX Atlas"
                 extensions="atlas;pack"
-                language="LibGDXAtlas"
+                language="LibGDXAtlas2"
                 fieldName="INSTANCE"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType"
-                id="LibGDXAtlas"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2FileType"
+                id="LibGDXAtlas2"
         />
 
-        <lang.parserDefinition language="LibGDXAtlas"
-                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasParserDefinition"/>
+        <lang.parserDefinition
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2ParserDefinition"
+        />
 
-        <lang.syntaxHighlighterFactory language="LibGDXAtlas"
-                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.highlighting.Atlas2SyntaxHighlighterFactory"
+        />
         <colorSettingsPage
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasColorSettingsPage"/>
-        <annotator language="LibGDXAtlas"
-                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.highlighting.AtlasAdditionalHighlighter"/>
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.highlighting.Atlas2ColorSettingsPage"
+        />
+        <annotator
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.highlighting.Atlas2AdditionalHighlighter"
+        />
 
-        <lang.psiStructureViewFactory language="LibGDXAtlas"
-                                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasStructureViewFactory"/>
+        <lang.foldingBuilder
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.editor.Atlas2FoldingBuilder"
+        />
+
+        <lang.psiStructureViewFactory
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.structureView.Atlas2StructureViewFactory"
+        />
         <psi.treeChangePreprocessor
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.structureView.AtlasTreeChangePreprocessor"/>
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.structureView.Atlas2TreeChangePreprocessor"
+        />
 
-        <lang.foldingBuilder language="LibGDXAtlas"
-                             implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFoldingBuilder"/>
+        <lang.findUsagesProvider
+                language="LibGDXAtlas2"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.editor.Atlas2FindUsagesProvider"
+        />
 
-        <lang.findUsagesProvider language="LibGDXAtlas"
-                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.atlas.editor.AtlasFindUsagesProvider"/>
+        <renameInputValidator
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2RenameInputValidator"
+        />
 
         <!--Font files-->
         <fileType

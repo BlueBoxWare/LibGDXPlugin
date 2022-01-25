@@ -1,0 +1,218 @@
+<info descr="ATLAS.KEY">foo</info>:<info descr="ATLAS.VALUE"> bar</info>
+<info descr="ATLAS.KEY">bar</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> foo</info>
+<info descr="ATLAS.FILE_NAME">uiskin.png</info>
+<info descr="ATLAS.KEY">size</info>:<info descr="ATLAS.VALUE"> 256</info>,<info descr="ATLAS.VALUE">128</info>
+<info descr="ATLAS.KEY">format</info>:<info descr="ATLAS.VALUE"> Alpha</info>
+<info descr="ATLAS.KEY">filter</info>:<info descr="ATLAS.VALUE"> Linear</info>,<info descr="ATLAS.VALUE">Linear</info>
+<info descr="ATLAS.KEY">repeat</info>:<info descr="ATLAS.VALUE"> none</info>
+<info descr="ATLAS.TEXTURE_NAME">check-off</info>
+<info descr="ATLAS.KEY">    foo     </info>:<info descr="ATLAS.VALUE">           bar</info>
+<info descr="ATLAS.KEY">    bar       </info>:<info descr="ATLAS.VALUE"> 34</info>
+<info descr="ATLAS.KEY">        r</info>:<info descr="ATLAS.VALUE">1</info>,<info descr="ATLAS.VALUE">2   </info>,<info descr="ATLAS.VALUE">   3</info>
+<info descr="ATLAS.KEY">d</info>:<info descr="ATLAS.VALUE"> 123</info>
+<info descr="ATLAS.KEY">d</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE">4</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 11</info>,<info descr="ATLAS.VALUE"> 5</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">textfield</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 11</info>,<info descr="ATLAS.VALUE"> 5</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">check-on</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 125</info>,<info descr="ATLAS.VALUE"> 35</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+
+<info descr="ATLAS.FILE_NAME">uiskin.png</info>
+<info descr="ATLAS.KEY">size</info>:<info descr="ATLAS.VALUE"> 256</info>,<info descr="ATLAS.VALUE">128</info>
+<info descr="ATLAS.KEY">format</info>:<info descr="ATLAS.VALUE"> Alpha</info>
+<info descr="ATLAS.KEY">filter</info>:<info descr="ATLAS.VALUE"> Linear</info>,<info descr="ATLAS.VALUE">Linear</info>
+<info descr="ATLAS.KEY">repeat</info>:<info descr="ATLAS.VALUE"> none</info>
+<info descr="ATLAS.TEXTURE_NAME">cursor with spaces</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 23</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 50</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 254</info>,<info descr="ATLAS.VALUE"> 77</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 254</info>,<info descr="ATLAS.VALUE"> 77</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-pane</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 11</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-rect-pad</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 11</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-pane-noborder</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 170</info>,<info descr="ATLAS.VALUE"> 44</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-rect</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 38</info>,<info descr="ATLAS.VALUE"> 25</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-rect-down</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 170</info>,<info descr="ATLAS.VALUE"> 46</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-round</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 112</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 12</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 4</info>
+<info descr="ATLAS.KEY">  pad</info>:<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 12</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-round-down</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 99</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 12</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 4</info>
+<info descr="ATLAS.KEY">  pad</info>:<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 12</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+
+<info descr="ATLAS.FILE_NAME">uiskin.png</info>
+<info descr="ATLAS.KEY">size</info>:<info descr="ATLAS.VALUE"> 256</info>,<info descr="ATLAS.VALUE">128</info>
+<info descr="ATLAS.KEY">format</info>:<info descr="ATLAS.VALUE"> Alpha</info>
+<info descr="ATLAS.KEY">filter</info>:<info descr="ATLAS.VALUE"> Linear</info>,<info descr="ATLAS.VALUE">Linear</info>
+<info descr="ATLAS.KEY">repeat</info>:<info descr="ATLAS.VALUE"> none</info>
+<info descr="ATLAS.TEXTURE_NAME">default-round-large</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 57</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 20</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 4</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 20</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-scroll</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 78</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 20</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 20</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-select</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 29</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 27</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 4</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 27</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-select-selection</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 26</info>,<info descr="ATLAS.VALUE"> 16</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-slider</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 29</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 8</info>,<info descr="ATLAS.VALUE"> 8</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>,<info descr="ATLAS.VALUE"> 2</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 8</info>,<info descr="ATLAS.VALUE"> 8</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-slider-knob</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 9</info>,<info descr="ATLAS.VALUE"> 18</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 9</info>,<info descr="ATLAS.VALUE"> 18</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-splitpane</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 17</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 5</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-splitpane-vertical</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 125</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 5</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 5</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 5</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">default-window</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 20</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 27</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  split</info>:<info descr="ATLAS.VALUE"> 4</info>,<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 20</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 27</info>,<info descr="ATLAS.VALUE"> 29</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">selection</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 174</info>,<info descr="ATLAS.VALUE"> 48</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 1</info>,<info descr="ATLAS.VALUE"> 1</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">tree-minus</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 140</info>,<info descr="ATLAS.VALUE"> 35</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">tree-plus</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 155</info>,<info descr="ATLAS.VALUE"> 35</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 14</info>,<info descr="ATLAS.VALUE"> 14</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>
+<info descr="ATLAS.TEXTURE_NAME">white</info>
+<info descr="ATLAS.KEY">  rotate</info>:<info descr="ATLAS.VALUE"> false</info>
+<info descr="ATLAS.KEY">  xy</info>:<info descr="ATLAS.VALUE"> 129</info>,<info descr="ATLAS.VALUE"> 31</info>
+<info descr="ATLAS.KEY">  size</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  orig</info>:<info descr="ATLAS.VALUE"> 3</info>,<info descr="ATLAS.VALUE"> 3</info>
+<info descr="ATLAS.KEY">  offset</info>:<info descr="ATLAS.VALUE"> 0</info>,<info descr="ATLAS.VALUE"> 0</info>
+<info descr="ATLAS.KEY">  index</info>:<info descr="ATLAS.VALUE"> -1</info>

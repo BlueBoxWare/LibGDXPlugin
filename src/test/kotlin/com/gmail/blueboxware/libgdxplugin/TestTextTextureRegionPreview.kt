@@ -21,8 +21,16 @@ import java.awt.Color
  */
 class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
 
+    fun testPreviewInAtlas() {
+        doTest("test.atlas", false, 48, 40)
+    }
+
     fun testPreviewInSkin() {
         doTest("test.skin")
+    }
+
+    fun testTintedDrawable() {
+        doTest("test2.skin")
     }
 
     fun testPreviewInJavaWithSkin() {
@@ -33,13 +41,13 @@ class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
         doTest("Test2.java", false)
     }
 
-    fun doTest(fileName: String, tinted: Boolean = true) {
+    fun doTest(fileName: String, tinted: Boolean = true, width: Int = 50, height: Int = 50) {
         configureByFile(fileName)
         val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
         val preview = TextureRegionPreviewHintProvider().getPreviewComponent(element)
         val image = (preview as? ImagePreviewComponent)?.image ?: throw AssertionError()
-        assertEquals(50, image.width)
-        assertEquals(50, image.width)
+        assertEquals(width, image.width)
+        assertEquals(height, image.height)
         if (tinted) {
             assertEquals(Color.YELLOW, Color(image.getRGB(1, 1)))
         }

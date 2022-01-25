@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasFileType
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.LibGDXAtlasLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2FileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2Language
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.utils.*
@@ -59,8 +59,8 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
         createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_ATLAS_PARAM_NAME,
-            listOf(LibGDXAtlasFileType.INSTANCE, PlainTextFileType.INSTANCE),
-            listOf(LibGDXAtlasLanguage.INSTANCE)
+            listOf(LibGDXAtlas2FileType.INSTANCE, PlainTextFileType.INSTANCE),
+            listOf(LibGDXAtlas2Language.INSTANCE)
         )
 
         createAssetAnnotationProvider(

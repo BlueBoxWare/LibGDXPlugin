@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas.AtlasFile
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
@@ -86,7 +86,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                 ) {
                     element.containingFile.virtualFile?.let { virtualFile ->
                         virtualFile.getAssociatedAtlas()?.let { atlasVirtualFile ->
-                            (element.manager.findFile(atlasVirtualFile) as? AtlasFile)?.let { atlasFile ->
+                            (element.manager.findFile(atlasVirtualFile) as? Atlas2File)?.let { atlasFile ->
                                 atlasFile.getPages().forEach { page ->
                                     page.regionList.forEach { region ->
                                         if (region.name == element.value) {
