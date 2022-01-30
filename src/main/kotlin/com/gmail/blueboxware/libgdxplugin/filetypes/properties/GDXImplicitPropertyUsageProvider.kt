@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.intellij.codeInspection.unused.ImplicitPropertyUsageProvider
+import com.intellij.lang.properties.codeInspection.unused.ImplicitPropertyUsageProvider
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.search.PsiSearchHelper
 import com.intellij.psi.search.searches.ReferencesSearch
@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.idea.search.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXImplicitPropertyUsageProvider : ImplicitPropertyUsageProvider() {
+class GDXImplicitPropertyUsageProvider : ImplicitPropertyUsageProvider {
 
     public override fun isUsed(property: Property): Boolean {
 

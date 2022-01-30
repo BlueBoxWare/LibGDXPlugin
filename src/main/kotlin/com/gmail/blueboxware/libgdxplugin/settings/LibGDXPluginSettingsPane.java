@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.settings;
 
 import com.gmail.blueboxware.libgdxplugin.utils.LanguageSubstitutionUtilsKt;
+import com.intellij.openapi.project.Project;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -38,12 +39,12 @@ public class LibGDXPluginSettingsPane {
     private LibGDXPluginSettings settings = new LibGDXPluginSettings();
 
     @SuppressWarnings("UnusedReturnValue")
-    JComponent createPanel(@NotNull LibGDXPluginSettings settings) {
+    JComponent createPanel(@NotNull Project project, @NotNull LibGDXPluginSettings settings) {
         this.settings = settings;
 
-        resetJson.addActionListener(e -> LanguageSubstitutionUtilsKt.resetJsonAssociations(root));
+        resetJson.addActionListener(e -> LanguageSubstitutionUtilsKt.resetJsonAssociations(project,root));
 
-        resetSkin.addActionListener(e -> LanguageSubstitutionUtilsKt.resetSkinAssociations(root));
+        resetSkin.addActionListener(e -> LanguageSubstitutionUtilsKt.resetSkinAssociations(project, root));
 
         return root;
     }

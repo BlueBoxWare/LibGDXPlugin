@@ -12,7 +12,6 @@ import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
-import com.intellij.openapi.project.guessCurrentProject
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.LanguageSubstitutors
@@ -39,16 +38,18 @@ import kotlin.reflect.KClass
  * limitations under the License.
  */
 
-internal fun resetSkinAssociations(component: JComponent) =
+internal fun resetSkinAssociations(project: Project, component: JComponent) =
     resetAssociations(
+        project,
         component,
         LibGDXProjectSkinFiles::class,
         LibGDXProjectNonSkinFiles::class,
         "Skin"
     )
 
-internal fun resetJsonAssociations(component: JComponent) =
+internal fun resetJsonAssociations(project: Project, component: JComponent) =
     resetAssociations(
+        project,
         component,
         LibGDXProjectGdxJsonFiles::class,
         LibGDXProjectNonGdxJsonFiles::class,
@@ -128,13 +129,12 @@ private fun Project.reset(file: VirtualFile) {
 }
 
 private fun resetAssociations(
+    project: Project,
     component: JComponent,
     set1: KClass<out PersistentFileSetManager>,
     set2: KClass<out PersistentFileSetManager>,
     type: String
 ) {
-
-    val project = guessCurrentProject(component)
 
     if (project == ProjectManager.getInstance().defaultProject) {
         Messages.showWarningDialog(

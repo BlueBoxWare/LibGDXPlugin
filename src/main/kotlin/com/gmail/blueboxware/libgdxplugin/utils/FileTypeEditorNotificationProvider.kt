@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.intellij.lang.Language
 import com.intellij.lang.LanguageUtil
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.project.Project
@@ -63,7 +62,7 @@ abstract class FileTypeEditorNotificationProvider(
             return null
         }
 
-        val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java) ?: return null
+        val settings = project.getService(LibGDXPluginSettings::class.java) ?: return null
 
         if (!shouldShowNotification(currentLanguage, file, fileEditor, settings)) {
             return null

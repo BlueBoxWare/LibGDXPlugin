@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonEditorNotificationProvider
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.intellij.lang.LanguageUtil
-import com.intellij.openapi.components.ServiceManager
 
 
 /*
@@ -128,7 +127,7 @@ class TestNotification : LibGDXCodeInsightFixtureTestCase() {
                 project,
                 LanguageUtil.getLanguageForPsi(project, file.virtualFile),
                 file.virtualFile,
-                ServiceManager.getService(project, LibGDXPluginSettings::class.java)
+                project.getService(LibGDXPluginSettings::class.java)
             )
         )
     }

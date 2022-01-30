@@ -16,7 +16,6 @@ import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiEditorUtil
 import com.intellij.ui.ColorChooser
@@ -40,8 +39,7 @@ class SkinColorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-        if (!ServiceManager.getService(
-                element.project,
+        if (!element.project.getService(
                 LibGDXPluginSettings::class.java
             ).enableColorAnnotationsInSkin
         ) {

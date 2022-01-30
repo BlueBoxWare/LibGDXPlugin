@@ -47,7 +47,7 @@ class LibGDXTagUsageTargetProvider : DefaultUsageTargetProvider() {
                 ) {
 
                     sourceElement.getParentOfType<PsiLiteralExpression>()?.let {
-                        return arrayOf(PsiElement2UsageTargetAdapter(it))
+                        return arrayOf(PsiElement2UsageTargetAdapter(it, false))
                     }
 
                 }
@@ -71,7 +71,7 @@ class LibGDXTagUsageTargetProvider : DefaultUsageTargetProvider() {
                 ) {
 
                     sourceElement.getParentOfType<KtStringTemplateExpression>()?.let {
-                        return arrayOf(PsiElement2UsageTargetAdapter(it))
+                        return arrayOf(PsiElement2UsageTargetAdapter(it, false))
                     }
 
                 }

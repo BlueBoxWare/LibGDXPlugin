@@ -1,7 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.settings
 
 import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
@@ -43,8 +42,8 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
     }
 
     override fun createComponent(): JComponent? {
-        val settings = ServiceManager.getService(project, LibGDXPluginSettings::class.java)
-        return getForm()?.createPanel(settings)
+        val settings = project.getService(LibGDXPluginSettings::class.java)
+        return getForm()?.createPanel(project, settings)
     }
 
     override fun reset() {

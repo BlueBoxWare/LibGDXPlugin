@@ -32,7 +32,6 @@ import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.testFramework.InspectionTestUtil
 import com.intellij.testFramework.UsefulTestCase
@@ -627,7 +626,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             FileTypeManager.getInstance().associateExtension(GroovyFileType.GROOVY_FILE_TYPE, "gradle")
         }
 
-        ServiceManager.getService(project, LibGDXPluginSettings::class.java).enableColorAnnotations = false
+        project.getService(LibGDXPluginSettings::class.java).enableColorAnnotations = false
 
     }
 
