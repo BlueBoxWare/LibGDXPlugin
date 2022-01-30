@@ -1,3 +1,6 @@
+### 1.24
+* Support for the [new Atlas file format](https://github.com/libgdx/libgdx/commit/a4a0240e2db47d7273797eaf371133f84749f823).
+
 ### 1.23.6
 * Improvements in Find Usages and type checking for Skin files.
 * Fix "Slow operations are prohibited on EDT" error in "Find Usages".
