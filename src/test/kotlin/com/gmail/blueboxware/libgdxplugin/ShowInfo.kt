@@ -49,7 +49,7 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
             .getExtensionPoint<LocalInspectionEP>("com.intellij.localInspection")
             .extensionList
             .filter {
-                it.pluginDescriptor.pluginId?.idString == "com.gmail.blueboxware.libgdxplugin"
+                it.pluginDescriptor.pluginId.idString == "com.gmail.blueboxware.libgdxplugin"
             }
             .sortedBy { it.shortName }
             .forEach {

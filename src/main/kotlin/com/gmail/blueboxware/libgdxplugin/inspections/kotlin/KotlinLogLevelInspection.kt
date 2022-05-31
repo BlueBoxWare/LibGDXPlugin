@@ -1,15 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.compat.getCalleeExpressionIfAny
 import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
+import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
+
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.lexer.KtSingleValueToken
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.resolve.calls.callUtil.getCalleeExpressionIfAny
 
 /*
  * Copyright 2016 Blue Box Ware
