@@ -106,6 +106,9 @@
         <findUsagesHandlerFactory
                 implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory"/>
 
+        <!--suppress PluginXmlValidity -->
+        <fileTypeOverrider implementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXFileTypeOverrider" order="first" />
+
         <!--suppress PluginXmlCapitalization -->
         <globalInspection
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection"

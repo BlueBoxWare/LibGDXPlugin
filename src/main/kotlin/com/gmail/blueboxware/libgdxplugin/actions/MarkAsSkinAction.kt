@@ -1,16 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.actions
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
-import com.intellij.json.JsonLanguage
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.util.IconLoader
 import icons.Icons
 
@@ -45,9 +42,7 @@ class MarkAsSkinAction : AnAction() {
                 val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
                 if (
-                    currentLanguage == LibGDXJsonLanuage.INSTANCE
-                    || currentLanguage == PlainTextLanguage.INSTANCE
-                    || currentLanguage == JsonLanguage.INSTANCE
+                    currentLanguage != LibGDXSkinLanguage.INSTANCE
                 ) {
 
                     @Suppress("DialogTitleCapitalization")
@@ -55,7 +50,7 @@ class MarkAsSkinAction : AnAction() {
                     presentation.icon = Icons.SKIN_FILETYPE
                     presentation.isEnabled = true
 
-                } else if (LanguageUtil.getFileLanguage(file) != LibGDXSkinLanguage.INSTANCE) {
+                } else {
 
                     @Suppress("DialogTitleCapitalization")
                     presentation.text = message("context.menu.mark.as.non.skin")

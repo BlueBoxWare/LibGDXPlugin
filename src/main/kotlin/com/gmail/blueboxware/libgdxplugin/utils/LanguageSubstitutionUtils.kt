@@ -8,7 +8,6 @@ import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
 import com.intellij.lang.LanguageUtil
 import com.intellij.openapi.editor.EditorFactory
 import com.intellij.openapi.editor.impl.FoldingModelImpl
-import com.intellij.openapi.file.exclude.EnforcedPlainTextFileTypeManager
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
@@ -58,7 +57,6 @@ internal fun resetJsonAssociations(project: Project, component: JComponent) =
 
 
 internal fun Project.markFileAsSkin(file: VirtualFile) {
-    EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
     changeFileSubstitution(
         file,
         listOf(LibGDXProjectNonSkinFiles::class, LibGDXProjectGdxJsonFiles::class),
@@ -74,7 +72,6 @@ internal fun Project.markFileAsNonSkin(file: VirtualFile) =
     )
 
 internal fun Project.markFileAsGdxJson(file: VirtualFile) {
-    EnforcedPlainTextFileTypeManager.getInstance()?.resetOriginalFileType(this, file)
     changeFileSubstitution(
         file,
         listOf(LibGDXProjectNonGdxJsonFiles::class, LibGDXProjectSkinFiles::class),

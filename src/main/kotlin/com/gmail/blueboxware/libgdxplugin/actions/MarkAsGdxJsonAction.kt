@@ -53,7 +53,6 @@ class MarkAsGdxJsonAction : AnAction() {
 
                 } else if (
                     currentLanguage == LibGDXJsonLanuage.INSTANCE
-                    && LanguageUtil.getFileLanguage(file) != LibGDXJsonLanuage.INSTANCE
                 ) {
 
                     @Suppress("DialogTitleCapitalization")

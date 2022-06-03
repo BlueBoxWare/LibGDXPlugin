@@ -1,7 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.settings
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.utils.PersistentFileSetManager
 import com.intellij.openapi.components.State
+import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.fileTypes.impl.FileTypeOverrider
+import com.intellij.openapi.project.ProjectLocator
+import com.intellij.openapi.vfs.VirtualFile
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -29,4 +35,26 @@ class LibGDXProjectGdxJsonFiles : PersistentFileSetManager()
 
 @State(name = "LibGDXNonGdxJsonFiles")
 class LibGDXProjectNonGdxJsonFiles : PersistentFileSetManager()
+
+@Suppress("UnstableApiUsage")
+class LibGDXFileTypeOverrider : FileTypeOverrider {
+
+    override fun getOverriddenFileType(file: VirtualFile): FileType? {
+
+        val project = ProjectLocator.getInstance().guessProjectForFile(file) ?: return null
+        project.getComponent(LibGDXProjectSkinFiles::class.java)?.let {
+            if (it.contains(file)) {
+                return LibGDXSkinFileType.INSTANCE
+            }
+        }
+        project.getComponent(LibGDXProjectGdxJsonFiles::class.java)?.let {
+            if (it.contains(file)) {
+                return LibGDXJsonFileType.INSTANCE
+            }
+        }
+
+        return null
+    }
+
+}
 
