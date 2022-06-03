@@ -6,8 +6,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
-    id("org.jetbrains.intellij") version "1.5.2"
+    id("org.jetbrains.kotlin.jvm") version "1.6.20"
+    // https://github.com/JetBrains/gradle-intellij-plugin/issues/998
+    id("org.jetbrains.intellij") version "1.7.0-SNAPSHOT"
     id("io.gitlab.arturbosch.detekt") version "1.17.1"
     id("com.github.blueboxware.tocme") version "1.3"
 }
