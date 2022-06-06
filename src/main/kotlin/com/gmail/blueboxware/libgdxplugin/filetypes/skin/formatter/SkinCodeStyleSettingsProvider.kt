@@ -23,7 +23,7 @@ class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
         return object : CodeStyleAbstractConfigurable(settings, originalSettings, "libGDX skin") {
 
-            override fun createPanel(settings: CodeStyleSettings?): CodeStyleAbstractPanel {
+            override fun createPanel(settings: CodeStyleSettings): CodeStyleAbstractPanel {
 
                 return object : TabbedLanguageCodeStylePanel(LibGDXSkinLanguage.INSTANCE, currentSettings, settings) {
 

@@ -12,6 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.createAnnotation
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
+import java.util.*
 
 
 /*
@@ -74,7 +75,7 @@ class GdxJsonColorAnnotator : Annotator {
 
         } else if (element is GdxJsonProperty) {
 
-            if (element.propertyName.getValue().toLowerCase() in JSON_COLOR_PROPERTY_NAMES) {
+            if (element.propertyName.getValue().lowercase(Locale.getDefault()) in JSON_COLOR_PROPERTY_NAMES) {
 
                 (element.value?.value as? GdxJsonString)?.getValue()?.let { str ->
                     if (str.length == 6 || str.length == 8) {

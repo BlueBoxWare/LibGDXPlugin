@@ -16,7 +16,6 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         val wrapOptions = CodeStyleSettingsCustomizableOptions.getInstance().WRAP_OPTIONS
-        @Suppress("NON_EXHAUSTIVE_WHEN")
         when (settingsType) {
             SettingsType.SPACING_SETTINGS -> {
                 consumer.showStandardOptions(
@@ -79,6 +78,7 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                     "Objects"
                 )
             }
+            else -> {}
         }
     }
 

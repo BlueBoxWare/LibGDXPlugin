@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.VirtualFileWithId
 import gnu.trove.THashSet
 import org.jdom.Attribute
 import org.jdom.Element
+import java.util.*
 
 /**
  *
@@ -41,7 +42,9 @@ open class PersistentFileSetManager : PersistentStateComponent<Element> {
     private fun getSortedFiles(): Collection<VirtualFile> {
         val sortedFiles = mutableListOf<VirtualFile>()
         sortedFiles.addAll(files)
-        sortedFiles.sortWith { o1, o2 -> o1.path.toLowerCase().compareTo(o2.path.toLowerCase()) }
+        sortedFiles.sortWith { o1, o2 ->
+            o1.path.lowercase(Locale.getDefault()).compareTo(o2.path.lowercase(Locale.getDefault()))
+        }
         return sortedFiles
     }
 

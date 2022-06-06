@@ -20,6 +20,7 @@ import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
+import java.util.*
 import javax.swing.Icon
 
 /*
@@ -240,7 +241,7 @@ class SkinCompletionContributor : CompletionContributor() {
                         VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
 
                             val prioritize =
-                                file.extension?.toLowerCase() == "fnt" || file.fileType == BitmapFontFileType.INSTANCE
+                                file.extension?.lowercase(Locale.getDefault()) == "fnt" || file.fileType == BitmapFontFileType.INSTANCE
 
                             doAdd(
                                 PrioritizedLookupElement.withPriority(
@@ -268,7 +269,7 @@ class SkinCompletionContributor : CompletionContributor() {
                 for (file in virtualFile.getAssociatedFiles()) {
                     VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
 
-                        val prioritize = file.extension?.toLowerCase() == "ttf"
+                        val prioritize = file.extension?.lowercase(Locale.getDefault()) == "ttf"
 
                         doAdd(
                             PrioritizedLookupElement.withPriority(

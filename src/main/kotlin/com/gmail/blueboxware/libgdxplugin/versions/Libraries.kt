@@ -3,6 +3,7 @@
 package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
+import java.util.*
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -599,7 +600,7 @@ enum class Libraries(internal val library: Library) {
         fun listOfCheckedLibraries() =
             values()
                 .map { it.library.name }
-                .sortedBy(String::toLowerCase)
+                .sortedBy { it.lowercase(Locale.getDefault()) }
                 .joinToString(", ")
 
 

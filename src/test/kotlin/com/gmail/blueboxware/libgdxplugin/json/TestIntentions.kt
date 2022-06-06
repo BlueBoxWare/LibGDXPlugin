@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonAddQu
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementBackwardIntention
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions.GdxJsonMoveArrayElementForwardIntention
 import com.gmail.blueboxware.libgdxplugin.testname
+import java.util.*
 
 
 /*
@@ -204,7 +205,7 @@ class TestIntentions : LibGDXCodeInsightFixtureTestCase() {
         configureByText("test.lson", content)
 
         val intention =
-            if (testname().toLowerCase().contains("forward"))
+            if (testname().lowercase(Locale.getDefault()).contains("forward"))
                 GdxJsonMoveArrayElementForwardIntention()
             else
                 GdxJsonMoveArrayElementBackwardIntention()
