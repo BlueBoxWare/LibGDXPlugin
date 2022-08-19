@@ -88,6 +88,7 @@ class SkinStructureViewElement(val element: PsiElement) : StructureViewTreeEleme
                     Function(::SkinStructureViewElement)
                 )
             }
+
             is SkinArray -> {
                 val childObjects: List<SkinStructureViewElement?> =
                     ContainerUtil.mapNotNull(value.valueList) { value1 ->
@@ -100,9 +101,11 @@ class SkinStructureViewElement(val element: PsiElement) : StructureViewTreeEleme
 
                 return ArrayUtil.toObjectArray(childObjects, TreeElement::class.java)
             }
+
             is List<*> -> {
                 return value.mapNotNull { (it as? SkinElement)?.let(::SkinStructureViewElement) }.toTypedArray()
             }
+
             else -> return EMPTY_ARRAY
         }
 

@@ -133,12 +133,15 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
             (image.width < 10 || image.height < 10) && image.width < 100 && image.height < 100 -> {
                 8
             }
+
             (image.width < 20 || image.height < 20) && image.width < 100 && image.height < 100 -> {
                 4
             }
+
             (image.width < 50 || image.height < 50) && image.width < 200 && image.height < 200 -> {
                 2
             }
+
             else -> {
                 1
             }

@@ -99,6 +99,7 @@ internal fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
         when (c) {
             '"', '\\', '/' -> {
             }
+
             'b' -> c = '\b'
             'f' -> c = '\u000c'
             'n' -> c = '\n'

@@ -62,7 +62,7 @@ private val CONTAINER_CLASS_NAMES = listOf(
 
 internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
 
-@Suppress("unused")
+@Suppress("UnusedReceiverParameter")
 internal fun PsiElement.removeChild(child: PsiElement) = child.deleteSingle()
 
 internal fun PsiElement.isFollowByNewLine() = node.treeNext?.isNewline() ?: false

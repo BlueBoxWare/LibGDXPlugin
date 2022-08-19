@@ -37,7 +37,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  */
 class FileReference(
     element: PsiElement,
-    val path: String,
+    private val path: String,
     val fileTypes: List<FileType>,
     val preferableLanguages: List<Language> = listOf()
 ) : PsiReferenceBase<PsiElement>(element) {
@@ -89,6 +89,7 @@ class FileReference(
                 val newPath = PathUtil.toSystemDependentName(path.dropLastWhile { it != '/' } + newElementName)
                 super.handleElementRename(newPath)
             }
+
             else -> throw IncorrectOperationException()
         }
 

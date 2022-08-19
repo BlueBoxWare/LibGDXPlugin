@@ -7,7 +7,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.ProcessingContext
 
 
-@Suppress("unused")
 /*
  * Copyright 2018 Blue Box Ware
  *

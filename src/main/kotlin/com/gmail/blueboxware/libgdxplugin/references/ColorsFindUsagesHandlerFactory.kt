@@ -43,6 +43,7 @@ class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
             is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
             is KtStringTemplateExpression -> element.isPlainWithEscapes()
                     && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+
             else -> false
         }
 

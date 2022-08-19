@@ -43,7 +43,6 @@ class AssetReference(
     override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> =
         ResolveCache.getInstance(element.project).resolveWithCaching(this, RESOLVER, false, incompleteCode)
 
-    @Suppress("CascadeIf")
     override fun getVariants(): Array<out Any> {
 
         val result = mutableListOf<LookupElement>()
@@ -185,14 +184,15 @@ class AssetReference(
             resourceName: String? = null
         ): Array<PsiReference> {
 
-            @Suppress("IfThenToElvis")
             val assetFiles = when (callExpression) {
                 is PsiMethodCallExpression -> {
                     callExpression.getAssetFiles()
                 }
+
                 is KtCallExpression -> {
                     callExpression.getAssetFiles()
                 }
+
                 else -> {
                     listOf<SkinFile>() to listOf()
                 }

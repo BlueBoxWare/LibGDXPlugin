@@ -34,9 +34,11 @@ class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvide
             is PsiClass, is KtClass -> {
                 arrayOf(element)
             }
+
             is PsiPackage -> {
                 element.classes
             }
+
             else -> {
                 return null
             }

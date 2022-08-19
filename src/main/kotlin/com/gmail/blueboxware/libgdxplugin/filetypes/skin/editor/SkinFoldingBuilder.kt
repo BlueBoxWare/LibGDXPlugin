@@ -27,6 +27,7 @@ class SkinFoldingBuilder : FoldingBuilder, DumbAware {
             SkinElementTypes.RESOURCE -> "{ " + ((node.psi as? SkinResource)?.name ?: "") + " ...}"
             SkinElementTypes.CLASS_SPECIFICATION -> "{ " + ((node.psi as? SkinClassSpecification)?.classNameAsString?.dollarName
                 ?: "") + " ...}"
+
             else -> "..."
         }
 

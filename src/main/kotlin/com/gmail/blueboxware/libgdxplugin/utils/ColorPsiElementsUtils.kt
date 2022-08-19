@@ -382,6 +382,7 @@ private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
             }
 
         }
+
         is KtDotQualifiedExpression -> {
 
             selectorExpression?.let { selector ->
@@ -389,6 +390,7 @@ private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
             }
 
         }
+
         is KtQualifiedExpression -> {
 
             callExpression?.let { callExpression ->
@@ -396,6 +398,7 @@ private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
             }
 
         }
+
         is PsiMethodCallExpression -> {
 
             resolveMethod()?.let { resolved ->

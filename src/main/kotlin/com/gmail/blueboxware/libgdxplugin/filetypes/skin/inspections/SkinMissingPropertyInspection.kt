@@ -37,6 +37,7 @@ class SkinMissingPropertyInspection : SkinBaseInspection() {
                         TINTED_DRAWABLE_CLASS_NAME -> listOf(
                             PROPERTY_NAME_TINTED_DRAWABLE_NAME, PROPERTY_NAME_TINTED_DRAWABLE_COLOR
                         )
+
                         else -> null
                     }
 

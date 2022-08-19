@@ -39,9 +39,11 @@ class GdxJsonHighlightingAnnotator : Annotator {
                 element.isKeyword -> {
                     a(JSON_KEYWORD)
                 }
+
                 element.isNumber -> {
                     a(JSON_NUMBER)
                 }
+
                 else -> {
                     a(JSON_STRING)
                 }

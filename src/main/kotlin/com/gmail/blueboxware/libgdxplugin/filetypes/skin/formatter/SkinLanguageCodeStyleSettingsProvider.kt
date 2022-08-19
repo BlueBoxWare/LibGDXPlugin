@@ -39,6 +39,7 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                     spacesOther
                 )
             }
+
             SettingsType.BLANK_LINES_SETTINGS -> consumer.showStandardOptions("KEEP_BLANK_LINES_IN_CODE")
             SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
                 consumer.showStandardOptions(
@@ -78,6 +79,7 @@ class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider(
                     "Objects"
                 )
             }
+
             else -> {}
         }
     }

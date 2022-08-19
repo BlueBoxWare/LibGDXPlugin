@@ -13,7 +13,6 @@ import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.util.text.DateFormatUtil
-import org.apache.log4j.Level
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.GroovyFileType
 import org.junit.Before
@@ -178,7 +177,6 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
         VersionService.BATCH_SIZE = Libraries.values().size / 2
         VersionService.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND
         VersionService.LIBRARY_CHANGED_TIME_OUT = 5 * DateFormatUtil.SECOND
-        VersionService.LOG.setLevel(Level.DEBUG)
         Library.TEST_URL = "http://127.0.0.1/maven/"
 
         super.setUp()

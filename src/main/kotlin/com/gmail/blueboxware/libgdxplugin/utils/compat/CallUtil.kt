@@ -39,8 +39,7 @@ fun KtElement?.getCalleeExpressionIfAny(): KtExpression? {
 }
 
 fun KtElement.getCall(context: BindingContext): Call? {
-    val element = if (this is KtExpression) KtPsiUtil.deparenthesize(this) else this
-    if (element == null) return null
+    val element = (if (this is KtExpression) KtPsiUtil.deparenthesize(this) else this) ?: return null
 
     // Do not use Call bound to outer call expression (if any) to prevent stack overflow during analysis
     if (element is KtCallElement && element.calleeExpression == null) return null
@@ -52,8 +51,7 @@ fun KtElement.getCall(context: BindingContext): Call? {
         }
     }
 
-    val parent = element.parent
-    val reference: KtExpression? = when (parent) {
+    val reference: KtExpression? = when (val parent = element.parent) {
         is KtInstanceExpressionWithLabel -> parent
         is KtUserType -> parent.parent.parent as? KtConstructorCalleeExpression
         else -> element.getCalleeExpressionIfAny()

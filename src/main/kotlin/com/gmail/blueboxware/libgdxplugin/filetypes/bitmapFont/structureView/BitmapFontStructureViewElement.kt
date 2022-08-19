@@ -99,6 +99,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
             is BitmapFontFontChar -> {
                 return String.format("%010d", element.character)
             }
+
             is BitmapFontPageDefinition -> {
                 try {
                     element.getValue("id")?.toInt()?.let {
@@ -109,6 +110,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
                 }
                 return ""
             }
+
             is BitmapFontKerning -> {
                 try {
                     val first = element.getValue("first")?.toInt()
@@ -121,15 +123,19 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
                 }
                 return "Z"
             }
+
             is BitmapFontProperty -> {
                 return element.key
             }
+
             is BitmapFontInfo -> {
                 return "1"
             }
+
             is BitmapFontCommon -> {
                 return "2"
             }
+
             else -> return ""
         }
 

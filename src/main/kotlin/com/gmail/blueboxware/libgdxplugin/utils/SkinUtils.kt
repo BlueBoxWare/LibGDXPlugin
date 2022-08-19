@@ -1,3 +1,5 @@
+@file:Suppress("RegExpUnnecessaryNonCapturingGroup", "RegExpSimplifiable")
+
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
