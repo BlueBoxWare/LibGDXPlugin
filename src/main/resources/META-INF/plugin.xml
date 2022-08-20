@@ -107,7 +107,8 @@
                 implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory"/>
 
         <!--suppress PluginXmlValidity -->
-        <fileTypeOverrider implementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXFileTypeOverrider" order="first" />
+        <fileTypeOverrider implementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXFileTypeOverrider"
+                           order="first"/>
 
         <!--suppress PluginXmlCapitalization -->
         <globalInspection
@@ -322,10 +323,13 @@
 
         <implicitUsageProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassImplicitUsageProvider"/>
+        <implicitUsageProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassImplicitUsageProvider"/>
         <usageTypeProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinUsageTypeProvider"/>
         <findUsagesHandlerFactory
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory"/>
+        />
 
         <breadcrumbsInfoProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBreadcrumbsProvider"/>

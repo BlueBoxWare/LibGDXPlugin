@@ -6,6 +6,8 @@ import com.intellij.codeInsight.daemon.ImplicitUsageProvider
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.searches.ReferencesSearch
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
 
 
 /*
@@ -31,17 +33,19 @@ class TaggedClassImplicitUsageProvider : ImplicitUsageProvider {
             return false
         }
 
-        val parameters =
-            ReferencesSearch.SearchParameters(element, element.allScope(), true)
+        return CachedValuesManager.getCachedValue(element) {
+            val parameters =
+                ReferencesSearch.SearchParameters(element, element.allScope(), true)
 
-        var found = false
+            var found = false
 
-        TaggedClassUsagesSearcher().execute(parameters) {
-            found = true
-            return@execute false
+            TaggedClassUsagesSearcher().execute(parameters) {
+                found = true
+                return@execute false
+            }
+
+            return@getCachedValue CachedValueProvider.Result.create(found, element)
         }
-
-        return found
 
     }
 

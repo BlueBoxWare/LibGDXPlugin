@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -26,7 +27,7 @@ class ClassUseScopeEnlarger : UseScopeEnlarger() {
 
     override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
 
-        if (element !is PsiClass) return null
+        if (element !is PsiClass || !element.project.isLibGDXProject()) return null
 
         if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
 

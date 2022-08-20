@@ -1,9 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.utils.TAG_ANNOTATION_NAME
-import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
-import com.gmail.blueboxware.libgdxplugin.utils.isColorsPutCall
-import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
+import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.find.findUsages.DefaultUsageTargetProvider
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
 import com.intellij.openapi.editor.Editor
@@ -34,6 +31,10 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 class LibGDXTagUsageTargetProvider : DefaultUsageTargetProvider() {
 
     override fun getTargets(editor: Editor, file: PsiFile): Array<UsageTarget>? {
+
+        if (!file.project.isLibGDXProject()) {
+            return UsageTarget.EMPTY_ARRAY
+        }
 
         file.findElementAt(editor.caretModel.offset)?.let { sourceElement ->
 
