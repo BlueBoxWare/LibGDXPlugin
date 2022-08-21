@@ -7,6 +7,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
+import org.jetbrains.kotlin.psi.KtClass
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -27,9 +28,15 @@ class ClassUseScopeEnlarger : UseScopeEnlarger() {
 
     override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
 
-        if (element !is PsiClass || !element.project.isLibGDXProject()) return null
+        if (element !is PsiClass && element !is KtClass) return null
 
-        if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
+        if (!element.project.isLibGDXProject()) return null
+
+        if (element is PsiClass) {
+            if (element.containingClass != null && !element.hasModifierProperty(PsiModifier.STATIC)) return null
+        } else if ((element as? KtClass)?.isInner() == true) {
+            return null
+        }
 
         ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
             return module.moduleWithDependentsScope
