@@ -1,8 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewComponent
-import com.gmail.blueboxware.libgdxplugin.ui.TextureRegionPreviewHintProvider
+import com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewDocumentationProvider
 import java.awt.Color
+import java.net.URL
+import javax.imageio.ImageIO
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -44,8 +45,9 @@ class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
     fun doTest(fileName: String, tinted: Boolean = true, width: Int = 50, height: Int = 50) {
         configureByFile(fileName)
         val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
-        val preview = TextureRegionPreviewHintProvider().getPreviewComponent(element)
-        val image = (preview as? ImagePreviewComponent)?.image ?: throw AssertionError()
+        val preview = ImagePreviewDocumentationProvider().generateDoc(element, element)!!
+        val imageFile = Regex("""src="([^"]+)"""").find(preview)!!.groupValues[1]
+        val image = ImageIO.read(URL(imageFile))
         assertEquals(width, image.width)
         assertEquals(height, image.height)
         if (tinted) {

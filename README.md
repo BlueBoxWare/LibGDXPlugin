@@ -64,7 +64,7 @@ given class or using malformed color strings
 * Renaming a resource with *Shift-F6* also renames it's usages in the Skin files \[1]
 * (Un)commenting blocks of code with *Ctrl-/*
 * [Smart Enter](https://www.jetbrains.com/help/idea/2016.3/completing-statements.html)
-* With *Shift* pressed, hover over a Drawable/Texture name to view a preview of the Drawable
+* Hover over a Drawable/Texture name to view a preview of the Drawable
 * Use *Code* -> *Generate* or *Alt-Ins* (*Cmd-N*) to create a new color using a color pick dialog
 * QuickFixes to create missing resources and convert colors between hex and floats
 * Several inspections to highlight problems and possible issues

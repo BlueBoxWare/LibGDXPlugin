@@ -1,23 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.ui
-
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
-import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.codeInsight.preview.PreviewHintProvider
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiJavaFile
-import com.intellij.psi.PsiLiteralExpression
-import com.intellij.util.ui.ImageUtil
-import org.jetbrains.kotlin.psi.KtFile
-import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import java.awt.image.BufferedImage
-import javax.swing.JComponent
-
 /*
- * Copyright 2017 Blue Box Ware
+ * Copyright 2022 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,26 +13,51 @@ import javax.swing.JComponent
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
-    override fun isSupportedFile(file: PsiFile?): Boolean =
-        file is SkinFile || file is PsiJavaFile || file is KtFile || file is Atlas2File
+package com.gmail.blueboxware.libgdxplugin.ui
 
-    override fun getPreviewComponent(el: PsiElement): JComponent? {
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
+import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.intellij.lang.documentation.AbstractDocumentationProvider
+import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.util.SystemInfo
+import com.intellij.openapi.util.io.FileUtil
+import com.intellij.openapi.util.text.HtmlBuilder
+import com.intellij.openapi.util.text.HtmlChunk
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiJavaFile
+import com.intellij.psi.PsiLiteralExpression
+import com.intellij.util.ui.ImageUtil
+import org.jetbrains.kotlin.psi.KtFile
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import java.awt.image.BufferedImage
+import java.net.URI
+import java.net.URISyntaxException
+import javax.imageio.ImageIO
 
-        var element = el
+class ImagePreviewDocumentationProvider : AbstractDocumentationProvider() {
 
-        if (element.containingFile is Atlas2File) {
+    override fun generateDoc(el: PsiElement, originalElement: PsiElement?): String? {
+        val currentFile = originalElement?.containingFile ?: return null
+        if (currentFile !is SkinFile && currentFile !is PsiJavaFile && currentFile !is KtFile && currentFile !is Atlas2File) {
+            return null
+        }
+        var element: PsiElement = originalElement
+
+        if (currentFile is Atlas2File) {
 
             element.getParentOfType<Atlas2Region>()?.let { atlasRegion ->
                 atlasRegion.image?.let { image ->
-                    return createPreviewComponent(image, atlasRegion.name)
+                    return createDoc(image, atlasRegion.name, null)
                 }
             }
 
         } else {
 
-            if (element.containingFile is SkinFile && element.parent is SkinStringLiteral && element.parent.parent is SkinResourceName) {
+            if (currentFile is SkinFile && element.parent is SkinStringLiteral && element.parent.parent is SkinResourceName) {
                 element.getParentOfType<SkinResource>()?.let { resource ->
                     if (resource.classSpecification?.classNameAsString?.plainName == TINTED_DRAWABLE_CLASS_NAME) {
                         element =
@@ -60,7 +67,7 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
                 }
             }
 
-            when (element.containingFile) {
+            when (currentFile) {
                 is SkinFile -> element.getParentOfType<SkinStringLiteral>(false)
                 is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
                 is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
@@ -70,7 +77,7 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
                     @Suppress("ControlFlowWithEmptyBody")
                     if (target is Atlas2Region) {
                         target.image?.let { image ->
-                            return createPreviewComponent(image, target.name)
+                            return createDoc(image, target.name, target.containingFile.name)
                         }
                     } else if (
                         target is SkinResource
@@ -109,8 +116,8 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
 
                         (nameTarget as? Atlas2Region)?.let { atlasRegion ->
                             atlasRegion.image?.let { image ->
-                                return createPreviewComponent(color?.let { image.tint(color) } ?: image,
-                                    tintedDrawableName)
+                                return createDoc(color?.let { image.tint(color) } ?: image,
+                                    tintedDrawableName, target.containingFile.name)
                             }
                         }
 
@@ -123,10 +130,9 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
         }
 
         return null
-
     }
 
-    private fun createPreviewComponent(image: BufferedImage, name: String?): JComponent {
+    private fun createDoc(image: BufferedImage, name: String?, file: String?): String? {
 
 
         val scale = when {
@@ -148,12 +154,49 @@ class TextureRegionPreviewHintProvider : PreviewHintProvider {
         }
 
         val previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, scale.toDouble()))
+        val imageFile = FileUtil.createTempFile("img", ".png", true)
+        try {
+            ImageIO.write(previewImage, "png", imageFile)
+        } catch (e: Throwable) {
+            LOG.error("Could not create image file.", e)
+            return null
+        }
 
-        val txt = (name ?: "<unknown>") + " (" + image.width + " x " + image.height +
-                (if (scale != 1) ", shown at scale ${scale}x" else "") + ")"
+        try {
+            var path: String = imageFile.path
+            if (SystemInfo.isWindows) {
+                path = "/$path"
+            }
+            val url = URI("file", null, path, null).toString()
+            val img: HtmlChunk.Element = HtmlChunk.tag("img")
+                .attr("src", url)
+                .attr("width", previewImage.width)
+                .attr("height", previewImage.height)
 
-        return ImagePreviewComponent(previewImage, txt)
+            return HtmlBuilder().append(img)
+                .append(HtmlChunk.p().addText(name ?: "<unknown>"))
+                .also {
+                    if (file != null) {
+                        it.append(HtmlChunk.p().addText("in: $file"))
+                    }
+                }
+                .append(
+                    HtmlChunk.p().addText(
+                        image.width.toString() + " x " + image.height +
+                                (if (scale != 1) ", shown at scale ${scale}x" else "")
+                    )
+                )
+                .toString()
+        } catch (e: URISyntaxException) {
+            // nothing
+            LOG.error("Could not create image preview.", e)
+            return null
+        }
+
 
     }
 
+    companion object {
+        val LOG = Logger.getInstance(ImagePreviewDocumentationProvider::class.java)
+    }
 }
