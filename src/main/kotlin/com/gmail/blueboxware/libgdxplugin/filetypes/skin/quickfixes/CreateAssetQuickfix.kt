@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.COLOR_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.intellij.application.options.CodeStyle
+import com.intellij.codeInsight.intention.FileModifier
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
@@ -34,7 +35,7 @@ import com.intellij.psi.PsiFile
 class CreateAssetQuickFix(
     element: SkinElement,
     private val assetName: String,
-    val className: DollarClassName,
+    @FileModifier.SafeFieldForPreview val className: DollarClassName,
     val filename: String? = null
 ) : LocalQuickFixOnPsiElement(element) {
 

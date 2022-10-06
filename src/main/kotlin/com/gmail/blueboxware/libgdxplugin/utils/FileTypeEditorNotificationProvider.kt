@@ -9,7 +9,11 @@ import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.ui.EditorNotificationPanel
+import com.intellij.ui.EditorNotificationProvider
+import com.intellij.ui.EditorNotificationProvider.CONST_NULL
 import com.intellij.ui.EditorNotifications
+import java.util.function.Function
+import javax.swing.JComponent
 
 /*
  * Copyright 2019 Blue Box Ware
@@ -29,7 +33,7 @@ import com.intellij.ui.EditorNotifications
 abstract class FileTypeEditorNotificationProvider(
     protected val project: Project,
     private val forLanguage: Language
-) : EditorNotifications.Provider<EditorNotificationPanel>() {
+) : EditorNotificationProvider {
 
     private val notifications: EditorNotifications = EditorNotifications.getInstance(project)
 
@@ -46,49 +50,45 @@ abstract class FileTypeEditorNotificationProvider(
         settings: LibGDXPluginSettings
     ): Boolean
 
-    override fun createNotificationPanel(
-        file: VirtualFile,
-        fileEditor: FileEditor,
-        project: Project
-    ): EditorNotificationPanel? {
+    override fun collectNotificationData(
+        project: Project,
+        file: VirtualFile
+    ): Function<in FileEditor, out JComponent?> {
 
-        if (fileEditor !is TextEditor) {
-            return null
-        }
 
         val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
         if (currentLanguage == forLanguage) {
-            return null
+            return CONST_NULL
         }
 
-        val settings = project.getService(LibGDXPluginSettings::class.java) ?: return null
+        val settings = project.getService(LibGDXPluginSettings::class.java) ?: return CONST_NULL
 
-        if (!shouldShowNotification(currentLanguage, file, fileEditor, settings)) {
-            return null
+        return Function { fileEditor ->
+            if (fileEditor !is TextEditor) null else
+                if (!shouldShowNotification(currentLanguage, file, fileEditor, settings)) null else
+                    EditorNotificationPanel().apply {
+
+                        text = message(messageKey, file.fileType.description)
+
+                        createActionLabel(message("filetype.yes")) {
+                            onYes(file)
+                            notifications.updateAllNotifications()
+                        }
+
+                        createActionLabel(message("filetype.no")) {
+                            onNo(file)
+                            notifications.updateAllNotifications()
+                        }
+
+                        createActionLabel(message("filetype.do.not.bother")) {
+                            onNever(settings)
+                            notifications.updateAllNotifications()
+                        }
+
+                    }
+
         }
-
-        return EditorNotificationPanel().apply {
-
-            text = message(messageKey, file.fileType.description)
-
-            createActionLabel(message("filetype.yes")) {
-                onYes(file)
-                notifications.updateAllNotifications()
-            }
-
-            createActionLabel(message("filetype.no")) {
-                onNo(file)
-                notifications.updateAllNotifications()
-            }
-
-            createActionLabel(message("filetype.do.not.bother")) {
-                onNever(settings)
-                notifications.updateAllNotifications()
-            }
-
-        }
-
     }
 
 }

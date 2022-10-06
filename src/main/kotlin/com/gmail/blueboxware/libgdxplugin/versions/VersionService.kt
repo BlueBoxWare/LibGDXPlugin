@@ -116,7 +116,7 @@ class VersionService(val project: Project) : Disposable {
                 if (ApplicationManager.getApplication().isUnitTestMode) {
                     runInEdtAndWait(runnable)
                 } else {
-                    ReadAction.nonBlocking(runnable)
+                    ReadAction.run<Exception>(runnable)
                 }
             }
 

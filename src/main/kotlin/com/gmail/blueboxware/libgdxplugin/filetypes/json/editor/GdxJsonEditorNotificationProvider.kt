@@ -3,17 +3,18 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.editor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonGdxJsonFiles
-import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.gmail.blueboxware.libgdxplugin.utils.FileTypeEditorNotificationProvider
+import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonGdxJson
 import com.intellij.json.JsonLanguage
 import com.intellij.json.psi.*
 import com.intellij.lang.Language
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
-import com.intellij.ui.EditorNotificationPanel
 
 
 /*
@@ -32,8 +33,7 @@ import com.intellij.ui.EditorNotificationPanel
  * limitations under the License.
  */
 class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
-    project,
-    LibGDXSkinLanguage.INSTANCE
+    project, LibGDXSkinLanguage.INSTANCE
 ) {
 
     override val messageKey = "json.file.detected"
@@ -47,23 +47,13 @@ class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotifi
     }
 
     override fun shouldShowNotification(
-        currentLanguage: Language?,
-        file: VirtualFile,
-        fileEditor: TextEditor,
-        settings: LibGDXPluginSettings
-    ): Boolean =
-        showNotification(project, currentLanguage, file, settings)
-
-    override fun getKey(): Key<EditorNotificationPanel> = KEY
+        currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings
+    ): Boolean = showNotification(project, currentLanguage, file, settings)
 
     companion object {
-        val KEY = key<EditorNotificationPanel>("json.file.detected")
 
         fun showNotification(
-            project: Project,
-            currentLanguage: Language?,
-            file: VirtualFile,
-            settings: LibGDXPluginSettings
+            project: Project, currentLanguage: Language?, file: VirtualFile, settings: LibGDXPluginSettings
         ): Boolean {
 
             if (settings.neverAskAboutJsonFiles) {
@@ -84,8 +74,7 @@ class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotifi
 
                         var count = 0
 
-                        (PsiManager.getInstance(project).findFile(file) as? JsonFile)
-                            ?.childrenOfType<JsonValue>()
+                        (PsiManager.getInstance(project).findFile(file) as? JsonFile)?.childrenOfType<JsonValue>()
                             ?.forEach { value ->
                                 if (value is JsonStringLiteral || value is JsonReferenceExpression) {
 

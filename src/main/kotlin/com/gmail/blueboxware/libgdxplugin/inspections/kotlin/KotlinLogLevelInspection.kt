@@ -6,7 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
 import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
-import org.jetbrains.kotlin.idea.refactoring.fqName.getKotlinFqName
+import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
 
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.lexer.KtSingleValueToken

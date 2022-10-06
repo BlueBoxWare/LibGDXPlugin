@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.DEFAULT_TAGGED_CLASSES_NAMES
 import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName
 import com.gmail.blueboxware.libgdxplugin.utils.getKey
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
+import com.intellij.codeInsight.intention.FileModifier
 import com.intellij.codeInspection.LocalQuickFixOnPsiElement
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
@@ -73,7 +74,7 @@ class SkinAbbrClassInspection : SkinBaseInspection() {
             }
         }
 
-    private class QuickFix(element: SkinClassName, val shortName: DollarClassName) :
+    private class QuickFix(element: SkinClassName, @FileModifier.SafeFieldForPreview val shortName: DollarClassName) :
         LocalQuickFixOnPsiElement(element) {
 
         override fun getFamilyName(): String = FAMILY_NAME

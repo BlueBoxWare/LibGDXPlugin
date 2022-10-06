@@ -20,9 +20,6 @@
 
   }
 
-  "com.example.MyClass$Private": {
-
-  }
 
   com.example.MyClass$NonStatic: {
 

@@ -1,12 +1,12 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages
 
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
-import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
+import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.psi.KtClass
 
 /*
@@ -38,11 +38,9 @@ class ClassUseScopeEnlarger : UseScopeEnlarger() {
             return null
         }
 
-        ModuleUtilCore.findModuleForPsiElement(element)?.let { module ->
-            return module.moduleWithDependentsScope
-        }
+        return element.project.projectScope()
 
-        return null
+
     }
 
 }

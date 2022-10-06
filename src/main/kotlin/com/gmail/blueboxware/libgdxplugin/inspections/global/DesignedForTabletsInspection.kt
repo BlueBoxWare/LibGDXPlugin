@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.SdkVersionType
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
+import com.gmail.blueboxware.libgdxplugin.utils.toPsiFile
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInspection.*
 import com.intellij.psi.PsiElement
@@ -55,7 +56,9 @@ class DesignedForTabletsInspection : GlobalInspectionTool() {
         problemDescriptionsProcessor: ProblemDescriptionsProcessor
     ) {
 
-        if (!globalContext.project.isLibGDXProject()) {
+        val project = globalContext.project
+
+        if (!project.isLibGDXProject()) {
             return
         }
 
@@ -63,23 +66,23 @@ class DesignedForTabletsInspection : GlobalInspectionTool() {
         val versionsMap = mutableMapOf<SdkVersionType, Int>()
 
         val gradleFiles =
-            FilenameIndex.getFilesByName(globalContext.project, "build.gradle", globalContext.project.projectScope())
+            FilenameIndex.getVirtualFilesByName("build.gradle", project.projectScope()).toTypedArray()
 
-        gradleFiles.sortBy { it.virtualFile.path }
+        gradleFiles.sortBy { it.path }
 
         for (gradleFile in gradleFiles) {
-            gradleFile.accept(GroovyPsiElementVisitor(DesignedForTabletsGradleVisitor(problems, versionsMap)))
+            gradleFile.toPsiFile(project)
+                ?.accept(GroovyPsiElementVisitor(DesignedForTabletsGradleVisitor(problems, versionsMap)))
         }
 
         val manifests =
-            FilenameIndex.getFilesByName(
-                globalContext.project,
+            FilenameIndex.getVirtualFilesByName(
                 "AndroidManifest.xml",
-                globalContext.project.projectScope()
+                project.projectScope()
             )
 
         for (manifest in manifests) {
-            (manifest as? XmlFile)?.let {
+            (manifest.toPsiFile(project) as? XmlFile)?.let {
                 processManifest(problems, it, versionsMap)
             }
         }

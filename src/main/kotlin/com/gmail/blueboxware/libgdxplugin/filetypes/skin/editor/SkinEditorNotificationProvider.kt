@@ -4,15 +4,16 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
-import com.gmail.blueboxware.libgdxplugin.utils.*
+import com.gmail.blueboxware.libgdxplugin.utils.FileTypeEditorNotificationProvider
+import com.gmail.blueboxware.libgdxplugin.utils.SKIN_SIGNATURE
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
+import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.json.JsonLanguage
 import com.intellij.lang.Language
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.util.Key
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.ui.EditorNotificationPanel
 
 
 /*
@@ -31,8 +32,7 @@ import com.intellij.ui.EditorNotificationPanel
  * limitations under the License.
  */
 class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
-    project,
-    LibGDXSkinLanguage.INSTANCE
+    project, LibGDXSkinLanguage.INSTANCE
 ) {
 
     override val messageKey = "skin.file.detected"
@@ -46,16 +46,9 @@ class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificat
     }
 
     override fun shouldShowNotification(
-        currentLanguage: Language?,
-        file: VirtualFile,
-        fileEditor: TextEditor,
-        settings: LibGDXPluginSettings
+        currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings
     ): Boolean =
-        if (
-            currentLanguage != PlainTextLanguage.INSTANCE
-            && currentLanguage != JsonLanguage.INSTANCE
-            && currentLanguage != LibGDXJsonLanuage.INSTANCE
-        ) {
+        if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage.INSTANCE) {
             false
         } else if (settings.neverAskAboutSkinFiles) {
             false
@@ -68,10 +61,5 @@ class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificat
             }
         }
 
-    override fun getKey(): Key<EditorNotificationPanel> = KEY
-
-    companion object {
-        val KEY = key<EditorNotificationPanel>("skin.file.detected")
-    }
 
 }

@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Page
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.Atlas2FieldOwnerImpl
 import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
-import com.intellij.codeInsight.preview.ImagePreviewComponent
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
@@ -14,6 +13,7 @@ import com.intellij.util.IncorrectOperationException
 import java.awt.image.BufferedImage
 import java.awt.image.RasterFormatException
 import java.io.IOException
+import javax.imageio.ImageIO
 
 
 /*
@@ -57,7 +57,7 @@ abstract class Atlas2RegionMixin(node: ASTNode) : Atlas2Region, Atlas2FieldOwner
         val height = height ?: return null
 
         return try {
-            ImagePreviewComponent.readImageFromBytes(virtualFile.contentsToByteArray()).getSubimage(x, y, width, height)
+            ImageIO.read(virtualFile.inputStream)?.getSubimage(x, y, width, height)
         } catch (e: IOException) {
             LOG.debug(e)
             null

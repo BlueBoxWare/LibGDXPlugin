@@ -45,8 +45,9 @@ class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
     fun doTest(fileName: String, tinted: Boolean = true, width: Int = 50, height: Int = 50) {
         configureByFile(fileName)
         val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
-        val preview = ImagePreviewDocumentationProvider().generateDoc(element, element)!!
-        val imageFile = Regex("""src="([^"]+)"""").find(preview)!!.groupValues[1]
+        val preview: String =
+            ImagePreviewDocumentationProvider().generateDoc(element, element) ?: throw AssertionError()
+        val imageFile = Regex("""src="([^"]+)"""").find(preview)?.groupValues?.get(1) ?: throw AssertionError()
         val image = ImageIO.read(URL(imageFile))
         assertEquals(width, image.width)
         assertEquals(height, image.height)

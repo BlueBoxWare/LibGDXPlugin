@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.properties
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
 import com.gmail.blueboxware.libgdxplugin.references.FileReference
+import com.gmail.blueboxware.libgdxplugin.utils.toPsiFile
 import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
@@ -36,28 +37,29 @@ class TestFindUsages : PropertiesCodeInsightFixtureTestCase() {
     }
 
     fun testFindPropertiesFileUsagesInAnnotation() {
-        FilenameIndex.getFilesByName(project, "messages.properties", project.projectScope()).first().let { psiFile ->
-            val usages = myFixture.findUsages(psiFile)
-            assertEquals(4, usages.size)
-            usages.forEach { usage ->
-                usage.element!!.references.forEach { reference ->
-                    if (reference is FileReference) {
-                        assertEquals("messages.properties", (reference.resolve() as PropertiesFileImpl).name)
+        FilenameIndex.getVirtualFilesByName("messages.properties", project.projectScope()).first().toPsiFile(project)!!
+            .let { psiFile ->
+                val usages = myFixture.findUsages(psiFile)
+                assertEquals(4, usages.size)
+                usages.forEach { usage ->
+                    usage.element!!.references.forEach { reference ->
+                        if (reference is FileReference) {
+                            assertEquals("messages.properties", (reference.resolve() as PropertiesFileImpl).name)
+                        }
                     }
                 }
             }
-        }
     }
 
     fun doTest(nrOfUsages: Int, propertiesFileName: String, key: String) {
 
         val property =
-            FilenameIndex.getFilesByName(
-                project,
+            FilenameIndex.getVirtualFilesByName(
                 propertiesFileName,
                 project.projectScope()
             )
                 .first()
+                .toPsiFile(project)
                 .let { file ->
                     (file as PropertiesFile).findPropertyByKey(key)!!.let {
                         it as Property

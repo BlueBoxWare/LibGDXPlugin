@@ -30,6 +30,7 @@ import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInspection.CommonProblemDescriptor
 import com.intellij.codeInspection.GlobalInspectionTool
 import com.intellij.codeInspection.LocalInspectionTool
+import com.intellij.codeInspection.ex.GlobalInspectionContextEx
 import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
@@ -117,29 +118,19 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         stringBuilderXml.append("</resources>")
 
         doInspectionTestWithString(
-            stringBuilderKotlin.toString(),
-            KotlinTestIdsInspection(),
-            "Test.kt"
+            stringBuilderKotlin.toString(), KotlinTestIdsInspection(), "Test.kt"
         )
         doInspectionTestWithString(
-            stringBuilderJava.toString(),
-            JavaTestIdsInspection(),
-            "Test.java"
+            stringBuilderJava.toString(), JavaTestIdsInspection(), "Test.java"
         )
         doInspectionTestWithString(
-            stringBuilderXml.toString(),
-            XmlTestIdsInspection(),
-            "Test.xml"
+            stringBuilderXml.toString(), XmlTestIdsInspection(), "Test.xml"
         )
         doInspectionTestWithString(
-            stringBuilderBuildGradle.toString(),
-            GradleTestIdsInspection(),
-            "build.gradle"
+            stringBuilderBuildGradle.toString(), GradleTestIdsInspection(), "build.gradle"
         )
         doInspectionTestWithString(
-            stringBuilderGradleProperties.toString(),
-            GradlePropertiesTestIdsInspection(),
-            "gradle.properties"
+            stringBuilderGradleProperties.toString(), GradlePropertiesTestIdsInspection(), "gradle.properties"
         )
 
     }
@@ -221,22 +212,14 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     fun testDesignedForTabletsMultipleFiles() {
         val tests: Map<Map<String, String>, List<String>?> = mapOf(
             mapOf(
-                "build.gradle" to "minSdkVersion 11",
-                "a/build.gradle" to "targetSdkVersion 11"
-            ) to null,
-            mapOf(
-                "build.gradle" to "minSdkVersion 10",
-                "a/build.gradle" to "targetSdkVersion 10"
-            ) to listOf("target.or.min"),
-            mapOf(
-                "build.gradle" to "targetSdkVersion 10",
-                "a/build.gradle" to "minSdkVersion 10"
-            ) to listOf("target.or.min"),
-            mapOf(
-                "build.gradle" to "targetSdkVersion 10\nminSdkVersion 11",
-                "a/build.gradle" to "minSdkVersion 10"
-            ) to null,
-            mapOf(
+                "build.gradle" to "minSdkVersion 11", "a/build.gradle" to "targetSdkVersion 11"
+            ) to null, mapOf(
+                "build.gradle" to "minSdkVersion 10", "a/build.gradle" to "targetSdkVersion 10"
+            ) to listOf("target.or.min"), mapOf(
+                "build.gradle" to "targetSdkVersion 10", "a/build.gradle" to "minSdkVersion 10"
+            ) to listOf("target.or.min"), mapOf(
+                "build.gradle" to "targetSdkVersion 10\nminSdkVersion 11", "a/build.gradle" to "minSdkVersion 10"
+            ) to null, mapOf(
                 "build.gradle" to "targetSdkVersion 11\nminSdkVersion 11",
                 "a/build.gradle" to "minSdkVersion 10",
                 "b/build.gradle" to "targetSdkVersion 10"
@@ -251,29 +234,22 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             mapOf(
                 "build.gradle" to "targetSdkVersion 11",
                 "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="11" /></manifest>"""
-            ) to listOf("missing.support.screens"),
-            mapOf(
+            ) to listOf("missing.support.screens"), mapOf(
                 "build.gradle" to "targetSdkVersion 10",
                 "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="13" /></manifest>"""
-            ) to null,
-            mapOf(
+            ) to null, mapOf(
                 "build.gradle" to "targetSdkVersion 10\nminSdkVersion 10",
                 "a/build.gradle" to "targetSdkVersion 11",
                 "AndroidManifest.xml" to """<manifest><uses-sdk android:minSdkVersion="13" /></manifest>"""
-            ) to null,
-            mapOf(
+            ) to null, mapOf(
                 "build.gradle" to "minSdkVersion 10",
                 "a/build.gradle" to "minSdkVersion 11",
                 "b/build.gradle" to "targetSdkVersion 12",
                 "AndroidManifest.xml" to """<manifest><supports-screens android:largeScreens="true" android:xlargeScreens="true" /></manifest>"""
-            ) to null,
-            mapOf(
-                "a/build.gradle" to "maxSdkVersion 10",
-                "build.gradle" to "maxSdkVersion 11"
-            ) to listOf("max"),
-            mapOf(
-                "a/build.gradle" to "maxSdkVersion 11",
-                "build.gradle" to "maxSdkVersion 10"
+            ) to null, mapOf(
+                "a/build.gradle" to "maxSdkVersion 10", "build.gradle" to "maxSdkVersion 11"
+            ) to listOf("max"), mapOf(
+                "a/build.gradle" to "maxSdkVersion 11", "build.gradle" to "maxSdkVersion 10"
             ) to null
         )
 
@@ -310,12 +286,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       """
             configureByText("Test.java", fileContents)
             doExternalFilesPermissionInspectionTest(
-                "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml",
-                warningExpected
+                "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected
             )
             doExternalFilesPermissionInspectionTest(
-                "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml",
-                false
+                "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false
             )
         }
     }
@@ -346,12 +320,10 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
       """
             configureByText("Test.kt", fileContents)
             doExternalFilesPermissionInspectionTest(
-                "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml",
-                warningExpected
+                "missingExternalFilesPermission/manifestWithoutPermission/AndroidManifest.xml", warningExpected
             )
             doExternalFilesPermissionInspectionTest(
-                "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml",
-                false
+                "missingExternalFilesPermission/manifestWithPermission/AndroidManifest.xml", false
             )
         }
     }
@@ -441,9 +413,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
 
     private fun getHighLightsWithDescription(
-        inspection: LocalInspectionTool,
-        vararg fileNames: String,
-        warningDescription: String
+        inspection: LocalInspectionTool, vararg fileNames: String, warningDescription: String
     ): List<HighlightInfo> {
 
         configureByFiles(*fileNames)
@@ -452,16 +422,16 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     }
 
+    @Suppress("SameParameterValue")
     private fun getGlobalInspectionResults(
-        testDir: String,
-        inspection: GlobalInspectionTool
+        testDir: String, inspection: GlobalInspectionTool
     ): Collection<CommonProblemDescriptor> {
 
         val toolWrapper = GlobalInspectionToolWrapper(inspection)
 
         val sourceDir = copyDirectoryToProject(File(testDir, "src").path, "src")
-        val psiDirectory = myFixture.psiManager.findDirectory(sourceDir)
-            ?: throw AssertionError("Could not find $sourceDir")
+        val psiDirectory =
+            myFixture.psiManager.findDirectory(sourceDir) ?: throw AssertionError("Could not find $sourceDir")
 
         val scope = AnalysisScope(psiDirectory)
         scope.invalidate()
@@ -472,10 +442,13 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
         (myFixture.tempDirFixture as? LightTempDirTestFixtureImpl)?.deleteAll()
 
-        return globalContext.getPresentation(toolWrapper).problemDescriptors
+        return (globalContext as GlobalInspectionContextEx).getPresentation(toolWrapper).problemDescriptors
     }
 
-    private fun doTestGlobalInspection(testDir: String, inspection: GlobalInspectionTool, warnings: List<String>) {
+    private fun doTestGlobalInspection(
+        @Suppress("SameParameterValue") testDir: String, inspection: GlobalInspectionTool, warnings: List<String>
+    ) {
+
         val expectedWarnings = warnings.toMutableList()
         val problemDescriptors = getGlobalInspectionResults(testDir, inspection)
 
@@ -488,10 +461,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
         if (expectedWarnings.isNotEmpty()) {
             fail(
-                "Expected warning(s) not found: " +
-                        expectedWarnings.joinToString("\n") +
-                        " in:\n" +
-                        ppDirContents(testDir)
+                "Expected warning(s) not found: " + expectedWarnings.joinToString("\n") + " in:\n" + ppDirContents(
+                    testDir
+                )
             )
         }
 
@@ -502,13 +474,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         val dir = File(dirName)
         val stringBuilder = StringBuilder()
 
-        val files =
-            dir
-                .listFiles()
-                .flatMap {
-                    if (it.isDirectory) it.listFiles().toList() else listOf(it)
-                }
-                .sortedBy { it.absolutePath }
+        val files = dir.listFiles().flatMap {
+            if (it.isDirectory) it.listFiles().toList() else listOf(it)
+        }.sortedBy { it.absolutePath }
 
         for (file in files) {
             if (file.isFile) {
@@ -527,25 +495,19 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     }
 
     private fun doOpenGLDirectiveInspectionTest(
-        name: String,
-        warningExpected: Boolean,
-        problemElement: String? = "uses-feature"
+        name: String, warningExpected: Boolean, problemElement: String? = "uses-feature"
     ) {
         val lName = "missingOpenGLDirective/$name"
-        val hightLights =
-            getHighLightsWithDescription(
-                OpenGLESDirectiveInspection(),
-                lName,
-                warningDescription = message("no.opengl.directive.problem.descriptor")
-            )
+        val hightLights = getHighLightsWithDescription(
+            OpenGLESDirectiveInspection(), lName, warningDescription = message("no.opengl.directive.problem.descriptor")
+        )
 
         for (hightLight in hightLights) {
             if (warningExpected) {
                 if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
                     UsefulTestCase.fail(
                         "$name: Hightlight starts at wrong element: '" + hightLight.text.substring(
-                            0,
-                            30
+                            0, 30
                         ) + "'"
                     )
                     return
@@ -555,8 +517,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             } else {
                 UsefulTestCase.fail(
                     "$name: Unexpected highlight starting at '" + hightLight.text.substring(
-                        0,
-                        30
+                        0, 30
                     ) + "'"
                 )
                 return
@@ -591,12 +552,9 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             file.writeText(content)
         }
 
-        doTestGlobalInspection(
-            fakeProjectDir,
+        doTestGlobalInspection(fakeProjectDir,
             DesignedForTabletsInspection(),
-            warnings?.map { message("designed.for.tablets.problem.descriptor.$it") }
-                ?: listOf()
-        )
+            warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
 
     }
 
@@ -604,9 +562,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         myFixture.enableInspections(MissingExternalFilesPermissionInspection::class.java)
         configureByFile(manifestFileName)
         val hasWarning =
-            myFixture
-                .doHighlighting()
-                .any { it.description == message("missing.files.permissions.problem.descriptor") }
+            myFixture.doHighlighting().any { it.description == message("missing.files.permissions.problem.descriptor") }
         if (warningExpected && !hasWarning) {
             Assert.fail("Warning expected, but no warning found.")
         } else if (!warningExpected && hasWarning) {
