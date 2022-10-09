@@ -1,4 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 fun properties(key: String) = project.findProperty(key).toString()
@@ -7,9 +6,7 @@ plugins {
     id("java")
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    // https://github.com/JetBrains/gradle-intellij-plugin/issues/998
-    id("org.jetbrains.intellij") version "1.8.0"
-    id("io.gitlab.arturbosch.detekt") version "1.17.1"
+    id("org.jetbrains.intellij") version "1.9.0"
     id("com.github.blueboxware.tocme") version "1.3"
 }
 
@@ -29,19 +26,6 @@ intellij {
 
     // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
-}
-
-detekt {
-    config = files("./detekt-config.yml")
-    baseline = file("./detekt-baseline.xml")
-    buildUponDefaultConfig = true
-
-    reports {
-        html.enabled = true
-        xml.enabled = false
-        txt.enabled = false
-        sarif.enabled = false
-    }
 }
 
 sourceSets {
@@ -65,9 +49,6 @@ tasks {
         }
         withType<KotlinCompile> {
             kotlinOptions.jvmTarget = it
-        }
-        withType<Detekt> {
-            jvmTarget = it
         }
     }
 

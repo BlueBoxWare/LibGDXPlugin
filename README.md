@@ -14,7 +14,7 @@ This unofficial plugin adds a number of [libGDX](https://libgdx.badlogicgames.co
   - __[Atlas file support](#atlas-file-support)__
   - __[Bitmap Font file support](#bitmap-font-file-support)__
   - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
-    - __[@GDXTag and short names in Skins](#gdxtag-and-short-names-in-skins)__
+    - __[@GDXTag and short names in skins](#gdxtag-and-short-names-in-skins)__
 <!-- /toc -->
 
 # Installation

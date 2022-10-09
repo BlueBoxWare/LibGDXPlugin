@@ -1,3 +1,8 @@
+
+### 1.1.24.1
+* Use documentation popup for image previews instead of Shift + hover.
+* Compatibility with recent versions of IntelliJ.
+
 ### 1.24
 * Support for the [new Atlas file format](https://github.com/libgdx/libgdx/commit/a4a0240e2db47d7273797eaf371133f84749f823).
 

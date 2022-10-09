@@ -31,7 +31,8 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Support for the <a href="https://github.com/libgdx/libgdx/commit/a4a0240e2db47d7273797eaf371133f84749f823">new Atlas file format</a>.</li>
+            <li>Use documentation popup for image previews instead of Shift + hover.</li>
+            <li>Internal changes: compatibility with recent versions of IntelliJ.</li>
         </ul>
         ]]>
     </change-notes>
