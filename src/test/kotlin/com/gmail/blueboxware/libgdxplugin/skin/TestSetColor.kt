@@ -48,6 +48,7 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
 
     fun test9() = doTest { keepColorOnOneLine(true) }
 
+    @Suppress("InspectionUsingGrayColors", "UseJBColor")
     fun test10() {
         configureByFile("10.skin")
         val colorElement = myFixture.elementAtCaret.firstParent<SkinObject>()!!

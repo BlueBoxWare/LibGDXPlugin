@@ -11,7 +11,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiFile
 import com.intellij.ui.ColorChooser
-import java.awt.Color
+import com.intellij.ui.JBColor
 
 
 /*
@@ -59,7 +59,7 @@ class CreateColorAction : SimpleCodeInsightAction() {
                 return
             }
 
-            ColorChooser.chooseColor(editor.component, "Choose Color To Create", Color.WHITE, true)?.let { color ->
+            ColorChooser.chooseColor(editor.component, "Choose Color To Create", JBColor.WHITE, true)?.let { color ->
                 ApplicationManager.getApplication().runWriteAction {
                     file.addColor(result.first, color = color, useComponents = result.second ?: false)
                 }

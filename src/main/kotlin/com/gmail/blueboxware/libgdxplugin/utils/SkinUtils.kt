@@ -24,13 +24,13 @@ import org.jetbrains.kotlin.idea.base.util.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-private const val identifier = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
-private const val className = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
-private const val fqClassName = """$identifier(?:\.$identifier)*(?:\.$className)"""
-private const val commonClassNames = """(?:Color|BitmapFont|TintedDrawable|ButtonStyle)"""
+private const val IDENTIFIER = """\p{javaJavaIdentifierStart}\p{javaJavaIdentifierPart}*"""
+private const val CLASS_NAME = """[\p{javaJavaIdentifierStart}&&[\p{Lu}]]\p{javaJavaIdentifierPart}*"""
+private const val FQ_CLASS_NAME = """$IDENTIFIER(?:\.$IDENTIFIER)*(?:\.$CLASS_NAME)"""
+private const val COMMON_CLASS_NAMES = """(?:Color|BitmapFont|TintedDrawable|ButtonStyle)"""
 
 @Suppress("RegExpRedundantNestedCharacterClass")
-val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$fqClassName|\b$commonClassNames)\s*["']?\s*:\s*\{""")
+val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$FQ_CLASS_NAME|\b$COMMON_CLASS_NAMES)\s*["']?\s*:\s*\{""")
 
 fun getSkinFiles(project: Project): List<VirtualFile> {
     val result = mutableListOf<VirtualFile>()

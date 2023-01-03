@@ -2,6 +2,7 @@ package icons
 
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.util.IconLoader
+import com.intellij.ui.JBColor
 import com.intellij.util.IconUtil
 import java.awt.Color
 
@@ -22,10 +23,13 @@ import java.awt.Color
  */
 object Icons {
 
+    @Suppress("UseJBColor")
+    private val BLUE = Color(38, 128, 233)
     private val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png", Icons::class.java)
+
     val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png", Icons::class.java)
     val ATLAS_FILETYPE = LIBGDX_FILETYPE
     val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png", Icons::class.java)
-    val LIBGDX_JSON_FILETYPE = IconUtil.colorize(AllIcons.FileTypes.Json, Color(39, 128, 233))
+    val LIBGDX_JSON_FILETYPE = IconUtil.colorize(AllIcons.FileTypes.Json, JBColor(BLUE, BLUE))
 
 }

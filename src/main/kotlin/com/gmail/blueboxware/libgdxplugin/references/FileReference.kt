@@ -66,7 +66,7 @@ class FileReference(
                             LookupElementBuilder.create(psiFile, relativePath.replace("\\", "\\\\", false))
                                 .withPresentableText(relativePath).withIcon(psiFile.getIcon(0))
                                 .withBoldness(prioritized), if (prioritized) Double.MAX_VALUE else 0.0
-                        )?.let {
+                        ).let {
                             result.add(it)
                         }
 

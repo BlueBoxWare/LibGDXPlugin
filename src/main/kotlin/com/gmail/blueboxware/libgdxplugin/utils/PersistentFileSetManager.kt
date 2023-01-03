@@ -5,7 +5,6 @@ import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.VirtualFileWithId
-import gnu.trove.THashSet
 import org.jdom.Attribute
 import org.jdom.Element
 import java.util.*
@@ -17,7 +16,7 @@ import java.util.*
  */
 open class PersistentFileSetManager : PersistentStateComponent<Element> {
 
-    val files = THashSet<VirtualFile>()
+    val files = HashSet<VirtualFile>()
 
     fun add(file: VirtualFile): Boolean {
         if (file !is VirtualFileWithId || file.isDirectory) {

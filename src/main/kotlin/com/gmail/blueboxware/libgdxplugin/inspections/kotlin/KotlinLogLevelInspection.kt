@@ -6,8 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
 import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
-import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
-
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.lexer.KtSingleValueToken
 import org.jetbrains.kotlin.psi.*
@@ -102,7 +101,7 @@ private fun isLogLevelArgument(expression: KtExpression?): Boolean {
         val refs = expression.getCalleeExpressionIfAny()?.references ?: return false
         for (ref in refs) {
 
-            val target = ref.resolve()?.getKotlinFqName()?.asString() ?: continue
+            val target = ref.resolve()?.kotlinFqName?.asString() ?: continue
             if (
                 target == "com.badlogic.gdx.Application.LOG_DEBUG"
                 || target == "com.badlogic.gdx.Application.LOG_INFO"

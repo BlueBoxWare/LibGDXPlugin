@@ -25,7 +25,7 @@ import com.siyeh.ig.psiutils.MethodCallUtils
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.builtins.KotlinBuiltIns
-import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.references.AbstractKtReference
@@ -93,7 +93,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
             val references = initialValue.calleeExpression?.references ?: return@getCachedValue null
 
             for (reference in references) {
-                val targetName = (reference.resolveForColor() as? PsiMethod)?.getKotlinFqName()?.asString() ?: continue
+                val targetName = (reference.resolveForColor() as? PsiMethod)?.kotlinFqName?.asString() ?: continue
                 if (targetName == "com.badlogic.gdx.graphics.Color.Color" || targetName == "com.badlogic.gdx.graphics.Color.valueOf" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.getColor" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.get" || targetName == "com.badlogic.gdx.scenes.scene2d.ui.Skin.optional" || targetName == "com.badlogic.gdx.graphics.Colors.get" || targetName == "com.badlogic.gdx.graphics.Colors.put" || targetName == "com.badlogic.gdx.utils.ObjectMap.get") {
                     isColorCall = true
                 }
@@ -309,7 +309,7 @@ private fun PsiElement.isSpecialColorMethod(): Boolean {
 
         actualElement?.calleeExpression?.references?.let { references ->
             for (reference in references) {
-                reference.resolveForColor()?.getKotlinFqName()?.asString()?.let { fqName ->
+                reference.resolveForColor()?.kotlinFqName?.asString()?.let { fqName ->
                     if (fqName in COLOR_METHODS) {
                         return true
                     }
@@ -319,7 +319,7 @@ private fun PsiElement.isSpecialColorMethod(): Boolean {
 
     } else if (this is PsiMethodCallExpression) {
 
-        resolveMethod()?.getKotlinFqName()?.asString()?.let { fqName ->
+        resolveMethod()?.kotlinFqName?.asString()?.let { fqName ->
             if (fqName in COLOR_METHODS) {
                 return true
             }

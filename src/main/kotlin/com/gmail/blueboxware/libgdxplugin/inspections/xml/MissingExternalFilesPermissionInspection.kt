@@ -11,7 +11,7 @@ import com.intellij.find.findUsages.JavaMethodFindUsagesOptions
 import com.intellij.openapi.module.ModuleUtilCore
 import com.intellij.psi.*
 import com.intellij.psi.xml.XmlFile
-import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.psi.KtCallExpression
 
@@ -94,7 +94,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
                                         ?.argumentList
                                         ?.expressions
                                         ?.getOrNull(1)
-                                        ?.reference?.resolve() as? PsiEnumConstant)?.getKotlinFqName()?.asString()
+                                        ?.reference?.resolve() as? PsiEnumConstant)?.kotlinFqName?.asString()
                                         ?.let { fqName ->
                                             if (
                                                 fqName == "com.badlogic.gdx.Files.FileType.External"
@@ -112,7 +112,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
                                         ?.references
                                         ?.firstOrNull { it is KtSimpleNameReference }
                                         ?.resolve() as? PsiEnumConstant
-                                            )?.getKotlinFqName()?.asString()?.let { fqName ->
+                                            )?.kotlinFqName?.asString()?.let { fqName ->
                                             if (
                                                 fqName == "com.badlogic.gdx.Files.FileType.External"
                                                 || fqName == "com.badlogic.gdx.Files.FileType.Absolute"

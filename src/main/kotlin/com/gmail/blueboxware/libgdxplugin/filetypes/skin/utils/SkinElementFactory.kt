@@ -117,6 +117,7 @@ class SkinElementFactory(private val project: Project) {
         }
 
     private fun createColorResourceWithComponents(name: String, color: Color?): Pair<SkinResource, Int>? {
+        @Suppress("UseJBColor")
         val c = (color ?: Color.WHITE).toRGBComponents().toMap()
         return createElement<SkinResource>(
             """

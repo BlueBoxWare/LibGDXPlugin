@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.StartupActivity
@@ -30,6 +31,7 @@ class LibGDXStartupActivity : StartupActivity.DumbAware {
             project.service<DisposableProvider>()
         )
 
+        project.service<VersionService>().projectOpened()
     }
 
 }

@@ -52,6 +52,7 @@ class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
         assertEquals(width, image.width)
         assertEquals(height, image.height)
         if (tinted) {
+            @Suppress("UseJBColor")
             assertEquals(Color.YELLOW, Color(image.getRGB(1, 1)))
         }
     }

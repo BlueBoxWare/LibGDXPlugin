@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonSkin
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.lang.LanguageUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -27,6 +28,8 @@ import icons.Icons
  * limitations under the License.
  */
 class MarkAsSkinAction : AnAction() {
+
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
 
     override fun update(event: AnActionEvent) {
 

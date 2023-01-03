@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.markFileAsGdxJson
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsNonGdxJson
 import com.intellij.icons.AllIcons
 import com.intellij.lang.LanguageUtil
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
@@ -30,6 +31,8 @@ import icons.Icons
  * limitations under the License.
  */
 class MarkAsGdxJsonAction : AnAction() {
+
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
 
     override fun update(event: AnActionEvent) {
 

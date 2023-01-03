@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
 import com.intellij.psi.search.searches.ClassInheritorsSearch
-import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.psi.*
 
 class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
@@ -90,7 +90,7 @@ private class MissingFlushInspectionMethodChecker(
         val (className, methodName) = expression.resolveCallToStrings() ?: return
 
         for (subClass in preferencesSubClasses) {
-            if (subClass.getKotlinFqName()?.asString() == className) {
+            if (subClass.kotlinFqName?.asString() == className) {
                 if (methodName.startsWith("put") || methodName == "remove") {
                     lastPreferenceChange = expression
                 } else if (methodName == "flush") {

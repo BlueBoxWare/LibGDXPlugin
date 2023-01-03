@@ -10,7 +10,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.JavaDummyHolder
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
-import org.jetbrains.kotlin.idea.base.utils.fqname.getKotlinFqName
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtFile
@@ -91,8 +91,8 @@ class ChangeKotlinPackageListener(val project: Project) : PsiTreeChangeAdapter()
                 if (currentPackage == newPackage) {
 
                     val fqNames = when (element) {
-                        is PsiClass, is KtClass -> element.getKotlinFqName()?.let { listOf(it) } ?: return
-                        is KtFile -> element.classes.mapNotNull { it.getKotlinFqName() }.toList()
+                        is PsiClass, is KtClass -> element.kotlinFqName?.let { listOf(it) } ?: return
+                        is KtFile -> element.classes.mapNotNull { it.kotlinFqName }.toList()
                         else -> return
                     }
 

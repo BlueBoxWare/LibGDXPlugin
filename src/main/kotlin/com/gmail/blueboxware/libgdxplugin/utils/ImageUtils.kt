@@ -25,6 +25,7 @@ internal fun BufferedImage.tint(color: Color): BufferedImage {
 
     for (x in 0 until width) {
         for (y in 0 until height) {
+            @Suppress("UseJBColor")
             val oldColor = Color(getRGB(x, y))
             val r = mul(oldColor.red, color.red)
             val g = mul(oldColor.green, color.green)

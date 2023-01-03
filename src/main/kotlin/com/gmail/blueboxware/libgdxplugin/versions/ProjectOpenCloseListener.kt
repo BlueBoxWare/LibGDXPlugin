@@ -22,9 +22,6 @@ import com.intellij.openapi.project.ProjectManagerListener
  */
 class ProjectOpenCloseListener : ProjectManagerListener {
 
-    override fun projectOpened(project: Project) =
-        project.service<VersionService>().projectOpened()
-
     override fun projectClosed(project: Project) =
         project.service<VersionService>().projectClosed()
 }
