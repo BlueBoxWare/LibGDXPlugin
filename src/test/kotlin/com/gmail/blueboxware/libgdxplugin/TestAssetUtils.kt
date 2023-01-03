@@ -5,7 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedFiles
 import com.gmail.blueboxware.libgdxplugin.utils.readImageNamesFromAtlas
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FilenameIndex
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 
 /*
  * Copyright 2017 Blue Box Ware

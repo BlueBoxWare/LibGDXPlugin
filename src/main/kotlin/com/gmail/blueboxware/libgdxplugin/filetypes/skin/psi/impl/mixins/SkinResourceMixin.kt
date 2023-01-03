@@ -16,7 +16,7 @@ import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 import java.awt.Color
 import javax.swing.Icon
 

@@ -31,8 +31,6 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Use documentation popup for image previews instead of Shift + hover.</li>
-            <li>Internal changes: compatibility with recent versions of IntelliJ.</li>
         </ul>
         ]]>
     </change-notes>

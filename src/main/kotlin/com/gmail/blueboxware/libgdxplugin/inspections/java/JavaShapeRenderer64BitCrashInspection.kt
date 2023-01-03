@@ -27,10 +27,8 @@ class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitNewExpression(expression: PsiNewExpression?) {
+        override fun visitNewExpression(expression: PsiNewExpression) {
             super.visitNewExpression(expression)
-
-            if (expression == null) return
 
             if (expression.classReference?.qualifiedName == "com.badlogic.gdx.graphics.glutils.ShapeRenderer") {
 

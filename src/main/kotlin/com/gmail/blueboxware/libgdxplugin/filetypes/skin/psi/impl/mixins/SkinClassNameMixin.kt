@@ -11,7 +11,7 @@ import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 
 /*

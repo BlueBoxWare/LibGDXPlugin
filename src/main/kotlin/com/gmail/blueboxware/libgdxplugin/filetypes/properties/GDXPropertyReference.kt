@@ -9,7 +9,7 @@ import com.intellij.lang.properties.references.PropertyReferenceBase
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.ElementManipulators
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 
 
 /*

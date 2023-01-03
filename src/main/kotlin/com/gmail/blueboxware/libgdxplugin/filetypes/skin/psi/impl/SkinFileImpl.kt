@@ -17,7 +17,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.impl.source.tree.TreeUtil
 import com.intellij.psi.util.CachedValue
 import icons.Icons
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.endOffset
 import org.jetbrains.kotlin.psi.psiUtil.startOffset

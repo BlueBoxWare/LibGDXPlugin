@@ -26,10 +26,10 @@ class JavaUnsafeIteratorInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
             super.visitMethodCallExpression(expression)
 
-            val qualifierExpression = expression?.methodExpression?.qualifierExpression ?: return
+            val qualifierExpression = expression.methodExpression.qualifierExpression ?: return
 
             if (qualifierExpression is PsiNewExpression) return
 
@@ -53,10 +53,10 @@ class JavaUnsafeIteratorInspection : LibGDXJavaBaseInspection() {
             }
         }
 
-        override fun visitForeachStatement(statement: PsiForeachStatement?) {
+        override fun visitForeachStatement(statement: PsiForeachStatement) {
             super.visitForeachStatement(statement)
 
-            val receiverType = (statement?.iteratedValue?.type ?: return) as? PsiClassType ?: return
+            val receiverType = (statement.iteratedValue?.type ?: return) as? PsiClassType ?: return
 
             val receiverClass = receiverType.resolve() ?: return
             val receiverFqClassName = receiverClass.qualifiedName

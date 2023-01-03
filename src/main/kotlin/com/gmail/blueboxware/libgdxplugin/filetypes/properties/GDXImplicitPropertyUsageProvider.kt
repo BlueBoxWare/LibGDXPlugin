@@ -5,7 +5,7 @@ import com.intellij.lang.properties.codeInspection.unused.ImplicitPropertyUsageP
 import com.intellij.lang.properties.psi.Property
 import com.intellij.psi.search.PsiSearchHelper
 import com.intellij.psi.search.searches.ReferencesSearch
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 
 
 /*

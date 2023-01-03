@@ -15,7 +15,7 @@ import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.config.MavenComparableVersion
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -52,7 +52,7 @@ internal fun <T> T?.singletonOrNull(): Collection<T>? =
 internal fun trimQuotes(str: String?) =
     str?.trim { it == '"' || it == '\'' }
 
-internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = allScope()) =
+internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = this.allScope()) =
     psiFacade().findClass(fqName, scope)
 
 internal fun Project.findClasses(fqName: String, scope: GlobalSearchScope = allScope()) =

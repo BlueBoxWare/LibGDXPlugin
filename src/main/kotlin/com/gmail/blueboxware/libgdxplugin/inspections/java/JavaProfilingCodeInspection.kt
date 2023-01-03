@@ -29,10 +29,8 @@ class JavaProfilingCodeInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
             super.visitMethodCallExpression(expression)
-
-            if (expression == null) return
 
             val (receiverClass, method) = expression.resolveCall() ?: return
             val className = receiverClass.qualifiedName ?: return

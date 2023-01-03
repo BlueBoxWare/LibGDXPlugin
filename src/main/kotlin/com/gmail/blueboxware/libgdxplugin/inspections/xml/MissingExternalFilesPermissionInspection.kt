@@ -42,8 +42,7 @@ class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
 
         return object : XmlElementVisitor() {
 
-            override fun visitXmlFile(file: XmlFile?) {
-                if (file == null) return
+            override fun visitXmlFile(file: XmlFile) {
 
                 if (ManifestModel.fromFile(file).permissions.any { it.value == "android.permission.WRITE_EXTERNAL_STORAGE" }) {
                     return

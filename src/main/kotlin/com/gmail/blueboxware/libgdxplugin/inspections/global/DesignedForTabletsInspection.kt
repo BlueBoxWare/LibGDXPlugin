@@ -12,7 +12,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FilenameIndex
 import com.intellij.psi.xml.XmlFile
 import com.intellij.psi.xml.XmlTag
-import org.jetbrains.kotlin.idea.search.projectScope
+import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.plugins.groovy.lang.psi.GroovyFileBase
 import org.jetbrains.plugins.groovy.lang.psi.GroovyPsiElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyRecursiveElementVisitor

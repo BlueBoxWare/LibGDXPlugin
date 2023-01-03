@@ -18,7 +18,7 @@ import com.intellij.psi.*
 import com.intellij.util.PlatformIcons
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import java.util.*
 import javax.swing.Icon

@@ -15,7 +15,7 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValue
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -195,7 +195,7 @@ internal fun Project.collectTagsFromAnnotations(): Collection<Pair<String, Strin
 
     val tags = mutableListOf<Pair<String, String>>()
 
-    AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, allScope()).forEach { psiClass ->
+    AnnotatedElementsSearch.searchPsiClasses(tagAnnotation, this.allScope()).forEach { psiClass ->
         psiClass.getSkinTagsFromAnnotation()?.forEach { tag ->
             psiClass.qualifiedName?.let { fqName ->
                 tags.add(tag to fqName)

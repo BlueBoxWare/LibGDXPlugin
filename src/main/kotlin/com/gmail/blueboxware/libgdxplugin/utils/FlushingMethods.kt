@@ -23,8 +23,8 @@ import com.intellij.psi.PsiReference
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.util.Query
+import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
-import org.jetbrains.kotlin.idea.search.projectScope
 import org.jetbrains.kotlin.psi.*
 
 object FlushingMethodsUtils {

@@ -32,9 +32,7 @@ class JavaLogLevelInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
-
-            if (expression == null) return
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
 
             val (receiverClass, method) = expression.resolveCall() ?: return
 

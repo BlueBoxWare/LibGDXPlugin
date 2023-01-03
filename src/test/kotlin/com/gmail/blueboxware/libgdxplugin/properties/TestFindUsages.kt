@@ -7,7 +7,7 @@ import com.intellij.lang.properties.psi.PropertiesFile
 import com.intellij.lang.properties.psi.Property
 import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.psi.search.FilenameIndex
-import org.jetbrains.kotlin.idea.search.projectScope
+import org.jetbrains.kotlin.idea.base.util.projectScope
 
 
 /*

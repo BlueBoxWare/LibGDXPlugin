@@ -7,7 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.search.FileTypeIndex
-import org.jetbrains.kotlin.idea.search.allScope
+import org.jetbrains.kotlin.idea.base.util.allScope
 
 /*
  * Copyright 2016 Blue Box Ware

@@ -30,9 +30,9 @@ class JavaStaticResourceInspection : LibGDXJavaBaseInspection() {
 
         val disposableClass = holder.project.findClass("com.badlogic.gdx.utils.Disposable")
 
-        override fun visitField(field: PsiField?) {
+        override fun visitField(field: PsiField) {
 
-            if (field == null || disposableClass == null || !field.hasModifierProperty("static")) return
+            if (disposableClass == null || !field.hasModifierProperty("static")) return
 
             val theType = field.type
 

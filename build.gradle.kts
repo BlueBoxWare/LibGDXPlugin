@@ -1,12 +1,10 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 fun properties(key: String) = project.findProperty(key).toString()
 
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    id("org.jetbrains.intellij") version "1.9.0"
+    id("org.jetbrains.kotlin.jvm") version "1.7.21"
+    id("org.jetbrains.intellij") version "1.11.0"
     id("com.github.blueboxware.tocme") version "1.3"
 }
 
@@ -15,6 +13,10 @@ version = properties("pluginVersion")
 
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    jvmToolchain(17)
 }
 
 intellij {
@@ -42,14 +44,9 @@ sourceSets {
 }
 
 tasks {
-    properties("javaVersion").let {
-        withType<JavaCompile> {
-            sourceCompatibility = it
-            targetCompatibility = it
-        }
-        withType<KotlinCompile> {
-            kotlinOptions.jvmTarget = it
-        }
+    withType<JavaCompile> {
+        sourceCompatibility = "11"
+        targetCompatibility = "11"
     }
 
     runIde {

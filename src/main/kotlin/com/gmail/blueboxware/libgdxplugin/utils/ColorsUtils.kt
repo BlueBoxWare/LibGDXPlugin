@@ -6,8 +6,8 @@ import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
+import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.idea.intentions.callExpression
-import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -120,7 +120,7 @@ internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedV
         mapOf<String, ColorsDefinition>()
     }
 
-    val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, allScope())
+    val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, this.allScope())
 
     val callExpressions = mutableListOf<PsiElement>()
 

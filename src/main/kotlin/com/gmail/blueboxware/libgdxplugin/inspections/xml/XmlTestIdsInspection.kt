@@ -27,10 +27,10 @@ class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : XmlElementVisitor() {
 
-        override fun visitXmlTag(tag: XmlTag?) {
+        override fun visitXmlTag(tag: XmlTag) {
             super.visitXmlTag(tag)
 
-            tag?.value?.trimmedText?.let { content ->
+            tag.value.trimmedText.let { content ->
 
                 if (TEST_ID_MAP.containsKey(content)) {
                     holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[content])

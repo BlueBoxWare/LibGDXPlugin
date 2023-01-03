@@ -4,7 +4,7 @@ import com.intellij.lang.properties.psi.impl.PropertiesFileImpl
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.SearchScope
 import com.intellij.psi.search.UseScopeEnlarger
-import org.jetbrains.kotlin.idea.search.projectScope
+import org.jetbrains.kotlin.idea.base.util.projectScope
 
 
 /*

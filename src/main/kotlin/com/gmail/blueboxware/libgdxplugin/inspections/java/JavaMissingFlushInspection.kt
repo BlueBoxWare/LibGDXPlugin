@@ -26,11 +26,11 @@ class JavaMissingFlushInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitMethod(method: PsiMethod?) {
+        override fun visitMethod(method: PsiMethod) {
 
             val methodChecker = MissingFlushInspectionMethodChecker()
 
-            method?.accept(methodChecker)
+            method.accept(methodChecker)
 
             methodChecker.lastPreferenceChange?.let { lastPreferenceChange ->
                 holder.registerProblem(lastPreferenceChange, message("missing.flush.problem.descriptor"))
@@ -42,10 +42,8 @@ class JavaMissingFlushInspection : LibGDXJavaBaseInspection() {
 
         var lastPreferenceChange: PsiExpression? = null
 
-        override fun visitMethodCallExpression(expression: PsiMethodCallExpression?) {
+        override fun visitMethodCallExpression(expression: PsiMethodCallExpression) {
             super.visitMethodCallExpression(expression)
-
-            if (expression == null) return
 
             val (receiverClass, method) = expression.resolveCall() ?: return
 

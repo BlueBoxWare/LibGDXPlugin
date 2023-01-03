@@ -30,7 +30,7 @@ class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression) {
 
             if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
 

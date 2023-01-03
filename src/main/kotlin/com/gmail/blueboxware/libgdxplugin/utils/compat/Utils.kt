@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.utils.compat
 
-import com.intellij.util.castSafelyTo
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
@@ -27,10 +26,10 @@ fun SyntheticPropertyAccessorReference.isGetter(): Boolean {
     } else if (this::class.simpleName == "Setter") {
         return false
     }
-    return this::class
+    @Suppress("UNCHECKED_CAST")
+    return (this::class
         .memberProperties
         .firstOrNull { it.name == "getter" }
-        ?.castSafelyTo<KProperty1<SyntheticPropertyAccessorReference, Boolean>>()
-        ?.get(this)
+            as? KProperty1<SyntheticPropertyAccessorReference, Boolean>)?.get(this)
         ?: false
 }

@@ -29,9 +29,9 @@ class JavaInvalidPropertyKeyInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression) {
 
-            if (expression == null || expression.value !is String) {
+            if (expression.value !is String) {
                 return
             }
 

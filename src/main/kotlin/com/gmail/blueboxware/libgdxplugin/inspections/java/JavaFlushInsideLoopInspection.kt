@@ -32,8 +32,7 @@ class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean, session: LocalInspectionToolSession) =
         object : JavaElementVisitor() {
 
-            override fun visitMethod(method: PsiMethod?) {
-                if (method == null) return
+            override fun visitMethod(method: PsiMethod) {
 
                 val statements = method.body?.statements ?: return
 
@@ -53,9 +52,9 @@ private class LoopChecker(
 
     val allFlushingMethods = getFlushingMethods(holder.project, session)
 
-    override fun visitCallExpression(callExpression: PsiCallExpression?) {
+    override fun visitCallExpression(callExpression: PsiCallExpression) {
 
-        if (allFlushingMethods == null || callExpression == null) return
+        if (allFlushingMethods == null) return
 
         val method = callExpression.resolveMethod() ?: return
 
@@ -81,8 +80,8 @@ private class LoopChecker(
         }
     }
 
-    override fun visitNewExpression(expression: PsiNewExpression?) {
-        if (expression == null || allFlushingMethods == null) return
+    override fun visitNewExpression(expression: PsiNewExpression) {
+        if (allFlushingMethods == null) return
 
         val method = expression.resolveMethod()
 

@@ -34,8 +34,7 @@ class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
 
         return object : XmlElementVisitor() {
 
-            override fun visitXmlFile(file: XmlFile?) {
-                if (file == null) return
+            override fun visitXmlFile(file: XmlFile) {
 
                 ManifestModel.fromFile(file).openGLESVersion.let { (value, element) ->
                     if (value < 0x00020000) {

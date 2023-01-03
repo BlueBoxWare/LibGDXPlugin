@@ -31,9 +31,9 @@ class JavaUnusedClassTagInspection : LibGDXJavaBaseInspection() {
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : JavaElementVisitor() {
 
-        override fun visitLiteralExpression(expression: PsiLiteralExpression?) {
+        override fun visitLiteralExpression(expression: PsiLiteralExpression) {
 
-            if (expression?.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME) {
+            if (expression.getParentOfType<PsiAnnotation>()?.qualifiedName == TAG_ANNOTATION_NAME) {
 
                 checkForUnusedClassTag(expression, holder)
 

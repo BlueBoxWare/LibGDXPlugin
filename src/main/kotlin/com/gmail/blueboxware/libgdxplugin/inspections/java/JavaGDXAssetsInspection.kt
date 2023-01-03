@@ -30,9 +30,9 @@ internal class JavaGDXAssetsInspection : LibGDXJavaBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
         object : JavaElementVisitor() {
 
-            override fun visitAnnotation(annotation: PsiAnnotation?) {
+            override fun visitAnnotation(annotation: PsiAnnotation) {
 
-                if (annotation == null || annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
+                if (annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
                     return
                 }
 
@@ -48,8 +48,8 @@ internal class JavaGDXAssetsInspection : LibGDXJavaBaseInspection() {
 
             }
 
-            override fun visitAnnotationParameterList(list: PsiAnnotationParameterList?) {
-                (list?.context as? PsiAnnotation)?.let { annotation ->
+            override fun visitAnnotationParameterList(list: PsiAnnotationParameterList) {
+                (list.context as? PsiAnnotation)?.let { annotation ->
 
                     if (annotation.qualifiedName != ASSET_ANNOTATION_NAME) {
                         return
