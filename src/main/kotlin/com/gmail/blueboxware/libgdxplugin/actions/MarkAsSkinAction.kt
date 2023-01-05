@@ -29,7 +29,7 @@ import icons.Icons
  */
 class MarkAsSkinAction : AnAction() {
 
-    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
     override fun update(event: AnActionEvent) {
 

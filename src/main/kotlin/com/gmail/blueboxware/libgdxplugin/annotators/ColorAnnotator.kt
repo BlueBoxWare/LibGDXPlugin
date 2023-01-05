@@ -8,7 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.idea.refactoring.getLineNumber
+import org.jetbrains.kotlin.idea.base.psi.getLineNumber
 import java.awt.Color
 
 /*

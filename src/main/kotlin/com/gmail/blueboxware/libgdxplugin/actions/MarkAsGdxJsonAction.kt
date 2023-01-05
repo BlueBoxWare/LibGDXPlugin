@@ -32,7 +32,7 @@ import icons.Icons
  */
 class MarkAsGdxJsonAction : AnAction() {
 
-    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.EDT
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
     override fun update(event: AnActionEvent) {
 
@@ -55,7 +55,7 @@ class MarkAsGdxJsonAction : AnAction() {
                     presentation.isEnabled = true
 
                 } else if (
-                    currentLanguage == LibGDXJsonLanuage.INSTANCE
+                    currentLanguage == LibGDXJsonLanuage.INSTANCE && file.extension != "lson"
                 ) {
 
                     @Suppress("DialogTitleCapitalization")

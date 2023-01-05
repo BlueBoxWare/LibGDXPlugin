@@ -15,14 +15,14 @@
  */
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
-import com.gmail.blueboxware.libgdxplugin.utils.compat.getCall
-import com.gmail.blueboxware.libgdxplugin.utils.compat.getResolvedCall
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.resolve.calls.util.getCall
+import org.jetbrains.kotlin.resolve.calls.util.getResolvedCall
 import org.jetbrains.kotlin.types.KotlinType
 
 @Suppress("InspectionDescriptionNotFoundInspection")

@@ -45,6 +45,11 @@ sourceSets {
 
 tasks {
     withType<JavaCompile> {
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+    }
+
+    named<JavaCompile>("compileAnnotationsJava") {
         sourceCompatibility = "11"
         targetCompatibility = "11"
     }

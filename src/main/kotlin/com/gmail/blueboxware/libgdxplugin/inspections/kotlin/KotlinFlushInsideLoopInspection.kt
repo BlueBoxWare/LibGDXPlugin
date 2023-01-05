@@ -17,7 +17,6 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.inspections.getFlushingMethods
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.compat.isGetter
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
@@ -151,7 +150,7 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
             return
         }
 
-        val isGetter = spars.any { it.isGetter() }
+        val isGetter = spars.any { it.getter }
 
         for (ref in refs) {
             val target = ref.resolve()

@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.utils.compat.getType
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
@@ -21,6 +20,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
+import org.jetbrains.kotlin.resolve.calls.util.getType
 import org.jetbrains.kotlin.types.SimpleType
 import org.jetbrains.kotlin.types.checker.isClassType
 
