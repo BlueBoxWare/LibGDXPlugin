@@ -66,8 +66,7 @@ tasks {
     }
 
     buildSearchableOptions {
-        // TODO
-        enabled = false
+        enabled = true
     }
 
     patchPluginXml {

@@ -1,5 +1,7 @@
+### 1.24.2
+* Compatibility with IntelliJ 2022.3.1.
 
-### 1.1.24.1
+### 1.24.1
 * Use documentation popup for image previews instead of Shift + hover.
 * Compatibility with recent versions of IntelliJ.
 
