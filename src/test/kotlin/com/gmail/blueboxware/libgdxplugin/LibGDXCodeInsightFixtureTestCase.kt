@@ -4,7 +4,6 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
@@ -49,27 +48,22 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
     private fun getTestDataBasePath() =
         FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
-    override fun getTestDataPath() =
-        FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
+    override fun getTestDataPath() = FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
-    fun addLibGDX() =
-        addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+    fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
 
-    fun addLibGDXSources() =
-        WriteCommandAction.runWriteCommandAction(project) {
-            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }
-                ?.let { library ->
-                    library.modifiableModel.let {
-                        it.addRoot(
-                            JarFileSystem
-                                .getInstance()
-                                .findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
-                            OrderRootType.SOURCES
-                        )
-                        it.commit()
-                    }
+    fun addLibGDXSources() = WriteCommandAction.runWriteCommandAction(project) {
+        LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }
+            ?.let { library ->
+                library.modifiableModel.let {
+                    it.addRoot(
+                        JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
+                        OrderRootType.SOURCES
+                    )
+                    it.commit()
                 }
-        }
+            }
+    }
 
     fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 
@@ -91,10 +85,15 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
         WriteCommandAction.writeCommandAction(project).run<Throwable> {
 
-            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+            var projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
-            val libraryModel =
-                (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
+            projectModel.getLibraryByName(library.library.artifactId)?.let {
+                projectModel.removeLibrary(it)
+                projectModel.commit()
+                projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+            }
+
+            val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
 
             libraryModel.addRoot(
                 "/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/",
@@ -180,24 +179,17 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
     private fun addLibrary(lib: String) {
         File(lib).let { file ->
             PsiTestUtil.addLibrary(
-                myFixture.testRootDisposable,
-                myFixture.module,
-                file.name,
-                file.parent,
-                file.name
+                myFixture.testRootDisposable, myFixture.module, file.name, file.parent, file.name
             )
         }
         project.service<VersionService>().updateUsedVersions()
     }
 
-    fun configureByFile(filePath: String): PsiFile =
-        myFixture.configureByFile(filePath)
+    fun configureByFile(filePath: String): PsiFile = myFixture.configureByFile(filePath)
 
-    fun configureByFiles(vararg filePaths: String): Array<PsiFile> =
-        myFixture.configureByFiles(*filePaths)
+    fun configureByFiles(vararg filePaths: String): Array<PsiFile> = myFixture.configureByFiles(*filePaths)
 
-    fun copyFileToProject(sourceFilePath: String) =
-        myFixture.copyFileToProject(sourceFilePath)
+    fun copyFileToProject(sourceFilePath: String) = myFixture.copyFileToProject(sourceFilePath)
 
     fun copyFileToProject(sourceFilePath: String, targetPath: String) =
         myFixture.copyFileToProject(sourceFilePath, targetPath)
@@ -205,11 +197,9 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
     fun copyDirectoryToProject(sourceFilePath: String, targetPath: String) =
         myFixture.copyDirectoryToProject(sourceFilePath, targetPath)
 
-    fun configureByText(fileType: FileType, text: String): PsiFile =
-        myFixture.configureByText(fileType, text)
+    fun configureByText(fileType: FileType, text: String): PsiFile = myFixture.configureByText(fileType, text)
 
-    fun configureByText(fileName: String, text: String): PsiFile =
-        myFixture.configureByText(fileName, text)
+    fun configureByText(fileName: String, text: String): PsiFile = myFixture.configureByText(fileName, text)
 
     fun configureByFileAsGdxJson(filePath: String): PsiFile =
         myFixture.configureByFile(filePath).apply { markAsGdxJson() }
@@ -255,16 +245,9 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     }
 
-    fun runCommand(f: () -> Unit) =
-        CommandProcessor
-            .getInstance()
-            .executeCommand(
-                project,
-                f,
-                "",
-                null,
-                UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
-            )
+    fun runCommand(f: () -> Unit) = CommandProcessor.getInstance().executeCommand(
+        project, f, "", null, UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
+    )
 
     fun undo() {
         val fileEditor = FileEditorManager.getInstance(project).getEditors(file.virtualFile).first()
@@ -276,8 +259,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     override fun setUp() {
         assertIdeaHomePath()
-
-        Library.TEST_URL = "http://127.0.0.1/maven/"
 
         super.setUp()
         removeLibraries()

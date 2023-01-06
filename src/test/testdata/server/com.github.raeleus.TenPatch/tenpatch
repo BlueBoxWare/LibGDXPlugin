@@ -1,0 +1,39 @@
+{
+  "com.github.raeleus" : {
+    "TenPatch" : {
+      "1" : "ok",
+      "2" : "ok",
+      "3" : "ok",
+      "4" : "ok",
+      "5" : "ok",
+      "6" : "Error",
+      "7" : "Error",
+      "8" : "Error",
+      "9" : "ok",
+      "10" : "ok",
+      "11" : "ok",
+      "12" : "ok",
+      "7779b8d82e" : "ok",
+      "13" : "ok",
+      "master" : "ok",
+      "a914bcb293" : "ok",
+      "v1.0" : "ok",
+      "1.0" : "ok",
+      "2.0" : "ok",
+      "3.0" : "ok",
+      "dev-ab016d022a-1" : "ok",
+      "dev-20fa615d3a-1" : "ok",
+      "dev-ad753061be-1" : "ok",
+      "4.1.0" : "ok",
+      "dev-341e7c325f-1" : "ok",
+      "dev-213b89b79b-1" : "ok",
+      "master-ad753061be-1" : "ok",
+      "dev-5df890e6f6-1" : "ok",
+      "dev-b23b0f63da-1" : "ok",
+      "4.2.1" : "ok",
+      "5.0.0" : "ok",
+      "dev-20a6f44f3f-1" : "ok",
+      "dev-8ab7cdcdb8-1" : "ok"
+    }
+  }
+}
