@@ -204,7 +204,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         val types = initialValue.argumentList?.expressionTypes ?: return@getCachedValue null
         val argument1type = types.firstOrNull() ?: return@getCachedValue null
 
-        if (arguments.size == 1 && argument1type == PsiType.INT) {
+        if (arguments.size == 1 && argument1type == PsiTypes.intType()) {
             // new Color(int)
             arguments.firstOrNull()?.let { expr ->
                 val arg = expr.findRoot()
@@ -278,11 +278,11 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
             val floats = arrayOf(0f, 0f, 0f, 0f)
             for (i in 0..3) {
                 arguments[i]?.let { expr ->
-                    @Suppress("CascadeIf") if (expr.type == PsiType.FLOAT) {
+                    @Suppress("CascadeIf") if (expr.type == PsiTypes.floatType()) {
                         val root = expr.findRoot()
                         val float = root.psiFloat() ?: return@getCachedValue null
                         floats[i] = float
-                    } else if (expr.type == PsiType.INT) {
+                    } else if (expr.type == PsiTypes.intType()) {
                         val arg = expr.findRoot()
                         val int = arg.javaInt() ?: return@getCachedValue null
                         floats[i] = int.toFloat()
@@ -476,7 +476,7 @@ private fun PsiElement.ktInt(): Int? {
 
 private fun PsiElement.javaInt(): Long? {
 
-    if (this is PsiExpression && type == PsiType.INT) {
+    if (this is PsiExpression && type == PsiTypes.intType()) {
 
         try {
             return if (text.startsWith("0x")) {

@@ -67,7 +67,7 @@
   com.example.ColorArrayHolder: {
     a: {
       colors: [red, <warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>],
-      moreColors: [<warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>, [<warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>, yellow]],
+      moreColors: [<warning descr="'purple' does not refer to anything. Resources must be defined before they can be used.">purple</warning>, [<warning descr="'pink' does not refer to anything. Resources must be defined before they can be used.">pink</warning>, yellow]],
       m: [
       {
       buttonStyle: yes

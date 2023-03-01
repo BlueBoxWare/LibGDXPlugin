@@ -3,9 +3,9 @@ fun properties(key: String) = project.findProperty(key).toString()
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "1.7.21"
-    id("org.jetbrains.intellij") version "1.11.0"
-    id("com.github.blueboxware.tocme") version "1.3"
+    id("org.jetbrains.kotlin.jvm") version "1.8.10"
+    id("org.jetbrains.intellij") version "1.13.0"
+    id("com.github.blueboxware.tocme") version "1.7"
 }
 
 group = properties("pluginGroup")
@@ -55,7 +55,7 @@ tasks {
     }
 
     runIde {
-        maxHeapSize = "2g"
+        maxHeapSize = "8g"
         systemProperties = mapOf(
             "idea.ProcessCanceledException" to "disabled"
         )

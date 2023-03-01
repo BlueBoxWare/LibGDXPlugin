@@ -4,7 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotli
 import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.startup.StartupActivity
+import com.intellij.openapi.startup.ProjectActivity
 import com.intellij.psi.PsiManager
 
 
@@ -23,9 +23,9 @@ import com.intellij.psi.PsiManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXStartupActivity : StartupActivity.DumbAware {
+class LibGDXStartupActivity : ProjectActivity {
 
-    override fun runActivity(project: Project) {
+    override suspend fun execute(project: Project) {
         PsiManager.getInstance(project).addPsiTreeChangeListener(
             ChangeKotlinPackageListener(project),
             project.service<DisposableProvider>()
@@ -33,5 +33,6 @@ class LibGDXStartupActivity : StartupActivity.DumbAware {
 
         project.service<VersionService>().projectOpened()
     }
+
 
 }

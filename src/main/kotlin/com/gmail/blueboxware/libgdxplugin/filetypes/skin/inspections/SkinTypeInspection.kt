@@ -8,7 +8,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiClassType
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiPrimitiveType
-import com.intellij.psi.PsiType
+import com.intellij.psi.PsiTypes
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -54,18 +54,18 @@ class SkinTypeInspection : SkinBaseInspection() {
                     if (skinValue !is SkinArray) {
                         problem("Array")
                     }
-                } else if (expectedType == PsiType.BOOLEAN) {
+                } else if (expectedType == PsiTypes.booleanType()) {
                     if (!skinValue.isBoolean) {
                         problem("boolean")
                     }
                 } else if (expectedType is PsiPrimitiveType) {
                     val check = when (expectedType) {
-                        PsiType.BYTE -> skinValue.text.toByteOrNull() != null
-                        PsiType.DOUBLE -> skinValue.text.toDoubleOrNull() != null
-                        PsiType.FLOAT -> skinValue.text.toFloatOrNull() != null
-                        PsiType.INT -> skinValue.text.toIntOrNull() != null
-                        PsiType.LONG -> skinValue.text.toLongOrNull() != null
-                        PsiType.SHORT -> skinValue.text.toShortOrNull() != null
+                        PsiTypes.byteType() -> skinValue.text.toByteOrNull() != null
+                        PsiTypes.doubleType() -> skinValue.text.toDoubleOrNull() != null
+                        PsiTypes.floatType() -> skinValue.text.toFloatOrNull() != null
+                        PsiTypes.intType() -> skinValue.text.toIntOrNull() != null
+                        PsiTypes.longType() -> skinValue.text.toLongOrNull() != null
+                        PsiTypes.shortType() -> skinValue.text.toShortOrNull() != null
                         else -> true
                     }
                     if (!check) {

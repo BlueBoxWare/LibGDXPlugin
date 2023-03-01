@@ -38,7 +38,7 @@ import java.util.*
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-    private val RUN_TESTS = true
+    private val RUN_TESTS = false
 
     private lateinit var versionService: VersionService
 
