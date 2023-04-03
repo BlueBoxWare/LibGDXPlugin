@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Blue Box Ware
+ * Copyright 2023 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("UnstableTypeUsedInSignature", "UnstableApiUsage")
+
 package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
@@ -21,26 +23,29 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.getRealClassNamesAsString
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.lang.documentation.AbstractDocumentationProvider
+import com.intellij.model.Pointer
+import com.intellij.navigation.TargetPresentation
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.HtmlBuilder
 import com.intellij.openapi.util.text.HtmlChunk
+import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiJavaFile
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.util.ui.ImageUtil
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
+import org.jetbrains.kotlin.psi.psiUtil.createSmartPointer
 import java.awt.image.BufferedImage
 import java.net.URI
 import java.net.URISyntaxException
 import javax.imageio.ImageIO
 
-class ImagePreviewDocumentationProvider : AbstractDocumentationProvider() {
-
-    override fun generateDoc(el: PsiElement, originalElement: PsiElement?): String? {
+class ImagePreviewDocumentationTarget(val element: PsiElement, private val originalElement: PsiElement?) :
+    DocumentationTarget {
+    override fun computeDocumentationHint(): String? {
         val currentFile = originalElement?.containingFile ?: return null
         if (currentFile !is SkinFile && currentFile !is PsiJavaFile && currentFile !is KtFile && currentFile !is Atlas2File) {
             return null
@@ -69,8 +74,8 @@ class ImagePreviewDocumentationProvider : AbstractDocumentationProvider() {
 
             when (currentFile) {
                 is SkinFile -> element.getParentOfType<SkinStringLiteral>(false)
-                is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>()
-                is KtFile -> element.getParentOfType<KtStringTemplateExpression>()
+                is PsiJavaFile -> element.getParentOfType<PsiLiteralExpression>(false)
+                is KtFile -> element.getParentOfType<KtStringTemplateExpression>(false)
                 else -> null
             }?.references?.forEach { reference ->
                 reference.resolve()?.let { target ->
@@ -130,6 +135,17 @@ class ImagePreviewDocumentationProvider : AbstractDocumentationProvider() {
         }
 
         return null
+    }
+
+    override fun computePresentation(): TargetPresentation = TargetPresentation.builder("Test").presentation()
+
+    override fun createPointer(): Pointer<out DocumentationTarget> {
+        val elementPtr = element.createSmartPointer()
+        val originalElementPtr = originalElement?.createSmartPointer()
+        return Pointer {
+            val element = elementPtr.dereference() ?: return@Pointer null
+            ImagePreviewDocumentationTarget(element, originalElementPtr?.dereference())
+        }
     }
 
     private fun createDoc(image: BufferedImage, name: String?, file: String?): String? {
@@ -196,7 +212,9 @@ class ImagePreviewDocumentationProvider : AbstractDocumentationProvider() {
 
     }
 
+
     companion object {
-        val LOG = Logger.getInstance(ImagePreviewDocumentationProvider::class.java)
+        val LOG = Logger.getInstance(ImagePreviewDocumentationTarget::class.java)
     }
+
 }

@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewDocumentationProvider
+import com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewDocumentationTarget
 import java.awt.Color
 import java.net.URL
 import javax.imageio.ImageIO
@@ -46,7 +46,7 @@ class TestTextTextureRegionPreview : LibGDXCodeInsightFixtureTestCase() {
         configureByFile(fileName)
         val element = file.findElementAt(myFixture.caretOffset) ?: throw AssertionError()
         val preview: String =
-            ImagePreviewDocumentationProvider().generateDoc(element, element) ?: throw AssertionError()
+            ImagePreviewDocumentationTarget(element, element).computeDocumentationHint() ?: throw AssertionError()
         val imageFile = Regex("""src="([^"]+)"""").find(preview)?.groupValues?.get(1) ?: throw AssertionError()
         val image = ImageIO.read(URL(imageFile))
         assertEquals(width, image.width)

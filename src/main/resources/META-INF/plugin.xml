@@ -87,7 +87,7 @@
 
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider"/>
 
-        <documentationProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewDocumentationProvider" />
+        <platform.backend.documentation.psiTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewPsiDocumentationTargetProvider" />
 
         <debugger.nodeRenderer implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXColorObjectRenderer"/>
 
