@@ -1,3 +1,6 @@
+### 1.24.3
+* Compatibility with upcoming versions of IntelliJ.
+
 ### 1.24.2
 * Compatibility with IntelliJ 2022.3.1.
 
