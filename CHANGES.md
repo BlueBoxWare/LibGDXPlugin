@@ -1,3 +1,6 @@
+### 1.24.4
+* Fix [#35](https://github.com/BlueBoxWare/LibGDXPlugin/issues/35): "No documentation found" on Ctrl+Q when plugin is enabled.
+
 ### 1.24.3
 * Compatibility with upcoming versions of IntelliJ.
 

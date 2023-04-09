@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Compatibility with upcoming versions IntelliJ.</li>
+            <li>Fix #35: "No documentation found" on Ctrl+Q when plugin is enabled.</li>
         </ul>
         ]]>
     </change-notes>
