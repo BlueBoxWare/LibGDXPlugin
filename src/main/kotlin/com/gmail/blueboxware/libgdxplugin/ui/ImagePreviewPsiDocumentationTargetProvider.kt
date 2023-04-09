@@ -17,23 +17,69 @@
 package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2Language
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.references.AssetReference
+import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
+import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.platform.backend.documentation.PsiDocumentationTargetProvider
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiLiteralExpression
 import org.jetbrains.kotlin.idea.KotlinLanguage
+import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvider {
-    override fun documentationTarget(element: PsiElement, originalElement: PsiElement?): DocumentationTarget? =
-        if (element.language in languages) ImagePreviewDocumentationTarget(element, originalElement) else null
+    override fun documentationTarget(element: PsiElement, originalElement: PsiElement?): DocumentationTarget? {
+        val language = originalElement?.language ?: return null
+
+        if (language !in languages) {
+            return null
+        }
+
+        var el: PsiElement = originalElement
+
+        if (language == LibGDXAtlas2Language.INSTANCE) {
+
+            el.getParentOfType<Atlas2Region>()?.let {
+                return ImagePreviewDocumentationTarget(element, originalElement)
+            }
+
+        } else {
+
+            if (language == LibGDXSkinLanguage.INSTANCE && el.parent is SkinStringLiteral && el.parent.parent is SkinResourceName) {
+                el.getParentOfType<SkinResource>()?.let { resource ->
+                    if (resource.classSpecification?.classNameAsString?.plainName == TINTED_DRAWABLE_CLASS_NAME) {
+                        el =
+                            (resource.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value as? SkinStringLiteral)
+                                ?: el
+                    }
+                }
+            }
+
+            val references = when (language) {
+                LibGDXSkinLanguage.INSTANCE -> el.getParentOfType<SkinStringLiteral>(false)
+                JavaLanguage.INSTANCE -> el.getParentOfType<PsiLiteralExpression>(false)
+                KotlinLanguage.INSTANCE -> el.getParentOfType<KtStringTemplateExpression>(false)
+                else -> return null
+            }?.references ?: return null
+
+            if (references.any { it is AssetReference }) {
+                return ImagePreviewDocumentationTarget(element, originalElement)
+            }
+        }
+
+        return null
+    }
 
     companion object {
         private val languages = listOf(
-            LibGDXSkinLanguage.INSTANCE,
-            LibGDXAtlas2Language.INSTANCE,
-            KotlinLanguage.INSTANCE,
-            JavaLanguage.INSTANCE
+            LibGDXSkinLanguage.INSTANCE, LibGDXAtlas2Language.INSTANCE, KotlinLanguage.INSTANCE, JavaLanguage.INSTANCE
         )
     }
 }
