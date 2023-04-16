@@ -19,9 +19,10 @@ package com.gmail.blueboxware.libgdxplugin.ui
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.LibGDXAtlas2Language
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResource
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceName
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringLiteral
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinResourceReference
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
@@ -47,14 +48,14 @@ class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvide
         if (language == LibGDXAtlas2Language.INSTANCE) {
 
             el.getParentOfType<Atlas2Region>()?.let {
-                return ImagePreviewDocumentationTarget(element, originalElement)
+                return ImagePreviewDocumentationTarget(it)
             }
 
         } else {
 
-            if (language == LibGDXSkinLanguage.INSTANCE && el.parent is SkinStringLiteral && el.parent.parent is SkinResourceName) {
+            if (language == LibGDXSkinLanguage.INSTANCE && el.parent is SkinStringLiteral && el.parent.parent is SkinPropertyValue) {
                 el.getParentOfType<SkinResource>()?.let { resource ->
-                    if (resource.classSpecification?.classNameAsString?.plainName == TINTED_DRAWABLE_CLASS_NAME) {
+                    if (resource.classSpecification?.resolveClass()?.qualifiedName == TINTED_DRAWABLE_CLASS_NAME) {
                         el =
                             (resource.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value as? SkinStringLiteral)
                                 ?: el
@@ -62,16 +63,17 @@ class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvide
                 }
             }
 
-            val references = when (language) {
+            when (language) {
                 LibGDXSkinLanguage.INSTANCE -> el.getParentOfType<SkinStringLiteral>(false)
                 JavaLanguage.INSTANCE -> el.getParentOfType<PsiLiteralExpression>(false)
                 KotlinLanguage.INSTANCE -> el.getParentOfType<KtStringTemplateExpression>(false)
                 else -> return null
-            }?.references ?: return null
-
-            if (references.any { it is AssetReference }) {
-                return ImagePreviewDocumentationTarget(element, originalElement)
+            }?.let { targetElement ->
+                if (targetElement.references.any { it is AssetReference || it is SkinResourceReference }) {
+                    return ImagePreviewDocumentationTarget(targetElement)
+                }
             }
+
         }
 
         return null
