@@ -28,13 +28,13 @@ import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_TINTED_DRAWABLE_NA
 import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.tint
 import com.intellij.model.Pointer
-import com.intellij.navigation.TargetPresentation
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.HtmlBuilder
 import com.intellij.openapi.util.text.HtmlChunk
 import com.intellij.platform.backend.documentation.DocumentationTarget
+import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.util.ui.ImageUtil
 import org.jetbrains.kotlin.psi.psiUtil.createSmartPointer
