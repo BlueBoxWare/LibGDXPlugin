@@ -51,7 +51,7 @@ class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
                             if (argumentExpression is KtCallExpression) {
                                 argumentExpression.valueArgumentList?.arguments?.map { it.getArgumentExpression() }
                             } else {
-                                (argumentExpression as? KtCollectionLiteralExpression)?.getInnerExpressions()
+                                (argumentExpression as? KtCollectionLiteralExpression)?.innerExpressions
                             }
                         }
 

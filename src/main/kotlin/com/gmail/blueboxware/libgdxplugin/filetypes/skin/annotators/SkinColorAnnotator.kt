@@ -18,7 +18,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiEditorUtil
-import com.intellij.ui.ColorChooser
+import com.intellij.ui.ColorChooserService
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -63,7 +63,14 @@ class SkinColorAnnotator : Annotator {
 
                             val editor = PsiEditorUtil.findEditor(element) ?: return
 
-                            val newColor = ColorChooser.chooseColor(editor.component, "Choose Color", color, true, true)
+                            val newColor = ColorChooserService.instance.showDialog(
+                                editor.component,
+                                "Choose Color",
+                                color,
+                                true,
+                                emptyList(),
+                                true
+                            )
 
                             if (newColor != null) {
                                 ApplicationManager.getApplication().runWriteAction {

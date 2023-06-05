@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.psi.*
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
+import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtil
 import org.jetbrains.kotlin.asJava.elements.KtLightAnnotationForSourceEntry
 import org.jetbrains.kotlin.asJava.elements.KtLightField
@@ -49,7 +50,10 @@ class KtAnnotationWrapper(private val ktAnnotationEntry: KtAnnotationEntry) : An
             if (name == key) {
                 val arguments = when (val argumentExpression = argument.getArgumentExpression()) {
                     is KtCallExpression -> argumentExpression.valueArguments.map { it.getArgumentExpression() }
-                    is KtCollectionLiteralExpression -> argumentExpression.getInnerExpressions()
+                    is KtCollectionLiteralExpression -> PsiTreeUtil.getChildrenOfTypeAsList(
+                        argumentExpression, KtExpression::class.java
+                    )
+
                     is KtStringTemplateExpression -> listOf(argumentExpression)
                     else -> listOf()
                 }
@@ -130,8 +134,8 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
 
     (context as? KtQualifiedExpression)?.receiverExpression?.unwrap()?.let { receiverExpression ->
 
-        val annotationTarget = (receiverExpression as? KtQualifiedExpression)?.selectorExpression?.unwrap()
-            ?: receiverExpression
+        val annotationTarget =
+            (receiverExpression as? KtQualifiedExpression)?.selectorExpression?.unwrap() ?: receiverExpression
 
         annotationTarget.references.mapNotNull { it.resolve() }.filter { it is KtProperty || it is PsiField }
             .let { origins ->
