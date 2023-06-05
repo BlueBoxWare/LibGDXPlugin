@@ -41,7 +41,12 @@ class LibGDXFileTypeOverrider : FileTypeOverrider {
 
     override fun getOverriddenFileType(file: VirtualFile): FileType? {
 
-        val project = ProjectLocator.getInstance().guessProjectForFile(file) ?: return null
+        val locator = ProjectLocator.getInstance()
+        val project = try {
+            locator.guessProjectForFile(file)
+        } catch (e: UnsupportedOperationException) {
+            null
+        } ?: return null
         project.getComponent(LibGDXProjectSkinFiles::class.java)?.let {
             if (it.contains(file)) {
                 return LibGDXSkinFileType.INSTANCE
