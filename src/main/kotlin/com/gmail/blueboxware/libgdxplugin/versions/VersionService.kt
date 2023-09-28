@@ -5,7 +5,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -84,52 +83,50 @@ class VersionService(val project: Project) : Disposable {
 
     fun updateUsedVersions(doAfterUpdate: (() -> Unit)? = null) {
 
-        DumbService.getInstance(project).runWhenSmart {
 
-            LOG.debug("Updating used library versions")
+        LOG.debug("Updating used library versions")
 
-            usedVersions.clear()
+        usedVersions.clear()
 
-            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraryIterator.let { libraryIterator ->
-                for (lib in libraryIterator) {
-                    getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
-                        usedVersions[libraries].let { registeredVersion ->
-                            if (registeredVersion == null || registeredVersion < version) {
-                                usedVersions[libraries] = version
-                            }
+        LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraryIterator.let { libraryIterator ->
+            for (lib in libraryIterator) {
+                getLibraryInfoFromIdeaLibrary(lib)?.let { (libraries, version) ->
+                    usedVersions[libraries].let { registeredVersion ->
+                        if (registeredVersion == null || registeredVersion < version) {
+                            usedVersions[libraries] = version
                         }
                     }
                 }
             }
-
-            if (usedVersions[Libraries.LIBGDX] == null) {
-                val runnable = {
-                    project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
-                        ((psiClass.findFieldByName(
-                            "VERSION",
-                            false
-                        )?.initializer as? PsiLiteralExpression)?.value as? String)
-                            ?.let(::MavenComparableVersion)
-                            ?.let { usedVersions[Libraries.LIBGDX] = it }
-                    }
-                }
-                if (ApplicationManager.getApplication().isUnitTestMode) {
-                    runInEdtAndWait(runnable)
-                } else {
-                    ReadAction.run<Exception>(runnable)
-                }
-            }
-
-            if (isLibGDXProject()) {
-                SkinTagsModificationTracker.getInstance(project).incModificationCount()
-                LOG.debug("libGDX detected")
-            } else {
-                LOG.debug("No libGDX detected")
-            }
-
-            doAfterUpdate?.invoke()
-
         }
+
+        if (usedVersions[Libraries.LIBGDX] == null) {
+            val runnable = {
+                project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
+                    ((psiClass.findFieldByName(
+                        "VERSION",
+                        false
+                    )?.initializer as? PsiLiteralExpression)?.value as? String)
+                        ?.let(::MavenComparableVersion)
+                        ?.let { usedVersions[Libraries.LIBGDX] = it }
+                }
+            }
+            if (ApplicationManager.getApplication().isUnitTestMode) {
+                runInEdtAndWait(runnable)
+            } else {
+                DumbService.getInstance(project).runReadActionInSmartMode(runnable)
+            }
+        }
+
+        if (isLibGDXProject()) {
+            SkinTagsModificationTracker.getInstance(project).incModificationCount()
+            LOG.debug("libGDX detected")
+        } else {
+            LOG.debug("No libGDX detected")
+        }
+
+        doAfterUpdate?.invoke()
+
 
     }
 
