@@ -25,7 +25,7 @@ class LibGDXSkinFileSubstitutor : LanguageSubstitutor() {
 
     override fun getLanguage(file: VirtualFile, project: Project): Language? {
 
-        val skinFiles = project.getComponent(LibGDXProjectSkinFiles::class.java) ?: return null
+        val skinFiles = project.getService(LibGDXProjectSkinFiles::class.java) ?: return null
 
         if (skinFiles.contains(file)) {
             return LibGDXSkinLanguage.INSTANCE

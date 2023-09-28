@@ -1074,23 +1074,4 @@
         </action>
     </actions>
 
-    <project-components>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
-            </implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonSkinFiles
-            </implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectGdxJsonFiles
-            </implementation-class>
-        </component>
-        <component>
-            <implementation-class>com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectNonGdxJsonFiles
-            </implementation-class>
-        </component>
-    </project-components>
-
 </idea-plugin>

@@ -35,7 +35,7 @@ val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$FQ_CLASS_NAME|\b$COMMON_CL
 fun getSkinFiles(project: Project): List<VirtualFile> {
     val result = mutableListOf<VirtualFile>()
     result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, project.allScope()))
-    project.getComponent(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
+    project.getService(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
     return result.filter { it.isValid }.toList()
 }
 

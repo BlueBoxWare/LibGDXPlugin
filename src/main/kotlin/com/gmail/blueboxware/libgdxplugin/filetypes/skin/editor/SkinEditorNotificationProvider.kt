@@ -53,7 +53,7 @@ class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificat
         } else if (settings.neverAskAboutSkinFiles) {
             false
         } else {
-            val nonSkinFiles = project.getComponent(LibGDXProjectNonSkinFiles::class.java)
+            val nonSkinFiles = project.getService(LibGDXProjectNonSkinFiles::class.java)
             if (nonSkinFiles.contains(file)) {
                 false
             } else {

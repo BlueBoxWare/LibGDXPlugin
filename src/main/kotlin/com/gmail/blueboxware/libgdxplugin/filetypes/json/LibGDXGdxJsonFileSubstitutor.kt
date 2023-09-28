@@ -26,7 +26,7 @@ class LibGDXGdxJsonFileSubstitutor : LanguageSubstitutor() {
 
     override fun getLanguage(file: VirtualFile, project: Project): Language? {
 
-        val gdxJsonFiles = project.getComponent(LibGDXProjectGdxJsonFiles::class.java) ?: return null
+        val gdxJsonFiles = project.getService(LibGDXProjectGdxJsonFiles::class.java) ?: return null
 
         if (gdxJsonFiles.contains(file)) {
             return LibGDXJsonLanuage.INSTANCE

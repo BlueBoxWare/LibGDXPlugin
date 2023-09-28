@@ -64,7 +64,7 @@ class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotifi
                 return false
             } else {
 
-                val nonGdxJsonFiles = project.getComponent(LibGDXProjectNonGdxJsonFiles::class.java)
+                val nonGdxJsonFiles = project.getService(LibGDXProjectNonGdxJsonFiles::class.java)
 
                 if (nonGdxJsonFiles.contains(file)) {
                     return false

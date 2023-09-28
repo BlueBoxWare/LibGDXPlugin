@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.settings
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.utils.PersistentFileSetManager
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.fileTypes.impl.FileTypeOverrider
@@ -25,19 +26,23 @@ import com.intellij.openapi.vfs.VirtualFile
  * limitations under the License.
  */
 @State(name = "LibGDXSkins")
+@Service(Service.Level.PROJECT)
 class LibGDXProjectSkinFiles : PersistentFileSetManager()
 
 @State(name = "LibGDXNonSkins")
+@Service(Service.Level.PROJECT)
 class LibGDXProjectNonSkinFiles : PersistentFileSetManager()
 
 @State(name = "LibGDXGdxJsonFiles")
+@Service(Service.Level.PROJECT)
 class LibGDXProjectGdxJsonFiles : PersistentFileSetManager()
 
 @State(name = "LibGDXNonGdxJsonFiles")
+@Service(Service.Level.PROJECT)
 class LibGDXProjectNonGdxJsonFiles : PersistentFileSetManager()
 
 @Suppress("UnstableApiUsage")
-class LibGDXFileTypeOverrider : FileTypeOverrider {
+internal class LibGDXFileTypeOverrider : FileTypeOverrider {
 
     override fun getOverriddenFileType(file: VirtualFile): FileType? {
 
@@ -47,12 +52,12 @@ class LibGDXFileTypeOverrider : FileTypeOverrider {
         } catch (e: UnsupportedOperationException) {
             null
         } ?: return null
-        project.getComponent(LibGDXProjectSkinFiles::class.java)?.let {
+        project.getService(LibGDXProjectSkinFiles::class.java)?.let {
             if (it.contains(file)) {
                 return LibGDXSkinFileType.INSTANCE
             }
         }
-        project.getComponent(LibGDXProjectGdxJsonFiles::class.java)?.let {
+        project.getService(LibGDXProjectGdxJsonFiles::class.java)?.let {
             if (it.contains(file)) {
                 return LibGDXJsonFileType.INSTANCE
             }

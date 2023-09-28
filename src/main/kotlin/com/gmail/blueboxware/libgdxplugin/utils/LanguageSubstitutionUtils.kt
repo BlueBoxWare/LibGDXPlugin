@@ -97,10 +97,12 @@ private fun Project.changeFileSubstitution(
     }
 
     for (fromFile in from) {
-        getComponent(fromFile.java)?.remove(file)
+        @Suppress("RetrievingService")
+        getService(fromFile.java)?.remove(file)
     }
 
-    val toFiles = getComponent(to.java)
+    @Suppress("RetrievingService")
+    val toFiles = getService(to.java)
 
     toFiles.add(file)
 
@@ -155,15 +157,16 @@ private fun resetAssociations(
 
         val filesChanged = mutableSetOf<VirtualFile>()
 
-        project.getComponent(set1.java)?.let {
+        @Suppress("RetrievingService")
+        project.getService(set1.java)?.let {
             it.files.forEach { file ->
                 filesChanged.add(file)
             }
             it.removeAll()
         }
 
-
-        project.getComponent(set2.java)?.let {
+        @Suppress("RetrievingService")
+        project.getService(set2.java)?.let {
             it.files.forEach { file ->
                 filesChanged.add(file)
             }
