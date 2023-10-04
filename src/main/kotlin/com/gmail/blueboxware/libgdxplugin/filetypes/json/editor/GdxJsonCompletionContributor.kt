@@ -28,7 +28,27 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonCompletionContributor : CompletionContributor() {
+
+private val KEYWORDS = setOf("true", "false", "null")
+
+private val PROPERTY_NAMES_KEY = key<CachedValue<Set<String>>>("property_names")
+private val VALUES_KEY = key<CachedValue<Set<String>>>("values")
+
+private fun PsiFile.collectPropertyKeys() = getCachedValue(PROPERTY_NAMES_KEY) {
+    (this as? GdxJsonFile)?.childrenOfType<GdxJsonProperty>()?.mapNotNull { it.name }?.toSet() ?: setOf()
+}
+
+private fun PsiFile.collectValues() = getCachedValue(VALUES_KEY) {
+    (this as? GdxJsonFile)?.childrenOfType<GdxJsonValue>()?.mapNotNull {
+        (it.value as? GdxJsonLiteral)?.getValue()
+    }?.toSet() ?: setOf()
+}
+
+private fun GdxJsonJobject.collectUsedPropertyKeys() = getCachedValue(PROPERTY_NAMES_KEY) {
+    propertyList.mapNotNull { it.name }.flatMap { it.split(",") }.map { it.trim() }.toSet()
+}
+
+internal class GdxJsonCompletionContributor : CompletionContributor() {
 
     init {
 
@@ -92,29 +112,6 @@ class GdxJsonCompletionContributor : CompletionContributor() {
 
     override fun beforeCompletion(context: CompletionInitializationContext) {
         context.dummyIdentifier = CompletionUtil.DUMMY_IDENTIFIER_TRIMMED
-    }
-
-    companion object {
-
-        private val KEYWORDS = setOf("true", "false", "null")
-
-        private fun PsiFile.collectPropertyKeys() = getCachedValue(PROPERTY_NAMES_KEY) {
-            (this as? GdxJsonFile)?.childrenOfType<GdxJsonProperty>()?.mapNotNull { it.name }?.toSet() ?: setOf()
-        }
-
-        private fun PsiFile.collectValues() = getCachedValue(VALUES_KEY) {
-            (this as? GdxJsonFile)?.childrenOfType<GdxJsonValue>()?.mapNotNull {
-                (it.value as? GdxJsonLiteral)?.getValue()
-            }?.toSet() ?: setOf()
-        }
-
-        private fun GdxJsonJobject.collectUsedPropertyKeys() = getCachedValue(PROPERTY_NAMES_KEY) {
-            propertyList.mapNotNull { it.name }.flatMap { it.split(",") }.map { it.trim() }.toSet()
-        }
-
-        private val PROPERTY_NAMES_KEY = key<CachedValue<Set<String>>>("property_names")
-        private val VALUES_KEY = key<CachedValue<Set<String>>>("values")
-
     }
 
 }

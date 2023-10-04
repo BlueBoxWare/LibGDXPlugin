@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonEditorNotificationProvider
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.showNotification
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.intellij.lang.LanguageUtil
 
@@ -123,7 +123,7 @@ class TestNotification : LibGDXCodeInsightFixtureTestCase() {
         configureByText(fileName, content)
         assertEquals(
             expectedResult,
-            GdxJsonEditorNotificationProvider.showNotification(
+            showNotification(
                 project,
                 LanguageUtil.getLanguageForPsi(project, file.virtualFile),
                 file.virtualFile,

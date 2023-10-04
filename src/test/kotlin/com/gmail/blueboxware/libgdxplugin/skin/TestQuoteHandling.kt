@@ -62,7 +62,7 @@ class TestQuoteHandling : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun doTest(source: String, expected: String, char: Char = '\"') {
-        myFixture.configureByText(LibGDXSkinFileType.INSTANCE, source)
+        myFixture.configureByText(LibGDXSkinFileType, source)
         if (char == '\b') {
             LightPlatformCodeInsightTestCase.backspace(editor, project)
         } else {

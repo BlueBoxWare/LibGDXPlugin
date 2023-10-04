@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinNonExistingAssetInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinNonExistingAssetInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("nonexisting.asset.inspection.html.description")
 

@@ -35,7 +35,12 @@ import com.intellij.psi.PsiLiteralExpression
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
-class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvider {
+private val languages = listOf(
+    LibGDXSkinLanguage.INSTANCE, LibGDXAtlas2Language.INSTANCE, KotlinLanguage.INSTANCE, JavaLanguage.INSTANCE
+)
+
+internal class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvider {
+
     override fun documentationTarget(element: PsiElement, originalElement: PsiElement?): DocumentationTarget? {
         val language = originalElement?.language ?: return null
 
@@ -77,11 +82,5 @@ class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTargetProvide
         }
 
         return null
-    }
-
-    companion object {
-        private val languages = listOf(
-            LibGDXSkinLanguage.INSTANCE, LibGDXAtlas2Language.INSTANCE, KotlinLanguage.INSTANCE, JavaLanguage.INSTANCE
-        )
     }
 }

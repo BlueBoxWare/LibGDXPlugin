@@ -55,7 +55,7 @@ class TestSmartEnter : LibGDXCodeInsightFixtureTestCase() {
     private fun doTest() {
         configureByFileAsGdxJson(testname() + ".json")
 
-        val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXJsonLanuage.INSTANCE)
+        val processors = SmartEnterProcessors.INSTANCE.forKey(LibGDXJsonLanuage)
 
         WriteCommandAction.runWriteCommandAction(project) {
 

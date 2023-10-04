@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.idea.base.util.allScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXImplicitPropertyUsageProvider : ImplicitPropertyUsageProvider {
+internal class GDXImplicitPropertyUsageProvider : ImplicitPropertyUsageProvider {
 
     override fun isUsed(property: Property): Boolean {
 

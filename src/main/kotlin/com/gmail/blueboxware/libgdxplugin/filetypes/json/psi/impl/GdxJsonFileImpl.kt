@@ -24,7 +24,7 @@ import com.intellij.psi.FileViewProvider
  * limitations under the License.
  */
 class GdxJsonFileImpl(fileViewProvider: FileViewProvider) :
-    PsiFileBase(fileViewProvider, LibGDXJsonLanuage.INSTANCE),
+    PsiFileBase(fileViewProvider, LibGDXJsonLanuage),
     GdxJsonFile {
 
     val factory = GdxJsonElementFactory(project)

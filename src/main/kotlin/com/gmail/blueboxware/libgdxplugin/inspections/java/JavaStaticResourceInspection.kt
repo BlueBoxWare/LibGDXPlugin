@@ -22,7 +22,7 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiField
 import com.intellij.psi.impl.source.PsiClassReferenceType
 
-class JavaStaticResourceInspection : LibGDXJavaBaseInspection() {
+internal class JavaStaticResourceInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("static.resources.html.description")
 

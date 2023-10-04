@@ -21,7 +21,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXElementDescriptionProvider : ElementDescriptionProvider {
+internal class LibGDXElementDescriptionProvider : ElementDescriptionProvider {
 
     override fun getElementDescription(element: PsiElement, location: ElementDescriptionLocation): String? =
         when (element) {

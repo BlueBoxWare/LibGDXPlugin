@@ -25,7 +25,7 @@ import com.intellij.psi.util.CachedValuesManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TaggedClassImplicitUsageProvider : ImplicitUsageProvider {
+internal class TaggedClassImplicitUsageProvider : ImplicitUsageProvider {
 
     override fun isImplicitUsage(element: PsiElement): Boolean {
 

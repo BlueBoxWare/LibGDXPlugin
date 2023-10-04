@@ -20,7 +20,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
-class JavaMissingFlushInspection : LibGDXJavaBaseInspection() {
+internal class JavaMissingFlushInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("missing.flush.html.description")
 

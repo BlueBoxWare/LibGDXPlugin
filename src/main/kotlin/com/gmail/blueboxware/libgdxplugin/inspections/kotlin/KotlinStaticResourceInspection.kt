@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() =
         message("static.resources.html.description") + message("static.resources.html.description.kotlin.note")

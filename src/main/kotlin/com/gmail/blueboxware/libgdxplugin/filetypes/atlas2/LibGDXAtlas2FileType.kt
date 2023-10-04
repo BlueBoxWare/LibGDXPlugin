@@ -20,11 +20,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXAtlas2FileType private constructor() : LanguageFileType(LibGDXAtlas2Language.INSTANCE) {
-
-    companion object {
-        val INSTANCE = LibGDXAtlas2FileType()
-    }
+internal object LibGDXAtlas2FileType : LanguageFileType(LibGDXAtlas2Language.INSTANCE) {
 
     override fun getIcon(): Icon = Icons.ATLAS_FILETYPE
 

@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradleKotlinOutdatedVersionInspection : AbstractKotlinInspection() {
+internal class GradleKotlinOutdatedVersionInspection : AbstractKotlinInspection() {
 
     override fun getStaticDescription() =
         message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())

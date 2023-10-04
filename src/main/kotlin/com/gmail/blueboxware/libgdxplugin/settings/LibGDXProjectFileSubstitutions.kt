@@ -54,12 +54,12 @@ internal class LibGDXFileTypeOverrider : FileTypeOverrider {
         } ?: return null
         project.getService(LibGDXProjectSkinFiles::class.java)?.let {
             if (it.contains(file)) {
-                return LibGDXSkinFileType.INSTANCE
+                return LibGDXSkinFileType
             }
         }
         project.getService(LibGDXProjectGdxJsonFiles::class.java)?.let {
             if (it.contains(file)) {
-                return LibGDXJsonFileType.INSTANCE
+                return LibGDXJsonFileType
             }
         }
 

@@ -21,4 +21,4 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonQuoteHandler : SimpleTokenSetQuoteHandler(TokenSet.create(DOUBLE_QUOTED_STRING, BAD_CHARACTER))
+internal class GdxJsonQuoteHandler : SimpleTokenSetQuoteHandler(TokenSet.create(DOUBLE_QUOTED_STRING, BAD_CHARACTER))

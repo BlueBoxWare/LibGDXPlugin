@@ -221,7 +221,7 @@ class SkinElementFactory(private val project: Project) {
 
     private fun createFile(content: String) =
         PsiFileFactory.getInstance(project)
-            ?.createFileFromText("dummy.skin", LibGDXSkinFileType.INSTANCE, content) as? SkinFile
+            ?.createFileFromText("dummy.skin", LibGDXSkinFileType, content) as? SkinFile
 
     companion object {
 

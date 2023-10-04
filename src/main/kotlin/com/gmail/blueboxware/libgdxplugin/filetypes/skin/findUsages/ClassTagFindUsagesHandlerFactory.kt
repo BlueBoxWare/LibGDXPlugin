@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassTagFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
+internal class ClassTagFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
 
     override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
         if (!forHighlightUsages) {

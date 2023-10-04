@@ -22,8 +22,9 @@ import com.intellij.codeInspection.ProblemsHolder
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinMalformedColorStringInspection : SkinBaseInspection() {
+val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
 
+internal class SkinMalformedColorStringInspection : SkinBaseInspection() {
     override fun getStaticDescription() = message("skin.inspection.malformed.color.description")
 
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
@@ -39,8 +40,5 @@ class SkinMalformedColorStringInspection : SkinBaseInspection() {
         }
     }
 
-    companion object {
-        val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
-    }
-
 }
+

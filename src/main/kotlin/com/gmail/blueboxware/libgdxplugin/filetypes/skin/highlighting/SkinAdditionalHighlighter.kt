@@ -1,11 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_KEYWORD
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_NUMBER
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PARENT_PROPERTY
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.PROPERTY_NAME_PARENT
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
@@ -30,7 +24,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinAdditionalHighlighter : Annotator {
+internal class SkinAdditionalHighlighter : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
@@ -56,14 +50,10 @@ class SkinAdditionalHighlighter : Annotator {
 
     }
 
-    companion object {
-
-        private fun AnnotationHolder.annotate(element: PsiElement, textAttributes: TextAttributesKey) =
-            newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(element)
-                .textAttributes(textAttributes)
-                .create()
-
-    }
-
 }
+
+private fun AnnotationHolder.annotate(element: PsiElement, textAttributes: TextAttributesKey) =
+    newSilentAnnotation(HighlightSeverity.INFORMATION)
+        .range(element)
+        .textAttributes(textAttributes)
+        .create()

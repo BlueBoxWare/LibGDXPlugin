@@ -25,7 +25,7 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.psi.*
 
-class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("missing.flush.html.description")
 
@@ -56,27 +56,6 @@ class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
 
     }
 
-    companion object {
-
-        private var preferencesSubClasses: Collection<PsiClass>? = null
-
-        private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
-            if (preferencesSubClasses == null) {
-                val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
-                @Suppress("LiftReturnOrAssignment")
-                if (preferenceClass != null) {
-                    val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
-                    cs.add(preferenceClass)
-                    preferencesSubClasses = cs
-                } else {
-                    preferencesSubClasses = listOf()
-                }
-            }
-
-            return preferencesSubClasses ?: listOf()
-        }
-    }
-
 }
 
 private class MissingFlushInspectionMethodChecker(
@@ -101,4 +80,22 @@ private class MissingFlushInspectionMethodChecker(
 
     }
 
+}
+
+private var preferencesSubClasses: Collection<PsiClass>? = null
+
+private fun getPreferenceSubClasses(project: Project): Collection<PsiClass> {
+    if (preferencesSubClasses == null) {
+        val preferenceClass = project.findClass("com.badlogic.gdx.Preferences")
+        @Suppress("LiftReturnOrAssignment")
+        if (preferenceClass != null) {
+            val cs = ClassInheritorsSearch.search(preferenceClass).findAll().toMutableSet()
+            cs.add(preferenceClass)
+            preferencesSubClasses = cs
+        } else {
+            preferencesSubClasses = listOf()
+        }
+    }
+
+    return preferencesSubClasses ?: listOf()
 }

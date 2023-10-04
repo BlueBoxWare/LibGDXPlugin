@@ -23,7 +23,7 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinRenameInputValidator : RenameInputValidator {
+internal class SkinRenameInputValidator : RenameInputValidator {
     override fun getPattern(): ElementPattern<out PsiElement> = StandardPatterns.instanceOf(SkinElement::class.java)
 
     override fun isInputValid(newName: String, element: PsiElement, context: ProcessingContext): Boolean = true

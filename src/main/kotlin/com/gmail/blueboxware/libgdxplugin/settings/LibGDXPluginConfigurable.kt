@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.settings
 
 import com.intellij.openapi.components.PersistentStateComponent
+import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.State
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
@@ -24,7 +25,7 @@ import javax.swing.JComponent
  */
 
 @State(name = "LibGDXPluginConfigurable")
-class LibGDXPluginConfigurable(val project: Project) : Configurable {
+internal class LibGDXPluginConfigurable(val project: Project) : Configurable {
 
     private var form: LibGDXPluginSettingsPane? = null
 
@@ -62,6 +63,7 @@ class LibGDXPluginConfigurable(val project: Project) : Configurable {
 }
 
 @State(name = "LibGDXPluginSettings")
+@Service(Service.Level.PROJECT)
 class LibGDXPluginSettings : PersistentStateComponent<LibGDXPluginSettings> {
     var enableColorAnnotations: Boolean = true
     var enableColorAnnotationsInJson: Boolean = true

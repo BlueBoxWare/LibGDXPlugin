@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SKIN_COMMENTARIES
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition.Companion.SKIN_COMMENTARIES
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.utils.findLeaf
 import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap

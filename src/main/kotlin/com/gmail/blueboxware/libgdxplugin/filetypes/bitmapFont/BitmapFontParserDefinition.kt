@@ -24,13 +24,11 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontParserDefinition : ParserDefinition {
+internal class BitmapFontParserDefinition : ParserDefinition {
 
-    companion object {
-
+    object Lazy {
         val FILE = IFileElementType(BitmapFontLanguage.INSTANCE)
         val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-
     }
 
     override fun createParser(project: Project?) = BitmapFontParser()
@@ -42,9 +40,9 @@ class BitmapFontParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun getFileNodeType() = FILE
+    override fun getFileNodeType() = Lazy.FILE
 
-    override fun getWhitespaceTokens() = WHITE_SPACES
+    override fun getWhitespaceTokens() = Lazy.WHITE_SPACES
 
     override fun createLexer(project: Project?) = BitmapFontLexer()
 

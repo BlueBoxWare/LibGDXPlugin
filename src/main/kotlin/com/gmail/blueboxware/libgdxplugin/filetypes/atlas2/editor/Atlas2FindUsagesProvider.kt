@@ -21,7 +21,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2FindUsagesProvider : FindUsagesProvider {
+internal class Atlas2FindUsagesProvider : FindUsagesProvider {
 
     override fun getType(element: PsiElement) = when (element) {
         is Atlas2Region -> "atlas region"

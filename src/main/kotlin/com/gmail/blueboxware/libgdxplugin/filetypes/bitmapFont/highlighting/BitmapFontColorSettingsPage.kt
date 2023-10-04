@@ -23,9 +23,9 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontColorSettingsPage : ColorSettingsPage {
+internal class BitmapFontColorSettingsPage : ColorSettingsPage {
 
-    companion object {
+    object Util {
         val EQUALS_SIGN = createTextAttributesKey("LIBGDX.FONT.EQUALS", DefaultLanguageHighlighterColors.OPERATION_SIGN)
         val COMMA = createTextAttributesKey("LIBGDX.FONT.COMMA", DefaultLanguageHighlighterColors.COMMA)
         val KEYWORD = createTextAttributesKey("LIBGDX.FONT.KEYWORD", DefaultLanguageHighlighterColors.CONSTANT)
@@ -34,21 +34,21 @@ class BitmapFontColorSettingsPage : ColorSettingsPage {
     }
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = mutableMapOf(
-        "equals" to EQUALS_SIGN,
-        "comma" to COMMA,
-        "keyword" to KEYWORD,
-        "key" to KEY,
-        "value" to VALUE
+        "equals" to Util.EQUALS_SIGN,
+        "comma" to Util.COMMA,
+        "keyword" to Util.KEYWORD,
+        "key" to Util.KEY,
+        "value" to Util.VALUE
     )
 
     override fun getIcon() = Icons.FONT_FILETYPE
 
     override fun getAttributeDescriptors() = arrayOf(
-        AttributesDescriptor("Equals sign", EQUALS_SIGN),
-        AttributesDescriptor("Comma", COMMA),
-        AttributesDescriptor("Keyword", KEYWORD),
-        AttributesDescriptor("Key", KEY),
-        AttributesDescriptor("Value", VALUE)
+        AttributesDescriptor("Equals sign", Util.EQUALS_SIGN),
+        AttributesDescriptor("Comma", Util.COMMA),
+        AttributesDescriptor("Keyword", Util.KEYWORD),
+        AttributesDescriptor("Key", Util.KEY),
+        AttributesDescriptor("Value", Util.VALUE)
     )
 
     override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY

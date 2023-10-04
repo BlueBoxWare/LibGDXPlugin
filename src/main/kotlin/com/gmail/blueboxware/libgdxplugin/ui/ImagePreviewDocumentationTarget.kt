@@ -29,6 +29,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.TINTED_DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.tint
 import com.intellij.model.Pointer
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.util.SystemInfo
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.util.text.HtmlBuilder
@@ -66,6 +67,7 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
                     var colorElement = target.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.value
 
                     while (colorElement is SkinStringLiteral) {
+                        ProgressManager.checkCanceled()
                         colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
                     }
 
@@ -76,6 +78,7 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
                     while ((nameTarget as? SkinResource)?.classSpecification?.getRealClassNamesAsString()
                             ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
                     ) {
+                        ProgressManager.checkCanceled()
                         nameTarget =
                             (nameTarget as? SkinResource)?.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value?.reference?.resolve()
                     }

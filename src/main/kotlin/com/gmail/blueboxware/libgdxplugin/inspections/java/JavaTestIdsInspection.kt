@@ -24,7 +24,7 @@ import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 import com.intellij.psi.util.PsiLiteralUtil
 
-class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
+internal class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("testid.html.description")
 

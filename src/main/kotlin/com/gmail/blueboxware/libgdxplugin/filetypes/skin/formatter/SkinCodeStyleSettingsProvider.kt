@@ -13,7 +13,7 @@ import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonCodeStyleSettingsProvider.java
  *
  */
-class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
+internal class SkinCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
 
     @Suppress("DialogTitleCapitalization")
     override fun createConfigurable(

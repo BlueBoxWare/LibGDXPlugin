@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.utils
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.COMMENTS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementFactory
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
@@ -38,7 +38,7 @@ fun GdxJsonElement.isSuppressed(id: String): Boolean {
     }
 
     var prev: PsiElement? = prevSibling
-    while (prev is PsiWhiteSpace || prev?.node?.elementType in GdxJsonParserDefinition.COMMENTS) {
+    while (prev is PsiWhiteSpace || prev?.node?.elementType in COMMENTS) {
         (prev as? PsiComment)?.let { comment ->
             if (SuppressionUtil.isSuppressionComment(comment)) {
                 return SuppressionUtil.isInspectionToolIdMentioned(comment.text, id)
@@ -62,7 +62,7 @@ abstract class SuppressFix(val id: String) : ContainerBasedSuppressQuickFix {
                     container.parent.addBefore(newline, container)
                 }
             }
-            SuppressionUtil.createSuppression(project, container, id, LibGDXJsonLanuage.INSTANCE)
+            SuppressionUtil.createSuppression(project, container, id, LibGDXJsonLanuage)
             GdxJsonElementFactory(project).createNewline()?.let { newLine ->
                 container.parent.addBefore(newLine, container)
             }
@@ -85,7 +85,7 @@ class SuppressForFileFix(id: String) : SuppressFix(id) {
     override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
         (descriptor.psiElement.containingFile as? GdxJsonFile)?.firstChild?.let { firstChild ->
             GdxJsonElementFactory(project).createNewline()?.let { newline ->
-                SuppressionUtil.createSuppression(project, firstChild, id, LibGDXJsonLanuage.INSTANCE)
+                SuppressionUtil.createSuppression(project, firstChild, id, LibGDXJsonLanuage)
                 firstChild.parent.addBefore(newline, firstChild)
             }
         }

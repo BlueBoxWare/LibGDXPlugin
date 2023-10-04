@@ -22,11 +22,7 @@ import icons.Icons
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonFileType private constructor() : LanguageFileType(LibGDXJsonLanuage.INSTANCE) {
-
-    companion object {
-        val INSTANCE = LibGDXJsonFileType()
-    }
+internal object LibGDXJsonFileType : LanguageFileType(LibGDXJsonLanuage) {
 
     init {
         FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->

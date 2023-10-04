@@ -53,6 +53,6 @@ class GdxJsonElementFactory(private val project: Project) {
     private fun createFile(content: String) =
         PsiFileFactory
             .getInstance(project)
-            .createFileFromText("dummy.lson", LibGDXJsonFileType.INSTANCE, content) as? GdxJsonFile
+            .createFileFromText("dummy.lson", LibGDXJsonFileType, content) as? GdxJsonFile
 
 }

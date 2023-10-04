@@ -32,7 +32,7 @@ import com.intellij.psi.PsiManager
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
+internal class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
     project, LibGDXSkinLanguage.INSTANCE
 ) {
 
@@ -50,53 +50,50 @@ class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotifi
         currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings
     ): Boolean = showNotification(project, currentLanguage, file, settings)
 
-    companion object {
+}
 
-        fun showNotification(
-            project: Project, currentLanguage: Language?, file: VirtualFile, settings: LibGDXPluginSettings
-        ): Boolean {
+internal fun showNotification(
+    project: Project, currentLanguage: Language?, file: VirtualFile, settings: LibGDXPluginSettings
+): Boolean {
 
-            if (settings.neverAskAboutJsonFiles) {
-                return false
-            } else if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
-                return false
-            } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
-                return false
-            } else {
+    if (settings.neverAskAboutJsonFiles) {
+        return false
+    } else if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE) {
+        return false
+    } else if (currentLanguage == LibGDXSkinLanguage.INSTANCE) {
+        return false
+    } else {
 
-                val nonGdxJsonFiles = project.getService(LibGDXProjectNonGdxJsonFiles::class.java)
+        val nonGdxJsonFiles = project.getService(LibGDXProjectNonGdxJsonFiles::class.java)
 
-                if (nonGdxJsonFiles.contains(file)) {
-                    return false
-                } else {
+        if (nonGdxJsonFiles.contains(file)) {
+            return false
+        } else {
 
-                    if (currentLanguage == JsonLanguage.INSTANCE) {
+            if (currentLanguage == JsonLanguage.INSTANCE) {
 
-                        var count = 0
+                var count = 0
 
-                        (PsiManager.getInstance(project).findFile(file) as? JsonFile)?.childrenOfType<JsonValue>()
-                            ?.forEach { value ->
-                                if (value is JsonStringLiteral || value is JsonReferenceExpression) {
+                (PsiManager.getInstance(project).findFile(file) as? JsonFile)?.childrenOfType<JsonValue>()
+                    ?.forEach { value ->
+                        if (value is JsonStringLiteral || value is JsonReferenceExpression) {
 
-                                    if (!JsonPsiUtil.getElementTextWithoutHostEscaping(value).startsWith("\"")) {
-                                        count++
-                                    }
-
-                                    if (count > 5) {
-                                        return true
-                                    }
-                                }
+                            if (!JsonPsiUtil.getElementTextWithoutHostEscaping(value).startsWith("\"")) {
+                                count++
                             }
 
+                            if (count > 5) {
+                                return true
+                            }
+                        }
                     }
 
-
-                }
             }
 
-            return false
 
         }
-
     }
+
+    return false
+
 }

@@ -75,9 +75,6 @@
                 id="com.gmail.blueboxware.libgdxplugin.libgdxpluginconfigurable"
                 groupId="editor"
         />
-        <projectService
-                serviceImplementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings"
-        />
 
         <notificationGroup
                 displayType="STICKY_BALLOON"

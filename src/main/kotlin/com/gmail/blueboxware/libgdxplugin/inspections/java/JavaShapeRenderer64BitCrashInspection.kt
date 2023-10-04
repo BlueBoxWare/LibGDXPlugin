@@ -21,7 +21,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiNewExpression
 
-class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
+internal class JavaShapeRenderer64BitCrashInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 

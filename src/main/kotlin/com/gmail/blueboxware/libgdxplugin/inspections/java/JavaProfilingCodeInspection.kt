@@ -23,7 +23,7 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiMethodCallExpression
 
 
-class JavaProfilingCodeInspection : LibGDXJavaBaseInspection() {
+internal class JavaProfilingCodeInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("profiling.code.html.description")
 

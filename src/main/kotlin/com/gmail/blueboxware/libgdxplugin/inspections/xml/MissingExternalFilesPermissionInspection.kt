@@ -30,7 +30,7 @@ import org.jetbrains.kotlin.resolve.calls.util.getCalleeExpressionIfAny
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
+internal class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
 
     override fun getStaticDescription() = message("missing.files.permissions.html.desciption")
 

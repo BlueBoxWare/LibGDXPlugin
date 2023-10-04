@@ -36,7 +36,7 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.path.GrC
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class DesignedForTabletsInspection : GlobalInspectionTool() {
+internal class DesignedForTabletsInspection : GlobalInspectionTool() {
 
     override fun getDisplayName() = message("designed.for.tablets.inspection")
 

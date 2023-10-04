@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.formatting
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.CONTAINERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition.Companion.CONTAINERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonProperty

@@ -23,7 +23,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GDXPropertiesReferenceContributor : PsiReferenceContributor() {
+internal class GDXPropertiesReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 

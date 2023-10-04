@@ -93,7 +93,7 @@ private class MyCachedValueProvider(
 
         text?.let {
 
-            FileTypeIndex.processFiles(LibGDXSkinFileType.INSTANCE, { virtualFile ->
+            FileTypeIndex.processFiles(LibGDXSkinFileType, { virtualFile ->
 
                 (PsiManager.getInstance(project).findFile(virtualFile) as? SkinFile)?.let { skinFile ->
 

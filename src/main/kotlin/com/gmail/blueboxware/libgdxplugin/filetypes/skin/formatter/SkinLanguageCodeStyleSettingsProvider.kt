@@ -12,7 +12,7 @@ import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/formatter/JsonLanguageCodeStyleSettingsProvider.java
  *
  */
-class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
+internal class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         val wrapOptions = CodeStyleSettingsCustomizableOptions.getInstance().WRAP_OPTIONS

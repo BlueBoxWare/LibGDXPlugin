@@ -4,7 +4,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.SkinTagsModificationTracker
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -13,7 +12,6 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.testFramework.runInEdtAndWait
 import com.intellij.util.Alarm
 import com.intellij.util.text.DateFormatUtil
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -33,7 +31,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@Service
+@Service(Service.Level.PROJECT)
 class VersionService(val project: Project) : Disposable {
 
     fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
@@ -83,7 +81,6 @@ class VersionService(val project: Project) : Disposable {
 
     fun updateUsedVersions(doAfterUpdate: (() -> Unit)? = null) {
 
-
         LOG.debug("Updating used library versions")
 
         usedVersions.clear()
@@ -111,11 +108,8 @@ class VersionService(val project: Project) : Disposable {
                         ?.let { usedVersions[Libraries.LIBGDX] = it }
                 }
             }
-            if (ApplicationManager.getApplication().isUnitTestMode) {
-                runInEdtAndWait(runnable)
-            } else {
-                DumbService.getInstance(project).runReadActionInSmartMode(runnable)
-            }
+
+            DumbService.getInstance(project).runReadActionInSmartMode(runnable)
         }
 
         if (isLibGDXProject()) {

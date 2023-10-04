@@ -34,7 +34,10 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
+
+private val TOKENIZER = TokenizerBase<SkinElement>(PlainTextSplitter.getInstance())
+
+internal class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
         if (element is PsiWhiteSpace) {
@@ -61,11 +64,4 @@ class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
     override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
         (element as? SkinElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
             ?: false
-
-    companion object {
-
-        val TOKENIZER = TokenizerBase<SkinElement>(PlainTextSplitter.getInstance())
-
-    }
-
 }

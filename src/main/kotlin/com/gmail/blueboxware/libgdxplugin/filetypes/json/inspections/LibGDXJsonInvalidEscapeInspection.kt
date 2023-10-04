@@ -30,7 +30,9 @@ import kotlin.math.min
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
+private val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')
+
+internal class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
 
     override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
 
@@ -86,9 +88,5 @@ class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
             }
 
         }
-
-    companion object {
-        val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')
-    }
 
 }

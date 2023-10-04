@@ -21,7 +21,7 @@ import com.intellij.openapi.editor.Editor
  * limitations under the License.
  */
 @Suppress("IntentionDescriptionNotFoundInspection")
-class GdxJsonMoveArrayElementBackwardIntention : GdxJsonMoveArrayElementBaseIntention() {
+internal class GdxJsonMoveArrayElementBackwardIntention : GdxJsonMoveArrayElementBaseIntention() {
 
     override fun getFamilyName(): String = "Move array element backward"
 

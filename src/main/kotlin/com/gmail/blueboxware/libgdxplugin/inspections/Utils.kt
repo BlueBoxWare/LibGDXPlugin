@@ -1,6 +1,5 @@
 package com.gmail.blueboxware.libgdxplugin.inspections
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.filetypes.properties.GDXPropertyReference
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandler
@@ -10,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
@@ -131,7 +131,7 @@ internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean {
 internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {
 
     checkFilename(element, fileName, holder)?.let { psiFile ->
-        if (psiFile.fileType != LibGDXSkinFileType.INSTANCE && psiFile !is SkinFile) {
+        if (psiFile.fileType != LibGDXSkinFileType && psiFile !is SkinFile) {
             holder.registerProblem(
                 element,
                 message("gdxassets.annotation.problem.descriptor.not.a.skin", fileName),

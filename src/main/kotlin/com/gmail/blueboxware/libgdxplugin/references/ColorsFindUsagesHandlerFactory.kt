@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
+internal class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
 
     override fun createFindUsagesHandler(element: PsiElement, forHighlightUsages: Boolean): FindUsagesHandler? =
         if (!forHighlightUsages) {

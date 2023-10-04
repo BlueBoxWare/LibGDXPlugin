@@ -1,21 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BLOCK_COMMENT
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BRACES
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_BRACKETS
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_CLASS_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_COLON
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_COMMA
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_INVALID_ESCAPE
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_KEYWORD
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_LINE_COMMENT
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_NUMBER
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PARENT_PROPERTY
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_PROPERTY_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_RESOURCE_NAME
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_STRING
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.highlighting.SkinSyntaxHighlighterFactory.Companion.SKIN_VALID_ESCAPE
 import com.intellij.application.options.colors.InspectionColorSettingsPage
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
@@ -42,45 +27,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
-
-    companion object {
-
-        private val additionalHighlighting = mapOf(
-            "resourceName" to SKIN_RESOURCE_NAME,
-            "propertyName" to SKIN_PROPERTY_NAME,
-            "className" to SKIN_CLASS_NAME,
-            "number" to SKIN_NUMBER,
-            "keyword" to SKIN_KEYWORD,
-            "parent" to SKIN_PARENT_PROPERTY
-        )
-
-        private val myAttributeDescriptors = arrayOf(
-            AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
-            AttributesDescriptor("Parent property", SKIN_PARENT_PROPERTY),
-            AttributesDescriptor("Braces", SKIN_BRACES),
-            AttributesDescriptor("Brackets", SKIN_BRACKETS),
-
-            AttributesDescriptor("Comma", SKIN_COMMA),
-            AttributesDescriptor("Colon", SKIN_COLON),
-
-            AttributesDescriptor("Number", SKIN_NUMBER),
-
-            AttributesDescriptor("Keyword", SKIN_KEYWORD),
-
-            AttributesDescriptor("Line comment", SKIN_LINE_COMMENT),
-            AttributesDescriptor("Block comment", SKIN_BLOCK_COMMENT),
-
-            AttributesDescriptor("Valid escape sequence", SKIN_VALID_ESCAPE),
-            AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE),
-
-            AttributesDescriptor("String", SKIN_STRING),
-
-            AttributesDescriptor("Class name", SKIN_CLASS_NAME),
-            AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)
-        )
-
-    }
+internal class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, DisplayPrioritySortable {
 
     override fun getIcon(): Icon = Icons.SKIN_FILETYPE
 
@@ -128,3 +75,36 @@ class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettingsPage, Dis
     override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
 
 }
+
+private val additionalHighlighting = mapOf(
+    "resourceName" to SKIN_RESOURCE_NAME,
+    "propertyName" to SKIN_PROPERTY_NAME,
+    "className" to SKIN_CLASS_NAME,
+    "number" to SKIN_NUMBER,
+    "keyword" to SKIN_KEYWORD,
+    "parent" to SKIN_PARENT_PROPERTY
+)
+private val myAttributeDescriptors = arrayOf(
+    AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
+    AttributesDescriptor("Parent property", SKIN_PARENT_PROPERTY),
+    AttributesDescriptor("Braces", SKIN_BRACES),
+    AttributesDescriptor("Brackets", SKIN_BRACKETS),
+
+    AttributesDescriptor("Comma", SKIN_COMMA),
+    AttributesDescriptor("Colon", SKIN_COLON),
+
+    AttributesDescriptor("Number", SKIN_NUMBER),
+
+    AttributesDescriptor("Keyword", SKIN_KEYWORD),
+
+    AttributesDescriptor("Line comment", SKIN_LINE_COMMENT),
+    AttributesDescriptor("Block comment", SKIN_BLOCK_COMMENT),
+
+    AttributesDescriptor("Valid escape sequence", SKIN_VALID_ESCAPE),
+    AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE),
+
+    AttributesDescriptor("String", SKIN_STRING),
+
+    AttributesDescriptor("Class name", SKIN_CLASS_NAME),
+    AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)
+)

@@ -21,7 +21,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinTestIdsInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinTestIdsInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("testid.html.description")
 

@@ -25,13 +25,11 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2ParserDefinition : ParserDefinition {
+internal class Atlas2ParserDefinition : ParserDefinition {
 
-    companion object {
-
+    object Util {
         val FILE = IFileElementType(LibGDXAtlas2Language.INSTANCE)
         val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-
     }
 
     override fun createParser(project: Project?) = Atlas2Parser()
@@ -43,9 +41,9 @@ class Atlas2ParserDefinition : ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun getFileNodeType() = FILE
+    override fun getFileNodeType() = Util.FILE
 
-    override fun getWhitespaceTokens() = WHITE_SPACES
+    override fun getWhitespaceTokens() = Util.WHITE_SPACES
 
     override fun createLexer(project: Project?) = Atlas2Lexer()
 

@@ -1,7 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SKIN_COMMENTARIES
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SKIN_CONTAINERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_COLON
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.formatter.SkinCodeStyleSettings.Companion.ALIGN_PROPERTY_ON_VALUE
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
@@ -38,7 +39,7 @@ class SkinBlock(
         val SKIN_ALL_BRACES = TokenSet.orSet(SKIN_OPEN_BRACES, SKIN_CLOSE_BRACES)
     }
 
-    private val spacingBuilder: SpacingBuilder = SkinFormattingBuilderModel.createSpacingBuilder(settings)
+    private val spacingBuilder: SpacingBuilder = createSpacingBuilder(settings)
 
     private val psiElement = node.psi
 
@@ -87,7 +88,7 @@ class SkinBlock(
     }
 
     override fun getChildAttributes(newChildIndex: Int) =
-        if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
+        if (hasElementType(myNode, SKIN_CONTAINERS)
             || myNode.elementType == CLASS_SPECIFICATION
             || myNode.elementType == RESOURCE
         ) {
@@ -131,8 +132,8 @@ class SkinBlock(
         var wrap: Wrap? = null
         var alignment: Alignment? = null
 
-        if (hasElementType(myNode, SkinParserDefinition.SKIN_CONTAINERS)
-            || (hasElementType(childNode, SkinParserDefinition.SKIN_COMMENTARIES)
+        if (hasElementType(myNode, SKIN_CONTAINERS)
+            || (hasElementType(childNode, SKIN_COMMENTARIES)
                     && myNode.psi is SkinClassSpecification)
             || (myNode is FileElement && isInsideBraces(childNode.psi))
         ) {
@@ -150,7 +151,7 @@ class SkinBlock(
             if (hasElementType(childNode, COLON) && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_COLON) {
                 alignment = parent?.propertyValueAlignment
             } else if (childNode.psi is SkinPropertyValue && customSettings.PROPERTY_ALIGNMENT == ALIGN_PROPERTY_ON_VALUE) {
-                if (!hasElementType(childNode, SkinParserDefinition.SKIN_CONTAINERS)) {
+                if (!hasElementType(childNode, SKIN_CONTAINERS)) {
                     alignment = parent?.propertyValueAlignment
                 }
             }

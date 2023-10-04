@@ -26,7 +26,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorToComponentsIntention : PsiElementBaseIntentionAction(), IntentionAction {
+internal class ColorToComponentsIntention : PsiElementBaseIntentionAction(), IntentionAction {
 
     override fun getFamilyName(): String = "Convert to float components"
 

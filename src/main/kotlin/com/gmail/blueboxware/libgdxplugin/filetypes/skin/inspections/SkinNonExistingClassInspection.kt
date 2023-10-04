@@ -21,7 +21,7 @@ import com.intellij.psi.PsiModifier
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinNonExistingClassInspection : SkinBaseInspection() {
+internal class SkinNonExistingClassInspection : SkinBaseInspection() {
 
     override fun getStaticDescription() = message("skin.inspection.non.existing.class.description")
 

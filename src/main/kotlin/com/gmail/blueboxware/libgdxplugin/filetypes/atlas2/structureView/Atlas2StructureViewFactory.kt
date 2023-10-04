@@ -21,7 +21,7 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2StructureViewFactory : PsiStructureViewFactory {
+internal class Atlas2StructureViewFactory : PsiStructureViewFactory {
 
     override fun getStructureViewBuilder(psiFile: PsiFile) = object : TreeBasedStructureViewBuilder() {
 

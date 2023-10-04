@@ -36,7 +36,7 @@ import org.jetbrains.kotlin.resolve.BindingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinReferenceContributor : PsiReferenceContributor() {
+internal class KotlinReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
@@ -49,7 +49,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
             registrar,
             ASSET_ANNOTATION_SKIN_PARAM_NAME,
             listOf(
-                LibGDXSkinFileType.INSTANCE,
+                LibGDXSkinFileType,
                 JsonFileType.INSTANCE,
                 PlainTextFileType.INSTANCE
             ),
@@ -59,7 +59,7 @@ class KotlinReferenceContributor : PsiReferenceContributor() {
         createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_ATLAS_PARAM_NAME,
-            listOf(LibGDXAtlas2FileType.INSTANCE, PlainTextFileType.INSTANCE),
+            listOf(LibGDXAtlas2FileType, PlainTextFileType.INSTANCE),
             listOf(LibGDXAtlas2Language.INSTANCE)
         )
 

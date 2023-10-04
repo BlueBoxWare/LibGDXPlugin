@@ -29,7 +29,7 @@ import com.intellij.psi.util.CachedValuesManager
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtClass
 
-class ClassImplicitUsageProvider : ImplicitUsageProvider {
+internal class ClassImplicitUsageProvider : ImplicitUsageProvider {
 
     override fun isImplicitUsage(element: PsiElement): Boolean {
         if (!element.project.isLibGDXProject()) {
@@ -43,7 +43,7 @@ class ClassImplicitUsageProvider : ImplicitUsageProvider {
                 ?: return@getCachedValue CachedValueProvider.Result.create(false, element)
 
             var found = false
-            FileTypeIndex.processFiles(LibGDXSkinFileType.INSTANCE, { virtualFile ->
+            FileTypeIndex.processFiles(LibGDXSkinFileType, { virtualFile ->
                 (PsiManager.getInstance(element.project).findFile(virtualFile) as? SkinFile)?.let { skinFile ->
 
                     skinFile.getClassSpecifications().forEach { classSpec ->

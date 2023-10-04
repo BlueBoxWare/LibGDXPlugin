@@ -31,7 +31,7 @@ import com.intellij.openapi.vfs.VirtualFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
+internal class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
     project, LibGDXSkinLanguage.INSTANCE
 ) {
 
@@ -48,7 +48,7 @@ class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificat
     override fun shouldShowNotification(
         currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings
     ): Boolean =
-        if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage.INSTANCE) {
+        if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage) {
             false
         } else if (settings.neverAskAboutSkinFiles) {
             false

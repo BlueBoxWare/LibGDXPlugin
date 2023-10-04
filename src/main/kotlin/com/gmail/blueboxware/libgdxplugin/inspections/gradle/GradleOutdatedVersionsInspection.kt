@@ -25,7 +25,7 @@ import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrAssign
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 
-class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
+internal class GradleOutdatedVersionsInspection : LibGDXGradleBaseInspection() {
 
     override fun getStaticDescription() =
         message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())

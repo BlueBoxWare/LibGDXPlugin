@@ -66,7 +66,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     private fun doCodeTest(inspection: LocalInspectionTool, text: String) {
         myFixture.enableInspections(inspection::class.java)
-        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, text)
+        myFixture.configureByText(LibGDXJsonFileType, text)
         myFixture.checkHighlighting(true, false, true)
     }
 

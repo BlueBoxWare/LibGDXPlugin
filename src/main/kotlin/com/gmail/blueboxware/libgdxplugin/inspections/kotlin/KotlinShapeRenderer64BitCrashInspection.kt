@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinShapeRenderer64BitCrashInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinShapeRenderer64BitCrashInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("shaperenderer.64bit.crash.html.description")
 

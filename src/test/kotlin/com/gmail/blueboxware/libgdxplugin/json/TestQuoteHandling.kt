@@ -62,7 +62,7 @@ class TestQuoteHandling : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun doTest(source: String, expected: String, char: Char = '\"') {
-        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, source)
+        myFixture.configureByText(LibGDXJsonFileType, source)
         if (char == '\b') {
             LightPlatformCodeInsightTestCase.backspace(editor, project)
         } else {

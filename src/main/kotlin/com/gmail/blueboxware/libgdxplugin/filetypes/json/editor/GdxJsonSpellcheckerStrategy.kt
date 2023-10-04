@@ -27,7 +27,9 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
+private val TOKENIZER = TokenizerBase<GdxJsonString>(PlainTextSplitter.getInstance())
+
+internal class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
         if (element is GdxJsonString) {
@@ -47,11 +49,5 @@ class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
     override fun isSuppressedFor(element: PsiElement, name: String): Boolean =
         (element as? GdxJsonElement)?.isSuppressed(SpellCheckingInspection.SPELL_CHECKING_INSPECTION_TOOL_NAME)
             ?: false
-
-    companion object {
-
-        val TOKENIZER = TokenizerBase<GdxJsonString>(PlainTextSplitter.getInstance())
-
-    }
 
 }

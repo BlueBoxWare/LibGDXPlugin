@@ -35,7 +35,7 @@ import com.intellij.util.ProcessingContext
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class JavaReferenceContributor : PsiReferenceContributor() {
+internal class JavaReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
 
@@ -48,7 +48,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
             registrar,
             ASSET_ANNOTATION_SKIN_PARAM_NAME,
             listOf(
-                LibGDXSkinFileType.INSTANCE,
+                LibGDXSkinFileType,
                 JsonFileType.INSTANCE,
                 PlainTextFileType.INSTANCE
             ),
@@ -58,7 +58,7 @@ class JavaReferenceContributor : PsiReferenceContributor() {
         createAssetAnnotationProvider(
             registrar,
             ASSET_ANNOTATION_ATLAS_PARAM_NAME,
-            listOf(LibGDXAtlas2FileType.INSTANCE, PlainTextFileType.INSTANCE),
+            listOf(LibGDXAtlas2FileType, PlainTextFileType.INSTANCE),
             listOf(LibGDXAtlas2Language.INSTANCE)
         )
 

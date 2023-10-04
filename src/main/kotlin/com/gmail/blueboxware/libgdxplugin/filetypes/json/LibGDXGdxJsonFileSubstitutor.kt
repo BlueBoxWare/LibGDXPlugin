@@ -22,14 +22,14 @@ import com.intellij.psi.LanguageSubstitutor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXGdxJsonFileSubstitutor : LanguageSubstitutor() {
+internal class LibGDXGdxJsonFileSubstitutor : LanguageSubstitutor() {
 
     override fun getLanguage(file: VirtualFile, project: Project): Language? {
 
         val gdxJsonFiles = project.getService(LibGDXProjectGdxJsonFiles::class.java) ?: return null
 
         if (gdxJsonFiles.contains(file)) {
-            return LibGDXJsonLanuage.INSTANCE
+            return LibGDXJsonLanuage
         }
 
         return null

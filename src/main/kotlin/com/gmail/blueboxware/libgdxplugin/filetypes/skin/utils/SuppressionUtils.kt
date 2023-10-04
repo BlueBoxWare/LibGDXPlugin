@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SKIN_COMMENTARIES
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
@@ -75,7 +75,7 @@ fun SkinElement.isSuppressed(id: String): Boolean {
         prev = parent?.prevSibling
     }
 
-    while (prev is PsiWhiteSpace || prev?.node?.elementType in SkinParserDefinition.SKIN_COMMENTARIES) {
+    while (prev is PsiWhiteSpace || prev?.node?.elementType in SKIN_COMMENTARIES) {
         (prev as? PsiComment)?.let { comment ->
             if (comment.isSuppressionComment(id)) {
                 return true

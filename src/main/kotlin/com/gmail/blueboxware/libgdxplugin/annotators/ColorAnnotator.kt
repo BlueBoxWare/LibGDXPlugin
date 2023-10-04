@@ -26,7 +26,7 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ColorAnnotator : Annotator {
+internal class ColorAnnotator : Annotator {
 
     private val ANNOTATIONS_KEY = key<MutableList<Pair<Int, Color>>>("annotations")
 

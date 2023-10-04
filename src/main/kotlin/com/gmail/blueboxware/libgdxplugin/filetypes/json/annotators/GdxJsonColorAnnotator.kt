@@ -30,7 +30,7 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonColorAnnotator : Annotator {
+internal class GdxJsonColorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

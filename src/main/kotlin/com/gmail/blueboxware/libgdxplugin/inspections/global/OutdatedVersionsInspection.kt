@@ -26,7 +26,7 @@ import com.intellij.openapi.components.service
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class OutdatedVersionsInspection : GlobalInspectionTool() {
+internal class OutdatedVersionsInspection : GlobalInspectionTool() {
 
     override fun getStaticDescription() =
         message("outdated.version.inspection.static.description", Libraries.listOfCheckedLibraries())

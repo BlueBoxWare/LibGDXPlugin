@@ -17,7 +17,7 @@ import com.intellij.psi.PsiFile
  * Adapted from https://github.com/JetBrains/intellij-community/blob/171.2152/json/src/com/intellij/json/editor/smartEnter/JsonSmartEnterProcessor.java
  *
  */
-class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
+internal class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
 
     private var shouldAddNewline = false
 

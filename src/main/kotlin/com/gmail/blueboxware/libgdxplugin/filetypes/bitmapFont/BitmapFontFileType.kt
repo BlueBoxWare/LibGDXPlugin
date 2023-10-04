@@ -19,11 +19,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontFileType : LanguageFileType(BitmapFontLanguage.INSTANCE) {
-
-    companion object {
-        val INSTANCE = BitmapFontFileType()
-    }
+internal object BitmapFontFileType : LanguageFileType(BitmapFontLanguage.INSTANCE) {
 
     override fun getIcon(): Icon = Icons.FONT_FILETYPE
 

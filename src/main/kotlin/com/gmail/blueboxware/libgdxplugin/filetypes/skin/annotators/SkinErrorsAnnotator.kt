@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinErrorsAnnotator : Annotator {
+internal class SkinErrorsAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

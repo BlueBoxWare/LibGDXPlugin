@@ -18,7 +18,7 @@ import com.intellij.psi.PsiFile
  * Adapted from https://github.com/JetBrains/intellij-community/blob/191.4738/json/src/com/intellij/json/editor/smartEnter/JsonSmartEnterProcessor.java
  *
  */
-class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
+internal class GdxJsonSmartEnterProcessor : SmartEnterProcessorWithFixers() {
 
     private var shouldAddNewline = false
 

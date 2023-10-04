@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvider {
+internal class SkinRefactoringElementListenerProvider : RefactoringElementListenerProvider {
 
     override fun getListener(element: PsiElement?): RefactoringElementListener? {
         val classes = when (element) {

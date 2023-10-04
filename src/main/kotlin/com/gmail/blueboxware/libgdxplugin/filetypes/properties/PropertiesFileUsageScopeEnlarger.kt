@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.idea.base.util.projectScope
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PropertiesFileUsageScopeEnlarger : UseScopeEnlarger() {
+internal class PropertiesFileUsageScopeEnlarger : UseScopeEnlarger() {
 
     override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
         if (element is PropertiesFileImpl) {

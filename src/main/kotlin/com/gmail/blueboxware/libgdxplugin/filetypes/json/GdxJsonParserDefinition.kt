@@ -29,7 +29,12 @@ import com.intellij.psi.tree.TokenSet
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonParserDefinition : ParserDefinition {
+val FILE = IFileElementType(LibGDXJsonLanuage)
+val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
+val CONTAINERS = TokenSet.create(JOBJECT, ARRAY)
+val STRINGS = TokenSet.create(STRING)
+
+internal class GdxJsonParserDefinition : ParserDefinition {
 
     override fun createParser(project: Project?): PsiParser = GdxJsonParser()
 
@@ -44,14 +49,5 @@ class GdxJsonParserDefinition : ParserDefinition {
     override fun createElement(node: ASTNode?): PsiElement = Factory.createElement(node)
 
     override fun getCommentTokens(): TokenSet = COMMENTS
-
-    companion object {
-
-        val FILE = IFileElementType(LibGDXJsonLanuage.INSTANCE)
-        val COMMENTS = TokenSet.create(LINE_COMMENT, BLOCK_COMMENT)
-        val CONTAINERS = TokenSet.create(JOBJECT, ARRAY)
-        val STRINGS = TokenSet.create(STRING)
-
-    }
 
 }

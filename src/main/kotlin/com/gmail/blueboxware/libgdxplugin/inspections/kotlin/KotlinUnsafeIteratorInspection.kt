@@ -26,7 +26,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 
-class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("unsafeiterator.html.description")
 

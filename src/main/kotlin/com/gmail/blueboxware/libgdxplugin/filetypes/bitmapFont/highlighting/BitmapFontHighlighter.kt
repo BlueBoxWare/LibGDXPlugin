@@ -27,11 +27,10 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BitmapFontHighlighter : Annotator {
 
-    companion object {
-        val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")
-    }
+val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")
+
+internal class BitmapFontHighlighter : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
@@ -39,13 +38,13 @@ class BitmapFontHighlighter : Annotator {
             holder
                 .newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(element.keyElement)
-                .textAttributes(BitmapFontColorSettingsPage.KEY)
+                .textAttributes(BitmapFontColorSettingsPage.Util.KEY)
                 .create()
             element.valueElement?.let {
                 holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(it)
-                    .textAttributes(BitmapFontColorSettingsPage.VALUE)
+                    .textAttributes(BitmapFontColorSettingsPage.Util.VALUE)
                     .create()
             }
 
@@ -54,7 +53,7 @@ class BitmapFontHighlighter : Annotator {
                     holder
                         .newSilentAnnotation(HighlightSeverity.INFORMATION)
                         .range(node)
-                        .textAttributes(BitmapFontColorSettingsPage.EQUALS_SIGN)
+                        .textAttributes(BitmapFontColorSettingsPage.Util.EQUALS_SIGN)
                         .create()
                 }
             }
@@ -67,7 +66,7 @@ class BitmapFontHighlighter : Annotator {
                         holder
                             .newSilentAnnotation(HighlightSeverity.INFORMATION)
                             .range(TextRange(start + i, start + i + 1))
-                            .textAttributes(BitmapFontColorSettingsPage.COMMA)
+                            .textAttributes(BitmapFontColorSettingsPage.Util.COMMA)
                             .create()
                     }
                 }
@@ -78,7 +77,7 @@ class BitmapFontHighlighter : Annotator {
                 holder
                     .newSilentAnnotation(HighlightSeverity.INFORMATION)
                     .range(element)
-                    .textAttributes(BitmapFontColorSettingsPage.KEYWORD)
+                    .textAttributes(BitmapFontColorSettingsPage.Util.KEYWORD)
                     .create()
             }
         }

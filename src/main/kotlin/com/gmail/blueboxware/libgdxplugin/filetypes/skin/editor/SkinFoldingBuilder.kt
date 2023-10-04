@@ -16,7 +16,7 @@ import com.intellij.openapi.util.TextRange
  * Adapted from https://github.com/JetBrains/intellij-community/tree/ab08c979a5826bf293ae03cd67463941b0066eb8/json
  *
  */
-class SkinFoldingBuilder : FoldingBuilder, DumbAware {
+internal class SkinFoldingBuilder : FoldingBuilder, DumbAware {
 
     override fun getPlaceholderText(node: ASTNode): String =
         when (node.elementType) {

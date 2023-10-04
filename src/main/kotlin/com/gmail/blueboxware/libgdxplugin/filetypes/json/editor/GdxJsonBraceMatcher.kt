@@ -22,15 +22,15 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonBraceMatcher : PairedBraceMatcher {
+internal class GdxJsonBraceMatcher : PairedBraceMatcher {
 
     override fun getCodeConstructStart(file: PsiFile?, openingBraceOffset: Int) = openingBraceOffset
 
-    override fun getPairs(): Array<BracePair> = PAIRS
+    override fun getPairs(): Array<BracePair> = Lazy.PAIRS
 
     override fun isPairedBracesAllowedBeforeType(lbraceType: IElementType, contextType: IElementType?) = true
 
-    companion object {
+    object Lazy {
         val PAIRS = arrayOf(
             BracePair(GdxJsonElementTypes.L_CURLY, GdxJsonElementTypes.R_CURLY, true),
             BracePair(GdxJsonElementTypes.L_BRACKET, GdxJsonElementTypes.R_BRACKET, true)

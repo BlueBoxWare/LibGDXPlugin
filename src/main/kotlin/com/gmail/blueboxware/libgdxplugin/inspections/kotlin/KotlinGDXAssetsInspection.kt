@@ -28,7 +28,7 @@ import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("gdxassets.annotation.inspection.descriptor")
 
@@ -114,26 +114,6 @@ class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
         }
     }
 
-    companion object {
-
-        private fun KtAnnotationEntry.getClassNamesOfOwningVariable(): List<String> {
-
-            ((context as? KtModifierList)?.owner as? KtVariableDeclaration)?.let { ktVariableDeclaration ->
-
-                (ktVariableDeclaration.descriptor as? VariableDescriptorImpl)?.type?.let { type ->
-                    (type.constructor.declarationDescriptor as? ClassDescriptor)?.let { classDescriptor ->
-                        return classDescriptor.supersAndThis().map { it.fqNameSafe.asString() }
-                    }
-                }
-
-            }
-
-            return listOf()
-
-        }
-
-    }
-
     private fun registerUselessParameterProblem(
         holder: ProblemsHolder,
         ktValueArgument: KtValueArgument,
@@ -153,5 +133,21 @@ class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
         }
 
     }
+
+}
+
+private fun KtAnnotationEntry.getClassNamesOfOwningVariable(): List<String> {
+
+    ((context as? KtModifierList)?.owner as? KtVariableDeclaration)?.let { ktVariableDeclaration ->
+
+        (ktVariableDeclaration.descriptor as? VariableDescriptorImpl)?.type?.let { type ->
+            (type.constructor.declarationDescriptor as? ClassDescriptor)?.let { classDescriptor ->
+                return classDescriptor.supersAndThis().map { it.fqNameSafe.asString() }
+            }
+        }
+
+    }
+
+    return listOf()
 
 }

@@ -27,7 +27,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXDuplicatePropertyInspection : GdxJsonBaseInspection() {
+internal class LibGDXDuplicatePropertyInspection : GdxJsonBaseInspection() {
 
     override fun getStaticDescription() = message("json.inspection.duplicate.property.description")
 

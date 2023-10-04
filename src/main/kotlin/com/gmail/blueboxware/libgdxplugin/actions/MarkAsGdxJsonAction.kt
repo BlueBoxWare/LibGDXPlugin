@@ -47,7 +47,7 @@ class MarkAsGdxJsonAction : AnAction() {
             event.project?.let { project ->
                 val currentLanguage = LanguageUtil.getLanguageForPsi(project, file)
 
-                if (currentLanguage != LibGDXJsonLanuage.INSTANCE && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
+                if (currentLanguage != LibGDXJsonLanuage && currentLanguage != LibGDXSkinLanguage.INSTANCE) {
 
                     @Suppress("DialogTitleCapitalization")
                     presentation.text = message("context.menu.mark.as.gdx.json")
@@ -55,7 +55,7 @@ class MarkAsGdxJsonAction : AnAction() {
                     presentation.isEnabled = true
 
                 } else if (
-                    currentLanguage == LibGDXJsonLanuage.INSTANCE && file.extension != "lson"
+                    currentLanguage == LibGDXJsonLanuage && file.extension != "lson"
                 ) {
 
                     @Suppress("DialogTitleCapitalization")

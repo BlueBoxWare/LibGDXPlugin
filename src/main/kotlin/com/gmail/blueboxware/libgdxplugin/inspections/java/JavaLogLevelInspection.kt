@@ -26,7 +26,7 @@ import com.intellij.psi.impl.compiled.ClsFieldImpl
  * limitations under the License.
  */
 
-class JavaLogLevelInspection : LibGDXJavaBaseInspection() {
+internal class JavaLogLevelInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("log.level.html.description")
 

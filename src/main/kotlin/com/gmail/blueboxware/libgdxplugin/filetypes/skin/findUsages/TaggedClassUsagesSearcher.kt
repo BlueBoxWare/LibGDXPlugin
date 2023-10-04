@@ -33,7 +33,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
+internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
 
     override fun processQuery(
         queryParameters: ReferencesSearch.SearchParameters,
@@ -74,7 +74,7 @@ class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSear
 
             val psiManager = PsiManager.getInstance(queryParameters.project)
 
-            FileTypeIndex.getFiles(LibGDXSkinFileType.INSTANCE, queryParameters.project.allScope())
+            FileTypeIndex.getFiles(LibGDXSkinFileType, queryParameters.project.allScope())
                 .forEach { virtualFile ->
                     (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
                         skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->

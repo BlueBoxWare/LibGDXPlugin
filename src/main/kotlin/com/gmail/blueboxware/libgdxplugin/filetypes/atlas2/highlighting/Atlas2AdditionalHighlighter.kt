@@ -23,7 +23,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2AdditionalHighlighter : Annotator {
+internal class Atlas2AdditionalHighlighter : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

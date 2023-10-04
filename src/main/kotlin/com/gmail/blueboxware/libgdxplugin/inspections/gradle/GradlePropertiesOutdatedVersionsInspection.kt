@@ -28,7 +28,7 @@ import org.jetbrains.kotlin.config.MavenComparableVersion
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
+internal class GradlePropertiesOutdatedVersionsInspection : LibGDXGradlePropertiesBaseInspection() {
 
     override fun getStaticDescription() =
         message("outdated.version.inspection.static.description", listOfCheckedLibraries())

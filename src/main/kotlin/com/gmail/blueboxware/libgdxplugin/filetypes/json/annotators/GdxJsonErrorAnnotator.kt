@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.annotators
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.COMMENTS
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonJobject
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
@@ -39,7 +39,7 @@ import org.jetbrains.kotlin.psi.psiUtil.getPrevSiblingIgnoringWhitespaceAndComme
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonErrorAnnotator : Annotator {
+internal class GdxJsonErrorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
@@ -75,7 +75,7 @@ class GdxJsonErrorAnnotator : Annotator {
             val last = element.lastChild.getPrevSiblingIgnoringWhitespaceAndComments(false)
                 ?: return
             if (last.elementType == GdxJsonElementTypes.COMMA) {
-                last.prevLeaf { !it.isLeaf(GdxJsonParserDefinition.COMMENTS) }?.let { secondLast ->
+                last.prevLeaf { !it.isLeaf(COMMENTS) }?.let { secondLast ->
                     if (secondLast is PsiWhiteSpace && secondLast.textContains('\n')) {
                         element.lastChild { it.isLeaf(GdxJsonElementTypes.COMMA) }?.let { comma ->
                             holder
@@ -99,10 +99,8 @@ class GdxJsonErrorAnnotator : Annotator {
 
     }
 
-    companion object {
-        private val SKIP = TokenSet.create(
-            GdxJsonElementTypes.LINE_COMMENT, GdxJsonElementTypes.BLOCK_COMMENT, TokenType.WHITE_SPACE
-        )
-    }
-
 }
+
+private val SKIP = TokenSet.create(
+    GdxJsonElementTypes.LINE_COMMENT, GdxJsonElementTypes.BLOCK_COMMENT, TokenType.WHITE_SPACE
+)

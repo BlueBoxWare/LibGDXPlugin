@@ -23,7 +23,9 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinBreadcrumbsProvider : BreadcrumbsProvider {
+val LANGUAGES = arrayOf(LibGDXSkinLanguage.INSTANCE)
+
+internal class SkinBreadcrumbsProvider : BreadcrumbsProvider {
 
     override fun getLanguages() = LANGUAGES
 
@@ -49,10 +51,6 @@ class SkinBreadcrumbsProvider : BreadcrumbsProvider {
 
         return ""
 
-    }
-
-    companion object {
-        val LANGUAGES = arrayOf(LibGDXSkinLanguage.INSTANCE)
     }
 
 }

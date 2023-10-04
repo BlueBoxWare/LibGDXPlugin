@@ -27,7 +27,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXCompletionConfidence : CompletionConfidence() {
+internal class LibGDXCompletionConfidence : CompletionConfidence() {
 
     override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState {
 

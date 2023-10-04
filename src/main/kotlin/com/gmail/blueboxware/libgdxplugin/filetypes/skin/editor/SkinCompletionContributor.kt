@@ -38,7 +38,27 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinCompletionContributor : CompletionContributor() {
+
+private const val MEDIUM_PRIORITY = 50.0
+private const val HIGH_PRIORITY = 75.0
+private const val HIGHEST_PRIORITY = 100.0
+
+private val prioritizedClasses = listOf(
+    "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
+    COLOR_CLASS_NAME,
+    BITMAPFONT_CLASS_NAME
+)
+
+private val ICON_TAG: Icon = AllIcons.Ide.Link
+private val ICON_CLASS: Icon = PlatformIcons.CLASS_ICON
+private val ICON_PACKAGE: Icon = PlatformIcons.PACKAGE_ICON
+private val ICON_RESOURCE: Icon = AllIcons.Nodes.KeymapOther
+private val ICON_ATLAS: Icon = AllIcons.Nodes.ModuleGroup
+private val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
+private val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
+private val ICON_PARENT: Icon = AllIcons.Nodes.UpLevel
+
+internal class SkinCompletionContributor : CompletionContributor() {
 
     init {
 
@@ -148,7 +168,7 @@ class SkinCompletionContributor : CompletionContributor() {
 
         val element = context.file.findElementAt(context.caret.offset)
         if ((element?.context as? SkinStringLiteral)?.isQuoted == true) {
-            context.replacementOffset = context.replacementOffset - 1
+            context.replacementOffset -= 1
         }
     }
 
@@ -241,7 +261,7 @@ class SkinCompletionContributor : CompletionContributor() {
                         VfsUtilCore.getRelativeLocation(file, virtualFile.parent)?.let { relativePath ->
 
                             val prioritize =
-                                file.extension?.lowercase(Locale.getDefault()) == "fnt" || file.fileType == BitmapFontFileType.INSTANCE
+                                file.extension?.lowercase(Locale.getDefault()) == "fnt" || file.fileType == BitmapFontFileType
 
                             doAdd(
                                 PrioritizedLookupElement.withPriority(
@@ -583,25 +603,4 @@ class SkinCompletionContributor : CompletionContributor() {
         return 0.0
     }
 
-    companion object {
-
-        const val MEDIUM_PRIORITY = 50.0
-        const val HIGH_PRIORITY = 75.0
-        const val HIGHEST_PRIORITY = 100.0
-
-        val prioritizedClasses = listOf(
-            "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
-            COLOR_CLASS_NAME,
-            BITMAPFONT_CLASS_NAME
-        )
-
-        val ICON_TAG: Icon = AllIcons.Ide.Link
-        val ICON_CLASS: Icon = PlatformIcons.CLASS_ICON
-        val ICON_PACKAGE: Icon = PlatformIcons.PACKAGE_ICON
-        val ICON_RESOURCE: Icon = AllIcons.Nodes.KeymapOther
-        val ICON_ATLAS: Icon = AllIcons.Nodes.ModuleGroup
-        val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
-        val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
-        val ICON_PARENT: Icon = AllIcons.Nodes.UpLevel
-    }
 }

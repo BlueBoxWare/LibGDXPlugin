@@ -22,7 +22,7 @@ import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlFile
 
-class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
+internal class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
 
     override fun getStaticDescription() = message("no.opengl.html.description")
 

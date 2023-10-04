@@ -24,7 +24,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ClassUseScopeEnlarger : UseScopeEnlarger() {
+internal class ClassUseScopeEnlarger : UseScopeEnlarger() {
 
     override fun getAdditionalUseScope(element: PsiElement): SearchScope? {
 

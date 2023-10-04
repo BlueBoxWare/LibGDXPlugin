@@ -27,7 +27,7 @@ import com.intellij.psi.tree.IElementType
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
+internal class GdxJsonSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = GdxJsonHighlighter()
 

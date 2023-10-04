@@ -76,7 +76,7 @@ class TestEditing : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun doTest(source: String, expected: String, key: Char = '\n') {
-        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, source.replace('_', ' '))
+        myFixture.configureByText(LibGDXJsonFileType, source.replace('_', ' '))
         if (key == '\b') {
             LightPlatformCodeInsightTestCase.backspace(editor, project)
         } else {

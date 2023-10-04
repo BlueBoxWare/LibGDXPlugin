@@ -18,11 +18,8 @@ import com.intellij.lang.Language
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class LibGDXJsonLanuage private constructor() : Language("LibGDXJson") {
-
-    companion object {
-        val INSTANCE = LibGDXJsonLanuage()
-    }
+object LibGDXJsonLanuage : Language("LibGDXJson") {
+    private fun readResolve(): Any = LibGDXJsonLanuage
 
     override fun isCaseSensitive() = true
 

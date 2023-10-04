@@ -21,7 +21,10 @@ import com.intellij.usages.impl.rules.UsageTypeProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SkinUsageTypeProvider : UsageTypeProvider {
+
+val SKIN_USAGE_TYPE = UsageType { "Skin files" }
+
+internal class SkinUsageTypeProvider : UsageTypeProvider {
 
     override fun getUsageType(element: PsiElement): UsageType? =
         if (element is SkinElement) {
@@ -29,9 +32,4 @@ class SkinUsageTypeProvider : UsageTypeProvider {
         } else {
             null
         }
-
-    companion object {
-        val SKIN_USAGE_TYPE = UsageType { "Skin files" }
-    }
-
 }

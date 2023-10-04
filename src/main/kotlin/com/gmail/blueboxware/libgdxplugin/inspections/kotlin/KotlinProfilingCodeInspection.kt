@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-class KotlinProfilingCodeInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinProfilingCodeInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("profiling.code.html.description")
 

@@ -20,7 +20,7 @@ import com.intellij.openapi.vfs.VirtualFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2SyntaxHighlighterFactory : SyntaxHighlighterFactory() {
+internal class Atlas2SyntaxHighlighterFactory : SyntaxHighlighterFactory() {
 
     override fun getSyntaxHighlighter(project: Project?, virtualFile: VirtualFile?) = Atlas2SyntaxHighlighter()
 

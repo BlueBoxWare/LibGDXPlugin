@@ -23,7 +23,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseInspection() {
+internal class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseInspection() {
 
     override fun getStaticDescription() = message("testid.html.description")
 

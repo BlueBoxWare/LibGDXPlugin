@@ -24,7 +24,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Atlas2FoldingBuilder : FoldingBuilder, DumbAware {
+internal class Atlas2FoldingBuilder : FoldingBuilder, DumbAware {
 
     override fun getPlaceholderText(node: ASTNode): String {
 

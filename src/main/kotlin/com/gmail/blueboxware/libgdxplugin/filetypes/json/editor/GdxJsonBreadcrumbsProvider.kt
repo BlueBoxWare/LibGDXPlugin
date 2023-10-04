@@ -25,9 +25,9 @@ import com.intellij.ui.breadcrumbs.BreadcrumbsProvider
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GdxJsonBreadcrumbsProvider : BreadcrumbsProvider {
+internal class GdxJsonBreadcrumbsProvider : BreadcrumbsProvider {
 
-    override fun getLanguages() = LANGUAGES
+    override fun getLanguages() = Lazy.LANGUAGES
 
     override fun acceptElement(element: PsiElement): Boolean =
         element is GdxJsonProperty || (element as? GdxJsonElement)?.isArrayElement() == true
@@ -44,8 +44,8 @@ class GdxJsonBreadcrumbsProvider : BreadcrumbsProvider {
         return ""
     }
 
-    companion object {
-        val LANGUAGES = arrayOf(LibGDXJsonLanuage.INSTANCE)
+    object Lazy {
+        val LANGUAGES = arrayOf(LibGDXJsonLanuage)
     }
 
 }

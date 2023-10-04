@@ -144,7 +144,7 @@ class TestAnnotators : LibGDXCodeInsightFixtureTestCase() {
     }
 
     private fun doTest(source: String) {
-        myFixture.configureByText(LibGDXJsonFileType.INSTANCE, source)
+        myFixture.configureByText(LibGDXJsonFileType, source)
         myFixture.checkHighlighting(false, false, false)
     }
 
