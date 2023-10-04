@@ -31,8 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix #36: UnsupportedOperationException in LibGDXFileTypeOverrider.</li>
-            <li>Compatibility with IntelliJ 2023.2.</li>
+            <li>Fix "doing work on EDT" errors.</li>
         </ul>
         ]]>
     </change-notes>

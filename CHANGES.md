@@ -1,3 +1,7 @@
+### 1.24.7
+* Fix "doing work on EDT" errors. 
+* Compatibility with IntelliJ 2023.3.
+
 ### 1.24.6
 * Fix [#36](https://github.com/BlueBoxWare/LibGDXPlugin/issues/36): UnsupportedOperationException in LibGDXFileTypeOverrider. 
 * Compatibility with IntelliJ 2023.2. 
