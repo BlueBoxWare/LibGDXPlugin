@@ -19,6 +19,8 @@ const val c = "RED"
 val s = "ff00ff"
 val c1 = <weak_warning descr="#ff0000ff">"#ff0000"</weak_warning>
 val c2 = <weak_warning descr="#00006443">Color(25667)</weak_warning>
+val c21 = <weak_warning descr="#5300ffff">Color(0x5300ffff)</weak_warning>
+val c22 = <weak_warning descr="#002ce60b">Color(0x2ce60b)</weak_warning>
 val c3 = <weak_warning descr="#00ff00ff">Color(0f, 1f, 0f, 1f)</weak_warning>
 val c4 = <weak_warning descr="#00ffff99">Color.valueOf("00ffff99")</weak_warning>
 val c5 = <weak_warning descr="#ff69b4ff">Color.PINK</weak_warning>

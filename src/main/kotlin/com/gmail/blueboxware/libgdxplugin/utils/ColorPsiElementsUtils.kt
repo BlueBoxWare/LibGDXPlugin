@@ -453,6 +453,8 @@ private fun PsiElement.findInitializer(): PsiElement? {
 
 private fun PsiElement.ktInt(): Int? {
 
+    val txt = text ?: return null
+
     if (this is KtConstantExpression) {
 
         getType(analyzePartial())?.let { type ->
@@ -460,7 +462,9 @@ private fun PsiElement.ktInt(): Int? {
             if (KotlinBuiltIns.isInt(type)) {
 
                 return try {
-                    text.toInt()
+                    if (StringUtil.startsWithIgnoreCase(txt, "0x")) StringUtil.trimStart(txt.lowercase(), "0x")
+                        .toInt(16)
+                    else txt.toInt()
                 } catch (e: NumberFormatException) {
                     null
                 }

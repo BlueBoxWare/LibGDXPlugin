@@ -1,4 +1,5 @@
 ### 1.24.7
+* Fix [#37](https://github.com/BlueBoxWare/LibGDXPlugin/issues/37): Gutter Color display support for hexadecimal Color(int) constructor in Kotlin.
 * Fix "doing work on EDT" errors. 
 * Compatibility with IntelliJ 2023.3.
 
