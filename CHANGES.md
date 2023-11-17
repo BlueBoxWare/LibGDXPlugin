@@ -1,3 +1,6 @@
+### 1.24.8
+* Fix [#38](https://github.com/BlueBoxWare/LibGDXPlugin/issues/38): IndexNotReadyException when loading non-libgdx project.
+
 ### 1.24.7
 * Fix [#37](https://github.com/BlueBoxWare/LibGDXPlugin/issues/37): Gutter Color display support for hexadecimal Color(int) constructor in Kotlin.
 * Fix "doing work on EDT" errors. 

@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.SkinTagsModificationTracker
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -108,8 +109,11 @@ class VersionService(val project: Project) : Disposable {
                         ?.let { usedVersions[Libraries.LIBGDX] = it }
                 }
             }
-
-            DumbService.getInstance(project).runReadActionInSmartMode(runnable)
+            if (ApplicationManager.getApplication().isUnitTestMode) {
+                DumbService.getInstance(project).runReadActionInSmartMode(runnable)
+            } else {
+                DumbService.getInstance(project).smartInvokeLater(runnable)
+            }
         }
 
         if (isLibGDXProject()) {
