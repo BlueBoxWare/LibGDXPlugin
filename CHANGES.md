@@ -1,3 +1,6 @@
+### 1.24.9
+* Fix doing slow operation on EDT issues.
+
 ### 1.24.8
 * Fix [#38](https://github.com/BlueBoxWare/LibGDXPlugin/issues/38): IndexNotReadyException when loading non-libgdx project.
 

@@ -3,11 +3,9 @@ package com.gmail.blueboxware.libgdxplugin.utils
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.openapi.vfs.VirtualFileWithId
 import org.jdom.Attribute
 import org.jdom.Element
-import java.util.*
 
 /**
  *
@@ -16,47 +14,36 @@ import java.util.*
  */
 open class PersistentFileSetManager : PersistentStateComponent<Element> {
 
-    val files = HashSet<VirtualFile>()
+    val files = HashSet<String>()
 
     fun add(file: VirtualFile): Boolean {
         if (file !is VirtualFileWithId || file.isDirectory) {
             return false
         }
-        files.add(file)
+        files.add(VfsUtilCore.pathToUrl(file.path))
         return true
     }
 
     fun remove(file: VirtualFile): Boolean {
-        if (!files.contains(file)) {
+        val url = VfsUtilCore.pathToUrl(file.path)
+        if (!files.contains(url)) {
             return false
         }
-        files.remove(file)
+        files.remove(url)
         return true
     }
 
     fun removeAll() = files.clear()
 
-    fun contains(file: VirtualFile) = files.contains(file)
+    fun contains(file: VirtualFile) = files.contains(VfsUtilCore.pathToUrl(file.path))
 
-    private fun getSortedFiles(): Collection<VirtualFile> {
-        val sortedFiles = mutableListOf<VirtualFile>()
-        sortedFiles.addAll(files)
-        sortedFiles.sortWith { o1, o2 ->
-            o1.path.lowercase(Locale.getDefault()).compareTo(o2.path.lowercase(Locale.getDefault()))
-        }
-        return sortedFiles
-    }
+    fun contains(url: String) = files.contains(url)
 
     override fun loadState(state: Element) {
-        val vfManager = VirtualFileManager.getInstance()
         for (child in state.getChildren("file") ?: listOf()) {
             if (child is Element) {
                 child.getAttribute("url")?.let { filePathAttr ->
-                    val filePath = filePathAttr.value
-                    val virtualFile = vfManager.findFileByUrl(filePath)
-                    if (virtualFile != null) {
-                        files.add(virtualFile)
-                    }
+                    filePathAttr.value?.let { files.add(it) }
                 }
             }
         }
@@ -65,9 +52,9 @@ open class PersistentFileSetManager : PersistentStateComponent<Element> {
     override fun getState(): Element {
         val root = Element("root")
 
-        for (virtualFile in getSortedFiles()) {
+        for (file in files.sorted()) {
             val element = Element("file")
-            val filePathAttr = Attribute("url", VfsUtilCore.pathToUrl(virtualFile.path))
+            val filePathAttr = Attribute("url", file)
             element.setAttribute(filePathAttr)
             root.addContent(element)
         }

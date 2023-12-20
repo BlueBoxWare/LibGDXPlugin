@@ -13,6 +13,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.LanguageSubstitutors
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.FileContentUtilCore
@@ -155,7 +156,7 @@ private fun resetAssociations(
 
     if (result == Messages.OK) {
 
-        val filesChanged = mutableSetOf<VirtualFile>()
+        val filesChanged = mutableSetOf<String>()
 
         @Suppress("RetrievingService")
         project.getService(set1.java)?.let {
@@ -173,8 +174,11 @@ private fun resetAssociations(
             it.removeAll()
         }
 
-        filesChanged.forEach {
-            project.reset(it)
+        val vfManager = VirtualFileManager.getInstance()
+        filesChanged.forEach { url ->
+            vfManager.findFileByUrl(url)?.let { file ->
+                project.reset(file)
+            }
         }
 
     }

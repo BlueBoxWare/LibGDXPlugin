@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbService
@@ -14,7 +15,9 @@ import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.util.Alarm
+import com.intellij.util.concurrency.AppExecutorUtil
 import com.intellij.util.text.DateFormatUtil
+import com.jetbrains.rd.util.Callable
 import org.jetbrains.kotlin.config.MavenComparableVersion
 
 /*
@@ -112,7 +115,10 @@ class VersionService(val project: Project) : Disposable {
             if (ApplicationManager.getApplication().isUnitTestMode) {
                 DumbService.getInstance(project).runReadActionInSmartMode(runnable)
             } else {
-                DumbService.getInstance(project).smartInvokeLater(runnable)
+                DumbService.getInstance(project).smartInvokeLater {
+                    ReadAction.nonBlocking(Callable(runnable)).inSmartMode(project)
+                        .submit(AppExecutorUtil.getAppExecutorService())
+                }
             }
         }
 

@@ -4,8 +4,8 @@ plugins {
     id("java")
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    id("org.jetbrains.intellij") version "1.13.0"
-    id("com.github.blueboxware.tocme") version "1.7"
+    id("org.jetbrains.intellij") version "1.16.1"
+    id("com.github.blueboxware.tocme") version "1.8"
 }
 
 group = properties("pluginGroup")

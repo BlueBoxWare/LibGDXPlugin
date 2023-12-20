@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinFileType
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXProjectSkinFiles
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.search.FileTypeIndex
 import org.jetbrains.kotlin.idea.base.util.allScope
 
@@ -35,8 +36,16 @@ val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$FQ_CLASS_NAME|\b$COMMON_CL
 fun getSkinFiles(project: Project): List<VirtualFile> {
     val result = mutableListOf<VirtualFile>()
     result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType, project.allScope()))
-    project.getService(LibGDXProjectSkinFiles::class.java)?.let { result.addAll(it.files) }
-    return result.filter { it.isValid }.toList()
+    val vfManager = VirtualFileManager.getInstance()
+    project.getService(LibGDXProjectSkinFiles::class.java)?.let {
+        for (url in it.files) {
+            val file = vfManager.findFileByUrl(url)
+            if (file != null && file.isValid) {
+                result.add(file)
+            }
+        }
+    }
+    return result
 }
 
 

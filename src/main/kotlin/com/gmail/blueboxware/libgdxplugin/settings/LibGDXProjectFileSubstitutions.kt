@@ -8,6 +8,7 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.fileTypes.impl.FileTypeOverrider
 import com.intellij.openapi.project.ProjectLocator
+import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 
 /*
@@ -52,13 +53,15 @@ internal class LibGDXFileTypeOverrider : FileTypeOverrider {
         } catch (e: UnsupportedOperationException) {
             null
         } ?: return null
+
+        val url = VfsUtilCore.pathToUrl(file.path)
         project.getService(LibGDXProjectSkinFiles::class.java)?.let {
-            if (it.contains(file)) {
+            if (it.contains(url)) {
                 return LibGDXSkinFileType
             }
         }
         project.getService(LibGDXProjectGdxJsonFiles::class.java)?.let {
-            if (it.contains(file)) {
+            if (it.contains(url)) {
                 return LibGDXJsonFileType
             }
         }
