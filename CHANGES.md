@@ -1,3 +1,6 @@
+### 1.24.10
+* Fix another doing slow operation on EDT issue.
+
 ### 1.24.9
 * Fix doing slow operation on EDT issues.
 
