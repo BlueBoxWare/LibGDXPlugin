@@ -90,6 +90,6 @@
     foo: 1,
     design: tomschneider,
     tiles_y: dsf,
-    ]
+    <error>]</error>
 
 ]

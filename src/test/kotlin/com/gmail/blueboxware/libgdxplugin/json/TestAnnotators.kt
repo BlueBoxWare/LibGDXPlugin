@@ -125,7 +125,7 @@ class TestAnnotators : LibGDXCodeInsightFixtureTestCase() {
 
     fun testConsecutiveCommas6() = doTest(
         """
-           [,/**/,<error>f</error>oo] 
+           [,/**/<error>,</error><error>f</error>oo] 
           """.trimIndent()
     )
 

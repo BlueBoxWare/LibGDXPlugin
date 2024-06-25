@@ -113,7 +113,7 @@ class VersionService(val project: Project) : Disposable {
                 }
             }
             if (ApplicationManager.getApplication().isUnitTestMode) {
-                DumbService.getInstance(project).runReadActionInSmartMode(runnable)
+                DumbService.getInstance(project).runWhenSmart(runnable)
             } else {
                 DumbService.getInstance(project).smartInvokeLater {
                     ReadAction.nonBlocking(Callable(runnable)).inSmartMode(project)
