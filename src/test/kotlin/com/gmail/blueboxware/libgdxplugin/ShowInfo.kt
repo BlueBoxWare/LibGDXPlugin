@@ -3,8 +3,8 @@ package com.gmail.blueboxware.libgdxplugin
 import com.intellij.codeInspection.LocalInspectionEP
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.ApplicationInfo
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.PathManager
+import com.intellij.openapi.extensions.ExtensionPointName
 import java.io.File
 
 
@@ -43,10 +43,7 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
     fun testCreateShortnameList() {
         val str = StringBuilder("| Suppression ID | Name | Description |\n")
         str.append("|---|---|---|\n")
-        ApplicationManager
-            .getApplication()
-            .extensionArea
-            .getExtensionPoint<LocalInspectionEP>("com.intellij.localInspection")
+        ExtensionPointName<LocalInspectionEP>("com.intellij.localInspection")
             .extensionList
             .filter {
                 it.pluginDescriptor.pluginId.idString == "com.gmail.blueboxware.libgdxplugin"

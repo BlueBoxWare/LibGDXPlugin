@@ -16,9 +16,9 @@ import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
 import com.intellij.util.Alarm
 import com.intellij.util.concurrency.AppExecutorUtil
-import com.intellij.util.text.DateFormatUtil
 import com.jetbrains.rd.util.Callable
 import org.jetbrains.kotlin.config.MavenComparableVersion
+import java.util.concurrent.TimeUnit
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -53,7 +53,7 @@ class VersionService(val project: Project) : Disposable {
             if (isLibGDXProject()) {
                 Libraries.LIBGDX.library.updateLatestVersion(this, true)
                 updateLatestVersions()
-                updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, 2 * DateFormatUtil.MINUTE)
+                updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, TimeUnit.MINUTES.toMillis(2))
             }
         }
 
@@ -162,11 +162,11 @@ class VersionService(val project: Project) : Disposable {
 
         val LOG = Logger.getInstance(VersionService::class.java)
 
-        var LIBRARY_CHANGED_TIME_OUT = 30 * DateFormatUtil.SECOND
+        var LIBRARY_CHANGED_TIME_OUT = TimeUnit.SECONDS.toMillis(30)
 
         var BATCH_SIZE = 20
 
-        var SCHEDULED_UPDATE_INTERVAL = 15 * DateFormatUtil.MINUTE
+        var SCHEDULED_UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(15)
 
     }
 

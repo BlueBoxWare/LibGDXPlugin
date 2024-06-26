@@ -12,13 +12,13 @@ import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.components.service
 import com.intellij.openapi.fileTypes.FileTypeManager
-import com.intellij.util.text.DateFormatUtil
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.plugins.groovy.GroovyFileType
 import org.junit.Before
 import java.io.File
 import java.io.StringReader
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -175,8 +175,8 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
         }
 
         VersionService.BATCH_SIZE = Libraries.values().size / 2
-        VersionService.SCHEDULED_UPDATE_INTERVAL = 2 * DateFormatUtil.SECOND
-        VersionService.LIBRARY_CHANGED_TIME_OUT = 5 * DateFormatUtil.SECOND
+        VersionService.SCHEDULED_UPDATE_INTERVAL = TimeUnit.SECONDS.toMillis(2)
+        VersionService.LIBRARY_CHANGED_TIME_OUT = TimeUnit.SECONDS.toMillis(5)
         Library.TEST_URL = "http://localhost:8777/"
 
         super.setUp()
