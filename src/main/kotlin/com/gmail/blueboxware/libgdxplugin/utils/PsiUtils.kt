@@ -10,6 +10,7 @@ import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.search.PsiElementProcessor
 import com.intellij.psi.tree.IElementType
 import com.intellij.psi.tree.TokenSet
+import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.TypeConversionUtil
@@ -59,6 +60,7 @@ private val CONTAINER_CLASS_NAMES = listOf(
     QUEUE_CLASS_NAME,
     COLLECTION_CLASS_NAME
 )
+
 
 internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
 
@@ -261,18 +263,24 @@ internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String
         it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
     }
 
+private val RESOLVED_CALL_KEY = key<CachedValue<Pair<DeclarationDescriptor, String>?>>("resolved_call")
+
 internal fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
 
-    var receiverType: DeclarationDescriptor? = analyze().getType(receiverExpression)?.constructor?.declarationDescriptor
+    return getCachedValue(RESOLVED_CALL_KEY) {
+        var receiverType: DeclarationDescriptor? =
+            analyze().getType(receiverExpression)?.constructor?.declarationDescriptor
 
-    if (receiverType == null) {
-        // static method call?
-        receiverType = receiverExpression.getReferenceTargets(analyze()).firstOrNull() ?: return null
+        if (receiverType == null) {
+            // static method call?
+            receiverType = receiverExpression.getReferenceTargets(analyze()).firstOrNull() ?: return@getCachedValue null
+        }
+
+        val methodName = calleeName ?: return@getCachedValue null
+
+        return@getCachedValue Pair(receiverType, methodName)
+
     }
-
-    val methodName = calleeName ?: return null
-
-    return Pair(receiverType, methodName)
 
 }
 

@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.versions.libs.LibGDXLibrary
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.components.service
@@ -70,10 +70,8 @@ internal fun getLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, Ma
     }
 
     for (libGDXLib in Libraries.values()) {
-        for (url in library.getUrls(OrderRootType.CLASSES)) {
-            libGDXLib.getVersionFromIdeaLibrary(library)?.let { version ->
-                return Pair(libGDXLib, version)
-            }
+        libGDXLib.getVersionFromIdeaLibrary(library)?.let { version ->
+            return Pair(libGDXLib, version)
         }
     }
 
