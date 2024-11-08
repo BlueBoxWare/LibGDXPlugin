@@ -149,6 +149,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
     }
 
+    @Suppress("JUnitMixedFramework")
     @Before
     fun testSavedState() {
 
@@ -174,7 +175,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
             return
         }
 
-        VersionService.BATCH_SIZE = Libraries.values().size / 2
+        VersionService.BATCH_SIZE = Libraries.entries.size / 2
         VersionService.SCHEDULED_UPDATE_INTERVAL = TimeUnit.SECONDS.toMillis(2)
         VersionService.LIBRARY_CHANGED_TIME_OUT = TimeUnit.SECONDS.toMillis(5)
         Library.TEST_URL = "http://localhost:8777/"
@@ -187,7 +188,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
         versionService = project.service()
 
-        for (lib in Libraries.values()) {
+        for (lib in Libraries.entries) {
             addDummyLibrary(lib, "0.0")
         }
 

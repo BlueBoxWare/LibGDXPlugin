@@ -21,11 +21,14 @@ import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
+import org.jetbrains.kotlin.analysis.api.analyze
+import org.jetbrains.kotlin.analysis.api.resolution.KaSimpleVariableAccess
+import org.jetbrains.kotlin.analysis.api.resolution.KaSimpleVariableAccessCall
+import org.jetbrains.kotlin.analysis.api.resolution.calls
 import org.jetbrains.kotlin.idea.references.KtInvokeFunctionReference
-import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.psi.*
 
-class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("flushing.inside.loop.html.description")
 
@@ -138,24 +141,18 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
         super.visitQualifiedExpression(expression)
 
         if (allFlushingMethods == null) return
-
         val refs = expression.selectorExpression?.references ?: return
 
         //
         // Are we using a property accessor which contains a flushing call?
         //
-        val spars = refs.filterIsInstance<SyntheticPropertyAccessorReference>()
-
-        if (spars.isEmpty()) {
-            return
-        }
-
-        val isGetter = spars.any { it.getter }
-
         for (ref in refs) {
             val target = ref.resolve()
             if (target is KtProperty) {
                 // Kotlin accessor
+                val isGetter = analyze(expression) {
+                    (expression.resolveToCall()?.calls?.firstOrNull() as? KaSimpleVariableAccessCall)?.simpleAccess is KaSimpleVariableAccess.Read
+                }
                 val accessor = if (isGetter) target.getter else target.setter
                 if (accessor != null && allFlushingMethods.contains(accessor)) {
                     registerProblem(expression)

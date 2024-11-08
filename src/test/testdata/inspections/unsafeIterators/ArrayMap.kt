@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ArrayMap
 import com.badlogic.gdx.utils.ObjectMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST")
-class ArrayMapTest {
+class ArrayMapTestKotlin {
 
   var map: ArrayMap<String, Any> = ArrayMap()
 

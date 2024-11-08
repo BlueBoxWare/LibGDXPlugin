@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.Queue
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class QueueTest {
+class QueueTestKotlin {
 
   var q = Queue<String>()
 

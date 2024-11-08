@@ -16,6 +16,8 @@ import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
 import com.intellij.usageView.UsageInfo
 import com.intellij.util.Processor
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -84,6 +86,7 @@ private class MyCachedValueProvider(
     val colorNameToFind: String
 ) : CachedValueProvider<Collection<PsiElement>> {
 
+    @OptIn(KaAllowAnalysisOnEdt::class)
     override fun compute(): CachedValueProvider.Result<Collection<PsiElement>> {
 
         val result = mutableListOf<PsiElement>()
@@ -124,7 +127,7 @@ private class MyCachedValueProvider(
                     ?.getParentOfType<KtDotQualifiedExpression>()
                     ?.callExpression
                     ?.let { call ->
-                        call.resolveCallToStrings()?.let { (_, methodName) ->
+                        allowAnalysisOnEdt { call.resolveCallToStrings() }?.let { (_, methodName) ->
                             if (methodName == "get") {
                                 process(call)
                             }

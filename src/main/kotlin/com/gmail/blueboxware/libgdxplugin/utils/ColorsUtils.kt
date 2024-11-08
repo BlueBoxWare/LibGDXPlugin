@@ -6,6 +6,8 @@ import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -78,9 +80,9 @@ internal fun KtCallExpression.isColorsCall(isPut: Boolean): Boolean {
     } else if (clazz == OBJECT_MAP_CLASS_NAME && method == expectedMethodName) {
 
         ((parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)
-            ?.resolveCallToStrings()
+            ?.resolveCall()
             ?.let { (clazz2, method2) ->
-                if (clazz2 == COLORS_CLASS_NAME && method2 == "getColors") {
+                if (clazz2.asFqNameString() == COLORS_CLASS_NAME && method2 == "getColors") {
                     return true
                 }
             }
@@ -114,6 +116,7 @@ internal class ColorsDefinition(
 
 private val KEY = key<CachedValue<Map<String, ColorsDefinition?>>>("colorsMap")
 
+@OptIn(KaAllowAnalysisOnEdt::class)
 internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY, null) {
 
     if (!isLibGDXProject()) {
@@ -149,7 +152,7 @@ internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedV
                 ?.getParentOfType<KtDotQualifiedExpression>()
                 ?.callExpression
                 ?.let { call ->
-                    call.resolveCallToStrings()?.let { (_, methodName) ->
+                    allowAnalysisOnEdt { call.resolveCallToStrings() }?.let { (_, methodName) ->
                         if (methodName == "put") {
                             callExpressions.add(call)
                         }

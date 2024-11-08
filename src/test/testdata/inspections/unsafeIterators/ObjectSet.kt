@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.ObjectSet
 
 @Suppress("UNUSED_PARAMETER")
-class ObjectSetTest {
+class ObjectSetTestKotlin {
 
   var set = ObjectSet<ObjectSet<String>>()
 

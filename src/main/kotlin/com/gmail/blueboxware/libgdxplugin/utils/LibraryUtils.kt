@@ -69,7 +69,7 @@ internal fun getLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, Ma
         return null
     }
 
-    for (libGDXLib in Libraries.values()) {
+    for (libGDXLib in Libraries.entries) {
         libGDXLib.getVersionFromIdeaLibrary(library)?.let { version ->
             return Pair(libGDXLib, version)
         }
@@ -80,7 +80,7 @@ internal fun getLibraryInfoFromIdeaLibrary(library: Library): Pair<Libraries, Ma
 }
 
 internal fun getLibraryFromExtKey(extKey: String): Libraries? =
-    Libraries.values().find { it.library.extKeys?.contains(extKey) == true }
+    Libraries.entries.find { it.library.extKeys?.contains(extKey) == true }
 
 internal fun getLibraryFromGroovyLiteral(grLiteral: GrLiteral): Libraries? =
     grLiteral.asString()?.let(::getLibraryFromMavenCoordString)
@@ -103,7 +103,7 @@ internal fun getLibraryFromGroovyArgumentList(groovyCommandArgumentList: GrComma
         (groovyCommandArgumentList.getNamedArgument("name") as? GrLiteral)?.asString()?.let(::trimQuotes)
             ?: return null
 
-    return Libraries.values().find {
+    return Libraries.entries.find {
         it.library.groupId == groupArgument && it.library.artifactId == nameArgument
     }
 
@@ -114,7 +114,7 @@ internal fun getLibraryFromKotlinArgumentList(ktValueArgumentList: KtValueArgume
     val groupArgument = ktValueArgumentList.getNamedArgumentPlainContent("group") ?: return null
     val nameArgument = ktValueArgumentList.getNamedArgumentPlainContent("name") ?: return null
 
-    return Libraries.values().find {
+    return Libraries.entries.find {
         it.library.groupId == groupArgument && it.library.artifactId == nameArgument
     }
 
@@ -179,7 +179,7 @@ internal fun getVersionFromGroovyAssignment(grAssignmentExpression: GrAssignment
     (grAssignmentExpression.rValue as? GrLiteral)?.asString()?.let(::trimQuotes)?.let { MavenComparableVersion(it) }
 
 private fun getLibraryFromMavenCoordString(str: String): Libraries? =
-    Libraries.values().find { lib ->
+    Libraries.entries.find { lib ->
         Regex("""${lib.library.groupId}:${lib.library.artifactId}($|:.*)""").matches(str)
     }
 

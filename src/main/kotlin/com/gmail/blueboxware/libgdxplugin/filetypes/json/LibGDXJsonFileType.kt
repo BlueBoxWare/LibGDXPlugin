@@ -25,7 +25,7 @@ import icons.Icons
 internal object LibGDXJsonFileType : LanguageFileType(LibGDXJsonLanuage) {
 
     init {
-        FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
+        FileTypeEditorHighlighterProviders.getInstance().addExplicitExtension(this) { _, _, _, colors ->
             LayeredLexerEditorHighlighter(GdxJsonSyntaxHighlighterFactory.GdxJsonHighlighter(), colors)
         }
     }

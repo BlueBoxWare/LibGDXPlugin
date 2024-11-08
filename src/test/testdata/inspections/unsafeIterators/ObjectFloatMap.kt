@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.ObjectFloatMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class ObjectFloatMapTest {
+class ObjectFloatMapTestKotlin {
 
   var ofm2: ObjectFloatMap<String>? = null
 

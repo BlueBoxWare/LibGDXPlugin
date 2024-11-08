@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix another doing slow operation on EDT issue.</li>
+            <li>Compatibility with IntelliJ 2024.3 and the K2 analysis API.</li>
         </ul>
         ]]>
     </change-notes>
@@ -40,6 +40,7 @@
     <depends>org.jetbrains.kotlin</depends>
     <depends>org.intellij.groovy</depends>
     <depends>com.intellij.properties</depends>
+    <depends>com.intellij.modules.json</depends>
     <depends>com.intellij.modules.platform</depends>
 
     <applicationListeners>
@@ -176,8 +177,8 @@
 
         <lang.smartEnterProcessor language="LibGDXJson"
                                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSmartEnterProcessor"/>
-        <quoteHandler fileType="libGDX JSON"
-                      className="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler"/>
+        <lang.quoteHandler language="LibGDXJson"
+                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler"/>
 
         <completion.contributor language="LibGDXJson"
                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCompletionContributor"/>
@@ -282,8 +283,8 @@
 
         <lang.braceMatcher language="LibGDXSkin"
                            implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher"/>
-        <quoteHandler fileType="libGDX Skin"
-                      className="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler"/>
+        <lang.quoteHandler language="LibGDXSkin"
+                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler"/>
 
         <lang.smartEnterProcessor language="LibGDXSkin"
                                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSmartEnterProcessor"/>
@@ -303,8 +304,6 @@
                                  implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringSupportProvider"/>
         <refactoring.elementListenerProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.SkinRefactoringElementListenerProvider"/>
-        <refactoring.elementListenerProvider
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener"/>
 
         <lang.findUsagesProvider language="LibGDXSkin"
                                  implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.SkinFindUsagesProvider"/>
@@ -515,19 +514,6 @@
         <localInspection
                 language="JAVA"
                 bundle="libgdxplugin"
-                key="shaperenderer.64bit.crash.inspection.name"
-                groupPath="libGDX"
-                groupName="Java"
-                level="WARNING"
-                enabledByDefault="false"
-                hasStaticDescription="true"
-                shortName="GDXJavaShapeRendererCrash"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.java.JavaShapeRenderer64BitCrashInspection"
-        />
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="JAVA"
-                bundle="libgdxplugin"
                 key="flushing.inside.loop.inspection.name"
                 groupPath="libGDX"
                 groupName="Java"
@@ -666,19 +652,6 @@
                 hasStaticDescription="true"
                 shortName="GDXKotlinProfilingCode"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinProfilingCodeInspection"
-        />
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="kotlin"
-                bundle="libgdxplugin"
-                key="shaperenderer.64bit.crash.inspection.name"
-                groupPath="libGDX"
-                groupName="Kotlin"
-                level="WARNING"
-                enabledByDefault="true"
-                hasStaticDescription="true"
-                shortName="GDXKotlinShapeRendererCrash"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinShapeRenderer64BitCrashInspection"
         />
         <!--suppress PluginXmlCapitalization -->
         <localInspection
@@ -1045,6 +1018,10 @@
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXTopLevelValueInspection"
         />
 
+    </extensions>
+
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK2="true" />
     </extensions>
 
     <actions>

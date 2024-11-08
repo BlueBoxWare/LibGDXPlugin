@@ -44,13 +44,13 @@ internal class OutdatedVersionsInspection : GlobalInspectionTool() {
 
         val versionManager = globalContext.project.service<VersionService>()
 
-        for (library in Libraries.values()) {
+        for (library in Libraries.entries) {
             val usedVersion = versionManager.getUsedVersion(library) ?: continue
             val latestVersion = versionManager.getLatestVersion(library) ?: continue
 
             if (usedVersion < latestVersion) {
                 problemDescriptionsProcessor.addProblemElement(
-                    // addProblemElement wants a reference or the problem won't be registered, so.. uhm.. yeah
+                    // addProblemElement wants a reference or the problem won't be registered
                     globalContext.refManager.refProject,
                     manager.createProblemDescriptor(
                         message(

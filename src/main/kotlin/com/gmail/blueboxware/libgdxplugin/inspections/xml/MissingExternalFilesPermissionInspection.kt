@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
+import com.gmail.blueboxware.libgdxplugin.utils.getCalleeExpressionIfAny
 import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.JavaFindUsagesHelper
@@ -13,7 +14,6 @@ import com.intellij.psi.xml.XmlFile
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.resolve.calls.util.getCalleeExpressionIfAny
 
 /*
  * Copyright 2017 Blue Box Ware

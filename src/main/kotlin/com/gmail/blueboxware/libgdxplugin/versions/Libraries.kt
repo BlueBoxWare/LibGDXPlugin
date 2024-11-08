@@ -596,7 +596,7 @@ enum class Libraries(internal val library: Library) {
     companion object {
 
         fun listOfCheckedLibraries() =
-            values()
+            entries
                 .map { it.library.name }
                 .sortedBy { it.lowercase(Locale.getDefault()) }
                 .joinToString(", ")

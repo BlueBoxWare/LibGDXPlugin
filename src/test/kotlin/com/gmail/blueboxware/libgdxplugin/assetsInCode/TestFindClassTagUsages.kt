@@ -1,10 +1,16 @@
 package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassTagFindUsagesHandlerFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassName
 import com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider
 import com.intellij.find.findUsages.PsiElement2UsageTargetAdapter
+import com.intellij.psi.PsiElement
+import com.intellij.usageView.UsageInfo
+import com.intellij.util.ArrayUtil
+import com.intellij.util.CommonProcessors
 import junit.framework.TestCase
+import java.util.*
 
 
 /*
@@ -45,7 +51,7 @@ class TestFindClassTagUsages : LibGDXCodeInsightFixtureTestCase() {
         configureByFile(filename)
         LibGDXTagUsageTargetProvider().getTargets(editor, file)?.firstOrNull()?.let { usageTarget ->
             (usageTarget as? PsiElement2UsageTargetAdapter)?.element?.let { targetElement ->
-                val usages = myFixture.findUsages(targetElement)
+                val usages = findUsages(targetElement)
                 TestCase.assertEquals(numberOfUsagesToFind, usages.size)
                 usages.forEach { usage ->
                     TestCase.assertEquals(tagName, (usage.element as? SkinClassName)?.value?.plainName)
@@ -56,6 +62,18 @@ class TestFindClassTagUsages : LibGDXCodeInsightFixtureTestCase() {
 
         throw AssertionError()
 
+    }
+
+    private fun findUsages(targetElement: PsiElement): Collection<UsageInfo> {
+        val handler =
+            ClassTagFindUsagesHandlerFactory().createFindUsagesHandler(targetElement, false) ?: throw AssertionError()
+        val processor = CommonProcessors.CollectProcessor<UsageInfo>(Collections.synchronizedList(mutableListOf()))
+        val psiElements = ArrayUtil.mergeArrays(handler.primaryElements, handler.secondaryElements)
+        val options = handler.getFindUsagesOptions(null)
+        for (element in psiElements) {
+            handler.processElementUsages(element, processor, options)
+        }
+        return processor.results
     }
 
     override fun getBasePath() = "assetsInCode/findClassTagUsages"

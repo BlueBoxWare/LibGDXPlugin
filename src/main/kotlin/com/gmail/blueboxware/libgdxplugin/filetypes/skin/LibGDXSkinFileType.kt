@@ -24,7 +24,7 @@ import icons.Icons
 internal object LibGDXSkinFileType : LanguageFileType(LibGDXSkinLanguage.INSTANCE) {
 
     init {
-        FileTypeEditorHighlighterProviders.INSTANCE.addExplicitExtension(this) { _, _, _, colors ->
+        FileTypeEditorHighlighterProviders.getInstance().addExplicitExtension(this) { _, _, _, colors ->
             LayeredLexerEditorHighlighter(SkinSyntaxHighlighterFactory.SkinHighlighter(), colors)
         }
     }

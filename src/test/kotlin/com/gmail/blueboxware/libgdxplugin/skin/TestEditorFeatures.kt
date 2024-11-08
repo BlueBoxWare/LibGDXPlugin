@@ -1,8 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
+import com.intellij.codeInsight.generation.CommentByBlockCommentHandler
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.spellchecker.inspections.SpellCheckingInspection
 
 /*
@@ -66,11 +67,13 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
             false,
             false
         )
-        val blockCommentAction = CommentByBlockCommentAction()
-        blockCommentAction.actionPerformedImpl(project, editor)
-        myFixture.checkResultByFile("blockComment.txt")
-        blockCommentAction.actionPerformedImpl(project, editor)
-        myFixture.checkResultByFile("noComment.txt")
+        val blockCommentAction = CommentByBlockCommentHandler()
+        WriteCommandAction.runWriteCommandAction(project) {
+            blockCommentAction.invoke(project, editor, editor.caretModel.currentCaret, file)
+            myFixture.checkResultByFile("blockComment.txt")
+            blockCommentAction.invoke(project, editor, editor.caretModel.currentCaret, file)
+            myFixture.checkResultByFile("noComment.txt")
+        }
     }
 
     override fun getBasePath() = "/filetypes/skin/editor/"

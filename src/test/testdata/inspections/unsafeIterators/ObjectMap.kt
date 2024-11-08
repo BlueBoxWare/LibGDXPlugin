@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.ObjectMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class ObjectMapTest {
+class ObjectMapTestKotlin {
 
   fun test() {
     val map1 = ObjectMap<ObjectMap<String, ObjectMap<Any, Any>>, Any>()

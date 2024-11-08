@@ -47,7 +47,9 @@ class CreateAssetQuickFix(
 
         val skinFile = startElement.containingFile as? SkinFileImpl ?: return
 
-        FileEditorManager.getInstance(project).openFile(skinFile.virtualFile, true, true)
+        skinFile.virtualFile?.let { virtualFile ->
+            FileEditorManager.getInstance(project).openFile(virtualFile, true, true)
+        }
 
         val (_, position) = when (className.plainName) {
             DRAWABLE_CLASS_NAME -> skinFile.addTintedDrawable(assetName, startElement as? SkinElement)

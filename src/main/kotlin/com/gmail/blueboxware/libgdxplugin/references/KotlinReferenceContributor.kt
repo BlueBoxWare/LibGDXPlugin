@@ -15,11 +15,12 @@ import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
-import org.jetbrains.kotlin.resolve.BindingContext
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -83,12 +84,14 @@ internal class KotlinReferenceContributor : PsiReferenceContributor() {
             PlatformPatterns.psiElement(KtStringTemplateExpression::class.java).inside(KtAnnotationEntry::class.java),
             object : PsiReferenceProvider() {
 
+                @OptIn(KaAllowAnalysisOnEdt::class)
                 override fun getReferencesByElement(
                     element: PsiElement,
                     context: ProcessingContext
                 ): Array<out PsiReference> {
                     element.getParentOfType<KtAnnotationEntry>()?.let { entry ->
-                        entry.analyzePartial().get(BindingContext.ANNOTATION, entry)?.type?.fqName()?.let { fqName ->
+                        val classId = allowAnalysisOnEdt { entry.classId() }
+                        classId?.asFqNameString()?.let { fqName ->
                             if (fqName == ASSET_ANNOTATION_NAME) {
                                 var valueArgument = element.getParentOfType<KtValueArgument>()
                                 if (element.context !is KtCollectionLiteralExpression) {

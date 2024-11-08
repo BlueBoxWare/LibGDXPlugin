@@ -8,18 +8,14 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.quickfixes.CreateAssetQ
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.references.AssetReference
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.codeInspection.LocalInspectionToolSession
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.find.findUsages.FindUsagesOptions
-import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiLiteralExpression
-import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
 /*
@@ -113,19 +109,6 @@ internal fun isValidProperty(element: PsiElement): Boolean {
 
     return false
 
-}
-
-internal fun isProblematicGDXVersionFor64Bit(project: Project): Boolean {
-
-    project.service<VersionService>().let { versionManager ->
-        val gdxVersion = versionManager.getUsedVersion(Libraries.LIBGDX) ?: return false
-
-        if (gdxVersion >= MavenComparableVersion("1.9.0") && gdxVersion < MavenComparableVersion("1.9.2")) {
-            return true
-        }
-    }
-
-    return false
 }
 
 internal fun checkSkinFilename(element: PsiElement, fileName: String, holder: ProblemsHolder) {

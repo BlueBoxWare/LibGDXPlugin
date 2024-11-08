@@ -158,7 +158,7 @@ private fun resetAssociations(
 
         val filesChanged = mutableSetOf<String>()
 
-        @Suppress("RetrievingService")
+        @Suppress("IncorrectServiceRetrieving")
         project.getService(set1.java)?.let {
             it.files.forEach { file ->
                 filesChanged.add(file)
@@ -166,7 +166,7 @@ private fun resetAssociations(
             it.removeAll()
         }
 
-        @Suppress("RetrievingService")
+        @Suppress("IncorrectServiceRetrieving")
         project.getService(set2.java)?.let {
             it.files.forEach { file ->
                 filesChanged.add(file)

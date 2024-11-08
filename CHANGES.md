@@ -1,3 +1,6 @@
+### 1.24.11
+* Compatibility with IntelliJ 2024.3 and the K2 analysis API.
+
 ### 1.24.10
 * Fix another doing slow operation on EDT issue.
 

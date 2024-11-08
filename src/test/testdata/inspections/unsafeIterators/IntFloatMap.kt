@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.IntFloatMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST")
-class IntFloatMapTest {
+class IntFloatMapTestKotlin {
 
   private val map = IntFloatMap()
 

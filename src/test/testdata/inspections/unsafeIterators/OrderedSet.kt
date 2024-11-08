@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.OrderedSet
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class OrderedSetTest {
+class OrderedSetTestKotlin {
 
   fun test() {
     val set = OrderedSet<OrderedSet<String>>()

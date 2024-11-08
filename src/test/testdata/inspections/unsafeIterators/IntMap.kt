@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.IntIntMap
 import com.badlogic.gdx.utils.IntMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-internal class IntMapTest {
+internal class IntMapTestKotlin {
 
   private val map = IntMap<String>()
 

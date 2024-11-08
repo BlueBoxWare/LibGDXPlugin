@@ -37,8 +37,8 @@ import com.intellij.openapi.util.text.HtmlChunk
 import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
+import com.intellij.psi.createSmartPointer
 import com.intellij.util.ui.ImageUtil
-import org.jetbrains.kotlin.psi.psiUtil.createSmartPointer
 import java.awt.image.BufferedImage
 import java.net.URI
 import java.net.URISyntaxException
@@ -53,8 +53,10 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
         }
 
         targetElement?.references?.forEach { reference ->
+            ProgressManager.checkCanceled()
             reference.resolve()?.let { target ->
-                @Suppress("ControlFlowWithEmptyBody") if (target is Atlas2Region) {
+                @Suppress("ControlFlowWithEmptyBody")
+                if (target is Atlas2Region) {
                     target.image?.let { image ->
                         return createDoc(image, target.name, target.containingFile.name)
                     }

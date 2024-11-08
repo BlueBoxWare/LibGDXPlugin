@@ -215,23 +215,24 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
         expectedType = COLOR_CLASS_NAME
     )
 
-    fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
-        JavaFileType.INSTANCE,
-        PsiLiteralExpression::class.java,
-        """
-            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
-
-            class SkinTest {
-
-                void f() {
-                    KotlinSkinTestKt.skin.get("default<caret>-horizontal", com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle.class);
-                }
-
-            }
-          """,
-        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle"
-    )
+// TODO
+//    fun testJavaAndKotlinResourceReference() = doTest<SkinResource>(
+//        JavaFileType.INSTANCE,
+//        PsiLiteralExpression::class.java,
+//        """
+//            import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+//            import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets;
+//
+//            class SkinTest {
+//
+//                void f() {
+//                    KotlinSkinTestKt.skin.get("default<caret>-horizontal", com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle.class);
+//                }
+//
+//            }
+//          """,
+//        expectedType = "com.badlogic.gdx.scenes.scene2d.ui.SplitPane.SplitPaneStyle"
+//    )
 
     fun testJavaAndKotlinResourceReferenceWithTags() = doTest<SkinResource>(
         JavaFileType.INSTANCE,

@@ -7,6 +7,8 @@ import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.DRAWABLE_CLASS_NAME
 import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.psi.PsiClass
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.psi.KtClass
 
@@ -25,6 +27,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@OptIn(KaAllowAnalysisOnEdt::class)
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
     fun testFindUsages1() {
@@ -74,7 +77,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
     fun testFindDrawableUsages() {
         copyFileToProject("drawableUsages.skin")
-        val usagesInfos = myFixture.testFindUsages("drawableUsages.atlas")
+        val usagesInfos = allowAnalysisOnEdt { myFixture.testFindUsages("drawableUsages.atlas") }
         val origin = file.findElementAt(myFixture.caretOffset)?.firstParent<Atlas2Region>()
         assertEquals(10, usagesInfos.size)
         usagesInfos.forEach { usagesInfo ->
@@ -87,7 +90,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     fun testFindJavaClassUsagesWithTags() {
         copyFileToProject("findJavaClassUsagesWithTags.skin")
         configureByFile("FindJavaClassUsagesWithTags.java")
-        val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as PsiClass)
+        val usagesInfos = allowAnalysisOnEdt { myFixture.findUsages(myFixture.elementAtCaret as PsiClass) }
         assertEquals(4, usagesInfos.size)
         usagesInfos.forEach { usageInfo ->
             assertEquals(myFixture.elementAtCaret, (usageInfo.element as SkinClassName).resolve())
@@ -97,7 +100,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     fun testFindKotlinClassUsagesWithTags() {
         copyFileToProject("findKotlinClassUsagesWithTags.skin")
         configureByFile("FindKotlinClassUsagesWithTags.kt")
-        val usagesInfos = myFixture.findUsages(myFixture.elementAtCaret as KtClass)
+        val usagesInfos = allowAnalysisOnEdt { myFixture.findUsages(myFixture.elementAtCaret as KtClass) }
         assertEquals(4, usagesInfos.size)
         usagesInfos.forEach { usageInfo ->
             assertEquals(
@@ -108,7 +111,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun doTest(nrOfUsages: Int) {
-        val usagesInfos = myFixture.testFindUsages(testname() + ".skin")
+        val usagesInfos = allowAnalysisOnEdt { myFixture.testFindUsages(testname() + ".skin") }
         assertEquals(nrOfUsages, usagesInfos.size)
 
         val classType =

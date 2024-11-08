@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.LongMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-internal class LongMapTest {
+internal class LongMapTestKotlin {
 
   private val map = LongMap<String>()
 

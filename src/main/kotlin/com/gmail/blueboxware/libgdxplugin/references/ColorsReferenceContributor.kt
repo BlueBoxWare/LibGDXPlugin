@@ -5,6 +5,8 @@ import com.gmail.blueboxware.libgdxplugin.utils.isColorsGetCall
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.psi.*
 import com.intellij.util.ProcessingContext
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 
@@ -24,6 +26,7 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@OptIn(KaAllowAnalysisOnEdt::class)
 internal class ColorsReferenceContributor : PsiReferenceContributor() {
 
     override fun registerReferenceProviders(registrar: PsiReferenceRegistrar) {
@@ -60,8 +63,10 @@ internal class ColorsReferenceContributor : PsiReferenceContributor() {
                     val ktStringTemplateExpression = element as? KtStringTemplateExpression
                         ?: return PsiReference.EMPTY_ARRAY
                     element.getParentOfType<KtCallExpression>()?.let { ktCallExpression ->
-                        if (ktCallExpression.isColorsGetCall()) {
-                            return arrayOf(ColorsReference(ktStringTemplateExpression))
+                        allowAnalysisOnEdt {
+                            if (ktCallExpression.isColorsGetCall()) {
+                                return arrayOf(ColorsReference(ktStringTemplateExpression))
+                            }
                         }
                     }
 

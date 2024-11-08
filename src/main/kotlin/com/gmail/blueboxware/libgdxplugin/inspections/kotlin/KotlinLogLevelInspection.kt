@@ -1,14 +1,13 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.getCalleeExpressionIfAny
 import com.gmail.blueboxware.libgdxplugin.utils.isSetLogLevel
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
-import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.lexer.KtSingleValueToken
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.resolve.calls.util.getCalleeExpressionIfAny
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -67,20 +66,18 @@ internal class KotlinLogLevelInspection : LibGDXKotlinBaseInspection() {
 
                 for (ref in refs) {
 
-                    if ((ref as? SyntheticPropertyAccessorReference)?.getter == false) {
-                        val target = ref.resolve()
-                        if (target is PsiMethod) {
-                            val clazz = target.containingClass ?: continue
-                            val methodName = target.name
+                    val target = ref.resolve()
+                    if (target is PsiMethod) {
+                        val clazz = target.containingClass ?: continue
+                        val methodName = target.name
 
-                            if (isSetLogLevel(clazz, methodName)) {
+                        if (isSetLogLevel(clazz, methodName)) {
 
-                                val argument = context.right ?: continue
-                                if (isLogLevelArgument(argument)) {
-                                    holder.registerProblem(context, message("log.level.problem.descriptor"))
-                                }
-
+                            val argument = context.right ?: continue
+                            if (isLogLevelArgument(argument)) {
+                                holder.registerProblem(context, message("log.level.problem.descriptor"))
                             }
+
                         }
                     }
 

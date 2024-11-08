@@ -17,7 +17,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.findClass
-import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
@@ -66,10 +66,10 @@ private class MissingFlushInspectionMethodChecker(
 
     override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-        val (className, methodName) = expression.resolveCallToStrings() ?: return
+        val (className, methodName) = expression.resolveCall() ?: return
 
         for (subClass in preferencesSubClasses) {
-            if (subClass.kotlinFqName?.asString() == className) {
+            if (subClass.kotlinFqName?.asString() == className.asFqNameString()) {
                 if (methodName.startsWith("put") || methodName == "remove") {
                     lastPreferenceChange = expression
                 } else if (methodName == "flush") {

@@ -13,6 +13,8 @@ import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValue
+import org.jetbrains.kotlin.analysis.api.analyze
+import org.jetbrains.kotlin.analysis.api.types.KaClassType
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
@@ -20,9 +22,6 @@ import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
-import org.jetbrains.kotlin.resolve.calls.util.getType
-import org.jetbrains.kotlin.types.SimpleType
-import org.jetbrains.kotlin.types.checker.isClassType
 
 
 /*
@@ -52,7 +51,7 @@ internal const val PROPERTY_NAME_TINTED_DRAWABLE_COLOR = "color"
 
 private val KEY = key<CachedValue<TagMap?>>("tag2classMap")
 
-@Service
+@Service(Service.Level.PROJECT)
 class SkinTagsModificationTracker : SimpleModificationTracker() {
     var isFresh: Boolean = false
         private set
@@ -162,21 +161,21 @@ private fun Project.collectCustomTags(): TagMap {
                             ?.asPlainString()?.let { firstArgument ->
 
                                 arguments.getOrNull(1)?.getArgumentExpression()?.let { secondArgument ->
+                                    analyze(secondArgument) {
+                                        (secondArgument.expressionType as? KaClassType)
+                                            ?.typeArguments
+                                            ?.firstOrNull()
+                                            ?.type
+                                            ?.let { type ->
+                                                (type as? KaClassType)?.let {
+                                                    tagMap.add(firstArgument, it.classId.asFqNameString())
+                                                }
+                                            }
 
-                                    (secondArgument.getType(secondArgument.analyzePartial()) as? SimpleType)
-                                        ?.takeIf { it.isClassType }
-                                        ?.arguments
-                                        ?.firstOrNull()
-                                        ?.type
-                                        ?.fqName()
-                                        ?.let { fqName ->
-                                            tagMap.add(firstArgument, fqName)
-                                        }
+                                    }
 
                                 }
-
                             }
-
                     }
 
                 }

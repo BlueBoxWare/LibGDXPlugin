@@ -1,16 +1,18 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.references.SkinJavaClassReference
+import com.gmail.blueboxware.libgdxplugin.utils.childrenOfType
 import com.gmail.blueboxware.libgdxplugin.utils.findAllInnerClasses
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiPackage
+import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtFile
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -32,11 +34,11 @@ internal class SkinRefactoringElementListenerProvider : RefactoringElementListen
     override fun getListener(element: PsiElement?): RefactoringElementListener? {
         val classes = when (element) {
             is PsiClass, is KtClass -> {
-                arrayOf(element)
+                listOf(element)
             }
 
-            is PsiPackage -> {
-                element.classes
+            is KtFile -> {
+                element.childrenOfType<KtClass>().toList()
             }
 
             else -> {
@@ -50,11 +52,12 @@ internal class SkinRefactoringElementListenerProvider : RefactoringElementListen
             (((clazz as? KtClass)?.toLightClass() ?: clazz) as? PsiClass)?.let { psiClass ->
 
                 for (innerClass in psiClass.findAllInnerClasses()) {
-                    ReferencesSearch.search(innerClass).forEach { reference ->
-                        if (reference is SkinJavaClassReference) {
-                            refToClassMap[reference] = innerClass
+                    ReferencesSearch.search(innerClass, GlobalSearchScope.allScope(element.project), true)
+                        .forEach { reference ->
+                            if (reference is SkinJavaClassReference) {
+                                refToClassMap[reference] = innerClass
+                            }
                         }
-                    }
                 }
             }
 

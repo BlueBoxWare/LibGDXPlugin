@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.ObjectSet
 import com.badlogic.gdx.utils.SortedIntList
 
-class SortedIntListTest {
+class SortedIntListTestKotlin {
 
   fun test() {
     val list = SortedIntList<ObjectSet<String>>()

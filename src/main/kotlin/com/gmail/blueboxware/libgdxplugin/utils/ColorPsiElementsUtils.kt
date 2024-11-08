@@ -21,17 +21,14 @@ import com.intellij.psi.impl.compiled.ClsElementImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
+import org.jetbrains.kotlin.analysis.api.components.DefaultTypeClassIds
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
-import org.jetbrains.kotlin.builtins.KotlinBuiltIns
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
-import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.references.AbstractKtReference
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.resolve.calls.util.getType
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 import java.awt.Color
 
 private val COLOR_KEY = key<CachedValue<Color?>>("color.color")
@@ -57,7 +54,7 @@ internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
 private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCachedValue(COLOR_KEY) {
 
     val type = when (this) {
-        is KtExpression -> getType(analyzePartial())?.fqName()
+        is KtExpression -> fqName()
         is PsiExpression -> type?.getCanonicalText(false)
         else -> null
     }
@@ -103,10 +100,10 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         }
 
         val arguments = initialValue.valueArguments
-        val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.getType(initialValue.analyzePartial())
+        val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.classId()
             ?: return@getCachedValue null
 
-        if (arguments.size == 1 && KotlinBuiltIns.isInt(argument1type)) {
+        if (arguments.size == 1 && argument1type == DefaultTypeClassIds.INT) {
             // Color(int)
             arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
                 val arg = expr.findRoot()
@@ -114,7 +111,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                     return@getCachedValue rgbaToColor(int.toLong())
                 }
             }
-        } else if (KotlinBuiltIns.isString(argument1type)) {
+        } else if (argument1type == DefaultTypeClassIds.STRING) {
             initialValue.resolveCallToStrings()?.let { (clazz, method) ->
                 arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
                     val arg = expr.findRoot()
@@ -140,9 +137,9 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                             }
                         } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
                             // Colors.getColors.get(String)
-                            ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCallToStrings()
+                            ((initialValue.parent as? KtDotQualifiedExpression)?.receiverExpression as? KtDotQualifiedExpression)?.resolveCall()
                                 ?.let { (clazz, method) ->
-                                    if (clazz == COLORS_CLASS_NAME && method == "getColors") {
+                                    if (clazz.asFqNameString() == COLORS_CLASS_NAME && method == "getColors") {
                                         ((arg as? PsiLiteralExpression)?.asString()
                                             ?: (arg as? KtStringTemplateExpression)?.asPlainString())?.let { str ->
                                             return@getCachedValue initialValue.project.getColorsMap()[str]?.valueElement?.getColor()
@@ -151,12 +148,9 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                 }
                         } else if ((method == "get" || method == "optional") && arguments.size == 2) {
                             ((initialValue.valueArguments.getOrNull(1)
-                                ?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.let { classLiteralExpression ->
-                                (classLiteralExpression.receiverExpression as? KtReferenceExpression
-                                    ?: (classLiteralExpression.receiverExpression as? KtDotQualifiedExpression)?.selectorExpression as? KtReferenceExpression)?.getImportableTargets(
-                                    initialValue.analyzePartial()
-                                )?.firstOrNull()?.let { clazz ->
-                                    findClass(clazz.fqNameSafe.asString())?.let { psiClass ->
+                                ?.getArgumentExpression() as? KtDotQualifiedExpression)?.receiverExpression as? KtClassLiteralExpression)?.classId()
+                                ?.let { fqName ->
+                                    findClass(fqName)?.let { psiClass ->
                                         if (psiClass.qualifiedName == COLOR_CLASS_NAME) {
                                             // Skin.get(string, Color::class.java)
                                             val resourceName = StringUtil.unquoteString(arg.text)
@@ -172,7 +166,6 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                         }
                                     }
                                 }
-                            }
                         }
                     }
                 }
@@ -185,11 +178,10 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         } else if (arguments.size == 4) {
             // Color(float, float, float, float)
             val floats = arrayOf(0f, 0f, 0f, 0f)
-            val context = initialValue.analyzePartial()
             for (i in 0..3) {
                 arguments.getOrNull(i)?.getArgumentExpression()?.let { expr ->
-                    val argType = expr.getType(context)
-                    if (argType == null || !KotlinBuiltIns.isFloat(argType)) return@getCachedValue null
+                    val argType = expr.classId()
+                    if (argType != DefaultTypeClassIds.FLOAT) return@getCachedValue null
                     val root = expr.findRoot()
                     val float = root.psiFloat() ?: return@getCachedValue null
                     floats[i] = float
@@ -457,9 +449,9 @@ private fun PsiElement.ktInt(): Int? {
 
     if (this is KtConstantExpression) {
 
-        getType(analyzePartial())?.let { type ->
+        classId()?.let { type ->
 
-            if (KotlinBuiltIns.isInt(type)) {
+            if (type == DefaultTypeClassIds.INT) {
 
                 return try {
                     if (StringUtil.startsWithIgnoreCase(txt, "0x")) StringUtil.trimStart(txt.lowercase(), "0x")
@@ -502,7 +494,7 @@ private fun PsiElement.psiFloat(): Float? {
     val context = context
 
     if (context is KtDotQualifiedExpression) {
-        if (context.receiverExpression.getType(context.analyzePartial())?.fqName() == COLOR_CLASS_NAME) {
+        if (context.receiverExpression.fqName() == COLOR_CLASS_NAME) {
             context.receiverExpression.getColor(ignoreContext = true)?.let { color ->
                 return when (context.selectorExpression?.text) {
                     "r" -> color.red / 255f

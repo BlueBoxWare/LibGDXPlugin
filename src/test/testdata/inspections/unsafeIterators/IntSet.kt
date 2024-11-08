@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.IntSet
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class IntSetTest {
+class IntSetTestKotlin {
 
   fun test() {
     <warning>IntSet().iterator()</warning>

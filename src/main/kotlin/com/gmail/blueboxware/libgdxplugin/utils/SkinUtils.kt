@@ -33,6 +33,7 @@ private const val COMMON_CLASS_NAMES = """(?:Color|BitmapFont|TintedDrawable|But
 @Suppress("RegExpRedundantNestedCharacterClass")
 val SKIN_SIGNATURE = Regex("""(?:com\.badlogic\.gdx\.$FQ_CLASS_NAME|\b$COMMON_CLASS_NAMES)\s*["']?\s*:\s*\{""")
 
+@Suppress("unused")
 fun getSkinFiles(project: Project): List<VirtualFile> {
     val result = mutableListOf<VirtualFile>()
     result.addAll(FileTypeIndex.getFiles(LibGDXSkinFileType, project.allScope()))

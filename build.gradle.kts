@@ -1,33 +1,58 @@
-fun properties(key: String) = project.findProperty(key).toString()
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    id("org.jetbrains.intellij") version "1.16.1"
+    id("org.jetbrains.kotlin.jvm") version "2.0.0"
     id("com.github.blueboxware.tocme") version "1.8"
+    id("org.jetbrains.intellij.platform") version "2.1.0"
 }
 
-group = properties("pluginGroup")
-version = properties("pluginVersion")
+group = providers.gradleProperty("pluginGroup").get()
+version = providers.gradleProperty("pluginVersion").get()
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+        jetbrainsRuntime()
+    }
+}
+
+dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity(providers.gradleProperty("platformVersion"))
+        bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        instrumentationTools()
+        jetbrainsRuntime()
+        pluginVerifier()
+        testFramework(TestFrameworkType.Platform)
+        testFramework(TestFrameworkType.Plugin.Java)
+    }
+    testImplementation("junit:junit:4.13.2")
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
-intellij {
-    pluginName.set(properties("pluginName"))
-    version.set(properties("platformVersion"))
-    type.set(properties("platformType"))
-    downloadSources.set(properties("platformDownloadSources").toBoolean())
-    updateSinceUntilBuild.set(true)
+intellijPlatform {
+    pluginConfiguration {
+        name = providers.gradleProperty("pluginName")
+        ideaVersion {
+            sinceBuild = providers.gradleProperty("pluginSinceBuild")
+            untilBuild = provider { null }
+        }
+    }
+    pluginVerification {
+        ides {
+            ide(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
+            recommended()
+        }
+    }
 
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
-    plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
 }
 
 sourceSets {
@@ -45,8 +70,8 @@ sourceSets {
 
 tasks {
     withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
+        sourceCompatibility = "21"
+        targetCompatibility = "21"
     }
 
     named<JavaCompile>("compileAnnotationsJava") {
@@ -54,10 +79,18 @@ tasks {
         targetCompatibility = "11"
     }
 
+    named<KotlinCompile>("compileTestKotlin") {
+        compilerOptions {
+            freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.analysis.api.permissions.KaAllowProhibitedAnalyzeFromWriteAction")
+        }
+    }
+
     runIde {
         maxHeapSize = "8g"
         systemProperties = mapOf(
-            "idea.ProcessCanceledException" to "disabled"
+            "idea.ProcessCanceledException" to "disabled",
+            "idea.is.internal" to "true",
+            "idea.kotlin.plugin.use.k2" to "true"
         )
     }
 
@@ -69,29 +102,23 @@ tasks {
         enabled = true
     }
 
-    patchPluginXml {
-        version.set(properties("pluginVersion"))
-        sinceBuild.set(properties("pluginSinceBuild"))
-        untilBuild.set(properties("pluginUntilBuild"))
-    }
-
-    runPluginVerifier {
-        ideVersions.set(properties("pluginVerifierIdeVersions").split(',').map(String::trim).filter(String::isNotEmpty))
-    }
-
     test {
         systemProperty("idea.home.path", System.getenv("LIBGDXPLUGIN_IDEA"))
+        environment("NO_FS_ROOTS_ACCESS_CHECK", "1")
         isScanForTestClasses = false
         include("**/Test*.class")
         include("com/gmail/blueboxware/libgdxplugin/ShowInfo.class")
         exclude("**/*$*.class")
+        jvmArgumentProviders += CommandLineArgumentProvider {
+            listOf("-Didea.kotlin.plugin.use.k2=true")
+        }
     }
 
     register<Jar>("annotationsJar") {
         archiveBaseName.set("libgdxpluginannotations")
         from(sourceSets.getByName("annotations").output)
         include("com/gmail/blueboxware/libgdxplugin/annotations/**")
-        archiveVersion.set(properties("pluginVersion"))
+        archiveVersion.set(providers.gradleProperty("pluginVersion"))
     }
 
     register<Jar>("annotationsSourcesJar") {
@@ -100,7 +127,7 @@ tasks {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         include(project.tasks.getByName<Jar>("annotationsJar").includes)
         archiveBaseName.set(project.tasks.getByName<Jar>("annotationsJar").archiveBaseName)
-        archiveVersion.set(properties("pluginVersion"))
+        archiveVersion.set(providers.gradleProperty("pluginVersion"))
     }
 
 }

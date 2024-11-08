@@ -13,6 +13,8 @@ import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiFile
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -29,6 +31,7 @@ import com.intellij.psi.PsiFile
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@OptIn(KaAllowAnalysisOnEdt::class)
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestReferences : LibGDXCodeInsightFixtureTestCase() {
 
@@ -319,7 +322,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         val elementAtCaret = file.findElementAt(myFixture.caretOffset)
         val sourceElement = elementAtCaret?.firstParent<SkinPropertyName>()
         assertNotNull(sourceElement)
-        val field = sourceElement?.reference?.resolve() as? PsiField
+        val field = allowAnalysisOnEdt { sourceElement?.reference?.resolve() as? PsiField }
         assertNotNull(field)
         val expectedName =
             expectedFieldName ?: (sourceElement?.property?.containingObject?.resolveToTypeString() + "::" + field?.name)
@@ -331,7 +334,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         val elementAtCaret = file.findElementAt(myFixture.caretOffset)
         val sourceElement = elementAtCaret?.firstParent { sourceElementClass.isInstance(it) }
         assertNotNull(sourceElement)
-        val file = sourceElement?.reference?.resolve() as? PsiFile
+        val file = allowAnalysisOnEdt { sourceElement?.reference?.resolve() as? PsiFile }
         assertNotNull(file)
         assertEquals(expectedFileName, file?.name)
     }
@@ -340,7 +343,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         configureByFile(testname() + ".skin")
         val element = file.findElementAt(myFixture.caretOffset)?.parent
         assertNotNull(element)
-        val resource = element?.reference?.resolve() as? SkinResource
+        val resource = allowAnalysisOnEdt { element?.reference?.resolve() as? SkinResource }
         if (resourceName != null) {
             assertNotNull(resource)
             assertEquals(resourceName, resource?.name)
@@ -355,21 +358,25 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         val element: SkinClassName? = file.findElementAt(myFixture.caretOffset)?.parent?.parent as? SkinClassName
         assertNotNull(element)
         val clazz =
-            (element?.reference as? SkinJavaClassReference)
-                ?.multiResolve(false)
-                ?.firstOrNull()
-                ?.element as? PsiClass
+            allowAnalysisOnEdt {
+                (element?.reference as? SkinJavaClassReference)
+                    ?.multiResolve(false)
+                    ?.firstOrNull()
+                    ?.element as? PsiClass
+            }
         assertNotNull(clazz)
         assertEquals(className, clazz?.qualifiedName)
     }
 
     private fun doTestDrawableReference() {
-        copyFileToProject(testname() + ".atlas")
-        configureByFile(testname() + ".skin")
-        val element = file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
-        val reference = element.reference ?: throw AssertionError()
-        val target = reference.resolve() as Atlas2Region
-        assertEquals(element.value, target.name)
+        allowAnalysisOnEdt {
+            copyFileToProject(testname() + ".atlas")
+            configureByFile(testname() + ".skin")
+            val element = file.findElementAt(myFixture.caretOffset)?.firstParent<SkinStringLiteral>()!!
+            val reference = element.reference ?: throw AssertionError()
+            val target = reference.resolve() as Atlas2Region
+            assertEquals(element.value, target.name)
+        }
     }
 
     override fun setUp() {

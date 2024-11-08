@@ -24,6 +24,7 @@ import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.util.Query
 import org.jetbrains.kotlin.idea.base.util.projectScope
+import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.idea.references.SyntheticPropertyAccessorReference
 import org.jetbrains.kotlin.psi.*
 
@@ -158,6 +159,7 @@ object FlushingMethodsUtils {
                         ref.element.context is PsiMethodCallExpression
                         || ref.element.context is KtProperty
                         || ref.element.context is KtCallExpression
+                        || ref is KtSimpleNameReference
                         || ref is SyntheticPropertyAccessorReference
                     ) {
                         val functionalParent = getFunctionalParent(ref.element)

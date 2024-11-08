@@ -5,13 +5,13 @@ import com.intellij.psi.*
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtil
+import org.jetbrains.kotlin.analysis.utils.classId
 import org.jetbrains.kotlin.asJava.elements.KtLightAnnotationForSourceEntry
 import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.asJava.elements.KtLightMember
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.idea.util.findAnnotation
-import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.types.expressions.ExpressionTypingUtils
 
@@ -162,8 +162,8 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
 }
 
 internal fun KtAnnotated.getAnnotation(annotationClass: PsiClass): AnnotationWrapper? =
-    annotationClass.qualifiedName?.let { qualifiedName ->
-        findAnnotation(FqName(qualifiedName))?.let { annotationEntry ->
+    annotationClass.classId?.let { classId ->
+        findAnnotation(classId)?.let { annotationEntry ->
             KtAnnotationWrapper(annotationEntry)
         }
     }

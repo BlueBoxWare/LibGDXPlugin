@@ -17,7 +17,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isProfilingCall
-import com.gmail.blueboxware.libgdxplugin.utils.resolveCallToStrings
+import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
@@ -30,9 +30,9 @@ internal class KotlinProfilingCodeInspection : LibGDXKotlinBaseInspection() {
 
         override fun visitQualifiedExpression(expression: KtQualifiedExpression) {
 
-            val (className, methodName) = expression.resolveCallToStrings() ?: return
+            val (clazz, methodName) = expression.resolveCall() ?: return
 
-            if (isProfilingCall(className, methodName)) {
+            if (isProfilingCall(clazz.asFqNameString(), methodName)) {
                 holder.registerProblem(expression, message("profiling.code.problem.descriptor"))
             }
 

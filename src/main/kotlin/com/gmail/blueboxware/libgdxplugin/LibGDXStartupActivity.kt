@@ -1,11 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.skin.refactoring.ChangeKotlinPackageListener
 import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.startup.ProjectActivity
-import com.intellij.psi.PsiManager
 
 
 /*
@@ -26,11 +24,6 @@ import com.intellij.psi.PsiManager
 internal class LibGDXStartupActivity : ProjectActivity {
 
     override suspend fun execute(project: Project) {
-        PsiManager.getInstance(project).addPsiTreeChangeListener(
-            ChangeKotlinPackageListener(project),
-            project.service<DisposableProvider>()
-        )
-
         project.service<VersionService>().projectOpened()
     }
 

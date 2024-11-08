@@ -16,14 +16,13 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.classId
 import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.gmail.blueboxware.libgdxplugin.utils.resolveCall
 import com.intellij.codeInspection.ProblemsHolder
-import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.psi.KtForExpression
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 
 internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
@@ -37,8 +36,8 @@ internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 
             val (receiverType, methodName) = expression.resolveCall() ?: return
 
-            val receiverTypeFqName = receiverType.fqNameSafe.asString()
-            val receiverTypeShortName = receiverType.name
+            val receiverTypeFqName = receiverType.asFqNameString()
+            val receiverTypeShortName = receiverType.shortClassName
 
             if (!iteratorsMap.containsKey(receiverTypeFqName)) return
 
@@ -55,10 +54,10 @@ internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
             super.visitForExpression(expression)
 
             expression.loopRange?.let { loopRange ->
-                val iteratorType = expression.analyze().getType(loopRange)?.constructor?.declarationDescriptor ?: return
+                val iteratorType = loopRange.classId() ?: return
 
-                val iteratorTypeFqName = iteratorType.fqNameSafe.asString()
-                val iteratorTypeShortName = iteratorType.name
+                val iteratorTypeFqName = iteratorType.asFqNameString()
+                val iteratorTypeShortName = iteratorType.shortClassName
 
                 if (iteratorsMap.containsKey(iteratorTypeFqName)
                     && (iteratorsMap[iteratorTypeFqName]?.contains("iterator") == true)

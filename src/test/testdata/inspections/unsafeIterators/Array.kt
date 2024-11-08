@@ -2,7 +2,7 @@ import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.utils.Predicate
 
 @Suppress("UNUSED_VARIABLE")
-class ArrayTest {
+class ArrayTestKotlin {
 
   inner class Pred : Predicate<String> {
     override fun evaluate(arg0: String): Boolean {

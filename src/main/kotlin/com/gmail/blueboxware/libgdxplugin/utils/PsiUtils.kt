@@ -15,21 +15,20 @@ import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.TypeConversionUtil
 import com.intellij.util.PathUtil
+import org.jetbrains.kotlin.analysis.api.analyze
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.types.KaClassType
+import org.jetbrains.kotlin.analysis.utils.classId
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
-import org.jetbrains.kotlin.descriptors.ClassDescriptor
-import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.idea.base.psi.deleteSingle
-import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.idea.intentions.calleeName
+import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
+import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
-import org.jetbrains.kotlin.resolve.bindingContextUtil.getReferenceTargets
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
-import org.jetbrains.kotlin.resolve.descriptorUtil.getAllSuperclassesWithoutAny
-import org.jetbrains.kotlin.resolve.lazy.BodyResolveMode
-import org.jetbrains.kotlin.types.KotlinType
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
@@ -147,9 +146,6 @@ internal fun PsiType.componentType(project: Project): PsiType? {
     return null
 }
 
-internal fun ClassDescriptor.supersAndThis() =
-    getAllSuperclassesWithoutAny() + this
-
 internal fun PsiElement.findParentWhichIsChildOf(childOf: PsiElement): PsiElement? {
     var element: PsiElement? = this
     while (element != null && element.parent != childOf) {
@@ -193,8 +189,6 @@ internal fun GrLiteral.asString(): String? =
 
 internal fun PsiType?.isStringType(element: PsiElement) =
     this == PsiType.getJavaLangString(element.manager, element.resolveScope)
-
-internal fun KtElement.analyzePartial() = analyze(BodyResolveMode.PARTIAL)
 
 internal fun Project.getPsiFile(filename: String): PsiFile? {
 
@@ -263,17 +257,23 @@ internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String
         it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
     }
 
-private val RESOLVED_CALL_KEY = key<CachedValue<Pair<DeclarationDescriptor, String>?>>("resolved_call")
+private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolved_call")
 
-internal fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, String>? {
+internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 
     return getCachedValue(RESOLVED_CALL_KEY) {
-        var receiverType: DeclarationDescriptor? =
-            analyze().getType(receiverExpression)?.constructor?.declarationDescriptor
+        var receiverType: ClassId? = if (receiverExpression is KtNameReferenceExpression)
+            (receiverExpression.references.firstOrNull { it is KtSimpleNameReference }?.resolve() as? PsiClass)?.classId
+        else
+            analyze(receiverExpression) {
+                (receiverExpression.expressionType as? KaClassType)?.classId
+            }
 
         if (receiverType == null) {
-            // static method call?
-            receiverType = receiverExpression.getReferenceTargets(analyze()).firstOrNull() ?: return@getCachedValue null
+            receiverType = analyze(receiverExpression) {
+                (receiverExpression.expressionType?.lowerBoundIfFlexible() as? KaClassType)?.classId
+                    ?: return@getCachedValue null
+            }
         }
 
         val methodName = calleeName ?: return@getCachedValue null
@@ -284,44 +284,43 @@ internal fun KtQualifiedExpression.resolveCall(): Pair<DeclarationDescriptor, St
 
 }
 
-internal fun KtQualifiedExpression.resolveCallToStrings(): Pair<String, String>? =
-    resolveCall()?.let {
-        Pair(it.first.fqNameSafe.asString(), it.second)
-    }
-
-internal fun KtCallExpression.resolveCall(): Pair<ClassDescriptor, KtNameReferenceExpression>? {
-
-    (context as? KtQualifiedExpression)?.let { dotExpression ->
-
-        val bindingContext = dotExpression.analyze()
-        val type = bindingContext.getType(dotExpression.receiverExpression)
-        var receiverType: ClassDescriptor? = type?.constructor?.declarationDescriptor as? ClassDescriptor
-
-        if (receiverType == null) {
-            // static method call?
-            receiverType = dotExpression
-                .receiverExpression
-                .getReferenceTargets(bindingContext)
-                .firstOrNull() as? ClassDescriptor
-                ?: return null
+internal fun KtCallExpression.resolveCall(): Pair<ClassId, KtNameReferenceExpression>? =
+    (context as? KtQualifiedExpression)?.let { qualifiedExpression ->
+        (calleeExpression as? KtNameReferenceExpression)?.let { calleeExpression ->
+            qualifiedExpression.resolveCall()?.let {
+                Pair(it.first, calleeExpression)
+            }
         }
-
-        val methodName = calleeExpression as? KtNameReferenceExpression ?: return null
-
-        return Pair(receiverType, methodName)
-
     }
-
-    return null
-
-}
 
 internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
     resolveCall()?.let {
-        Pair(it.first.fqNameSafe.asString(), it.second.getReferencedName())
+        Pair(it.first.asFqNameString(), it.second.getReferencedName())
     }
 
-internal fun KotlinType.fqName() = constructor.declarationDescriptor?.fqNameSafe?.asString()
+internal fun KtExpression.classId(): ClassId? = analyze(this) {
+    (expressionType?.lowerBoundIfFlexible() as? KaClassType)?.classId
+}
+
+@OptIn(KaAllowAnalysisOnEdt::class)
+internal fun KtClassLiteralExpression.classId(): String? =
+    allowAnalysisOnEdt {
+        analyze(this) {
+            (receiverType as? KaClassType)?.classId?.asFqNameString()
+        }
+    }
+
+fun KtElement?.getCalleeExpressionIfAny(): KtExpression? =
+    when (val element = if (this is KtExpression) KtPsiUtil.deparenthesize(this) else this) {
+        is KtSimpleNameExpression -> element
+        is KtCallElement -> element.calleeExpression
+        is KtQualifiedExpression -> element.selectorExpression.getCalleeExpressionIfAny()
+        is KtOperationExpression -> element.operationReference
+        else -> null
+    }
+
+internal fun KtExpression.fqName(): String? =
+    analyze(this) { (expressionType?.lowerBoundIfFlexible() as? KaClassType)?.classId?.asFqNameString() }
 
 internal fun PsiElement.findLeaf(elementType: IElementType): LeafPsiElement? =
     allChildren.firstOrNull { it.isLeaf(elementType) } as? LeafPsiElement
@@ -346,6 +345,12 @@ internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElem
 
 internal inline fun <reified T : PsiElement> PsiElement.getParentOfType(strict: Boolean = true): T? =
     PsiTreeUtil.getParentOfType(this, T::class.java, strict)
+
+internal fun KtAnnotationEntry.classId(): ClassId? =
+    analyze(this) {
+//        (calleeExpression?.expressionType as? KaClassType)?.classId
+        (calleeExpression?.typeReference?.type as? KaClassType)?.classId
+    }
 
 internal fun terminatedOnCurrentLine(editor: Editor, element: PsiElement): Boolean {
     val document = editor.document

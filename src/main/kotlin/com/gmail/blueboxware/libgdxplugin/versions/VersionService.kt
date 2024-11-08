@@ -73,7 +73,7 @@ class VersionService(val project: Project) : Disposable {
     private fun updateLatestVersions() {
         var networkCount = 0
 
-        Libraries.values().sortedBy { it.library.lastUpdated }.forEach { lib ->
+        Libraries.entries.sortedBy { it.library.lastUpdated }.forEach { lib ->
             val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
             if (lib.library.updateLatestVersion(this, networkAllowed)) {
                 LOG.debug("Updated latest version of ${lib.library.name}.")

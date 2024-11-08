@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.IdentityMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST")
-class IdentityMapTest {
+class IdentityMapTestKotlin {
 
   var map1 = IdentityMap<String, Any>()
 

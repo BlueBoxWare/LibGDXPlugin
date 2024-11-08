@@ -4,13 +4,9 @@ import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.util.ProcessingContext
-import org.jetbrains.kotlin.idea.imports.getImportableTargets
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtClassLiteralExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
-import org.jetbrains.kotlin.psi.KtReferenceExpression
-import org.jetbrains.kotlin.resolve.BindingContext
-import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
 
 
 /*
@@ -130,18 +126,18 @@ class AssetReferenceProvider : PsiReferenceProvider() {
 
                 if (arg2receiver is KtClassLiteralExpression) {
 
-                    getClassFromClassLiteralExpression(arg2receiver, methodCall.analyzePartial())?.let { clazz ->
-                        if (clazz.qualifiedName in SKIN_TEXTURE_REGION_CLASSES) {
+                    arg2receiver.classId()?.let { fqName ->
+                        if (fqName in SKIN_TEXTURE_REGION_CLASSES) {
                             return AssetReference.createReferences(
                                 element,
                                 methodCall,
                                 wantedClass = TEXTURE_REGION_CLASS_NAME
                             )
-                        } else if (clazz.qualifiedName != TINTED_DRAWABLE_CLASS_NAME) {
+                        } else if (fqName != TINTED_DRAWABLE_CLASS_NAME) {
                             return AssetReference.createReferences(
                                 element,
                                 methodCall,
-                                wantedClass = DollarClassName(clazz)
+                                wantedClass = DollarClassName(fqName)
                             )
                         }
                     }
@@ -159,18 +155,5 @@ class AssetReferenceProvider : PsiReferenceProvider() {
 
     private fun getClassFromClassObjectExpression(psiClassObjectAccessExpression: PsiClassObjectAccessExpression): PsiClass? =
         (psiClassObjectAccessExpression.operand.type as? PsiClassReferenceType)?.resolve()
-
-    private fun getClassFromClassLiteralExpression(
-        ktClassLiteralExpression: KtClassLiteralExpression,
-        bindingContext: BindingContext
-    ): PsiClass? =
-        (ktClassLiteralExpression.receiverExpression as? KtReferenceExpression
-            ?: (ktClassLiteralExpression.receiverExpression as? KtDotQualifiedExpression)
-                ?.selectorExpression as? KtReferenceExpression)
-            ?.getImportableTargets(bindingContext)
-            ?.firstOrNull()
-            ?.let { clazz ->
-                ktClassLiteralExpression.findClass(clazz.fqNameSafe.asString())
-            }
 
 }

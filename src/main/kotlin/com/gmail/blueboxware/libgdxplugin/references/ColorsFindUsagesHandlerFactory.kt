@@ -1,15 +1,10 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.utils.getParentOfType
-import com.gmail.blueboxware.libgdxplugin.utils.isColorsPutCall
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesHandlerFactory
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.psi.PsiMethodCallExpression
-import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 
 
 /*
@@ -39,13 +34,14 @@ internal class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
 
 
     override fun canFindUsages(element: PsiElement): Boolean =
-        when (element) {
-            is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
-            is KtStringTemplateExpression -> element.isPlainWithEscapes()
-                    && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
-
-            else -> false
-        }
+        element is PsiLiteralExpression || element is KtStringTemplateExpression
+//        when (element) {
+//            is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
+//            is KtStringTemplateExpression -> element.isPlainWithEscapes()
+//                    && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
+//
+//            else -> false
+//        }
 
 
 }

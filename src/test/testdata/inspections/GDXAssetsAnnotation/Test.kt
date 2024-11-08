@@ -2,7 +2,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.gmail.blueboxware.libgdxplugin.annotations.GDXAssets
 
-class Test {
+class TestFoo {
 
   @GDXAssets(skinFiles = arrayOf("src\\libgdx.skin", <error>"src/libgd.skin"</error>), atlasFiles = arrayOf("src//dir/holo.atlas"),
     <warning>propertiesFiles</warning> = arrayOf("src/test.properties", <error>"src/foo.properties"</error>)

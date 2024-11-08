@@ -13,18 +13,16 @@ private var ourBundle: Reference<ResourceBundle>? = null
 
 private const val BUNDLE = "libgdxplugin"
 
-fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any, default: String? = null): String {
+fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any, default: String? = null): String =
 
     getBundle()?.let { bundle ->
-        return if (default == null) {
+        if (default == null) {
             AbstractBundle.message(bundle, key, *params)
         } else {
-            AbstractBundle.messageOrDefault(bundle, key, default, *params)
+            AbstractBundle.messageOrDefault(bundle, key, default, *params) ?: ""
         }
-    }
+    } ?: ""
 
-    return ""
-}
 
 fun getBundle(): ResourceBundle? {
     var bundle = com.intellij.reference.SoftReference.dereference(ourBundle)

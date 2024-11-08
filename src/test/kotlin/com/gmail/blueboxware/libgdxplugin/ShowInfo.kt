@@ -5,6 +5,7 @@ import com.intellij.ide.plugins.PluginManager
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.extensions.ExtensionPointName
+import org.jetbrains.kotlin.idea.base.plugin.useK2Plugin
 import java.io.File
 
 
@@ -25,10 +26,13 @@ import java.io.File
  */
 class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
 
+    @Suppress("ReplacePrintlnWithLogging")
     fun testShowInfo() {
         println("IntelliJ version: " + ApplicationInfo.getInstance().fullVersion)
         println("IntelliJ build: " + ApplicationInfo.getInstance().build)
-        println("Kotlin version: " + KotlinVersion.CURRENT + "\n")
+        println("Kotlin version: " + KotlinVersion.CURRENT)
+        println("Use K2: $useK2Plugin")
+        println()
 
         println("PLUGINS:")
         PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->

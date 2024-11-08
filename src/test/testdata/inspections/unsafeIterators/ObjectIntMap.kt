@@ -3,7 +3,7 @@ package main
 import com.badlogic.gdx.utils.ObjectIntMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class ObjectIntMapTest {
+class ObjectIntMapTestKotlin {
 
   var ofm2: ObjectIntMap<String>? = null
 

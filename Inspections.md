@@ -13,7 +13,6 @@
 | GDXJavaMissingFlush | Missing flush on Preferences | Call Preferences.flush() to make sure changes to preferences are persisted. |
 | GDXJavaNonExistingAsset | Resource doesn't exist | Looks in Java and Kotlin code for usages of resources which don't exist. @GDXAssets annotated elements only. |
 | GDXJavaProfilingCode | Profiling code | Looks for profiling code, which should be disabled before release. |
-| GDXJavaShapeRendererCrash | Using problematic ShapeRenderer | Using ShapeRenderer with libGDX versions prior to 1.9.2 causes a crash on ARM64 Android devices. Upgrade to libGDX to version 1.9.2 or higher (see <a href="https://github.com/libgdx/libgdx/issues/3790">https://github.com/libgdx/libgdx/issues/3790</a>). |
 | GDXJavaStaticResource | Static resource | Don't make resources static, unless you take care to properly manage them. Static resources can cause problems on Android, because the life-cycle of a static variable is not necessarily the same as the life-cycle of your application. |
 | GDXJavaTestId | Test/dummy IDs | Looks for the use of some known test IDs. |
 | GDXJavaUnsafeIterator | Use of non reentrant iterator method | Iterator methods on libGDX collections return the same iterator instance each time the method is called. For nested or multithreaded iteration create a new iterator using the appropriate constructor. |
@@ -26,7 +25,6 @@
 | GDXKotlinMissingFlush | Missing flush on Preferences | Call Preferences.flush() to make sure changes to preferences are persisted. |
 | GDXKotlinNonExistingAsset | Resource doesn't exist | Looks in Java and Kotlin code for usages of resources which don't exist. @GDXAssets annotated elements only. |
 | GDXKotlinProfilingCode | Profiling code | Looks for profiling code, which should be disabled before release. |
-| GDXKotlinShapeRendererCrash | Using problematic ShapeRenderer | Using ShapeRenderer with libGDX versions prior to 1.9.2 causes a crash on ARM64 Android devices. Upgrade to libGDX to version 1.9.2 or higher (see <a href="https://github.com/libgdx/libgdx/issues/3790">https://github.com/libgdx/libgdx/issues/3790</a>). |
 | GDXKotlinStaticResource | Static resource | Don't make resources static, unless you take care to properly manage them. Static resources can cause problems on Android, because the life-cycle of a static variable is not necessarily the same as the life-cycle of your application.<br /><br />Note that Kotlin top-level properties and properties of object literals and companion objects are compiled to static properties. |
 | GDXKotlinTestId | Test/dummy IDs | Looks for the use of some known test IDs. |
 | GDXKotlinUnsafeIterator | Use of non reentrant iterator method | Iterator methods on libGDX collections return the same iterator instance each time the method is called. For nested or multithreaded iteration create a new iterator using the appropriate constructor. |

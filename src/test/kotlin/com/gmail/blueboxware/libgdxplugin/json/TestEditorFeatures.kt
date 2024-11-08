@@ -1,9 +1,12 @@
+@file:Suppress("SameParameterValue")
+
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.testname
-import com.intellij.codeInsight.generation.actions.CommentByBlockCommentAction
+import com.intellij.codeInsight.generation.CommentByBlockCommentHandler
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.spellchecker.inspections.SpellCheckingInspection
 
 
@@ -51,11 +54,13 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
         editor.caretModel.moveCaretRelatively(0, -1, false, false, false)
         editor.caretModel.moveToOffset(editor.caretModel.visualLineStart)
         editor.caretModel.moveCaretRelatively(editor.caretModel.visualLineEnd - 1, 0, true, false, false)
-        val blockCommentAction = CommentByBlockCommentAction()
-        blockCommentAction.actionPerformedImpl(project, editor)
-        myFixture.checkResultByFile("comments/blockComment.txt")
-        blockCommentAction.actionPerformedImpl(project, editor)
-        myFixture.checkResultByFile("comments/noComment.txt")
+        val blockCommentAction = CommentByBlockCommentHandler()
+        WriteCommandAction.runWriteCommandAction(project) {
+            blockCommentAction.invoke(project, editor, editor.caretModel.currentCaret, file)
+            myFixture.checkResultByFile("comments/blockComment.txt")
+            blockCommentAction.invoke(project, editor, editor.caretModel.currentCaret, file)
+            myFixture.checkResultByFile("comments/noComment.txt")
+        }
     }
 
     private fun doTestBreadcrumbs(vararg expectedComponents: String) {

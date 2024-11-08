@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.completion
 import com.gmail.blueboxware.libgdxplugin.utils.*
 import com.intellij.codeInsight.completion.CompletionConfidence
 import com.intellij.ide.highlighter.JavaFileType
+import com.intellij.openapi.editor.Editor
 import com.intellij.psi.*
 import com.intellij.util.ThreeState
 import org.jetbrains.kotlin.asJava.toLightAnnotation
@@ -29,7 +30,12 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
  */
 internal class LibGDXCompletionConfidence : CompletionConfidence() {
 
-    override fun shouldSkipAutopopup(contextElement: PsiElement, psiFile: PsiFile, offset: Int): ThreeState {
+    override fun shouldSkipAutopopup(
+        editor: Editor,
+        contextElement: PsiElement,
+        psiFile: PsiFile,
+        offset: Int
+    ): ThreeState {
 
         if (!contextElement.project.isLibGDXProject()) {
             return ThreeState.UNSURE

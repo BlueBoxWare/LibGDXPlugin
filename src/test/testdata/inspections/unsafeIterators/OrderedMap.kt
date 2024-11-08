@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.ObjectMap
 import com.badlogic.gdx.utils.OrderedMap
 
 @Suppress("UNUSED_VARIABLE", "UNCHECKED_CAST", "USELESS_CAST")
-class OrderedMapT {
+class OrderedMapTKotlin {
 
   var map = OrderedMap<String, Any>()
   var map2 = OrderedMap<String, OrderedMap<String, Any>>()
