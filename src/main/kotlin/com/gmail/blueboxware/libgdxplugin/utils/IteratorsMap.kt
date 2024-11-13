@@ -26,6 +26,7 @@ val iteratorsMap = mapOf(
     "com.badlogic.gdx.utils.LongMap" to listOf("entries", "iterator", "keys", "values"),
     "com.badlogic.gdx.utils.ObjectFloatMap" to listOf("entries", "iterator", "keys", "values"),
     "com.badlogic.gdx.utils.ObjectIntMap" to listOf("entries", "iterator", "keys", "values"),
+    "com.badlogic.gdx.utils.ObjectLongMap" to listOf("entries", "iterator", "keys", "values"),
     "com.badlogic.gdx.utils.ObjectMap" to listOf("entries", "iterator", "keys", "values"),
     "com.badlogic.gdx.utils.ObjectSet" to listOf("iterator"),
     "com.badlogic.gdx.utils.OrderedMap" to listOf("entries", "iterator", "keys", "values"),
