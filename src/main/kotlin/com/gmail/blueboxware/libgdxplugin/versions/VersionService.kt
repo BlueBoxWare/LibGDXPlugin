@@ -102,7 +102,7 @@ class VersionService(val project: Project) : Disposable {
         }
 
         if (usedVersions[Libraries.LIBGDX] == null) {
-            val runnable = {
+            val callable = Callable {
                 project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
                     ((psiClass.findFieldByName(
                         "VERSION",
@@ -113,10 +113,13 @@ class VersionService(val project: Project) : Disposable {
                 }
             }
             if (ApplicationManager.getApplication().isUnitTestMode) {
-                DumbService.getInstance(project).runWhenSmart(runnable)
+                DumbService.getInstance(project).runWhenSmart({ callable.call() })
             } else {
                 DumbService.getInstance(project).smartInvokeLater {
-                    ReadAction.nonBlocking(Callable(runnable)).inSmartMode(project)
+                    ReadAction.nonBlocking(callable)
+                        .inSmartMode(project)
+                        .coalesceBy(this)
+                        .expireWith(this)
                         .submit(AppExecutorUtil.getAppExecutorService())
                 }
             }
