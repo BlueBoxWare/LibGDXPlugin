@@ -47,7 +47,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
     fun isComponentColor() =
         resolveToTypeString() == COLOR_CLASS_NAME
-                && propertyList.size > 0
+                && propertyList.isNotEmpty()
                 && propertyNames.all { it in listOf("r", "g", "b", "a") }
 
     override fun asColor(force: Boolean): Color? {

@@ -123,7 +123,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
         ) to listOf()),
 
-        "{ com.example.MyTestClass\$<caret> }" to (listOf(
+        "{ com.example.MyTestClass$<caret> }" to (listOf(
             "com.example.MyTestClass\$Inner",
             "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
         ) to listOf()),
@@ -133,7 +133,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
         ) to listOf()),
 
-        "{ Skin\$<caret> }" to (listOf(
+        "{ Skin$<caret> }" to (listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
         ) to listOf()),
 
@@ -141,7 +141,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
         ) to listOf()),
 
-        "{ \"com.example.MyTestClass\$<caret> }" to (listOf(
+        "{ \"com.example.MyTestClass$<caret> }" to (listOf(
             "com.example.MyTestClass\$Inner",
             "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
         ) to listOf()),
@@ -151,7 +151,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.example.MyTestClass\$InnerClass\$MyInnerStyle"
         ) to listOf()),
 
-        "{ \"Skin\$<caret>\" }" to (listOf(
+        "{ \"Skin$<caret>\" }" to (listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"
         ) to listOf()),
 
@@ -174,7 +174,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
         ) to listOf()),
 
-        "{ TextButton\$<caret> }" to (listOf(
+        "{ TextButton$<caret> }" to (listOf(
             "com.badlogic.gdx.scenes.scene2d.ui.TextButton\$TextButtonStyle"
         ) to listOf()),
 

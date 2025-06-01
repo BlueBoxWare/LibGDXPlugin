@@ -71,7 +71,6 @@ class MarkAsGdxJsonAction : AnAction() {
 
     }
 
-    @Suppress("DialogTitleCapitalization")
     override fun actionPerformed(event: AnActionEvent) {
 
         val project = event.project ?: return

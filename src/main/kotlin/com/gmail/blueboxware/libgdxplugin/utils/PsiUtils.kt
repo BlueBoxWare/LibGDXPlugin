@@ -55,9 +55,7 @@ private const val QUEUE_CLASS_NAME = "com.badlogic.gdx.utils.Queue"
 private const val COLLECTION_CLASS_NAME = "java.util.Collection"
 
 private val CONTAINER_CLASS_NAMES = listOf(
-    ARRAY_CLASS_NAME,
-    QUEUE_CLASS_NAME,
-    COLLECTION_CLASS_NAME
+    ARRAY_CLASS_NAME, QUEUE_CLASS_NAME, COLLECTION_CLASS_NAME
 )
 
 
@@ -70,14 +68,11 @@ internal fun PsiElement.isFollowByNewLine() = node.treeNext?.isNewline() ?: fals
 
 internal fun PsiElement.isPrecededByNewline() = node.treePrev?.isNewline() ?: false
 
-internal fun ASTNode.isNewline() =
-    elementType == TokenType.WHITE_SPACE && text.contains('\n')
+internal fun ASTNode.isNewline() = elementType == TokenType.WHITE_SPACE && text.contains('\n')
 
-internal fun PsiElement.isLeaf(types: TokenSet): Boolean =
-    (this as? LeafPsiElement)?.elementType in types
+internal fun PsiElement.isLeaf(types: TokenSet): Boolean = (this as? LeafPsiElement)?.elementType in types
 
-internal fun PsiElement.isLeaf(vararg types: IElementType): Boolean =
-    (this as? LeafPsiElement)?.elementType in types
+internal fun PsiElement.isLeaf(vararg types: IElementType): Boolean = (this as? LeafPsiElement)?.elementType in types
 
 @Suppress("unused")
 internal inline fun <reified T : PsiElement> PsiElement.contextOfType(): T? =
@@ -89,11 +84,9 @@ internal inline fun <reified T : PsiElement> PsiElement.childOfType(): T? =
 internal inline fun <reified T : PsiElement> PsiElement.childrenOfType(): Collection<T> =
     PsiTreeUtil.findChildrenOfType(this, T::class.java)
 
-internal inline fun <reified T : PsiElement> PsiElement.firstParent(): T? =
-    firstParent { it is T } as? T
+internal inline fun <reified T : PsiElement> PsiElement.firstParent(): T? = firstParent { it is T } as? T
 
-internal fun PsiElement.firstParent(condition: (PsiElement) -> Boolean) =
-    firstParent(true, condition)
+internal fun PsiElement.firstParent(condition: (PsiElement) -> Boolean) = firstParent(true, condition)
 
 internal fun PsiElement.firstParent(includeSelf: Boolean, condition: (PsiElement) -> Boolean): PsiElement? {
 
@@ -124,11 +117,9 @@ internal fun PsiElement.lastChild(condition: (PsiElement) -> Boolean): PsiElemen
 
 }
 
-internal fun PsiClass.supersAndThis() =
-    InheritanceUtil.getSuperClasses(this) + this
+internal fun PsiClass.supersAndThis() = InheritanceUtil.getSuperClasses(this) + this
 
-internal fun PsiClass.getType() =
-    PsiElementFactory.getInstance(project).createType(this, PsiSubstitutor.EMPTY)
+internal fun PsiClass.getType() = PsiElementFactory.getInstance(project).createType(this, PsiSubstitutor.EMPTY)
 
 internal fun PsiType.componentType(project: Project): PsiType? {
     if (this is PsiArrayType) {
@@ -176,11 +167,9 @@ internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression?
 internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
     arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
 
-internal fun PsiLiteralExpression.asString(): String? =
-    (value as? String)?.toString()
+internal fun PsiLiteralExpression.asString(): String? = (value as? String)
 
-internal fun KtStringTemplateExpression.asPlainString(): String? =
-    if (isPlainWithEscapes()) plainContent else null
+internal fun KtStringTemplateExpression.asPlainString(): String? = if (isPlainWithEscapes()) plainContent else null
 
 internal fun GrLiteral.asString(): String? =
     takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
@@ -218,11 +207,7 @@ internal fun PsiClass.findAllStaticInnerClasses(): List<PsiClass> {
     val result = mutableListOf(this)
 
     for (innerClass in innerClasses) {
-        if (innerClass.hasModifierProperty(PsiModifier.STATIC)
-            && (innerClass !is KtLightClass
-                    || innerClass.kotlinOrigin !is KtObjectDeclaration
-                    )
-        ) {
+        if (innerClass.hasModifierProperty(PsiModifier.STATIC) && (innerClass !is KtLightClass || innerClass.kotlinOrigin !is KtObjectDeclaration)) {
             result.addAll(innerClass.findAllStaticInnerClasses())
         }
     }
@@ -252,20 +237,19 @@ internal fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
 }
 
-internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? =
-    resolveCall()?.let {
-        it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
-    }
+internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? = resolveCall()?.let {
+    it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
+}
 
 private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolved_call")
 
 internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 
     return getCachedValue(RESOLVED_CALL_KEY) {
-        var receiverType: ClassId? = if (receiverExpression is KtNameReferenceExpression)
-            (receiverExpression.references.firstOrNull { it is KtSimpleNameReference }?.resolve() as? PsiClass)?.classId
-        else
-            analyze(receiverExpression) {
+        var receiverType: ClassId? =
+            if (receiverExpression is KtNameReferenceExpression) (receiverExpression.references.firstOrNull { it is KtSimpleNameReference }
+                ?.resolve() as? PsiClass)?.classId
+            else analyze(receiverExpression) {
                 (receiverExpression.expressionType as? KaClassType)?.classId
             }
 
@@ -293,22 +277,20 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassId, KtNameReferenceExpres
         }
     }
 
-internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
-    resolveCall()?.let {
-        Pair(it.first.asFqNameString(), it.second.getReferencedName())
-    }
+internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? = resolveCall()?.let {
+    Pair(it.first.asFqNameString(), it.second.getReferencedName())
+}
 
 internal fun KtExpression.classId(): ClassId? = analyze(this) {
     (expressionType?.lowerBoundIfFlexible() as? KaClassType)?.classId
 }
 
 @OptIn(KaAllowAnalysisOnEdt::class)
-internal fun KtClassLiteralExpression.classId(): String? =
-    allowAnalysisOnEdt {
-        analyze(this) {
-            (receiverType as? KaClassType)?.classId?.asFqNameString()
-        }
+internal fun KtClassLiteralExpression.classId(): String? = allowAnalysisOnEdt {
+    analyze(this) {
+        (receiverType as? KaClassType)?.classId?.asFqNameString()
     }
+}
 
 fun KtElement?.getCalleeExpressionIfAny(): KtExpression? =
     when (val element = if (this is KtExpression) KtPsiUtil.deparenthesize(this) else this) {
@@ -346,11 +328,10 @@ internal fun PsiElement.findElement(condition: (PsiElement) -> Boolean): PsiElem
 internal inline fun <reified T : PsiElement> PsiElement.getParentOfType(strict: Boolean = true): T? =
     PsiTreeUtil.getParentOfType(this, T::class.java, strict)
 
-internal fun KtAnnotationEntry.classId(): ClassId? =
-    analyze(this) {
+internal fun KtAnnotationEntry.classId(): ClassId? = analyze(this) {
 //        (calleeExpression?.expressionType as? KaClassType)?.classId
-        (calleeExpression?.typeReference?.type as? KaClassType)?.classId
-    }
+    (calleeExpression?.typeReference?.type as? KaClassType)?.classId
+}
 
 internal fun terminatedOnCurrentLine(editor: Editor, element: PsiElement): Boolean {
     val document = editor.document

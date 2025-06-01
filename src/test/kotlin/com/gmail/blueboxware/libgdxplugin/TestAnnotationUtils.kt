@@ -5,7 +5,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.gmail.blueboxware.libgdxplugin.utils.getAnnotation
 import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.psi.PsiMethodCallExpression
-import junit.framework.TestCase
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtCallExpression
 
@@ -525,11 +524,11 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
             ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)
         if (annotation == null) {
             if (expectedResult != null) {
-                TestCase.fail("Annotation not found. $msg")
+                fail("Annotation not found. $msg")
             }
         } else {
             val result = annotation.getValue(parameter)
-            TestCase.assertEquals(msg, expectedResult, result)
+            assertEquals(msg, expectedResult, result)
         }
     }
 

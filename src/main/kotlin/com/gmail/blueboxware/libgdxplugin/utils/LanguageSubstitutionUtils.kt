@@ -98,11 +98,11 @@ private fun Project.changeFileSubstitution(
     }
 
     for (fromFile in from) {
-        @Suppress("RetrievingService")
+        @Suppress("IncorrectServiceRetrieving")
         getService(fromFile.java)?.remove(file)
     }
 
-    @Suppress("RetrievingService")
+    @Suppress("IncorrectServiceRetrieving")
     val toFiles = getService(to.java)
 
     toFiles.add(file)

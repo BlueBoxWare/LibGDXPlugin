@@ -13,7 +13,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<!--suppress XmlUnboundNsPrefix -->
+<!--suppress XmlUnboundNsPrefix, PluginXmlI18n -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
     <!--suppress PluginXmlCapitalization -->
@@ -342,13 +342,11 @@
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToComponentsIntention
             </className>
             <category>LibGDX/Skin</category>
-            <descriptionDirectoryName>ColorToComponentsIntention</descriptionDirectoryName>
             <language>LibGDXSkin</language>
         </intentionAction>
         <intentionAction>
             <className>com.gmail.blueboxware.libgdxplugin.filetypes.skin.intentions.ColorToHexIntention</className>
             <category>LibGDX/Skin</category>
-            <descriptionDirectoryName>ColorToHexIntention</descriptionDirectoryName>
             <language>LibGDXSkin</language>
         </intentionAction>
 

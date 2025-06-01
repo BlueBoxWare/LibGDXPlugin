@@ -47,6 +47,7 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
     fun testCreateShortnameList() {
         val str = StringBuilder("| Suppression ID | Name | Description |\n")
         str.append("|---|---|---|\n")
+        @Suppress("UnresolvedPluginConfigReference")
         ExtensionPointName<LocalInspectionEP>("com.intellij.localInspection")
             .extensionList
             .filter {

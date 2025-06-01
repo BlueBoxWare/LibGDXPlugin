@@ -69,7 +69,7 @@ internal class SkinTypeInspection : SkinBaseInspection() {
                         else -> true
                     }
                     if (!check) {
-                        problem(expectedType.getPresentableText())
+                        problem(expectedType.presentableText)
                     }
                 } else if (containingClassName == BITMAPFONT_CLASS_NAME
                     && listOf(

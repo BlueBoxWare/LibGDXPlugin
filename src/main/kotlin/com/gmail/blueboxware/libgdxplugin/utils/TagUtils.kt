@@ -53,6 +53,7 @@ private val KEY = key<CachedValue<TagMap?>>("tag2classMap")
 
 @Service(Service.Level.PROJECT)
 class SkinTagsModificationTracker : SimpleModificationTracker() {
+
     var isFresh: Boolean = false
         private set
 

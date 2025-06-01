@@ -62,17 +62,18 @@ internal class SkinCompletionContributor : CompletionContributor() {
 
     init {
 
-        extend(CompletionType.BASIC, PlatformPatterns.psiElement()
-            .withParent(SkinStringLiteral::class.java)
-            .withSuperParent(2, SkinResource::class.java), object : CompletionProvider<CompletionParameters>() {
-            override fun addCompletions(
-                parameters: CompletionParameters,
-                context: ProcessingContext,
-                result: CompletionResultSet
-            ) {
-                resourceAliasNameCompletion(parameters, result)
-            }
-        })
+        extend(
+            CompletionType.BASIC, PlatformPatterns.psiElement()
+                .withParent(SkinStringLiteral::class.java)
+                .withSuperParent(2, SkinResource::class.java), object : CompletionProvider<CompletionParameters>() {
+                override fun addCompletions(
+                    parameters: CompletionParameters,
+                    context: ProcessingContext,
+                    result: CompletionResultSet
+                ) {
+                    resourceAliasNameCompletion(parameters, result)
+                }
+            })
 
         extend(
             CompletionType.BASIC,

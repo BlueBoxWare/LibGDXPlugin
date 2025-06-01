@@ -35,7 +35,6 @@ import com.intellij.codeInspection.ex.GlobalInspectionToolWrapper
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileTypes.FileTypeManager
 import com.intellij.testFramework.InspectionTestUtil
-import com.intellij.testFramework.UsefulTestCase
 import com.intellij.testFramework.createGlobalContextForTool
 import com.intellij.testFramework.fixtures.impl.LightTempDirTestFixtureImpl
 import org.jetbrains.plugins.groovy.GroovyFileType
@@ -505,7 +504,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         for (hightLight in hightLights) {
             if (warningExpected) {
                 if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
-                    UsefulTestCase.fail(
+                    fail(
                         "$name: Hightlight starts at wrong element: '" + hightLight.text.substring(
                             0, 30
                         ) + "'"
@@ -515,7 +514,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
                     return
                 }
             } else {
-                UsefulTestCase.fail(
+                fail(
                     "$name: Unexpected highlight starting at '" + hightLight.text.substring(
                         0, 30
                     ) + "'"
@@ -525,7 +524,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         }
 
         if (warningExpected) {
-            UsefulTestCase.fail("$name: Expected highlight not found")
+            fail("$name: Expected highlight not found")
         }
 
     }
@@ -552,7 +551,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             file.writeText(content)
         }
 
-        doTestGlobalInspection(fakeProjectDir,
+        doTestGlobalInspection(
+            fakeProjectDir,
             DesignedForTabletsInspection(),
             warnings?.map { message("designed.for.tablets.problem.descriptor.$it") } ?: listOf())
 

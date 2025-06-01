@@ -21,7 +21,7 @@ import com.intellij.lang.parser.GeneratedParserUtilBase
 object SkinParserUtil : GeneratedParserUtilBase() {
 
     @JvmStatic
-    fun parseSeparator(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
+    fun parseSeparator(builder: PsiBuilder, level: Int): Boolean {
 
         var i = builder.currentOffset
         val originalText = builder.originalText
@@ -57,8 +57,9 @@ object SkinParserUtil : GeneratedParserUtilBase() {
 
     }
 
+    @Suppress("SameReturnValue")
     @JvmStatic
-    fun parseOtionalComma(builder: PsiBuilder, @Suppress("UNUSED_PARAMETER") level: Int): Boolean {
+    fun parseOtionalComma(builder: PsiBuilder, level: Int): Boolean {
 
         while (builder.tokenType == SkinElementTypes.COMMA) {
             builder.advanceLexer()
