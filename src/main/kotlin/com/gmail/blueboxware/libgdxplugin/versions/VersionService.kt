@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.versions
 import com.gmail.blueboxware.libgdxplugin.utils.SkinTagsModificationTracker
 import com.gmail.blueboxware.libgdxplugin.utils.findClasses
 import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
+import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ReadAction
@@ -14,9 +15,9 @@ import com.intellij.openapi.roots.libraries.Library
 import com.intellij.openapi.roots.libraries.LibraryTable
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.psi.PsiLiteralExpression
-import com.intellij.util.Alarm
 import com.intellij.util.concurrency.AppExecutorUtil
 import com.jetbrains.rd.util.Callable
+import kotlinx.coroutines.*
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import java.util.concurrent.TimeUnit
 
@@ -36,7 +37,7 @@ import java.util.concurrent.TimeUnit
  * limitations under the License.
  */
 @Service(Service.Level.PROJECT)
-class VersionService(val project: Project) : Disposable {
+class VersionService(val project: Project, val coroutineScope: CoroutineScope) : Disposable {
 
     fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
 
@@ -46,14 +47,28 @@ class VersionService(val project: Project) : Disposable {
 
     private val usedVersions = mutableMapOf<Libraries, MavenComparableVersion>()
 
-    private val updateLatestVersionsAlarm = Alarm(Alarm.ThreadToUse.POOLED_THREAD, this)
+    private var currentJob: Job? = null
+
+    private fun schedule(delayMilliSeconds: Long) {
+        currentJob?.cancel()
+        currentJob = coroutineScope.launch {
+            delay(delayMilliSeconds)
+            while (true) {
+                if (project.isLibGDXProject()) {
+                    updateLatestVersions()
+                    delay(SCHEDULED_UPDATE_INTERVAL)
+                }
+            }
+        }
+    }
 
     fun projectOpened() {
         updateUsedVersions {
             if (isLibGDXProject()) {
-                Libraries.LIBGDX.library.updateLatestVersion(this, true)
-                updateLatestVersions()
-                updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, TimeUnit.MINUTES.toMillis(2))
+                coroutineScope.launch {
+                    Libraries.LIBGDX.library.updateLatestVersion(this@VersionService, true)
+                }
+                schedule(LIBRARY_CHANGED_TIME_OUT)
             }
         }
 
@@ -62,18 +77,17 @@ class VersionService(val project: Project) : Disposable {
     }
 
     fun projectClosed() {
-        updateLatestVersionsAlarm.cancelAllRequests()
-
         LibraryTablesRegistrar.getInstance().getLibraryTable(project).removeListener(libraryListener)
     }
 
     override fun dispose() {
     }
 
-    private fun updateLatestVersions() {
+    private suspend fun updateLatestVersions() {
         var networkCount = 0
 
         Libraries.entries.sortedBy { it.library.lastUpdated }.forEach { lib ->
+            yield()
             val networkAllowed = networkCount < BATCH_SIZE && usedVersions[lib] != null
             if (lib.library.updateLatestVersion(this, networkAllowed)) {
                 LOG.debug("Updated latest version of ${lib.library.name}.")
@@ -105,21 +119,16 @@ class VersionService(val project: Project) : Disposable {
             val callable = Callable {
                 project.findClasses("com.badlogic.gdx.Version").forEach { psiClass ->
                     ((psiClass.findFieldByName(
-                        "VERSION",
-                        false
-                    )?.initializer as? PsiLiteralExpression)?.value as? String)
-                        ?.let(::MavenComparableVersion)
+                        "VERSION", false
+                    )?.initializer as? PsiLiteralExpression)?.value as? String)?.let(::MavenComparableVersion)
                         ?.let { usedVersions[Libraries.LIBGDX] = it }
                 }
             }
             if (ApplicationManager.getApplication().isUnitTestMode) {
-                DumbService.getInstance(project).runWhenSmart({ callable.call() })
+                DumbService.getInstance(project).runWhenSmart { callable.call() }
             } else {
                 DumbService.getInstance(project).smartInvokeLater {
-                    ReadAction.nonBlocking(callable)
-                        .inSmartMode(project)
-                        .coalesceBy(this)
-                        .expireWith(this)
+                    ReadAction.nonBlocking(callable).inSmartMode(project).coalesceBy(this).expireWith(this)
                         .submit(AppExecutorUtil.getAppExecutorService())
                 }
             }
@@ -134,16 +143,6 @@ class VersionService(val project: Project) : Disposable {
 
         doAfterUpdate?.invoke()
 
-
-    }
-
-    private fun scheduleUpdateLatestVersions() {
-        updateLatestVersionsAlarm.cancelAllRequests()
-        updateLatestVersions()
-        updateLatestVersionsAlarm.addRequest({
-            LOG.debug("Scheduled update of latest versions")
-            scheduleUpdateLatestVersions()
-        }, SCHEDULED_UPDATE_INTERVAL)
     }
 
     private val libraryListener = object : LibraryTable.Listener {
@@ -152,8 +151,7 @@ class VersionService(val project: Project) : Disposable {
 
         override fun afterLibraryAdded(newLibrary: Library) {
             updateUsedVersions()
-            updateLatestVersionsAlarm.cancelAllRequests()
-            updateLatestVersionsAlarm.addRequest({ scheduleUpdateLatestVersions() }, LIBRARY_CHANGED_TIME_OUT)
+            schedule(LIBRARY_CHANGED_TIME_OUT)
         }
 
         override fun afterLibraryRemoved(library: Library) {
@@ -166,10 +164,9 @@ class VersionService(val project: Project) : Disposable {
         val LOG = Logger.getInstance(VersionService::class.java)
 
         var LIBRARY_CHANGED_TIME_OUT = TimeUnit.SECONDS.toMillis(30)
+        var SCHEDULED_UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(15)
 
         var BATCH_SIZE = 20
-
-        var SCHEDULED_UPDATE_INTERVAL = TimeUnit.MINUTES.toMillis(15)
 
     }
 

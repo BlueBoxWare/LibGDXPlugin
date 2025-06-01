@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit
 @Suppress("ReplaceNotNullAssertionWithElvisReturn")
 class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
 
-    private val RUN_TESTS = false
+    private val RUN_TESTS = true
 
     private lateinit var versionService: VersionService
 
@@ -178,7 +178,7 @@ class TestVersionHandlingLocalhost : LibGDXCodeInsightFixtureTestCase() {
         VersionService.BATCH_SIZE = Libraries.entries.size / 2
         VersionService.SCHEDULED_UPDATE_INTERVAL = TimeUnit.SECONDS.toMillis(2)
         VersionService.LIBRARY_CHANGED_TIME_OUT = TimeUnit.SECONDS.toMillis(5)
-        Library.TEST_URL = "http://localhost:8777/"
+        Library.TEST_URL = "http://localhost/"
 
         super.setUp()
 

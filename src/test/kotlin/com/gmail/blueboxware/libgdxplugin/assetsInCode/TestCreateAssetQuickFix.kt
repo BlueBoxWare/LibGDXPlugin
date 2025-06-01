@@ -450,7 +450,7 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         configureByText("Test.$extension", codeFileContent)
         init?.invoke()
 
-        CodeInsightTestFixtureImpl.waitForUnresolvedReferencesQuickFixesUnderCaret(file, editor)
+        CodeInsightTestFixtureImpl.waitForLazyQuickFixesUnderCaret(file, editor)
 
         for (intention in myFixture.availableIntentions) {
             if (intention.familyName.startsWith("Create resource")) {

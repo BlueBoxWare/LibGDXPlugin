@@ -1,9 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.versions.libs
 
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.gmail.blueboxware.libgdxplugin.versions.Libraries
 import com.gmail.blueboxware.libgdxplugin.versions.Library
 import com.gmail.blueboxware.libgdxplugin.versions.Repository
+import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -30,7 +30,7 @@ internal class LibGDXLibrary(
     override fun getLatestVersion(versionService: VersionService) =
         versionService.getLatestVersion(Libraries.LIBGDX)
 
-    override fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean =
+    override suspend fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean =
         false
 
 }

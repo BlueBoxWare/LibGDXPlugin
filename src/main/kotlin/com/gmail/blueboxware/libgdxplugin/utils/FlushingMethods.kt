@@ -151,7 +151,7 @@ object FlushingMethodsUtils {
             }
 
             refs.let { refsNotNull ->
-                for (ref in refsNotNull) {
+                for (ref in refsNotNull.findAll()) {
                     if (!ref.isReferenceTo(method)) {
                         continue // Workaround for https://youtrack.jetbrains.com/issue/IDEA-90019
                     }

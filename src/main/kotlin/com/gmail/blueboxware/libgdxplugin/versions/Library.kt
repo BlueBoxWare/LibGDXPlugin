@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.versions
 
 import com.intellij.ide.util.PropertiesComponent
-import com.intellij.openapi.application.ApplicationManager
 import com.intellij.util.io.HttpRequests
+import kotlinx.coroutines.yield
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.w3c.dom.DOMException
 import org.w3c.dom.Element
@@ -45,7 +45,7 @@ internal open class Library(
 
     open fun getLatestVersion(versionService: VersionService) = latestVersion
 
-    open fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean {
+    open suspend fun updateLatestVersion(versionService: VersionService, networkAllowed: Boolean): Boolean {
 
         val currentTime = System.currentTimeMillis()
 
@@ -71,20 +71,17 @@ internal open class Library(
         }
 
         if (currentTime - lastUpdated > VersionService.SCHEDULED_UPDATE_INTERVAL && networkAllowed) {
-
-            fetchVersions(
-                onSuccess = { versions ->
-                    latestVersion = versions.maxOfOrNull(::MavenComparableVersion)
-                    lastUpdated = System.currentTimeMillis()
-                    PropertiesComponent.getInstance()?.let { propertiesComponent ->
-                        propertiesComponent.setValue(versionKey, latestVersion.toString())
-                        propertiesComponent.setValue(timeKey, lastUpdated.toString())
-                    }
-                },
-                onFailure = {
-                    lastUpdated = System.currentTimeMillis()
+            yield()
+            fetchVersions(onSuccess = { versions ->
+                latestVersion = versions.maxOfOrNull(::MavenComparableVersion)
+                lastUpdated = System.currentTimeMillis()
+                PropertiesComponent.getInstance()?.let { propertiesComponent ->
+                    propertiesComponent.setValue(versionKey, latestVersion.toString())
+                    propertiesComponent.setValue(timeKey, lastUpdated.toString())
                 }
-            )
+            }, onFailure = {
+                lastUpdated = System.currentTimeMillis()
+            })
 
             return true
         }
@@ -102,37 +99,34 @@ internal open class Library(
             "$baseUrl${groupId.replace('.', '/')}/$artifactId/$META_DATA_FILE"
         }
 
-        ApplicationManager.getApplication().executeOnPooledThread {
 
-            try {
+        try {
 
-                HttpRequests.request(url).connect { request ->
+            HttpRequests.request(url).connect { request ->
 
-                    try {
-                        val content = request.readString()
-                        extractVersions(content)?.let { versions ->
-                            onSuccess(versions)
-                        }
-                    } catch (e: IOException) {
-                        onFailure()
+                try {
+                    val content = request.readString()
+                    extractVersions(content)?.let { versions ->
+                        onSuccess(versions)
                     }
-
+                } catch (e: IOException) {
+                    onFailure()
                 }
 
-            } catch (e: IOException) {
-                onFailure()
             }
 
+        } catch (e: IOException) {
+            onFailure()
         }
+
 
     }
 
-    private fun extractVersions(content: String): List<String>? =
-        if (repository == Repository.JITPACK) {
-            extractVersionsFromJitpack(content)
-        } else {
-            extractVersionsFromMavenMetaData(content)
-        }
+    private fun extractVersions(content: String): List<String>? = if (repository == Repository.JITPACK) {
+        extractVersionsFromJitpack(content)
+    } else {
+        extractVersionsFromMavenMetaData(content)
+    }
 
     companion object {
 
@@ -144,12 +138,9 @@ internal open class Library(
         const val PERSISTENT_STATE_KEY_TIME_PREFIX = "com.gmail.blueboxware.libgdxplugin.time."
 
         fun extractVersionsFromJitpack(input: String): List<String> =
-            Regex(""" " v?(\d+\.\d+[^"]*) " \s* : \s* "ok """, RegexOption.COMMENTS)
-                .findAll(input)
-                .map {
-                    it.groupValues[1]
-                }
-                .toList()
+            Regex(""" " v?(\d+\.\d+[^"]*) " \s* : \s* "ok """, RegexOption.COMMENTS).findAll(input).map {
+                it.groupValues[1]
+            }.toList()
 
         fun extractVersionsFromMavenMetaData(input: String): List<String>? {
 
@@ -159,12 +150,8 @@ internal open class Library(
                 val document = builder.parse(input.toByteArray().inputStream())
 
                 if (document.textContent != null) {
-                    val versionElements =
-                        (document
-                            .getElementsByTagName("versioning")
-                            .item(0) as? Element)
-                            ?.getElementsByTagName("version")
-                            ?: return null
+                    val versionElements = (document.getElementsByTagName("versioning")
+                        .item(0) as? Element)?.getElementsByTagName("version") ?: return null
 
                     val result = mutableListOf<String>()
 
@@ -177,17 +164,11 @@ internal open class Library(
                 } else {
 
                     Regex(
-                        """<versions>(.*?)</versions>""",
-                        RegexOption.DOT_MATCHES_ALL
-                    ).find(input)
-                        ?.groupValues
-                        ?.get(1)
-                        ?.let { versions ->
-                            return Regex("""<version>([^<]+)</version>""")
-                                .findAll(versions)
-                                .map { it.groupValues[1] }
-                                .toList()
-                        }
+                        """<versions>(.*?)</versions>""", RegexOption.DOT_MATCHES_ALL
+                    ).find(input)?.groupValues?.get(1)?.let { versions ->
+                        return Regex("""<version>([^<]+)</version>""").findAll(versions).map { it.groupValues[1] }
+                            .toList()
+                    }
 
                 }
 
