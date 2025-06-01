@@ -7,7 +7,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.0.0"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.1.0"
+    id("org.jetbrains.intellij.platform") version "2.6.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -23,9 +23,8 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity(providers.gradleProperty("platformVersion"))
+        intellijIdeaCommunity(providers.gradleProperty("platformVersion"), useInstaller = false)
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
-        instrumentationTools()
         jetbrainsRuntime()
         pluginVerifier()
         testFramework(TestFrameworkType.Platform)
@@ -153,7 +152,7 @@ publishing {
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                     }
                 }
                 developers {
