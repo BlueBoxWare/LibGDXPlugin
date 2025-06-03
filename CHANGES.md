@@ -1,3 +1,6 @@
+### 1.24.12
+* Fix [#39](https://github.com/BlueBoxWare/LibGDXPlugin/issues/39): Error when opening project.
+ 
 ### 1.24.11
 * Compatibility with IntelliJ 2024.3 and the K2 analysis API.
 

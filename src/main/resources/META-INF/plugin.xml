@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Compatibility with IntelliJ 2024.3 and the K2 analysis API.</li>
+            <li>Fix <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/39">#39</a>: errors on opening project.</li>
         </ul>
         ]]>
     </change-notes>

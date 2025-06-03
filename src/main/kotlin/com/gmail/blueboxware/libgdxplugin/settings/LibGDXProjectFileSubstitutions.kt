@@ -42,6 +42,7 @@ class LibGDXProjectGdxJsonFiles : PersistentFileSetManager()
 @Service(Service.Level.PROJECT)
 class LibGDXProjectNonGdxJsonFiles : PersistentFileSetManager()
 
+@Suppress("UnstableApiUsage")
 internal class LibGDXFileTypeOverrider : FileTypeOverrider {
 
     override fun getOverriddenFileType(file: VirtualFile): FileType? {
