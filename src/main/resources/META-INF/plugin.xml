@@ -31,7 +31,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/39">#39</a>: errors on opening project.</li>
+            <li>Fix <a href="https://github.com/BlueBoxWare/LibGDXPlugin/issues/40">#40</a>: ProhibitedAnalysisException.</li>
         </ul>
         ]]>
     </change-notes>

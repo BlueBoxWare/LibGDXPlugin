@@ -1,3 +1,6 @@
+### 1.24.13
+* Fix [#40](https://github.com/BlueBoxWare/LibGDXPlugin/issues/40): ProhibitedAnalysisException.
+
 ### 1.24.12
 * Fix [#39](https://github.com/BlueBoxWare/LibGDXPlugin/issues/39): Error when opening project.
  

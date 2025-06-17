@@ -1,11 +1,10 @@
-import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "2.0.0"
+    id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("com.github.blueboxware.tocme") version "1.8"
     id("org.jetbrains.intellij.platform") version "2.6.0"
 }
@@ -80,7 +79,7 @@ tasks {
 
     named<KotlinCompile>("compileTestKotlin") {
         compilerOptions {
-            freeCompilerArgs.add("-opt-in=org.jetbrains.kotlin.analysis.api.permissions.KaAllowProhibitedAnalyzeFromWriteAction")
+            optIn.set(listOf("org.jetbrains.kotlin.analysis.api.permissions.KaAllowProhibitedAnalyzeFromWriteAction"))
         }
     }
 
