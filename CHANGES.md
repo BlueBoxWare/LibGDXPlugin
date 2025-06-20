@@ -1,3 +1,6 @@
+### 1.24.14
+* Fixed a major performance issue/bug.
+
 ### 1.24.13
 * Fix [#40](https://github.com/BlueBoxWare/LibGDXPlugin/issues/40): ProhibitedAnalysisException.
 

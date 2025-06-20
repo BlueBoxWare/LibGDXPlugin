@@ -39,8 +39,6 @@ import java.util.concurrent.TimeUnit
 @Service(Service.Level.PROJECT)
 class VersionService(val project: Project, val coroutineScope: CoroutineScope) : Disposable {
 
-    fun isLibGDXProject() = getUsedVersion(Libraries.LIBGDX) != null
-
     fun getUsedVersion(library: Libraries): MavenComparableVersion? = usedVersions[library]
 
     fun getLatestVersion(library: Libraries): MavenComparableVersion? = library.library.getLatestVersion(this)
@@ -56,15 +54,15 @@ class VersionService(val project: Project, val coroutineScope: CoroutineScope) :
             while (true) {
                 if (project.isLibGDXProject()) {
                     updateLatestVersions()
-                    delay(SCHEDULED_UPDATE_INTERVAL)
                 }
+                delay(SCHEDULED_UPDATE_INTERVAL)
             }
         }
     }
 
     fun projectOpened() {
         updateUsedVersions {
-            if (isLibGDXProject()) {
+            if (project.isLibGDXProject()) {
                 coroutineScope.launch {
                     Libraries.LIBGDX.library.updateLatestVersion(this@VersionService, true)
                 }
@@ -81,6 +79,7 @@ class VersionService(val project: Project, val coroutineScope: CoroutineScope) :
     }
 
     override fun dispose() {
+        currentJob?.cancel()
     }
 
     private suspend fun updateLatestVersions() {
@@ -134,7 +133,7 @@ class VersionService(val project: Project, val coroutineScope: CoroutineScope) :
             }
         }
 
-        if (isLibGDXProject()) {
+        if (project.isLibGDXProject()) {
             SkinTagsModificationTracker.getInstance(project).incModificationCount()
             LOG.debug("libGDX detected")
         } else {
