@@ -1,3 +1,6 @@
+### 1.24.15
+* Fix NoSuchMethodError in 2025.2.
+
 ### 1.24.14
 * Fixed a major performance issue/bug.
 
