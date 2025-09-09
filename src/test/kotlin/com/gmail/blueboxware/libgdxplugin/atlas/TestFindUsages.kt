@@ -42,8 +42,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addLibGDX()
-        addDummyLibGDX199()
+        addLibGDX113()
         addAnnotations()
 
     }

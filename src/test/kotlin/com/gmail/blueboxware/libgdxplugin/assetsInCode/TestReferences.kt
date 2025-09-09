@@ -370,7 +370,7 @@ class TestReferences : AssetsInCodeCodeInsightFixtureTestCase() {
         super.setUp()
 
         if (testname().contains("tag", ignoreCase = true)) {
-            addDummyLibGDX199()
+            addLibGDX113()
             copyFileToProject("src/JavaSkinTest.java")
             copyFileToProject("src/KotlinSkinTest.kt")
         }

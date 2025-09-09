@@ -172,15 +172,14 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
         myFixture.allowTreeAccessForAllFiles()
 
-        addLibGDX()
         addKotlin()
         addFreeType()
 
         if (testname().contains("tags", ignoreCase = true)) {
-            addDummyLibGDX199()
+            addLibGDX113()
             addAnnotations()
         } else {
-            removeDummyLibGDX199()
+            addLibGDX()
         }
 
         if (!testname().endsWith("Composer")) {

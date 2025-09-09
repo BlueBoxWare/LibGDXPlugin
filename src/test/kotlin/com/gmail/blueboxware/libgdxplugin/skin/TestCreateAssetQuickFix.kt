@@ -217,8 +217,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
           """.trimIndent()
     )
 
-    fun test992() = doTest(
-        """
+    fun test992() {
+        doTest(
+            """
             {
               TintedDrawable: {
                 foo: {
@@ -227,7 +228,7 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-        """
+            """
             {
               Color: {
                 foo: {
@@ -241,7 +242,8 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent()
-    )
+        )
+    }
 
     fun doTest(
         test: String,
@@ -271,12 +273,10 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addLibGDX()
-
         if (testname().contains("99")) {
-            addDummyLibGDX199()
+            addLibGDX113()
         } else {
-            removeDummyLibGDX199()
+            addLibGDX()
         }
 
         myFixture.enableInspections(SkinNonExistingResourceAliasInspection::class.java)

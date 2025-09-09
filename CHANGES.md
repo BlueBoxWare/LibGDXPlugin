@@ -1,3 +1,7 @@
+### 1.25
+* The inspections which check for outdated LibGDX and library versions are removed. Consider using a dedicated Gradle 
+  plugin or IntelliJ plugin for checking outdated dependencies.
+
 ### 1.24.15
 * Fix NoSuchMethodError in 2025.2.
 

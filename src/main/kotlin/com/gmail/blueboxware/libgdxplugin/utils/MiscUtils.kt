@@ -1,19 +1,21 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
-import com.intellij.openapi.components.service
+import com.intellij.java.library.getMavenCoordinates
 import com.intellij.openapi.progress.EmptyProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.ProjectRootModificationTracker
+import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.Computable
 import com.intellij.openapi.util.Key
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.PsiModificationTracker
+import com.intellij.util.asSafely
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.idea.base.util.allScope
 
@@ -35,22 +37,56 @@ import org.jetbrains.kotlin.idea.base.util.allScope
 
 const val PREFIX = "com.gmail.blueboxware.libgdxplugin"
 
+const val gdxGroupId = "com.badlogicgames.gdx"
+const val gdxArtifactId = "gdx"
+
 private val GDX198VERSION = MavenComparableVersion("1.9.8")
+private val GDX199VERSION = MavenComparableVersion("1.9.9")
 
-internal fun Project.isLibGDXProject(): Boolean =
-    service<VersionService>().getUsedVersion(Libraries.LIBGDX) != null
+private fun Project.getLibGDXVersion(): MavenComparableVersion? =
+    CachedValuesManager.getManager(this).getCachedValue(this) {
+        var versionString: String? = null
+        var isLibGDX = false
 
-internal fun Project.isLibGDX199(): Boolean =
-    (service<VersionService>().getUsedVersion(Libraries.LIBGDX)?.compareTo(GDX198VERSION) ?: 0) > 0
+        LibraryTablesRegistrar.getInstance().getLibraryTable(this).libraryIterator.forEach { library ->
+            if (library.getMavenCoordinates()?.groupId == gdxGroupId && library.getMavenCoordinates()?.artifactId == gdxArtifactId) {
+                versionString = library.getMavenCoordinates()?.version
+                isLibGDX = true
+            }
+        }
 
-internal fun <T> key(key: String) =
-    Key<T>("$PREFIX.$key")
+        if (versionString == null) {
+            findClasses("com.badlogic.gdx.Version").forEach { clazz ->
+                isLibGDX = true
+                (clazz.findFieldByName(
+                    "VERSION", false
+                )?.initializer as? PsiLiteralExpression)?.value?.asSafely<String>()?.let {
+                    versionString = it
+                }
+            }
+        }
 
-internal fun <T> T?.singletonOrNull(): Collection<T>? =
-    this?.let { listOf(this) }
+        val version = try {
+            MavenComparableVersion(versionString)
+        } catch (_: Exception) {
+            if (isLibGDX) GDX199VERSION
+            else null
+        }
 
-internal fun trimQuotes(str: String?) =
-    str?.trim { it == '"' || it == '\'' }
+        return@getCachedValue CachedValueProvider.Result.create(
+            version, ProjectRootModificationTracker.getInstance(this)
+        )
+    }
+
+internal fun Project.isLibGDXProject(): Boolean = getLibGDXVersion() != null
+
+internal fun Project.isLibGDX199(): Boolean = (getLibGDXVersion() ?: GDX198VERSION) > GDX198VERSION
+
+internal fun <T> key(key: String) = Key<T>("$PREFIX.$key")
+
+internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }
+
+internal fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
 
 internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = this.allScope()) =
     psiFacade().findClass(fqName, scope)
@@ -64,8 +100,7 @@ internal fun PsiElement.findClass(fqName: String, scope: GlobalSearchScope = pro
 internal fun PsiElement.findClasses(fqName: String, scope: GlobalSearchScope = project.allScope()) =
     project.findClasses(fqName, scope)
 
-internal fun <K, V> Map<K, V>.getKey(value: V): K? =
-    keys.find { get(it) == value }
+internal fun <K, V> Map<K, V>.getKey(value: V): K? = keys.find { get(it) == value }
 
 @Suppress("unused")
 internal fun runUnderProgressIfNecessary(action: () -> Unit) {
@@ -94,18 +129,18 @@ internal inline fun <R> PsiElement.getCachedValue(key: Key<CachedValue<R>>, cros
     }
 
 internal inline fun <R> PsiElement.getCachedValue(
+    key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R
+): R? = CachedValuesManager.getManager(project).getCachedValue(this, key, {
+    CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
+}, false)
+
+internal inline fun <R> Project.getCachedValue(
     key: Key<CachedValue<R>>,
-    dependency: Any?,
+    vararg dependencies: Any?,
     crossinline f: () -> R
 ): R? =
-    CachedValuesManager.getManager(project).getCachedValue(this, key, {
-        CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
-    }, false)
-
-internal inline fun <R> Project.getCachedValue(key: Key<CachedValue<R>>, dependency: Any?, crossinline f: () -> R): R? =
     CachedValuesManager.getManager(this).getCachedValue(this, key, {
-        CachedValueProvider.Result.create(f(), dependency ?: PsiModificationTracker.MODIFICATION_COUNT)
+        CachedValueProvider.Result.create(f(), dependencies)
     }, false)
 
-internal fun <E> List<E>.indexOfOrNull(element: E): Int? =
-    indexOf(element).takeIf { it >= 0 }
+internal fun <E> List<E>.indexOfOrNull(element: E): Int? = indexOf(element).takeIf { it >= 0 }

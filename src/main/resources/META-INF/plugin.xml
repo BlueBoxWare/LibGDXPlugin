@@ -16,8 +16,7 @@
 <!--suppress XmlUnboundNsPrefix, PluginXmlI18n -->
 <idea-plugin>
     <id>com.gmail.blueboxware.libgdxplugin</id>
-    <!--suppress PluginXmlCapitalization -->
-    <name>libGDX</name>
+    <name>LibGDX</name>
     <vendor url="https://github.com/BlueBoxWare/LibGDXPlugin">Blue Box Ware</vendor>
 
     <description><![CDATA[
@@ -31,7 +30,8 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix NoSuchMethodError in 2025.2.</li>
+            <li>The inspections which check for outdated LibGDX and library versions are removed. Consider using
+            a dedicated Gradle plugin or IntelliJ plugin for checking outdated dependencies.</li>
         </ul>
         ]]>
     </change-notes>
@@ -43,11 +43,6 @@
     <depends>com.intellij.modules.json</depends>
     <depends>com.intellij.modules.platform</depends>
 
-    <applicationListeners>
-        <listener class="com.gmail.blueboxware.libgdxplugin.versions.ProjectOpenCloseListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
-
     <projectListeners>
         <listener class="com.gmail.blueboxware.libgdxplugin.GwtOutdatedListener"
                   topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
@@ -56,8 +51,6 @@
     </projectListeners>
 
     <extensions defaultExtensionNs="com.intellij">
-
-        <postStartupActivity implementation="com.gmail.blueboxware.libgdxplugin.LibGDXStartupActivity"/>
 
         <internalFileTemplate name="libGDX Screen (Java)"/>
         <internalFileTemplate name="libGDX Screen (Kotlin)"/>
@@ -116,17 +109,6 @@
                 groupPath="libGDX"
                 groupName="Android"
                 shortName="LibGDXDesignedForTablets"
-                language=""
-        />
-
-        <!--suppress PluginXmlCapitalization -->
-        <globalInspection
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.OutdatedVersionsInspection"
-                bundle="libgdxplugin"
-                key="outdated.version.inspection.display.name"
-                groupPath="libGDX"
-                groupName="General"
-                shortName="LibGDXOutdatedVersion"
                 language=""
         />
 
@@ -755,45 +737,7 @@
                 hasStaticDescription="true"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection"
         />
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="Groovy"
-                bundle="libgdxplugin"
-                key="outdated.version.inspection.display.name.gradle"
-                groupPath="libGDX"
-                groupName="Gradle"
-                shortName="GDXOutdatedVersionGradleGroovy"
-                level="WARNING"
-                enabledByDefault="true"
-                hasStaticDescription="true"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleOutdatedVersionsInspection"
-        />
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="kotlin"
-                bundle="libgdxplugin"
-                key="outdated.version.inspection.display.name.gradle.kotlin"
-                groupPath="libGDX"
-                groupName="Gradle"
-                shortName="GDXOutdatedVersionGradleKotlin"
-                level="WARNING"
-                enabledByDefault="true"
-                hasStaticDescription="true"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleKotlinOutdatedVersionInspection"
-        />
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="Properties"
-                bundle="libgdxplugin"
-                key="outdated.version.inspection.display.name.gradle.properties"
-                groupPath="libGDX"
-                groupName="Gradle"
-                shortName="GDXOutdatedVersionGradleProperties"
-                level="WARNING"
-                enabledByDefault="true"
-                hasStaticDescription="true"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradlePropertiesOutdatedVersionsInspection"
-        />
+
         <!--suppress PluginXmlCapitalization -->
         <localInspection
                 language="Groovy"

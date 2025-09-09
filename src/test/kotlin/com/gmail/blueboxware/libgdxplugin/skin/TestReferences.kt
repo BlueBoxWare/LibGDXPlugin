@@ -191,7 +191,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun testParentReferencePre199() {
-        removeDummyLibGDX199()
+        addLibGDX()
         doTestResourceReference(null, null)
     }
 
@@ -382,9 +382,8 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addLibGDX()
+        addLibGDX113()
         addAnnotations()
-        addDummyLibGDX199()
 
         copyFileToProject("com/example/MyTestClass.java", "com/example/MyTestClass.java")
 

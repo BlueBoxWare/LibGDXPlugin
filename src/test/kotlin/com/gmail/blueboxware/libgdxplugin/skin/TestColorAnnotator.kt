@@ -32,8 +32,7 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addLibGDX()
-        addDummyLibGDX199()
+        addLibGDX113()
         copyFileToProject("ColorArrayHolder.java")
     }
 

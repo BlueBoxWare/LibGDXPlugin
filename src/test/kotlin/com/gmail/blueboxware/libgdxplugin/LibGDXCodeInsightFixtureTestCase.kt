@@ -2,20 +2,15 @@
 
 package com.gmail.blueboxware.libgdxplugin
 
-import com.gmail.blueboxware.libgdxplugin.utils.getLibraryInfoFromIdeaLibrary
-import com.gmail.blueboxware.libgdxplugin.versions.Libraries
-import com.gmail.blueboxware.libgdxplugin.versions.VersionService
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.command.undo.UndoManager
-import com.intellij.openapi.components.service
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
-import com.intellij.openapi.roots.impl.libraries.LibraryEx
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
@@ -50,14 +45,44 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     override fun getTestDataPath() = FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
 
-    fun addLibGDX() = addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+    fun addLibGDX() {
+        removeLibGDX()
+        addLibrary(getTestDataBasePath() + "/lib/gdx.jar")
+    }
 
-    fun addLibGDXSources() = WriteCommandAction.runWriteCommandAction(project) {
-        LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == "gdx.jar" }
+    fun addLibGDXSources() {
+        addLibGDXSources("gdx.jar", "gdx-sources.jar")
+    }
+
+    fun addLibGDX113() {
+        removeLibGDX()
+        addLibrary(getTestDataBasePath() + "/lib/gdx-1.13.1.jar")
+    }
+
+    fun addLibGDX113Sources() {
+        addLibGDXSources("gdx-1.13.1.jar", "gdx-1.13.1-sources.jar")
+    }
+
+    fun removeLibGDX() {
+        WriteCommandAction.runWriteCommandAction(project) {
+            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
+
+            for (lib in projectModel.libraries) {
+                if (lib.name in listOf("gdx.jar", "gdx-sources.jar", "gdx-1.13.1.jar", "gdx-1.13.1-sources.jar")) {
+                    PsiTestUtil.removeLibrary(module, lib)
+                }
+            }
+
+            projectModel.commit()
+        }
+    }
+
+    fun addLibGDXSources(baseJar: String, sourceJar: String) = WriteCommandAction.runWriteCommandAction(project) {
+        LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == baseJar }
             ?.let { library ->
                 library.modifiableModel.let {
                     it.addRoot(
-                        JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/gdx-sources.jar!/")!!,
+                        JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/$sourceJar!/")!!,
                         OrderRootType.SOURCES
                     )
                     it.commit()
@@ -75,36 +100,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         }!!.maxByOrNull { file ->
             MavenComparableVersion(file.name.substring(file.name.indexOf("-") + 1, file.name.indexOf(".jar")))
         }!!.absolutePath)
-    }
-
-    fun addDummyLibGDX199() = addDummyLibrary(Libraries.LIBGDX, "1.9.9")
-
-    fun removeDummyLibGDX199() = removeDummyLibrary(Libraries.LIBGDX, "1.9.9")
-
-    fun addDummyLibrary(library: Libraries, version: String) {
-
-        WriteCommandAction.writeCommandAction(project).run<Throwable> {
-
-            var projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
-
-            projectModel.getLibraryByName(library.library.artifactId)?.let {
-                projectModel.removeLibrary(it)
-                projectModel.commit()
-                projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
-            }
-
-            val libraryModel = (projectModel.createLibrary(library.library.artifactId) as LibraryEx).modifiableModel
-
-            libraryModel.addRoot(
-                "/" + library.library.groupId + "/" + library.library.artifactId + "/" + version + "/",
-                OrderRootType.CLASSES
-            )
-
-            libraryModel.commit()
-            projectModel.commit()
-
-        }
-
     }
 
     inline fun <reified T : PsiElement> doAllIntentions(familyNamePrefix: String) =
@@ -138,51 +133,12 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         }
     }
 
-    private fun removeDummyLibrary(library: Libraries, version: String? = null) {
-
-        WriteCommandAction.runWriteCommandAction(project) {
-
-            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
-
-            for (lib in projectModel.libraries) {
-                getLibraryInfoFromIdeaLibrary(lib)?.let { (thisLibrary, thisVersion) ->
-                    if (thisLibrary == library && (version == null || version == thisVersion.canonical)) {
-                        projectModel.removeLibrary(lib)
-                    }
-                }
-            }
-
-            projectModel.commit()
-
-        }
-
-    }
-
-    private fun removeLibraries() {
-
-        WriteCommandAction.runWriteCommandAction(project) {
-
-            val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
-
-            for (lib in projectModel.libraries) {
-
-                projectModel.removeLibrary(lib)
-
-            }
-
-            projectModel.commit()
-
-        }
-
-    }
-
     private fun addLibrary(lib: String) {
         File(lib).let { file ->
             PsiTestUtil.addLibrary(
                 myFixture.testRootDisposable, myFixture.module, file.name, file.parent, file.name
             )
         }
-        project.service<VersionService>().updateUsedVersions()
     }
 
     fun configureByFile(filePath: String): PsiFile = myFixture.configureByFile(filePath)
@@ -261,7 +217,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         assertIdeaHomePath()
 
         super.setUp()
-        removeLibraries()
     }
 
 }

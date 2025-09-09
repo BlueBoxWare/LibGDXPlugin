@@ -983,6 +983,6 @@ class TestCompletion : AssetsInCodeCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addDummyLibGDX199()
+        addLibGDX113()
     }
 }

@@ -64,7 +64,7 @@ class TestSuppressQuickfixes : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun testSuppressForClassSpec4() {
-        addDummyLibGDX199()
+        addLibGDX113()
         myFixture.enableInspections(SkinAbbrClassInspection::class.java)
         doTest(message("suppress.object"))
     }

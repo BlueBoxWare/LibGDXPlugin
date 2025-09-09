@@ -81,7 +81,7 @@ class TestFindClassTagUsages : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addDummyLibGDX199()
+        addLibGDX113()
         addAnnotations()
 
         listOf("skin1.skin", "skin2.skin").forEach {

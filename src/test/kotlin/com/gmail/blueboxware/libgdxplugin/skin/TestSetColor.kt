@@ -60,14 +60,14 @@ class TestSetColor : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun testWithTags1() {
-        addDummyLibGDX199()
+        addLibGDX113()
         doTest {
             keepColorOnOneLine(true)
         }
     }
 
     fun testWithTags2() {
-        addDummyLibGDX199()
+        addLibGDX113()
         doTest {
             keepColorOnOneLine(true)
         }

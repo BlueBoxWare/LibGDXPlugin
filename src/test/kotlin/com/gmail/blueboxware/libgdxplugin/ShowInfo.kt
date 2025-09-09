@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.codeInspection.LocalInspectionEP
 import com.intellij.ide.plugins.PluginManager
+import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.extensions.ExtensionPointName
@@ -36,7 +37,9 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
 
         println("PLUGINS:")
         PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->
-            println("\t${plugin.name}: ${plugin.version} (enabled: ${plugin.isEnabled})")
+            val enabled = !PluginManagerCore.isDisabled(plugin.pluginId)
+            val loaded = PluginManagerCore.isLoaded(plugin.pluginId)
+            println("\t${plugin.name}: ${plugin.version} (enabled: $enabled, loaded: $loaded)")
         }
 
         println("\nPATHS:")

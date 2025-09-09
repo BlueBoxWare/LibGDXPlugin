@@ -6,7 +6,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.7.0"
+    id("org.jetbrains.intellij.platform") version "2.9.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -52,7 +52,6 @@ intellijPlatform {
             recommended()
         }
     }
-    buildSearchableOptions = false
 }
 
 sourceSets {
@@ -66,6 +65,7 @@ sourceSets {
     register("annotations") {
         java.srcDirs("src/main/java")
     }
+
 }
 
 tasks {

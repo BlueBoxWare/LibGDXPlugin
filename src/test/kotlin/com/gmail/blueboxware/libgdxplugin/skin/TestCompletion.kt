@@ -1665,7 +1665,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun testCompletions() {
-        addDummyLibGDX199()
+        addLibGDX113()
         addFreeType()
         for ((content, expected) in tests) {
             doTest(content, expected.first, expected.second)
@@ -1673,7 +1673,6 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun testCompletionsPre199() {
-        removeDummyLibGDX199()
         for ((content, expected) in testsPre199) {
             doTest(content, expected.first, expected.second)
         }

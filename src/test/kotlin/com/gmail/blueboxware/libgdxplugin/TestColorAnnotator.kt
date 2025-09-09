@@ -50,9 +50,8 @@ class TestColorAnnotator : LibGDXCodeInsightFixtureTestCase() {
         super.setUp()
 
         addAnnotations()
-        addLibGDX()
-        addLibGDXSources()
-        addDummyLibGDX199()
+        addLibGDX113()
+        addLibGDX113Sources()
         addKotlin()
 
         myFixture.allowTreeAccessForAllFiles()

@@ -5,6 +5,7 @@ import com.intellij.psi.*
 import com.intellij.psi.search.searches.MethodReferencesSearch
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.psi.util.CachedValue
+import com.intellij.psi.util.PsiModificationTracker
 import com.siyeh.ig.psiutils.MethodCallUtils
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
@@ -117,97 +118,98 @@ internal class ColorsDefinition(
 private val KEY = key<CachedValue<Map<String, ColorsDefinition?>>>("colorsMap")
 
 @OptIn(KaAllowAnalysisOnEdt::class)
-internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> = getCachedValue(KEY, null) {
+internal fun Project.getColorsMap(): Map<String, ColorsDefinition?> =
+    getCachedValue(KEY, PsiModificationTracker.MODIFICATION_COUNT) {
 
-    if (!isLibGDXProject()) {
-        mapOf<String, ColorsDefinition>()
-    }
-
-    val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, this.allScope())
-
-    val callExpressions = mutableListOf<PsiElement>()
-
-    // map.put(String, Color)
-    colorsClasses.forEach { clazz ->
-        clazz.findFieldByName("map", false)?.navigationElement?.let { map ->
-            ReferencesSearch.search(map, allScope()).forEach { reference ->
-                reference.element.getParentOfType<PsiMethodCallExpression>()?.let { call ->
-                    if (call.resolveMethod()?.name == "put") {
-                        callExpressions.add(call)
-                    }
-                }
-            }
+        if (!isLibGDXProject()) {
+            mapOf<String, ColorsDefinition>()
         }
-    }
 
-    // getColors().put(String, Color)
-    val getColorsMethods =
-        colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }
+        val colorsClasses = psiFacade().findClasses(COLORS_CLASS_NAME, this.allScope())
 
-    getColorsMethods.forEach { method ->
-        MethodReferencesSearch.search(method, allScope(), true).forEach { reference ->
-            reference
-                .element
-                .getParentOfType<KtDotQualifiedExpression>()
-                ?.getParentOfType<KtDotQualifiedExpression>()
-                ?.callExpression
-                ?.let { call ->
-                    allowAnalysisOnEdt { call.resolveCallToStrings() }?.let { (_, methodName) ->
-                        if (methodName == "put") {
+        val callExpressions = mutableListOf<PsiElement>()
+
+        // map.put(String, Color)
+        colorsClasses.forEach { clazz ->
+            clazz.findFieldByName("map", false)?.navigationElement?.let { map ->
+                ReferencesSearch.search(map, allScope()).forEach { reference ->
+                    reference.element.getParentOfType<PsiMethodCallExpression>()?.let { call ->
+                        if (call.resolveMethod()?.name == "put") {
                             callExpressions.add(call)
                         }
                     }
                 }
-            reference
-                .element
-                .getParentOfType<PsiCallExpression>()
-                ?.getParentOfType<PsiCallExpression>()
-                ?.let { call ->
-                    if (call.resolveMethod()?.name == "put") {
-                        callExpressions.add(call)
+            }
+        }
+
+        // getColors().put(String, Color)
+        val getColorsMethods =
+            colorsClasses.mapNotNull { it.findMethodsByName("getColors", false).firstOrNull() }
+
+        getColorsMethods.forEach { method ->
+            MethodReferencesSearch.search(method, allScope(), true).forEach { reference ->
+                reference
+                    .element
+                    .getParentOfType<KtDotQualifiedExpression>()
+                    ?.getParentOfType<KtDotQualifiedExpression>()
+                    ?.callExpression
+                    ?.let { call ->
+                        allowAnalysisOnEdt { call.resolveCallToStrings() }?.let { (_, methodName) ->
+                            if (methodName == "put") {
+                                callExpressions.add(call)
+                            }
+                        }
                     }
+                reference
+                    .element
+                    .getParentOfType<PsiCallExpression>()
+                    ?.getParentOfType<PsiCallExpression>()
+                    ?.let { call ->
+                        if (call.resolveMethod()?.name == "put") {
+                            callExpressions.add(call)
+                        }
+                    }
+            }
+        }
+
+        // Colors.put(String, Color)
+        val putMethods =
+            colorsClasses.mapNotNull { it.findMethodsByName("put", false).firstOrNull() }
+
+        putMethods.forEach { method ->
+            ReferencesSearch.search(method, allScope(), true).forEach { reference ->
+                reference.element.getParentOfType<PsiCallExpression>()?.let {
+                    callExpressions.add(it)
                 }
-        }
-    }
-
-    // Colors.put(String, Color)
-    val putMethods =
-        colorsClasses.mapNotNull { it.findMethodsByName("put", false).firstOrNull() }
-
-    putMethods.forEach { method ->
-        ReferencesSearch.search(method, allScope(), true).forEach { reference ->
-            reference.element.getParentOfType<PsiCallExpression>()?.let {
-                callExpressions.add(it)
-            }
-            reference.element.getParentOfType<KtCallExpression>()?.let {
-                callExpressions.add(it)
+                reference.element.getParentOfType<KtCallExpression>()?.let {
+                    callExpressions.add(it)
+                }
             }
         }
-    }
 
-    val colors = mutableMapOf<String, ColorsDefinition?>()
+        val colors = mutableMapOf<String, ColorsDefinition?>()
 
-    callExpressions.forEach { callExpression ->
+        callExpressions.forEach { callExpression ->
 
-        val colorName: String = getColorNameFromArgs(callExpression)?.second ?: return@forEach
-        val colorDef = getColorDefFromArgs(callExpression)
+            val colorName: String = getColorNameFromArgs(callExpression)?.second ?: return@forEach
+            val colorDef = getColorDefFromArgs(callExpression)
 
-        colors[colorName]?.let {
-            it.addNameElement(colorDef?.first)
-            return@forEach
+            colors[colorName]?.let {
+                it.addNameElement(colorDef?.first)
+                return@forEach
+            }
+
+            if (colorDef != null) {
+                colors[colorName] = ColorsDefinition(colorDef.first, colorDef.second)
+            } else {
+                colors[colorName] = null
+            }
+
         }
 
-        if (colorDef != null) {
-            colors[colorName] = ColorsDefinition(colorDef.first, colorDef.second)
-        } else {
-            colors[colorName] = null
-        }
+        colors.toMap()
 
-    }
-
-    colors.toMap()
-
-} ?: mapOf()
+    } ?: mapOf()
 
 
 internal fun getColorNameFromArgs(callExpression: PsiElement): Pair<PsiElement, String?>? =

@@ -379,7 +379,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     fun testNonExistingAssetInspection() {
 
         addAnnotations()
-        addDummyLibGDX199()
+        addLibGDX113()
         copyDirectoryToProject("assets", "/")
 
         doInspectionsTest(JavaNonExistingAssetInspection(), "nonExistingAsset/Test.java")
@@ -390,7 +390,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
     fun testUnusedClassTagInspection() {
 
         addAnnotations()
-        addDummyLibGDX199()
+        addLibGDX113()
         copyDirectoryToProject("assets", "/")
 
         doInspectionsTest(JavaUnusedClassTagInspection(), "unusedClassTag/Test.java")

@@ -85,7 +85,7 @@ class TestFindUsages : AssetsInCodeCodeInsightFixtureTestCase() {
         super.setUp()
 
         if (testname().contains("tags", ignoreCase = true)) {
-            addDummyLibGDX199()
+            addLibGDX113()
         }
 
         copyFileToProject("findUsages/" + getTestName(false) + ".java")

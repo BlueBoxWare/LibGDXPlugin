@@ -4,6 +4,7 @@ import com.intellij.codeInsight.AnnotationUtil
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.util.RecursionManager
 import com.intellij.openapi.util.SimpleModificationTracker
 import com.intellij.openapi.util.text.StringUtil
@@ -73,7 +74,11 @@ class SkinTagsModificationTracker : SimpleModificationTracker() {
 }
 
 internal fun Project.getSkinTag2ClassMap(): TagMap? =
-    getCachedValue(KEY, SkinTagsModificationTracker.getInstance(this)) {
+    getCachedValue(
+        KEY,
+        SkinTagsModificationTracker.getInstance(this),
+        ProjectRootManager.getInstance(this)
+    ) {
 
         RecursionManager.doPreventingRecursion(this, true) {
             if (isLibGDX199()) {

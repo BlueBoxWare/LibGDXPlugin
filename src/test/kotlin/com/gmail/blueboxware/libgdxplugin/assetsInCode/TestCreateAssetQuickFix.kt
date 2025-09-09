@@ -469,12 +469,11 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         super.setUp()
 
         addAnnotations()
-        addLibGDX()
 
         if (testname().contains("99")) {
-            addDummyLibGDX199()
+            addLibGDX113()
         } else {
-            removeDummyLibGDX199()
+            addLibGDX()
         }
 
     }

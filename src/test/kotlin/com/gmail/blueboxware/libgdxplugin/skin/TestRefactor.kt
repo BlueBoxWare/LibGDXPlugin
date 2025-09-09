@@ -55,7 +55,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     }
 
     fun testRenameParentResource() {
-        addDummyLibGDX199()
+        addLibGDX113()
         addKotlin()
         copyFileToProject("KotlinClass3.kt")
         configureByFile("renameParentResource.skin")
@@ -364,10 +364,11 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
     override fun setUp() {
         super.setUp()
 
-        addLibGDX()
         if (testname().contains("tags", ignoreCase = true)) {
             addAnnotations()
-            addDummyLibGDX199()
+            addLibGDX113()
+        } else {
+            addLibGDX()
         }
 
     }
