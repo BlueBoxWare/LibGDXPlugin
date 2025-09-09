@@ -127,7 +127,7 @@ internal fun VirtualFile.readImageNamesFromAtlas(): List<String> {
             }
 
         }
-    } catch (e: IOException) {
+    } catch (_: IOException) {
         // Do nothing
     }
 

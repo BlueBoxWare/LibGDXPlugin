@@ -324,7 +324,7 @@ private fun readEntry(entry: MutableList<String>, l: String?): Int {
     if (line.isEmpty()) return 0
     val colon = line.indexOf(':')
     if (colon == -1) return 0
-    entry[0] = line.substring(0, colon).trim()
+    entry[0] = line.take(colon).trim()
     var lastMatch = colon + 1
     var i = 1
     while (true) {

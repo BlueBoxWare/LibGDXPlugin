@@ -88,7 +88,6 @@ internal class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
                                 ASSET_ANNOTATION_PROPERTIES_PARAM_NAME -> checkFilename(argument, value, holder)
                             }
 
-                            Unit
                         }
                     }
 

@@ -49,7 +49,7 @@ internal fun color(string: String): Color? {
     }
 
     return try {
-        val r = Integer.valueOf(str.substring(0, 2), 16)
+        val r = Integer.valueOf(str.take(2), 16)
         val g = Integer.valueOf(str.substring(2, 4), 16)
         val b = Integer.valueOf(str.substring(4, 6), 16)
         val a = if (str.length == 8) Integer.valueOf(str.substring(6, 8), 16) else 255

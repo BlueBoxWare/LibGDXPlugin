@@ -30,8 +30,6 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrCommandArgumentList
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.GrExpression
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
 import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrString
 import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literals.GrLiteralImpl
@@ -58,7 +56,6 @@ private const val COLLECTION_CLASS_NAME = "java.util.Collection"
 private val CONTAINER_CLASS_NAMES = listOf(
     ARRAY_CLASS_NAME, QUEUE_CLASS_NAME, COLLECTION_CLASS_NAME
 )
-
 
 internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
 
@@ -161,12 +158,6 @@ internal inline fun <reified T : PsiElement, reified U : PsiElement> PsiElement.
     }
     return null
 }
-
-internal fun GrCommandArgumentList.getNamedArgument(name: String): GrExpression? =
-    namedArguments.find { trimQuotes(it.labelName) == name }?.expression
-
-internal fun KtValueArgumentList.getNamedArgument(name: String): KtExpression? =
-    arguments.find { it.getArgumentName()?.asName?.asString() == name }?.getArgumentExpression()
 
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)
 
