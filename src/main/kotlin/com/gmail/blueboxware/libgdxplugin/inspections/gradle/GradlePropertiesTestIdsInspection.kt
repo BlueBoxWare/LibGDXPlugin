@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_PREFIXES_MAP
 import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
@@ -40,8 +41,8 @@ internal class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseIns
                 }
 
                 element.value?.let { str ->
-                    for ((key, value) in TEST_ID_MAP) {
-                        if (str.contains(key)) {
+                    for ((key, value) in TEST_ID_MAP + TEST_ID_PREFIXES_MAP) {
+                        if (str.startsWith(key) || str.drop(1).startsWith(key)) {
                             holder.registerProblem(element, message("testid.problem.descriptor") + ": " + value)
                         }
                     }

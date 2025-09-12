@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.xml
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
@@ -32,8 +32,8 @@ internal class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
 
             tag.value.trimmedText.let { content ->
 
-                if (TEST_ID_MAP.containsKey(content)) {
-                    holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[content])
+                isTestId(content)?.let {
+                    holder.registerProblem(tag, message("testid.problem.descriptor") + ": " + it)
                 }
 
             }

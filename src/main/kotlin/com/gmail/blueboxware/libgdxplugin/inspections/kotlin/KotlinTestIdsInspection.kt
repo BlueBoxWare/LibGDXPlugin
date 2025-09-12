@@ -16,7 +16,7 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtVisitorVoid
@@ -30,8 +30,8 @@ internal class KotlinTestIdsInspection : LibGDXKotlinBaseInspection() {
         override fun visitLiteralStringTemplateEntry(entry: KtLiteralStringTemplateEntry) {
 
             entry.text.trim().let { value ->
-                if (TEST_ID_MAP.containsKey(value)) {
-                    holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value])
+                isTestId(value)?.let {
+                    holder.registerProblem(entry, message("testid.problem.descriptor") + ": " + it)
                 }
             }
 

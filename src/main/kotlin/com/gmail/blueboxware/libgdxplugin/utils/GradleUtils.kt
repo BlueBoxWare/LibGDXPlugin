@@ -23,6 +23,7 @@ import com.intellij.psi.PsiElement
 internal fun PsiElement.isInGradleBuildFile() =
     FileUtilRt.extensionEquals(containingFile.name, "gradle")
 
+@Suppress("unused")
 internal fun PsiElement.isInGradleKotlinBuildFile() =
     FileUtilRt.extensionEquals(containingFile.name, "gradle.kts") ||
             (FileUtilRt.extensionEquals(containingFile.name, "gradle.kt")

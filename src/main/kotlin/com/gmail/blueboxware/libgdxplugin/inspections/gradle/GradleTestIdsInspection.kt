@@ -1,8 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.gradle
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.utils.isInGradleBuildFile
+import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 import org.jetbrains.plugins.groovy.lang.psi.GroovyElementVisitor
@@ -39,10 +39,10 @@ internal class GradleTestIdsInspection : LibGDXGradleBaseInspection() {
                 }
 
                 (literal.value as? String)?.let { value ->
-                    if (TEST_ID_MAP.containsKey(value)) {
+                    isTestId(value)?.let {
                         holder.registerProblem(
                             literal,
-                            message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value]
+                            message("testid.problem.descriptor") + ": " + it
                         )
                     }
                 }

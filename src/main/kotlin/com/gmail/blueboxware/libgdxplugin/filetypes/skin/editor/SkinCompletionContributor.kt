@@ -318,7 +318,12 @@ internal class SkinCompletionContributor : CompletionContributor() {
 
         if (elementClass != null && elementClassName != "java.lang.Boolean") {
 
-            skinFile.getResources(elementClass, null, stringLiteral, isParentProperty, isParentProperty)
+            skinFile.getResources(
+                elementClass,
+                beforeElement = stringLiteral,
+                includingSuperClasses = isParentProperty,
+                includeAll = isParentProperty
+            )
                 .forEach { resource ->
 
                     val icon =

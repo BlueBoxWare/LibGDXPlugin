@@ -25,6 +25,7 @@ import com.gmail.blueboxware.libgdxplugin.inspections.xml.OpenGLESDirectiveInspe
 import com.gmail.blueboxware.libgdxplugin.inspections.xml.XmlTestIdsInspection
 import com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginSettings
 import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
+import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_PREFIXES_MAP
 import com.intellij.analysis.AnalysisScope
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInspection.CommonProblemDescriptor
@@ -95,7 +96,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         val stringBuilderBuildGradle = StringBuilder()
         val stringBuilderGradleProperties = StringBuilder()
 
-        for ((idCount, testId) in TEST_ID_MAP.keys.withIndex()) {
+        var idCount = 0
+        for (testId in TEST_ID_MAP.keys + TEST_ID_PREFIXES_MAP.keys) {
 
             assertFalse(testId.isEmpty())
             stringBuilderKotlin.append("val id$idCount = \"<warning>$testId</warning>\"\n")
@@ -110,6 +112,8 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             stringBuilderGradleProperties.append("<warning>idQuoted$idCount=\"$testId\"</warning>\n")
             stringBuilderGradleProperties.append("# suppress inspection \"GDXGradlePropertiesTestId\"\n")
             stringBuilderGradleProperties.append("suppressed$idCount=$testId\n")
+
+            idCount++
 
         }
 

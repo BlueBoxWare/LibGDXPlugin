@@ -16,8 +16,8 @@
 package com.gmail.blueboxware.libgdxplugin.inspections.java
 
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_MAP
 import com.gmail.blueboxware.libgdxplugin.utils.isStringType
+import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiLiteralExpression
@@ -35,10 +35,10 @@ internal class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
             if (expression is PsiLiteralExpressionImpl && expression.type.isStringType(expression)) {
 
                 PsiLiteralUtil.getStringLiteralContent(expression)?.trim().let { value ->
-                    if (TEST_ID_MAP.containsKey(value)) {
+                    isTestId(value)?.let {
                         holder.registerProblem(
                             expression,
-                            message("testid.problem.descriptor") + ": " + TEST_ID_MAP[value]
+                            message("testid.problem.descriptor") + ": " + it
                         )
                     }
                 }

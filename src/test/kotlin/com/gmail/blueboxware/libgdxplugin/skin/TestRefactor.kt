@@ -124,7 +124,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
         configureByFile("JavaClass.java")
         val classToRename = myFixture.elementAtCaret
         configureByFile("renameJavaClassWithTags.skin")
-        doSimpleTest("skin") {
+        doSimpleTest {
             myFixture.renameElement(classToRename, "MyClass")
         }
     }
