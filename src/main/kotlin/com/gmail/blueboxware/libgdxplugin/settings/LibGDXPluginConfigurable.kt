@@ -1,15 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.settings
-
-import com.intellij.openapi.components.PersistentStateComponent
-import com.intellij.openapi.components.Service
-import com.intellij.openapi.components.State
-import com.intellij.openapi.options.Configurable
-import com.intellij.openapi.project.Project
-import com.intellij.ui.EditorNotifications
-import javax.swing.JComponent
-
 /*
- * Copyright 2016 Blue Box Ware
+ * Copyright 2025 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,61 +14,95 @@ import javax.swing.JComponent
  * limitations under the License.
  */
 
-@State(name = "LibGDXPluginConfigurable")
-internal class LibGDXPluginConfigurable(val project: Project) : Configurable {
+package com.gmail.blueboxware.libgdxplugin.settings
 
-    private var form: LibGDXPluginSettingsPane? = null
+import com.gmail.blueboxware.libgdxplugin.message
+import com.intellij.ide.ui.UISettings
+import com.intellij.openapi.components.service
+import com.intellij.openapi.options.Configurable
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.ui.DialogPanel
+import com.intellij.openapi.util.NlsContexts
+import com.intellij.ui.EditorNotifications
+import com.intellij.ui.dsl.builder.bindSelected
+import com.intellij.ui.dsl.builder.panel
+import javax.swing.JComponent
+import kotlin.reflect.KMutableProperty0
 
-    override fun isModified() = getForm()?.isModified == true
+class LibGDXPluginConfigurable(private val project: Project) : Configurable {
 
-    override fun disposeUIResources() {
-        form = null
+    private var component: DialogPanel? = null
+    private val componentState: LibGDXPluginSettings.State = LibGDXPluginSettings.State()
+
+    override fun getDisplayName(): @NlsContexts.ConfigurableName String = "LibGDXPlugin"
+
+    override fun isModified(): Boolean {
+        component?.apply()
+        var isModified = false
+        process { configurable, component ->
+            if (configurable.get() != component.get()) {
+                isModified = true
+                return@process
+            }
+        }
+        return isModified
     }
-
-    override fun getDisplayName() = "LibGDXPlugin"
 
     override fun apply() {
-        getForm()?.apply()
+        component?.apply()
+        process { configurable, component ->
+            configurable.set(component.get())
+        }
         EditorNotifications.getInstance(project).updateAllNotifications()
-    }
-
-    override fun createComponent(): JComponent? {
-        val settings = project.getService(LibGDXPluginSettings::class.java)
-        return getForm()?.createPanel(project, settings)
+        UISettings.getInstance().fireUISettingsChanged()
     }
 
     override fun reset() {
-        getForm()?.reset()
-    }
-
-    override fun getHelpTopic(): String? = null
-
-    private fun getForm(): LibGDXPluginSettingsPane? {
-        if (form == null) {
-            form = LibGDXPluginSettingsPane()
+        process { configurable, component ->
+            component.set(configurable.get())
         }
-        return form
+        component?.reset()
     }
 
-}
+    override fun createComponent(): JComponent? {
 
-@State(name = "LibGDXPluginSettings")
-@Service(Service.Level.PROJECT)
-class LibGDXPluginSettings : PersistentStateComponent<LibGDXPluginSettings> {
-    var enableColorAnnotations: Boolean = true
-    var enableColorAnnotationsInJson: Boolean = true
-    var enableColorAnnotationsInSkin: Boolean = true
-    var neverAskAboutSkinFiles: Boolean = false
-    var neverAskAboutJsonFiles: Boolean = false
+        component = panel {
+            group("Color Annotations") {
+                row {
+                    checkBox(message("settings.enable.color.previews")).bindSelected(componentState::enableColorAnnotations)
+                }
+                row {
+                    checkBox(message("settings.enable.color.previews.skin")).bindSelected(componentState::enableColorAnnotationsInSkin)
+                }
+                row {
+                    checkBox(message("settings.enable.color.previews.json")).bindSelected(componentState::enableColorAnnotationsInJson)
+                }
+            }
+            group("Editor Notifications") {
+                row {
+                    checkBox(message("settings.never.ask.about.skin.files")).bindSelected(componentState::neverAskAboutSkinFiles)
+                }
+                row {
+                    checkBox(message("settings.never.ask.about.json.files")).bindSelected(componentState::neverAskAboutJsonFiles)
+                }
+            }
+        }
 
-    override fun loadState(state: LibGDXPluginSettings) {
-        enableColorAnnotations = state.enableColorAnnotations
-        enableColorAnnotationsInJson = state.enableColorAnnotationsInJson
-        enableColorAnnotationsInSkin = state.enableColorAnnotationsInSkin
-        neverAskAboutSkinFiles = state.neverAskAboutSkinFiles
-        neverAskAboutJsonFiles = state.neverAskAboutJsonFiles
+        return component
+
     }
 
-    override fun getState() = this
+    private fun process(f: (KMutableProperty0<Boolean>, KMutableProperty0<Boolean>) -> Unit) {
+        val configurable = project.service<LibGDXPluginSettings>()
+        val map: Map<KMutableProperty0<Boolean>, KMutableProperty0<Boolean>> = mapOf(
+            configurable::enableColorAnnotations to componentState::enableColorAnnotations,
+            configurable::enableColorAnnotationsInJson to componentState::enableColorAnnotationsInJson,
+            configurable::enableColorAnnotationsInSkin to componentState::enableColorAnnotationsInSkin,
+            configurable::neverAskAboutSkinFiles to componentState::neverAskAboutSkinFiles,
+            configurable::neverAskAboutJsonFiles to componentState::neverAskAboutJsonFiles,
+        )
+        map.forEach { (p1, p2) ->
+            f(p1, p2)
+        }
+    }
 }
-

@@ -11,6 +11,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.color
 import com.gmail.blueboxware.libgdxplugin.utils.createAnnotation
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.openapi.components.service
 import com.intellij.psi.PsiElement
 import java.util.*
 
@@ -34,10 +35,7 @@ internal class GdxJsonColorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-        if (!element.project.getService(
-                LibGDXPluginSettings::class.java
-            ).enableColorAnnotationsInJson
-        ) {
+        if (!element.project.service<LibGDXPluginSettings>().enableColorAnnotationsInJson) {
             return
         }
 

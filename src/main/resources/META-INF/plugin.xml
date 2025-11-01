@@ -61,14 +61,6 @@
         <highlightingPassFactory
                 implementation="com.gmail.blueboxware.libgdxplugin.annotators.ColorAnnotationsHighlightingPassFactory"/>
 
-        <!--suppress PluginXmlCapitalization -->
-        <projectConfigurable
-                instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
-                displayName="libGDXPlugin"
-                id="com.gmail.blueboxware.libgdxplugin.libgdxpluginconfigurable"
-                groupId="editor"
-        />
-
         <notificationGroup
                 displayType="STICKY_BALLOON"
                 id="GWT Outdated"
@@ -76,9 +68,18 @@
                 key="gwt.build.outdated.title"
         />
 
+        <projectConfigurable
+                parentId="tools"
+                instance="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
+                id="com.gmail.blueboxware.libgdxplugin.settings.LibGDXPluginConfigurable"
+                displayName="LibGDXPlugin"
+                nonDefaultProject="false"
+        />
+
         <iconProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXIconProvider"/>
 
-        <platform.backend.documentation.psiTargetProvider implementation="com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewPsiDocumentationTargetProvider" />
+        <platform.backend.documentation.psiTargetProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.ui.ImagePreviewPsiDocumentationTargetProvider"/>
 
         <debugger.nodeRenderer implementation="com.gmail.blueboxware.libgdxplugin.ui.LibGDXColorObjectRenderer"/>
 
@@ -160,7 +161,7 @@
         <lang.smartEnterProcessor language="LibGDXJson"
                                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonSmartEnterProcessor"/>
         <lang.quoteHandler language="LibGDXJson"
-                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler"/>
+                           implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonQuoteHandler"/>
 
         <completion.contributor language="LibGDXJson"
                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.editor.GdxJsonCompletionContributor"/>
@@ -266,7 +267,7 @@
         <lang.braceMatcher language="LibGDXSkin"
                            implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinBraceMatcher"/>
         <lang.quoteHandler language="LibGDXSkin"
-                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler"/>
+                           implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinQuoteHandler"/>
 
         <lang.smartEnterProcessor language="LibGDXSkin"
                                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.skin.editor.SkinSmartEnterProcessor"/>
@@ -963,7 +964,7 @@
     </extensions>
 
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
-        <supportsKotlinPluginMode supportsK2="true" />
+        <supportsKotlinPluginMode supportsK2="true"/>
     </extensions>
 
     <actions>

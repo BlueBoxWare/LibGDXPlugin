@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
+import com.intellij.openapi.components.service
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.base.psi.getLineNumber
 import java.awt.Color
@@ -32,10 +33,7 @@ internal class ColorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
-        if (element.project.isLibGDXProject() &&
-            (element.project.getService(
-                LibGDXPluginSettings::class.java
-            )?.enableColorAnnotations == true)
+        if (element.project.isLibGDXProject() && element.project.service<LibGDXPluginSettings>().enableColorAnnotations
         ) {
 
             element.getColor()?.let { color ->
