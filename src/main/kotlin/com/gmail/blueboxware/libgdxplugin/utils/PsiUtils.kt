@@ -30,9 +30,6 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.allChildren
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 import org.jetbrains.kotlin.psi.psiUtil.plainContent
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrLiteral
-import org.jetbrains.plugins.groovy.lang.psi.api.statements.expressions.literals.GrString
-import org.jetbrains.plugins.groovy.lang.psi.impl.statements.expressions.literals.GrLiteralImpl
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -162,11 +159,6 @@ internal inline fun <reified T : PsiElement, reified U : PsiElement> PsiElement.
 internal fun PsiLiteralExpression.asString(): String? = (value as? String)
 
 internal fun KtStringTemplateExpression.asPlainString(): String? = if (isPlainWithEscapes()) plainContent else null
-
-internal fun GrLiteral.asString(): String? =
-    takeIf { (it as? GrLiteralImpl)?.isStringLiteral == true }?.value as? String
-        ?: takeIf { (it as? GrString)?.isPlainString == true }?.text?.let(::trimQuotes)
-
 
 internal fun PsiType?.isStringType(element: PsiElement) =
     this == PsiType.getJavaLangString(element.manager, element.resolveScope)

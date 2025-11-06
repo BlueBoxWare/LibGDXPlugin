@@ -22,7 +22,6 @@ import com.intellij.openapi.components.State
 
 @Service(Service.Level.PROJECT)
 @State(name = "com.gmail.blueboxware.libgdxplugin")
-// TODO: Manually test
 class LibGDXPluginSettings : SerializablePersistentStateComponent<LibGDXPluginSettings.State>(State()) {
 
     var enableColorAnnotations: Boolean

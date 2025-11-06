@@ -6,7 +6,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.10.1"
+    id("org.jetbrains.intellij.platform") version "2.10.4"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -26,6 +26,7 @@ dependencies {
             useInstaller = false
         }
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
+        bundledModules(providers.gradleProperty("platformBundledModules").map { it.split(',') })
         jetbrainsRuntime()
         pluginVerifier()
         testFramework(TestFrameworkType.Platform)

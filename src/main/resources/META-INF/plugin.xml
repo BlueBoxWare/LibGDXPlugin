@@ -36,12 +36,14 @@
         ]]>
     </change-notes>
 
-    <depends>com.intellij.modules.java</depends>
-    <depends>org.jetbrains.kotlin</depends>
-    <depends>org.intellij.groovy</depends>
-    <depends>com.intellij.properties</depends>
-    <depends>com.intellij.modules.json</depends>
-    <depends>com.intellij.modules.platform</depends>
+    <dependencies>
+        <plugin id="com.intellij.java" />
+        <plugin id="org.jetbrains.kotlin" />
+        <plugin id="com.intellij.properties" />
+        <plugin id="com.intellij.modules.json" />
+        <plugin id="com.intellij.modules.platform" />
+        <module name="intellij.spellchecker" />
+    </dependencies>
 
     <projectListeners>
         <listener class="com.gmail.blueboxware.libgdxplugin.GwtOutdatedListener"
@@ -101,17 +103,6 @@
         <!--suppress PluginXmlValidity -->
         <fileTypeOverrider implementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXFileTypeOverrider"
                            order="first"/>
-
-        <!--suppress PluginXmlCapitalization -->
-        <globalInspection
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.global.DesignedForTabletsInspection"
-                bundle="libgdxplugin"
-                key="designed.for.tablets.inspection"
-                groupPath="libGDX"
-                groupName="Android"
-                shortName="LibGDXDesignedForTablets"
-                language=""
-        />
 
         <!--libGDX JSON files-->
         <fileType
@@ -739,19 +730,6 @@
                 implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.xml.MissingExternalFilesPermissionInspection"
         />
 
-        <!--suppress PluginXmlCapitalization -->
-        <localInspection
-                language="Groovy"
-                bundle="libgdxplugin"
-                key="testid.name.build.gradle"
-                groupPath="libGDX"
-                groupName="Gradle"
-                shortName="GDXGradleTestId"
-                level="WARNING"
-                enabledByDefault="true"
-                hasStaticDescription="true"
-                implementationClass="com.gmail.blueboxware.libgdxplugin.inspections.gradle.GradleTestIdsInspection"
-        />
         <!--suppress PluginXmlCapitalization -->
         <localInspection
                 language="Properties"
