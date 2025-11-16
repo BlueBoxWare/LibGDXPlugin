@@ -41,7 +41,7 @@ abstract class SkinValueMixin(node: ASTNode) : SkinValue, SkinElementImpl(node) 
     override fun resolveToClass(): PsiClass? =
         getCachedValue(RESOLVED_CLASS_KEY, this) {
             (parent as? SkinResource)?.let { resource ->
-                resource.classSpecification?.resolveClass()
+                resource.getClassSpecification()?.resolveClass()
             } ?: (resolveToType() as? PsiClassType)?.resolve()
 
         }
@@ -52,13 +52,13 @@ abstract class SkinValueMixin(node: ASTNode) : SkinValue, SkinElementImpl(node) 
     override fun resolveToType(): PsiType? = getCachedValue(RESOLVED_TYPE_KEY, null) {
 
         (parent as? SkinResource)?.let { resource ->
-            resource.classSpecification?.resolveClass()?.let { clazz ->
+            resource.getClassSpecification()?.resolveClass()?.let { clazz ->
                 return@getCachedValue PsiTypesUtil.getClassType(clazz)
             }
             return@getCachedValue null
         }
 
-        property?.resolveToType()?.let { type ->
+        getProperty()?.resolveToType()?.let { type ->
             var elementType: PsiType? = type
             var arrayDepth = arrayDepth()
 

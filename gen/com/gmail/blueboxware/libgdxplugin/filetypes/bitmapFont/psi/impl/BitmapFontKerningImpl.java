@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontKerningImpl extends BitmapFontKerningMixin implements BitmapFontKerning {
 
-  public BitmapFontKerningImpl(@NotNull ASTNode node) {
+  public BitmapFontKerningImpl(ASTNode node) {
     super(node);
   }
 
@@ -21,6 +21,7 @@ public class BitmapFontKerningImpl extends BitmapFontKerningMixin implements Bit
     visitor.visitKerning(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof BitmapFontElementVisitor) accept((BitmapFontElementVisitor)visitor);
     else super.accept(visitor);

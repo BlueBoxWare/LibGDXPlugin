@@ -1,11 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2
-
-import com.intellij.psi.NavigatablePsiElement
-import com.intellij.psi.PsiElement
-
-
 /*
- * Copyright 2022 Blue Box Ware
+ * Copyright 2025 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,4 +13,13 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface Atlas2Element : PsiElement, NavigatablePsiElement
+
+package com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi
+
+interface BitmapFontPropertyOwner : BitmapFontElement {
+
+    fun getKey(): String
+
+    fun getValue(): String?
+
+}

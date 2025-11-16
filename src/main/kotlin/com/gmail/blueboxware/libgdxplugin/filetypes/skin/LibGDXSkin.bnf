@@ -43,15 +43,8 @@ skin ::= '{'  class_specification? (separator class_specification)* optionalComm
 }
 
 class_specification ::= class_name class_spec_colon class_spec_lbrace resources '}' {
-    methods=[
-        resolveClass
-        getClassNameAsString
-        getResourcesAsList
-        getResourceNames
-        getResource
-        addComment
-    ]
     pin = 1
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassSpecificationMixin"
 }
 
@@ -66,12 +59,7 @@ private class_spec_lbrace ::= '{' {
 private recover_class_lbrace ::= !(string_literal | '}')
 
 class_name ::= string_literal {
-    methods=[
-        getValue
-        setValue
-        resolve
-        multiResolve
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinClassNameOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin"
 }
 
@@ -82,36 +70,19 @@ resources ::= resource? (separator resource)* optionalComma {
 private recover_class ::= !'}'
 
 resource ::= resource_name ':' (object | string_literal) {
-    methods = [
-        getName
-        getClassSpecification
-        getObject
-        getString
-        findDefinition
-        asColor
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceOwner"
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin"
     pin = 1
 }
 
 resource_name ::= string_literal {
-    methods = [
-        getResource
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinResourceNameOwner"
     mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceNameMixin"
 }
 
 object ::= '{' resource_list '}' {
-    methods = [
-        asColor
-        asResource
-        getPropertyNames
-        addProperty
-        addComment
-        getProperty
-        resolveToField
-    ]
     pin = 2
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObjectOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinObjectMixin"
 }
 
@@ -121,61 +92,39 @@ private resource_list ::= property? (separator property)* optionalComma {
 private recover_object ::= !'}'
 
 property ::= property_name ':' property_value {
-      methods=[
-        getName
-        getValue
-        getContainingObject
-        resolveToField
-        resolveToType
-        resolveToTypeString
-      ]
-      mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyMixin"
       pin = 1
       recoverWhile = recover_property
+      implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertySpecification"
+      mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyMixin"
 }
 private recover_property ::= !(separator | '}')
 
 property_name ::= string_literal {
-        methods=[
-            getProperty
-            getValue
-        ]
-        mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyNameMixin"
+      implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinValueOwner"
+      mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyNameMixin"
 }
 
 property_value ::= value {
-    methods = [
-        getProperty
-    ]
-    mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin"
+      implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyOwner"
+      mixin = "com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinPropertyValueMixin"
 }
 
 value ::= object | array | string_literal {
-    methods=[
-        getProperty
-        isBoolean
-        resolveToType
-        resolveToTypeString
-        resolveToClass
-    ]
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin"
+        implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinPropertyValueOwner"
+        mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinValueMixin"
 }
 
 array ::= '[' value? (separator value)* optionalComma ']' {
-    pin=2
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinArrayMixin"
+        pin=2
+        mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinArrayMixin"
 }
 
 string_literal ::= DOUBLE_QUOTED_STRING | UNQUOTED_STRING {
       methods=[
-        getValue
-        setValue
-        asPropertyName
-        isQuoted
-
         DOUBLE_QUOTED_STRING=""
         UNQUOTED_STRING=""
       ]
+      implements="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinStringOwner"
       mixin="com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinStringLiteralMixin"
 }
 

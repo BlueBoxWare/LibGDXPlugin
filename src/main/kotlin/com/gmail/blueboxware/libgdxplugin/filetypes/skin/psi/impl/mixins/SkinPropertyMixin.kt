@@ -33,7 +33,7 @@ import javax.swing.Icon
  */
 abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(node) {
 
-    override fun getName(): String = propertyName.stringLiteral.value
+    override fun getName(): String = propertyName.stringLiteral.getValue()
 
     override fun getValue(): SkinValue? = propertyValue?.value
 
@@ -41,18 +41,18 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
 
     override fun getContainingObject(): SkinObject? = firstParent()
 
-    override fun resolveToField(): PsiField? = containingObject?.resolveToField(this)
+    override fun resolveToField(): PsiField? = getContainingObject()?.resolveToField(this)
 
     override fun resolveToType(): PsiType? {
         if (name == PROPERTY_NAME_PARENT && project.isLibGDX199()) {
-            return containingObject?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
+            return getContainingObject()?.resolveToClass()?.let { PsiTypesUtil.getClassType(it) }
         }
 
         resolveToField()?.let {
             return it.type
         }
 
-        val objectType = containingObject?.resolveToTypeString()
+        val objectType = getContainingObject()?.resolveToTypeString()
 
         if (objectType == BITMAPFONT_CLASS_NAME) {
             if (name == PROPERTY_NAME_FONT_SCALED_SIZE) {
@@ -70,7 +70,7 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
     override fun resolveToTypeString(): String? = resolveToType()?.canonicalText
 
     override fun setName(@NonNls name: String): PsiElement? {
-        factory()?.createPropertyName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newPropertyName ->
+        factory()?.createPropertyName(name, nameIdentifier.stringLiteral.isQuoted())?.let { newPropertyName ->
             propertyName.replace(newPropertyName)
             return newPropertyName
         }
@@ -87,20 +87,20 @@ abstract class SkinPropertyMixin(node: ASTNode) : SkinProperty, SkinElementImpl(
                 this@SkinPropertyMixin.firstParent<SkinClassSpecification>()
                     ?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) ?: false
 
-            (value as? SkinObject)?.asColor(force)?.let { color ->
+            (getValue() as? SkinObject)?.asColor(force)?.let { color ->
                 return createColorIcon(color)
             }
 
-            if (value is SkinArray) {
+            if (getValue() is SkinArray) {
                 return AllIcons.Json.Array
             }
-            if (value is SkinObject) {
+            if (getValue() is SkinObject) {
                 return AllIcons.Json.Object
             }
             return PlatformIcons.PROPERTY_ICON
         }
 
-        override fun getPresentableText() = (value as? SkinStringLiteral)?.value?.let { "$name: $it" } ?: name
+        override fun getPresentableText() = (getValue() as? SkinStringLiteral)?.getValue()?.let { "$name: $it" } ?: name
     }
 
     override fun toString(): String = "SkinProperty(${propertyName.stringLiteral.text})"

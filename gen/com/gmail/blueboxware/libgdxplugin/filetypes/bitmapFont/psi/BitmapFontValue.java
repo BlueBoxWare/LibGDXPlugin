@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface BitmapFontValue extends BitmapFontElement {
-
-  @NotNull
-  String getValue();
+public interface BitmapFontValue extends BitmapFontValueOwner, BitmapFontElement {
 
 }

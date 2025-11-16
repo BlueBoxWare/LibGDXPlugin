@@ -21,8 +21,8 @@ import com.intellij.lang.ASTNode
  */
 abstract class PropertyContainerImpl(node: ASTNode) : PropertyContainer, BitmapFontElementImpl(node) {
 
-    override fun getProperty(name: String): BitmapFontProperty? = getPropertyList().find { it.key == name }
+    override fun getProperty(name: String): BitmapFontProperty? = getPropertyList().find { it.getKey() == name }
 
-    override fun getValue(name: String): String? = getProperty(name)?.value
+    override fun getValue(name: String): String? = getProperty(name)?.getValue()
 
 }

@@ -45,9 +45,9 @@ abstract class BitmapFontKerningMixin(node: ASTNode) : BitmapFontKerning, Proper
         override fun getIcon(unused: Boolean) = IconLoader.getDisabledIcon(AllIcons.Nodes.Tag)
 
         override fun getPresentableText() =
-            firstCharacter?.presentation?.presentableText +
+            getFirstCharacter()?.presentation?.presentableText +
                     " - " +
-                    secondCharacter?.presentation?.presentableText +
+                    getSecondCharacter()?.presentation?.presentableText +
                     ": " +
                     (getValue("amount") ?: "<unknown>")
 

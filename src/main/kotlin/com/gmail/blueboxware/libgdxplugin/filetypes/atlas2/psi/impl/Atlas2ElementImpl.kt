@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Element
 import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 

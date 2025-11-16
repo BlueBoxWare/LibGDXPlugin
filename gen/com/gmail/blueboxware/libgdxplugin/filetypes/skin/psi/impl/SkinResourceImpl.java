@@ -10,11 +10,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinResourceMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
-import java.awt.Color;
 
 public class SkinResourceImpl extends SkinResourceMixin implements SkinResource {
 
-  public SkinResourceImpl(@NotNull ASTNode node) {
+  public SkinResourceImpl(ASTNode node) {
     super(node);
   }
 
@@ -22,6 +21,7 @@ public class SkinResourceImpl extends SkinResourceMixin implements SkinResource 
     visitor.visitResource(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SkinElementVisitor) accept((SkinElementVisitor)visitor);
     else super.accept(visitor);

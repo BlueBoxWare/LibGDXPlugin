@@ -1,7 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.structureView
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2FieldOwner
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2File
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2FieldOwner
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Page
 import com.gmail.blueboxware.libgdxplugin.utils.DummyItemPresentation
 import com.intellij.ide.structureView.StructureViewTreeElement

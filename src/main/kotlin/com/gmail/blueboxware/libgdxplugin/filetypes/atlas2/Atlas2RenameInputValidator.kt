@@ -1,5 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Element
 import com.intellij.patterns.ElementPattern
 import com.intellij.patterns.StandardPatterns
 import com.intellij.psi.PsiElement

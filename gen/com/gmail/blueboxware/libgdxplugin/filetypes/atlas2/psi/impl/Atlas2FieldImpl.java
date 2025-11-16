@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.*;
 
 public class Atlas2FieldImpl extends Atlas2FieldMixin implements Atlas2Field {
 
-  public Atlas2FieldImpl(@NotNull ASTNode node) {
+  public Atlas2FieldImpl(ASTNode node) {
     super(node);
   }
 

@@ -47,15 +47,15 @@ class GdxJsonStructureViewElement(val element: GdxJsonElement) : StructureViewTr
         var value: GdxJsonElement? = null
 
         when (element) {
-            is GdxJsonFile -> value = element.childOfType<GdxJsonValue>()?.value
-            is GdxJsonProperty -> value = element.value?.value
+            is GdxJsonFile -> value = element.childOfType<GdxJsonValue>()?.getValue()
+            is GdxJsonProperty -> value = element.value?.getValue()
             is GdxJsonJobject, is GdxJsonArray -> value = element
         }
 
         if (value is GdxJsonJobject) {
             return value.propertyList.map { GdxJsonStructureViewElement(it) }.toTypedArray()
         } else if (value is GdxJsonArray) {
-            return value.valueList.mapNotNull { it.value }.mapNotNull {
+            return value.valueList.mapNotNull { it.getValue() }.mapNotNull {
 
                 if (it is GdxJsonJobject && it.propertyList.isNotEmpty()) {
                     GdxJsonStructureViewElement(it)

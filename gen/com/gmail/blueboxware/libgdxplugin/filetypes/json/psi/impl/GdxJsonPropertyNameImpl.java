@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*;
 
 public class GdxJsonPropertyNameImpl extends GdxJsonPropertyNameMixin implements GdxJsonPropertyName {
 
-  public GdxJsonPropertyNameImpl(@NotNull ASTNode node) {
+  public GdxJsonPropertyNameImpl(ASTNode node) {
     super(node);
   }
 

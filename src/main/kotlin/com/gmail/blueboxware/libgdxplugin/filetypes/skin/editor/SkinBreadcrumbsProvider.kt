@@ -38,9 +38,9 @@ internal class SkinBreadcrumbsProvider : BreadcrumbsProvider {
     override fun getElementInfo(element: PsiElement): String {
 
         if (element is SkinProperty) {
-            return element.name
+            return element.getName()
         } else if (element is SkinClassSpecification) {
-            return element.classNameAsString.plainName
+            return element.getClassNameAsString().plainName
         } else if (element is SkinResource) {
             return element.name
         } else if (element is SkinValue && element.isArrayElement()) {

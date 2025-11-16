@@ -30,7 +30,7 @@ abstract class Atlas2HeaderMixin(node: ASTNode) : Atlas2Header, Atlas2ElementImp
     override fun getValue(): String = if (parent is Atlas2Page) text else text.trim()
 
     override fun getReference(): PsiReference? {
-        (parent as? Atlas2Page)?.imageFile?.let { imageFile ->
+        (parent as? Atlas2Page)?.getImageFile()?.let { imageFile ->
             project.getProjectBaseDir()?.let { baseDir ->
 
                 VfsUtilCore.getRelativePath(imageFile, baseDir)?.let { relativePath ->

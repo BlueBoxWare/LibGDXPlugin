@@ -42,13 +42,13 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
     fun isHexColor() =
         resolveToTypeString() == COLOR_CLASS_NAME
-                && propertyNames.contains("hex")
+                && getPropertyNames().contains("hex")
                 && propertyList.size == 1
 
     fun isComponentColor() =
         resolveToTypeString() == COLOR_CLASS_NAME
                 && propertyList.isNotEmpty()
-                && propertyNames.all { it in listOf("r", "g", "b", "a") }
+                && getPropertyNames().all { it in listOf("r", "g", "b", "a") }
 
     override fun asColor(force: Boolean): Color? {
 
@@ -56,7 +56,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
         if (propertyList.size == 1 && propertyList.firstOrNull()?.name == "hex") {
 
-            (propertyList.firstOrNull()?.value as? SkinStringLiteral)?.value?.let { string ->
+            (propertyList.firstOrNull()?.getValue() as? SkinStringLiteral)?.getValue()?.let { string ->
                 thisColor = color(string)
             }
 
@@ -69,7 +69,7 @@ abstract class SkinObjectMixin(node: ASTNode) : SkinObject, SkinValueImpl(node) 
 
             for (property in propertyList) {
 
-                (property.value as? SkinStringLiteral)?.value?.toFloatOrNull()?.let { d ->
+                (property.getValue() as? SkinStringLiteral)?.getValue()?.toFloatOrNull()?.let { d ->
 
                     when (property.name) {
                         "r" -> r = d

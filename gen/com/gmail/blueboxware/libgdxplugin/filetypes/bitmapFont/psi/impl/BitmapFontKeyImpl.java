@@ -21,6 +21,7 @@ public class BitmapFontKeyImpl extends ASTWrapperPsiElement implements BitmapFon
     visitor.visitKey(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof BitmapFontElementVisitor) accept((BitmapFontElementVisitor)visitor);
     else super.accept(visitor);

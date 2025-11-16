@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinStringLiteralImpl extends SkinStringLiteralMixin implements SkinStringLiteral {
 
-  public SkinStringLiteralImpl(@NotNull ASTNode node) {
+  public SkinStringLiteralImpl(ASTNode node) {
     super(node);
   }
 
@@ -21,6 +21,7 @@ public class SkinStringLiteralImpl extends SkinStringLiteralMixin implements Ski
     visitor.visitStringLiteral(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SkinElementVisitor) accept((SkinElementVisitor)visitor);
     else super.accept(visitor);

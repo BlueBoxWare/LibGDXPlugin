@@ -1,46 +1,52 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi;
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element;
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2FieldOwner;
-import com.intellij.psi.PsiElement;
+import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.psi.PsiElement;
 
 public class Atlas2ElementVisitor extends PsiElementVisitor {
 
   public void visitField(@NotNull Atlas2Field o) {
-    visitElement(o);
+    visitValuesOwner(o);
     // visitNamedElement(o);
   }
 
   public void visitHeader(@NotNull Atlas2Header o) {
-    visitElement(o);
+    visitValueOwner(o);
   }
 
   public void visitKey(@NotNull Atlas2Key o) {
-    visitElement(o);
+    visitValueOwner(o);
   }
 
   public void visitPage(@NotNull Atlas2Page o) {
-    visitFieldOwner(o);
+    visitPageOwner(o);
     // visitNamedElement(o);
   }
 
   public void visitRegion(@NotNull Atlas2Region o) {
-    visitFieldOwner(o);
+    visitImageOwner(o);
     // visitNamedElement(o);
   }
 
   public void visitValue(@NotNull Atlas2Value o) {
-    visitElement(o);
+    visitValueOwner(o);
   }
 
-  public void visitElement(@NotNull Atlas2Element o) {
+  public void visitImageOwner(@NotNull Atlas2ImageOwner o) {
     visitPsiElement(o);
   }
 
-  public void visitFieldOwner(@NotNull Atlas2FieldOwner o) {
+  public void visitPageOwner(@NotNull Atlas2PageOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValueOwner(@NotNull Atlas2ValueOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValuesOwner(@NotNull Atlas2ValuesOwner o) {
     visitPsiElement(o);
   }
 

@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SkinPropertyName extends SkinElement {
+public interface SkinPropertyName extends SkinValueOwner, SkinElement {
 
   @NotNull
   SkinStringLiteral getStringLiteral();
-
-  @Nullable
-  SkinProperty getProperty();
-
-  @NotNull
-  String getValue();
 
 }

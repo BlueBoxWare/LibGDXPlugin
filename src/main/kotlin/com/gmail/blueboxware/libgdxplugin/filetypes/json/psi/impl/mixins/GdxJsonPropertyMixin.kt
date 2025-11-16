@@ -36,7 +36,7 @@ abstract class GdxJsonPropertyMixin(node: ASTNode) : GdxJsonProperty, GdxJsonEle
     override fun getName(): String? = propertyName.getValue()
 
     override fun setName(name: String): PsiElement? =
-        GdxJsonElementFactory(project).createPropertyName(name, propertyName.isQuoted)?.let {
+        GdxJsonElementFactory(project).createPropertyName(name, propertyName.isQuoted())?.let {
             propertyName.replace(it)
         }
 
@@ -44,10 +44,10 @@ abstract class GdxJsonPropertyMixin(node: ASTNode) : GdxJsonProperty, GdxJsonEle
 
     override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
 
-        override fun getLocationString(): String? = (value?.value as? GdxJsonString)?.getValue()
+        override fun getLocationString(): String? = (value?.getValue() as? GdxJsonString)?.getValue()
 
         override fun getIcon(unused: Boolean): Icon? =
-            when (value?.value) {
+            when (value?.getValue()) {
                 is GdxJsonArray -> AllIcons.Json.Array
                 is GdxJsonJobject -> AllIcons.Json.Object
                 else -> PlatformIcons.PROPERTY_ICON

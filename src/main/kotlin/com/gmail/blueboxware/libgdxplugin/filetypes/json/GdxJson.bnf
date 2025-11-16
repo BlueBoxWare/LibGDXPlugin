@@ -43,21 +43,14 @@
 json ::= value?
 
 value ::= jobject | array | string {
-    methods=[
-        getValue
-        isPropertyValue
-        isObject
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValueOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonValueMixin"
 }
 
 jobject ::= '{' separator? ('}' | object_element* COMMA? '}'?) {
-    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin"
     pin=1
-    methods=[
-        getProperty
-        getProperties
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonPropertiesOwner"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonJobjectMixin"
 }
 
 private object_element ::= property (separator|&'}') {
@@ -85,12 +78,8 @@ private array_element ::= value (separator|&']') {
 private not_bracket_or_next_value ::= !(']'|value|separator)
 
 string ::= DOUBLE_QUOTED_STRING | unquoted_value_string {
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonStringOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonStringMixin"
-    methods=[
-        isQuoted
-        isKeyword
-        isNumber
-    ]
 }
 
 property_name ::= DOUBLE_QUOTED_STRING | unquoted_key_string {

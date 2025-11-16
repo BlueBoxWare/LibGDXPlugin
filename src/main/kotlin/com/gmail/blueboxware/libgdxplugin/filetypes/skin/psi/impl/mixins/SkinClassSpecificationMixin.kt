@@ -36,12 +36,12 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
     override fun getNameIdentifier(): SkinStringLiteral = className.stringLiteral
 
-    override fun getClassNameAsString(): DollarClassName = className.value
+    override fun getClassNameAsString(): DollarClassName = className.getValue()
 
     override fun resolveClass(): PsiClass? = className.resolve()
 
     override fun setName(name: String): PsiElement? {
-        factory()?.createStringLiteral(name, nameIdentifier.isQuoted)?.let { newClassName ->
+        factory()?.createStringLiteral(name, nameIdentifier.isQuoted())?.let { newClassName ->
             className.stringLiteral.replace(newClassName)
             return newClassName
         }
@@ -53,14 +53,14 @@ abstract class SkinClassSpecificationMixin(node: ASTNode) : SkinClassSpecificati
 
     override fun getResourcesAsList(beforeElement: PsiElement?): List<SkinResource> =
         beforeElement?.let { beforeElementNotNull ->
-            resourcesAsList.filter { it.endOffset < beforeElementNotNull.startOffset }
-        } ?: resourcesAsList
+            getResourcesAsList().filter { it.endOffset < beforeElementNotNull.startOffset }
+        } ?: getResourcesAsList()
 
-    override fun getResourceNames(): List<String> = resourcesAsList.map { it.name }
+    override fun getResourceNames(): List<String> = getResourcesAsList().map { it.getName() }
 
     override fun getResource(name: String) = resources?.resourceList?.firstOrNull { it.name == name }
 
-    override fun getName() = nameIdentifier.value
+    override fun getName() = nameIdentifier.getValue()
 
     override fun addComment(comment: PsiComment) = addCommentExt(comment)
 

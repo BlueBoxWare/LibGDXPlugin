@@ -1,6 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.references
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Element
 import com.gmail.blueboxware.libgdxplugin.utils.getProjectBaseDir
 import com.gmail.blueboxware.libgdxplugin.utils.getPsiFile
 import com.gmail.blueboxware.libgdxplugin.utils.isDefaultFile

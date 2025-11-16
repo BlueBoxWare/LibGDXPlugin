@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.*;
 
 public class Atlas2KeyImpl extends Atlas2KeyMixin implements Atlas2Key {
 
-  public Atlas2KeyImpl(@NotNull ASTNode node) {
+  public Atlas2KeyImpl(ASTNode node) {
     super(node);
   }
 

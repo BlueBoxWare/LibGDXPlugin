@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinPropertyNameImpl extends SkinPropertyNameMixin implements SkinPropertyName {
 
-  public SkinPropertyNameImpl(@NotNull ASTNode node) {
+  public SkinPropertyNameImpl(ASTNode node) {
     super(node);
   }
 
@@ -21,6 +21,7 @@ public class SkinPropertyNameImpl extends SkinPropertyNameMixin implements SkinP
     visitor.visitPropertyName(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SkinElementVisitor) accept((SkinElementVisitor)visitor);
     else super.accept(visitor);

@@ -15,7 +15,7 @@
 
     tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2TokenType'
 
-    implements("page|region|field") = 'com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2NamedElement'
+    implements("page|region|field") = 'com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2NamedElement'
 
     tokens = [
         COLON = ':'
@@ -33,60 +33,36 @@
 atlas2 ::= EMPTY_LINE* field* page*
 
 page ::= header field* region* (EMPTY_LINE | <<eof>>) {
-    methods = [
-        getIndex
-        getImageFile
-    ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2FieldOwner"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2PageOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2PageMixin"
 }
 
 region ::= header field* {
-    methods = [
-        getIndex
-        getImage
-        getPage
-        getX
-        getY
-        getWidth
-        getHeight
-    ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2FieldOwner"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2ImageOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2RegionMixin"
 }
 
-field ::= key COLON (value | COMMA)* {
-    methods = [
+field ::= key  COLON (value | COMMA)* {
+    methods=[
         keyElement="key"
-        getKey
-        getValueElements
-        getValues
     ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2ValuesOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2FieldMixin"
 }
 
 value ::= TVALUE {
-    methods = [
-        getValue
-    ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2ValueOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2ValueMixin"
 }
 
 header ::= THEADER {
-    methods = [
-        getValue
-    ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2ValueOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2HeaderMixin"
 }
 
 key ::= TKEY {
-    methods = [
-        getValue
-    ]
-    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2Element"
+name="keyElement"
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2ValueOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2KeyMixin"
 }
 

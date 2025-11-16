@@ -10,11 +10,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2ElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2PageMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.*;
-import com.intellij.openapi.vfs.VirtualFile;
 
 public class Atlas2PageImpl extends Atlas2PageMixin implements Atlas2Page {
 
-  public Atlas2PageImpl(@NotNull ASTNode node) {
+  public Atlas2PageImpl(ASTNode node) {
     super(node);
   }
 

@@ -31,9 +31,9 @@ internal class Atlas2FoldingBuilder : FoldingBuilder, DumbAware {
         val element = node.psi
 
         if (element is Atlas2Page) {
-            return "Page: " + element.header.value + " ..."
+            return "Page: " + element.header.getValue() + " ..."
         } else if (element is Atlas2Region) {
-            return "Texture: " + element.header.value + " ..."
+            return "Texture: " + element.header.getValue() + " ..."
         }
 
         return "..."

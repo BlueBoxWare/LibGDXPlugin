@@ -51,30 +51,23 @@ page_definition ::= 'page' property* endofline {
 chars ::= 'chars' property* endofline
 
 font_char ::= 'char' property* endofline {
-    methods=[
-        getCharacter
-        getLetter
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontCharOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontFontCharMixin"
 }
 
 kernings ::= 'kernings' property* endofline
 
 kerning ::= 'kerning' property* endofline {
-    methods=[
-        getFirstCharacter
-        getSecondCharacter
-    ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontKerningOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontKerningMixin"
 }
 
 property ::= key '=' (value !'=' )? {
     methods=[
-        getKey
-        getValue
         keyElement="key"
         valueElement="value"
     ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontPropertyOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontPropertyMixin"
 }
 
@@ -82,11 +75,11 @@ key ::= UNQUOTED_STRING
 
 value ::= UNQUOTED_STRING | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING {
     methods=[
-        getValue
         SINGLE_QUOTED_STRING=""
         DOUBLE_QUOTED_STRING=""
         UNQUOTED_STRING=""
     ]
+    implements="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.BitmapFontValueOwner"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.impl.mixins.BitmapFontValueMixin"
 }
 

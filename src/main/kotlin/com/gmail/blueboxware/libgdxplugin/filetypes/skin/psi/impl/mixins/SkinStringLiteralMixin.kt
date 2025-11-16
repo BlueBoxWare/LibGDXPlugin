@@ -51,24 +51,24 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
 
     override fun getReference(): PsiReference? = getCachedValue(REFERENCE_KEY, null) {
 
-        val containingObjectType = property?.containingObject?.resolveToTypeString()
+        val containingObjectType = getProperty()?.getContainingObject()?.resolveToTypeString()
 
         if (
-            (containingObjectType == BITMAPFONT_CLASS_NAME && property?.name == PROPERTY_NAME_FONT_FILE)
-            || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME && property?.name == "font")
+            (containingObjectType == BITMAPFONT_CLASS_NAME && getProperty()?.name == PROPERTY_NAME_FONT_FILE)
+            || (containingObjectType == FREETYPE_FONT_PARAMETER_CLASS_NAME && getProperty()?.name == "font")
         ) {
             return@getCachedValue SkinFileReference(this, containingFile)
         } else {
             resolveToType().let { type ->
                 if (
-                    isBoolean && type?.canonicalText == "java.lang.Boolean"
+                    isBoolean() && type?.canonicalText == "java.lang.Boolean"
                     || type?.canonicalText == "java.lang.Integer"
                     || type is PsiPrimitiveType
                     || type == null
                 ) {
                     return@getCachedValue null
                 } else if (type.isStringType(this)) {
-                    if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || property?.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
+                    if (containingObjectType != TINTED_DRAWABLE_CLASS_NAME || getProperty()?.name != PROPERTY_NAME_TINTED_DRAWABLE_NAME) {
                         return@getCachedValue null
                     }
                 }
@@ -81,7 +81,7 @@ abstract class SkinStringLiteralMixin(node: ASTNode) : SkinStringLiteral, SkinVa
     }
 
     override fun setValue(string: String) {
-        factory()?.createStringLiteral(string, isQuoted)?.let {
+        factory()?.createStringLiteral(string, isQuoted())?.let {
             replace(it)
         }
     }

@@ -35,7 +35,7 @@ abstract class Atlas2RegionMixin(node: ASTNode) : Atlas2Region, Atlas2FieldOwner
 
     override fun getIndex(): Int? = getFieldValue("index")?.toIntOrNull()
 
-    override fun getName(): String? = header.value
+    override fun getName(): String? = header.getValue()
 
     override fun getPage(): Atlas2Page? = getParentOfType()
 
@@ -50,11 +50,11 @@ abstract class Atlas2RegionMixin(node: ASTNode) : Atlas2Region, Atlas2FieldOwner
     override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 
     override fun getImage(): BufferedImage? {
-        val virtualFile = page?.imageFile ?: return null
-        val x = x ?: return null
-        val y = y ?: return null
-        val width = width ?: return null
-        val height = height ?: return null
+        val virtualFile = getPage()?.getImageFile() ?: return null
+        val x = getX() ?: return null
+        val y = getY() ?: return null
+        val width = getWidth() ?: return null
+        val height = getHeight() ?: return null
 
         return try {
             ImageIO.read(virtualFile.inputStream)?.getSubimage(x, y, width, height)
@@ -74,7 +74,7 @@ abstract class Atlas2RegionMixin(node: ASTNode) : Atlas2Region, Atlas2FieldOwner
 
         override fun getIcon(unused: Boolean) = AllIcons.FileTypes.UiForm
 
-        override fun getPresentableText() = name + (index?.let { if (it == -1) "" else " ($it)" } ?: "")
+        override fun getPresentableText() = name + (getIndex()?.let { if (it == -1) "" else " ($it)" } ?: "")
 
     }
 

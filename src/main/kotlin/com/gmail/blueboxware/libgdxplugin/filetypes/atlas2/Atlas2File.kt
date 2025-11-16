@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Field
+import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2FieldOwner
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Page
 import com.gmail.blueboxware.libgdxplugin.utils.FilePresentation
 import com.intellij.extapi.psi.PsiFileBase

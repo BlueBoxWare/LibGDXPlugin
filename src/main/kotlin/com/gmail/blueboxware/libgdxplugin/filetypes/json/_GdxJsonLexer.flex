@@ -13,8 +13,6 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTy
   public _GdxJsonLexer() {
       this(null);
     }
-
-    StringBuffer string = new StringBuffer();
 %}
 
 %public

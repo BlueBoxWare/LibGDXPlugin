@@ -5,16 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SkinStringLiteral extends SkinValue {
-
-  @NotNull
-  String getValue();
-
-  void setValue(@NotNull String string);
-
-  @Nullable
-  SkinPropertyName asPropertyName();
-
-  boolean isQuoted();
+public interface SkinStringLiteral extends SkinValue, SkinStringOwner {
 
 }

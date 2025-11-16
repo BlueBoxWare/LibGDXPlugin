@@ -46,7 +46,7 @@ abstract class Atlas2PageMixin(node: ASTNode) : Atlas2Page, Atlas2FieldOwnerImpl
         override fun getIcon(unused: Boolean) = AllIcons.FileTypes.Any_type
 
         override fun getPresentableText(): String {
-            val index = (index ?: 0) + 1
+            val index = (getIndex() ?: 0) + 1
             return "Page $index ($name)"
         }
 

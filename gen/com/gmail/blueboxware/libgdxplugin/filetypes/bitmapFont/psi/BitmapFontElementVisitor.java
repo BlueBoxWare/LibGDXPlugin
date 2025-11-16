@@ -16,7 +16,8 @@ public class BitmapFontElementVisitor extends PsiElementVisitor {
   }
 
   public void visitFontChar(@NotNull BitmapFontFontChar o) {
-    visitPropertyContainer(o);
+    visitCharOwner(o);
+    // visitPropertyContainer(o);
   }
 
   public void visitInfo(@NotNull BitmapFontInfo o) {
@@ -24,7 +25,8 @@ public class BitmapFontElementVisitor extends PsiElementVisitor {
   }
 
   public void visitKerning(@NotNull BitmapFontKerning o) {
-    visitPropertyContainer(o);
+    visitKerningOwner(o);
+    // visitPropertyContainer(o);
   }
 
   public void visitKernings(@NotNull BitmapFontKernings o) {
@@ -40,14 +42,27 @@ public class BitmapFontElementVisitor extends PsiElementVisitor {
   }
 
   public void visitProperty(@NotNull BitmapFontProperty o) {
-    visitPsiElement(o);
+    visitPropertyOwner(o);
   }
 
   public void visitValue(@NotNull BitmapFontValue o) {
-    visitElement(o);
+    visitValueOwner(o);
+    // visitElement(o);
   }
 
-  public void visitElement(@NotNull BitmapFontElement o) {
+  public void visitCharOwner(@NotNull BitmapFontCharOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitKerningOwner(@NotNull BitmapFontKerningOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPropertyOwner(@NotNull BitmapFontPropertyOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValueOwner(@NotNull BitmapFontValueOwner o) {
     visitPsiElement(o);
   }
 

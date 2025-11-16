@@ -1,20 +1,19 @@
 // This is a generated file. Not intended for manual editing.
 package com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl;
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElementVisitor;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonValue;
-import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin;
+import java.util.List;
+import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
+import static com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonElementTypes.*;
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.impl.mixins.GdxJsonArrayMixin;
+import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.*;
 
 public class GdxJsonArrayImpl extends GdxJsonArrayMixin implements GdxJsonArray {
 
-  public GdxJsonArrayImpl(@NotNull ASTNode node) {
+  public GdxJsonArrayImpl(ASTNode node) {
     super(node);
   }
 

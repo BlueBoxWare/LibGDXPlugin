@@ -12,35 +12,43 @@ public class SkinElementVisitor extends PsiElementVisitor {
   }
 
   public void visitClassName(@NotNull SkinClassName o) {
-    visitElement(o);
+    visitClassNameOwner(o);
+    // visitElement(o);
   }
 
   public void visitClassSpecification(@NotNull SkinClassSpecification o) {
-    visitNamedElement(o);
+    visitClassOwner(o);
+    // visitNamedElement(o);
   }
 
   public void visitObject(@NotNull SkinObject o) {
     visitValue(o);
+    // visitObjectOwner(o);
   }
 
   public void visitProperty(@NotNull SkinProperty o) {
-    visitNamedElement(o);
+    visitPropertySpecification(o);
+    // visitNamedElement(o);
   }
 
   public void visitPropertyName(@NotNull SkinPropertyName o) {
-    visitElement(o);
+    visitValueOwner(o);
+    // visitElement(o);
   }
 
   public void visitPropertyValue(@NotNull SkinPropertyValue o) {
-    visitElement(o);
+    visitPropertyOwner(o);
+    // visitElement(o);
   }
 
   public void visitResource(@NotNull SkinResource o) {
-    visitNamedElement(o);
+    visitResourceOwner(o);
+    // visitNamedElement(o);
   }
 
   public void visitResourceName(@NotNull SkinResourceName o) {
-    visitElement(o);
+    visitResourceNameOwner(o);
+    // visitElement(o);
   }
 
   public void visitResources(@NotNull SkinResources o) {
@@ -49,17 +57,47 @@ public class SkinElementVisitor extends PsiElementVisitor {
 
   public void visitStringLiteral(@NotNull SkinStringLiteral o) {
     visitValue(o);
+    // visitStringOwner(o);
   }
 
   public void visitValue(@NotNull SkinValue o) {
-    visitElement(o);
+    visitPropertyValueOwner(o);
+    // visitElement(o);
+  }
+
+  public void visitClassNameOwner(@NotNull SkinClassNameOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitClassOwner(@NotNull SkinClassOwner o) {
+    visitPsiElement(o);
   }
 
   public void visitElement(@NotNull SkinElement o) {
     visitPsiElement(o);
   }
 
-  public void visitNamedElement(@NotNull SkinNamedElement o) {
+  public void visitPropertyOwner(@NotNull SkinPropertyOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPropertySpecification(@NotNull SkinPropertySpecification o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPropertyValueOwner(@NotNull SkinPropertyValueOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitResourceNameOwner(@NotNull SkinResourceNameOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitResourceOwner(@NotNull SkinResourceOwner o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValueOwner(@NotNull SkinValueOwner o) {
     visitPsiElement(o);
   }
 

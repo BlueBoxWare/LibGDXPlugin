@@ -37,7 +37,7 @@ import javax.swing.Icon
  */
 abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(node) {
 
-    override fun getName() = resourceName.stringLiteral.value
+    override fun getName() = resourceName.stringLiteral.getValue()
 
     override fun getNameIdentifier() = resourceName
 
@@ -53,8 +53,8 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
 
         var element: SkinResource? = this
 
-        while (element?.string != null) {
-            element = element.string?.reference?.resolve() as? SkinResource
+        while (element?.getString() != null) {
+            element = element.getString()?.reference?.resolve() as? SkinResource
         }
 
         return element
@@ -64,11 +64,11 @@ abstract class SkinResourceMixin(node: ASTNode) : SkinResource, SkinElementImpl(
     override fun asColor(force: Boolean): Color? =
         (findDefinition()?.value as? SkinObject)
             ?.asColor(
-                force || classSpecification?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
+                force || getClassSpecification()?.getRealClassNamesAsString()?.contains(COLOR_CLASS_NAME) == true
             )
 
     override fun setName(name: String): PsiElement? {
-        factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted)?.let { newResourceName ->
+        factory()?.createResourceName(name, nameIdentifier.stringLiteral.isQuoted())?.let { newResourceName ->
             resourceName.replace(newResourceName)
             return newResourceName
         }

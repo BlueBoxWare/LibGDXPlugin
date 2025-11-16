@@ -12,7 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
 
 public class SkinResourcesImpl extends SkinElementImpl implements SkinResources {
 
-  public SkinResourcesImpl(@NotNull ASTNode node) {
+  public SkinResourcesImpl(ASTNode node) {
     super(node);
   }
 
@@ -20,6 +20,7 @@ public class SkinResourcesImpl extends SkinElementImpl implements SkinResources 
     visitor.visitResources(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SkinElementVisitor) accept((SkinElementVisitor)visitor);
     else super.accept(visitor);

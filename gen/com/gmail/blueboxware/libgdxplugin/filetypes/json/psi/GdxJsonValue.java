@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface GdxJsonValue extends GdxJsonElement {
+public interface GdxJsonValue extends GdxJsonValueOwner, GdxJsonElement {
 
   @Nullable
   GdxJsonArray getArray();
@@ -15,12 +15,5 @@ public interface GdxJsonValue extends GdxJsonElement {
 
   @Nullable
   GdxJsonString getString();
-
-  @Nullable
-  GdxJsonElement getValue();
-
-  boolean isPropertyValue();
-
-  boolean isObject();
 
 }

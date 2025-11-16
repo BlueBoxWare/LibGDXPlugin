@@ -31,7 +31,7 @@ class BitmapFontFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewP
         val map = mutableMapOf<Int, BitmapFontFontChar>()
 
         childrenOfType<BitmapFontFontChar>().forEach { fontChar ->
-            fontChar.character?.let { id ->
+            fontChar.getCharacter()?.let { id ->
                 map[id] = fontChar
             }
         }

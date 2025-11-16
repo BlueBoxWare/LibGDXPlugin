@@ -1,3 +1,7 @@
+import org.gradle.kotlin.dsl.support.uppercaseFirstChar
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+import org.jetbrains.grammarkit.tasks.GenerateParserTask
+import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -7,6 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.20"
     id("com.github.blueboxware.tocme") version "1.8"
     id("org.jetbrains.intellij.platform") version "2.10.4"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -50,6 +55,7 @@ intellijPlatform {
     pluginVerification {
         ides {
 //            ide(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
+            create(IntelliJPlatformType.IntellijIdeaCommunity, "253-EAP-SNAPSHOT")
             recommended()
         }
     }
@@ -63,8 +69,10 @@ sourceSets {
         resources.srcDirs("resources")
     }
 
-    register("annotations") {
-        java.srcDirs("src/main/java")
+    create("annotations") {
+        java {
+            srcDir("src/main/java")
+        }
     }
 
 }
@@ -130,6 +138,30 @@ tasks {
         archiveBaseName.set(project.tasks.getByName<Jar>("annotationsJar").archiveBaseName)
         archiveVersion.set(providers.gradleProperty("pluginVersion"))
     }
+
+    fun generateParserTask(path: String, lexer: String, parser: String) {
+        val name = path.uppercaseFirstChar()
+        val bnfTask = register<GenerateParserTask>("generate${name}Parser") {
+            sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$parser.bnf")
+            targetRootOutputDir = file("gen")
+            pathToParser = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path"
+            pathToPsiRoot = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path/psi"
+        }
+        val lexerTask = register<GenerateLexerTask>("generate${name}Lexer") {
+            sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$lexer.flex")
+            targetOutputDir = file("gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path")
+            dependsOn(bnfTask)
+        }
+        withType<KotlinCompile>() {
+            dependsOn(lexerTask)
+        }
+    }
+
+    generateParserTask("tree", "Tree", "Tree")
+    generateParserTask("atlas2", "Atlas2Lexer", "LibGDXAtlas2")
+    generateParserTask("bitmapFont", "_BitmapFontLexer", "BitmapFont")
+    generateParserTask("json", "_GdxJsonLexer", "GdxJson")
+    generateParserTask("skin", "_SkinLexer", "LibGDXSkin")
 
 }
 

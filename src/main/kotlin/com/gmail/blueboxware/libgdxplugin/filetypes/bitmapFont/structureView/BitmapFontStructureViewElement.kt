@@ -97,7 +97,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
 
         when (element) {
             is BitmapFontFontChar -> {
-                return String.format("%010d", element.character)
+                return String.format("%010d", element.getCharacter())
             }
 
             is BitmapFontPageDefinition -> {
@@ -125,7 +125,7 @@ open class BitmapFontStructureViewElement(val element: PsiElement?) : StructureV
             }
 
             is BitmapFontProperty -> {
-                return element.key
+                return element.getKey()
             }
 
             is BitmapFontInfo -> {

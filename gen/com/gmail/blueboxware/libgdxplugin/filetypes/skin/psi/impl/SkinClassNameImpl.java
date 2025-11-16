@@ -10,12 +10,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.skin.SkinElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.impl.mixins.SkinClassNameMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.*;
-import com.gmail.blueboxware.libgdxplugin.utils.DollarClassName;
-import com.intellij.psi.PsiClass;
 
 public class SkinClassNameImpl extends SkinClassNameMixin implements SkinClassName {
 
-  public SkinClassNameImpl(@NotNull ASTNode node) {
+  public SkinClassNameImpl(ASTNode node) {
     super(node);
   }
 
@@ -23,6 +21,7 @@ public class SkinClassNameImpl extends SkinClassNameMixin implements SkinClassNa
     visitor.visitClassName(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SkinElementVisitor) accept((SkinElementVisitor)visitor);
     else super.accept(visitor);

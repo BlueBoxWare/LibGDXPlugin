@@ -29,7 +29,7 @@ public interface BitmapFontElementTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-       if (type == CHARS) {
+      if (type == CHARS) {
         return new BitmapFontCharsImpl(node);
       }
       else if (type == COMMON) {

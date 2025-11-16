@@ -28,7 +28,7 @@ abstract class GdxJsonStringMixin(node: ASTNode) : GdxJsonString, GdxJsonElement
     override fun isQuoted(): Boolean = text.length > 1 && text.first() == '"' && text.last() == '"'
 
     override fun getValue(): String =
-        if (isQuoted) {
+        if (isQuoted()) {
             text.substring(1, text.length - 1)
         } else {
             text
@@ -36,7 +36,7 @@ abstract class GdxJsonStringMixin(node: ASTNode) : GdxJsonString, GdxJsonElement
 
     override fun toFloatOrNull(): Float? = getValue().toFloatOrNull()
 
-    override fun isKeyword(): Boolean = !isQuoted && getValue() in KEYWORDS
+    override fun isKeyword(): Boolean = !isQuoted() && getValue() in KEYWORDS
 
     override fun isNumber(): Boolean =
         getValue().toFloatOrNull() != null || getValue().toLongOrNull() != null

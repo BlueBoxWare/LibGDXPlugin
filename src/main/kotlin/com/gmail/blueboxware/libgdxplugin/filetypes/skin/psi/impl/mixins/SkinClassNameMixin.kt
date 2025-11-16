@@ -31,10 +31,10 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
  */
 abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImpl(node) {
 
-    override fun getValue() = DollarClassName(stringLiteral.value)
+    override fun getValue(): DollarClassName = DollarClassName(stringLiteral.getValue())
 
     override fun setValue(className: DollarClassName) {
-        stringLiteral.value = className.dollarName
+        stringLiteral.setValue(className.dollarName)
     }
 
     override fun resolve(): PsiClass? = multiResolve().firstOrNull()
@@ -44,7 +44,7 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImp
         return CachedValuesManager.getCachedValue(this) {
 
             val taggedClasses: List<String>? =
-                project.getSkinTag2ClassMap()?.getClassNames(value.plainName)?.takeIf { it.isNotEmpty() }
+                project.getSkinTag2ClassMap()?.getClassNames(getValue().plainName)?.takeIf { it.isNotEmpty() }
 
             var classes: Collection<PsiClass> = ModuleUtilCore.findModuleForPsiElement(this)?.let {
 
@@ -56,7 +56,7 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImp
                             psiFacade.findClasses(className, project.allScope()).toList()
                         }
                     } else {
-                        psiFacade.findClasses(value.plainName, project.allScope()).toList()
+                        psiFacade.findClasses(getValue().plainName, project.allScope()).toList()
                     }
 
                 }
@@ -76,7 +76,7 @@ abstract class SkinClassNameMixin(node: ASTNode) : SkinClassName, SkinElementImp
                 (clazz !is KtLightClass || clazz.kotlinOrigin !is KtObjectDeclaration) &&
                         (
                                 (taggedClasses != null && taggedClasses.contains(clazz.qualifiedName))
-                                        || (taggedClasses == null && DollarClassName(clazz) == value)
+                                        || (taggedClasses == null && DollarClassName(clazz) == getValue())
                                         || (isFreeTypeFontGenerator && taggedClasses != null
                                         && taggedClasses.contains(FREETYPE_GENERATOR_CLASS_NAME)
                                         )

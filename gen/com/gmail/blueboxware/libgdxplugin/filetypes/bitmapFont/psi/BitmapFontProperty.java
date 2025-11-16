@@ -5,13 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface BitmapFontProperty extends PsiElement {
-
-  @NotNull
-  String getKey();
-
-  @Nullable
-  String getValue();
+public interface BitmapFontProperty extends BitmapFontPropertyOwner {
 
   @NotNull
   BitmapFontKey getKeyElement();

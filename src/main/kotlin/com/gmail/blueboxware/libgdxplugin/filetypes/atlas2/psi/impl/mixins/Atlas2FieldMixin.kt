@@ -28,15 +28,15 @@ import com.intellij.util.IncorrectOperationException
  */
 abstract class Atlas2FieldMixin(node: ASTNode) : Atlas2Field, Atlas2ElementImpl(node) {
 
-    override fun getKey(): String = keyElement.value
+    override fun getKey(): String = keyElement.getValue()
 
     override fun getValueElements(): List<Atlas2Value> =
         childrenOfType<Atlas2Value>().toList()
 
     override fun getValues(): List<String> =
-        valueElements.map { it.value }
+        getValueElements().map { it.getValue() }
 
-    override fun getName(): String? = key
+    override fun getName(): String? = getKey()
 
     override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 
@@ -46,7 +46,7 @@ abstract class Atlas2FieldMixin(node: ASTNode) : Atlas2Field, Atlas2ElementImpl(
 
         override fun getIcon(unused: Boolean) = AllIcons.FileTypes.UiForm
 
-        override fun getPresentableText() = key + ": " + values.joinToString()
+        override fun getPresentableText() = getKey() + ": " + getValues().joinToString()
 
     }
 

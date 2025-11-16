@@ -50,7 +50,7 @@ abstract class BitmapFontFontCharMixin(node: ASTNode) : BitmapFontFontChar, Prop
 
         override fun getIcon(unused: Boolean) = AllIcons.Nodes.Class
 
-        override fun getPresentableText() = character.toString() + (letter?.let { " ($it)" } ?: "")
+        override fun getPresentableText() = getCharacter().toString() + (getLetter()?.let { " ($it)" } ?: "")
 
     }
 }

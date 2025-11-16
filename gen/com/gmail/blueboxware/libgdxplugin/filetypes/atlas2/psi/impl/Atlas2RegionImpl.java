@@ -10,11 +10,10 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.Atlas2ElementTypes.*;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.impl.mixins.Atlas2RegionMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.*;
-import java.awt.image.BufferedImage;
 
 public class Atlas2RegionImpl extends Atlas2RegionMixin implements Atlas2Region {
 
-  public Atlas2RegionImpl(@NotNull ASTNode node) {
+  public Atlas2RegionImpl(ASTNode node) {
     super(node);
   }
 

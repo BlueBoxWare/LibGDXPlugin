@@ -13,7 +13,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.bitmapFont.psi.*;
 
 public class BitmapFontValueImpl extends BitmapFontValueMixin implements BitmapFontValue {
 
-  public BitmapFontValueImpl(@NotNull ASTNode node) {
+  public BitmapFontValueImpl(ASTNode node) {
     super(node);
   }
 
@@ -21,6 +21,7 @@ public class BitmapFontValueImpl extends BitmapFontValueMixin implements BitmapF
     visitor.visitValue(this);
   }
 
+  @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof BitmapFontElementVisitor) accept((BitmapFontElementVisitor)visitor);
     else super.accept(visitor);

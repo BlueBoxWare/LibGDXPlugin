@@ -1,10 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.filetypes.atlas2
-
-import com.intellij.psi.PsiNamedElement
-
-
 /*
- * Copyright 2022 Blue Box Ware
+ * Copyright 2025 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,5 +13,11 @@ import com.intellij.psi.PsiNamedElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-interface Atlas2NamedElement : Atlas2Element, PsiNamedElement
 
+package com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi
+
+interface SkinValueOwner : SkinPropertyOwner, SkinElement {
+
+    fun getValue(): String
+
+}

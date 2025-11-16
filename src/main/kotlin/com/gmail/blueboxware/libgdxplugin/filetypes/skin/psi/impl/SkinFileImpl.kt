@@ -100,7 +100,7 @@ class SkinFileImpl(
     ): Collection<SkinResource> =
         getClassSpecifications(classNames)
             .flatMap { skinClassSpecification ->
-                skinClassSpecification.resourcesAsList.filter { resourceName == null || resourceName == it.name }
+                skinClassSpecification.getResourcesAsList().filter { resourceName == null || resourceName == it.name }
             }.filter {
                 beforeElement == null || it.endOffset < beforeElement.startOffset
             }

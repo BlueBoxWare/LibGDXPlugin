@@ -25,7 +25,7 @@ abstract class BitmapFontPropertyMixin(node: ASTNode) : BitmapFontProperty, Bitm
 
     override fun getKey(): String = keyElement.unquotedString.text
 
-    override fun getValue(): String? = valueElement?.value
+    override fun getValue(): String? = valueElement?.getValue()
 
     override fun getPresentation() = object : ItemPresentation {
 
@@ -33,7 +33,7 @@ abstract class BitmapFontPropertyMixin(node: ASTNode) : BitmapFontProperty, Bitm
 
         override fun getIcon(unused: Boolean) = AllIcons.Nodes.Property
 
-        override fun getPresentableText() = key + ": " + valueElement?.text
+        override fun getPresentableText() = getKey() + ": " + valueElement?.text
 
     }
 

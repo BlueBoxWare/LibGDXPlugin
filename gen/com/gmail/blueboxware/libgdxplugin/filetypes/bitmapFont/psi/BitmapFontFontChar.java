@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface BitmapFontFontChar extends PropertyContainer {
+public interface BitmapFontFontChar extends BitmapFontCharOwner, PropertyContainer {
 
   @NotNull
   List<BitmapFontProperty> getPropertyList();
-
-  @Nullable
-  Integer getCharacter();
-
-  @Nullable
-  String getLetter();
 
 }
