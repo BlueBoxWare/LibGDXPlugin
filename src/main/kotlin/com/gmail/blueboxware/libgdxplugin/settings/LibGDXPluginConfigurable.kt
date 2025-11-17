@@ -17,8 +17,11 @@
 package com.gmail.blueboxware.libgdxplugin.settings
 
 import com.gmail.blueboxware.libgdxplugin.message
+import com.gmail.blueboxware.libgdxplugin.utils.resetJsonAssociations
+import com.gmail.blueboxware.libgdxplugin.utils.resetSkinAssociations
 import com.intellij.ide.ui.UISettings
 import com.intellij.openapi.components.service
+import com.intellij.openapi.observable.properties.AtomicBooleanProperty
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
@@ -29,7 +32,7 @@ import com.intellij.ui.dsl.builder.panel
 import javax.swing.JComponent
 import kotlin.reflect.KMutableProperty0
 
-class LibGDXPluginConfigurable(private val project: Project) : Configurable {
+internal class LibGDXPluginConfigurable(private val project: Project) : Configurable {
 
     private var component: DialogPanel? = null
     private val componentState: LibGDXPluginSettings.State = LibGDXPluginSettings.State()
@@ -66,6 +69,11 @@ class LibGDXPluginConfigurable(private val project: Project) : Configurable {
 
     override fun createComponent(): JComponent? {
 
+        val skinButtonEnabled =
+            AtomicBooleanProperty(project.service<LibGDXProjectSkinFiles>().files.isNotEmpty() || project.service<LibGDXProjectNonSkinFiles>().files.isNotEmpty())
+        val jsonButtonEnabled =
+            AtomicBooleanProperty(project.service<LibGDXProjectGdxJsonFiles>().files.isNotEmpty() || project.service<LibGDXProjectNonGdxJsonFiles>().files.isNotEmpty())
+
         component = panel {
             group("Color Annotations") {
                 row {
@@ -84,6 +92,20 @@ class LibGDXPluginConfigurable(private val project: Project) : Configurable {
                 }
                 row {
                     checkBox(message("settings.never.ask.about.json.files")).bindSelected(componentState::neverAskAboutJsonFiles)
+                }
+            }
+            group("File Associations") {
+                row {
+                    button("Reset Skin File Associations") {
+                        if (resetSkinAssociations(project)) {
+                            skinButtonEnabled.set(false)
+                        }
+                    }.enabledIf(skinButtonEnabled)
+                    button("Reset JSON File Associations") {
+                        if (resetJsonAssociations(project)) {
+                            jsonButtonEnabled.set(false)
+                        }
+                    }.enabledIf(jsonButtonEnabled)
                 }
             }
         }

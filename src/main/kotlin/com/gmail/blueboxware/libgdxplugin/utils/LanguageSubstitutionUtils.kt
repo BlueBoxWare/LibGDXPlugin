@@ -18,7 +18,6 @@ import com.intellij.psi.LanguageSubstitutors
 import com.intellij.ui.EditorNotifications
 import com.intellij.util.FileContentUtilCore
 import com.intellij.util.indexing.FileBasedIndex
-import javax.swing.JComponent
 import kotlin.reflect.KClass
 
 
@@ -38,19 +37,17 @@ import kotlin.reflect.KClass
  * limitations under the License.
  */
 
-internal fun resetSkinAssociations(project: Project, component: JComponent) =
+internal fun resetSkinAssociations(project: Project): Boolean =
     resetAssociations(
         project,
-        component,
         LibGDXProjectSkinFiles::class,
         LibGDXProjectNonSkinFiles::class,
         "Skin"
     )
 
-internal fun resetJsonAssociations(project: Project, component: JComponent) =
+internal fun resetJsonAssociations(project: Project): Boolean =
     resetAssociations(
         project,
-        component,
         LibGDXProjectGdxJsonFiles::class,
         LibGDXProjectNonGdxJsonFiles::class,
         "LibGDX JSON"
@@ -130,26 +127,25 @@ private fun Project.reset(file: VirtualFile) {
 
 private fun resetAssociations(
     project: Project,
-    component: JComponent,
     set1: KClass<out PersistentFileSetManager>,
     set2: KClass<out PersistentFileSetManager>,
     type: String
-) {
+): Boolean {
 
     if (project == ProjectManager.getInstance().defaultProject) {
         Messages.showWarningDialog(
-            component,
+            project,
             "Cannot determine active project.",
             "Cannot Determine Active Project"
         )
-        return
+        return false
     }
 
     val result = Messages.showOkCancelDialog(
-        component,
+        project,
         "Reset all files marked as $type to their original file type for project '${project.name}'?",
         "Reset $type associations?",
-        "Reset",
+        "Ok",
         "Cancel",
         null
     )
@@ -181,7 +177,11 @@ private fun resetAssociations(
             }
         }
 
+        return true
+
     }
+
+    return false
 
 }
 
