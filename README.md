@@ -7,14 +7,15 @@ This unofficial plugin adds a number of [libGDX](https://libgdx.badlogicgames.co
 <!-- toc -->
 - __[Installation](#installation)__
 - __[Features](#features)__
-  - __[Inspections](#inspections)__
-  - __[Color previews](#color-previews)__
-  - __[Skin JSON support](#skin-json-support)__
-  - __[JSON support](#json-support)__
-  - __[Atlas file support](#atlas-file-support)__
-  - __[Bitmap Font file support](#bitmap-font-file-support)__
-  - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
-    - __[@GDXTag and short names in skins](#gdxtag-and-short-names-in-skins)__
+   - __[Inspections](#inspections)__
+   - __[Color previews](#color-previews)__
+   - __[Skin JSON support](#skin-json-support)__
+   - __[JSON support](#json-support)__
+   - __[Atlas file support](#atlas-file-support)__
+   - __[Bitmap Font file support](#bitmap-font-file-support)__
+   - __[gdxAI Behaviour tree file support](#gdxai-behaviour-tree-file-support)__
+   - __[Skin resources and Atlas region names in Java and Kotlin code](#skin-resources-and-atlas-region-names-in-java-and-kotlin-code)__
+      - __[@GDXTag and short names in skins](#gdxtag-and-short-names-in-skins)__
 <!-- /toc -->
 
 # Installation
@@ -32,13 +33,13 @@ to the newest version, go to: *Tools* -> *Kotlin* -> *Configure Kotlin Plugin Up
 ## Inspections
 libGDXPlugin adds several inspections, which look for possible issues in a project. Code inspections support both Java and
 [Kotlin](https://kotlinlang.org/). To disable or enable inspections go to *Settings* -> *Editor* -> *Inspections* -> *libGDX*.
-See [Inspections.md](Inspections.md) for an up to date list.
+See [Inspections.md](Inspections.md) for an up-to-date list.
 
 ## Color previews
 When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
 Color previews are also shown in the editor when editing Skin files and in the Debug Tool Window.
 
-To disable color previews, go to *Settings* -> *Editor* -> *libGDXPlugin*.
+To disable color previews, go to *Settings* -> *Tools* -> *libGDXPlugin*.
 
 ## Skin JSON support
 Files with the extension `.skin` are treated as Skin JSON files. For files with the extension `.json` which look like Skin files, you are asked
@@ -98,6 +99,11 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 * Highlighting
 * Structure View
 * Folding
+
+## [gdxAI](https://github.com/libgdx/gdx-ai) Behaviour tree file support
+
+Files with a `.tree` extension are treated as gdxAI behaviour tree files, with:
+* Syntax highlighting
 
 ## Skin resources and Atlas region names in Java and Kotlin code
 

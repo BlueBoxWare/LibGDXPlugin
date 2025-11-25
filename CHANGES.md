@@ -1,3 +1,11 @@
+### 1.26
+* Syntax highlighting for gdxAI behaviour trees.
+* Fix errors related to properties files.
+* Add file association reset buttons back to settings.
+* Remove dependency on Groovy plugin.
+* Remove test-ids inspection for Groovy Gradle files.
+* Remove outdated "designed for tablets" inspection.
+
 ### 1.25
 * The inspections which check for outdated LibGDX and library versions are removed. Consider using a dedicated Gradle 
   plugin or IntelliJ plugin for checking outdated dependencies.

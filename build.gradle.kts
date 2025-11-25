@@ -54,8 +54,8 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-//            ide(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
             create(IntelliJPlatformType.IntellijIdeaCommunity, "253-EAP-SNAPSHOT")
+            create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
             recommended()
         }
     }
@@ -146,13 +146,14 @@ tasks {
             targetRootOutputDir = file("gen")
             pathToParser = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path"
             pathToPsiRoot = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path/psi"
+            purgeOldFiles = true
         }
         val lexerTask = register<GenerateLexerTask>("generate${name}Lexer") {
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$lexer.flex")
             targetOutputDir = file("gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path")
             dependsOn(bnfTask)
         }
-        withType<KotlinCompile>() {
+        withType<KotlinCompile> {
             dependsOn(lexerTask)
         }
     }
