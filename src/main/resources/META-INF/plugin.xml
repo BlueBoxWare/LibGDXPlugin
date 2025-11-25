@@ -115,6 +115,10 @@
                 id="LibGDXJson"
         />
 
+        <lang.parserDefinition language="LibGDXAiTree"
+                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeParserDefinition"
+                               />
+
         <lang.parserDefinition language="LibGDXJson"
                                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition"/>
 
@@ -416,6 +420,20 @@
 
         <useScopeEnlarger
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.properties.PropertiesFileUsageScopeEnlarger"/>
+
+        <!-- AI Tree Files -->
+        <fileType name="libGDX Behaviour Tree"
+                  id="LibGDXAiTree"
+                  implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeFileType"
+                  fieldName="INSTANCE"
+                  language="LibGDXAiTree"
+                  extensions="tree"
+        />
+
+        <lang.syntaxHighlighterFactory language="LibGDXAiTree"
+                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeSyntaxHighlighterFactory" />
+        <colorSettingsPage
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeColorSettingsPage" />
 
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->

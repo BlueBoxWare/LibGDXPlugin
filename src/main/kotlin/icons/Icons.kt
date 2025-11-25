@@ -25,11 +25,12 @@ object Icons {
 
     @Suppress("UseJBColor")
     private val BLUE = Color(38, 128, 233)
+
     private val LIBGDX_FILETYPE = IconLoader.getIcon("/icons/LibGDX.png", Icons::class.java)
 
     val SKIN_FILETYPE = IconLoader.getIcon("/icons/LibGDXSkin.png", Icons::class.java)
     val ATLAS_FILETYPE = LIBGDX_FILETYPE
     val FONT_FILETYPE = IconLoader.getIcon("/icons/LibGDXBitmapFont.png", Icons::class.java)
     val LIBGDX_JSON_FILETYPE = ColorizeProxyIcon.Simple(AllIcons.FileTypes.Json, JBColor(BLUE, BLUE))
-
+    val GDXAI_TREE_FILETYPE = AllIcons.General.TreeSelected
 }

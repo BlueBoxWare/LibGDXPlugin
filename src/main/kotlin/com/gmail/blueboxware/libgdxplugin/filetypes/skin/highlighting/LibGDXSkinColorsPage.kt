@@ -70,7 +70,7 @@ internal class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettings
     override fun getColorDescriptors(): Array<out ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
     @Suppress("DialogTitleCapitalization")
-    override fun getDisplayName() = "libGDX skin"
+    override fun getDisplayName() = "libGDX Skin"
 
     override fun getPriority(): DisplayPriority = DisplayPriority.LANGUAGE_SETTINGS
 
@@ -87,23 +87,23 @@ private val additionalHighlighting = mapOf(
 private val myAttributeDescriptors = arrayOf(
     AttributesDescriptor("Property name", SKIN_PROPERTY_NAME),
     AttributesDescriptor("Parent property", SKIN_PARENT_PROPERTY),
-    AttributesDescriptor("Braces", SKIN_BRACES),
-    AttributesDescriptor("Brackets", SKIN_BRACKETS),
+    AttributesDescriptor("Characters//Braces", SKIN_BRACES),
+    AttributesDescriptor("Characters//Brackets", SKIN_BRACKETS),
 
-    AttributesDescriptor("Comma", SKIN_COMMA),
-    AttributesDescriptor("Colon", SKIN_COLON),
+    AttributesDescriptor("Characters//Comma", SKIN_COMMA),
+    AttributesDescriptor("Characters//Colon", SKIN_COLON),
 
-    AttributesDescriptor("Number", SKIN_NUMBER),
+    AttributesDescriptor("Values//Number", SKIN_NUMBER),
 
-    AttributesDescriptor("Keyword", SKIN_KEYWORD),
+    AttributesDescriptor("Values//Keyword", SKIN_KEYWORD),
 
-    AttributesDescriptor("Line comment", SKIN_LINE_COMMENT),
-    AttributesDescriptor("Block comment", SKIN_BLOCK_COMMENT),
+    AttributesDescriptor("Comments//Line comment", SKIN_LINE_COMMENT),
+    AttributesDescriptor("Comments//Block comment", SKIN_BLOCK_COMMENT),
 
-    AttributesDescriptor("Valid escape sequence", SKIN_VALID_ESCAPE),
-    AttributesDescriptor("Invalid escape sequence", SKIN_INVALID_ESCAPE),
+    AttributesDescriptor("Characters//Valid escape sequence", SKIN_VALID_ESCAPE),
+    AttributesDescriptor("Characters//Invalid escape sequence", SKIN_INVALID_ESCAPE),
 
-    AttributesDescriptor("String", SKIN_STRING),
+    AttributesDescriptor("Values//String", SKIN_STRING),
 
     AttributesDescriptor("Class name", SKIN_CLASS_NAME),
     AttributesDescriptor("Resource name", SKIN_RESOURCE_NAME)

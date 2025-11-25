@@ -30,6 +30,7 @@ internal val COLOR_REGEX = Regex("#?(?:[0-9a-fA-F]{2}){3,4}")
 internal val JSON_COLOR_PROPERTY_NAMES = listOf("color", "colour")
 
 internal fun color(r: Float, g: Float, b: Float, a: Float): Color? =
+    @Suppress("ConvertTwoComparisonsToRangeCheck")
     if (r < 0 || r > 1 || g < 0 || g > 1 || b < 0 || b > 1 || a < 0 || a > 1)
         null
     else

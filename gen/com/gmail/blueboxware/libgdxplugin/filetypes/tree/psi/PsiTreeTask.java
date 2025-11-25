@@ -1,0 +1,19 @@
+// This is a generated file. Not intended for manual editing.
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi;
+
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.psi.PsiElement;
+
+public interface PsiTreeTask extends TreeTask, TreeElement {
+
+  @NotNull
+  List<PsiTreeAttribute> getAttributeList();
+
+  @Nullable
+  PsiTreeSubtreeref getSubtreeref();
+
+  @Nullable
+  PsiTreeTaskname getTaskname();
+
+}

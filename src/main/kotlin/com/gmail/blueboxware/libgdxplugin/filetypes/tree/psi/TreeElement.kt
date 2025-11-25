@@ -1,9 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.inspections.gradle
-
-import com.intellij.codeInspection.LocalInspectionTool
-
 /*
- * Copyright 2017 Blue Box Ware
+ * Copyright 2025 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,4 +14,9 @@ import com.intellij.codeInspection.LocalInspectionTool
  * limitations under the License.
  */
 
-abstract class LibGDXGradlePropertiesBaseInspection : LocalInspectionTool()
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
+
+import com.intellij.psi.NavigatablePsiElement
+
+interface TreeElement : NavigatablePsiElement {
+}

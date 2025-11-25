@@ -1,9 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.inspections.gradle
-
-import com.intellij.codeInspection.LocalInspectionTool
-
 /*
- * Copyright 2017 Blue Box Ware
+ * Copyright 2025 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,4 +14,18 @@ import com.intellij.codeInspection.LocalInspectionTool
  * limitations under the License.
  */
 
-abstract class LibGDXGradlePropertiesBaseInspection : LocalInspectionTool()
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting
+
+import com.intellij.openapi.fileTypes.SyntaxHighlighter
+import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.vfs.VirtualFile
+
+internal class TreeSyntaxHighlighterFactory : SyntaxHighlighterFactory() {
+
+    override fun getSyntaxHighlighter(
+        project: Project?,
+        virtualFile: VirtualFile?
+    ): SyntaxHighlighter = TreeSyntaxHighlighter()
+
+}

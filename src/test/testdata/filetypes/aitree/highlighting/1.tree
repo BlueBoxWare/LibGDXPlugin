@@ -1,0 +1,43 @@
+   import myLeafGuard:"my.package.MyLeafGuard"
+
+   subtree name:"myTreeGuard"
+
+   idwefd test:true r:3
+    ( include subtree:"path/to/my/subtree") myTask arg1: 1 arg2:"hello"
+     (df f:d) fefe f:"dsds\d\"\\d" # dsds
+     ($myTreeGuard) myTask arg1:1 arg2 :"hello"
+
+#
+# Dog tree
+#
+
+# Alias definitions
+import bark:"com.badlogic.gdx.ai.tests.btree.dog.BarkTask"
+import care:"com.badlogic.gdx.ai.tests.btree.dog.CareTask"
+import mark:"com.badlogic.gdx.ai.tests.btree.dog.MarkTask"
+import walk:"com.badlogic.gdx.ai.tests.btree.dog.WalkTask"
+
+# Tree definition (note that root is optional)
+root
+  selector
+    parallel F:3.4 g : true n:null
+      care urgentProb:0.8
+      alwaysFail
+        com.badlogic.gdx.ai.tests.btree.dog.RestTask # fully qualified task
+    sequence
+      bark times: "uniform,1,3"  # the type of attribute times is an IntegerDistribution
+      walk
+      com.badlogic.gdx.ai.tests.btree.dog.BarkTask # fully qualified task
+      mark
+
+import doorLocked?:"packageName.DoorLockedCondition"
+import unlockDoor:"packageName.UnlockDoorAction"
+import enterRoom:"packageName.EnterRoomAction"
+
+root j:""
+  selector
+    sequence
+      doorLocked?
+      unlockDoor
+      enterRoom
+    enterRoom

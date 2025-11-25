@@ -1,0 +1,103 @@
+/*
+ * Copyright 2025 Blue Box Ware
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+{
+
+    parserClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeParser'
+    parserUtilClass='com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeParserUtil'
+
+    psiClassPrefix = 'PsiTree'
+    psiImplClassSuffix='Impl'
+    psiPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi'
+    psiImplPackage = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl'
+
+    elementTypeHolderClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes'
+    elementTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementType'
+    tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeTokenType'
+
+    implements(".*") = 'TreeElement'
+
+    tokens = [
+        INDENT='indent'
+        EOL='end of line'
+
+        LPAREN='('
+        RPAREN=')'
+        COLON=':'
+        QUESTION_MARK='?'
+
+        TASK_NAME='task name'
+        SUBTREEREFERENCE='subtree ref'
+
+        IMPORT='import'
+        ROOT='root'
+        SUBTREE='subtree'
+
+        ATTRNAME='attribute name'
+
+        COMMENT='comment'
+
+        TRUE='true'
+        FALSE='false'
+        NULL='null'
+        NUMBER='number'
+        STRING='string'
+    ]
+
+}
+
+//			ws = [ \r\t];
+//			nl = ('\n' | '\r\n') @newLine;
+//			id = [a-zA-Z_] [a-zA-Z_0-9]*;
+//			idBegin = [a-zA-Z_] >savePos [a-zA-Z_0-9]*;
+//			comment = '#' /[^\r\n]*/ >savePos %comment;
+//			indent = [ \t] @indent;
+//			attrName = idBegin '?'? %attrName;
+//			attrValue = '"' @quotedChars %attrValue '"' | ^[#:"()\r\n\t ] >unquotedChars %attrValue;
+//			attribute = attrName ws* ':' ws* attrValue;
+//			attributes = (ws+ attribute)+;
+//			taskName = idBegin ('.' id)* ('$' id)* '?'? %{isSubtreeRef = false;} %taskName;
+//			subtreeRef = '$' idBegin '?'? %{isSubtreeRef = true;} %taskName;
+//			task = taskName attributes? | subtreeRef;  # either a task name with attributes or a subtree reference
+//			guard = '(' @{isGuard = true;} ws* task? ws* ')' @{isGuard = false;};
+//			guardableTask = (guard ws*)* task;
+//			line = indent* guardableTask? ws* <: comment? %endLine;
+//			main := line (nl line)** nl?;
+
+tree ::= line*
+
+line ::= INDENT? guardableTask? COMMENT? EOL
+
+private guardableTask ::= guard* task
+
+task ::= (taskname attribute*) | subtreeref {
+    implements="TreeTask"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskMixin"
+}
+
+subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?
+
+taskname ::= (IMPORT | ROOT | SUBTREE | TASK_NAME) QUESTION_MARK? {
+    implements="TreeTaskName"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskNameMixin"
+}
+
+guard ::= LPAREN task? RPAREN
+
+attribute ::= ATTRNAME QUESTION_MARK? COLON value
+
+value ::= TRUE | FALSE | NULL | NUMBER | STRING
+
+
