@@ -46,16 +46,16 @@ internal class SkinTypeInspection : SkinBaseInspection() {
                 }
 
                 val expectedType = skinValue.resolveToType()
-                val property = skinValue.property
-                val containingClassName = property?.containingObject?.resolveToClass()?.qualifiedName
-                val propertyName = property?.propertyName?.value
+                val property = skinValue.getProperty()
+                val containingClassName = property?.getContainingObject()?.resolveToClass()?.qualifiedName
+                val propertyName = property?.propertyName?.getValue()
 
                 if (expectedType?.componentType(skinValue.project) != null) {
                     if (skinValue !is SkinArray) {
                         problem("Array")
                     }
                 } else if (expectedType == PsiTypes.booleanType()) {
-                    if (!skinValue.isBoolean) {
+                    if (!skinValue.isBoolean()) {
                         problem("boolean")
                     }
                 } else if (expectedType is PsiPrimitiveType) {
@@ -78,13 +78,13 @@ internal class SkinTypeInspection : SkinBaseInspection() {
                         PROPERTY_NAME_FONT_FLIP
                     ).contains(propertyName)
                 ) {
-                    if ((propertyName == PROPERTY_NAME_FONT_MARKUP || propertyName == PROPERTY_NAME_FONT_FLIP) && skinValue.isBoolean) {
+                    if ((propertyName == PROPERTY_NAME_FONT_MARKUP || propertyName == PROPERTY_NAME_FONT_FLIP) && skinValue.isBoolean()) {
                         return
                     } else if (propertyName == PROPERTY_NAME_FONT_SCALED_SIZE && skinValue.text.toIntOrNull() != null) {
                         return
                     }
                     if ((skinValue.reference?.resolve() as? SkinResource)
-                            ?.classSpecification
+                            ?.getClassSpecification()
                             ?.getRealClassNamesAsString()
                             ?.contains(expectedType?.canonicalText)
                         == true

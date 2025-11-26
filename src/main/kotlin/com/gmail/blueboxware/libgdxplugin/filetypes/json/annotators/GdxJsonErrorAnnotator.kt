@@ -86,7 +86,7 @@ internal class GdxJsonErrorAnnotator : Annotator {
                     }
                 }
             }
-        } else if (element is GdxJsonString && !element.isQuoted) {
+        } else if (element is GdxJsonString && !element.isQuoted()) {
             if (element.textContains('\n')) {
                 val offset = element.textRange.startOffset + element.text.indexOf('\n')
                 holder

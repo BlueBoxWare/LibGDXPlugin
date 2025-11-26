@@ -157,8 +157,8 @@ fun hasElementType(node: ASTNode, vararg types: IElementType) = hasElementType(n
 
 fun SkinClassSpecification.getRealClassNamesAsString() =
     (containingFile as? SkinFile)?.let { file ->
-        file.project.getSkinTag2ClassMap()?.getClassNames(classNameAsString.plainName)
-    } ?: listOf(classNameAsString.plainName)
+        file.project.getSkinTag2ClassMap()?.getClassNames(getClassNameAsString().plainName)
+    } ?: listOf(getClassNameAsString().plainName)
 
 fun SkinClassSpecification.getSuperClassNamesAsString(): Collection<String> =
     resolveClass()?.let { psiClass ->

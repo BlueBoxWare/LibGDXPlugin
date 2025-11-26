@@ -22,9 +22,9 @@ import com.intellij.lang.ASTNode
  */
 abstract class Atlas2FieldOwnerImpl(node: ASTNode) : Atlas2FieldOwner, Atlas2ElementImpl(node) {
 
-    override fun getField(name: String): Atlas2Field? = getFieldList().firstOrNull { it.key == name }
+    override fun getField(name: String): Atlas2Field? = getFieldList().firstOrNull { it.getKey() == name }
 
-    override fun getFieldValues(name: String): List<String>? = getField(name)?.values
+    override fun getFieldValues(name: String): List<String>? = getField(name)?.getValues()
 
     override fun getFieldValuesI(name: String): List<Int?>? = getFieldValues(name)?.map { it.toIntOrNull() }
 

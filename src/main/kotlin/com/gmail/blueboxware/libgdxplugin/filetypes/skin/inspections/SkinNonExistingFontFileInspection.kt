@@ -32,14 +32,14 @@ internal class SkinNonExistingFontFileInspection : SkinBaseInspection() {
         override fun visitPropertyValue(propertyValue: SkinPropertyValue) {
 
             val string = (propertyValue.value as? SkinStringLiteral) ?: return
-            val property = propertyValue.property ?: return
-            val className = property.containingObject?.resolveToTypeString() ?: return
+            val property = propertyValue.getProperty() ?: return
+            val className = property.getContainingObject()?.resolveToTypeString() ?: return
 
             if (className == BITMAPFONT_CLASS_NAME && property.name == PROPERTY_NAME_FONT_FILE) {
                 if (string.reference?.resolve() == null) {
                     holder.registerProblem(
                         propertyValue,
-                        message("skin.inspection.non.existing.file.message", string.value)
+                        message("skin.inspection.non.existing.file.message", string.getValue())
                     )
                 }
             }

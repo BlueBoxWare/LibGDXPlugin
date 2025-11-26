@@ -33,9 +33,9 @@ class Atlas2File(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvi
 
     override fun getFieldList(): List<Atlas2Field> = children.filterIsInstance<Atlas2Field>()
 
-    override fun getField(name: String): Atlas2Field? = getFieldList().firstOrNull { it.key == name }
+    override fun getField(name: String): Atlas2Field? = getFieldList().firstOrNull { it.getKey() == name }
 
-    override fun getFieldValues(name: String): List<String>? = getField(name)?.values
+    override fun getFieldValues(name: String): List<String>? = getField(name)?.getValues()
 
     override fun getFieldValue(name: String): String? = getFieldValues(name)?.firstOrNull()
 

@@ -40,7 +40,7 @@ private fun PsiFile.collectPropertyKeys() = getCachedValue(PROPERTY_NAMES_KEY) {
 
 private fun PsiFile.collectValues() = getCachedValue(VALUES_KEY) {
     (this as? GdxJsonFile)?.childrenOfType<GdxJsonValue>()?.mapNotNull {
-        (it.value as? GdxJsonLiteral)?.getValue()
+        (it.getValue() as? GdxJsonLiteral)?.getValue()
     }?.toSet() ?: setOf()
 }
 

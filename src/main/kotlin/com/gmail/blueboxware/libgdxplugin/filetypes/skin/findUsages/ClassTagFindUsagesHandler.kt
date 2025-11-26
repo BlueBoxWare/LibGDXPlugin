@@ -99,7 +99,7 @@ private class MyCachedValueProvider(
 
                     skinFile.getClassSpecifications().forEach { classSpec ->
                         classSpec.className.let { className ->
-                            if (className.value.plainName == text) {
+                            if (className.getValue().plainName == text) {
                                 usages.add(className)
                             }
                         }

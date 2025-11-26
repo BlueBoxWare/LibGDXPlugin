@@ -53,16 +53,19 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
 
                 val isTintedDrawableNameProperty =
-                    element.property?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
-                            && element.property?.containingObject?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
-                val isParentProperty = element.property?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
+                    element.getProperty()?.name == PROPERTY_NAME_TINTED_DRAWABLE_NAME
+                            && element.getProperty()?.getContainingObject()
+                        ?.resolveToTypeString() == TINTED_DRAWABLE_CLASS_NAME
+                val isParentProperty =
+                    element.getProperty()?.name == PROPERTY_NAME_PARENT && element.project.isLibGDX199()
                 val isFreeTypeFontGeneratorEnum =
-                    element.property?.containingObject?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
+                    element.getProperty()?.getContainingObject()
+                        ?.resolveToTypeString() == FREETYPE_FONT_PARAMETER_CLASS_NAME
                             && (valueType as? PsiClassType)?.resolve()?.isEnum == true
 
                 if (isFreeTypeFontGeneratorEnum) {
                     (valueType as? PsiClassReferenceType)?.resolve()?.let { clazz ->
-                        clazz.findFieldByName(element.value, false)?.navigationElement?.let {
+                        clazz.findFieldByName(element.getValue(), false)?.navigationElement?.let {
                             result.add(PsiElementResolveResult(it))
                         }
                     }
@@ -70,7 +73,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                     (valueType as? PsiClassType)?.resolve()?.let { psiClass ->
                         (element.containingFile as? SkinFile)?.getResources(
                             psiClass,
-                            element.value,
+                            element.getValue(),
                             element,
                             isParentProperty
                         )?.forEach {
@@ -89,7 +92,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
                             (element.manager.findFile(atlasVirtualFile) as? Atlas2File)?.let { atlasFile ->
                                 atlasFile.getPages().forEach { page ->
                                     page.regionList.forEach { region ->
-                                        if (region.name == element.value) {
+                                        if (region.name == element.getValue()) {
                                             result.add(PsiElementResolveResult(region))
                                         }
                                     }
@@ -101,7 +104,7 @@ class SkinResourceReference(element: SkinStringLiteral) : SkinReference<SkinStri
 
                 if (result.isEmpty() && (valueType.canonicalText == DRAWABLE_CLASS_NAME || isTintedDrawableNameProperty)) {
                     val skinFile = element.containingFile as? SkinFile ?: return PsiElementResolveResult.EMPTY_ARRAY
-                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.value, element).forEach {
+                    skinFile.getResources(TINTED_DRAWABLE_CLASS_NAME, element.getValue(), element).forEach {
                         result.add(PsiElementResolveResult(it))
                     }
                 }

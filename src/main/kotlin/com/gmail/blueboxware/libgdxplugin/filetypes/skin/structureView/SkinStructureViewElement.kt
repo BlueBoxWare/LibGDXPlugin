@@ -69,15 +69,15 @@ class SkinStructureViewElement(val element: PsiElement) : StructureViewTreeEleme
                 Function(::SkinStructureViewElement)
             )
         } else if (element is SkinProperty) {
-            value = element.value
+            value = element.getValue()
         } else if (element is SkinElement
             && PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)
         ) {
             value = element
         } else if (element is SkinClassSpecification) {
-            value = element.resourcesAsList
+            value = element.getResourcesAsList()
         } else if (element is SkinResource) {
-            value = element.`object`
+            value = element.getObject()
         }
 
         when (value) {

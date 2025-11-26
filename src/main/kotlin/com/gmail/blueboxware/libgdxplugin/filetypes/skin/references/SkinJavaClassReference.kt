@@ -31,8 +31,8 @@ class SkinJavaClassReference(element: SkinClassName) : SkinReference<SkinClassNa
 
     override fun bindToElement(target: PsiElement): PsiElement {
         if (target is PsiClass) {
-            if (element.project.collectTagsFromAnnotations().none { it.first == element.value.plainName }) {
-                element.stringLiteral.value = DollarClassName(target).dollarName
+            if (element.project.collectTagsFromAnnotations().none { it.first == element.getValue().plainName }) {
+                element.stringLiteral.setValue(DollarClassName(target).dollarName)
             }
         } else {
             super.bindToElement(target)

@@ -36,11 +36,11 @@ internal class GdxJsonHighlightingAnnotator : Annotator {
             a(JSON_PROPERTY_KEY)
         } else if (element is GdxJsonString) {
             when {
-                element.isKeyword -> {
+                element.isKeyword() -> {
                     a(JSON_KEYWORD)
                 }
 
-                element.isNumber -> {
+                element.isNumber() -> {
                     a(JSON_NUMBER)
                 }
 

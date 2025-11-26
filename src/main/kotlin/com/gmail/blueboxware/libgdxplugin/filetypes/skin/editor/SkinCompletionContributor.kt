@@ -168,7 +168,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
         }
 
         val element = context.file.findElementAt(context.caret.offset)
-        if ((element?.context as? SkinStringLiteral)?.isQuoted == true) {
+        if ((element?.context as? SkinStringLiteral)?.isQuoted() == true) {
             context.replacementOffset -= 1
         }
     }
@@ -176,7 +176,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
     private fun resourceAliasNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
         val resource = parameters.position.firstParent<SkinResource>() ?: return
-        val classSpec = resource.classSpecification ?: return
+        val classSpec = resource.getClassSpecification() ?: return
         val originalClassSpec = parameters.originalPosition?.firstParent<SkinClassSpecification>()
 
         if (classSpec.getRealClassNamesAsString().none { it != TINTED_DRAWABLE_CLASS_NAME }) {
@@ -211,7 +211,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
 
     private fun resourceNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
         val resource = parameters.position.firstParent<SkinResource>() ?: return
-        val classSpec = resource.classSpecification ?: return
+        val classSpec = resource.getClassSpecification() ?: return
         val usedResourceNames =
             (resource.containingFile as? SkinFile)
                 ?.getResources(classSpec.getRealClassNamesAsString())
@@ -232,7 +232,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
 
         (resource.containingFile as? SkinFile)?.getClassSpecifications()?.forEach {
             if (it != classSpec) {
-                it.resourceNames.forEach { resourceName ->
+                it.getResourceNames().forEach { resourceName ->
                     if (!usedResourceNames.contains(resourceName)) {
                         strings.add(resourceName)
                     }
@@ -251,8 +251,8 @@ internal class SkinCompletionContributor : CompletionContributor() {
     private fun propertyValueCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
         val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
-        val property = stringLiteral.property ?: return
-        val objectType = property.containingObject?.resolveToTypeString()
+        val property = stringLiteral.getProperty() ?: return
+        val objectType = property.getContainingObject()?.resolveToTypeString()
 
         if (objectType == BITMAPFONT_CLASS_NAME) {
             if (property.name == PROPERTY_NAME_FONT_FILE) {
@@ -313,7 +313,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
         val elementType = stringLiteral.resolveToType()
         val elementClass = (elementType as? PsiClassType)?.resolve()
         val isParentProperty =
-            stringLiteral.property?.name == PROPERTY_NAME_PARENT && parameters.position.project.isLibGDX199()
+            stringLiteral.getProperty()?.name == PROPERTY_NAME_PARENT && parameters.position.project.isLibGDX199()
         val elementClassName = elementClass?.qualifiedName
 
         if (elementClass != null && elementClassName != "java.lang.Boolean") {
@@ -381,10 +381,10 @@ internal class SkinCompletionContributor : CompletionContributor() {
     private fun propertyNameCompletion(parameters: CompletionParameters, result: CompletionResultSet) {
 
         val stringLiteral = parameters.position.parent as? SkinStringLiteral ?: return
-        val property = stringLiteral.property ?: return
-        val containingObject = property.containingObject ?: return
+        val property = stringLiteral.getProperty() ?: return
+        val containingObject = property.getContainingObject() ?: return
         val objectType = containingObject.resolveToTypeString()
-        val usedPropertyNames = containingObject.propertyNames
+        val usedPropertyNames = containingObject.getPropertyNames()
 
         if (!usedPropertyNames.contains(PROPERTY_NAME_PARENT) && parameters.position.project.isLibGDX199()) {
             val important = objectType !in listOf(

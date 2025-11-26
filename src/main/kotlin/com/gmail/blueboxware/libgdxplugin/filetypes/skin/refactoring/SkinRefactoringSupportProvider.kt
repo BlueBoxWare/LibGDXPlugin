@@ -22,6 +22,6 @@ import com.intellij.psi.PsiElement
 internal class SkinRefactoringSupportProvider : RefactoringSupportProvider() {
 
     override fun isMemberInplaceRenameAvailable(element: PsiElement, context: PsiElement?) =
-        element is SkinResource && !element.resourceName.stringLiteral.isQuoted
+        element is SkinResource && !element.resourceName.stringLiteral.isQuoted()
 
 }

@@ -48,7 +48,7 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
 
     override fun computeDocumentationHint(): String? {
 
-        (targetElement as? Atlas2Region)?.image?.let { image ->
+        (targetElement as? Atlas2Region)?.getImage()?.let { image ->
             return createDoc(image, targetElement.name, null)
         }
 
@@ -57,16 +57,16 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
             reference.resolve()?.let { target ->
                 @Suppress("ControlFlowWithEmptyBody")
                 if (target is Atlas2Region) {
-                    target.image?.let { image ->
+                    target.getImage()?.let { image ->
                         return createDoc(image, target.name, target.containingFile.name)
                     }
-                } else if (target is SkinResource && target.classSpecification?.getRealClassNamesAsString()
+                } else if (target is SkinResource && target.getClassSpecification()?.getRealClassNamesAsString()
                         ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
                 ) {
 
                     val tintedDrawableName = target.name
 
-                    var colorElement = target.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.value
+                    var colorElement = target.getObject()?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.getValue()
 
                     while (colorElement is SkinStringLiteral) {
                         ProgressManager.checkCanceled()
@@ -77,16 +77,17 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
 
                     var nameTarget: PsiElement? = target
 
-                    while ((nameTarget as? SkinResource)?.classSpecification?.getRealClassNamesAsString()
+                    while ((nameTarget as? SkinResource)?.getClassSpecification()?.getRealClassNamesAsString()
                             ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
                     ) {
                         ProgressManager.checkCanceled()
                         nameTarget =
-                            (nameTarget as? SkinResource)?.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value?.reference?.resolve()
+                            nameTarget.getObject()
+                                ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.getValue()?.reference?.resolve()
                     }
 
                     (nameTarget as? Atlas2Region)?.let { atlasRegion ->
-                        atlasRegion.image?.let { image ->
+                        atlasRegion.getImage()?.let { image ->
                             return createDoc(color?.let { image.tint(color) } ?: image,
                                 tintedDrawableName,
                                 target.containingFile.name)

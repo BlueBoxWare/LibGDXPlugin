@@ -36,7 +36,7 @@ internal class SkinDeprecatedInspection : SkinBaseInspection() {
                 if (className.resolve()?.isDeprecated == true) {
                     holder.registerProblem(
                         className,
-                        message("skin.inspection.deprecated.message", className.value.plainName),
+                        message("skin.inspection.deprecated.message", className.getValue().plainName),
                         ProblemHighlightType.LIKE_DEPRECATED
                     )
                 }
@@ -45,11 +45,11 @@ internal class SkinDeprecatedInspection : SkinBaseInspection() {
 
             override fun visitPropertyName(propertyName: SkinPropertyName) {
 
-                propertyName.property?.let { property ->
+                propertyName.getProperty()?.let { property ->
                     if (property.resolveToField()?.isDeprecated == true) {
                         holder.registerProblem(
                             propertyName,
-                            message("skin.inspection.deprecated.message", propertyName.value),
+                            message("skin.inspection.deprecated.message", propertyName.getValue()),
                             ProblemHighlightType.LIKE_DEPRECATED
                         )
                     }

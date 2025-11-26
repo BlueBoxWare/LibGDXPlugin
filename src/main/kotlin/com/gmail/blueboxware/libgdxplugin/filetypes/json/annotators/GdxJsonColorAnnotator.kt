@@ -60,10 +60,10 @@ internal class GdxJsonColorAnnotator : Annotator {
                 return
             }
 
-            val rgbR = (r.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-            val rgbG = (g.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-            val rgbB = (b.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: return
-            val rgbA = (a?.value?.value as? GdxJsonLiteral)?.toFloatOrNull() ?: 1.0f
+            val rgbR = (r.value?.getValue() as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbG = (g.value?.getValue() as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbB = (b.value?.getValue() as? GdxJsonLiteral)?.toFloatOrNull() ?: return
+            val rgbA = (a?.value?.getValue() as? GdxJsonLiteral)?.toFloatOrNull() ?: 1.0f
 
             color(rgbR, rgbG, rgbB, rgbA)?.let { color ->
 
@@ -75,7 +75,7 @@ internal class GdxJsonColorAnnotator : Annotator {
 
             if (element.propertyName.getValue().lowercase(Locale.getDefault()) in JSON_COLOR_PROPERTY_NAMES) {
 
-                (element.value?.value as? GdxJsonString)?.getValue()?.let { str ->
+                (element.value?.getValue() as? GdxJsonString)?.getValue()?.let { str ->
                     if (str.length == 6 || str.length == 8) {
                         color(str)?.let {
                             createAnnotation(it, element, holder)

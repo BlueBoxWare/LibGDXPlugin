@@ -32,7 +32,7 @@ abstract class Atlas2PageMixin(node: ASTNode) : Atlas2Page, Atlas2FieldOwnerImpl
     override fun getIndex(): Int? = (containingFile as? Atlas2File)?.getPages()?.indexOf(this)
 
 
-    override fun getName(): String? = header.value
+    override fun getName(): String? = header.getValue()
 
     override fun setName(name: String): PsiElement = throw IncorrectOperationException()
 

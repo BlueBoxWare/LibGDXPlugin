@@ -36,7 +36,7 @@ internal class SkinDuplicateResourceNameInspection : SkinBaseInspection() {
             override fun visitResource(skinResource: SkinResource) {
                 val classNames =
                     skinResource
-                        .classSpecification
+                        .getClassSpecification()
                         ?.getRealClassNamesAsString()
                         ?.toMutableList()
                         ?: return

@@ -31,7 +31,7 @@ internal class SkinFindUsagesProvider : FindUsagesProvider {
     override fun getNodeText(element: PsiElement, useFullName: Boolean) = (element as? PsiNamedElement)?.name ?: ""
 
     override fun getDescriptiveName(element: PsiElement) = when (element) {
-        is SkinResource -> element.name + element.classSpecification?.classNameAsString?.let { "($it)" }
+        is SkinResource -> element.name + element.getClassSpecification()?.getClassNameAsString()?.let { "($it)" }
         else -> ""
     }
 

@@ -62,7 +62,7 @@ class AssetReference(
                             if (className == null)
                                 StringUtil.getShortName(
                                     resource
-                                        .classSpecification
+                                        .getClassSpecification()
                                         ?.getRealClassNamesAsString()
                                         ?.firstOrNull()
                                         ?: ""

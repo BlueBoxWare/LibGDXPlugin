@@ -29,7 +29,7 @@ internal class SkinAdditionalHighlighter : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 
         if (element is SkinPropertyName) {
-            if (element.value == PROPERTY_NAME_PARENT && element.project.isLibGDX199()) {
+            if (element.getValue() == PROPERTY_NAME_PARENT && element.project.isLibGDX199()) {
                 holder.annotate(element, SKIN_PARENT_PROPERTY)
             } else {
                 holder.annotate(element, SKIN_PROPERTY_NAME)
@@ -40,7 +40,7 @@ internal class SkinAdditionalHighlighter : Annotator {
             if (element.parent is SkinClassName) {
                 holder.annotate(element, SKIN_CLASS_NAME)
             } else if (element.parent is SkinPropertyValue) {
-                if (element.isBoolean || element.text == "null") {
+                if (element.isBoolean() || element.text == "null") {
                     holder.annotate(element, SKIN_KEYWORD)
                 } else if (element.text.toDoubleOrNull() != null) {
                     holder.annotate(element, SKIN_NUMBER)

@@ -43,7 +43,7 @@ internal class LibGDXTopLevelValueInspection : GdxJsonBaseInspection() {
                     holder.registerProblem(file, message("json.inspection.toplevel.value.message"))
                 } else {
                     file.children.firstIsInstanceOrNull<GdxJsonValue>()?.let { element ->
-                        if (!element.isObject) {
+                        if (!element.isObject()) {
                             holder.registerProblem(element, message("json.inspection.toplevel.value.message"))
                         }
                     }

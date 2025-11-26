@@ -78,7 +78,7 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
                 .forEach { virtualFile ->
                     (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
                         skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
-                            if (classSpec.className.stringLiteral.value in tagsToFind) {
+                            if (classSpec.className.stringLiteral.getValue() in tagsToFind) {
                                 classSpec.className.references.forEach { reference ->
                                     consumer.process(reference)
                                 }

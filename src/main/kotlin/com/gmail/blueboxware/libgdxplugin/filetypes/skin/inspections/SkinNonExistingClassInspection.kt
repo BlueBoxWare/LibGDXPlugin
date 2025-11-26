@@ -32,9 +32,9 @@ internal class SkinNonExistingClassInspection : SkinBaseInspection() {
             val clazz = o.resolve()
 
             if (clazz == null) {
-                holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.value.plainName))
+                holder.registerProblem(o, message("skin.inspection.non.existing.class.message", o.getValue().plainName))
             } else if (clazz.containingClass != null && !clazz.hasModifierProperty(PsiModifier.STATIC)) {
-                holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.value.plainName))
+                holder.registerProblem(o, message("skin.inspection.non.static.class.message", o.getValue().plainName))
             }
 
         }

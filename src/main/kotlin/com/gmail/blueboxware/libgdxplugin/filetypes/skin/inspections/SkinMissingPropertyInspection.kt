@@ -42,7 +42,7 @@ internal class SkinMissingPropertyInspection : SkinBaseInspection() {
                     }
 
                 mandatoryProperties?.forEach { property ->
-                    if (!skinObject.propertyNames.contains(property)) {
+                    if (!skinObject.getPropertyNames().contains(property)) {
                         holder.registerProblem(
                             skinObject,
                             message("skin.inspection.missing.property.message", property)

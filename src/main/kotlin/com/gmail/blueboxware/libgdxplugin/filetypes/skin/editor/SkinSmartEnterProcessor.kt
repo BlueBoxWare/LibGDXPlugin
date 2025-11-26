@@ -55,7 +55,7 @@ internal class SkinSmartEnterProcessor : SmartEnterProcessorWithFixers() {
             ) {
 
                 val key = if (parent is SkinPropertyValue) {
-                    parent.property?.propertyName
+                    parent.getProperty()?.propertyName
                 } else {
                     parent
                 }

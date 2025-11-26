@@ -111,7 +111,7 @@ class GdxJsonBlock(
                 wrap = childWrap
                 indent = Indent.getNormalIndent()
             } else if (childNode.elementType in OPEN_BRACES) {
-                if ((psiElement as? GdxJsonValue)?.isPropertyValue == true && propertyALignment == ALIGN_PROPERTY_ON_VALUE) {
+                if ((psiElement as? GdxJsonValue)?.isPropertyValue() == true && propertyALignment == ALIGN_PROPERTY_ON_VALUE) {
                     alignment = parent?.parent?.propertyValueAlignment
                 }
             }
@@ -120,7 +120,7 @@ class GdxJsonBlock(
 
             if (childNode.elementType == COLON && propertyALignment == ALIGN_PROPERTY_ON_COLON) {
                 alignment = parent?.propertyValueAlignment
-            } else if ((childNode.psi as? GdxJsonValue)?.isPropertyValue == true && propertyALignment == ALIGN_PROPERTY_ON_VALUE) {
+            } else if ((childNode.psi as? GdxJsonValue)?.isPropertyValue() == true && propertyALignment == ALIGN_PROPERTY_ON_VALUE) {
                 if (childNode.elementType !in CONTAINERS) {
                     alignment = parent?.propertyValueAlignment
                 }

@@ -29,7 +29,7 @@ internal class GdxJsonAddQuotesIntention : GdxJsonBaseIntention() {
     override fun getFamilyName(): String = "Wrap with double quotes"
 
     override fun isAvailable(project: Project, editor: Editor?, element: PsiElement): Boolean =
-        (element.parent as? GdxJsonString)?.isQuoted == false
+        (element.parent as? GdxJsonString)?.isQuoted() == false
 
     override fun invoke(project: Project, editor: Editor?, element: PsiElement) {
 

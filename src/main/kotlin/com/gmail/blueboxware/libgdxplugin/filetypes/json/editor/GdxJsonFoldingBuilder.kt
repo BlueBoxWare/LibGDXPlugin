@@ -39,7 +39,7 @@ internal class GdxJsonFoldingBuilder : FoldingBuilder, DumbAware {
             var candidate: GdxJsonProperty? = null
             for (property: GdxJsonProperty? in jObject.propertyList) {
                 val name = property?.name ?: continue
-                val value = property.value?.value
+                val value = property.value?.getValue()
                 if (value is GdxJsonLiteral) {
                     if (name == "id" || name == "name") {
                         candidate = property

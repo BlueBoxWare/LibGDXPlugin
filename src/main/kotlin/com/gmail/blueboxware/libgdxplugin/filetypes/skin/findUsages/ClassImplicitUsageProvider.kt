@@ -48,7 +48,7 @@ internal class ClassImplicitUsageProvider : ImplicitUsageProvider {
 
                     skinFile.getClassSpecifications().forEach { classSpec ->
                         classSpec.className.let { className ->
-                            if (className.value.plainName == fqName) {
+                            if (className.getValue().plainName == fqName) {
                                 found = true
                                 return@processFiles true
                             }

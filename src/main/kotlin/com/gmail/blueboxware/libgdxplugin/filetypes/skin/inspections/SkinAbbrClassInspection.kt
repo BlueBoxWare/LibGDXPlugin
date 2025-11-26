@@ -56,7 +56,7 @@ internal class SkinAbbrClassInspection : SkinBaseInspection() {
                 skinClassName
                     .resolve()
                     ?.let(::DollarClassName)
-                    ?.takeIf { it == skinClassName.value }
+                    ?.takeIf { it == skinClassName.getValue() }
                     ?.let { fqName ->
 
                         DEFAULT_TAGGED_CLASSES_NAMES.getKey(fqName.plainName)?.let { shortName ->
@@ -82,7 +82,7 @@ internal class SkinAbbrClassInspection : SkinBaseInspection() {
         override fun getText(): String = familyName
 
         override fun invoke(project: Project, file: PsiFile, startElement: PsiElement, endElement: PsiElement) {
-            (startElement as? SkinClassName)?.value = shortName
+            (startElement as? SkinClassName)?.setValue(shortName)
         }
 
     }

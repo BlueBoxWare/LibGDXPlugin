@@ -98,7 +98,7 @@ class SkinElementFactory(private val project: Project) {
             }
           """
         )?.let { element ->
-            element.`object`?.getOpeningBrace()?.startOffset?.let {
+            element.getObject()?.getOpeningBrace()?.startOffset?.let {
                 Pair(element, it - element.startOffset + 2)
             }
         }

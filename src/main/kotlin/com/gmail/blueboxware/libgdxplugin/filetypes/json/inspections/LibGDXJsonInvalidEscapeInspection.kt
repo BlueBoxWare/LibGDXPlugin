@@ -65,7 +65,7 @@ internal class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
                         try {
                             Character.toChars(Integer.parseInt(o.text.substring(i + 2, i + 6), 16))
                         } catch (e: Exception) {
-                            val maxlen = if (o.isQuoted) o.text.length - 1 else o.text.length
+                            val maxlen = if (o.isQuoted()) o.text.length - 1 else o.text.length
                             holder.registerProblem(
                                 o, TextRange(i, min(i + 6, maxlen)), message("json.inspection.invalid.escape.message")
                             )

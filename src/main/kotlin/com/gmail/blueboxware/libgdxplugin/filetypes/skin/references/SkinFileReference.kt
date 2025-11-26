@@ -33,7 +33,7 @@ class SkinFileReference(
 
     override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
         baseFile?.let { baseFile ->
-            element.value.let { fileName ->
+            element.getValue().let { fileName ->
                 VfsUtil.findRelativeFile(baseFile.parent, *fileNameToPathList(fileName))?.let { virtualFile ->
                     PsiManager.getInstance(element.project).findFile(virtualFile)?.let { psiFile ->
                         return arrayOf(PsiElementResolveResult(psiFile))

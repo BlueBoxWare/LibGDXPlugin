@@ -23,7 +23,7 @@ import com.intellij.psi.ResolveResult
 class SkinJavaFieldReference(element: SkinPropertyName) : SkinReference<SkinPropertyName>(element) {
 
     override fun multiResolve(incompleteCode: Boolean): Array<out ResolveResult> {
-        element.property?.resolveToField()?.let { field ->
+        element.getProperty()?.resolveToField()?.let { field ->
             return arrayOf(PsiElementResolveResult(field))
         }
 

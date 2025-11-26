@@ -69,7 +69,7 @@ class SkinBlock(
         when {
             hasElementType(myNode, OBJECT, CLASS_SPECIFICATION) -> myNode.lastChildNode?.elementType != R_CURLY
             hasElementType(myNode, ARRAY) -> myNode.lastChildNode?.elementType != R_BRACKET
-            hasElementType(myNode, PROPERTY) -> (psiElement as? SkinProperty)?.value == null
+            hasElementType(myNode, PROPERTY) -> (psiElement as? SkinProperty)?.getValue() == null
             hasElementType(myNode, RESOURCE) -> (psiElement as? SkinResource)?.value == null
             else -> false
         }

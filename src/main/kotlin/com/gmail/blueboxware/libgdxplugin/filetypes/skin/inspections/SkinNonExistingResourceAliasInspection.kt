@@ -47,18 +47,18 @@ internal class SkinNonExistingResourceAliasInspection : SkinBaseInspection() {
                         } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
                             null
                         } else {
-                            CreateAssetQuickFix(stringLiteral, stringLiteral.value, DollarClassName(clazz))
+                            CreateAssetQuickFix(stringLiteral, stringLiteral.getValue(), DollarClassName(clazz))
                         }
 
                     }
                     if (quickfix != null) holder.registerProblem(
                         stringLiteral,
-                        message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value),
+                        message("skin.inspection.non.existing.resource.alias.message", stringLiteral.getValue()),
                         quickfix
                     )
                     else holder.registerProblem(
                         stringLiteral,
-                        message("skin.inspection.non.existing.resource.alias.message", stringLiteral.value)
+                        message("skin.inspection.non.existing.resource.alias.message", stringLiteral.getValue())
                     )
 
                 }

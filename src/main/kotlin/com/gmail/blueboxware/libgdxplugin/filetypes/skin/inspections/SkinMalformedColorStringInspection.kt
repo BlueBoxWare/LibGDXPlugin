@@ -30,8 +30,10 @@ internal class SkinMalformedColorStringInspection : SkinBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
         override fun visitPropertyValue(o: SkinPropertyValue) {
-            if (o.property?.containingObject?.resolveToTypeString() == COLOR_CLASS_NAME && o.property?.name == "hex") {
-                (o.value as? SkinStringLiteral)?.value?.let { str ->
+            if (o.getProperty()?.getContainingObject()
+                    ?.resolveToTypeString() == COLOR_CLASS_NAME && o.getProperty()?.name == "hex"
+            ) {
+                (o.value as? SkinStringLiteral)?.getValue()?.let { str ->
                     if (!colorRegex.matches(str)) {
                         holder.registerProblem(o, message("skin.inspection.malformed.color.display.name"))
                     }

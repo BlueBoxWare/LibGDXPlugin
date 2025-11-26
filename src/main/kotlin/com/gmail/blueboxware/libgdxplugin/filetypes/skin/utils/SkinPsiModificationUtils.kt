@@ -85,7 +85,7 @@ fun SkinClassSpecification.addResource(resource: SkinResource, cause: SkinElemen
     val resources = resources ?: return null
 
     val addBefore = cause?.firstParent<SkinResource>()?.let { targetResource ->
-        resourcesAsList.firstOrNull { it == targetResource }
+        getResourcesAsList().firstOrNull { it == targetResource }
     }
 
     val result = if (addBefore == null) {
@@ -130,12 +130,12 @@ fun SkinObject.changeColor(color: Color): SkinObject? {
 
     val newObject = factory()?.createObject() ?: return null
 
-    if (propertyNames.contains("hex") || (propertyNames.none { listOf("r", "g", "b", "a").contains(it) })) {
+    if (getPropertyNames().contains("hex") || (getPropertyNames().none { listOf("r", "g", "b", "a").contains(it) })) {
 
         var quotationChar = "\""
 
         (propertyList.find { it.name == "hex" }?.propertyValue?.value as? SkinStringLiteral)?.let { oldValue ->
-            quotationChar = if (oldValue.isQuoted) "\"" else ""
+            quotationChar = if (oldValue.isQuoted()) "\"" else ""
         }
 
         factory()?.createProperty("hex", quotationChar + color.toHexString() + quotationChar)

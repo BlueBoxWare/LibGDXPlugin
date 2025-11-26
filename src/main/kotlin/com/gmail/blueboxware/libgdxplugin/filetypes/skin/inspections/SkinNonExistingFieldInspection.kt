@@ -28,14 +28,14 @@ internal class SkinNonExistingFieldInspection : SkinBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean) = object : SkinElementVisitor() {
 
         override fun visitPropertyName(propertyName: SkinPropertyName) {
-            val name = propertyName.value
+            val name = propertyName.getValue()
 
             if (name == PROPERTY_NAME_PARENT && propertyName.project.isLibGDX199()) {
                 return
             }
 
-            val property = propertyName.property ?: return
-            val typeString = propertyName.property?.containingObject?.resolveToTypeString() ?: return
+            val property = propertyName.getProperty() ?: return
+            val typeString = propertyName.getProperty()?.getContainingObject()?.resolveToTypeString() ?: return
 
             if (typeString == COLOR_CLASS_NAME && name == "hex") {
                 return

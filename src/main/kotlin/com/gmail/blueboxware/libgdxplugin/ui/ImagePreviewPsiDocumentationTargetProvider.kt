@@ -60,10 +60,9 @@ internal class ImagePreviewPsiDocumentationTargetProvider : PsiDocumentationTarg
 
             if (language == LibGDXSkinLanguage.INSTANCE && el.parent is SkinStringLiteral && el.parent.parent is SkinPropertyValue) {
                 el.getParentOfType<SkinResource>()?.let { resource ->
-                    if (resource.classSpecification?.resolveClass()?.qualifiedName == TINTED_DRAWABLE_CLASS_NAME) {
-                        el =
-                            (resource.`object`?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.value as? SkinStringLiteral)
-                                ?: el
+                    if (resource.getClassSpecification()?.resolveClass()?.qualifiedName == TINTED_DRAWABLE_CLASS_NAME) {
+                        el = (resource.getObject()?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)
+                            ?.getValue() as? SkinStringLiteral) ?: el
                     }
                 }
             }
