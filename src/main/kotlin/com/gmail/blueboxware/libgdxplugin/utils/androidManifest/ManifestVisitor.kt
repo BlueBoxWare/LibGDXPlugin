@@ -27,13 +27,6 @@ abstract class ManifestVisitor : XmlRecursiveElementVisitor() {
     abstract fun processTargetSDKVersion(value: Int, element: XmlAttribute)
     abstract fun processMaxSDKVersion(value: Int, element: XmlAttribute)
 
-    abstract fun processSupportsScreens(
-        value: SupportsScreens,
-        element: XmlTag,
-        hasLargeScreensSupportAttribute: Boolean,
-        hasXLargeScreensSupportAttribute: Boolean
-    )
-
     abstract fun processPermission(value: String, element: XmlTag)
 
     override fun visitXmlTag(tag: XmlTag) {
@@ -42,7 +35,7 @@ abstract class ManifestVisitor : XmlRecursiveElementVisitor() {
             tag.getAttribute("android:glEsVersion")?.value?.let { value ->
                 try {
                     processOpenGLESVersion(Integer.decode(value), tag)
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     // Nothing
                 }
             }
@@ -62,25 +55,6 @@ abstract class ManifestVisitor : XmlRecursiveElementVisitor() {
                     processMaxSDKVersion(value, attribute)
                 }
             }
-        } else if (tag.name == "supports-screens" && tag.parentTag?.name == "manifest") {
-            val supportsScreens = SupportsScreens()
-            var hasExplicitLarge = false
-            var hasExplicitXLarge = false
-            tag.getAttribute("android:smallScreens")?.value?.let {
-                supportsScreens.smallScreens = it == "true"
-            }
-            tag.getAttribute("android:normalScreens")?.value?.let {
-                supportsScreens.normalScreens = it == "true"
-            }
-            tag.getAttribute("android:largeScreens")?.value?.let {
-                supportsScreens.largeScreens = it == "true"
-                hasExplicitLarge = true
-            }
-            tag.getAttribute("android:xlargeScreens")?.value?.let {
-                supportsScreens.xlargeScreens = it == "true"
-                hasExplicitXLarge = true
-            }
-            processSupportsScreens(supportsScreens, tag, hasExplicitLarge, hasExplicitXLarge)
         } else if (tag.name == "uses-permission" && tag.parentTag?.name == "manifest") {
             tag.getAttribute("android:name")?.value?.let {
                 processPermission(it, tag)

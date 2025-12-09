@@ -32,7 +32,7 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
     fun testTooManySpaces() = doTestFormatting("tooManySpaces.tree", "tooManySpaces.after", "tree")
 
     fun testTabs() {
-        CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).indentOptions!!.apply {
+        (CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).indentOptions ?: throw AssertionError()).apply {
             USE_TAB_CHARACTER = true
             INDENT_SIZE = 3
         }

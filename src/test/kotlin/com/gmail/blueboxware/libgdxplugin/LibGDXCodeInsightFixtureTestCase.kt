@@ -66,7 +66,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         addLibGDXSources("gdx-1.13.1.jar", "gdx-1.13.1-sources.jar")
     }
 
-    fun removeLibGDX() {
+    private fun removeLibGDX() {
         WriteCommandAction.runWriteCommandAction(project) {
             val projectModel = LibraryTablesRegistrar.getInstance().getLibraryTable(project).modifiableModel
 
@@ -80,18 +80,19 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         }
     }
 
-    fun addLibGDXSources(baseJar: String, sourceJar: String) = WriteCommandAction.runWriteCommandAction(project) {
-        LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == baseJar }
-            ?.let { library ->
-                library.modifiableModel.let {
-                    it.addRoot(
-                        JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/$sourceJar!/")!!,
-                        OrderRootType.SOURCES
-                    )
-                    it.commit()
+    private fun addLibGDXSources(baseJar: String, sourceJar: String) =
+        WriteCommandAction.runWriteCommandAction(project) {
+            LibraryTablesRegistrar.getInstance().getLibraryTable(project).libraries.find { it.name == baseJar }
+                ?.let { library ->
+                    library.modifiableModel.let {
+                        it.addRoot(
+                            JarFileSystem.getInstance().findFileByPath(getTestDataBasePath() + "/lib/$sourceJar!/")!!,
+                            OrderRootType.SOURCES
+                        )
+                        it.commit()
+                    }
                 }
-            }
-    }
+        }
 
     fun addKotlin() = addLibrary(getTestDataBasePath() + "/lib/kotlin-runtime.jar")
 

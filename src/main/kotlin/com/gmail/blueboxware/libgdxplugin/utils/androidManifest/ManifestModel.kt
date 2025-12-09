@@ -23,11 +23,6 @@ enum class SdkVersionType { MIN, MAX, TARGET }
 
 class ManifestModel {
 
-    var supportScreens: ManifestValue<SupportsScreens>? = null
-
-    var hasLargeScreensSupportAttribute: Boolean = false
-    var hasXLargeScreenSupportAttribute: Boolean = false
-
     var minSDK: ManifestValue<Int> = ManifestValue(1)
     var maxSDK: ManifestValue<Int>? = null
     var targetSDK: ManifestValue<Int>? = null
@@ -35,31 +30,6 @@ class ManifestModel {
     var openGLESVersion: ManifestValue<Int> = ManifestValue(0x00010000)
 
     val permissions: MutableList<ManifestValue<String>> = mutableListOf()
-
-    fun resolveTargetSDK(): Int =
-        targetSDK?.value ?: minSDK.value
-
-    fun resolveSupportsScreens(): SupportsScreens =
-        supportScreens?.value?.resolveSupportsScreensValues(resolveTargetSDK())
-            ?: SupportsScreens.getDefaultValues(resolveTargetSDK())
-
-    fun applyExternalVersions(versionMap: Map<SdkVersionType, Int>) {
-        versionMap[SdkVersionType.MIN]?.let { extVersion ->
-            if (extVersion > minSDK.value) {
-                minSDK = ManifestValue(extVersion)
-            }
-        }
-        versionMap[SdkVersionType.TARGET]?.let { extVersion ->
-            if (targetSDK == null || extVersion > resolveTargetSDK()) {
-                targetSDK = ManifestValue(extVersion)
-            }
-        }
-        versionMap[SdkVersionType.MAX]?.let { extVersion ->
-            if (maxSDK == null || extVersion > (maxSDK?.value ?: 0)) {
-                maxSDK = ManifestValue(extVersion)
-            }
-        }
-    }
 
     companion object {
 
@@ -85,17 +55,6 @@ class ManifestModel {
 
                 override fun processMaxSDKVersion(value: Int, element: XmlAttribute) {
                     model.maxSDK = ManifestValue(value, element)
-                }
-
-                override fun processSupportsScreens(
-                    value: SupportsScreens,
-                    element: XmlTag,
-                    hasLargeScreensSupportAttribute: Boolean,
-                    hasXLargeScreensSupportAttribute: Boolean
-                ) {
-                    model.supportScreens = ManifestValue(value, element)
-                    model.hasLargeScreensSupportAttribute = hasLargeScreensSupportAttribute
-                    model.hasXLargeScreenSupportAttribute = hasXLargeScreensSupportAttribute
                 }
 
                 override fun processPermission(value: String, element: XmlTag) {

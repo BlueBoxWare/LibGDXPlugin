@@ -86,8 +86,6 @@ internal fun <T> key(key: String) = Key<T>("$PREFIX.$key")
 
 internal fun <T> T?.singletonOrNull(): Collection<T>? = this?.let { listOf(this) }
 
-internal fun trimQuotes(str: String?) = str?.trim { it == '"' || it == '\'' }
-
 internal fun Project.findClass(fqName: String, scope: GlobalSearchScope = this.allScope()) =
     psiFacade().findClass(fqName, scope)
 
