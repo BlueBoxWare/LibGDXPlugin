@@ -16,10 +16,4 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-interface TreeTask : TreeElement {
-
-    fun isImport(): Boolean
-    fun isRoot(): Boolean
-    fun isSubtree(): Boolean
-
-}
+interface TreeTask : TreeElement

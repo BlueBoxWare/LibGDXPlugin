@@ -587,7 +587,7 @@ class TreeLexer implements FlexLexer {
           // fall through
           case 24: break;
           case 2:
-            { return TreeElementTypes.INDENT;
+            { return TreeElementTypes.TINDENT;
             }
           // fall through
           case 25: break;
@@ -667,7 +667,7 @@ class TreeLexer implements FlexLexer {
           // fall through
           case 40: break;
           case 18:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.ROOT;
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT;
             }
           // fall through
           case 41: break;
@@ -687,12 +687,12 @@ class TreeLexer implements FlexLexer {
           // fall through
           case 44: break;
           case 22:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.IMPORT;
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT;
             }
           // fall through
           case 45: break;
           case 23:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.SUBTREE;
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE;
             }
           // fall through
           case 46: break;

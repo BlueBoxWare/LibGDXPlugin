@@ -18,5 +18,4 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 
 import com.intellij.lang.parser.GeneratedParserUtilBase
 
-class TreeParserUtil : GeneratedParserUtilBase() {
-}
+class TreeParserUtil : GeneratedParserUtilBase()

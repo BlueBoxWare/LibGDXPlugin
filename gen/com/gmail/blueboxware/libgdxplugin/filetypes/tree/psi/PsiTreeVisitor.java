@@ -15,8 +15,33 @@ public class PsiTreeVisitor extends PsiElementVisitor {
     visitTreeElement(o);
   }
 
+  public void visitImport(@NotNull PsiTreeImport o) {
+    visitTreeTask(o);
+    // visitTreeElement(o);
+  }
+
+  public void visitIndent(@NotNull PsiTreeIndent o) {
+    visitTreeIndent(o);
+    // visitTreeElement(o);
+  }
+
   public void visitLine(@NotNull PsiTreeLine o) {
+    visitTreeLine(o);
+    // visitTreeElement(o);
+  }
+
+  public void visitRoot(@NotNull PsiTreeRoot o) {
+    visitTreeTask(o);
+    // visitTreeElement(o);
+  }
+
+  public void visitStatement(@NotNull PsiTreeStatement o) {
     visitTreeElement(o);
+  }
+
+  public void visitSubtree(@NotNull PsiTreeSubtree o) {
+    visitTreeTask(o);
+    // visitTreeElement(o);
   }
 
   public void visitSubtreeref(@NotNull PsiTreeSubtreeref o) {
@@ -38,6 +63,14 @@ public class PsiTreeVisitor extends PsiElementVisitor {
   }
 
   public void visitTreeElement(@NotNull TreeElement o) {
+    visitElement(o);
+  }
+
+  public void visitTreeIndent(@NotNull TreeIndent o) {
+    visitElement(o);
+  }
+
+  public void visitTreeLine(@NotNull TreeLine o) {
     visitElement(o);
   }
 

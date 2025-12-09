@@ -18,5 +18,4 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
 import com.intellij.psi.NavigatablePsiElement
 
-interface TreeElement : NavigatablePsiElement {
-}
+interface TreeElement : NavigatablePsiElement

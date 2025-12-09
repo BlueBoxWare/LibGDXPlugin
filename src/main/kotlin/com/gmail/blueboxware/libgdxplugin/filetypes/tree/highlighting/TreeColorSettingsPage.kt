@@ -77,9 +77,9 @@ root
         a("Attribute name", TreeSyntaxHighlighter.ATTRNAME),
         a("Subtree reference", TreeSyntaxHighlighter.SUBTREEREF),
 
-        a("Special//Import", TreeSyntaxHighlighter.IMPORT),
-        a("Special//Root", TreeSyntaxHighlighter.ROOT),
-        a("Special//Subtree", TreeSyntaxHighlighter.SUBTREE),
+        a("Special task name//Import", TreeSyntaxHighlighter.IMPORT),
+        a("Special task name//Root", TreeSyntaxHighlighter.ROOT),
+        a("Special task name//Subtree", TreeSyntaxHighlighter.SUBTREE),
 
         a("Comment", TreeSyntaxHighlighter.COMMENT)
     )

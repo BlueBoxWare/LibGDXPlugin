@@ -41,13 +41,13 @@
     </change-notes>
 
     <dependencies>
-        <plugin id="com.intellij.java" />
-        <plugin id="org.jetbrains.kotlin" />
-        <plugin id="com.intellij.properties" />
-        <plugin id="com.intellij.modules.json" />
-        <plugin id="com.intellij.modules.platform" />
-        <module name="intellij.spellchecker" />
-        <module name="intellij.properties.backend.psi" />
+        <plugin id="com.intellij.java"/>
+        <plugin id="org.jetbrains.kotlin"/>
+        <plugin id="com.intellij.properties"/>
+        <plugin id="com.intellij.modules.json"/>
+        <plugin id="com.intellij.modules.platform"/>
+        <module name="intellij.spellchecker"/>
+        <module name="intellij.properties.backend.psi"/>
     </dependencies>
 
     <projectListeners>
@@ -119,9 +119,6 @@
                 id="LibGDXJson"
         />
 
-        <lang.parserDefinition language="LibGDXAiTree"
-                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeParserDefinition"
-                               />
 
         <lang.parserDefinition language="LibGDXJson"
                                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition"/>
@@ -434,10 +431,28 @@
                   extensions="tree"
         />
 
+        <lang.parserDefinition language="LibGDXAiTree"
+                               implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeParserDefinition"
+        />
+
+        <lang.formatter language="LibGDXAiTree"
+                        implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeFormattingModelBuilder"/>
+        <codeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeCodeStyleSettingsProvider" />
+        <langCodeStyleSettingsProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLanguageCodeStyleSettingsProvider" />
+        <postFormatProcessor
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeIndentPostFormatProcessor" />
+        <postFormatProcessor
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeEmptyLinesPostFormatProcessor" />
+        <lineIndentProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLineIndentProvider" />
+        <editor.backspaceModeOverride language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceModeOverride" />
+        <backspaceHandlerDelegate implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceHandlerDelegate" />
+
         <lang.syntaxHighlighterFactory language="LibGDXAiTree"
-                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeSyntaxHighlighterFactory" />
+                                       implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeSyntaxHighlighterFactory"/>
         <colorSettingsPage
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeColorSettingsPage" />
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeColorSettingsPage"/>
 
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->

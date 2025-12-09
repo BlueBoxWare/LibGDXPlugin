@@ -264,7 +264,7 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
         if (extension != "skin") {
             project.markFileAsSkin(file.virtualFile)
         }
-        runCommand(f)
+        runCommand(f = f)
         myFixture.checkResultByFile(testname() + ".after")
         undo()
         myFixture.checkResultByFile(testname() + ".$extension")

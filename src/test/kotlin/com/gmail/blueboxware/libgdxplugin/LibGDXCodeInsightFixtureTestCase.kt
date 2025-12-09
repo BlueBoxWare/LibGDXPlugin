@@ -3,11 +3,13 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.formatting.FormatterTestUtils
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.command.undo.UndoManager
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
@@ -17,6 +19,7 @@ import com.intellij.openapi.vfs.JarFileSystem
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiRecursiveElementVisitor
+import com.intellij.testFramework.EditorTestUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
 import org.jetbrains.kotlin.config.MavenComparableVersion
@@ -201,8 +204,27 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     }
 
-    fun runCommand(f: () -> Unit) = CommandProcessor.getInstance().executeCommand(
-        project, f, "", null, UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION
+    fun doTestFormatting(beforeFile: String, afterFileName: String, ext: String) {
+        val afterFile = File(testDataPath, afterFileName)
+        if (!afterFile.exists()) {
+            afterFile.createNewFile()
+            fail("$afterFileName does not exist. Created.")
+        }
+        FormatterTestUtils.testFormatting(
+            project,
+            ext,
+            File(testDataPath, beforeFile).readText(),
+            afterFile.readText(),
+            FormatterTestUtils.Action.REFORMAT
+        )
+    }
+
+    fun executeAction(actionId: String) {
+        runCommand(editor.document) { EditorTestUtil.executeAction(editor, actionId, true) }
+    }
+
+    fun runCommand(document: Document? = null, f: () -> Unit) = CommandProcessor.getInstance().executeCommand(
+        project, f, "", null, UndoConfirmationPolicy.DO_NOT_REQUEST_CONFIRMATION, document
     )
 
     fun undo() {

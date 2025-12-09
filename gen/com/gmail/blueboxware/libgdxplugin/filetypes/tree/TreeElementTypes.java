@@ -10,7 +10,12 @@ public interface TreeElementTypes {
 
   IElementType ATTRIBUTE = new TreeElementType("ATTRIBUTE");
   IElementType GUARD = new TreeElementType("GUARD");
+  IElementType IMPORT = new TreeElementType("IMPORT");
+  IElementType INDENT = new TreeElementType("INDENT");
   IElementType LINE = new TreeElementType("LINE");
+  IElementType ROOT = new TreeElementType("ROOT");
+  IElementType STATEMENT = new TreeElementType("STATEMENT");
+  IElementType SUBTREE = new TreeElementType("SUBTREE");
   IElementType SUBTREEREF = new TreeElementType("SUBTREEREF");
   IElementType TASK = new TreeElementType("TASK");
   IElementType TASKNAME = new TreeElementType("TASKNAME");
@@ -21,19 +26,19 @@ public interface TreeElementTypes {
   IElementType COMMENT = new TreeTokenType("comment");
   IElementType EOL = new TreeTokenType("end of line");
   IElementType FALSE = new TreeTokenType("false");
-  IElementType IMPORT = new TreeTokenType("import");
-  IElementType INDENT = new TreeTokenType("indent");
   IElementType LPAREN = new TreeTokenType("(");
   IElementType NULL = new TreeTokenType("null");
   IElementType NUMBER = new TreeTokenType("number");
   IElementType QUESTION_MARK = new TreeTokenType("?");
-  IElementType ROOT = new TreeTokenType("root");
   IElementType RPAREN = new TreeTokenType(")");
   IElementType STRING = new TreeTokenType("string");
-  IElementType SUBTREE = new TreeTokenType("subtree");
   IElementType SUBTREEREFERENCE = new TreeTokenType("subtree ref");
   IElementType TASK_NAME = new TreeTokenType("task name");
+  IElementType TIMPORT = new TreeTokenType("import");
+  IElementType TINDENT = new TreeTokenType("indent");
+  IElementType TROOT = new TreeTokenType("root");
   IElementType TRUE = new TreeTokenType("true");
+  IElementType TSUBTREE = new TreeTokenType("subtree");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -44,8 +49,23 @@ public interface TreeElementTypes {
       else if (type == GUARD) {
         return new PsiTreeGuardImpl(node);
       }
+      else if (type == IMPORT) {
+        return new PsiTreeImportImpl(node);
+      }
+      else if (type == INDENT) {
+        return new PsiTreeIndentImpl(node);
+      }
       else if (type == LINE) {
         return new PsiTreeLineImpl(node);
+      }
+      else if (type == ROOT) {
+        return new PsiTreeRootImpl(node);
+      }
+      else if (type == STATEMENT) {
+        return new PsiTreeStatementImpl(node);
+      }
+      else if (type == SUBTREE) {
+        return new PsiTreeSubtreeImpl(node);
       }
       else if (type == SUBTREEREF) {
         return new PsiTreeSubtreerefImpl(node);

@@ -25,10 +25,4 @@ abstract class TreeTaskMixin(node: ASTNode) : PsiTreeTask, TreeElementImpl(node)
 
     override fun getName(): @NlsSafe String? = taskname?.name
 
-    override fun isImport(): Boolean = taskname?.isImport() ?: false
-
-    override fun isRoot(): Boolean = taskname?.isRoot() ?: false
-
-    override fun isSubtree(): Boolean = taskname?.isSubtree() ?: false
-
 }

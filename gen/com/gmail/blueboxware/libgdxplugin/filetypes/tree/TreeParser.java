@@ -79,13 +79,13 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // guard* task
+  // guard* statement
   static boolean guardableTask(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "guardableTask")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = guardableTask_0(builder_, level_ + 1);
-    result_ = result_ && task(builder_, level_ + 1);
+    result_ = result_ && statement(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
@@ -102,24 +102,51 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INDENT? guardableTask? COMMENT? EOL
+  // TIMPORT attribute*
+  public static boolean import_$(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "import_$")) return false;
+    if (!nextTokenIs(builder_, TIMPORT)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TIMPORT);
+    result_ = result_ && import_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, IMPORT, result_);
+    return result_;
+  }
+
+  // attribute*
+  private static boolean import_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "import_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!attribute(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "import_1", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // TINDENT?
+  public static boolean indent(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "indent")) return false;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, INDENT, "<indent>");
+    consumeToken(builder_, TINDENT);
+    exit_section_(builder_, level_, marker_, true, false, null);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // indent guardableTask? COMMENT? EOL
   public static boolean line(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, LINE, "<line>");
-    result_ = line_0(builder_, level_ + 1);
+    result_ = indent(builder_, level_ + 1);
     result_ = result_ && line_1(builder_, level_ + 1);
     result_ = result_ && line_2(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, EOL);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
-  }
-
-  // INDENT?
-  private static boolean line_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "line_0")) return false;
-    consumeToken(builder_, INDENT);
-    return true;
   }
 
   // guardableTask?
@@ -133,6 +160,68 @@ public class TreeParser implements PsiParser, LightPsiParser {
   private static boolean line_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "line_2")) return false;
     consumeToken(builder_, COMMENT);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // TROOT attribute*
+  public static boolean root(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "root")) return false;
+    if (!nextTokenIs(builder_, TROOT)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TROOT);
+    result_ = result_ && root_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, ROOT, result_);
+    return result_;
+  }
+
+  // attribute*
+  private static boolean root_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "root_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!attribute(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "root_1", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // task | import | subtree | root
+  public static boolean statement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "statement")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, STATEMENT, "<statement>");
+    result_ = task(builder_, level_ + 1);
+    if (!result_) result_ = import_$(builder_, level_ + 1);
+    if (!result_) result_ = subtree(builder_, level_ + 1);
+    if (!result_) result_ = root(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // TSUBTREE attribute*
+  public static boolean subtree(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "subtree")) return false;
+    if (!nextTokenIs(builder_, TSUBTREE)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TSUBTREE);
+    result_ = result_ && subtree_1(builder_, level_ + 1);
+    exit_section_(builder_, marker_, SUBTREE, result_);
+    return result_;
+  }
+
+  // attribute*
+  private static boolean subtree_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "subtree_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!attribute(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "subtree_1", pos_)) break;
+    }
     return true;
   }
 
@@ -160,6 +249,7 @@ public class TreeParser implements PsiParser, LightPsiParser {
   // (taskname attribute*) | subtreeref
   public static boolean task(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "task")) return false;
+    if (!nextTokenIs(builder_, "<task>", SUBTREEREFERENCE, TASK_NAME)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, TASK, "<task>");
     result_ = task_0(builder_, level_ + 1);
@@ -191,25 +281,15 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (IMPORT | ROOT | SUBTREE | TASK_NAME) QUESTION_MARK?
+  // TASK_NAME QUESTION_MARK?
   public static boolean taskname(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "taskname")) return false;
+    if (!nextTokenIs(builder_, TASK_NAME)) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, TASKNAME, "<taskname>");
-    result_ = taskname_0(builder_, level_ + 1);
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TASK_NAME);
     result_ = result_ && taskname_1(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  // IMPORT | ROOT | SUBTREE | TASK_NAME
-  private static boolean taskname_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "taskname_0")) return false;
-    boolean result_;
-    result_ = consumeToken(builder_, IMPORT);
-    if (!result_) result_ = consumeToken(builder_, ROOT);
-    if (!result_) result_ = consumeToken(builder_, SUBTREE);
-    if (!result_) result_ = consumeToken(builder_, TASK_NAME);
+    exit_section_(builder_, marker_, TASKNAME, result_);
     return result_;
   }
 

@@ -41,9 +41,9 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
             TreeElementTypes.NULL -> NULL
             TreeElementTypes.SUBTREEREF -> SUBTREEREF
             TreeElementTypes.QUESTION_MARK -> QUESTION_MARK
-            TreeElementTypes.IMPORT -> IMPORT
-            TreeElementTypes.ROOT -> ROOT
-            TreeElementTypes.SUBTREE -> SUBTREE
+            TreeElementTypes.TIMPORT -> IMPORT
+            TreeElementTypes.TROOT -> ROOT
+            TreeElementTypes.TSUBTREE -> SUBTREE
             else -> null
         }
         return attributes?.let { arrayOf(it) } ?: emptyArray()

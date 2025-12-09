@@ -1,0 +1,7 @@
+root
+  () selector
+   # Comment
+      foo
+    parallel F : 3.4 g: true n:null
+        care    urgentProb  :  0.8
+        <caret>

@@ -40,7 +40,7 @@ internal class TreeParserDefinition : ParserDefinition {
 
     override fun getCommentTokens(): TokenSet = TokenSet.EMPTY
 
-    override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
+    override fun getStringLiteralElements(): TokenSet = TokenSet.create(TreeElementTypes.STRING)
 
     override fun createElement(node: ASTNode?): PsiElement = TreeElementTypes.Factory.createElement(node)
 

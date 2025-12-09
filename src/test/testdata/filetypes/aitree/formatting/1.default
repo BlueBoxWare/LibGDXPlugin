@@ -1,0 +1,20 @@
+import rest:"com.badlogic.gdx.ai.tests.btree.dog.RestTask"
+
+# Comment
+root
+  selector
+
+
+    parallel
+      care urgentProb:0.8 bool:true
+      com.badlogic.gdx.ai.tests.btree.dog.PlayTask # fully qualified task
+    randomSelector
+# Comment
+      untilSuccess
+        sequence
+          bark times:"uniform,1,2"
+          (include subtree:"path/to/my/subtree") walk
+          (guard a:1 b:2) mark
+      parallel policy:"selector"  # sleep with random timeout
+        wait seconds:"triangular,2.5,5.5"
+        rest

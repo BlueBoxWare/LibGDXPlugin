@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeLineMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*;
 
-public class PsiTreeLineImpl extends ASTWrapperPsiElement implements PsiTreeLine {
+public class PsiTreeLineImpl extends TreeLineMixin implements PsiTreeLine {
 
-  public PsiTreeLineImpl(@NotNull ASTNode node) {
+  public PsiTreeLineImpl(ASTNode node) {
     super(node);
   }
 
@@ -34,9 +34,15 @@ public class PsiTreeLineImpl extends ASTWrapperPsiElement implements PsiTreeLine
   }
 
   @Override
+  @NotNull
+  public PsiTreeIndent getIndent() {
+    return findNotNullChildByClass(PsiTreeIndent.class);
+  }
+
+  @Override
   @Nullable
-  public PsiTreeTask getTask() {
-    return findChildByClass(PsiTreeTask.class);
+  public PsiTreeStatement getStatement() {
+    return findChildByClass(PsiTreeStatement.class);
   }
 
 }

@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package com.gmail.blueboxware.libgdxplugin.aitree
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
-import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeIndent
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
+import com.intellij.lang.ASTNode
 
-// TODO
-class TestHighlighting : LibGDXCodeInsightFixtureTestCase() {
-
-    fun testHighlighting1() {
-        configureByFile("1.tree")
-        myFixture.checkHighlighting(true, true, true)
-    }
-
-    override fun getBasePath() = "/filetypes/aitree/highlighting/"
-
-}
+abstract class TreeIndentMixin(node: ASTNode) : PsiTreeIndent, TreeElementImpl(node)

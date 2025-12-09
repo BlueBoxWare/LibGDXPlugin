@@ -30,7 +30,7 @@
     implements(".*") = 'TreeElement'
 
     tokens = [
-        INDENT='indent'
+        TINDENT='indent'
         EOL='end of line'
 
         LPAREN='('
@@ -41,9 +41,9 @@
         TASK_NAME='task name'
         SUBTREEREFERENCE='subtree ref'
 
-        IMPORT='import'
-        ROOT='root'
-        SUBTREE='subtree'
+        TIMPORT='import'
+        TROOT='root'
+        TSUBTREE='subtree'
 
         ATTRNAME='attribute name'
 
@@ -78,18 +78,39 @@
 
 tree ::= line*
 
-line ::= INDENT? guardableTask? COMMENT? EOL
+line ::= indent guardableTask? COMMENT? EOL {
+    implements="TreeLine"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeLineMixin"
+}
 
-private guardableTask ::= guard* task
+indent ::= TINDENT? {
+    implements="TreeIndent"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeIndentMixin"
+}
+
+private guardableTask ::= guard* statement
+
+statement ::= task | import | subtree | root
 
 task ::= (taskname attribute*) | subtreeref {
     implements="TreeTask"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskMixin"
 }
 
+import ::= TIMPORT attribute* {
+    implements="TreeTask"
+}
+subtree ::= TSUBTREE attribute* {
+    implements="TreeTask"
+}
+root ::= TROOT attribute* {
+    implements="TreeTask"
+
+}
+
 subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?
 
-taskname ::= (IMPORT | ROOT | SUBTREE | TASK_NAME) QUESTION_MARK? {
+taskname ::= TASK_NAME QUESTION_MARK? {
     implements="TreeTaskName"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskNameMixin"
 }

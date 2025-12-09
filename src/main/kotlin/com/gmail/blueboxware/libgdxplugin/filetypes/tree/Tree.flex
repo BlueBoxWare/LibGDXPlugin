@@ -12,7 +12,7 @@ import com.intellij.psi.tree.IElementType;
 %function advance
 %type IElementType
 
-INDENT=[ \t]+
+TINDENT=[ \t]+
 NEWLINE=("\n" | "\r\n")
 SPACE=[ \t\r]+
 ID = [a-zA-Z_][a-zA-Z_0-9]*
@@ -49,16 +49,16 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
 
 <YYINITIAL> {
 
-    {INDENT}        { return TreeElementTypes.INDENT; }
+    {TINDENT}       { return TreeElementTypes.TINDENT; }
 
     [^]             { yypushback(1); yybegin(LINE); }
 
 }
 
 <LINE> {
-    "import"        { yybegin(ATTRIBUTES); return TreeElementTypes.IMPORT; }
-    "root"          { yybegin(ATTRIBUTES); return TreeElementTypes.ROOT; }
-    "subtree"       { yybegin(ATTRIBUTES); return TreeElementTypes.SUBTREE; }
+    "import"        { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT; }
+    "root"          { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT; }
+    "subtree"       { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE; }
 
     {TASKNAME}      { yybegin(ATTRIBUTES); return TreeElementTypes.TASK_NAME; }
     {SUBTREEREFERENCE}    { return TreeElementTypes.SUBTREEREFERENCE; }

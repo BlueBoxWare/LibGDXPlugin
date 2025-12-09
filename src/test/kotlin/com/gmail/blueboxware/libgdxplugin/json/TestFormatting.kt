@@ -2,11 +2,9 @@ package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.application.options.CodeStyle
-import com.intellij.formatting.FormatterTestUtils
 import com.intellij.json.JsonLanguage
 import com.intellij.json.formatter.JsonCodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
-import java.io.File
 
 
 /*
@@ -26,13 +24,13 @@ import java.io.File
  */
 class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
 
-    fun testDefaultStyle1() = doFileTest("1.lson", "1.default")
+    fun testDefaultStyle1() = doTestFormatting("1.lson", "1.default", "lson")
 
-    fun testDefaultStyle2() = doFileTest("2.lson", "2.default")
+    fun testDefaultStyle2() = doTestFormatting("2.lson", "2.default", "lson")
 
-    fun testErrors() = doFileTest("3.lson", "3.default")
+    fun testErrors() = doTestFormatting("3.lson", "3.default", "lson")
 
-    fun testEdgeCases() = doFileTest("4.lson", "4.default")
+    fun testEdgeCases() = doTestFormatting("4.lson", "4.default", "lson")
 
     fun testEdgeCasesAllSpaces() {
         CodeStyle.getSettings(project).getCommonSettings(JsonLanguage.INSTANCE).apply {
@@ -47,7 +45,7 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
             CommonCodeStyleSettings.WRAP_AS_NEEDED
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-        doFileTest("4.lson", "4.spaces")
+        doTestFormatting("4.lson", "4.spaces", "lson")
     }
 
     fun testEdgeCasesWrap() {
@@ -57,7 +55,7 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
             CommonCodeStyleSettings.WRAP_ALWAYS
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-        doFileTest("4.lson", "4.wrap")
+        doTestFormatting("4.lson", "4.wrap", "lson")
     }
 
     fun testSpacesInsideBrackets() {
@@ -67,19 +65,19 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
             CommonCodeStyleSettings.WRAP_AS_NEEDED
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-        doFileTest("1.lson", "1.spacesInsideBrackets")
+        doTestFormatting("1.lson", "1.spacesInsideBrackets", "lson")
     }
 
     fun testAlignOnColon1() {
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-        doFileTest("1.lson", "1.alignOnColon")
+        doTestFormatting("1.lson", "1.alignOnColon", "lson")
     }
 
     fun testAlignOnColon2() {
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).PROPERTY_ALIGNMENT =
             JsonCodeStyleSettings.PropertyAlignment.ALIGN_ON_COLON.id
-        doFileTest("2.lson", "2.alignOnColon")
+        doTestFormatting("2.lson", "2.alignOnColon", "lson")
     }
 
     fun testWrapIfLong1() {
@@ -87,7 +85,7 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
             CommonCodeStyleSettings.WRAP_AS_NEEDED
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-        doFileTest("1.lson", "1.wrapIfLong")
+        doTestFormatting("1.lson", "1.wrapIfLong", "lson")
     }
 
     fun testWrapIfLong2() {
@@ -95,17 +93,8 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
             CommonCodeStyleSettings.WRAP_AS_NEEDED
         CodeStyle.getSettings(project).getCustomSettings(JsonCodeStyleSettings::class.java).OBJECT_WRAPPING =
             CommonCodeStyleSettings.WRAP_AS_NEEDED
-        doFileTest("2.lson", "2.wrapIfLong")
+        doTestFormatting("2.lson", "2.wrapIfLong", "lson")
     }
-
-    private fun doFileTest(beforeFile: String, afterFile: String) =
-        FormatterTestUtils.testFormatting(
-            project,
-            "lson",
-            File(testDataPath, beforeFile).readText(),
-            File(testDataPath, afterFile).readText(),
-            FormatterTestUtils.Action.REFORMAT
-        )
 
     override fun getBasePath() = "/filetypes/json/formatting/"
 
