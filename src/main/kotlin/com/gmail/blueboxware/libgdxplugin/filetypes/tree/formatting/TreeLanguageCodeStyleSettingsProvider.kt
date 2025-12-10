@@ -36,6 +36,13 @@ internal class TreeLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         when (settingsType) {
 
+            SettingsType.COMMENTER_SETTINGS -> {
+                consumer.showStandardOptions(
+                    "LINE_COMMENT_ADD_SPACE",
+                    "LINE_COMMENT_AT_FIRST_COLUMN",
+                )
+            }
+
             SettingsType.LANGUAGE_SPECIFIC -> {
                 consumer.showCustomOption(
                     TreeCodeStyleSettings::class.java,
@@ -79,6 +86,8 @@ internal class TreeLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         commonSettings.SPACE_AFTER_COLON = false
         commonSettings.SPACE_WITHIN_PARENTHESES = false
         commonSettings.SPACE_AFTER_TYPE_CAST = true
+
+        commonSettings.LINE_COMMENT_ADD_SPACE = true
     }
 
 

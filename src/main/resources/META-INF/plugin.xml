@@ -454,6 +454,8 @@
         <colorSettingsPage
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeColorSettingsPage"/>
 
+        <lang.commenter language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeCommenter" />
+
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->
         <localInspection

@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor
 
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLanguage
-import com.intellij.psi.codeStyle.CodeStyleSettings
-import com.intellij.psi.codeStyle.CustomCodeStyleSettings
+import com.intellij.lang.Commenter
 
-@Suppress("PropertyName")
-class TreeCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(TreeLanguage.id, container) {
+internal class TreeCommenter : Commenter {
+    override fun getLineCommentPrefix(): String = "#"
 
-    @JvmField
-    var KEEP_INDENT = false
+    override fun getBlockCommentPrefix(): String? = null
 
-    @JvmField
-    var KEEP_COMMENTS = false
+    override fun getBlockCommentSuffix(): String? = null
 
-    @JvmField
-    var KEEP_INDENTS_ON_EMPTY_LINES = false
+    override fun getCommentedBlockCommentPrefix(): String? = null
 
+    override fun getCommentedBlockCommentSuffix(): String? = null
 }
-
