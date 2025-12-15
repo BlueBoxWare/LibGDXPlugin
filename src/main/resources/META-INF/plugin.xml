@@ -456,6 +456,10 @@
 
         <lang.commenter language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeCommenter" />
 
+
+        <lang.quoteHandler implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeQuoteHandler" language="LibGDXAiTree" />
+        <lang.braceMatcher language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeBraceMatcher" />
+
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->
         <localInspection
