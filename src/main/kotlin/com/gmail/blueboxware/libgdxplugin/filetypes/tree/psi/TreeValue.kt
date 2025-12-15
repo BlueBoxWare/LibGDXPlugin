@@ -16,8 +16,4 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-interface TreeValue : TreeElement {
-
-    fun isString(): Boolean
-
-}
+interface TreeValue : TreeElement

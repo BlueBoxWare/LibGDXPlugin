@@ -54,7 +54,7 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            create(IntelliJPlatformType.IntellijIdeaCommunity, "253-EAP-SNAPSHOT")
+//            create(IntelliJPlatformType.IntellijIdeaCommunity, "253-EAP-SNAPSHOT")
             create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
             recommended()
         }

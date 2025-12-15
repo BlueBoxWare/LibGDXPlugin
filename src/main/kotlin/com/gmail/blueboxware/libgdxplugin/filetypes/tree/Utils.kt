@@ -43,7 +43,7 @@ val DEFAULT_IMPORTS = listOf(
 
 )
 
-val TASK_CLASS_FQN = "com.badlogic.gdx.ai.btree.Task"
+const val TASK_CLASS_FQN = "com.badlogic.gdx.ai.btree.Task"
 
 fun PsiElement.findClass(fqn: String): PsiClass? =
     JavaPsiFacade.getInstance(project).findClass(fqn, GlobalSearchScope.projectScope(project))

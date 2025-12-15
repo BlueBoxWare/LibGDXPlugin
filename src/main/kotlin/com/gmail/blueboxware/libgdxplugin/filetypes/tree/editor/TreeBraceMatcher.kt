@@ -22,7 +22,7 @@ import com.intellij.lang.PairedBraceMatcher
 import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IElementType
 
-class TreeBraceMatcher : PairedBraceMatcher {
+internal class TreeBraceMatcher : PairedBraceMatcher {
     override fun getPairs(): Array<out BracePair?> = PAIRS
 
     override fun isPairedBracesAllowedBeforeType(

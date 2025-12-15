@@ -20,9 +20,4 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeValue
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.intellij.lang.ASTNode
 
-abstract class TreeValueMixin(node: ASTNode) : PsiTreeValue, TreeElementImpl(node) {
-
-    override fun isString(): Boolean {
-        TODO("Not yet implemented")
-    }
-}
+abstract class TreeValueMixin(node: ASTNode) : PsiTreeValue, TreeElementImpl(node)

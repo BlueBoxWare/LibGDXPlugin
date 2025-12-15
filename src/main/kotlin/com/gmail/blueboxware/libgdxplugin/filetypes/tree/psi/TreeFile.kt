@@ -59,7 +59,7 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
     }
 
     private fun calculateLevels(): Map<Int, Int> {
-        val result = mutableMapOf<Int, Int>(0 to 0)
+        val result = mutableMapOf(0 to 0)
 
         for (line in childrenOfType<PsiTreeLine>()) {
             result[line.getLineNumber()] = line.calcLevel()

@@ -30,12 +30,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Syntax highlighting for gdxAI behaviour trees.</li>
-            <li>Fix errors related to properties files.</li>
-            <li>Add file association reset buttons back to settings.</li>
-            <li>Remove dependency on Groovy plugin.</li>
-            <li>Remove test-ids inspection for Groovy Gradle files.</li>
-            <li>Remove outdated "designed for tablets" inspection.</li>
+            <li>gdxAI behaviour trees: Proper indentation handling, (re)formatting support, code style support, toggle comments, small improvements.</li>
         </ul>
         ]]>
     </change-notes>

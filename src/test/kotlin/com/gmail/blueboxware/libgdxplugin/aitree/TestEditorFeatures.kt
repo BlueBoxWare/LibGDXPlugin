@@ -34,12 +34,12 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
         doTestCommenter()
     }
 
-    fun doTestCommenter() {
+    private fun doTestCommenter() {
         val name = getTestName(true)
         myFixture.configureByFile("$name.tree")
         val action = CommentByLineCommentAction()
         action.actionPerformedImpl(project, myFixture.editor)
-        val expected = File(testDataPath + "$name.after.tree").readText().replace("<caret>", "")
+        val expected = File("$testDataPath$name.after.tree").readText().replace("<caret>", "")
         myFixture.checkResult(expected)
 
         myFixture.configureByFile("$name.after.tree")

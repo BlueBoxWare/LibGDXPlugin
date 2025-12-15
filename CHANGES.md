@@ -1,3 +1,6 @@
+### 1.27
+* gdxAI behaviour trees: Proper indentation handling, (re)formatting support, code style support, toggle comments, small improvements.
+
 ### 1.26
 * Syntax highlighting for gdxAI behaviour trees.
 * Fix errors related to properties files.

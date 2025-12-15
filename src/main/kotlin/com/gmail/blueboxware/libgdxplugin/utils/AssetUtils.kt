@@ -123,7 +123,6 @@ internal fun VirtualFile.readImageNamesFromAtlas(): List<String> {
                 if (line.firstOrNull() == ' ' && previousLine.firstOrNull() != ' ') {
                     result.add(previousLine)
                 }
-                @Suppress("AssignedValueIsNeverRead")
                 previousLine = line
             }
 

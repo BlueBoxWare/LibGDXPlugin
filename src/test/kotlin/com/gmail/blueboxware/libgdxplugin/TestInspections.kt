@@ -82,8 +82,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
         val stringBuilderXml = StringBuilder("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>")
         val stringBuilderGradleProperties = StringBuilder()
 
-        var idCount = 0
-        for (testId in TEST_ID_MAP.keys + TEST_ID_PREFIXES_MAP.keys) {
+        for ((idCount, testId) in (TEST_ID_MAP.keys + TEST_ID_PREFIXES_MAP.keys).withIndex()) {
 
             assertFalse(testId.isEmpty())
             stringBuilderKotlin.append("val id$idCount = \"<warning>$testId</warning>\"\n")
@@ -93,8 +92,6 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             stringBuilderGradleProperties.append("<warning>idQuoted$idCount=\"$testId\"</warning>\n")
             stringBuilderGradleProperties.append("# suppress inspection \"GDXGradlePropertiesTestId\"\n")
             stringBuilderGradleProperties.append("suppressed$idCount=$testId\n")
-
-            idCount++
 
         }
 
