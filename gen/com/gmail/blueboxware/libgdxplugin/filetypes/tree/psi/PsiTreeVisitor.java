@@ -11,12 +11,16 @@ public class PsiTreeVisitor extends PsiElementVisitor {
     visitTreeElement(o);
   }
 
+  public void visitAttributeName(@NotNull PsiTreeAttributeName o) {
+    visitTreeElement(o);
+  }
+
   public void visitGuard(@NotNull PsiTreeGuard o) {
     visitTreeElement(o);
   }
 
   public void visitImport(@NotNull PsiTreeImport o) {
-    visitTreeTask(o);
+    visitTreeImport(o);
     // visitTreeElement(o);
   }
 
@@ -31,8 +35,7 @@ public class PsiTreeVisitor extends PsiElementVisitor {
   }
 
   public void visitRoot(@NotNull PsiTreeRoot o) {
-    visitTreeTask(o);
-    // visitTreeElement(o);
+    visitTreeElement(o);
   }
 
   public void visitStatement(@NotNull PsiTreeStatement o) {
@@ -40,8 +43,7 @@ public class PsiTreeVisitor extends PsiElementVisitor {
   }
 
   public void visitSubtree(@NotNull PsiTreeSubtree o) {
-    visitTreeTask(o);
-    // visitTreeElement(o);
+    visitTreeElement(o);
   }
 
   public void visitSubtreeref(@NotNull PsiTreeSubtreeref o) {
@@ -59,10 +61,28 @@ public class PsiTreeVisitor extends PsiElementVisitor {
   }
 
   public void visitValue(@NotNull PsiTreeValue o) {
+    visitTreeValue(o);
+    // visitTreeElement(o);
+  }
+
+  public void visitVkeyword(@NotNull PsiTreeVkeyword o) {
     visitTreeElement(o);
   }
 
+  public void visitVnumber(@NotNull PsiTreeVnumber o) {
+    visitTreeElement(o);
+  }
+
+  public void visitVstring(@NotNull PsiTreeVstring o) {
+    visitTreeString(o);
+    // visitTreeElement(o);
+  }
+
   public void visitTreeElement(@NotNull TreeElement o) {
+    visitElement(o);
+  }
+
+  public void visitTreeImport(@NotNull TreeImport o) {
     visitElement(o);
   }
 
@@ -74,11 +94,19 @@ public class PsiTreeVisitor extends PsiElementVisitor {
     visitElement(o);
   }
 
+  public void visitTreeString(@NotNull TreeString o) {
+    visitElement(o);
+  }
+
   public void visitTreeTask(@NotNull TreeTask o) {
     visitElement(o);
   }
 
   public void visitTreeTaskName(@NotNull TreeTaskName o) {
+    visitElement(o);
+  }
+
+  public void visitTreeValue(@NotNull TreeValue o) {
     visitElement(o);
   }
 

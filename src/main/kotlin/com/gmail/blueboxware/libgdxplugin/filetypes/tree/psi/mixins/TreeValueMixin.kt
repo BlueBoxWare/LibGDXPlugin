@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
-interface TreeLine : TreeElement {
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
+import com.intellij.lang.ASTNode
 
-    fun level(): Int
+abstract class TreeValueMixin(node: ASTNode) : PsiTreeValue, TreeElementImpl(node) {
 
-    fun calcLevel(): Int
-
-    fun isEmpty(): Boolean
-
-    fun hasComment(): Boolean
-
+    override fun isString(): Boolean {
+        TODO("Not yet implemented")
+    }
 }

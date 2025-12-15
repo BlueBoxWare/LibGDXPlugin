@@ -5,6 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface PsiTreeValue extends TreeElement {
+public interface PsiTreeValue extends TreeValue, TreeElement {
+
+  @Nullable
+  PsiTreeVkeyword getVkeyword();
+
+  @Nullable
+  PsiTreeVnumber getVnumber();
+
+  @Nullable
+  PsiTreeVstring getVstring();
 
 }

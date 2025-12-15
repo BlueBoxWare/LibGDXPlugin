@@ -16,6 +16,11 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
+
 val DEFAULT_IMPORTS = listOf(
     "AlwaysFail",
     "AlwaysSucceed",
@@ -37,3 +42,8 @@ val DEFAULT_IMPORTS = listOf(
     "Wait"
 
 )
+
+val TASK_CLASS_FQN = "com.badlogic.gdx.ai.btree.Task"
+
+fun PsiElement.findClass(fqn: String): PsiClass? =
+    JavaPsiFacade.getInstance(project).findClass(fqn, GlobalSearchScope.projectScope(project))

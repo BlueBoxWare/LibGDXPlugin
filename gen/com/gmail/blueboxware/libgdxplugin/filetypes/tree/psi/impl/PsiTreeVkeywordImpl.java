@@ -11,32 +11,20 @@ import static com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*;
 
-public class PsiTreeAttributeImpl extends ASTWrapperPsiElement implements PsiTreeAttribute {
+public class PsiTreeVkeywordImpl extends ASTWrapperPsiElement implements PsiTreeVkeyword {
 
-  public PsiTreeAttributeImpl(@NotNull ASTNode node) {
+  public PsiTreeVkeywordImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PsiTreeVisitor visitor) {
-    visitor.visitAttribute(this);
+    visitor.visitVkeyword(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof PsiTreeVisitor) accept((PsiTreeVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiTreeAttributeName getAttributeName() {
-    return findNotNullChildByClass(PsiTreeAttributeName.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiTreeValue getValue() {
-    return findNotNullChildByClass(PsiTreeValue.class);
   }
 
 }

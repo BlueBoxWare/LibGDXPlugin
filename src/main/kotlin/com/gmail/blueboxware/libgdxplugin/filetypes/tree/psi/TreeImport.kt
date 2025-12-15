@@ -16,14 +16,8 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-interface TreeLine : TreeElement {
+interface TreeImport : TreeTask {
 
-    fun level(): Int
-
-    fun calcLevel(): Int
-
-    fun isEmpty(): Boolean
-
-    fun hasComment(): Boolean
+    fun calcImports(): Map<String, String?>
 
 }

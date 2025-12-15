@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface PsiTreeImport extends TreeImport, TreeElement {
-
-  @NotNull
-  List<PsiTreeAttribute> getAttributeList();
+public interface PsiTreeAttributeName extends TreeElement {
 
 }

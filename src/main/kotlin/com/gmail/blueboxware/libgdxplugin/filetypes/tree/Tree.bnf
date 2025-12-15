@@ -98,14 +98,12 @@ task ::= (taskname attribute*) | subtreeref {
 }
 
 import ::= TIMPORT attribute* {
-    implements="TreeTask"
+    implements="TreeImport"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeImportMixin"
 }
 subtree ::= TSUBTREE attribute* {
-    implements="TreeTask"
 }
 root ::= TROOT attribute* {
-    implements="TreeTask"
-
 }
 
 subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?
@@ -117,8 +115,20 @@ taskname ::= TASK_NAME QUESTION_MARK? {
 
 guard ::= LPAREN task? RPAREN
 
-attribute ::= ATTRNAME QUESTION_MARK? COLON value
+attribute ::= attributeName QUESTION_MARK? COLON value
 
-value ::= TRUE | FALSE | NULL | NUMBER | STRING
+attributeName ::= ATTRNAME
+
+value ::= vkeyword | vnumber | vstring {
+    implements="TreeValue"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeValueMixin"
+}
+
+vkeyword ::= TRUE | FALSE | NULL
+vnumber ::= NUMBER
+vstring ::= STRING {
+    implements="TreeString"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeStringMixin"
+}
 
 

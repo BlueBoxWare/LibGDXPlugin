@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeImportMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*;
 
-public class PsiTreeImportImpl extends ASTWrapperPsiElement implements PsiTreeImport {
+public class PsiTreeImportImpl extends TreeImportMixin implements PsiTreeImport {
 
-  public PsiTreeImportImpl(@NotNull ASTNode node) {
+  public PsiTreeImportImpl(ASTNode node) {
     super(node);
   }
 

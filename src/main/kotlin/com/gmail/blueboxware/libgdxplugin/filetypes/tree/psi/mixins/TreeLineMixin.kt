@@ -20,50 +20,42 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeFile
 import com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
 abstract class TreeLineMixin(node: ASTNode) : PsiTreeLine, TreeElementImpl(node) {
 
-    private var level: Int? = null
-
     override fun isEmpty(): Boolean = statement == null && guardList.isEmpty()
 
     override fun hasComment(): Boolean = findChildByType<TreeElement>(TreeElementTypes.COMMENT) != null
 
-    override fun level(): Int {
-        level?.let { return it }
+    override fun level(): Int = (containingFile as? TreeFile)?.getLevel(this) ?: 0
+
+    override fun calcLevel(): Int {
+        var level = 0
 
         var prev = prevSiblingOfSameType()
-        while (true) {
+        while (prev != null) {
             when {
-                prev == null -> {
-                    level = 0
-                    break
-                }
-
                 prev.isEmpty() -> {
 
                 }
 
                 prev.indent.textLength == indent.textLength -> {
-                    level = prev.level()
+                    level = prev.calcLevel()
                     break
                 }
 
                 prev.indent.textLength < indent.textLength -> {
-                    level = prev.level() + 1
+                    level = prev.calcLevel() + 1
                     break
                 }
             }
             prev = prev.prevSiblingOfSameType()
         }
 
-        return level ?: 0
-    }
-
-    override fun subtreeChanged() {
-        level = null
+        return level
     }
 
 }

@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.*;
 public interface TreeElementTypes {
 
   IElementType ATTRIBUTE = new TreeElementType("ATTRIBUTE");
+  IElementType ATTRIBUTE_NAME = new TreeElementType("ATTRIBUTE_NAME");
   IElementType GUARD = new TreeElementType("GUARD");
   IElementType IMPORT = new TreeElementType("IMPORT");
   IElementType INDENT = new TreeElementType("INDENT");
@@ -20,6 +21,9 @@ public interface TreeElementTypes {
   IElementType TASK = new TreeElementType("TASK");
   IElementType TASKNAME = new TreeElementType("TASKNAME");
   IElementType VALUE = new TreeElementType("VALUE");
+  IElementType VKEYWORD = new TreeElementType("VKEYWORD");
+  IElementType VNUMBER = new TreeElementType("VNUMBER");
+  IElementType VSTRING = new TreeElementType("VSTRING");
 
   IElementType ATTRNAME = new TreeTokenType("attribute name");
   IElementType COLON = new TreeTokenType(":");
@@ -45,6 +49,9 @@ public interface TreeElementTypes {
       IElementType type = node.getElementType();
       if (type == ATTRIBUTE) {
         return new PsiTreeAttributeImpl(node);
+      }
+      else if (type == ATTRIBUTE_NAME) {
+        return new PsiTreeAttributeNameImpl(node);
       }
       else if (type == GUARD) {
         return new PsiTreeGuardImpl(node);
@@ -78,6 +85,15 @@ public interface TreeElementTypes {
       }
       else if (type == VALUE) {
         return new PsiTreeValueImpl(node);
+      }
+      else if (type == VKEYWORD) {
+        return new PsiTreeVkeywordImpl(node);
+      }
+      else if (type == VNUMBER) {
+        return new PsiTreeVnumberImpl(node);
+      }
+      else if (type == VSTRING) {
+        return new PsiTreeVstringImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

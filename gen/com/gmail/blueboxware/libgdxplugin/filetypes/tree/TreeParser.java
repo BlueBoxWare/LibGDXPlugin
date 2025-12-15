@@ -36,13 +36,13 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ATTRNAME QUESTION_MARK? COLON value
+  // attributeName QUESTION_MARK? COLON value
   public static boolean attribute(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "attribute")) return false;
     if (!nextTokenIs(builder_, ATTRNAME)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeToken(builder_, ATTRNAME);
+    result_ = attributeName(builder_, level_ + 1);
     result_ = result_ && attribute_1(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, COLON);
     result_ = result_ && value(builder_, level_ + 1);
@@ -55,6 +55,18 @@ public class TreeParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(builder_, level_, "attribute_1")) return false;
     consumeToken(builder_, QUESTION_MARK);
     return true;
+  }
+
+  /* ********************************************************** */
+  // ATTRNAME
+  public static boolean attributeName(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "attributeName")) return false;
+    if (!nextTokenIs(builder_, ATTRNAME)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, ATTRNAME);
+    exit_section_(builder_, marker_, ATTRIBUTE_NAME, result_);
+    return result_;
   }
 
   /* ********************************************************** */
@@ -164,7 +176,8 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TROOT attribute*
+  // TROOT attribute* {
+  // }
   public static boolean root(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "root")) return false;
     if (!nextTokenIs(builder_, TROOT)) return false;
@@ -172,6 +185,7 @@ public class TreeParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, TROOT);
     result_ = result_ && root_1(builder_, level_ + 1);
+    result_ = result_ && root_2(builder_, level_ + 1);
     exit_section_(builder_, marker_, ROOT, result_);
     return result_;
   }
@@ -184,6 +198,12 @@ public class TreeParser implements PsiParser, LightPsiParser {
       if (!attribute(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "root_1", pos_)) break;
     }
+    return true;
+  }
+
+  // {
+  // }
+  private static boolean root_2(PsiBuilder builder_, int level_) {
     return true;
   }
 
@@ -202,7 +222,8 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TSUBTREE attribute*
+  // TSUBTREE attribute* {
+  // }
   public static boolean subtree(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "subtree")) return false;
     if (!nextTokenIs(builder_, TSUBTREE)) return false;
@@ -210,6 +231,7 @@ public class TreeParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, TSUBTREE);
     result_ = result_ && subtree_1(builder_, level_ + 1);
+    result_ = result_ && subtree_2(builder_, level_ + 1);
     exit_section_(builder_, marker_, SUBTREE, result_);
     return result_;
   }
@@ -222,6 +244,12 @@ public class TreeParser implements PsiParser, LightPsiParser {
       if (!attribute(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "subtree_1", pos_)) break;
     }
+    return true;
+  }
+
+  // {
+  // }
+  private static boolean subtree_2(PsiBuilder builder_, int level_) {
     return true;
   }
 
@@ -313,17 +341,52 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TRUE | FALSE | NULL | NUMBER | STRING
+  // vkeyword | vnumber | vstring
   public static boolean value(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "value")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, VALUE, "<value>");
+    result_ = vkeyword(builder_, level_ + 1);
+    if (!result_) result_ = vnumber(builder_, level_ + 1);
+    if (!result_) result_ = vstring(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // TRUE | FALSE | NULL
+  public static boolean vkeyword(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "vkeyword")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, VKEYWORD, "<vkeyword>");
     result_ = consumeToken(builder_, TRUE);
     if (!result_) result_ = consumeToken(builder_, FALSE);
     if (!result_) result_ = consumeToken(builder_, NULL);
-    if (!result_) result_ = consumeToken(builder_, NUMBER);
-    if (!result_) result_ = consumeToken(builder_, STRING);
     exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // NUMBER
+  public static boolean vnumber(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "vnumber")) return false;
+    if (!nextTokenIs(builder_, NUMBER)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, NUMBER);
+    exit_section_(builder_, marker_, VNUMBER, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // STRING
+  public static boolean vstring(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "vstring")) return false;
+    if (!nextTokenIs(builder_, STRING)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, STRING);
+    exit_section_(builder_, marker_, VSTRING, result_);
     return result_;
   }
 

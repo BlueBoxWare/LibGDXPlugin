@@ -8,35 +8,23 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeStringMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*;
 
-public class PsiTreeAttributeImpl extends ASTWrapperPsiElement implements PsiTreeAttribute {
+public class PsiTreeVstringImpl extends TreeStringMixin implements PsiTreeVstring {
 
-  public PsiTreeAttributeImpl(@NotNull ASTNode node) {
+  public PsiTreeVstringImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull PsiTreeVisitor visitor) {
-    visitor.visitAttribute(this);
+    visitor.visitVstring(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof PsiTreeVisitor) accept((PsiTreeVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiTreeAttributeName getAttributeName() {
-    return findNotNullChildByClass(PsiTreeAttributeName.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiTreeValue getValue() {
-    return findNotNullChildByClass(PsiTreeValue.class);
   }
 
 }

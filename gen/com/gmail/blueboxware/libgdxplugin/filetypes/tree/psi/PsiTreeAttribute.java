@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface PsiTreeAttribute extends TreeElement {
 
   @NotNull
+  PsiTreeAttributeName getAttributeName();
+
+  @NotNull
   PsiTreeValue getValue();
 
 }

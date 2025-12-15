@@ -19,8 +19,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting
 import andel.intervals.toReversedList
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLanguage
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeIndent
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeLine
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
@@ -68,7 +68,7 @@ internal class TreeIndentPostFormatProcessor : PostFormatProcessor {
         val keepEmpty =
             codeStyleSettings.getCustomSettings(TreeCodeStyleSettings::class.java).KEEP_INDENTS_ON_EMPTY_LINES
 
-        source.parentOfType<TreeLine>()?.let { treeLine ->
+        source.parentOfType<PsiTreeLine>()?.let { treeLine ->
             if (treeLine.isEmpty()) {
                 if (keepComments && treeLine.hasComment()) {
                     return@let
@@ -77,7 +77,7 @@ internal class TreeIndentPostFormatProcessor : PostFormatProcessor {
                     return@let
                 }
             }
-            treeLine.level()?.let { level ->
+            treeLine.level().let { level ->
                 val newLevel = if (treeLine.isEmpty() && !treeLine.hasComment()) 0 else level
                 TreeElementFactory.createIndent(source.project, newLevel)?.let { newIndent ->
                     if (newIndent.text != source.text) {
