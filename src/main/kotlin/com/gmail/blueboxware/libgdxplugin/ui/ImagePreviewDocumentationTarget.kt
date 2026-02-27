@@ -144,7 +144,9 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
         try {
             var path: String = imageFile.path
             if (SystemInfo.isWindows) {
-                path = "/$path"
+                // fix file delimiter problem for windows
+                val tmp = path.replace("\\", "/")
+                path = "/$tmp"
             }
             val url = URI("file", null, path, null).toString()
             val img: HtmlChunk.Element = HtmlChunk.tag("img").attr("src", url).attr("width", previewImage.width)
