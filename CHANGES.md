@@ -1,3 +1,8 @@
+### 1.28
+* gdxAI behavior trees: Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes.
+* [#48](https://github.com/BlueBoxWare/LibGDXPlugin/pull/48): Fix Atlas image preview on Windows, by [@ZCHawk](https://github.com/ZCHawk).
+* Update minimum version to 253.29346.138. 
+
 ### 1.27.3
 * Fix [#46](https://github.com/BlueBoxWare/LibGDXPlugin/issues/46): java.lang.NoClassDefFoundError: com/intellij/lang/properties/references/PropertiesCompletionContributor
 

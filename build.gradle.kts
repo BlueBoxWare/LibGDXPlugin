@@ -3,7 +3,6 @@ import org.jetbrains.grammarkit.tasks.GenerateLexerTask
 import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
-import org.jetbrains.intellij.platform.gradle.tasks.PrepareSandboxTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -11,8 +10,8 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.10.5"
-    id("org.jetbrains.grammarkit") version "2023.3.0.1"
+    id("org.jetbrains.intellij.platform") version "2.11.0"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -28,7 +27,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity(providers.gradleProperty("platformVersion")) {
+        intellijIdea(providers.gradleProperty("platformVersion")) {
             useInstaller = false
         }
         bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
@@ -55,9 +54,9 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-//            create(IntelliJPlatformType.IntellijIdeaCommunity, "253-EAP-SNAPSHOT")
-            create(IntelliJPlatformType.IntellijIdeaCommunity, providers.gradleProperty("platformVersion").get())
-            recommended()
+            create(IntelliJPlatformType.IntellijIdea, providers.gradleProperty("platformVersion").get())
+//            create(IntelliJPlatformType.IntellijIdea, "LATEST-EAP-SNAPSHOT")
+//            recommended()
         }
     }
 }
@@ -100,7 +99,7 @@ tasks {
         systemProperties = mapOf(
             "idea.ProcessCanceledException" to "disabled",
             "idea.is.internal" to "true",
-            "idea.kotlin.plugin.use.k2" to "true"
+            "idea.kotlin.plugin.use.k1" to "false"
         )
     }
 
@@ -120,7 +119,7 @@ tasks {
         include("com/gmail/blueboxware/libgdxplugin/ShowInfo.class")
         exclude("**/*$*.class")
         jvmArgumentProviders += CommandLineArgumentProvider {
-            listOf("-Didea.kotlin.plugin.use.k2=true")
+            listOf("-Didea.kotlin.plugin.use.k1=false")
         }
     }
 
@@ -140,36 +139,21 @@ tasks {
         archiveVersion.set(providers.gradleProperty("pluginVersion"))
     }
 
-    withType<PrepareSandboxTask> {
-        doLast {
-            val trustedPathsFile = sandboxConfigDirectory.file("options/trusted-paths.xml").get().asFile
-
-            trustedPathsFile.writeText(
-                """
-            <application>
-              <component name="Trusted.Paths.Settings">
-                <option name="TRUSTED_PATHS">
-                  <list>
-                    <option value="${'$'}USER_HOME$/projects" />
-                  </list>
-                </option>
-              </component>
-              <component name="Trusted.Paths.Settings">
-                <option name="TRUSTED_PATHS">
-                  <list>
-                    <option value="${'$'}USER_HOME$/temp" />
-                  </list>
-                </option>
-              </component>
-            </application>
-            """.trimIndent()
-            )
-        }
-    }
-
     fun generateParserTask(path: String, lexer: String, parser: String) {
+
         val name = path.uppercaseFirstChar()
         val bnfTask = register<GenerateParserTask>("generate${name}Parser") {
+
+            // TODO: Remove
+            // https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/223
+            // https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/225
+            val platformLibs = intellijPlatform.platformPath.resolve("lib")
+            classpath += fileTree(platformLibs) {
+                include("*.jar")
+            }
+            // /TODO
+
+
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$parser.bnf")
             targetRootOutputDir = file("gen")
             pathToParser = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path"
