@@ -59,7 +59,7 @@ class CreateColorAction : SimpleCodeInsightAction() {
                 return
             }
 
-            ColorChooserService.instance
+            ColorChooserService.getInstance()
                 .showDialog(editor.component, "Choose Color To Create", JBColor.WHITE, true)
                 ?.let { color ->
                     ApplicationManager.getApplication().runWriteAction {

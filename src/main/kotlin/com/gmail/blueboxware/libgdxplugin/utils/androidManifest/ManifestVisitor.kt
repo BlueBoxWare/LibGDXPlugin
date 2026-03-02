@@ -31,33 +31,39 @@ abstract class ManifestVisitor : XmlRecursiveElementVisitor() {
 
     override fun visitXmlTag(tag: XmlTag) {
 
-        if (tag.name == "uses-feature" && tag.parentTag?.name == "manifest") {
-            tag.getAttribute("android:glEsVersion")?.value?.let { value ->
-                try {
-                    processOpenGLESVersion(Integer.decode(value), tag)
-                } catch (_: NumberFormatException) {
-                    // Nothing
+        when (tag.name) {
+            "uses-feature" if tag.parentTag?.name == "manifest" -> {
+                tag.getAttribute("android:glEsVersion")?.value?.let { value ->
+                    try {
+                        processOpenGLESVersion(Integer.decode(value), tag)
+                    } catch (_: NumberFormatException) {
+                        // Nothing
+                    }
                 }
             }
-        } else if (tag.name == "uses-sdk" && tag.parentTag?.name == "manifest") {
-            tag.getAttribute("android:minSdkVersion")?.let { attribute ->
-                attribute.value?.toIntOrNull()?.let { value ->
-                    processMinSDKVersion(value, attribute)
+
+            "uses-sdk" if tag.parentTag?.name == "manifest" -> {
+                tag.getAttribute("android:minSdkVersion")?.let { attribute ->
+                    attribute.value?.toIntOrNull()?.let { value ->
+                        processMinSDKVersion(value, attribute)
+                    }
+                }
+                tag.getAttribute("android:targetSdkVersion")?.let { attribute ->
+                    attribute.value?.toIntOrNull()?.let { value ->
+                        processTargetSDKVersion(value, attribute)
+                    }
+                }
+                tag.getAttribute("android:maxSdkVersion")?.let { attribute ->
+                    attribute.value?.toIntOrNull()?.let { value ->
+                        processMaxSDKVersion(value, attribute)
+                    }
                 }
             }
-            tag.getAttribute("android:targetSdkVersion")?.let { attribute ->
-                attribute.value?.toIntOrNull()?.let { value ->
-                    processTargetSDKVersion(value, attribute)
+
+            "uses-permission" if tag.parentTag?.name == "manifest" -> {
+                tag.getAttribute("android:name")?.value?.let {
+                    processPermission(it, tag)
                 }
-            }
-            tag.getAttribute("android:maxSdkVersion")?.let { attribute ->
-                attribute.value?.toIntOrNull()?.let { value ->
-                    processMaxSDKVersion(value, attribute)
-                }
-            }
-        } else if (tag.name == "uses-permission" && tag.parentTag?.name == "manifest") {
-            tag.getAttribute("android:name")?.value?.let {
-                processPermission(it, tag)
             }
         }
 

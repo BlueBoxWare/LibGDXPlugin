@@ -1,0 +1,8 @@
+import bark:"org.example.BarkTask"
+import walk:"org.example.WalkTask"
+
+root
+  selector
+    semaphoreGuard name:"dogSemaphore"
+      walk
+    bark

@@ -16,8 +16,14 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl
+import com.intellij.openapi.util.TextRange
+
 interface TreeString : TreeElement {
 
     fun getValue(): String
+
+    fun setName(newName: String, range: TextRange): PsiTreeVstringImpl?
+
 
 }

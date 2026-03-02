@@ -1,6 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.impl.LibraryScopeCache
@@ -21,8 +23,8 @@ import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.types.KaClassType
 import org.jetbrains.kotlin.analysis.utils.classId
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
+import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.idea.base.psi.deleteSingle
-import org.jetbrains.kotlin.idea.intentions.calleeName
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.name.ClassId
 import org.jetbrains.kotlin.psi.*
@@ -52,6 +54,19 @@ private const val COLLECTION_CLASS_NAME = "java.util.Collection"
 private val CONTAINER_CLASS_NAMES = listOf(
     ARRAY_CLASS_NAME, QUEUE_CLASS_NAME, COLLECTION_CLASS_NAME
 )
+
+internal fun PsiElement?.asPsiClass(): PsiClass? = when (this) {
+    is PsiClass -> this
+    is KtClassOrObject -> toLightClass()
+    else -> {
+        if (ApplicationManager.getApplication().isUnitTestMode) {
+            Logger.getInstance(PREFIX).error("Not a PsiClass or KtClass: $this")
+        } else {
+            Logger.getInstance(PREFIX).warn("Not a PsiClass or KtClass: $this")
+        }
+        null
+    }
+}
 
 internal fun Project.psiFacade() = JavaPsiFacade.getInstance(this)
 
@@ -220,15 +235,15 @@ internal fun PsiMethodCallExpression.resolveCall(): Pair<PsiClass, PsiMethod>? {
 
 }
 
-internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? = resolveCall()?.let {
-    it.first.qualifiedName?.let { className -> Pair(className, it.second.name) }
-}
+internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String>? =
+    resolveCall()?.let { (psiClass, psiMethod) ->
+        psiClass.qualifiedName?.let { className -> Pair(className, psiMethod.name) }
+    }
 
 private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolved_call")
 
 @OptIn(
-    KaAllowAnalysisOnEdt::class,
-    KaAllowAnalysisFromWriteAction::class
+    KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class
 )
 internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 
@@ -250,7 +265,8 @@ internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
             }
         }
 
-        val methodName = calleeName ?: return@getCachedValue null
+        val methodName =
+            (callExpression()?.calleeExpression as? KtNameReferenceExpression)?.text ?: return@getCachedValue null
 
         return@getCachedValue Pair(receiverType, methodName)
 
@@ -267,13 +283,16 @@ internal fun KtCallExpression.resolveCall(): Pair<ClassId, KtNameReferenceExpres
         }
     }
 
-internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? = resolveCall()?.let {
-    Pair(it.first.asFqNameString(), it.second.getReferencedName())
-}
+internal fun KtCallExpression.resolveCallToStrings(): Pair<String, String>? =
+    resolveCall()?.let { (classId, nameReference) ->
+        Pair(classId.asFqNameString(), nameReference.getReferencedName())
+    }
 
 internal fun KtExpression.classId(): ClassId? = analyzeWriteSafe(this) {
     (expressionType?.lowerBoundIfFlexible() as? KaClassType)?.classId
 }
+
+internal fun KtQualifiedExpression.callExpression(): KtCallExpression? = selectorExpression as? KtCallExpression
 
 @OptIn(KaAllowAnalysisOnEdt::class)
 internal fun KtClassLiteralExpression.classId(): String? = allowAnalysisOnEdt {

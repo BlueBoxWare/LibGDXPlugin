@@ -40,14 +40,15 @@ public class TreeParser implements PsiParser, LightPsiParser {
   public static boolean attribute(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "attribute")) return false;
     if (!nextTokenIs(builder_, ATTRNAME)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, ATTRIBUTE, null);
     result_ = attributeName(builder_, level_ + 1);
-    result_ = result_ && attribute_1(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, COLON);
-    result_ = result_ && value(builder_, level_ + 1);
-    exit_section_(builder_, marker_, ATTRIBUTE, result_);
-    return result_;
+    pinned_ = result_; // pin = 1
+    result_ = result_ && report_error_(builder_, attribute_1(builder_, level_ + 1));
+    result_ = pinned_ && report_error_(builder_, consumeToken(builder_, COLON)) && result_;
+    result_ = pinned_ && value(builder_, level_ + 1) && result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
   }
 
   // QUESTION_MARK?
@@ -74,13 +75,14 @@ public class TreeParser implements PsiParser, LightPsiParser {
   public static boolean guard(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "guard")) return false;
     if (!nextTokenIs(builder_, LPAREN)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, GUARD, null);
     result_ = consumeToken(builder_, LPAREN);
-    result_ = result_ && guard_1(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, RPAREN);
-    exit_section_(builder_, marker_, GUARD, result_);
-    return result_;
+    pinned_ = result_; // pin = 1
+    result_ = result_ && report_error_(builder_, guard_1(builder_, level_ + 1));
+    result_ = pinned_ && consumeToken(builder_, RPAREN) && result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
   }
 
   // task?
@@ -91,13 +93,13 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // guard* statement
+  // guard* statement?
   static boolean guardableTask(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "guardableTask")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = guardableTask_0(builder_, level_ + 1);
-    result_ = result_ && statement(builder_, level_ + 1);
+    result_ = result_ && guardableTask_1(builder_, level_ + 1);
     exit_section_(builder_, marker_, null, result_);
     return result_;
   }
@@ -113,17 +115,25 @@ public class TreeParser implements PsiParser, LightPsiParser {
     return true;
   }
 
+  // statement?
+  private static boolean guardableTask_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "guardableTask_1")) return false;
+    statement(builder_, level_ + 1);
+    return true;
+  }
+
   /* ********************************************************** */
   // TIMPORT attribute*
   public static boolean import_$(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "import_$")) return false;
     if (!nextTokenIs(builder_, TIMPORT)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, IMPORT, null);
     result_ = consumeToken(builder_, TIMPORT);
+    pinned_ = result_; // pin = 1
     result_ = result_ && import_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, IMPORT, result_);
-    return result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
   }
 
   // attribute*
@@ -176,18 +186,40 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TROOT attribute* {
-  // }
+  // (TINDENT <<eof>>) | line
+  static boolean line_(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "line_")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = line__0(builder_, level_ + 1);
+    if (!result_) result_ = line(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // TINDENT <<eof>>
+  private static boolean line__0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "line__0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, TINDENT);
+    result_ = result_ && eof(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // TROOT attribute*
   public static boolean root(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "root")) return false;
     if (!nextTokenIs(builder_, TROOT)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, ROOT, null);
     result_ = consumeToken(builder_, TROOT);
+    pinned_ = result_; // pin = 1
     result_ = result_ && root_1(builder_, level_ + 1);
-    result_ = result_ && root_2(builder_, level_ + 1);
-    exit_section_(builder_, marker_, ROOT, result_);
-    return result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
   }
 
   // attribute*
@@ -201,18 +233,12 @@ public class TreeParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // {
-  // }
-  private static boolean root_2(PsiBuilder builder_, int level_) {
-    return true;
-  }
-
   /* ********************************************************** */
   // task | import | subtree | root
   public static boolean statement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement")) return false;
     boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, STATEMENT, "<statement>");
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, STATEMENT, "<task>");
     result_ = task(builder_, level_ + 1);
     if (!result_) result_ = import_$(builder_, level_ + 1);
     if (!result_) result_ = subtree(builder_, level_ + 1);
@@ -222,18 +248,17 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TSUBTREE attribute* {
-  // }
+  // TSUBTREE attribute*
   public static boolean subtree(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "subtree")) return false;
     if (!nextTokenIs(builder_, TSUBTREE)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
+    boolean result_, pinned_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, SUBTREE, null);
     result_ = consumeToken(builder_, TSUBTREE);
+    pinned_ = result_; // pin = 1
     result_ = result_ && subtree_1(builder_, level_ + 1);
-    result_ = result_ && subtree_2(builder_, level_ + 1);
-    exit_section_(builder_, marker_, SUBTREE, result_);
-    return result_;
+    exit_section_(builder_, level_, marker_, result_, pinned_, null);
+    return result_ || pinned_;
   }
 
   // attribute*
@@ -244,12 +269,6 @@ public class TreeParser implements PsiParser, LightPsiParser {
       if (!attribute(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "subtree_1", pos_)) break;
     }
-    return true;
-  }
-
-  // {
-  // }
-  private static boolean subtree_2(PsiBuilder builder_, int level_) {
     return true;
   }
 
@@ -277,7 +296,6 @@ public class TreeParser implements PsiParser, LightPsiParser {
   // (taskname attribute*) | subtreeref
   public static boolean task(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "task")) return false;
-    if (!nextTokenIs(builder_, "<task>", SUBTREEREFERENCE, TASK_NAME)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, TASK, "<task>");
     result_ = task_0(builder_, level_ + 1);
@@ -309,15 +327,25 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TASK_NAME QUESTION_MARK?
+  // (TASK_NAME | <<parseMissingTaskName>>) QUESTION_MARK?
   public static boolean taskname(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "taskname")) return false;
-    if (!nextTokenIs(builder_, TASK_NAME)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, TASKNAME, "<taskname>");
+    result_ = taskname_0(builder_, level_ + 1);
+    result_ = result_ && taskname_1(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // TASK_NAME | <<parseMissingTaskName>>
+  private static boolean taskname_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "taskname_0")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, TASK_NAME);
-    result_ = result_ && taskname_1(builder_, level_ + 1);
-    exit_section_(builder_, marker_, TASKNAME, result_);
+    if (!result_) result_ = parseMissingTaskName(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
     return result_;
   }
 
@@ -329,12 +357,12 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // line*
+  // line_*
   static boolean tree(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "tree")) return false;
     while (true) {
       int pos_ = current_position_(builder_);
-      if (!line(builder_, level_ + 1)) break;
+      if (!line_(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "tree", pos_)) break;
     }
     return true;

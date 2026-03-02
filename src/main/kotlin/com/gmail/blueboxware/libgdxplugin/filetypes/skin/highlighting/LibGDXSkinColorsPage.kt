@@ -38,7 +38,7 @@ internal class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettings
             null
         )
 
-    override fun getDemoText() = """
+    override fun getDemoText() = $$"""
 {
     // Line comment
     /* Block comment */
@@ -49,7 +49,7 @@ internal class LibGDXSkinColorsPage : ColorSettingsPage, InspectionColorSettings
     <className>com.badlogic.gdx.graphics.g2d.BitmapFont</className>: {
         <resourceName>medium</resourceName>: { <propertyName>file</propertyName>: medium.fnt, <propertyName>keyword</propertyName>: <keyword>true</keyword> }
     },
-    <className>com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle</className>: {
+    <className>com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle</className>: {
         <resourceName>default</resourceName>: {
             <propertyName>down</propertyName>: "round-down", <propertyName>up</propertyName>: round,
             <propertyName>font</propertyName>: 'medium', <propertyName>fontColor</propertyName>: white

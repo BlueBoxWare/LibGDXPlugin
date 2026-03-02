@@ -32,16 +32,7 @@ internal class ColorsFindUsagesHandlerFactory : FindUsagesHandlerFactory() {
             null
         }
 
-
     override fun canFindUsages(element: PsiElement): Boolean =
         element is PsiLiteralExpression || element is KtStringTemplateExpression
-//        when (element) {
-//            is PsiLiteralExpression -> element.getParentOfType<PsiMethodCallExpression>()?.isColorsPutCall() == true
-//            is KtStringTemplateExpression -> element.isPlainWithEscapes()
-//                    && element.getParentOfType<KtCallExpression>()?.isColorsPutCall() == true
-//
-//            else -> false
-//        }
-
 
 }

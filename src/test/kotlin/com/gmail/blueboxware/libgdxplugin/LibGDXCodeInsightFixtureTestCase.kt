@@ -2,27 +2,47 @@
 
 package com.gmail.blueboxware.libgdxplugin
 
+import com.gmail.blueboxware.libgdxplugin.utils.findClass
+import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.formatting.FormatterTestUtils
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.command.undo.UndoManager
 import com.intellij.openapi.editor.Document
+import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
 import com.intellij.openapi.vfs.JarFileSystem
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiRecursiveElementVisitor
+import com.intellij.psi.*
+import com.intellij.psi.util.childrenOfType
+import com.intellij.refactoring.BaseRefactoringProcessor
+import com.intellij.refactoring.PackageWrapper
+import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
+import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveDestination
 import com.intellij.testFramework.EditorTestUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisFromWriteAction
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.config.MavenComparableVersion
+import org.jetbrains.kotlin.idea.base.util.projectScope
+import org.jetbrains.kotlin.idea.compiler.configuration.KotlinPluginLayout
+import org.jetbrains.kotlin.idea.core.createKotlinFile
+import org.jetbrains.kotlin.idea.k2.refactoring.move.descriptor.K2MoveDescriptor
+import org.jetbrains.kotlin.idea.k2.refactoring.move.descriptor.K2MoveOperationDescriptor
+import org.jetbrains.kotlin.idea.k2.refactoring.move.descriptor.K2MoveSourceDescriptor
+import org.jetbrains.kotlin.idea.k2.refactoring.move.descriptor.K2MoveTargetDescriptor
+import org.jetbrains.kotlin.psi.KtClass
+import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
 
@@ -98,6 +118,8 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     fun addFreeType() = addLibrary(getTestDataBasePath() + "/lib/gdx-freetype.jar")
 
+    fun addAI() = addLibrary(getTestDataBasePath() + "/lib/gdx-ai-1.8.2.jar")
+
     fun addAnnotations() {
         addLibrary(File("build/libs/").listFiles { _, name ->
             name.startsWith("libgdxpluginannotations-") && !name.contains("sources")
@@ -165,13 +187,13 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         myFixture.configureByFile(filePath).apply { markAsGdxJson() }
 
     fun doTestCompletion(
-        fileName: String,
+        fileType: FileType,
         content: String,
         expectedCompletionStrings: List<String>,
         notExpectedCompletionStrings: List<String> = listOf()
     ) {
 
-        configureByText(fileName, content)
+        configureByText(fileType, content)
 
         val completionResults = myFixture.complete(CompletionType.BASIC, 0)
 
@@ -220,6 +242,81 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         )
     }
 
+    fun moveJavaClass(className: String, newPackageName: String) {
+
+        BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
+
+            val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
+            val pkg = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
+            val dirs = pkg.directories
+
+            MoveClassesOrPackagesProcessor(
+                project,
+                arrayOf(clazz),
+                SingleSourceRootMoveDestination(
+                    PackageWrapper.create(
+                        JavaDirectoryService.getInstance().getPackage(dirs[0])
+                    ),
+                    dirs[0]
+                ),
+                true,
+                false,
+                null
+            ).run()
+
+            commit()
+
+        }
+
+    }
+
+    @OptIn(KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class)
+    fun moveKotlinFile(file: KtFile, newPackageName: String) {
+
+        val pkg = project.psiFacade().findPackage(newPackageName)
+        assertNotNull(pkg)
+
+        val dirs = pkg!!.directories
+
+        ApplicationManager.getApplication().runWriteAction {
+            val newFile = createKotlinFile(file.name, dirs.first(), newPackageName)
+
+            allowAnalysisOnEdt {
+                allowAnalysisFromWriteAction {
+
+                    BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
+                        K2MoveOperationDescriptor.Declarations(
+                            project = project,
+                            moveDescriptors = listOf(
+                                K2MoveDescriptor.Declarations(
+                                    project, K2MoveSourceDescriptor.ElementSource(file.childrenOfType<KtClass>()),
+                                    K2MoveTargetDescriptor.File(newFile)
+                                )
+                            ),
+                            searchForText = false,
+                            searchReferences = true,
+                            searchInComments = false,
+                            dirStructureMatchesPkg = true
+                        ).refactoringProcessor().run()
+                    }
+
+                }
+            }
+
+        }
+
+        commit()
+
+    }
+
+
+    fun commit() {
+
+        PsiDocumentManager.getInstance(project).commitAllDocuments()
+        FileDocumentManager.getInstance().saveAllDocuments()
+
+    }
+
     fun executeAction(actionId: String) {
         runCommand(editor.document) { EditorTestUtil.executeAction(editor, actionId, true) }
     }
@@ -238,7 +335,11 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     override fun setUp() {
         assertIdeaHomePath()
-
+        // Make sure Kotlin plugin is initialized
+        // TODO: Remove
+        if (!KotlinPluginLayout.kotlinc.exists()) {
+            throw AssertionError()
+        }
         super.setUp()
     }
 

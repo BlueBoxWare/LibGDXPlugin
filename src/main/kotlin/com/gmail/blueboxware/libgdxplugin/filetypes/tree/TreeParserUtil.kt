@@ -16,6 +16,18 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 
+import com.intellij.lang.PsiBuilder
 import com.intellij.lang.parser.GeneratedParserUtilBase
 
-class TreeParserUtil : GeneratedParserUtilBase()
+object TreeParserUtil : GeneratedParserUtilBase() {
+
+    @JvmStatic
+    fun parseMissingTaskName(builder: PsiBuilder, level: Int): Boolean {
+        if (builder.tokenType == TreeElementTypes.ATTRNAME) {
+            builder.error("Missing task name")
+            return true
+        }
+        return false
+    }
+
+}

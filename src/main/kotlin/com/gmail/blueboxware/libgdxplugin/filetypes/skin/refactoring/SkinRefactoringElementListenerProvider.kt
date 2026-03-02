@@ -83,7 +83,9 @@ internal class SkinRefactoringElementListenerProvider : RefactoringElementListen
 
             ApplicationManager.getApplication().runWriteAction {
                 refToClassMap.forEach { (reference, clazz) ->
-                    reference.bindToElement(clazz)
+                    if (clazz.isValid) {
+                        reference.bindToElement(clazz)
+                    }
                 }
             }
 

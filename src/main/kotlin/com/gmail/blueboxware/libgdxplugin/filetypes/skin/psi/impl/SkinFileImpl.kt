@@ -285,7 +285,7 @@ class SkinFileImpl(
     fun addTintedDrawable(name: String, cause: SkinElement? = null): Pair<SkinResource, Int>? =
         factory.createTintedDrawableResource(name)?.let { (resource, position) ->
             addResource(
-                DollarClassName("com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable"),
+                DollarClassName($$"com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable"),
                 resource,
                 cause
             )?.let {

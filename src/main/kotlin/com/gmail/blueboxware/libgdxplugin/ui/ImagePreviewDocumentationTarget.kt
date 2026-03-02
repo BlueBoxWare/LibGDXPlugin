@@ -55,46 +55,49 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
         targetElement?.references?.forEach { reference ->
             ProgressManager.checkCanceled()
             reference.resolve()?.let { target ->
-                @Suppress("ControlFlowWithEmptyBody")
-                if (target is Atlas2Region) {
-                    target.getImage()?.let { image ->
-                        return createDoc(image, target.name, target.containingFile.name)
-                    }
-                } else if (target is SkinResource && target.getClassSpecification()?.getRealClassNamesAsString()
-                        ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
-                ) {
-
-                    val tintedDrawableName = target.name
-
-                    var colorElement = target.getObject()?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.getValue()
-
-                    while (colorElement is SkinStringLiteral) {
-                        ProgressManager.checkCanceled()
-                        colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
-                    }
-
-                    val color = (colorElement as? SkinObject)?.asColor(true)
-
-                    var nameTarget: PsiElement? = target
-
-                    while ((nameTarget as? SkinResource)?.getClassSpecification()?.getRealClassNamesAsString()
-                            ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
-                    ) {
-                        ProgressManager.checkCanceled()
-                        nameTarget =
-                            nameTarget.getObject()
-                                ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.getValue()?.reference?.resolve()
-                    }
-
-                    (nameTarget as? Atlas2Region)?.let { atlasRegion ->
-                        atlasRegion.getImage()?.let { image ->
-                            return createDoc(color?.let { image.tint(color) } ?: image,
-                                tintedDrawableName,
-                                target.containingFile.name)
+                when (target) {
+                    is Atlas2Region -> {
+                        target.getImage()?.let { image ->
+                            return createDoc(image, target.name, target.containingFile.name)
                         }
                     }
 
-                } else {
+                    is SkinResource if target.getClassSpecification()?.getRealClassNamesAsString()
+                        ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
+                        -> {
+
+                        val tintedDrawableName = target.name
+
+                        var colorElement =
+                            target.getObject()?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_COLOR)?.getValue()
+
+                        while (colorElement is SkinStringLiteral) {
+                            ProgressManager.checkCanceled()
+                            colorElement = (colorElement.reference?.resolve() as? SkinResource)?.value
+                        }
+
+                        val color = (colorElement as? SkinObject)?.asColor(true)
+
+                        var nameTarget: PsiElement? = target
+
+                        while ((nameTarget as? SkinResource)?.getClassSpecification()?.getRealClassNamesAsString()
+                                ?.contains(TINTED_DRAWABLE_CLASS_NAME) == true
+                        ) {
+                            ProgressManager.checkCanceled()
+                            nameTarget =
+                                nameTarget.getObject()
+                                    ?.getProperty(PROPERTY_NAME_TINTED_DRAWABLE_NAME)?.getValue()?.reference?.resolve()
+                        }
+
+                        (nameTarget as? Atlas2Region)?.let { atlasRegion ->
+                            atlasRegion.getImage()?.let { image ->
+                                return createDoc(color?.let { image.tint(color) } ?: image,
+                                    tintedDrawableName,
+                                    target.containingFile.name)
+                            }
+                        }
+
+                    }
 
                 }
             }

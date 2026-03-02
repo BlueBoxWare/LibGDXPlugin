@@ -8,6 +8,9 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 
 
+
+import java.util.BitSet;
+
 class TreeLexer implements FlexLexer {
 
   /** This character denotes the end of file */
@@ -67,14 +70,14 @@ class TreeLexer implements FlexLexer {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\2\3\1\4\22\0\1\1\1\0"+
-    "\1\5\1\6\1\7\3\0\1\10\1\11\1\0\3\12"+
-    "\1\13\1\12\12\14\1\15\4\12\1\16\1\12\11\17"+
-    "\2\20\1\17\1\20\1\17\1\20\1\17\7\20\1\17"+
-    "\2\20\1\0\1\21\2\0\1\17\1\0\1\22\1\23"+
-    "\2\17\1\24\1\25\2\20\1\26\2\20\1\27\1\30"+
-    "\1\31\1\32\1\33\1\20\1\34\1\35\1\36\1\37"+
-    "\2\20\2\17\1\20\12\0\1\3\u01a2\0\2\3\326\0"+
-    "\u0100\3";
+    "\1\5\1\6\1\7\3\0\1\10\1\11\1\0\1\12"+
+    "\1\0\1\12\1\13\1\0\12\14\1\15\4\0\1\16"+
+    "\1\0\6\17\2\20\1\17\2\20\1\17\1\20\1\17"+
+    "\1\20\1\17\7\20\1\17\2\20\1\0\1\21\2\0"+
+    "\1\17\1\0\1\22\1\23\2\17\1\24\1\25\2\20"+
+    "\1\26\2\20\1\27\1\30\1\31\1\32\1\33\1\20"+
+    "\1\34\1\35\1\36\1\37\2\20\2\17\1\20\12\0"+
+    "\1\3\u01a2\0\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -101,14 +104,16 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\4\0\1\1\1\2\1\3\1\4\1\5\1\4\1\6"+
+    "\6\0\1\1\1\2\1\3\1\4\1\5\1\4\1\6"+
     "\1\3\1\7\1\10\1\11\4\12\1\13\1\14\1\15"+
-    "\2\16\4\17\1\20\2\0\3\12\1\0\1\21\1\0"+
-    "\1\17\2\0\4\12\1\17\2\0\1\12\1\22\1\12"+
-    "\1\0\1\23\1\24\2\12\1\25\1\26\1\12\1\27";
+    "\1\16\2\17\2\20\4\21\2\0\1\22\1\23\1\0"+
+    "\2\23\3\12\1\0\1\24\1\0\1\21\3\0\4\12"+
+    "\1\21\3\0\3\12\1\0\1\25\1\26\1\12\1\27"+
+    "\1\0\3\27\1\12\1\30\2\12\1\31\1\0\3\31"+
+    "\1\12\1\32\1\0\3\32";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[59];
+    int [] result = new int[85];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -133,17 +138,20 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\40\0\100\0\140\0\200\0\240\0\200\0\300"+
-    "\0\200\0\340\0\u0100\0\u0120\0\200\0\200\0\200\0\u0140"+
-    "\0\u0160\0\u0180\0\u01a0\0\200\0\200\0\u01c0\0\u01e0\0\200"+
-    "\0\u0200\0\u0220\0\u0240\0\u0260\0\u0280\0\u02a0\0\u02c0\0\u02e0"+
-    "\0\u0300\0\u0320\0\u01e0\0\200\0\u0340\0\u0360\0\u0380\0\u03a0"+
-    "\0\u03c0\0\u03e0\0\u0400\0\u0420\0\u0440\0\u0460\0\u0480\0\u04a0"+
-    "\0\u0140\0\u04c0\0\u04e0\0\200\0\200\0\u0500\0\u0520\0\200"+
-    "\0\u0140\0\u0540\0\u0140";
+    "\0\0\0\40\0\100\0\140\0\200\0\240\0\300\0\340"+
+    "\0\300\0\u0100\0\300\0\u0120\0\u0140\0\u0160\0\300\0\300"+
+    "\0\300\0\u0180\0\u01a0\0\u01c0\0\u01e0\0\300\0\300\0\300"+
+    "\0\u0200\0\u0220\0\u0240\0\u0260\0\300\0\u0280\0\u02a0\0\u02c0"+
+    "\0\u02e0\0\u0300\0\u0320\0\u0340\0\300\0\u0360\0\u0380\0\u03a0"+
+    "\0\u03c0\0\u03e0\0\u0400\0\u0260\0\300\0\u0420\0\u0440\0\u0460"+
+    "\0\u0480\0\u04a0\0\u04c0\0\u04e0\0\u0500\0\u0520\0\u0540\0\u0560"+
+    "\0\u0580\0\u05a0\0\u05c0\0\u05e0\0\u0600\0\u0620\0\300\0\300"+
+    "\0\u0640\0\300\0\u0660\0\u0380\0\u03a0\0\u0180\0\u0680\0\300"+
+    "\0\u06a0\0\u06c0\0\300\0\u06e0\0\u0380\0\u03a0\0\u0180\0\u0700"+
+    "\0\300\0\u0720\0\u0380\0\u03a0\0\u0180";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[59];
+    int [] result = new int[85];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -166,54 +174,74 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\5\1\6\36\5\1\7\1\10\1\11\1\7\1\12"+
-    "\1\7\1\13\1\14\1\15\1\16\4\7\1\17\2\20"+
-    "\1\7\4\20\1\21\5\20\1\22\1\23\2\20\1\7"+
-    "\1\10\1\11\1\7\1\12\1\7\1\24\2\7\1\24"+
-    "\3\7\1\25\1\17\2\26\1\7\16\26\1\7\1\10"+
-    "\1\11\1\7\1\12\1\27\1\30\1\7\2\30\6\31"+
-    "\2\7\3\31\1\32\2\31\1\7\1\33\1\7\1\31"+
-    "\2\7\1\34\1\7\41\0\1\6\37\0\1\10\2\0"+
-    "\1\10\34\0\1\10\1\11\1\0\1\10\33\0\2\13"+
-    "\1\0\1\13\1\0\33\13\17\0\2\35\1\0\16\35"+
-    "\7\0\1\36\3\0\1\37\1\20\2\0\2\20\1\0"+
-    "\16\20\7\0\1\36\3\0\1\37\1\20\2\0\2\20"+
-    "\1\0\6\20\1\40\7\20\7\0\1\36\3\0\1\37"+
-    "\1\20\2\0\2\20\1\0\10\20\1\41\5\20\7\0"+
-    "\1\36\3\0\1\37\1\20\2\0\2\20\1\0\15\20"+
-    "\1\42\14\0\1\26\2\0\2\26\1\0\16\26\5\43"+
-    "\1\44\13\43\1\45\16\43\12\0\6\31\2\0\6\31"+
-    "\1\0\1\31\1\0\1\31\2\0\1\31\13\0\6\31"+
-    "\2\0\1\46\5\31\1\0\1\31\1\0\1\31\2\0"+
-    "\1\31\13\0\6\31\2\0\6\31\1\0\1\31\1\0"+
-    "\1\31\2\0\1\31\1\47\12\0\6\31\2\0\6\31"+
-    "\1\0\1\31\1\0\1\31\1\50\1\0\1\31\15\0"+
-    "\1\35\2\0\2\35\1\0\16\35\17\0\2\51\1\0"+
-    "\16\51\17\0\2\20\1\0\16\20\7\0\1\36\3\0"+
-    "\1\37\1\20\2\0\2\20\1\0\11\20\1\52\4\20"+
-    "\7\0\1\36\3\0\1\37\1\20\2\0\2\20\1\0"+
-    "\10\20\1\53\5\20\7\0\1\36\3\0\1\37\1\20"+
-    "\2\0\2\20\1\0\1\20\1\54\14\20\2\43\3\0"+
-    "\33\43\12\0\6\31\2\0\5\31\1\55\1\0\1\31"+
-    "\1\0\1\31\2\0\1\31\30\0\1\56\47\0\1\57"+
-    "\7\0\1\36\4\0\1\51\2\0\2\51\1\0\16\51"+
-    "\7\0\1\36\3\0\1\37\1\20\2\0\2\20\1\0"+
-    "\10\20\1\60\5\20\7\0\1\36\3\0\1\37\1\20"+
-    "\2\0\2\20\1\0\14\20\1\61\1\20\7\0\1\36"+
-    "\3\0\1\37\1\20\2\0\2\20\1\0\14\20\1\62"+
-    "\1\20\12\0\6\31\2\0\6\31\1\0\1\31\1\0"+
-    "\1\31\1\0\1\63\1\31\30\0\1\64\34\0\1\65"+
-    "\22\0\1\36\3\0\1\37\1\20\2\0\2\20\1\0"+
-    "\12\20\1\66\3\20\7\0\1\36\3\0\1\37\1\20"+
-    "\2\0\2\20\1\0\12\20\1\67\3\20\24\0\1\70"+
-    "\22\0\1\36\3\0\1\37\1\20\2\0\2\20\1\0"+
-    "\14\20\1\71\1\20\7\0\1\36\3\0\1\37\1\20"+
-    "\2\0\2\20\1\0\2\20\1\72\13\20\7\0\1\36"+
-    "\3\0\1\37\1\20\2\0\2\20\1\0\2\20\1\73"+
-    "\13\20";
+    "\1\7\1\10\36\7\1\11\1\12\1\13\1\11\1\14"+
+    "\1\11\1\15\1\16\1\17\1\20\4\11\1\21\2\22"+
+    "\1\11\4\22\1\23\5\22\1\24\1\25\2\22\1\26"+
+    "\1\12\1\13\1\26\1\14\1\26\1\27\2\26\1\27"+
+    "\3\26\1\30\1\21\2\31\1\26\16\31\1\26\1\32"+
+    "\1\13\1\26\1\33\1\34\1\35\1\26\2\35\3\36"+
+    "\1\35\1\26\1\36\2\26\3\36\1\37\2\36\1\26"+
+    "\1\40\1\26\1\36\2\26\1\41\1\26\17\0\2\42"+
+    "\1\0\16\42\1\43\1\0\13\43\1\0\22\43\41\0"+
+    "\1\10\37\0\1\12\2\0\1\12\34\0\1\12\1\13"+
+    "\1\0\1\12\33\0\2\15\1\0\1\15\1\0\33\15"+
+    "\17\0\2\44\1\0\16\44\1\45\1\46\5\45\1\47"+
+    "\3\45\1\50\1\22\1\0\1\45\2\22\1\45\16\22"+
+    "\1\45\1\46\5\45\1\47\3\45\1\50\1\22\1\0"+
+    "\1\45\2\22\1\45\6\22\1\51\7\22\1\45\1\46"+
+    "\5\45\1\47\3\45\1\50\1\22\1\0\1\45\2\22"+
+    "\1\45\10\22\1\52\5\22\1\45\1\46\5\45\1\47"+
+    "\3\45\1\50\1\22\1\0\1\45\2\22\1\45\15\22"+
+    "\1\53\14\0\1\31\2\0\2\31\1\0\16\31\1\0"+
+    "\1\32\2\0\1\32\34\0\1\32\1\13\1\0\1\32"+
+    "\33\0\5\54\1\55\13\54\1\56\16\54\12\0\3\36"+
+    "\2\0\1\36\2\0\6\36\1\0\1\36\1\0\1\36"+
+    "\2\0\1\36\13\0\3\36\2\0\1\36\2\0\1\57"+
+    "\5\36\1\0\1\36\1\0\1\36\2\0\1\36\13\0"+
+    "\3\36\2\0\1\36\2\0\6\36\1\0\1\36\1\0"+
+    "\1\36\2\0\1\36\1\60\12\0\3\36\2\0\1\36"+
+    "\2\0\6\36\1\0\1\36\1\0\1\36\1\61\1\0"+
+    "\1\36\10\0\1\62\3\0\1\5\1\42\2\0\2\42"+
+    "\1\0\16\42\1\0\1\43\52\0\1\44\2\0\2\44"+
+    "\1\0\16\44\1\45\1\46\13\45\1\0\22\45\17\0"+
+    "\2\63\1\0\16\63\17\0\2\22\1\0\16\22\1\45"+
+    "\1\46\5\45\1\47\3\45\1\50\1\22\1\0\1\45"+
+    "\2\22\1\45\11\22\1\64\4\22\1\45\1\46\5\45"+
+    "\1\47\3\45\1\50\1\22\1\0\1\45\2\22\1\45"+
+    "\10\22\1\65\5\22\1\45\1\46\5\45\1\47\3\45"+
+    "\1\50\1\22\1\0\1\45\2\22\1\45\1\22\1\66"+
+    "\14\22\2\54\3\0\33\54\12\0\3\36\2\0\1\36"+
+    "\2\0\5\36\1\67\1\0\1\36\1\0\1\36\2\0"+
+    "\1\36\30\0\1\70\47\0\1\71\17\0\2\72\1\0"+
+    "\16\72\1\45\1\46\5\45\1\47\4\45\1\63\1\0"+
+    "\1\45\2\63\1\45\16\63\1\45\1\46\5\45\1\47"+
+    "\3\45\1\50\1\22\1\0\1\45\2\22\1\45\10\22"+
+    "\1\73\5\22\1\45\1\46\5\45\1\47\3\45\1\50"+
+    "\1\22\1\0\1\45\2\22\1\45\14\22\1\74\1\22"+
+    "\1\45\1\46\5\45\1\47\3\45\1\50\1\22\1\0"+
+    "\1\45\2\22\1\45\14\22\1\75\1\22\12\0\3\36"+
+    "\2\0\1\36\2\0\6\36\1\0\1\36\1\0\1\36"+
+    "\1\0\1\76\1\36\30\0\1\77\34\0\1\100\22\0"+
+    "\1\62\4\0\1\72\2\0\2\72\1\0\16\72\1\45"+
+    "\1\46\5\45\1\47\3\45\1\50\1\22\1\0\1\45"+
+    "\2\22\1\45\12\22\1\101\3\22\1\102\1\103\5\102"+
+    "\1\104\3\102\1\105\1\106\1\0\1\102\2\106\1\102"+
+    "\16\106\1\45\1\46\5\45\1\47\3\45\1\50\1\22"+
+    "\1\0\1\45\2\22\1\45\12\22\1\107\3\22\24\0"+
+    "\1\110\13\0\1\45\1\46\5\45\1\47\3\45\1\50"+
+    "\1\22\1\0\1\45\2\22\1\45\14\22\1\111\1\22"+
+    "\1\102\1\103\13\102\1\0\22\102\1\45\1\46\5\45"+
+    "\1\47\3\45\1\50\1\22\1\0\1\45\2\22\1\45"+
+    "\2\22\1\112\13\22\1\113\1\114\5\113\1\115\3\113"+
+    "\1\116\1\117\1\0\1\113\2\117\1\113\16\117\1\45"+
+    "\1\46\5\45\1\47\3\45\1\50\1\22\1\0\1\45"+
+    "\2\22\1\45\2\22\1\120\13\22\1\113\1\114\13\113"+
+    "\1\0\22\113\1\121\1\122\5\121\1\123\3\121\1\124"+
+    "\1\125\1\0\1\121\2\125\1\121\16\125\1\121\1\122"+
+    "\13\121\1\0\22\121";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[1376];
+    int [] result = new int[1856];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -251,13 +279,14 @@ class TreeLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\4\0\1\11\1\1\1\11\1\1\1\11\3\1\3\11"+
-    "\4\1\2\11\2\1\1\11\5\1\2\0\3\1\1\0"+
-    "\1\11\1\0\1\1\2\0\5\1\2\0\3\1\1\0"+
-    "\2\11\2\1\1\11\3\1";
+    "\6\0\1\11\1\1\1\11\1\1\1\11\3\1\3\11"+
+    "\4\1\3\11\4\1\1\11\7\1\1\11\1\0\5\1"+
+    "\1\0\1\11\1\0\1\1\3\0\5\1\2\0\4\1"+
+    "\1\0\2\11\1\1\1\11\1\0\4\1\1\11\2\1"+
+    "\1\11\1\0\4\1\1\11\1\0\3\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[59];
+    int [] result = new int[85];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -304,6 +333,9 @@ class TreeLexer implements FlexLexer {
   /** zzAtEOF == true <=> the scanner is at the EOF */
   private boolean zzAtEOF;
 
+  /** For the backwards DFA of general lookahead statements */
+  private BitSet zzFin = null;
+
   /** Number of newlines encountered up to the start of the matched text. */
   @SuppressWarnings("unused")
   private int yyline;
@@ -323,6 +355,9 @@ class TreeLexer implements FlexLexer {
   /** Whether the user-EOF-code has already been executed. */
   @SuppressWarnings("unused")
   private boolean zzEOFDone;
+
+  /* user code: */
+    private boolean valueStarted = false;
 
 
   /**
@@ -566,15 +601,15 @@ class TreeLexer implements FlexLexer {
             case LINE: {
               yybegin(YYINITIAL); return TreeElementTypes.EOL;
             }  // fall though
-            case 60: break;
+            case 86: break;
             case ATTRIBUTES: {
               yybegin(YYINITIAL); return TreeElementTypes.EOL;
             }  // fall though
-            case 61: break;
+            case 87: break;
             case VALUE: {
               yybegin(YYINITIAL); return TreeElementTypes.EOL;
             }  // fall though
-            case 62: break;
+            case 88: break;
             default:
         return null;
         }
@@ -585,117 +620,185 @@ class TreeLexer implements FlexLexer {
             { yypushback(1); yybegin(LINE);
             }
           // fall through
-          case 24: break;
+          case 27: break;
           case 2:
             { return TreeElementTypes.TINDENT;
             }
           // fall through
-          case 25: break;
+          case 28: break;
           case 3:
-            { return TokenType.BAD_CHARACTER;
+            { yypushback(1); yybegin(ATTRIBUTES);
             }
           // fall through
-          case 26: break;
+          case 29: break;
           case 4:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 27: break;
+          case 30: break;
           case 5:
             { yybegin(YYINITIAL); return TreeElementTypes.EOL;
             }
           // fall through
-          case 28: break;
+          case 31: break;
           case 6:
             { return TreeElementTypes.COMMENT;
             }
           // fall through
-          case 29: break;
+          case 32: break;
           case 7:
             { return TreeElementTypes.LPAREN;
             }
           // fall through
-          case 30: break;
+          case 33: break;
           case 8:
             { return TreeElementTypes.RPAREN;
             }
           // fall through
-          case 31: break;
+          case 34: break;
           case 9:
             { return TreeElementTypes.QUESTION_MARK;
             }
           // fall through
-          case 32: break;
-          case 10:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.TASK_NAME;
-            }
-          // fall through
-          case 33: break;
-          case 11:
-            { yybegin(YYINITIAL); yypushback(1);
-            }
-          // fall through
-          case 34: break;
-          case 12:
-            { yybegin(VALUE); return TreeElementTypes.COLON;
-            }
-          // fall through
           case 35: break;
-          case 13:
-            { return TreeElementTypes.ATTRNAME;
+          case 10:
+            { if (zzInput == YYEOF) {
+            {
+                switch (yytext().toString()) {
+                    case "import": return TreeElementTypes.TIMPORT;
+                    case "root": return TreeElementTypes.TROOT;
+                    case "subtree": return TreeElementTypes.TSUBTREE;
+                    default: return TreeElementTypes.TASK_NAME;
+                }
+            }
+        } else {
+            { yypushback(1); yybegin(ATTRIBUTES); }
+        }
             }
           // fall through
           case 36: break;
-          case 14:
-            { yybegin(ATTRIBUTES); yypushback(1);
+          case 11:
+            { return TokenType.BAD_CHARACTER;
             }
           // fall through
           case 37: break;
-          case 15:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.NUMBER;
+          case 12:
+            { yybegin(YYINITIAL); yypushback(1);
             }
           // fall through
           case 38: break;
-          case 16:
-            { return TreeElementTypes.SUBTREEREFERENCE;
+          case 13:
+            { valueStarted = false; yybegin(VALUE); return TreeElementTypes.COLON;
             }
           // fall through
           case 39: break;
-          case 17:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.STRING;
+          case 14:
+            { return TreeElementTypes.ATTRNAME;
             }
           // fall through
           case 40: break;
-          case 18:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT;
+          case 15:
+            { if (valueStarted) {
+            yybegin(ATTRIBUTES); yypushback(1);
+        } else {
+            return TokenType.WHITE_SPACE;
+        }
             }
           // fall through
           case 41: break;
-          case 19:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.NULL;
+          case 16:
+            { yybegin(ATTRIBUTES); yypushback(1);
             }
           // fall through
           case 42: break;
-          case 20:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.TRUE;
+          case 17:
+            { valueStarted = true; return TreeElementTypes.NUMBER;
             }
           // fall through
           case 43: break;
-          case 21:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.FALSE;
+          case 18:
+            { return TreeElementTypes.SUBTREEREFERENCE;
             }
           // fall through
           case 44: break;
-          case 22:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT;
+          case 19:
+            // general lookahead, find correct zzMarkedPos
+            { int zzFState = 4;
+              int zzFPos = zzStartRead;
+              if (zzFin == null || zzFin.size() <= zzBufferL.length()) {
+                zzFin = new BitSet(zzBufferL.length()+1);
+              }
+              BitSet zzFinL = zzFin;
+              while (zzFState != -1 && zzFPos < zzMarkedPos) {
+                zzFinL.set(zzFPos, ((zzAttrL[zzFState] & 1) == 1));
+                zzInput = Character.codePointAt(zzBufferL, zzFPos);
+                zzFPos += Character.charCount(zzInput);
+                zzFState = zzTransL[ zzRowMapL[zzFState] + zzCMap(zzInput) ];
+              }
+              if (zzFState != -1) {
+                zzFinL.set(zzFPos++, ((zzAttrL[zzFState] & 1) == 1));
+              }
+              while (zzFPos <= zzMarkedPos) {
+                zzFinL.clear(zzFPos++);
+              }
+
+              zzFState = 5;
+              zzFPos = zzMarkedPos;
+              while (!zzFinL.get(zzFPos) || (zzAttrL[zzFState] & 1) != 1) {
+                zzInput = Character.codePointBefore(zzBufferL, zzFPos);
+                zzFPos -= Character.charCount(zzInput);
+                zzFState = zzTransL[ zzRowMapL[zzFState] + zzCMap(zzInput) ];
+              };
+              zzMarkedPos = zzFPos;
+            }
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TASK_NAME;
             }
           // fall through
           case 45: break;
-          case 23:
-            { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE;
+          case 20:
+            { valueStarted = true; return TreeElementTypes.STRING;
             }
           // fall through
           case 46: break;
+          case 21:
+            { valueStarted = true; return TreeElementTypes.NULL;
+            }
+          // fall through
+          case 47: break;
+          case 22:
+            { valueStarted = true; return TreeElementTypes.TRUE;
+            }
+          // fall through
+          case 48: break;
+          case 23:
+            // lookahead expression with fixed base length
+            zzMarkedPos = Character.offsetByCodePoints
+                (zzBufferL, zzStartRead, 4);
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT;
+            }
+          // fall through
+          case 49: break;
+          case 24:
+            { valueStarted = true; return TreeElementTypes.FALSE;
+            }
+          // fall through
+          case 50: break;
+          case 25:
+            // lookahead expression with fixed base length
+            zzMarkedPos = Character.offsetByCodePoints
+                (zzBufferL, zzStartRead, 6);
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT;
+            }
+          // fall through
+          case 51: break;
+          case 26:
+            // lookahead expression with fixed base length
+            zzMarkedPos = Character.offsetByCodePoints
+                (zzBufferL, zzStartRead, 7);
+            { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE;
+            }
+          // fall through
+          case 52: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

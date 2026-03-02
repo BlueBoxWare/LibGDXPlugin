@@ -20,9 +20,14 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeTask
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.NlsSafe
+import com.intellij.psi.PsiClass
 
 abstract class TreeTaskMixin(node: ASTNode) : PsiTreeTask, TreeElementImpl(node) {
 
     override fun getName(): @NlsSafe String? = taskname?.name
+
+    override fun getUsedAttributesNames(): Collection<String> = attributeList.mapNotNull { it.name }
+
+    override fun resolveToClass(): PsiClass? = taskname?.resolveToClass()
 
 }

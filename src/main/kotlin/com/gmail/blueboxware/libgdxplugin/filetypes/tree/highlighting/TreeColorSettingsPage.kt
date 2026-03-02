@@ -42,7 +42,7 @@ internal class TreeColorSettingsPage : ColorSettingsPage {
     @Suppress("DialogTitleCapitalization")
     override fun getDisplayName(): @NlsContexts.ConfigurableName String = "libGDX AI Tree"
 
-    override fun getDemoText(): String = """
+    override fun getDemoText(): String = $$"""
 # Comment
 import <attrname>bark</attrname>:"com.badlogic.gdx.ai.tests.btree.dog.BarkTask"
 
@@ -52,7 +52,7 @@ root
   <taskname>selector</taskname>
     <taskname>parallel</taskname>
       <taskname>care</taskname>? <attrname>urgentProb</attrname>?:0.8
-      (<subtree>${'$'}mytree</subtree>) <taskname>alwaysFail</taskname>
+      (<subtree>$mytree</subtree>) <taskname>alwaysFail</taskname>
         <taskname>com.badlogic.gdx.ai.tests.btree.dog.RestTask</taskname> # comment
     <taskname>sequence</taskname>
       <taskname>bark</taskname> <attrname>times</attrname>:"uniform,1,3"

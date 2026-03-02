@@ -101,7 +101,7 @@ internal fun isValidProperty(element: PsiElement): Boolean {
             return true
         }
         references.forEach { reference ->
-            if ((reference as? GDXPropertyReference)?.multiResolve(false)?.isEmpty() != true) {
+            if (!reference.multiResolve(false).isEmpty()) {
                 return true
             }
         }

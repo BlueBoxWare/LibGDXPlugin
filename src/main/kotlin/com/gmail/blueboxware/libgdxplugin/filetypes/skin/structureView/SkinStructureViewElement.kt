@@ -62,22 +62,31 @@ class SkinStructureViewElement(val element: PsiElement) : StructureViewTreeEleme
     override fun getChildren(): Array<out TreeElement> {
         var value: Any? = null
 
-        if (element is SkinFile) {
-            return ContainerUtil.map2Array(
-                element.getClassSpecifications(),
-                TreeElement::class.java,
-                Function(::SkinStructureViewElement)
-            )
-        } else if (element is SkinProperty) {
-            value = element.getValue()
-        } else if (element is SkinElement
-            && PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)
-        ) {
-            value = element
-        } else if (element is SkinClassSpecification) {
-            value = element.getResourcesAsList()
-        } else if (element is SkinResource) {
-            value = element.getObject()
+        when (element) {
+            is SkinFile -> {
+                return ContainerUtil.map2Array(
+                    element.getClassSpecifications(),
+                    TreeElement::class.java,
+                    Function(::SkinStructureViewElement)
+                )
+            }
+
+            is SkinProperty -> {
+                value = element.getValue()
+            }
+
+            is SkinElement if PsiTreeUtil.instanceOf(element, SkinObject::class.java, SkinArray::class.java)
+                -> {
+                value = element
+            }
+
+            is SkinClassSpecification -> {
+                value = element.getResourcesAsList()
+            }
+
+            is SkinResource -> {
+                value = element.getObject()
+            }
         }
 
         when (value) {

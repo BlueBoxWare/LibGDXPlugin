@@ -23,16 +23,16 @@ import com.gmail.blueboxware.libgdxplugin.testname
 class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
 
     fun test1() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 default: foo<caret>
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 foo: { <caret>  }
                 default: foo
               }
@@ -41,17 +41,17 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test2() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 bar: { }
                 default: foo<caret>
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 bar: { }
                 foo: { <caret>  }
                 default: foo
@@ -61,50 +61,50 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test3() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 bar: { }
                 default: foo<caret>
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 bar: { }
                 foo: { <caret>  }
                 default: foo
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
               }
             }
           """.trimIndent()
     )
 
     fun test4() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Button${"$"}ButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
                 f: { checked: fo<caret>o }
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   color: { hex: "#ffffff" }
-                  name:${" "}<caret>
+                  name:$${" "}<caret>
                 }
               }
-              com.badlogic.gdx.scenes.scene2d.ui.Button${"$"}ButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
                 f: { checked: foo }
               }
             }
@@ -112,9 +112,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test5() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   name: dwd<caret>qwd
                 }
@@ -126,23 +126,23 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test6() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   color: foo<caret>
                 }
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
               com.badlogic.gdx.graphics.Color: {
                 foo: {
                   hex: "#<caret>"
                 }
               }
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   color: foo
                 }
@@ -152,9 +152,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test7() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   color: foo<caret>
                 }
@@ -167,9 +167,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: {
                   color: foo
                 }
@@ -188,9 +188,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test8() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 foo: bar<caret>
               }
             }
@@ -200,16 +200,16 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun test991() = doTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 default: { parent: foo<caret> }
               }
             }
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 foo: { <caret>  }
                 default: { parent: foo }
               }

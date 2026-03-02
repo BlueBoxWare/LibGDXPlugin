@@ -112,7 +112,7 @@ private fun Project.reset(file: VirtualFile) {
         LanguageSubstitutors.getInstance().substituteLanguage(currentLanguage, file, this)
     }
 
-    DaemonCodeAnalyzer.getInstance(this).restart()
+    DaemonCodeAnalyzer.getInstance(this).restart("Changed file type for " + file.path)
     FileBasedIndex.getInstance().requestReindex(file)
     FileContentUtilCore.reparseFiles(file)
 

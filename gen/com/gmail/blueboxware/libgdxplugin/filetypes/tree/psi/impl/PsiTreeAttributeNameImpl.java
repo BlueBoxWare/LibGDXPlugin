@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeAttributeNameMixin;
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*;
 
-public class PsiTreeAttributeNameImpl extends ASTWrapperPsiElement implements PsiTreeAttributeName {
+public class PsiTreeAttributeNameImpl extends TreeAttributeNameMixin implements PsiTreeAttributeName {
 
-  public PsiTreeAttributeNameImpl(@NotNull ASTNode node) {
+  public PsiTreeAttributeNameImpl(ASTNode node) {
     super(node);
   }
 

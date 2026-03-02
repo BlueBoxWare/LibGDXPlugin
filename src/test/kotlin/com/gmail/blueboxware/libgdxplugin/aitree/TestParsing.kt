@@ -30,8 +30,71 @@ class TestParsing : ParsingTestCase("", "tree", TreeParserDefinition()) {
         doTest()
     }
 
+    fun testErrorMissingTaskName1() = doCodeTest(
+        """
+        a:""
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingTaskName2() = doCodeTest(
+        """
+        () a:""
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingTaskName3() = doCodeTest(
+        """
+        (a:"")
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingValue1() = doCodeTest(
+        """
+        () a:
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingValue2() = doCodeTest(
+        """
+        (a:) a
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingValue3() = doCodeTest(
+        """
+        () t a: 
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingClosingParen1() = doCodeTest(
+        """
+        (
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingClosingParen2() = doCodeTest(
+        """
+        (t a:""
+        t
+    """.trimIndent()
+    )
+
+    fun testErrorMissingSpace1() = doCodeTest(
+        """
+        t a:""b:""
+        t
+    """.trimIndent()
+    )
+
     fun doTest() {
-        doTest(true)
+        doTest(true, true)
     }
 
     override fun getTestDataPath() =

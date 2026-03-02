@@ -3,23 +3,8 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
-import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
-import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
-import com.intellij.openapi.fileEditor.FileDocumentManager
-import com.intellij.psi.JavaDirectoryService
 import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiDocumentManager
-import com.intellij.refactoring.BaseRefactoringProcessor
-import com.intellij.refactoring.PackageWrapper
-import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
-import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveDestination
-import com.intellij.refactoring.move.moveFilesOrDirectories.MoveFilesOrDirectoriesProcessor
-import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
-import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
-import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisFromWriteAction
-import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
-import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
@@ -201,14 +186,6 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
         }
     }
 
-//  fun testMoveKotlinFile() {
-//    copyDirectoryToProject("org", "org")
-//    val file = configureByFile("KotlinClass.kt") as KtFile
-//    configureByFile("changeKotlinPackageDirective1.skin")
-//    moveKotlinFile(file, "org.something")
-//    myFixture.checkResultByFile("changeKotlinPackageDirective1.skin") // no changes
-//  }
-
     fun testMoveKotlinFile() {
         copyDirectoryToProject("org", "org")
         val kotlinFile = configureByFile("KotlinClass.kt") as KtFile
@@ -268,97 +245,6 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
         myFixture.checkResultByFile(testname() + ".after")
         undo()
         myFixture.checkResultByFile(testname() + ".$extension")
-    }
-
-    @OptIn(KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class)
-    private fun moveKotlinFile(file: KtFile, newPackageName: String) {
-
-        val pkg = project.psiFacade().findPackage(newPackageName)
-        assertNotNull(pkg)
-
-        val dirs = pkg!!.directories
-
-        allowAnalysisOnEdt {
-            allowAnalysisFromWriteAction {
-                MoveFilesOrDirectoriesProcessor(
-                    project,
-                    arrayOf(file),
-                    dirs[0],
-                    true,
-                    true,
-                    null,
-                    null
-                ).run()
-            }
-        }
-
-        commit()
-
-    }
-
-    private fun moveJavaClass(className: String, newPackageName: String) {
-
-        BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
-
-            val clazz = project.findClass(className, project.projectScope()) ?: throw AssertionError()
-            val pkg = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
-            val dirs = pkg.directories
-
-            MoveClassesOrPackagesProcessor(
-                project,
-                arrayOf(clazz),
-                SingleSourceRootMoveDestination(
-                    PackageWrapper.create(
-                        JavaDirectoryService.getInstance().getPackage(dirs[0])
-                    ),
-                    dirs[0]
-                ),
-                true,
-                false,
-                null
-            ).run()
-
-            commit()
-
-        }
-
-    }
-
-    @Suppress("unused")
-    private fun movePackage(packageName: String, newPackageName: String) {
-
-        BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
-
-            val oldPackage = project.psiFacade().findPackage(packageName) ?: throw AssertionError()
-            val newPackage = project.psiFacade().findPackage(newPackageName) ?: throw AssertionError()
-            val dirs = newPackage.directories
-
-            MoveClassesOrPackagesProcessor(
-                project,
-                arrayOf(oldPackage),
-                SingleSourceRootMoveDestination(
-                    PackageWrapper.create(
-                        JavaDirectoryService.getInstance().getPackage(dirs[0])
-                    ),
-                    dirs[0]
-                ),
-                true,
-                false,
-                null
-            ).run()
-
-            commit()
-
-        }
-
-    }
-
-
-    private fun commit() {
-
-        PsiDocumentManager.getInstance(project).commitAllDocuments()
-        FileDocumentManager.getInstance().saveAllDocuments()
-
     }
 
     override fun setUp() {

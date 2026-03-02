@@ -16,7 +16,10 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeIndent
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.intellij.application.options.CodeStyle
 import com.intellij.openapi.project.Project
@@ -39,5 +42,21 @@ object TreeElementFactory {
         val file = createFile(project, indent + "root")
         return file.childOfType<PsiTreeIndent>()
     }
+
+    fun createString(project: Project, string: String, addQuotes: Boolean = true): PsiTreeVstringImpl? {
+        val quote = if (addQuotes) '"' else ""
+        return createFile(project, """a a:$quote$string$quote """).childOfType<PsiTreeVstringImpl>()
+    }
+
+    fun createTaskname(project: Project, name: String): PsiTreeTasknameImpl? =
+        createFile(project, name).childOfType<PsiTreeTasknameImpl>()
+
+    fun createAttributeName(project: Project, name: String): PsiTreeAttributeName? =
+        createFile(
+            project,
+            """
+                a $name:""
+            """.trimIndent()
+        ).childOfType<PsiTreeAttributeName>()
 
 }

@@ -30,7 +30,9 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix #46: java.lang.NoClassDefFoundError: com/intellij/lang/properties/references/PropertiesCompletionContributor</li>
+            <li>gdxAI behavior trees: Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes.
+            </li>
+            <li>Fix Atlas image preview on Windows.</li>
         </ul>
         ]]>
     </change-notes>
@@ -290,7 +292,7 @@
         <psi.referenceContributor language="kotlin"
                                   implementation="com.gmail.blueboxware.libgdxplugin.references.KotlinReferenceContributor"/>
         <useScopeEnlarger
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.ClassUseScopeEnlarger"/>
+                implementation="com.gmail.blueboxware.libgdxplugin.GdxUseScopeEnlarger"/>
         <referencesSearch
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.skin.findUsages.TaggedClassUsagesSearcher"/>
 
@@ -429,29 +431,53 @@
 
         <lang.formatter language="LibGDXAiTree"
                         implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeFormattingModelBuilder"/>
-        <codeStyleSettingsProvider implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeCodeStyleSettingsProvider" />
+        <codeStyleSettingsProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLanguageCodeStyleSettingsProvider" />
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLanguageCodeStyleSettingsProvider"/>
         <postFormatProcessor
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeIndentPostFormatProcessor" />
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeIndentPostFormatProcessor"/>
         <postFormatProcessor
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeEmptyLinesPostFormatProcessor" />
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeEmptyLinesPostFormatProcessor"/>
         <lineIndentProvider
-                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLineIndentProvider" />
-        <editor.backspaceModeOverride language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceModeOverride" />
-        <backspaceHandlerDelegate implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceHandlerDelegate" />
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeLineIndentProvider"/>
+        <editor.backspaceModeOverride language="LibGDXAiTree"
+                                      implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceModeOverride"/>
+        <backspaceHandlerDelegate
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.formatting.TreeBackspaceHandlerDelegate"/>
 
         <lang.syntaxHighlighterFactory language="LibGDXAiTree"
                                        implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.highlighting.TreeColorSettingsPage"/>
 
-        <lang.commenter language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeCommenter" />
+        <lang.commenter language="LibGDXAiTree"
+                        implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeCommenter"/>
 
-        <completion.contributor language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.completion.TreeCompletionContributor" />
+        <!-- Must come before JavaClassReferenceCompletionContributor -->
+        <completion.contributor language="LibGDXAiTree"
+                                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.completion.TreeCompletionContributor"
+                                order="first"/>
 
-        <lang.quoteHandler implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeQuoteHandler" language="LibGDXAiTree" />
-        <lang.braceMatcher language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeBraceMatcher" />
+        <lang.quoteHandler
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeQuoteHandler"
+                language="LibGDXAiTree"/>
+        <lang.braceMatcher language="LibGDXAiTree"
+                           implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeBraceMatcher"/>
+
+        <lang.findUsagesProvider language="LibGDXAiTree"
+                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.TreeFindUsagesProvider"/>
+        <customUsageSearcher
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.DefaultImportUsageSearcher"/>
+
+        <refactoring.elementListenerProvider
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.refactoring.TreeKtPropertyRefactoringElementListenerProvider"/>
+        <lang.elementManipulator
+                forClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.refactoring.PsiTreeStringManipulator"/>
+        <lang.elementManipulator
+                forClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.refactoring.PsiTreeTaskNameManipulator"/>
 
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->

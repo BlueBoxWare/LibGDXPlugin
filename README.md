@@ -105,6 +105,7 @@ Files with a `.fnt` extension are treated as Bitmap Font Files, with:
 Files with a `.tree` extension are treated as gdxAI behaviour tree files, with:
 * Syntax highlighting
 * (Re)formatting, code style support
+* Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes
 
 ## Skin resources and Atlas region names in Java and Kotlin code
 

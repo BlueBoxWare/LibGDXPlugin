@@ -4,15 +4,21 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
+import com.intellij.psi.PsiNameIdentifierOwner;
 
 public class PsiTreeVisitor extends PsiElementVisitor {
 
   public void visitAttribute(@NotNull PsiTreeAttribute o) {
-    visitTreeElement(o);
+    visitTreeAttribute(o);
+    // visitTreeElement(o);
+    // visitPsiNameIdentifierOwner(o);
   }
 
   public void visitAttributeName(@NotNull PsiTreeAttributeName o) {
-    visitTreeElement(o);
+    visitTreeAttributeName(o);
+    // visitTreeElement(o);
+    // visitPsiNamedElement(o);
   }
 
   public void visitGuard(@NotNull PsiTreeGuard o) {
@@ -76,6 +82,15 @@ public class PsiTreeVisitor extends PsiElementVisitor {
   public void visitVstring(@NotNull PsiTreeVstring o) {
     visitTreeString(o);
     // visitTreeElement(o);
+    // visitPsiNamedElement(o);
+  }
+
+  public void visitTreeAttribute(@NotNull TreeAttribute o) {
+    visitElement(o);
+  }
+
+  public void visitTreeAttributeName(@NotNull TreeAttributeName o) {
+    visitElement(o);
   }
 
   public void visitTreeElement(@NotNull TreeElement o) {

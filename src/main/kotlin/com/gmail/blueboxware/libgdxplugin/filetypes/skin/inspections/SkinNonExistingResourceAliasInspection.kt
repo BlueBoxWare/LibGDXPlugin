@@ -42,12 +42,18 @@ internal class SkinNonExistingResourceAliasInspection : SkinBaseInspection() {
                 if (referent == null) {
                     val quickfix = stringLiteral.resolveToClass()?.let { clazz ->
 
-                        if (clazz.qualifiedName == "java.lang.String") {
-                            null
-                        } else if (clazz.qualifiedName == TINTED_DRAWABLE_CLASS_NAME && stringLiteral.context is SkinResource) {
-                            null
-                        } else {
-                            CreateAssetQuickFix(stringLiteral, stringLiteral.getValue(), DollarClassName(clazz))
+                        when (clazz.qualifiedName) {
+                            "java.lang.String" -> {
+                                null
+                            }
+
+                            TINTED_DRAWABLE_CLASS_NAME if stringLiteral.context is SkinResource -> {
+                                null
+                            }
+
+                            else -> {
+                                CreateAssetQuickFix(stringLiteral, stringLiteral.getValue(), DollarClassName(clazz))
+                            }
                         }
 
                     }

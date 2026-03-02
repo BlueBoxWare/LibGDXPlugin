@@ -16,30 +16,49 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementFactory
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.getClassReferences
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeVstring
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeImport
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeValue
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.NlsSafe
+import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiReference
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.JavaClassListReferenceProvider
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.JavaClassReferenceProvider
-import com.intellij.psi.impl.source.resolve.reference.impl.providers.JavaClassReferenceSet
 
 abstract class TreeStringMixin(node: ASTNode) : PsiTreeVstring, TreeElementImpl(node) {
 
-    override fun getValue(): String = text.trim('"')
+    override fun getValue(): String = text.trim('"').trimEnd('?', '\t', ' ')
+
+    override fun getName(): String? = getValue()
 
     override fun getReferences(): Array<out PsiReference?> {
 
         if (parent is TreeValue && parent.parent.parent is TreeImport) {
-            val v = JavaClassReferenceSet(getValue(), this, 1, false, JavaClassListReferenceProvider().apply {
-                setOption(JavaClassReferenceProvider.RESOLVE_QUALIFIED_CLASS_NAME, true)
-            }).references
-            return v
+            return getClassReferences(getValue(), 1)
         }
 
         return super.getReferences()
     }
+
+    override fun setName(name: @NlsSafe String): PsiTreeVstringImpl? {
+        TreeElementFactory.createString(project, name)?.let {
+            replace(it)
+            return it
+        }
+        return null
+    }
+
+    override fun setName(newName: String, range: TextRange): PsiTreeVstringImpl? {
+        val newContent = text.replaceRange(range.startOffset, range.endOffset, newName)
+        TreeElementFactory.createString(project, newContent, false)?.let {
+            replace(it)
+            return it
+        }
+        return null
+    }
+
 
 }

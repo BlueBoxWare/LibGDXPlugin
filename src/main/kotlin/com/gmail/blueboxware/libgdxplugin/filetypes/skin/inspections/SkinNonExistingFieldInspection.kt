@@ -37,31 +37,37 @@ internal class SkinNonExistingFieldInspection : SkinBaseInspection() {
             val property = propertyName.getProperty() ?: return
             val typeString = propertyName.getProperty()?.getContainingObject()?.resolveToTypeString() ?: return
 
-            if (typeString == COLOR_CLASS_NAME && name == "hex") {
-                return
-            } else if (typeString == BITMAPFONT_CLASS_NAME) {
-                if (!listOf(
-                        PROPERTY_NAME_FONT_FILE,
-                        PROPERTY_NAME_FONT_SCALED_SIZE,
-                        PROPERTY_NAME_FONT_FLIP,
-                        PROPERTY_NAME_FONT_MARKUP
-                    ).contains(name)
-                ) {
+            when {
+                typeString == COLOR_CLASS_NAME && name == "hex" -> {
+                    return
+                }
+
+                typeString == BITMAPFONT_CLASS_NAME -> {
+                    if (!listOf(
+                            PROPERTY_NAME_FONT_FILE,
+                            PROPERTY_NAME_FONT_SCALED_SIZE,
+                            PROPERTY_NAME_FONT_FLIP,
+                            PROPERTY_NAME_FONT_MARKUP
+                        ).contains(name)
+                    ) {
+                        holder.registerProblem(
+                            propertyName,
+                            message("skin.inspection.non.existing.field.message.BitmapFont", name)
+                        )
+                    }
+                    return
+                }
+
+                typeString == FREETYPE_FONT_PARAMETER_CLASS_NAME && name == "font" -> {
+                    return
+                }
+
+                property.resolveToField() == null -> {
                     holder.registerProblem(
                         propertyName,
-                        message("skin.inspection.non.existing.field.message.BitmapFont", name)
+                        message("skin.inspection.non.existing.field.message", typeString, name)
                     )
                 }
-                return
-            } else if (typeString == FREETYPE_FONT_PARAMETER_CLASS_NAME && name == "font") {
-                return
-            }
-
-            if (property.resolveToField() == null) {
-                holder.registerProblem(
-                    propertyName,
-                    message("skin.inspection.non.existing.field.message", typeString, name)
-                )
             }
 
         }

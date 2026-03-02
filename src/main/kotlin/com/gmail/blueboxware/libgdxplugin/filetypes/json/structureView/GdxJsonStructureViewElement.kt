@@ -57,12 +57,18 @@ class GdxJsonStructureViewElement(val element: GdxJsonElement) : StructureViewTr
         } else if (value is GdxJsonArray) {
             return value.valueList.mapNotNull { it.getValue() }.mapNotNull {
 
-                if (it is GdxJsonJobject && it.propertyList.isNotEmpty()) {
-                    GdxJsonStructureViewElement(it)
-                } else if (it is GdxJsonArray && PsiTreeUtil.findChildOfType(it, GdxJsonProperty::class.java) != null) {
-                    GdxJsonStructureViewElement(it)
-                } else {
-                    null
+                when (it) {
+                    is GdxJsonJobject if it.propertyList.isNotEmpty() -> {
+                        GdxJsonStructureViewElement(it)
+                    }
+
+                    is GdxJsonArray if PsiTreeUtil.findChildOfType(it, GdxJsonProperty::class.java) != null -> {
+                        GdxJsonStructureViewElement(it)
+                    }
+
+                    else -> {
+                        null
+                    }
                 }
 
             }.toTypedArray()

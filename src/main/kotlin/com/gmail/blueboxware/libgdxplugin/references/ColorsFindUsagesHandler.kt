@@ -19,7 +19,6 @@ import com.intellij.util.Processor
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.idea.base.util.allScope
-import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtDotQualifiedExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -125,7 +124,7 @@ private class MyCachedValueProvider(
                     .element
                     .getParentOfType<KtDotQualifiedExpression>()
                     ?.getParentOfType<KtDotQualifiedExpression>()
-                    ?.callExpression
+                    ?.callExpression()
                     ?.let { call ->
                         allowAnalysisOnEdt { call.resolveCallToStrings() }?.let { (_, methodName) ->
                             if (methodName == "get") {

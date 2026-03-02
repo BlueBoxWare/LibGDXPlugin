@@ -84,7 +84,7 @@ internal class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         }
     }
 
-    override fun getCodeSample(settingsType: SettingsType) = """
+    override fun getCodeSample(settingsType: SettingsType) = $$"""
 {
     com.badlogic.gdx.graphics.Color: {
         white: { r: 1, g: 1, b: 1, a: 1 },
@@ -94,7 +94,7 @@ internal class SkinLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
     com.badlogic.gdx.graphics.g2d.BitmapFont: {
         medium: { file: medium.fnt }
     },
-    com.badlogic.gdx.scenes.scene2d.ui.TextButton${'$'}TextButtonStyle: {
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
         default: {
             down: round-down, up: round,
             font: medium, fontColor: white

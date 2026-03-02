@@ -27,6 +27,7 @@ import org.jetbrains.kotlin.psi.KtClass
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+// TODO: Make find usages for fields work: UseScopeEnlarger
 @OptIn(KaAllowAnalysisOnEdt::class)
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
@@ -131,7 +132,7 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
                 assertNotNull(type)
                 assertTrue(
                     classType?.dollarName == type
-                            || (classType?.dollarName == "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable" && type == DRAWABLE_CLASS_NAME)
+                            || (classType?.dollarName == $$"com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable" && type == DRAWABLE_CLASS_NAME)
                 )
             }
             (usageInfo.element as? SkinStringLiteral)?.let { stringLiteral ->

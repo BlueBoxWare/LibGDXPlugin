@@ -43,6 +43,6 @@ class TagMap {
     fun getClassNames(tag: String): List<String>? = map[tag]
 
     fun getTags(className: String? = null): Set<String> =
-        map.filter { className == null || it.value.contains(className) }.keys
+        map.filter { (_, value) -> className == null || value.contains(className) }.keys
 
 }

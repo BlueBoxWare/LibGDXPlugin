@@ -16,4 +16,9 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-interface TreeTask : TreeElement
+import com.intellij.psi.PsiClass
+
+interface TreeTask : TreeElement {
+    fun getUsedAttributesNames(): Collection<String>
+    fun resolveToClass(): PsiClass?
+}

@@ -16,20 +16,20 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttribute
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeImport
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTaskImpl
 import com.intellij.lang.ASTNode
 
 abstract class TreeImportMixin(node: ASTNode) : PsiTreeImport, PsiTreeTaskImpl(node) {
 
-    override fun calcImports(): Map<String, String?> {
-        val result = mutableMapOf<String, String?>()
+    override fun calcImports(): Map<String, PsiTreeAttribute> {
+        val result = mutableMapOf<String, PsiTreeAttribute>()
 
         for (attribute in attributeList) {
             val key = attribute.attributeName.text
-            val value = attribute.value.vstring?.getValue() ?: continue
 
-            result[key] = value
+            result[key] = attribute
         }
         return result
     }

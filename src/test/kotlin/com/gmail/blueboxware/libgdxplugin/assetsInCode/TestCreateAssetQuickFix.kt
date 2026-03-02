@@ -262,9 +262,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         """
             skin.getDrawable("tinted<caret>");
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 tinted: {
                   color: { hex: "#ffffff" }
                   name: <caret>
@@ -280,9 +280,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
             """
             skin.getDrawable("tinted<caret>");
             """.trimIndent(),
-            """
+            $$"""
               {
-                com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable:{
+                com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable:{
                   tinted:{
                     color:{ hex:"#ffffff" }
                     name:<caret>
@@ -300,9 +300,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         """
             skin.newDrawable("tinted<caret>")
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.Skin${"$"}TintedDrawable: {
+              com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
                 tinted: {
                   color: { hex: "#ffffff" }
                   name: <caret>
@@ -317,9 +317,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle: {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
                 myButtonStyle: { <caret>  }
               }
             }
@@ -327,12 +327,12 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun testCreateResource991() = doJavaTest(
-        """
+        $$"""
             {
               TextButtonStyle {
                 f: {}
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle {
                 g: {}
               }
             }
@@ -340,12 +340,12 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-        """
+        $$"""
             {
               TextButtonStyle {
                 f: {}
               }
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle {
                 g: {}
                 myButtonStyle: { <caret>  }
               }
@@ -354,9 +354,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun testCreateResource992() = doJavaTest(
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle {
                 f: {}
               }
               TextButtonStyle {
@@ -367,9 +367,9 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         """
             skin.get("myButto<caret>nStyle", TextButton.TextButtonStyle.class);
           """.trimIndent(),
-        """
+        $$"""
             {
-              com.badlogic.gdx.scenes.scene2d.ui.TextButton${"$"}TextButtonStyle {
+              com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle {
                 f: {}
               }
               TextButtonStyle {

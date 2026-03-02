@@ -25,7 +25,6 @@ import org.jetbrains.kotlin.analysis.api.components.DefaultTypeClassIds
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
-import org.jetbrains.kotlin.idea.intentions.callExpression
 import org.jetbrains.kotlin.idea.references.AbstractKtReference
 import org.jetbrains.kotlin.idea.references.KtSimpleNameReference
 import org.jetbrains.kotlin.psi.*
@@ -232,7 +231,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                                 }
                             } else if (clazz == OBJECT_MAP_CLASS_NAME && method == "get") {
                                 // Colors.getColors().get(String)
-                                (initialValue as? PsiMethodCallExpression)?.let { methodCall ->
+                                initialValue.let { methodCall ->
                                     MethodCallUtils.getQualifierMethodCall(methodCall)?.resolveCallToStrings()
                                         ?.let { (clazz, method) ->
                                             if (clazz == COLORS_CLASS_NAME && method == "getColors") {
@@ -385,7 +384,7 @@ private fun PsiElement.findRoot(): PsiElement = getCachedValue(COLOR_ROOT_KEY) {
 
         is KtQualifiedExpression -> {
 
-            callExpression?.let { callExpression ->
+            callExpression()?.let { callExpression ->
                 return@getCachedValue callExpression.findRoot()
             }
 

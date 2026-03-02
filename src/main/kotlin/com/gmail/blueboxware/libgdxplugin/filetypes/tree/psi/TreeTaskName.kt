@@ -16,12 +16,19 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-interface TreeTaskName : TreeElement {
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl
+import com.intellij.openapi.util.TextRange
+import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiReference
+
+interface TreeTaskName : TreeElement, PsiReference {
 
     override fun getName(): String
 
-    fun isImport(): Boolean
-    fun isRoot(): Boolean
-    fun isSubtree(): Boolean
+    fun isInImport(): Boolean
+
+    fun resolveToClass(): PsiClass?
+
+    fun handleElementRename(newName: String, range: TextRange): PsiTreeTasknameImpl?
 
 }

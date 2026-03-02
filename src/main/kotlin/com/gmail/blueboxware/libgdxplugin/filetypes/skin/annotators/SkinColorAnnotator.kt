@@ -61,7 +61,7 @@ internal class SkinColorAnnotator : Annotator {
 
                             val editor = PsiEditorUtil.findEditor(element) ?: return
 
-                            val newColor = ColorChooserService.instance.showDialog(
+                            val newColor = ColorChooserService.getInstance().showDialog(
                                 editor.component,
                                 "Choose Color",
                                 color,

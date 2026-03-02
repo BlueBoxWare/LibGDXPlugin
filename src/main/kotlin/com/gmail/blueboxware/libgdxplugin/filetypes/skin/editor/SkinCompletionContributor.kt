@@ -44,7 +44,7 @@ private const val HIGH_PRIORITY = 75.0
 private const val HIGHEST_PRIORITY = 100.0
 
 private val prioritizedClasses = listOf(
-    "com.badlogic.gdx.scenes.scene2d.ui.Skin\$TintedDrawable",
+    $$"com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable",
     COLOR_CLASS_NAME,
     BITMAPFONT_CLASS_NAME
 )

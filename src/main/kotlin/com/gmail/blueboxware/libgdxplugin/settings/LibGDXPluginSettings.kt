@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("Destructure")
+
 package com.gmail.blueboxware.libgdxplugin.settings
 
 import com.intellij.openapi.components.SerializablePersistentStateComponent

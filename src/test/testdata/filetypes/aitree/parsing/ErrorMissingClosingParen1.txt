@@ -1,0 +1,16 @@
+libGDX Behaviour Tree(0,3)
+  PsiTreeLineImpl(LINE)(0,2)
+    PsiTreeIndentImpl(INDENT)(0,0)
+      <empty list>
+    PsiTreeGuardImpl(GUARD)(0,1)
+      PsiElement(TreeTokenType.()('(')(0,1)
+      PsiErrorElement:<task> or TreeTokenType.) expected(1,1)
+        <empty list>
+    PsiElement(TreeTokenType.end of line)('\n')(1,2)
+  PsiTreeLineImpl(LINE)(2,3)
+    PsiTreeIndentImpl(INDENT)(2,2)
+      <empty list>
+    PsiTreeStatementImpl(STATEMENT)(2,3)
+      PsiTreeTaskImpl(TASK)(2,3)
+        PsiTreeTasknameImpl(TASKNAME)(2,3)
+          PsiElement(TreeTokenType.task name)('t')(2,3)

@@ -1,5 +1,8 @@
 package com.gmail.blueboxware.libgdxplugin.properties
 
+import com.intellij.ide.highlighter.JavaFileType
+import org.jetbrains.kotlin.idea.KotlinFileType
+
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -129,7 +132,7 @@ class TestCompletion : PropertiesCodeInsightFixtureTestCase() {
           $text
         }
         """
-            doTestCompletion("Test.kt", content, expectedResults.first, expectedResults.second)
+            doTestCompletion(KotlinFileType.INSTANCE, content, expectedResults.first, expectedResults.second)
         }
     }
 
@@ -153,7 +156,7 @@ class TestCompletion : PropertiesCodeInsightFixtureTestCase() {
           }
         }
       """
-            doTestCompletion("Test.java", content, expectedResults.first, expectedResults.second)
+            doTestCompletion(JavaFileType.INSTANCE, content, expectedResults.first, expectedResults.second)
         }
     }
 

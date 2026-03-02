@@ -1,6 +1,7 @@
 package com.gmail.blueboxware.libgdxplugin.utils
 
 import com.intellij.psi.PsiClass
+import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 
 
 /*
@@ -27,7 +28,7 @@ class DollarClassName(val dollarName: String) {
     companion object {
         private fun PsiClass.putDollarInInnerClassName(): String =
             containingClass?.let {
-                it.putDollarInInnerClassName() + "$" + name
+                it.putDollarInInnerClassName() + "$" + (kotlinFqName?.shortName() ?: "")
             } ?: qualifiedName ?: ""
     }
 

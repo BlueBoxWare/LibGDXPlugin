@@ -184,7 +184,7 @@ class AssetReference(
             resourceName: String? = null
         ): Array<PsiReference> {
 
-            val assetFiles = when (callExpression) {
+            val (skinFiles, atlasFiles) = when (callExpression) {
                 is PsiMethodCallExpression -> {
                     callExpression.getAssetFiles()
                 }
@@ -198,7 +198,7 @@ class AssetReference(
                 }
             }
 
-            if (assetFiles.first.isEmpty() && assetFiles.second.isEmpty()) {
+            if (skinFiles.isEmpty() && atlasFiles.isEmpty()) {
                 return arrayOf()
             }
 
@@ -207,7 +207,7 @@ class AssetReference(
                     element,
                     resourceName ?: StringUtil.stripQuotesAroundValue(element.text),
                     wantedClass,
-                    assetFiles.first.toSet() to assetFiles.second.toSet()
+                    skinFiles.toSet() to atlasFiles.toSet()
                 )
             )
 

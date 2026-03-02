@@ -17,9 +17,11 @@
 package com.gmail.blueboxware.libgdxplugin.aitree
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLanguage
 import com.intellij.application.options.CodeStyle
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
+import com.intellij.testFramework.LightPlatformCodeInsightTestCase
 import java.io.File
 
 class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
@@ -34,6 +36,32 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
         doTestCommenter()
     }
 
+    fun testBracesInFile() = doTestBraceMatcher(
+        """
+        <caret>
+        task
+    """.trimIndent(), """
+        ()
+        task       
+    """.trimIndent()
+    )
+
+    fun testBracesEndOfFile() = doTestBraceMatcher(
+        """
+        <caret>
+    """.trimIndent(), """
+        ()
+    """.trimIndent()
+    )
+
+    fun testBracesInLine() = doTestBraceMatcher(
+        """
+        <caret> task
+    """.trimIndent(), """
+        () task       
+    """.trimIndent()
+    )
+
     private fun doTestCommenter() {
         val name = getTestName(true)
         myFixture.configureByFile("$name.tree")
@@ -45,8 +73,14 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
         myFixture.configureByFile("$name.after.tree")
         action.actionPerformedImpl(project, myFixture.editor)
         myFixture.checkResultByFile("$name.after2.tree")
+    }
 
-
+    private fun doTestBraceMatcher(source: String, expected: String) {
+        myFixture.configureByText(TreeFileType, source)
+        myFixture.type('(')
+        myFixture.checkResult(expected, true)
+        LightPlatformCodeInsightTestCase.backspace(editor, project)
+        myFixture.checkResult(source, true)
     }
 
     override fun getBasePath() = "/filetypes/aitree/editor/"

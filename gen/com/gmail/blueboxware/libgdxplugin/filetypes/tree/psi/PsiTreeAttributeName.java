@@ -4,7 +4,8 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi;
 import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiNamedElement;
 
-public interface PsiTreeAttributeName extends TreeElement {
+public interface PsiTreeAttributeName extends TreeAttributeName, TreeElement, PsiNamedElement {
 
 }

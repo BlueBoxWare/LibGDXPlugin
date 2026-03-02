@@ -28,6 +28,8 @@
     tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeTokenType'
 
     implements(".*") = 'TreeElement'
+    implements("attributeName|vstring") = "com.intellij.psi.PsiNamedElement"
+    implements("attribute") = "com.intellij.psi.PsiNameIdentifierOwner"
 
     tokens = [
         TINDENT='indent'
@@ -76,7 +78,9 @@
 //			line = indent* guardableTask? ws* <: comment? %endLine;
 //			main := line (nl line)** nl?;
 
-tree ::= line*
+tree ::= line_*
+
+private line_ ::= (TINDENT <<eof>>) | line
 
 line ::= indent guardableTask? COMMENT? EOL {
     implements="TreeLine"
@@ -88,9 +92,11 @@ indent ::= TINDENT? {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeIndentMixin"
 }
 
-private guardableTask ::= guard* statement
+private guardableTask ::= guard* statement?
 
-statement ::= task | import | subtree | root
+statement ::= task | import | subtree | root {
+    name="task"
+}
 
 task ::= (taskname attribute*) | subtreeref {
     implements="TreeTask"
@@ -98,26 +104,38 @@ task ::= (taskname attribute*) | subtreeref {
 }
 
 import ::= TIMPORT attribute* {
+    pin=1
     implements="TreeImport"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeImportMixin"
 }
 subtree ::= TSUBTREE attribute* {
+    pin=1
 }
 root ::= TROOT attribute* {
+    pin=1
 }
 
 subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?
 
-taskname ::= TASK_NAME QUESTION_MARK? {
+taskname ::= (TASK_NAME | <<parseMissingTaskName>>) QUESTION_MARK? {
     implements="TreeTaskName"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskNameMixin"
 }
 
-guard ::= LPAREN task? RPAREN
+guard ::= LPAREN task? RPAREN {
+    pin=1
+}
 
-attribute ::= attributeName QUESTION_MARK? COLON value
+attribute ::= attributeName QUESTION_MARK? COLON value {
+    pin=1
+    implements="TreeAttribute"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeAttributeMixin"
+}
 
-attributeName ::= ATTRNAME
+attributeName ::= ATTRNAME  {
+   implements="TreeAttributeName"
+   mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeAttributeNameMixin"
+}
 
 value ::= vkeyword | vnumber | vstring {
     implements="TreeValue"

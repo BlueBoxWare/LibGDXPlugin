@@ -6,8 +6,8 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.codeInsight.generation.CommentByBlockCommentHandler
 import com.intellij.codeInsight.generation.actions.CommentByLineCommentAction
+import com.intellij.grazie.spellcheck.GrazieSpellCheckingInspection
 import com.intellij.openapi.command.WriteCommandAction
-import com.intellij.spellchecker.inspections.SpellCheckingInspection
 
 
 /*
@@ -38,7 +38,7 @@ class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
     fun testBreadcrumbs1() = doTestBreadcrumbs("1", "items", "3", "value", "2", "foo", "p")
 
     fun testSpellChecking() {
-        myFixture.enableInspections(SpellCheckingInspection::class.java)
+        myFixture.enableInspections(GrazieSpellCheckingInspection::class.java)
         configureByFile("spellChecking.lson")
         myFixture.checkHighlighting(true, false, true)
     }

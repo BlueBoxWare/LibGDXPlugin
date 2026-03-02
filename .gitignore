@@ -8,3 +8,8 @@
 /stuff/
 .intellijPlatform
 .kotlin
+gen/com/gmail/blueboxware/libgdxplugin/filetypes/atlas2/_Atlas2Lexer.java~
+gen/com/gmail/blueboxware/libgdxplugin/filetypes/bitmapFont/_BitmapFontLexer.java~
+gen/com/gmail/blueboxware/libgdxplugin/filetypes/json/_GdxJsonLexer.java~
+gen/com/gmail/blueboxware/libgdxplugin/filetypes/skin/_SkinLexer.java~
+gen/com/gmail/blueboxware/libgdxplugin/filetypes/tree/TreeLexer.java~

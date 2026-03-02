@@ -91,14 +91,20 @@ private fun collectDescriptorsRecursively(
 
     val type = node.elementType
 
-    if (type in CONTAINERS && spansMultipleLines(node, document)) {
-        descriptors.add(FoldingDescriptor(node, node.textRange))
-    } else if (type == BLOCK_COMMENT) {
-        descriptors.add(FoldingDescriptor(node, node.textRange))
-    } else if (type == LINE_COMMENT) {
-        expandLineCommentsRange(node.psi).let { (start, end) ->
-            if (document.getLineNumber(start) != document.getLineNumber(end)) {
-                descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
+    when (type) {
+        in CONTAINERS if spansMultipleLines(node, document) -> {
+            descriptors.add(FoldingDescriptor(node, node.textRange))
+        }
+
+        BLOCK_COMMENT -> {
+            descriptors.add(FoldingDescriptor(node, node.textRange))
+        }
+
+        LINE_COMMENT -> {
+            expandLineCommentsRange(node.psi).let { (start, end) ->
+                if (document.getLineNumber(start) != document.getLineNumber(end)) {
+                    descriptors.add(FoldingDescriptor(node, TextRange(start, end)))
+                }
             }
         }
     }

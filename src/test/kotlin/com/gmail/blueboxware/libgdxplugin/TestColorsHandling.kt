@@ -57,7 +57,7 @@ class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
                     )
         ).forEach {
             doTestCompletion(
-                "Test.java",
+                JavaFileType.INSTANCE,
                 """
                 import com.badlogic.gdx.graphics.Colors;
                 class Test {
@@ -100,7 +100,7 @@ class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
                     ))
         ).forEach {
             doTestCompletion(
-                "Test.kt",
+                KotlinFileType.INSTANCE,
                 """
                 import com.badlogic.gdx.graphics.Colors
                 fun

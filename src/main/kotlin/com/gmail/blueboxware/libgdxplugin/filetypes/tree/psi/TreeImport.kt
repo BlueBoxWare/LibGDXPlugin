@@ -18,6 +18,6 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
 interface TreeImport : TreeTask {
 
-    fun calcImports(): Map<String, String?>
+    fun calcImports(): Map<String, PsiTreeAttribute>
 
 }

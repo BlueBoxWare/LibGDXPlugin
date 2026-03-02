@@ -6,6 +6,10 @@ import com.intellij.psi.tree.IElementType;
 
 %%
 
+%{
+    private boolean valueStarted = false;
+%}
+
 %class TreeLexer
 %implements FlexLexer
 %unicode
@@ -19,9 +23,11 @@ ID = [a-zA-Z_][a-zA-Z_0-9]*
 TASKNAME = {ID} ("." {ID})* ("$" {ID})*
 SUBTREEREFERENCE = "$" {ID}
 ATTRNAME = {ID}
-NUMBER = [0-9A-Fa-f._pPxXbBlL+-InityN]+
+NUMBER = [0-9A-Fa-f._pPxXbBlL+InityN-]+
 COMMENT = "#" [^\n\r]*
+// TODO: Handle missing quote
 DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
+NOT_AN_ATTRIBUTE=[ \t]*[^: \t]
 
 %state LINE
 %state ATTRIBUTES
@@ -56,11 +62,26 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
 }
 
 <LINE> {
-    "import"        { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT; }
-    "root"          { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT; }
-    "subtree"       { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE; }
+    "import"/{NOT_AN_ATTRIBUTE}        { yybegin(ATTRIBUTES); return TreeElementTypes.TIMPORT; }
+    "root"/{NOT_AN_ATTRIBUTE}          { yybegin(ATTRIBUTES); return TreeElementTypes.TROOT; }
+    "subtree"/{NOT_AN_ATTRIBUTE}       { yybegin(ATTRIBUTES); return TreeElementTypes.TSUBTREE; }
 
-    {TASKNAME}      { yybegin(ATTRIBUTES); return TreeElementTypes.TASK_NAME; }
+    {TASKNAME}      {
+        if (zzInput == YYEOF) {
+            {
+                switch (yytext().toString()) {
+                    case "import": return TreeElementTypes.TIMPORT;
+                    case "root": return TreeElementTypes.TROOT;
+                    case "subtree": return TreeElementTypes.TSUBTREE;
+                    default: return TreeElementTypes.TASK_NAME;
+                }
+            }
+        } else {
+            { yypushback(1); yybegin(ATTRIBUTES); }
+        }
+    }
+    {TASKNAME}/{NOT_AN_ATTRIBUTE}      { yybegin(ATTRIBUTES); return TreeElementTypes.TASK_NAME; }
+
     {SUBTREEREFERENCE}    { return TreeElementTypes.SUBTREEREFERENCE; }
 
     "("             { return TreeElementTypes.LPAREN; }
@@ -74,7 +95,7 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
 
     {SPACE}         { return TokenType.WHITE_SPACE; }
 
-    [^]             { return TokenType.BAD_CHARACTER; }
+    [^]             { yypushback(1); yybegin(ATTRIBUTES); }
 
 }
 
@@ -82,7 +103,7 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
 
     {ATTRNAME}      { return TreeElementTypes.ATTRNAME; }
     "?"             { return TreeElementTypes.QUESTION_MARK; }
-    ":"             { yybegin(VALUE); return TreeElementTypes.COLON; }
+    ":"             { valueStarted = false; yybegin(VALUE); return TreeElementTypes.COLON; }
 
     {NEWLINE}       { yybegin(YYINITIAL); return TreeElementTypes.EOL; }
     <<EOF>>         { yybegin(YYINITIAL); return TreeElementTypes.EOL; }
@@ -96,19 +117,25 @@ DOUBLE_QUOTED_STRING=\"([^\\\"]|\\.)*\"
 
 <VALUE> {
 
-    "true"          { yybegin(ATTRIBUTES); return TreeElementTypes.TRUE; }
-    "false"         { yybegin(ATTRIBUTES); return TreeElementTypes.FALSE; }
-    "null"          { yybegin(ATTRIBUTES); return TreeElementTypes.NULL; }
+    "true"          { valueStarted = true; return TreeElementTypes.TRUE; }
+    "false"         { valueStarted = true; return TreeElementTypes.FALSE; }
+    "null"          { valueStarted = true; return TreeElementTypes.NULL; }
 
-    {NUMBER}        { yybegin(ATTRIBUTES); return TreeElementTypes.NUMBER; }
-    {DOUBLE_QUOTED_STRING} { yybegin(ATTRIBUTES); return TreeElementTypes.STRING; }
+    {NUMBER}        { valueStarted = true; return TreeElementTypes.NUMBER; }
+    {DOUBLE_QUOTED_STRING} { valueStarted = true; return TreeElementTypes.STRING; }
 
     [#:\"()]        { yybegin(ATTRIBUTES); yypushback(1); }
 
     {NEWLINE}       { yybegin(YYINITIAL); return TreeElementTypes.EOL; }
     <<EOF>>         { yybegin(YYINITIAL); return TreeElementTypes.EOL; }
 
-    {SPACE}         { return TokenType.WHITE_SPACE; }
+    {SPACE}         {
+        if (valueStarted) {
+            yybegin(ATTRIBUTES); yypushback(1);
+        } else {
+            return TokenType.WHITE_SPACE;
+        }
+    }
 
     [^]             { return TokenType.BAD_CHARACTER; }
 

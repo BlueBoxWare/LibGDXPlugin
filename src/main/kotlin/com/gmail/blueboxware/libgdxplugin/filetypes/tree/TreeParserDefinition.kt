@@ -28,6 +28,12 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
+val IDENTIFIERS = TokenSet.create(TreeElementTypes.ATTRNAME, TreeElementTypes.TASK_NAME)
+val LITERALS = TokenSet.create(
+    TreeElementTypes.NUMBER, TreeElementTypes.NULL,
+    TreeElementTypes.TRUE, TreeElementTypes.FALSE
+)
+
 val FILE = IFileElementType(TreeLanguage)
 
 internal class TreeParserDefinition : ParserDefinition {

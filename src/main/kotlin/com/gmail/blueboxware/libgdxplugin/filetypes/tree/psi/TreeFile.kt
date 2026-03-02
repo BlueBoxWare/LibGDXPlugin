@@ -21,6 +21,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLanguage
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
+import com.intellij.psi.PsiElement
 import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.descendantsOfType
 import org.jetbrains.kotlin.idea.base.psi.getLineNumber
@@ -29,28 +30,29 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
     private var levels: Map<Int, Int>? = null
 
-    private var imports: Map<Int, Map<String, String?>>? = null
+    private var imports: Map<Int, Map<String, PsiTreeAttribute>>? = null
 
     override fun getFileType(): FileType = TreeFileType
 
     override fun toString(): String = TreeLanguage.NAME
 
-    fun getLevels() = levels ?: calculateLevels()
+    private fun getLevels() = levels ?: calculateLevels()
 
-    fun getLevel(line: Int) = levels?.let { it[line] } ?: calculateLevels()[line]
+    private fun getLevel(line: Int) = getLevels().let { it[line] }
 
     fun getLevel(line: PsiTreeLine) = getLevel(line.getLineNumber())
 
-    fun getImports(uptoLine: Int): Map<String, Pair<Int, String?>> {
+    fun getImports(upto: PsiElement): Map<String, Pair<Int, PsiTreeAttribute>> {
 
         if (imports == null) calculateImports()
 
-        val result = mutableMapOf<String, Pair<Int, String?>>()
+        val uptoLine = upto.getLineNumber()
+        val result = mutableMapOf<String, Pair<Int, PsiTreeAttribute>>()
 
         imports?.forEach { (line, map) ->
             if (line < uptoLine) {
-                map.forEach { (name, fqn) ->
-                    result[name] = line to fqn
+                map.forEach { (name, attribute) ->
+                    result[name] = line to attribute
                 }
             }
         }
@@ -71,7 +73,7 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
     }
 
     private fun calculateImports() {
-        val result = mutableMapOf<Int, Map<String, String?>>()
+        val result = mutableMapOf<Int, Map<String, PsiTreeAttribute>>()
 
         for (import in descendantsOfType<TreeImport>()) {
             result[import.getLineNumber()] = import.calcImports()
