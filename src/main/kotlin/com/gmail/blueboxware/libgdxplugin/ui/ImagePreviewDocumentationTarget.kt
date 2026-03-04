@@ -38,7 +38,6 @@ import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
-import com.intellij.util.ui.ImageUtil
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.net.URI
