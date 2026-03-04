@@ -39,6 +39,7 @@ import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
 import com.intellij.util.ui.ImageUtil
+import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.net.URI
 import java.net.URISyntaxException
@@ -135,7 +136,16 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
             }
         }
 
-        val previewImage = ImageUtil.toBufferedImage(ImageUtil.scaleImage(image, scale.toDouble()))
+        // Scale the image without smoothing to keep pixel art sharp
+        val previewImage = BufferedImage(image.width * scale, image.height * scale, BufferedImage.TYPE_INT_ARGB)
+        previewImage.createGraphics().apply {
+            setRenderingHint(
+                RenderingHints.KEY_INTERPOLATION,
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR)
+            drawImage(image, 0, 0, previewImage.width, previewImage.height, null)
+            dispose()
+        }
+
         val imageFile = FileUtil.createTempFile("img", ".png", true)
         try {
             ImageIO.write(previewImage, "png", imageFile)
