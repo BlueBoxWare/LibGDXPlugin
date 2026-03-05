@@ -140,7 +140,8 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
         previewImage.createGraphics().apply {
             setRenderingHint(
                 RenderingHints.KEY_INTERPOLATION,
-                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR)
+                RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR
+            )
             drawImage(image, 0, 0, previewImage.width, previewImage.height, null)
             dispose()
         }

@@ -1,3 +1,6 @@
+### 1.28.1
+* [#49](https://github.com/BlueBoxWare/LibGDXPlugin/pull/49): Make atlas preview images sharp when scaled up, by [EfourC](https://github.com/EfourC).
+
 ### 1.28
 * gdxAI behavior trees: Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes.
 * [#48](https://github.com/BlueBoxWare/LibGDXPlugin/pull/48): Fix Atlas image preview on Windows, by [@ZCHawk](https://github.com/ZCHawk).

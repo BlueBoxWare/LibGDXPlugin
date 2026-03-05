@@ -30,9 +30,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>gdxAI behavior trees: Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes.
-            </li>
-            <li>Fix Atlas image preview on Windows.</li>
+            <li>Don't smooth Atlas image previews.</li>
         </ul>
         ]]>
     </change-notes>

@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("com.github.blueboxware.tocme") version "1.8"
     id("org.jetbrains.intellij.platform") version "2.11.0"
-    id("org.jetbrains.grammarkit") version "2022.3.2.2"
+    id("org.jetbrains.grammarkit") version "2023.3.0.3"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -143,16 +143,6 @@ tasks {
 
         val name = path.uppercaseFirstChar()
         val bnfTask = register<GenerateParserTask>("generate${name}Parser") {
-
-            // TODO: Remove
-            // https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/223
-            // https://github.com/JetBrains/gradle-grammar-kit-plugin/issues/225
-            val platformLibs = intellijPlatform.platformPath.resolve("lib")
-            classpath += fileTree(platformLibs) {
-                include("*.jar")
-            }
-            // /TODO
-
 
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$parser.bnf")
             targetRootOutputDir = file("gen")
