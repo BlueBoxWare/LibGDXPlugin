@@ -1,8 +1,8 @@
 import org.gradle.kotlin.dsl.support.uppercaseFirstChar
-import org.jetbrains.grammarkit.tasks.GenerateLexerTask
-import org.jetbrains.grammarkit.tasks.GenerateParserTask
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.intellij.platform.gradle.tasks.GenerateLexerTask
+import org.jetbrains.intellij.platform.gradle.tasks.GenerateParserTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -10,8 +10,8 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.11.0"
-    id("org.jetbrains.grammarkit") version "2023.3.0.3"
+    id("org.jetbrains.intellij.platform") version "2.14.0"
+    id("org.jetbrains.intellij.platform.grammarkit") version "2.14.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -146,14 +146,13 @@ tasks {
 
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$parser.bnf")
             targetRootOutputDir = file("gen")
-            pathToParser = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path"
-            pathToPsiRoot = "gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path/psi"
-            purgeOldFiles = true
+            purgeOldFiles = false
         }
         val lexerTask = register<GenerateLexerTask>("generate${name}Lexer") {
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$lexer.flex")
-            targetOutputDir = file("gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path")
+            targetRootOutputDir = file("gen")
             dependsOn(bnfTask)
+            purgeOldFiles = false
         }
         withType<KotlinCompile> {
             dependsOn(lexerTask)
