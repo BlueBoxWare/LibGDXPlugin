@@ -46,6 +46,7 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
         println("\nPATHS:")
         println("\tSystem: " + PathManager.getSystemPath())
         println("\tConfig: " + PathManager.getConfigPath())
+        println()
     }
 
     fun testCreateShortnameList() {

@@ -19,6 +19,8 @@ import com.intellij.psi.util.PsiModificationTracker
 import com.intellij.util.asSafely
 import org.jetbrains.kotlin.analysis.api.KaSession
 import org.jetbrains.kotlin.analysis.api.analyze
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.config.MavenComparableVersion
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtElement
@@ -144,10 +146,13 @@ internal inline fun <R> Project.getCachedValue(
 
 internal fun <E> List<E>.indexOfOrNull(element: E): Int? = indexOf(element).takeIf { it >= 0 }
 
+@OptIn(KaAllowAnalysisOnEdt::class)
 internal fun <R> analyzeWriteSafe(
     useSiteElement: KtElement,
     action: KaSession.() -> R
 ): R? =
     if (!ApplicationManager.getApplication().isWriteAccessAllowed)
-        analyze(useSiteElement, action)
+        allowAnalysisOnEdt {
+            analyze(useSiteElement, action)
+        }
     else null
