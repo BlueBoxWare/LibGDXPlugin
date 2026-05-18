@@ -18,6 +18,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeIndent
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
@@ -50,6 +51,9 @@ object TreeElementFactory {
 
     fun createTaskname(project: Project, name: String): PsiTreeTasknameImpl? =
         createFile(project, name).childOfType<PsiTreeTasknameImpl>()
+
+    fun createLine(project: Project, indentSize: Int, text: String): PsiTreeLine? =
+        createFile(project, " ".repeat(indentSize) + "$text\n").childOfType<PsiTreeLine>()
 
     fun createAttributeName(project: Project, name: String): PsiTreeAttributeName? =
         createFile(

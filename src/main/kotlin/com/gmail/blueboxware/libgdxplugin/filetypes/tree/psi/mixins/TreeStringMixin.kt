@@ -34,7 +34,7 @@ abstract class TreeStringMixin(node: ASTNode) : PsiTreeVstring, TreeElementImpl(
 
     override fun getName(): String? = getValue()
 
-    override fun getReferences(): Array<out PsiReference?> {
+    override fun getReferences(): Array<out PsiReference> {
 
         if (parent is TreeValue && parent.parent.parent is TreeImport) {
             return getClassReferences(getValue(), 1)

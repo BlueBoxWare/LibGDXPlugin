@@ -101,6 +101,11 @@ intellijPlatformTesting {
     }
 }
 
+interface FileSystem {
+    @get:Inject
+    val fs: FileSystemOperations
+}
+
 tasks {
     withType<JavaCompile> {
         sourceCompatibility = "21"
@@ -164,7 +169,10 @@ tasks {
 
         val name = path.uppercaseFirstChar()
         val bnfTask = register<GenerateParserTask>("generate${name}Parser") {
-
+            val fs = project.objects.newInstance<FileSystem>()
+            doFirst {
+                fs.fs.delete { delete("gen/com/gmail/blueboxware/libgdxplugin/filetypes/$path") }
+            }
             sourceFile = file("src/main/kotlin/com/gmail/blueboxware/libgdxplugin/filetypes/$path/$parser.bnf")
             targetRootOutputDir = file("gen")
             purgeOldFiles = false

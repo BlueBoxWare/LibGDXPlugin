@@ -20,7 +20,7 @@ import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
 
-open class PsiTreeRecursiveVisitor : PsiTreeVisitor(), PsiRecursiveVisitor {
+open class PsiTreeRecursiveVisitor : PsiTreeElementVisitor(), PsiRecursiveVisitor {
 
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()

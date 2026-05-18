@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiNamedElement;
 import com.intellij.psi.PsiNameIdentifierOwner;
 
-public class PsiTreeVisitor extends PsiElementVisitor {
+public class PsiTreeElementVisitor extends PsiElementVisitor {
 
   public void visitAttribute(@NotNull PsiTreeAttribute o) {
     visitTreeAttribute(o);

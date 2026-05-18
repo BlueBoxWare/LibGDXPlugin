@@ -36,29 +36,40 @@ internal class TreeLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
         when (settingsType) {
 
-            SettingsType.COMMENTER_SETTINGS -> {
-                consumer.showStandardOptions(
-                    "LINE_COMMENT_ADD_SPACE",
-                    "LINE_COMMENT_AT_FIRST_COLUMN",
-                )
-            }
-
             SettingsType.LANGUAGE_SPECIFIC -> {
                 consumer.showCustomOption(
                     TreeCodeStyleSettings::class.java,
                     "KEEP_INDENT",
-                    message("tree.formatting.keep.indentation"), TreeCustomOptionsEditor.GROUP
+                    message("tree.formatting.keep.indentation"), TreeCustomOptionsEditor.GROUP_INDENTATION
                 )
                 consumer.showCustomOption(
                     TreeCodeStyleSettings::class.java,
                     "KEEP_COMMENTS",
-                    message("tree.formatting.keep.comments"), TreeCustomOptionsEditor.GROUP
+                    message("tree.formatting.keep.comments"), TreeCustomOptionsEditor.GROUP_COMMENTS
                 )
                 consumer.showCustomOption(
                     TreeCodeStyleSettings::class.java,
                     "KEEP_INDENTS_ON_EMPTY_LINES",
                     ApplicationBundle.message("checkbox.indent.keep.indents.on.empty.lines"),
-                    TreeCustomOptionsEditor.GROUP
+                    TreeCustomOptionsEditor.GROUP_INDENTATION
+                )
+                consumer.showCustomOption(
+                    TreeCodeStyleSettings::class.java,
+                    "LINE_COMMENT_ADD_SPACE",
+                    message("tree.formatting.add.space"),
+                    TreeCustomOptionsEditor.GROUP_COMMENTS
+                )
+                consumer.showCustomOption(
+                    TreeCodeStyleSettings::class.java,
+                    "LINE_COMMENT_ADD_SPACE_IN_SUPPRESSION",
+                    message("tree.formatting.add.space.suppression"),
+                    TreeCustomOptionsEditor.GROUP_COMMENTS
+                )
+                consumer.showCustomOption(
+                    TreeCodeStyleSettings::class.java,
+                    "LINE_COMMENT_AT_FIRST_COLUMN",
+                    ApplicationBundle.message("checkbox.line.comment.at.first.column"),
+                    TreeCustomOptionsEditor.GROUP_COMMENTS
                 )
             }
 
@@ -88,6 +99,7 @@ internal class TreeLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         commonSettings.SPACE_AFTER_TYPE_CAST = true
 
         commonSettings.LINE_COMMENT_ADD_SPACE = true
+        commonSettings.LINE_COMMENT_AT_FIRST_COLUMN = false
     }
 
 
@@ -98,15 +110,16 @@ internal class TreeLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettings
         root
           selector
             parallel
+              # Comment
               care urgentProb:0.8 bool:true
               com.badlogic.gdx.ai.tests.btree.dog.PlayTask # fully qualified task
             randomSelector
-         # Comment
+                   # Comment
               untilSuccess
-                sequence
-                  bark times:"uniform,1,2"
-                  (include subtree:"path/to/my/subtree") walk
-                  (guard a:1 b:2) mark
+                 sequence
+                      bark times:"uniform,1,2"
+                      (include subtree:"path/to/my/subtree") walk
+                      (guard a:1 b:2) mark
               parallel policy:"selector"  # sleep with random timeout
                 wait seconds:"triangular,2.5,5.5"
                 rest

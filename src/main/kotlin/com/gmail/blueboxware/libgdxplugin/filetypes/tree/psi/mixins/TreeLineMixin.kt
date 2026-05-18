@@ -20,9 +20,8 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeFile
 import com.intellij.lang.ASTNode
-import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
+import com.intellij.psi.PsiElement
 
 abstract class TreeLineMixin(node: ASTNode) : PsiTreeLine, TreeElementImpl(node) {
 
@@ -30,32 +29,8 @@ abstract class TreeLineMixin(node: ASTNode) : PsiTreeLine, TreeElementImpl(node)
 
     override fun hasComment(): Boolean = findChildByType<TreeElement>(TreeElementTypes.COMMENT) != null
 
-    override fun level(): Int = (containingFile as? TreeFile)?.getLevel(this) ?: 0
+    override fun getComment(): PsiElement? = findChildByType(TreeElementTypes.COMMENT)
 
-    override fun calcLevel(): Int {
-        var level = 0
-
-        var prev = prevSiblingOfSameType()
-        while (prev != null) {
-            when {
-                prev.isEmpty() -> {
-
-                }
-
-                prev.indent.textLength == indent.textLength -> {
-                    level = prev.calcLevel()
-                    break
-                }
-
-                prev.indent.textLength < indent.textLength -> {
-                    level = prev.calcLevel() + 1
-                    break
-                }
-            }
-            prev = prev.prevSiblingOfSameType()
-        }
-
-        return level
-    }
+    override fun getIndentSize(): Int = indent.textLength
 
 }

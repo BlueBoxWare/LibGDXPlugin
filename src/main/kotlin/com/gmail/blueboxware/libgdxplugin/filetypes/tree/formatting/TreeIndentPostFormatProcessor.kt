@@ -20,6 +20,7 @@ import andel.intervals.toReversedList
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementFactory
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLanguage
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeFile
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeIndent
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
@@ -64,9 +65,12 @@ internal class TreeIndentPostFormatProcessor : PostFormatProcessor {
 
     private fun reformat(source: TreeIndent, codeStyleSettings: CodeStyleSettings) {
 
-        val keepComments = codeStyleSettings.getCustomSettings(TreeCodeStyleSettings::class.java).KEEP_COMMENTS
+        val settings = codeStyleSettings.getCustomSettings(TreeCodeStyleSettings::class.java)
+        val keepComments = settings.KEEP_COMMENTS
         val keepEmpty =
-            codeStyleSettings.getCustomSettings(TreeCodeStyleSettings::class.java).KEEP_INDENTS_ON_EMPTY_LINES
+            settings.KEEP_INDENTS_ON_EMPTY_LINES
+        val commentsOnFirstColumn = settings.LINE_COMMENT_AT_FIRST_COLUMN
+        val levelsByElement = (source.containingFile as? TreeFile)?.getLevelsByElement() ?: return
 
         source.parentOfType<PsiTreeLine>()?.let { treeLine ->
             if (treeLine.isEmpty()) {
@@ -77,8 +81,9 @@ internal class TreeIndentPostFormatProcessor : PostFormatProcessor {
                     return@let
                 }
             }
-            treeLine.level().let { level ->
-                val newLevel = if (treeLine.isEmpty() && !treeLine.hasComment()) 0 else level
+            levelsByElement.getOrDefault(treeLine, 0).let { level ->
+                val newLevel =
+                    if (treeLine.isEmpty() && !treeLine.hasComment()) 0 else if (commentsOnFirstColumn && treeLine.isEmpty() && treeLine.hasComment()) 0 else level
                 TreeElementFactory.createIndent(source.project, newLevel)?.let { newIndent ->
                     if (newIndent.text != source.text) {
                         source.replace(newIndent)

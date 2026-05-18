@@ -32,7 +32,8 @@ class TreeCustomOptionsEditor(settings: CodeStyleSettings) : OptionTreeWithPrevi
     }
 
     override fun initTables() {
-        initCustomOptions(GROUP)
+        initCustomOptions(GROUP_INDENTATION)
+        initCustomOptions(GROUP_COMMENTS)
     }
 
     override fun getPreviewText(): String? =
@@ -49,8 +50,17 @@ class TreeCustomOptionsEditor(settings: CodeStyleSettings) : OptionTreeWithPrevi
         LanguageCodeStyleSettingsProvider.forLanguage(TreeLanguage)?.customizeSettings(this, settingsType)
     }
 
+    override fun apply(settings: CodeStyleSettings) {
+        super.apply(settings)
+        val common = settings.getCommonSettings(TreeLanguage)
+        val custom = settings.getCustomSettings(TreeCodeStyleSettings::class.java)
+        common.LINE_COMMENT_ADD_SPACE = custom.LINE_COMMENT_ADD_SPACE
+        common.LINE_COMMENT_AT_FIRST_COLUMN = custom.LINE_COMMENT_AT_FIRST_COLUMN
+    }
+
     companion object {
-        val GROUP = message("tree.formatting.group")
+        val GROUP_INDENTATION = message("tree.formatting.indentation")
+        val GROUP_COMMENTS = message("tree.formatting.comments")
     }
 
 }

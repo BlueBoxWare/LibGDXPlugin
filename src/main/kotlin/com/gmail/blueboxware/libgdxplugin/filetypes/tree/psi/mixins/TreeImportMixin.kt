@@ -20,8 +20,11 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttribute
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeImport
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTaskImpl
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.NlsSafe
 
 abstract class TreeImportMixin(node: ASTNode) : PsiTreeImport, PsiTreeTaskImpl(node) {
+
+    override fun getName(): @NlsSafe String? = "import"
 
     override fun calcImports(): Map<String, PsiTreeAttribute> {
         val result = mutableMapOf<String, PsiTreeAttribute>()

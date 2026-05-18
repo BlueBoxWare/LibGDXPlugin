@@ -31,6 +31,8 @@
     implements("attributeName|vstring") = "com.intellij.psi.PsiNamedElement"
     implements("attribute") = "com.intellij.psi.PsiNameIdentifierOwner"
 
+    psiVisitorName = "ElementVisitor"
+
     tokens = [
         TINDENT='indent'
         EOL='end of line'
@@ -110,9 +112,11 @@ import ::= TIMPORT attribute* {
 }
 subtree ::= TSUBTREE attribute* {
     pin=1
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeSubtreeMixin"
 }
 root ::= TROOT attribute* {
     pin=1
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeRootMixin"
 }
 
 subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?

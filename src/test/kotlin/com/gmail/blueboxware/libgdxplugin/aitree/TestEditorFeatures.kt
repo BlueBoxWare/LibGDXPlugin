@@ -26,12 +26,34 @@ import java.io.File
 
 class TestEditorFeatures : LibGDXCodeInsightFixtureTestCase() {
 
-    fun testComment() = doTestCommenter()
+    fun testComment() {
+        CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).apply {
+            LINE_COMMENT_AT_FIRST_COLUMN = true
+            LINE_COMMENT_ADD_SPACE = true
+        }
+        doTestCommenter()
+    }
 
     fun testComment2() {
         CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).apply {
             LINE_COMMENT_AT_FIRST_COLUMN = false
             LINE_COMMENT_ADD_SPACE = false
+        }
+        doTestCommenter()
+    }
+
+    fun testComment3() {
+        CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).apply {
+            LINE_COMMENT_AT_FIRST_COLUMN = true
+            LINE_COMMENT_ADD_SPACE = false
+        }
+        doTestCommenter()
+    }
+
+    fun testComment4() {
+        CodeStyle.getSettings(project).getCommonSettings(TreeLanguage).apply {
+            LINE_COMMENT_AT_FIRST_COLUMN = false
+            LINE_COMMENT_ADD_SPACE = true
         }
         doTestCommenter()
     }

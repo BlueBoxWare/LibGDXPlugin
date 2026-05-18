@@ -43,7 +43,7 @@
         <plugin id="com.intellij.modules.platform"/>
         <module name="intellij.spellchecker"/>
         <module name="intellij.properties.backend.psi"/>
-        <module name="intellij.properties.backend" />
+        <module name="intellij.properties.backend"/>
     </dependencies>
 
     <projectListeners>
@@ -476,6 +476,9 @@
         <lang.elementManipulator
                 forClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.refactoring.PsiTreeTaskNameManipulator"/>
+
+        <lang.inspectionSuppressor language="LibGDXAiTree"
+                                   implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections.TreeInspectionSuppressor"/>
 
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->
@@ -999,6 +1002,33 @@
                 hasStaticDescription="true"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.json.inspections.LibGDXTopLevelValueInspection"
         />
+        <!--suppress PluginXmlCapitalization -->
+        <localInspection
+                language="LibGDXAiTree"
+                bundle="libgdxplugin"
+                key="tree.inspection.unknown.class.display.name"
+                groupPath="libGDX"
+                groupName="Behaviour Tree"
+                shortName="GDXUnknownClass"
+                level="ERROR"
+                enabledByDefault="true"
+                hasStaticDescription="true"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections.TreeUnknownClassInspection"
+        />
+        <!--suppress PluginXmlCapitalization -->
+        <localInspection
+                language="LibGDXAiTree"
+                bundle="libgdxplugin"
+                key="tree.inspection.unknown.attribute.display.name"
+                groupPath="libGDX"
+                groupName="Behaviour Tree"
+                shortName="GDXUnknownAttribute"
+                level="ERROR"
+                enabledByDefault="true"
+                hasStaticDescription="true"
+                implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections.TreeUnknownAttributeInspection"
+        />
+
 
     </extensions>
 

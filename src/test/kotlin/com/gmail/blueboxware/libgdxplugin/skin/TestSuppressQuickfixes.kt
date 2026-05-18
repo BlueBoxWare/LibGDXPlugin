@@ -3,7 +3,6 @@ package com.gmail.blueboxware.libgdxplugin.skin
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.inspections.*
 import com.gmail.blueboxware.libgdxplugin.message
-import com.gmail.blueboxware.libgdxplugin.testname
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -22,87 +21,70 @@ import com.gmail.blueboxware.libgdxplugin.testname
  */
 class TestSuppressQuickfixes : LibGDXCodeInsightFixtureTestCase() {
 
-    fun testSuppressForObject1() {
-        myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForObject1() = doTestQuickFix(
+        SkinNonExistingFieldInspection::class, message("suppress.object"), "skin"
+    )
 
-    fun testSuppressForObject2() {
-        myFixture.enableInspections(SkinMissingPropertyInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForObject2() = doTestQuickFix(
+        SkinMissingPropertyInspection::class, message("suppress.object"), "skin"
+    )
 
     fun testSuppressForObject3() {
         copyFileToProject("ColorArrayHolder.java")
-        myFixture.enableInspections(SkinTypeInspection::class.java)
-        doTest(message("suppress.object"))
+        doTestQuickFix(
+            SkinTypeInspection::class, message("suppress.object"), "skin"
+        )
     }
 
-    fun testSuppressForObject4() {
-        myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForObject4() = doTestQuickFix(
+        SkinNonExistingFieldInspection::class, message("suppress.object"), "skin"
+    )
 
-    fun testSuppressForObject5() {
-        myFixture.enableInspections(SkinNonExistingFieldInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForObject5() = doTestQuickFix(
+        SkinNonExistingFieldInspection::class, message("suppress.object"), "skin"
+    )
 
-    fun testSuppressForClassSpec1() {
-        myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
-        doTest(message("suppress.object"))
-    }
 
-    fun testSuppressForClassSpec2() {
-        myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForClassSpec1() = doTestQuickFix(
+        SkinDuplicateResourceNameInspection::class, message("suppress.object"), "skin"
+    )
 
-    fun testSuppressForClassSpec3() {
-        myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressForClassSpec2() = doTestQuickFix(
+        SkinDuplicateResourceNameInspection::class, message("suppress.object"), "skin"
+    )
+
+    fun testSuppressForClassSpec3() = doTestQuickFix(
+        SkinDuplicateResourceNameInspection::class, message("suppress.object"), "skin"
+    )
+
 
     fun testSuppressForClassSpec4() {
         addLibGDX113()
-        myFixture.enableInspections(SkinAbbrClassInspection::class.java)
-        doTest(message("suppress.object"))
+        doTestQuickFix(
+            SkinAbbrClassInspection::class, message("suppress.object"), "skin"
+        )
     }
 
-    fun testSuppressForFile1() {
-        myFixture.enableInspections(SkinNonExistingClassInspection::class.java)
-        doTest(message("suppress.file"))
-    }
+    fun testSuppressForFile1() = doTestQuickFix(
+        SkinNonExistingClassInspection::class, message("suppress.file"), "skin"
+    )
 
-    fun testSuppressForFile2() {
-        myFixture.enableInspections(SkinDuplicateResourceNameInspection::class.java)
-        doTest(message("suppress.file"))
-    }
+    fun testSuppressForFile2() = doTestQuickFix(
+        SkinDuplicateResourceNameInspection::class, message("suppress.file"), "skin"
+    )
+
 
     fun testSuppressForFile3() {
         copyFileToProject("ColorArrayHolder.java")
-        myFixture.enableInspections(SkinTypeInspection::class.java)
-        doTest(message("suppress.file"))
+        doTestQuickFix(
+            SkinTypeInspection::class, message("suppress.file"), "skin"
+        )
     }
 
-    fun testSuppressNonexistingClass() {
-        myFixture.enableInspections(SkinNonExistingClassInspection::class.java)
-        doTest(message("suppress.object"))
-    }
+    fun testSuppressNonexistingClass() = doTestQuickFix(
+        SkinNonExistingClassInspection::class, message("suppress.object"), "skin"
+    )
 
-    fun doTest(familyName: String) {
-        configureByFile(testname() + ".skin")
-        for (intention in myFixture.availableIntentions) {
-            if (intention.familyName == familyName) {
-                myFixture.launchAction(intention)
-                myFixture.checkResultByFile(testname() + ".after")
-                return
-            }
-        }
-
-        fail("Suppress intention '$familyName' not found")
-
-    }
 
     override fun setUp() {
         super.setUp()

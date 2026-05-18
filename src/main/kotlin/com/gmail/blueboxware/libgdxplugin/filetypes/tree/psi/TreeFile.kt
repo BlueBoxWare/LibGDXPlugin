@@ -22,34 +22,64 @@ import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
-import com.intellij.psi.util.childrenOfType
+import com.intellij.psi.util.CachedValueProvider
+import com.intellij.psi.util.CachedValuesManager
 import com.intellij.psi.util.descendantsOfType
+import com.intellij.psi.util.parentOfType
 import org.jetbrains.kotlin.idea.base.psi.getLineNumber
+import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
 class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, TreeLanguage) {
-
-    private var levels: Map<Int, Int>? = null
-
-    private var imports: Map<Int, Map<String, PsiTreeAttribute>>? = null
 
     override fun getFileType(): FileType = TreeFileType
 
     override fun toString(): String = TreeLanguage.NAME
 
-    private fun getLevels() = levels ?: calculateLevels()
+    fun getTree(): LineTree = CachedValuesManager.getCachedValue(this) {
 
-    private fun getLevel(line: Int) = getLevels().let { it[line] }
+        var line = lastChild.parentOfType<PsiTreeLine>(true)
+        val pending = mutableListOf<Pair<LineTree, Int>>()
+        var lastIndent = 0
 
-    fun getLevel(line: PsiTreeLine) = getLevel(line.getLineNumber())
+        while (line != null) {
+
+            if (line.isEmpty() && !line.hasComment()) {
+                line = line.prevSiblingOfSameType()
+                continue
+            }
+
+            val indent = if (line.isEmpty()) {
+                lastIndent
+            } else {
+                lastIndent = line.getIndentSize()
+                line.getIndentSize()
+            }
+
+
+            val tree = LineTree(null, line, mutableListOf())
+
+            while (pending.isNotEmpty() && pending.last().second > indent) {
+                val child = pending.removeAt(pending.lastIndex).first
+                tree.children.add(child)
+                child.parent = tree
+            }
+
+            pending.add(tree to indent)
+
+            line = line.prevSiblingOfSameType()
+        }
+
+        val result = LineTree(null, null, pending.map { it.first }.reversed().toMutableList())
+        return@getCachedValue CachedValueProvider.Result.create(result, this)
+
+    }
 
     fun getImports(upto: PsiElement): Map<String, Pair<Int, PsiTreeAttribute>> {
-
-        if (imports == null) calculateImports()
 
         val uptoLine = upto.getLineNumber()
         val result = mutableMapOf<String, Pair<Int, PsiTreeAttribute>>()
 
-        imports?.forEach { (line, map) ->
+        calculateImports().forEach { (line, map) ->
             if (line < uptoLine) {
                 map.forEach { (name, attribute) ->
                     result[name] = line to attribute
@@ -60,33 +90,19 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
         return result
     }
 
-    private fun calculateLevels(): Map<Int, Int> {
-        val result = mutableMapOf(0 to 0)
-
-        for (line in childrenOfType<PsiTreeLine>()) {
-            result[line.getLineNumber()] = line.calcLevel()
-        }
-
-        levels = result
-
-        return result
+    fun getLevelsByElement(): Map<PsiTreeLine, Int> = CachedValuesManager.getCachedValue(this) {
+        return@getCachedValue CachedValueProvider.Result.create(getTree().getLevelsByElement(), this)
     }
 
-    private fun calculateImports() {
+    private fun calculateImports(): Map<Int, Map<String, PsiTreeAttribute>> = CachedValuesManager.getCachedValue(this) {
         val result = mutableMapOf<Int, Map<String, PsiTreeAttribute>>()
 
         for (import in descendantsOfType<TreeImport>()) {
             result[import.getLineNumber()] = import.calcImports()
         }
 
-        imports = result
+        return@getCachedValue CachedValueProvider.Result.create(result, this)
 
-    }
-
-    override fun clearCaches() {
-        levels = null
-        imports = null
-        super.clearCaches()
     }
 
 }

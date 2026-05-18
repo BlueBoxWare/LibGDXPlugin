@@ -84,6 +84,7 @@ internal fun String.unescape(onError: ((Int, Int) -> Unit)? = null): String {
 
         if (c == 'u') {
             try {
+                @Suppress("KotlinArrayToString")
                 result.append(Character.toChars(Integer.parseInt(substring(i, i + 4), 16)))
             } catch (e: Exception) {
                 if (e is IllegalArgumentException || e is IndexOutOfBoundsException) {

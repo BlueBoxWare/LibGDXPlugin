@@ -94,6 +94,22 @@ class TestFormatting : LibGDXCodeInsightFixtureTestCase() {
         )
     }
 
+    fun testComments() = doTestFormatting("2.tree", "2.default", "tree")
+
+    fun testCommentsKeepIndent() {
+        CodeStyle.getSettings(project).getCustomSettings(TreeCodeStyleSettings::class.java).apply {
+            KEEP_COMMENTS = true
+        }
+        doTestFormatting("2.tree", "2.keepComments", "tree")
+    }
+
+    fun testCommentsFirstLine() {
+        CodeStyle.getSettings(project).getCustomSettings(TreeCodeStyleSettings::class.java).apply {
+            LINE_COMMENT_AT_FIRST_COLUMN = true
+        }
+        doTestFormatting("2.tree", "2.firstColumn", "tree")
+    }
+
     fun testBackSpace1() = doBackSpaceTest(4)
 
     fun testBackSpace2() = doBackSpaceTest(5)

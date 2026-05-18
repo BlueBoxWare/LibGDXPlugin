@@ -16,14 +16,16 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
+import com.intellij.psi.PsiElement
+
 interface TreeLine : TreeElement {
-
-    fun level(): Int
-
-    fun calcLevel(): Int
 
     fun isEmpty(): Boolean
 
     fun hasComment(): Boolean
+
+    fun getComment(): PsiElement?
+
+    fun getIndentSize(): Int
 
 }

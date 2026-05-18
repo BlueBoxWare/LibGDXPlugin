@@ -17,13 +17,13 @@ public class PsiTreeIndentImpl extends TreeIndentMixin implements PsiTreeIndent 
     super(node);
   }
 
-  public void accept(@NotNull PsiTreeVisitor visitor) {
+  public void accept(@NotNull PsiTreeElementVisitor visitor) {
     visitor.visitIndent(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
-    if (visitor instanceof PsiTreeVisitor) accept((PsiTreeVisitor)visitor);
+    if (visitor instanceof PsiTreeElementVisitor) accept((PsiTreeElementVisitor)visitor);
     else super.accept(visitor);
   }
 

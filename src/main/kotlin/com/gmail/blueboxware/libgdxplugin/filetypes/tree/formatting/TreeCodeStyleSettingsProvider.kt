@@ -41,7 +41,6 @@ internal class TreeCodeStyleSettingsProvider : CodeStyleSettingsProvider() {
                     override fun initTabs(settings: CodeStyleSettings) {
                         addIndentOptionsTab(settings)
                         addSpacesTab(settings)
-                        addTab(TreeCommentOptionsEditor(settings))
                         addBlankLinesTab(settings)
                         addTab(TreeCustomOptionsEditor(settings))
                     }

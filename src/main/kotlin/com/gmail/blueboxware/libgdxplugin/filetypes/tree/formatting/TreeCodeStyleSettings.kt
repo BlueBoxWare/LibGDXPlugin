@@ -23,6 +23,8 @@ import com.intellij.psi.codeStyle.CustomCodeStyleSettings
 @Suppress("PropertyName")
 class TreeCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(TreeLanguage.id, container) {
 
+    private val settings = container
+
     @JvmField
     var KEEP_INDENT = false
 
@@ -31,6 +33,15 @@ class TreeCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSetti
 
     @JvmField
     var KEEP_INDENTS_ON_EMPTY_LINES = false
+
+    @JvmField
+    var LINE_COMMENT_ADD_SPACE = true
+
+    @JvmField
+    var LINE_COMMENT_ADD_SPACE_IN_SUPPRESSION = true
+
+    @JvmField
+    var LINE_COMMENT_AT_FIRST_COLUMN = false
 
 }
 

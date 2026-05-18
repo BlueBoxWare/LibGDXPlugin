@@ -5,6 +5,7 @@ package com.gmail.blueboxware.libgdxplugin
 import com.gmail.blueboxware.libgdxplugin.utils.findClass
 import com.gmail.blueboxware.libgdxplugin.utils.psiFacade
 import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.formatting.FormatterTestUtils
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.PathManager
@@ -45,6 +46,7 @@ import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
+import kotlin.reflect.KClass
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -185,6 +187,21 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     fun configureByFileAsGdxJson(filePath: String): PsiFile =
         myFixture.configureByFile(filePath).apply { markAsGdxJson() }
+
+    fun <T : LocalInspectionTool> doTestQuickFix(inspection: KClass<T>, familyName: String, extension: String) {
+        configureByFile(testname() + ".$extension")
+        myFixture.enableInspections(inspection.java)
+        for (intention in myFixture.availableIntentions) {
+            if (intention.familyName == familyName) {
+                myFixture.launchAction(intention)
+                myFixture.checkResultByFile(testname() + ".after")
+                return
+            }
+        }
+
+        fail("Suppress intention '$familyName' not found")
+
+    }
 
     fun doTestCompletion(
         fileType: FileType,
