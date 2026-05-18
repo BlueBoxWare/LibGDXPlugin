@@ -34,7 +34,7 @@ internal class TreeLineIndentProvider : LineIndentProvider {
             val text = document.getText(range)
 
             val pos = text.indexOfFirst { it != ' ' && it != '\t' }
-            if (pos == -1 || text[pos] == '#') {
+            if (pos == -1) {
                 continue
             }
 
