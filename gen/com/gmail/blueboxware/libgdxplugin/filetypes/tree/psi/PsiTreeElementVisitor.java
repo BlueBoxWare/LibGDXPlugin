@@ -45,7 +45,8 @@ public class PsiTreeElementVisitor extends PsiElementVisitor {
   }
 
   public void visitStatement(@NotNull PsiTreeStatement o) {
-    visitTreeElement(o);
+    visitTreeStatement(o);
+    // visitTreeElement(o);
   }
 
   public void visitSubtree(@NotNull PsiTreeSubtree o) {
@@ -106,6 +107,10 @@ public class PsiTreeElementVisitor extends PsiElementVisitor {
   }
 
   public void visitTreeLine(@NotNull TreeLine o) {
+    visitElement(o);
+  }
+
+  public void visitTreeStatement(@NotNull TreeStatement o) {
     visitElement(o);
   }
 

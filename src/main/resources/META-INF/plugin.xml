@@ -480,6 +480,8 @@
         <lang.inspectionSuppressor language="LibGDXAiTree"
                                    implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections.TreeInspectionSuppressor"/>
 
+        <lang.foldingBuilder language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeFoldingBuilder" />
+
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->
         <localInspection

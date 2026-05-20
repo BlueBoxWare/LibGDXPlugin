@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface PsiTreeStatement extends TreeElement {
+public interface PsiTreeStatement extends TreeStatement, TreeElement {
 
   @Nullable
   PsiTreeImport getImport();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Blue Box Ware
+ * Copyright 2026 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
+package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
-import com.intellij.psi.PsiClass
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeStatement
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
+import com.intellij.lang.ASTNode
 
-interface TreeTask : TreeElement {
+abstract class TreeStatementMixin(node: ASTNode) : PsiTreeStatement, TreeElementImpl(node) {
 
-    fun getUsedAttributesNames(): Collection<String>
-
-    fun resolveToClass(): PsiClass?
+    override fun isImport(): Boolean = import != null
 
 }

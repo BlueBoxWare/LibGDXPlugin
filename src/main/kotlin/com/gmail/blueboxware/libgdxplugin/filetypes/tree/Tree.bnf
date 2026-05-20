@@ -98,6 +98,8 @@ private guardableTask ::= guard* statement?
 
 statement ::= task | import | subtree | root {
     name="task"
+    implements="TreeStatement"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeStatementMixin"
 }
 
 task ::= (taskname attribute*) | subtreeref {

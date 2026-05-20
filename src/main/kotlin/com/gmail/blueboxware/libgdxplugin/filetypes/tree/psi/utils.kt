@@ -16,9 +16,22 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
+import com.intellij.openapi.util.TextRange
 import org.jetbrains.kotlin.idea.base.psi.getLineNumber
+import org.jetbrains.kotlin.psi.psiUtil.nextSiblingOfSameType
+import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
 class LineTree(var parent: LineTree?, val line: PsiTreeLine?, val children: MutableList<LineTree>) {
+
+    fun accept(visitor: LineTreeVisitor) {
+        visitor.visit(this)
+    }
+
+    fun textRange(): TextRange? {
+        val start = line?.textRange?.startOffset ?: children.firstOrNull()?.textRange()?.startOffset ?: return null
+        val end = children.lastOrNull()?.textRange()?.endOffset ?: line?.textRange?.endOffset ?: return null
+        return TextRange(start, end)
+    }
 
     fun findLine(l: PsiTreeLine): LineTree? {
         if (l == line) return this
@@ -29,11 +42,28 @@ class LineTree(var parent: LineTree?, val line: PsiTreeLine?, val children: Muta
         return null
     }
 
+    fun realChildren(): Int = children.filter { it.line?.isEmpty() != true }.size
+
     override fun toString(): String {
         val name = line?.statement?.task?.name ?: line?.text ?: "<empty>"
         val open = if (children.isEmpty()) "" else " ("
         val close = if (children.isEmpty()) "" else ")"
         return name + open + children.joinToString(", ") + close
+    }
+
+}
+
+fun interface LineTreeVisitor {
+
+    fun process(line: PsiTreeLine)
+
+    fun visit(tree: LineTree) {
+        tree.line?.let {
+            process(it)
+        }
+        for (line in tree.children) {
+            visit(line)
+        }
     }
 
 }
@@ -53,3 +83,28 @@ fun LineTree.getLevelsByElement(level: Int = -1): Map<PsiTreeLine, Int> {
 
 fun Map<PsiTreeLine, Int>.getLevelsByLineNumber(): Map<Int, Int> =
     entries.associate { (line, level) -> line.getLineNumber() to level }
+
+fun PsiTreeLine.previousLine(includeComments: Boolean, includeEmpty: Boolean): PsiTreeLine? =
+    sibling(this, true, includeComments, includeEmpty)
+
+fun PsiTreeLine.nextLine(includeComments: Boolean, includeEmpty: Boolean): PsiTreeLine? =
+    sibling(this, false, includeComments, includeEmpty)
+
+private fun sibling(
+    line: PsiTreeLine,
+    reverse: Boolean,
+    includeComments: Boolean,
+    includeEmpty: Boolean
+): PsiTreeLine? {
+    var l: PsiTreeLine = line
+    while (true) {
+        l = (if (reverse) l.prevSiblingOfSameType() else l.nextSiblingOfSameType()) ?: return null
+        if (l.isEmpty() && !l.hasComment() && includeEmpty) {
+            return l
+        } else if (l.isEmpty() && l.hasComment() && includeComments) {
+            return l
+        } else if (!l.isEmpty()) {
+            return l
+        }
+    }
+}

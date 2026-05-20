@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Blue Box Ware
+ * Copyright 2026 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,8 @@
 
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
-import com.intellij.psi.PsiClass
+interface TreeStatement : TreeElement {
 
-interface TreeTask : TreeElement {
-
-    fun getUsedAttributesNames(): Collection<String>
-
-    fun resolveToClass(): PsiClass?
+    fun isImport(): Boolean
 
 }

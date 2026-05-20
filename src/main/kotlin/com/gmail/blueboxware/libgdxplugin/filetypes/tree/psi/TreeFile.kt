@@ -35,6 +35,9 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
     override fun toString(): String = TreeLanguage.NAME
 
+    fun getTree(element: PsiElement): LineTree? =
+        if (element is TreeFile) getTree() else (element as? PsiTreeLine)?.let { getTree().findLine(it) }
+
     fun getTree(): LineTree = CachedValuesManager.getCachedValue(this) {
 
         var line = lastChild.parentOfType<PsiTreeLine>(true)

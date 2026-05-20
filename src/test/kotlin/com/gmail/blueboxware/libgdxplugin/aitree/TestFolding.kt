@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Blue Box Ware
+ * Copyright 2026 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
+package com.gmail.blueboxware.libgdxplugin.aitree
 
-import com.intellij.psi.PsiClass
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 
-interface TreeTask : TreeElement {
+class TestFolding : LibGDXCodeInsightFixtureTestCase() {
 
-    fun getUsedAttributesNames(): Collection<String>
+    fun testFolding() = myFixture.testFolding(testDataPath + "1.tree")
 
-    fun resolveToClass(): PsiClass?
+    override fun getBasePath() = "/filetypes/aitree/folding/"
 
 }
