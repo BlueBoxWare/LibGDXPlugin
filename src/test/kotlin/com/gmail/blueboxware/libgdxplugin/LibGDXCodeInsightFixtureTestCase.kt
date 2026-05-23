@@ -28,6 +28,7 @@ import com.intellij.refactoring.PackageWrapper
 import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
 import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveDestination
 import com.intellij.testFramework.EditorTestUtil
+import com.intellij.testFramework.PlatformTestUtil
 import com.intellij.testFramework.PsiTestUtil
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
@@ -259,6 +260,16 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         )
     }
 
+    fun doTestStructureView(content: String, expected: String, actions: List<Pair<String, Boolean>> = emptyList()) {
+        configureByFile(content)
+        myFixture.testStructureView { structureView ->
+            for ((id, state) in actions) {
+                structureView.setActionActive(id, state)
+            }
+            PlatformTestUtil.assertTreeEqual(structureView.tree, File(testDataPath + expected).readText())
+        }
+    }
+
     fun moveJavaClass(className: String, newPackageName: String) {
 
         BaseRefactoringProcessor.ConflictsInTestsException.withIgnoredConflicts<Throwable> {
@@ -268,17 +279,11 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
             val dirs = pkg.directories
 
             MoveClassesOrPackagesProcessor(
-                project,
-                arrayOf(clazz),
-                SingleSourceRootMoveDestination(
+                project, arrayOf(clazz), SingleSourceRootMoveDestination(
                     PackageWrapper.create(
                         JavaDirectoryService.getInstance().getPackage(dirs[0])
-                    ),
-                    dirs[0]
-                ),
-                true,
-                false,
-                null
+                    ), dirs[0]
+                ), true, false, null
             ).run()
 
             commit()
@@ -306,7 +311,8 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
                             project = project,
                             moveDescriptors = listOf(
                                 K2MoveDescriptor.Declarations(
-                                    project, K2MoveSourceDescriptor.ElementSource(file.childrenOfType<KtClass>()),
+                                    project,
+                                    K2MoveSourceDescriptor.ElementSource(file.childrenOfType<KtClass>()),
                                     K2MoveTargetDescriptor.File(newFile)
                                 )
                             ),

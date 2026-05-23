@@ -21,6 +21,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.PsiElement
 
 abstract class TreeLineMixin(node: ASTNode) : PsiTreeLine, TreeElementImpl(node) {
@@ -32,5 +33,7 @@ abstract class TreeLineMixin(node: ASTNode) : PsiTreeLine, TreeElementImpl(node)
     override fun getComment(): PsiElement? = findChildByType(TreeElementTypes.COMMENT)
 
     override fun getIndentSize(): Int = indent.textLength
+
+    override fun getPresentation(): ItemPresentation? = statement?.task?.presentation
 
 }

@@ -24,8 +24,8 @@ import com.intellij.psi.FileViewProvider
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.CachedValueProvider
 import com.intellij.psi.util.CachedValuesManager
+import com.intellij.psi.util.childrenOfType
 import com.intellij.psi.util.descendantsOfType
-import com.intellij.psi.util.parentOfType
 import org.jetbrains.kotlin.idea.base.psi.getLineNumber
 import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
@@ -40,7 +40,7 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
     fun getTree(): LineTree = CachedValuesManager.getCachedValue(this) {
 
-        var line = lastChild.parentOfType<PsiTreeLine>(true)
+        var line = childrenOfType<PsiTreeLine>().lastOrNull()
         val pending = mutableListOf<Pair<LineTree, Int>>()
         var lastIndent = 0
 

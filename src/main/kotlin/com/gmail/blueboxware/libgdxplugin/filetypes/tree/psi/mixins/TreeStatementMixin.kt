@@ -19,8 +19,11 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeStatement
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.intellij.lang.ASTNode
+import com.intellij.openapi.util.NlsSafe
 
 abstract class TreeStatementMixin(node: ASTNode) : PsiTreeStatement, TreeElementImpl(node) {
+
+    override fun getName(): @NlsSafe String? = task?.name
 
     override fun isImport(): Boolean = import != null
 

@@ -51,5 +51,8 @@ class SkinStructureViewModel(file: PsiFile) :
     override fun isSmartExpand() = false
 
     override fun isAutoExpand(element: StructureViewTreeElement) =
-        element is SkinFile || ApplicationManager.getApplication().isUnitTestMode
+        ApplicationManager.getApplication().isUnitTestMode
+
+    @Suppress("UnstableApiUsage")
+    override fun getMinimumAutoExpandDepth(): Int = 10
 }

@@ -1,8 +1,6 @@
 package com.gmail.blueboxware.libgdxplugin.atlas
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-import com.intellij.testFramework.PlatformTestUtil
-import java.io.File
 
 
 /*
@@ -23,15 +21,7 @@ import java.io.File
 class TestStructureView : LibGDXCodeInsightFixtureTestCase() {
 
     fun test1() {
-        doTest("1.atlas", "1.result")
-    }
-
-    private fun doTest(content: String, expected: String) {
-        configureByFile(content)
-        myFixture.testStructureView { structureView ->
-            PlatformTestUtil.assertTreeEqual(structureView.tree, File(testDataPath + expected).readText())
-
-        }
+        doTestStructureView("1.atlas", "1.result")
     }
 
     override fun getBasePath() = "/filetypes/atlas/structureView/"

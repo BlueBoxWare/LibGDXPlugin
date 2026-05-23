@@ -18,11 +18,20 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeRoot
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTaskImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
+import javax.swing.Icon
 
 abstract class TreeRootMixin(node: ASTNode) : PsiTreeRoot, PsiTreeTaskImpl(node) {
 
     override fun getName(): @NlsSafe String? = "root"
+
+    override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
+        override fun getPresentableText(): @NlsSafe String = "root"
+
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.TemplateRoot
+    }
 
 }

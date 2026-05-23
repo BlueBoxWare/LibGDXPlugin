@@ -1,0 +1,60 @@
+#
+# Dog tree
+#
+
+# Alias definitions
+import bark:"org.example.BarkTask"
+import care:"org.example.CareTask"
+###
+
+import play:"org.example.PlayTask"
+import mark:"org.example.MarkTask"
+  #fe
+import walk:"org.example.WalkTask"
+import rest:"org.example.RestTask"
+
+e
+import walk:"org.example.WalkTask"
+import rest:"org.example.RestTask"
+
+#
+
+e
+
+estt
+  foo
+    bar
+      test
+    fdsfsd
+
+subtree
+
+import rest:"org.example.RestTask"
+
+import rest:"org.example.RestTask"
+
+
+# Tree definition (note that root is optional)
+root a:""
+  selector
+    parallel
+# fdjiojdfio
+
+
+care urgentProb:0.8
+
+  # dsjojisd
+  #
+
+  org.example.PlayTask # fully qualified task
+  randomSelector
+    (selector) untilSuccess  # find some trees to pee
+      sequence
+        bark times:"uniform,1,2"
+        walk
+        mark
+    parallel policy:"selector"  # sleep with random timeout
+      wait seconds:"triangular,2.5,5.5"
+      rest
+
+

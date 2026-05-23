@@ -1,0 +1,23 @@
+-1.tree
+ e
+ e
+ -estt
+  -foo
+   -bar
+    test
+   fdsfsd
+ subtree
+ -root
+  -selector
+   parallel
+ -care
+  org.example.PlayTask
+  -randomSelector
+   -untilSuccess
+    -sequence
+     bark
+     walk
+     mark
+   -parallel
+    wait
+    rest

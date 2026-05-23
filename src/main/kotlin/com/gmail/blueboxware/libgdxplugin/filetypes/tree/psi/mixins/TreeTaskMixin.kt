@@ -18,9 +18,12 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeTask
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
+import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
+import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiClass
+import javax.swing.Icon
 
 abstract class TreeTaskMixin(node: ASTNode) : PsiTreeTask, TreeElementImpl(node) {
 
@@ -29,5 +32,14 @@ abstract class TreeTaskMixin(node: ASTNode) : PsiTreeTask, TreeElementImpl(node)
     override fun getUsedAttributesNames(): Collection<String> = attributeList.mapNotNull { it.name }
 
     override fun resolveToClass(): PsiClass? = taskname?.resolveToClass()
+
+    override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
+        override fun getPresentableText(): @NlsSafe String? = name
+
+        // TODO: Use new UI icons
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Folder
+
+        override fun getLocationString(): @NlsSafe String? = text?.removePrefix(name ?: "")
+    }
 
 }

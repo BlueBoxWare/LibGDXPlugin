@@ -1,10 +1,5 @@
-package com.gmail.blueboxware.libgdxplugin.json
-
-import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
-
-
 /*
- * Copyright 2019 Blue Box Ware
+ * Copyright 2026 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +13,18 @@ import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package com.gmail.blueboxware.libgdxplugin.aitree
+
+import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.structureView.ImportFilter
+
 class TestStructureView : LibGDXCodeInsightFixtureTestCase() {
 
-    fun test1() {
-        doTestStructureView("1.lson", "1.result")
-    }
+    fun testStructureView() = doTestStructureView("1.tree", "1.result")
 
-    override fun getBasePath() = "/filetypes/json/structureView/"
+    fun testStructureViewNoImport() = doTestStructureView("1.tree", "1.noimport", listOf(ImportFilter().name to true))
+
+    override fun getBasePath() = "/filetypes/aitree/structureView/"
 
 }
