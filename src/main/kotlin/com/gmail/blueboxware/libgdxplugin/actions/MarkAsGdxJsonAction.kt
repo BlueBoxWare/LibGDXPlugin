@@ -41,6 +41,7 @@ class MarkAsGdxJsonAction : AnAction() {
         val presentation = event.presentation
 
         presentation.isEnabled = false
+        presentation.isVisible = false
 
         if (!file.isDirectory) {
 
@@ -53,6 +54,7 @@ class MarkAsGdxJsonAction : AnAction() {
                     presentation.text = message("context.menu.mark.as.gdx.json")
                     presentation.icon = Icons.LIBGDX_JSON_FILETYPE
                     presentation.isEnabled = true
+                    presentation.isVisible = true
 
                 } else if (
                     currentLanguage == LibGDXJsonLanuage && file.extension != "lson"
@@ -62,6 +64,7 @@ class MarkAsGdxJsonAction : AnAction() {
                     presentation.text = message("context.menu.mark.as.non.gdx.json")
                     presentation.icon = IconLoader.getDisabledIcon(AllIcons.FileTypes.Json)
                     presentation.isEnabled = true
+                    presentation.isVisible = true
 
                 }
 

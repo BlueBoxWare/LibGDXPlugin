@@ -38,6 +38,7 @@ class MarkAsSkinAction : AnAction() {
         val presentation = event.presentation
 
         presentation.isEnabled = false
+        presentation.isVisible = false
 
         if (!file.isDirectory) {
 
@@ -52,13 +53,15 @@ class MarkAsSkinAction : AnAction() {
                     presentation.text = message("context.menu.mark.as.skin")
                     presentation.icon = Icons.SKIN_FILETYPE
                     presentation.isEnabled = true
+                    presentation.isVisible = true
 
-                } else {
+                } else if (file.extension != "skin") {
 
                     @Suppress("DialogTitleCapitalization")
                     presentation.text = message("context.menu.mark.as.non.skin")
                     presentation.icon = IconLoader.getDisabledIcon(Icons.SKIN_FILETYPE)
                     presentation.isEnabled = true
+                    presentation.isVisible = true
 
                 }
 
