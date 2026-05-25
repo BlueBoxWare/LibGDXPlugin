@@ -23,8 +23,6 @@ import com.intellij.psi.codeStyle.CustomCodeStyleSettings
 @Suppress("PropertyName")
 class TreeCodeStyleSettings(container: CodeStyleSettings) : CustomCodeStyleSettings(TreeLanguage.id, container) {
 
-    private val settings = container
-
     @JvmField
     var KEEP_INDENT = false
 

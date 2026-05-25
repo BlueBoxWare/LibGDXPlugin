@@ -277,8 +277,8 @@ internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 internal fun KtCallExpression.resolveCall(): Pair<ClassId, KtNameReferenceExpression>? =
     (context as? KtQualifiedExpression)?.let { qualifiedExpression ->
         (calleeExpression as? KtNameReferenceExpression)?.let { calleeExpression ->
-            qualifiedExpression.resolveCall()?.let {
-                Pair(it.first, calleeExpression)
+            qualifiedExpression.resolveCall()?.let { (classId, _) ->
+                Pair(classId, calleeExpression)
             }
         }
     }

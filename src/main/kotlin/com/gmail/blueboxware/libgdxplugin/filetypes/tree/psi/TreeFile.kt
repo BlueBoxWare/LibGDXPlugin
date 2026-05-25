@@ -72,7 +72,7 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
             line = line.prevSiblingOfSameType()
         }
 
-        val result = LineTree(null, null, pending.map { it.first }.reversed().toMutableList())
+        val result = LineTree(null, null, pending.map { (tree, _) -> tree }.reversed().toMutableList())
         return@getCachedValue CachedValueProvider.Result.create(result, this)
 
     }

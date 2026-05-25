@@ -39,4 +39,6 @@
 | GDXSkinDeprecated | Usage of deprecated class/field | Looks for the use of deprecated classes and fields in Skin files. |
 | GDXSkinType | Type errors in Skin files | Looks for type errors in Skin files. |
 | GDXToplevel | Invalid top level value | The top level value of a JSON file should be an object. |
+| GDXUnknownAttribute | Unknown attribute | Looks for attributes which can not be resolved. |
+| GDXUnknownClass | Unknown class | Looks for fully qualified class names which can not be resolved. |
 | GDXXmlTestId | Test IDs or dummy IDs | Looks for the use of some known test IDs and dummy IDs. |

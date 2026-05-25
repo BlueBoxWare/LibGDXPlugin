@@ -29,9 +29,9 @@ abstract class TreeSubtreeMixin(node: ASTNode) : PsiTreeSubtree, PsiTreeTaskImpl
     override fun getName(): @NlsSafe String? = "subtree"
 
     override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
-        override fun getPresentableText(): @NlsSafe String? = "subtree"
+        override fun getPresentableText(): @NlsSafe String = "subtree"
 
-        override fun getIcon(unused: Boolean): Icon? = AllIcons.Nodes.Package
+        override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Package
     }
 
 }

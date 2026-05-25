@@ -47,8 +47,10 @@ class TestParsing : ParsingTestCase("", "fnt", BitmapFontParserDefinition()) {
         val expectedPages = getPages(myFile.text)
 
         assertEquals(expectedPages.size, bitmapFontFile.getPages().size)
-        assertTrue(bitmapFontFile.getPages().map { it.getValue("id") }.containsAll(expectedPages.map { it.first }))
-        assertTrue(bitmapFontFile.getPages().map { it.getValue("file") }.containsAll(expectedPages.map { it.second }))
+        assertTrue(bitmapFontFile.getPages().map { it.getValue("id") }
+            .containsAll(expectedPages.map { (first, _) -> first }))
+        assertTrue(bitmapFontFile.getPages().map { it.getValue("file") }
+            .containsAll(expectedPages.map { (_, second) -> second }))
     }
 
     private fun getCharacterIds(str: String): List<String> = Regex("""char\s+id=(\d+)""").findAll(str).map {

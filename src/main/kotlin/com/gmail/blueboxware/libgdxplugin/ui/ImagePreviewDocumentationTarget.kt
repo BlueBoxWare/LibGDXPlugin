@@ -38,6 +38,7 @@ import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
+import com.intellij.util.ui.ImageUtil
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.net.URI
@@ -136,7 +137,7 @@ class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : 
         }
 
         // Scale the image without smoothing to keep pixel art sharp
-        val previewImage = BufferedImage(image.width * scale, image.height * scale, BufferedImage.TYPE_INT_ARGB)
+        val previewImage = ImageUtil.createImage(image.width * scale, image.height * scale, BufferedImage.TYPE_INT_ARGB)
         previewImage.createGraphics().apply {
             setRenderingHint(
                 RenderingHints.KEY_INTERPOLATION,

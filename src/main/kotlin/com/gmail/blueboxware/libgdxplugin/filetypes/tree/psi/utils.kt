@@ -17,7 +17,6 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 
 import com.intellij.openapi.util.TextRange
-import org.jetbrains.kotlin.idea.base.psi.getLineNumber
 import org.jetbrains.kotlin.psi.psiUtil.nextSiblingOfSameType
 import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
@@ -81,9 +80,7 @@ fun LineTree.getLevelsByElement(level: Int = -1): Map<PsiTreeLine, Int> {
     return result
 }
 
-fun Map<PsiTreeLine, Int>.getLevelsByLineNumber(): Map<Int, Int> =
-    entries.associate { (line, level) -> line.getLineNumber() to level }
-
+@Suppress("unused")
 fun PsiTreeLine.previousLine(includeComments: Boolean, includeEmpty: Boolean): PsiTreeLine? =
     sibling(this, true, includeComments, includeEmpty)
 

@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.gmail.blueboxware.libgdxplugin.assetsInCode
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinFile

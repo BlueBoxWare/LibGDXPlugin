@@ -25,7 +25,6 @@ import com.intellij.ide.util.treeView.smartTree.Filter
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import org.jetbrains.annotations.NonNls
 
-// TODO: Test
 class ImportFilter : Filter {
     override fun isVisible(treeNode: TreeElement?): Boolean =
         ((treeNode as? TreeStructureViewElement)?.element as? PsiTreeLine)?.statement?.isImport() != true

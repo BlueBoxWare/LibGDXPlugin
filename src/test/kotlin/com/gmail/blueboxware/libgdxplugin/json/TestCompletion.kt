@@ -56,8 +56,8 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun testCompletions() =
-        TESTS.forEach {
-            doTest(it.first, it.second.first, it.second.second)
+        TESTS.forEach { (first, second) ->
+            doTest(first, second.first, second.second)
         }
 
     private fun doTest(content: String, expectedResults: Set<String>, notExpectedResults: Set<String>) {

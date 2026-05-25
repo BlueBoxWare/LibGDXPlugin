@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("SpellCheckingInspection")
+
 package com.gmail.blueboxware.libgdxplugin.utils
 
 fun isTestId(string: String?): String? {

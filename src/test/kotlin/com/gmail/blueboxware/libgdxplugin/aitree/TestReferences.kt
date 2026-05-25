@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("SpellCheckingInspection")
+
 package com.gmail.blueboxware.libgdxplugin.aitree
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase

@@ -55,19 +55,19 @@ class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
                         "singleGetColorsKotlin"
                     ) to listOf("multiJava", "multiKotlin", "RED")
                     )
-        ).forEach {
+        ).forEach { (first, second) ->
             doTestCompletion(
                 JavaFileType.INSTANCE,
                 """
                 import com.badlogic.gdx.graphics.Colors;
                 class Test {
                   void m() {
-                    ${it.first}
+                    $first
                   }
                 }
               """.trimIndent(),
-                it.second.first,
-                it.second.second
+                second.first,
+                second.second
             )
         }
 
@@ -98,17 +98,17 @@ class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
                         "multiKotlin",
                         "RED"
                     ))
-        ).forEach {
+        ).forEach { (first, second) ->
             doTestCompletion(
                 KotlinFileType.INSTANCE,
                 """
                 import com.badlogic.gdx.graphics.Colors
                 fun
-                  val c = ${it.first}
+                  val c = $first
                 }
               """.trimIndent(),
-                it.second.first,
-                it.second.second
+                second.first,
+                second.second
             )
         }
 

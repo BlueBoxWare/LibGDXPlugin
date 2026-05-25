@@ -295,7 +295,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
             if (warningExpected) {
                 if (problemElement != null && !hightLight.text.startsWith("<$problemElement")) {
                     fail(
-                        "$name: Hightlight starts at wrong element: '" + hightLight.text.substring(
+                        "$name: Highlight starts at wrong element: '" + hightLight.text.substring(
                             0, 30
                         ) + "'"
                     )

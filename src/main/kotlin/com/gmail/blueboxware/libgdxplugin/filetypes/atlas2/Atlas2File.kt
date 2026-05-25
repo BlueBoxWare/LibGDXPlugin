@@ -27,7 +27,7 @@ import icons.Icons
 class Atlas2File(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvider, LibGDXAtlas2Language.INSTANCE),
     Atlas2FieldOwner {
 
-    fun getPages(): List<Atlas2Page> = children.mapNotNull { it as? Atlas2Page }
+    fun getPages(): List<Atlas2Page> = children.filterIsInstance<Atlas2Page>()
 
     override fun getFileType() = viewProvider.fileType
 
