@@ -8,7 +8,6 @@ import com.gmail.blueboxware.libgdxplugin.inspections.java.JavaNonExistingAssetI
 import com.gmail.blueboxware.libgdxplugin.inspections.kotlin.KotlinNonExistingAssetInspection
 import com.gmail.blueboxware.libgdxplugin.testname
 import com.intellij.application.options.CodeStyle
-import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl
 
 
 /*
@@ -451,8 +450,6 @@ class TestCreateAssetQuickFix : LibGDXCodeInsightFixtureTestCase() {
         val skinFile = configureByText("skin.skin", skinFileContent)
         configureByText("Test.$extension", codeFileContent)
         init?.invoke()
-
-        CodeInsightTestFixtureImpl.waitForLazyQuickFixesUnderCaret(file, editor)
 
         for (intention in myFixture.availableIntentions) {
             if (intention.familyName.startsWith("Create resource")) {

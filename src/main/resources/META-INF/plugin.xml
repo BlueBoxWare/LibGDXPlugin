@@ -29,8 +29,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        gdxAI Behavior Trees:
         <ul>
-            <li>Don't smooth Atlas image previews.</li>
+            <li>Inspections which warn about unknown classes and attributes</li>
+            <li>Folding support</li>
+            <li>Structure View</li>
+            <li>Improve formatting</li>
         </ul>
         ]]>
     </change-notes>

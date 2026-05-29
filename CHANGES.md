@@ -1,3 +1,10 @@
+### 1.29
+gdxAI Behavior Trees:
+* Inspections which warn about unknown classes and attributes
+* Folding support
+* Structure View
+* Improve formatting
+
 ### 1.28.1
 * [#49](https://github.com/BlueBoxWare/LibGDXPlugin/pull/49): Make atlas preview images sharp when scaled up, by [@EfourC](https://github.com/EfourC).
 

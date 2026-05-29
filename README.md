@@ -21,7 +21,7 @@ This unofficial plugin adds a number of [libGDX](https://libgdx.badlogicgames.co
 # Installation
 In IntelliJ or Android Studio go to *Settings* -> *Plugins* -> *Browse repositories...* and search for "libGDX".
 
-Alternatively: download the zip [from the Jetbrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509),
+Alternatively: download the zip [from the JetBrains Plugin Repository](https://plugins.jetbrains.com/plugin/8509),
 go to *Settings* -> *Plugins* -> *Install plugin from disk* and select the zip you downloaded.
 
 This plugin needs a recent version of the official [Kotlin plugin](https://plugins.jetbrains.com/plugin/6954) (even if
@@ -36,7 +36,7 @@ libGDXPlugin adds several inspections, which look for possible issues in a proje
 See [Inspections.md](Inspections.md) for an up-to-date list.
 
 ## Color previews
-When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the the color is shown in the left gutter.
+When using a libGDX color in Java or Kotlin code (e.g. `Color.BLUE` or `Color.valueOf("#0000ff")`) a preview of the color is shown in the left gutter.
 Color previews are also shown in the editor when editing Skin files and in the Debug Tool Window.
 
 To disable color previews, go to *Settings* -> *Tools* -> *libGDXPlugin*.
@@ -46,7 +46,7 @@ Files with the extension `.skin` are treated as Skin JSON files. For files with 
 whether they should be treated as Skin files (this can be turned off in the settings). You can also mark and unmark files as Skin files using the
 context menu of a file.
 
-<img align="right" src="/images/skinCompletion.gif" width="450">
+<img align="right" src="/images/skinCompletion.gif" width="450" alt="Animation of completion in Skin files">
 
 For files which are marked as Skin files, the plugin provides additional Skin related support, including
 * Syntax highlighting (can be configured using *Settings* -> *Editor* -> *Colors & Fonts* -> *libGDX Skin*)
@@ -83,7 +83,7 @@ and select `Mark as libGDX style JSON`.
 
 ## Atlas file support
 
-<img align="right" src="/images/atlasFile.png" width="450">
+<img align="right" src="/images/atlasFile.png" width="450" alt="Screenshot of Atlas file support">
 
 Files with an `.atlas` or `.pack` extension are treated as Texture Atlas packfiles.
 
@@ -106,6 +106,8 @@ Files with a `.tree` extension are treated as gdxAI behaviour tree files, with:
 * Syntax highlighting
 * (Re)formatting, code style support
 * Completion, Goto Definition, Find Usages and basic refactoring support for tasks and attributes
+* Folding
+* Structure View
 
 ## Skin resources and Atlas region names in Java and Kotlin code
 

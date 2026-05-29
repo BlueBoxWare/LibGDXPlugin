@@ -31,6 +31,8 @@ import com.intellij.psi.search.ProjectAndLibrariesScope
 import com.intellij.psi.util.parentOfType
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageInfo2UsageAdapter
+import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 
 class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
@@ -87,15 +89,16 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
         }
     }
 
+    @OptIn(KaAllowAnalysisOnEdt::class)
     private fun doTestClass(fqn: String, nrOfUsages: Int) {
         addAI()
         myFixture.copyDirectoryToProject("testProject", "")
         val clazz = JavaPsiFacade.getInstance(project).findClass(fqn, ProjectAndLibrariesScope(project))
             ?: throw AssertionError()
-        val usages = myFixture.findUsages(clazz)
+        val usages = allowAnalysisOnEdt { myFixture.findUsages(clazz) }.mapNotNull { it.element }.toSet()
         assertEquals(nrOfUsages, usages.size)
         for (usage in usages) {
-            assertTrue(usage.element!!.references.any { it.isReferenceTo(clazz) })
+            assertTrue(usage.references.any { it.isReferenceTo(clazz) })
         }
     }
 

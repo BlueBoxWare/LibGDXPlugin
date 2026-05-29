@@ -10,8 +10,8 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.kotlin.jvm") version "2.3.0"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.15.0"
-    id("org.jetbrains.intellij.platform.grammarkit") version "2.15.0"
+    id("org.jetbrains.intellij.platform") version "2.16.0"
+    id("org.jetbrains.intellij.platform.grammarkit") version "2.16.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -39,6 +39,8 @@ dependencies {
     }
     testImplementation("org.opentest4j:opentest4j:1.3.0")
     testImplementation("junit:junit:4.13.2")
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
 }
 
 kotlin {
@@ -76,29 +78,6 @@ sourceSets {
         }
     }
 
-}
-
-intellijPlatformTesting {
-    providers.gradleProperty("testVersions").get().split(',').forEach { testVersion ->
-        intellijPlatformTesting.testIde.register("runTests_$testVersion") {
-            type = IntelliJPlatformType.IntellijIdeaCommunity
-            version = testVersion
-            testFramework(TestFrameworkType.Platform)
-            plugins {
-                bundledPlugins(providers.gradleProperty("platformBundledPlugins").map { it.split(',') })
-                bundledModules(providers.gradleProperty("platformBundledModules").map { it.split(',') })
-            }
-            task {
-                systemProperty("idea.home.path", System.getenv("LIBGDXPLUGIN_IDEA"))
-                environment("NO_FS_ROOTS_ACCESS_CHECK", "1")
-                include("com/gmail/blueboxware/libgdxplugin/ShowInfo.class")
-                jvmArgumentProviders += CommandLineArgumentProvider {
-                    listOf("-Didea.kotlin.plugin.use.k1=false")
-                }
-                useJUnit()
-            }
-        }
-    }
 }
 
 interface FileSystem {
