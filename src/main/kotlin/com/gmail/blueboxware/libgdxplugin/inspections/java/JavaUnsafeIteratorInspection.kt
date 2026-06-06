@@ -20,6 +20,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.iteratorsMap
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.*
 
+@Suppress("CanBeDumbAware")
 internal class JavaUnsafeIteratorInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("unsafeiterator.html.description")

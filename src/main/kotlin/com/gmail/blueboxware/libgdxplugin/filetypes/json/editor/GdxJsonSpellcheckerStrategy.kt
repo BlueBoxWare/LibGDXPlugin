@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonElement
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonString
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.*
 import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.spellchecker.inspections.PlainTextSplitter
 import com.intellij.spellchecker.inspections.SpellCheckingInspection
@@ -29,7 +30,7 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
  */
 private val TOKENIZER = TokenizerBase<GdxJsonString>(PlainTextSplitter.getInstance())
 
-internal class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
+internal class GdxJsonSpellcheckerStrategy : SuppressibleSpellcheckingStrategy(), DumbAware {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
         if (element is GdxJsonString) {

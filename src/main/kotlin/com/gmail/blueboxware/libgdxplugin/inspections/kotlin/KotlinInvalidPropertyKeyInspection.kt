@@ -23,6 +23,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class KotlinInvalidPropertyKeyInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("invalid.property.key.inspection.html.description")

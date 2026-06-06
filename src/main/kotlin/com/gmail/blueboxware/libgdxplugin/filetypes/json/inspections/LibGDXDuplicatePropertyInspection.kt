@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForProper
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 
 
@@ -27,7 +28,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class LibGDXDuplicatePropertyInspection : GdxJsonBaseInspection() {
+internal class LibGDXDuplicatePropertyInspection : GdxJsonBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("json.inspection.duplicate.property.description")
 

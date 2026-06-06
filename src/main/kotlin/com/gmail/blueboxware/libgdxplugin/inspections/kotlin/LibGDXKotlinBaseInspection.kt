@@ -19,7 +19,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.psi.PsiElement
 
-@Suppress("InspectionDescriptionNotFoundInspection")
+@Suppress("InspectionDescriptionNotFoundInspection", "CanBeDumbAware")
 open class LibGDXKotlinBaseInspection : LocalInspectionTool() {
 
     override fun isSuppressedFor(element: PsiElement): Boolean {

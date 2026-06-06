@@ -12,6 +12,7 @@ import com.intellij.json.JsonLanguage
 import com.intellij.lang.Language
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 
@@ -33,7 +34,7 @@ import com.intellij.openapi.vfs.VirtualFile
  */
 internal class SkinEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
     project, LibGDXSkinLanguage.INSTANCE
-) {
+), DumbAware {
 
     override val messageKey = "skin.file.detected"
 

@@ -58,6 +58,7 @@ private val ICON_TINTED_DRAWABLE: Icon = AllIcons.Nodes.KeymapOther
 private val ICON_FIELD: Icon = PlatformIcons.FIELD_ICON
 private val ICON_PARENT: Icon = AllIcons.Nodes.UpLevel
 
+@Suppress("CanBeDumbAware")
 internal class SkinCompletionContributor : CompletionContributor() {
 
     init {

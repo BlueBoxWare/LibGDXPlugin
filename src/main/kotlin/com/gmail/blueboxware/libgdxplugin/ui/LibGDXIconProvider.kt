@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.LibGDXJsonLanuage
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.LibGDXSkinLanguage
 import com.intellij.ide.IconProvider
 import com.intellij.lang.LanguageUtil
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import icons.Icons
 import javax.swing.Icon
@@ -23,7 +24,7 @@ import javax.swing.Icon
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class LibGDXIconProvider : IconProvider() {
+internal class LibGDXIconProvider : IconProvider(), DumbAware {
 
     override fun getIcon(element: PsiElement, flags: Int): Icon? {
 

@@ -23,6 +23,7 @@ import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
 
+@Suppress("CanBeDumbAware")
 internal class TreeUnknownAttributeInspection : TreeBaseInspection() {
 
     override fun getStaticDescription() = message("tree.inspection.unknown.attribute.description")

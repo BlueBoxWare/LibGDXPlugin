@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
 
+@Suppress("CanBeDumbAware")
 internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("unsafeiterator.html.description")

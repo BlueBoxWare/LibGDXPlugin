@@ -24,6 +24,7 @@ import com.intellij.psi.PsiLiteralExpression
 import com.intellij.psi.impl.source.tree.java.PsiLiteralExpressionImpl
 import com.intellij.psi.util.PsiLiteralUtil
 
+@Suppress("CanBeDumbAware")
 internal class JavaTestIdsInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("testid.html.description")

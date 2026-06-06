@@ -12,6 +12,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.createAnnotation
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.openapi.components.service
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import java.util.*
 
@@ -31,7 +32,7 @@ import java.util.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class GdxJsonColorAnnotator : Annotator {
+internal class GdxJsonColorAnnotator : Annotator, DumbAware {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

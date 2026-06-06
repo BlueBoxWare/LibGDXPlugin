@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
+@Suppress("CanBeDumbAware")
 internal class KotlinStaticResourceInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() =

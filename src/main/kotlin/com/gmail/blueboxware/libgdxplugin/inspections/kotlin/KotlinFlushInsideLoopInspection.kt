@@ -28,6 +28,7 @@ import org.jetbrains.kotlin.analysis.api.resolution.calls
 import org.jetbrains.kotlin.idea.references.KtInvokeFunctionReference
 import org.jetbrains.kotlin.psi.*
 
+@Suppress("CanBeDumbAware")
 internal class KotlinFlushInsideLoopInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("flushing.inside.loop.html.description")

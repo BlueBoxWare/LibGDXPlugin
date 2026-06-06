@@ -18,10 +18,11 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlTag
 
-internal class XmlTestIdsInspection : LibGDXXmlBaseInspection() {
+internal class XmlTestIdsInspection : LibGDXXmlBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("testid.html.description")
 

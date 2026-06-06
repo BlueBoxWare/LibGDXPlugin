@@ -36,6 +36,7 @@ import com.intellij.ui.ColorChooserService
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class SkinColorAnnotator : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {

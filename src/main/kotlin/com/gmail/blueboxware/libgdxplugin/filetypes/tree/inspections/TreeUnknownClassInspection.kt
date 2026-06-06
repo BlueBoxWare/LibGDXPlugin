@@ -24,6 +24,7 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiReference
 
+@Suppress("CanBeDumbAware")
 internal class TreeUnknownClassInspection : TreeBaseInspection() {
 
     override fun getStaticDescription() = message("tree.inspection.unknown.class.description")

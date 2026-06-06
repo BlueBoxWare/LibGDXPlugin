@@ -26,6 +26,7 @@ import org.jetbrains.kotlin.psi.KtVisitorVoid
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class KotlinUnusedClassTagInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("unused.class.tag.inspection.html.description")

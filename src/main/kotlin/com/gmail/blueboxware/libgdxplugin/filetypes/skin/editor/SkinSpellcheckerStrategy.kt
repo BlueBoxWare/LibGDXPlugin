@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SuppressForObject
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.SuppressForPropertyFix
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.utils.isSuppressed
 import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiWhiteSpace
@@ -37,7 +38,7 @@ import com.intellij.spellchecker.tokenizer.TokenizerBase
 
 private val TOKENIZER = TokenizerBase<SkinElement>(PlainTextSplitter.getInstance())
 
-internal class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy() {
+internal class SkinSpellcheckerStrategy : SuppressibleSpellcheckingStrategy(), DumbAware {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<out PsiElement> =
         if (element is PsiWhiteSpace) {

@@ -25,6 +25,7 @@ import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
 import org.jetbrains.kotlin.psi.*
 
+@Suppress("CanBeDumbAware")
 internal class KotlinMissingFlushInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("missing.flush.html.description")

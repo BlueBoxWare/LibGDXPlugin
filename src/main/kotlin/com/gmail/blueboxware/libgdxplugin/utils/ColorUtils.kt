@@ -114,6 +114,7 @@ internal fun createAnnotation(
             .create()
     }
 
+@Suppress("CanBeDumbAware")
 open class GutterColorRenderer(val color: Color) : GutterIconRenderer() {
 
     override fun getIcon(): Icon = createColorIcon(color)

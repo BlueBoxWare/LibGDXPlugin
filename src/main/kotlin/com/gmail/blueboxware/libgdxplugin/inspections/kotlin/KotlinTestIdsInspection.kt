@@ -18,10 +18,11 @@ package com.gmail.blueboxware.libgdxplugin.inspections.kotlin
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.isTestId
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.DumbAware
 import org.jetbrains.kotlin.psi.KtLiteralStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-internal class KotlinTestIdsInspection : LibGDXKotlinBaseInspection() {
+internal class KotlinTestIdsInspection : LibGDXKotlinBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("testid.html.description")
 

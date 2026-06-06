@@ -12,6 +12,7 @@ import com.intellij.json.psi.*
 import com.intellij.lang.Language
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.fileTypes.PlainTextLanguage
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiManager
@@ -34,7 +35,7 @@ import com.intellij.psi.PsiManager
  */
 internal class GdxJsonEditorNotificationProvider(project: Project) : FileTypeEditorNotificationProvider(
     project, LibGDXSkinLanguage.INSTANCE
-) {
+), DumbAware {
 
     override val messageKey = "json.file.detected"
 

@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.psi.*
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class KotlinGDXAssetsInspection : LibGDXKotlinBaseInspection() {
 
     override fun getStaticDescription() = message("gdxassets.annotation.inspection.descriptor")

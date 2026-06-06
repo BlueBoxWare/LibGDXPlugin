@@ -3,6 +3,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.json.intentions
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.psi.GdxJsonArray
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.switch
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.project.DumbAware
 
 
 /*
@@ -20,7 +21,7 @@ import com.intellij.openapi.editor.Editor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class GdxJsonMoveArrayElementBackwardIntention : GdxJsonMoveArrayElementBaseIntention() {
+internal class GdxJsonMoveArrayElementBackwardIntention : GdxJsonMoveArrayElementBaseIntention(), DumbAware {
 
     override fun getFamilyName(): String = "Move array element backward"
 

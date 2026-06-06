@@ -27,6 +27,7 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class ColorAnnotator : Annotator {
 
     private val ANNOTATIONS_KEY = key<MutableList<Pair<Int, Color>>>("annotations")

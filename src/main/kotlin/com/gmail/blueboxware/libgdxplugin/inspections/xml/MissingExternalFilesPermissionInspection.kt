@@ -30,6 +30,7 @@ import org.jetbrains.kotlin.psi.KtCallExpression
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class MissingExternalFilesPermissionInspection : LibGDXXmlBaseInspection() {
 
     override fun getStaticDescription() = message("missing.files.permissions.html.desciption")

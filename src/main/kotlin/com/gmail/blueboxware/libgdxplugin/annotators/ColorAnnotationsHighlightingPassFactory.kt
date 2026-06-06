@@ -38,6 +38,7 @@ import java.awt.Color
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@Suppress("CanBeDumbAware")
 internal class ColorAnnotationsHighlightingPassFactory :
     TextEditorHighlightingPassFactory,
     TextEditorHighlightingPassFactoryRegistrar {

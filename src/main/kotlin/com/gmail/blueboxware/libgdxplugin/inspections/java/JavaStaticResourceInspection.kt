@@ -22,6 +22,7 @@ import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiField
 import com.intellij.psi.impl.source.PsiClassReferenceType
 
+@Suppress("CanBeDumbAware")
 internal class JavaStaticResourceInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("static.resources.html.description")

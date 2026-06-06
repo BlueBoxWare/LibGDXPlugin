@@ -8,6 +8,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLeaf
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
@@ -30,7 +31,7 @@ import org.jetbrains.kotlin.psi.psiUtil.startOffset
 
 val KEYWORDS = listOf("info", "common", "page", "chars", "char", "kernings", "kerning")
 
-internal class BitmapFontHighlighter : Annotator {
+internal class BitmapFontHighlighter : Annotator, DumbAware {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
 

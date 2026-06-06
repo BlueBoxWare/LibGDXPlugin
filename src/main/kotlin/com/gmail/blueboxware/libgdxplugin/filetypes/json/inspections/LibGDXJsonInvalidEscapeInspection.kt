@@ -9,6 +9,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForString
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
@@ -32,7 +33,7 @@ import kotlin.math.min
  */
 private val ESCAPABLE_CHARS = setOf('"', '\\', '/', 'b', 'f', 'n', 'r', 't')
 
-internal class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection() {
+internal class LibGDXJsonInvalidEscapeInspection : GdxJsonBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("json.inspection.invalid.escape.description")
 

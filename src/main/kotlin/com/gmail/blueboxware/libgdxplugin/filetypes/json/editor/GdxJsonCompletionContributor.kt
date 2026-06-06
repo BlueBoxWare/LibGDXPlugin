@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.getCachedValue
 import com.gmail.blueboxware.libgdxplugin.utils.key
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.patterns.PlatformPatterns.psiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.util.CachedValue
@@ -48,7 +49,7 @@ private fun GdxJsonJobject.collectUsedPropertyKeys() = getCachedValue(PROPERTY_N
     propertyList.mapNotNull { it.name }.flatMap { it.split(",") }.map { it.trim() }.toSet()
 }
 
-internal class GdxJsonCompletionContributor : CompletionContributor() {
+internal class GdxJsonCompletionContributor : CompletionContributor(), DumbAware {
 
     init {
 

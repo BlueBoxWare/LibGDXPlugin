@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.TEST_ID_PREFIXES_MAP
 import com.gmail.blueboxware.libgdxplugin.utils.isInGradlePropertiesFile
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.lang.properties.psi.Property
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 
@@ -24,7 +25,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseInspection() {
+internal class GradlePropertiesTestIdsInspection : LibGDXGradlePropertiesBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("testid.html.description")
 

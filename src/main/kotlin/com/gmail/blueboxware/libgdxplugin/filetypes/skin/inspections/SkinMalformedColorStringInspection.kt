@@ -24,6 +24,7 @@ import com.intellij.codeInspection.ProblemsHolder
  */
 val colorRegex = Regex("""#?([0-9a-fA-F]{2}){3,4}""")
 
+@Suppress("CanBeDumbAware")
 internal class SkinMalformedColorStringInspection : SkinBaseInspection() {
     override fun getStaticDescription() = message("skin.inspection.malformed.color.description")
 

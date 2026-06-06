@@ -25,6 +25,7 @@ import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.psi.KtProperty
 import org.jetbrains.kotlin.psi.KtPropertyAccessor
 
+@Suppress("CanBeDumbAware")
 internal class JavaFlushInsideLoopInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("flushing.inside.loop.html.description")

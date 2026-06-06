@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.firstParent
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInsight.intention.PsiElementBaseIntentionAction
 import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 
@@ -26,7 +27,7 @@ import com.intellij.psi.PsiElement
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class ColorToHexIntention : PsiElementBaseIntentionAction(), IntentionAction {
+internal class ColorToHexIntention : PsiElementBaseIntentionAction(), IntentionAction, DumbAware {
 
     override fun getFamilyName(): String = "Convert to hex"
 

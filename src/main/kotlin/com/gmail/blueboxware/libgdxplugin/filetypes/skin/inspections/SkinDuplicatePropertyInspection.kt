@@ -4,6 +4,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.skin.psi.SkinObject
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElementVisitor
 
 /*
@@ -21,7 +22,7 @@ import com.intellij.psi.PsiElementVisitor
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class SkinDuplicatePropertyInspection : SkinBaseInspection() {
+internal class SkinDuplicatePropertyInspection : SkinBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("skin.inspection.duplicate.property.description")
 

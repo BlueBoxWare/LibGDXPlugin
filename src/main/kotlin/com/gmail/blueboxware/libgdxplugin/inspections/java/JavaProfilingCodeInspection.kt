@@ -22,7 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.JavaElementVisitor
 import com.intellij.psi.PsiMethodCallExpression
 
-
+@Suppress("CanBeDumbAware")
 internal class JavaProfilingCodeInspection : LibGDXJavaBaseInspection() {
 
     override fun getStaticDescription() = message("profiling.code.html.description")

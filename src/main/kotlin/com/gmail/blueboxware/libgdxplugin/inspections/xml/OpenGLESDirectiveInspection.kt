@@ -18,11 +18,12 @@ package com.gmail.blueboxware.libgdxplugin.inspections.xml
 import com.gmail.blueboxware.libgdxplugin.message
 import com.gmail.blueboxware.libgdxplugin.utils.androidManifest.ManifestModel
 import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.XmlElementVisitor
 import com.intellij.psi.xml.XmlFile
 
-internal class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection() {
+internal class OpenGLESDirectiveInspection : LibGDXXmlBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("no.opengl.html.description")
 

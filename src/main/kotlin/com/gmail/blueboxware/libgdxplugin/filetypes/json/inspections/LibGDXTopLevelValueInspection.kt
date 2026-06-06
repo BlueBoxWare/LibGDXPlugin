@@ -6,6 +6,7 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.json.utils.SuppressForFileFi
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.SuppressQuickFix
+import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
@@ -27,7 +28,7 @@ import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstanceOrNull
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-internal class LibGDXTopLevelValueInspection : GdxJsonBaseInspection() {
+internal class LibGDXTopLevelValueInspection : GdxJsonBaseInspection(), DumbAware {
 
     override fun getStaticDescription() = message("json.inspection.toplevel.value.description")
 
