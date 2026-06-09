@@ -7,7 +7,6 @@ import com.gmail.blueboxware.libgdxplugin.utils.asPlainString
 import com.gmail.blueboxware.libgdxplugin.utils.asString
 import com.intellij.find.findUsages.FindUsagesHandler
 import com.intellij.find.findUsages.FindUsagesOptions
-import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiLiteralExpression
@@ -45,27 +44,18 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindU
     constructor(element: KtStringTemplateExpression) : this(element as PsiElement)
 
     override fun processElementUsages(
-        element: PsiElement,
-        processor: Processor<in UsageInfo>,
-        options: FindUsagesOptions
+        element: PsiElement, processor: Processor<in UsageInfo>, options: FindUsagesOptions
     ): Boolean {
 
-        ReadAction.run<Throwable> {
 
-            val usages =
-                CachedValuesManager.getManager(element.project).getCachedValue(
-                    element,
-                    MyCachedValueProvider(
-                        project,
-                        element,
-                        (options.searchScope as? GlobalSearchScope) ?: project.allScope()
-                    )
-                )
-
-            usages?.forEach { usage ->
-                processor.process(UsageInfo(usage))
-            }
-
+        val usages = CachedValuesManager.getManager(element.project).getCachedValue(
+            element, MyCachedValueProvider(
+                project, element, (options.searchScope as? GlobalSearchScope) ?: project.allScope()
+            )
+        )
+        
+        usages?.forEach { usage ->
+            processor.process(UsageInfo(usage))
         }
 
         return true
@@ -75,9 +65,7 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindU
 }
 
 private class MyCachedValueProvider(
-    val project: Project,
-    val element: PsiElement,
-    val scope: GlobalSearchScope
+    val project: Project, val element: PsiElement, val scope: GlobalSearchScope
 ) : CachedValueProvider<Collection<SkinClassName>> {
 
     override fun compute(): CachedValueProvider.Result<Collection<SkinClassName>> {

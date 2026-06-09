@@ -50,30 +50,30 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
             return
         }
 
-        ReadAction.run<Throwable> {
-            if (!element.project.isLibGDX199()) {
-                return@run
-            }
+        if (!element.project.isLibGDX199()) {
+            return
+        }
 
-            val qualifiedName = when (element) {
-                is PsiClass -> ReadAction.compute<String, Throwable> { element.qualifiedName }
-                is KtClass -> ReadAction.compute<String, Throwable> { element.fqName?.asString() }
-                else -> null
-            }
+        val qualifiedName = when (element) {
+            is PsiClass -> ReadAction.computeBlocking<String, Throwable> { element.qualifiedName }
+            is KtClass -> ReadAction.computeBlocking<String, Throwable> { element.fqName?.asString() }
+            else -> null
+        }
 
-            if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
-                return@run
-            }
+        if (qualifiedName == null || qualifiedName == TAG_ANNOTATION_NAME) {
+            return
+        }
 
 
-            val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName) ?: return@run
+        val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName) ?: return
 
-            if (tagsToFind.isEmpty()) {
-                return@run
-            }
+        if (tagsToFind.isEmpty()) {
+            return
+        }
 
-            val psiManager = PsiManager.getInstance(queryParameters.project)
+        val psiManager = PsiManager.getInstance(queryParameters.project)
 
+        ReadAction.runBlocking<Throwable> {
             FileTypeIndex.getFiles(LibGDXSkinFileType, queryParameters.project.allScope())
                 .forEach { virtualFile ->
                     (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
@@ -86,7 +86,6 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
                         }
                     }
                 }
-
         }
 
     }

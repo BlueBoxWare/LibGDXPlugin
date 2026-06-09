@@ -51,13 +51,13 @@ class ColorsFindUsagesHandler private constructor(element: PsiElement) : FindUsa
         options: FindUsagesOptions
     ): Boolean {
 
-        val colorNameToFind = ReadAction.compute<String, Throwable> {
+        val colorNameToFind = ReadAction.computeBlocking<String, Throwable> {
             (element as? PsiLiteralExpression)?.asString()
                 ?: (element as? KtStringTemplateExpression)?.asPlainString()
         } ?: return true
 
-        ReadAction.run<Throwable> {
 
+        ReadAction.runBlocking<Throwable> {
             val elements =
                 CachedValuesManager.getManager(element.project).getCachedValue(
                     element,
@@ -70,7 +70,6 @@ class ColorsFindUsagesHandler private constructor(element: PsiElement) : FindUsa
             elements?.forEach { element ->
                 processor.process(UsageInfo(element))
             }
-
         }
 
         return true

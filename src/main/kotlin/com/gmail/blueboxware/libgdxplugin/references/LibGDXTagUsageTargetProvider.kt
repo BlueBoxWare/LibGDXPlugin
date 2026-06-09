@@ -54,7 +54,6 @@ internal class LibGDXTagUsageTargetProvider : DefaultUsageTargetProvider() {
 
                 }
 
-
             } else if (sourceElement.isLeaf(
                     KtTokens.REGULAR_STRING_PART,
                     KtTokens.CLOSING_QUOTE,
