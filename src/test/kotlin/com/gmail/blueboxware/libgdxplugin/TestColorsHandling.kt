@@ -11,7 +11,6 @@ import junit.framework.TestCase
 import org.jetbrains.kotlin.idea.KotlinFileType
 import org.jetbrains.kotlin.psi.KtStringTemplateEntry
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.utils.addToStdlib.firstIsInstance
 
 
 /*
@@ -181,68 +180,6 @@ class TestColorsHandling : LibGDXCodeInsightFixtureTestCase() {
         }
     """.trimIndent(), shouldFindSomething = false
         )
-    }
-
-    fun testFindUsagesJava1() = doTestFindUsages(
-        JavaFileType.INSTANCE, 6, """
-        import com.badlogic.gdx.graphics.Colors;
-        class Test {
-          void m() {
-            Colors.get("c");
-            Colors.put(<caret>"c", null);
-            Colors.getColors().get("c");
-          }
-        }
-  """.trimIndent()
-    )
-
-    fun testFindUsagesJava2() = doTestFindUsages(
-        JavaFileType.INSTANCE, 6, """
-        import com.badlogic.gdx.graphics.Colors;
-        class Test {
-          void m() {
-            Colors.get("c");
-            Colors.getColors().put("<caret>c", null);
-            Colors.getColors().get("c");
-          }
-        }
-  """.trimIndent()
-    )
-
-    fun testFindUsagesKotlin1() = doTestFindUsages(
-        KotlinFileType.INSTANCE, 6, """
-        import com.badlogic.gdx.graphics.Colors
-        fun f() {
-            Colors.get("c")
-            Colors.getColors().put(<caret>"c", null)
-            Colors.getColors().get("c")
-        }
-  """.trimIndent()
-    )
-
-    fun testFindUsagesKotlin2() = doTestFindUsages(
-        KotlinFileType.INSTANCE, 6, """
-        import com.badlogic.gdx.graphics.Colors
-        fun f() {
-            Colors.get("c")
-            Colors.put("c<caret>", null)
-            Colors.getColors().get("c")
-        }
-  """.trimIndent()
-    )
-
-    private fun doTestFindUsages(fileType: FileType, numberToFind: Int, content: String) {
-
-        configureByText(fileType, content)
-
-        val targetElement = file.findElementAt(myFixture.caretOffset)!!.parent
-        val usages = myFixture.findUsages(targetElement)
-
-        assertEquals(numberToFind, usages.size)
-
-        usages.forEach { usage ->
-            assertEquals(targetElement, usage.element!!.references.firstIsInstance<ColorsReference>().resolve()!!)
-        }
     }
 
     private fun doTestReference(fileType: FileType, content: String, shouldFindSomething: Boolean = true) {

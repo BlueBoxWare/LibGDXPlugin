@@ -100,8 +100,6 @@
 
         <usageTargetProvider
                 implementation="com.gmail.blueboxware.libgdxplugin.references.LibGDXTagUsageTargetProvider"/>
-        <findUsagesHandlerFactory
-                implementation="com.gmail.blueboxware.libgdxplugin.references.ColorsFindUsagesHandlerFactory"/>
 
         <!--suppress PluginXmlValidity -->
         <fileTypeOverrider implementation="com.gmail.blueboxware.libgdxplugin.settings.LibGDXFileTypeOverrider"
