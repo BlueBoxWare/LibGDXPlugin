@@ -17,11 +17,12 @@ import com.intellij.psi.util.InheritanceUtil
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.TypeConversionUtil
 import com.intellij.util.PathUtil
+import org.jetbrains.kotlin.analysis.api.javaInterop.namedClassSymbol
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
+import org.jetbrains.kotlin.analysis.api.session.analyze
 import org.jetbrains.kotlin.analysis.api.types.KaClassType
-import org.jetbrains.kotlin.analysis.utils.classId
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.idea.base.psi.deleteSingle
@@ -242,6 +243,8 @@ internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String
 
 private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolved_call")
 
+internal fun PsiClass.classId(): ClassId? = analyze(this) { namedClassSymbol?.classId }
+
 @OptIn(
     KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class
 )
@@ -250,7 +253,7 @@ internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
     return getCachedValue(RESOLVED_CALL_KEY) {
         var receiverType: ClassId? =
             if (receiverExpression is KtNameReferenceExpression) (receiverExpression.references.firstOrNull { it is KtSimpleNameReference }
-                ?.resolve() as? PsiClass)?.classId
+                ?.resolve() as? PsiClass)?.classId()
             else analyzeWriteSafe(receiverExpression) {
                 (receiverExpression.expressionType as? KaClassType)?.classId
             }

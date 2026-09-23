@@ -27,6 +27,7 @@ import com.intellij.find.findUsages.CustomUsageSearcher
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.runReadAction
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.search.FileTypeIndex
@@ -49,6 +50,7 @@ internal class DefaultImportUsageSearcher : CustomUsageSearcher() {
             if (!element.isValid || !element.project.isLibGDXProject()) return
 
             FileTypeIndex.processFiles(TreeFileType, { file ->
+                ProgressManager.checkCanceled()
                 file.toPsiFile(element.project)?.accept(object : PsiTreeRecursiveVisitor() {
                     override fun visitTaskname(taskName: PsiTreeTaskname) {
                         if (taskName.references.any { it.resolve() == element }) {

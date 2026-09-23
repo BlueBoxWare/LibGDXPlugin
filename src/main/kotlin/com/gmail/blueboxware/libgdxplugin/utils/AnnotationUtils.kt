@@ -5,8 +5,7 @@ import com.intellij.psi.*
 import com.intellij.psi.search.searches.AnnotatedElementsSearch
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.PsiUtil
-import org.jetbrains.kotlin.analysis.utils.classId
-import org.jetbrains.kotlin.asJava.elements.KtLightAnnotationForSourceEntry
+import org.jetbrains.kotlin.asJava.elements.KtLightAbstractAnnotation
 import org.jetbrains.kotlin.asJava.elements.KtLightField
 import org.jetbrains.kotlin.asJava.elements.KtLightMember
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
@@ -88,7 +87,7 @@ internal fun PsiMethodCallExpression.getAnnotation(annotationClass: PsiClass): A
 
         ((qualifierExpression as? PsiReference)?.resolve() as? PsiVariable)?.let { variable ->
             AnnotationUtil.findAnnotation(variable, annotationClass.qualifiedName)?.let { psiAnnotation ->
-                ((psiAnnotation as? KtLightAnnotationForSourceEntry)?.navigationElement as? KtAnnotationEntry)?.let { ktAnnotationEntry ->
+                ((psiAnnotation as? KtLightAbstractAnnotation)?.navigationElement as? KtAnnotationEntry)?.let { ktAnnotationEntry ->
                     return KtAnnotationWrapper(ktAnnotationEntry)
                 }
                 return PsiAnnotationWrapper(psiAnnotation)
@@ -162,7 +161,7 @@ internal fun KtCallExpression.getAnnotation(annotationClass: PsiClass): Annotati
 }
 
 internal fun KtAnnotated.getAnnotation(annotationClass: PsiClass): AnnotationWrapper? =
-    annotationClass.classId?.let { classId ->
+    annotationClass.classId()?.let { classId ->
         findAnnotation(classId)?.let { annotationEntry ->
             KtAnnotationWrapper(annotationEntry)
         }

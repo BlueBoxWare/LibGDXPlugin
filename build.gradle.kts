@@ -8,10 +8,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("java")
     id("maven-publish")
-    id("org.jetbrains.kotlin.jvm") version "2.3.0"
+    id("org.jetbrains.kotlin.jvm") version "2.4.0"
     id("com.github.blueboxware.tocme") version "1.8"
-    id("org.jetbrains.intellij.platform") version "2.16.0"
-    id("org.jetbrains.intellij.platform.grammarkit") version "2.16.0"
+    id("org.jetbrains.intellij.platform") version "2.19.0"
+    id("org.jetbrains.intellij.platform.grammarkit") version "2.19.0"
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -39,12 +39,6 @@ dependencies {
     }
     testImplementation("org.opentest4j:opentest4j:1.3.0")
     testImplementation("junit:junit:4.13.2")
-    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.10.2")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
-}
-
-kotlin {
-    jvmToolchain(21)
 }
 
 intellijPlatform {
@@ -87,8 +81,8 @@ interface FileSystem {
 
 tasks {
     withType<JavaCompile> {
-        sourceCompatibility = "21"
-        targetCompatibility = "21"
+        sourceCompatibility = "25"
+        targetCompatibility = "25"
     }
 
     named<JavaCompile>("compileAnnotationsJava") {

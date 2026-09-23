@@ -7,6 +7,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.getSkinTag2ClassMap
 import com.gmail.blueboxware.libgdxplugin.utils.isLibGDX199
 import com.intellij.openapi.application.QueryExecutorBase
 import com.intellij.openapi.application.ReadAction
+import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiManager
 import com.intellij.psi.PsiReference
@@ -76,8 +77,10 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
         ReadAction.runBlocking<Throwable> {
             FileTypeIndex.getFiles(LibGDXSkinFileType, queryParameters.project.allScope())
                 .forEach { virtualFile ->
+                    ProgressManager.checkCanceled()
                     (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
                         skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
+                            ProgressManager.checkCanceled()
                             if (classSpec.className.stringLiteral.getValue() in tagsToFind) {
                                 classSpec.className.references.forEach { reference ->
                                     consumer.process(reference)
