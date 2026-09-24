@@ -499,7 +499,7 @@ internal class SkinCompletionContributor : CompletionContributor() {
 
         val scope = project.allScope()
 
-        if (currentPackage == null || currentPackage.name == null) {
+        if (currentPackage?.name == null) {
 
             val prefixMatcher =
                 CamelHumpMatcher(

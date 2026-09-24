@@ -82,6 +82,7 @@ import java.lang.annotation.*;
  * Go to Definition, Find Usages and Smart Renaming are only available when the specified Skin files
  * and Atlas files are registered by Idea as Skin files and Atlas files respectively.
  */
+@SuppressWarnings("MissingJavadoc")
 @Documented
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.FIELD, ElementType.LOCAL_VARIABLE})

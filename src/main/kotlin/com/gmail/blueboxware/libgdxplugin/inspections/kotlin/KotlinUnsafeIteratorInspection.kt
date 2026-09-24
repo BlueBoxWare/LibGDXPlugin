@@ -24,7 +24,6 @@ import org.jetbrains.kotlin.psi.KtForExpression
 import org.jetbrains.kotlin.psi.KtQualifiedExpression
 import org.jetbrains.kotlin.psi.KtVisitorVoid
 
-
 @Suppress("CanBeDumbAware")
 internal class KotlinUnsafeIteratorInspection : LibGDXKotlinBaseInspection() {
 

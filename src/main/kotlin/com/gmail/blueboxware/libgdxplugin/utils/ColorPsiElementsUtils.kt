@@ -21,7 +21,7 @@ import com.intellij.psi.impl.compiled.ClsElementImpl
 import com.intellij.psi.impl.source.PsiClassReferenceType
 import com.intellij.psi.util.CachedValue
 import com.siyeh.ig.psiutils.MethodCallUtils
-import org.jetbrains.kotlin.analysis.api.components.DefaultTypeClassIds
+import org.jetbrains.kotlin.analysis.api.types.KaStandardTypeClassIds
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.idea.base.psi.kotlinFqName
@@ -36,7 +36,7 @@ private val COLOR_ROOT_KEY = key<CachedValue<PsiElement>>("color.root")
 internal fun PsiElement.getColor(ignoreContext: Boolean = false): Color? {
 
     val isSpecialColorMethod =
-        if (this is KtCallExpression || this is KtDotQualifiedExpression || this is PsiMethodCallExpression) isSpecialColorMethod() else false
+        (this is KtCallExpression || this is KtDotQualifiedExpression || this is PsiMethodCallExpression) && isSpecialColorMethod()
 
     if (!ignoreContext) {
         if (context is PsiMethodCallExpression || context is KtCallExpression || context is PsiReferenceExpression || context is KtNameReferenceExpression || context is KtDotQualifiedExpression) {
@@ -102,7 +102,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
         val argument1type = arguments.firstOrNull()?.getArgumentExpression()?.classId()
             ?: return@getCachedValue null
 
-        if (arguments.size == 1 && argument1type == DefaultTypeClassIds.INT) {
+        if (arguments.size == 1 && argument1type == KaStandardTypeClassIds.INT) {
             // Color(int)
             arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
                 val arg = expr.findRoot()
@@ -110,7 +110,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
                     return@getCachedValue rgbaToColor(int.toLong())
                 }
             }
-        } else if (argument1type == DefaultTypeClassIds.STRING) {
+        } else if (argument1type == KaStandardTypeClassIds.STRING) {
             initialValue.resolveCallToStrings()?.let { (clazz, method) ->
                 arguments.firstOrNull()?.getArgumentExpression()?.let { expr ->
                     val arg = expr.findRoot()
@@ -180,7 +180,7 @@ private fun PsiElement.findColor(isSpecialColorMethod: Boolean): Color? = getCac
             for (i in 0..3) {
                 arguments.getOrNull(i)?.getArgumentExpression()?.let { expr ->
                     val argType = expr.classId()
-                    if (argType != DefaultTypeClassIds.FLOAT) return@getCachedValue null
+                    if (argType != KaStandardTypeClassIds.FLOAT) return@getCachedValue null
                     val root = expr.findRoot()
                     val float = root.psiFloat() ?: return@getCachedValue null
                     floats[i] = float
@@ -450,13 +450,13 @@ private fun PsiElement.ktInt(): Int? {
 
         classId()?.let { type ->
 
-            if (type == DefaultTypeClassIds.INT) {
+            if (type == KaStandardTypeClassIds.INT) {
 
                 return try {
                     if (StringUtil.startsWithIgnoreCase(txt, "0x")) StringUtil.trimStart(txt.lowercase(), "0x")
                         .toInt(16)
                     else txt.toInt()
-                } catch (e: NumberFormatException) {
+                } catch (_: NumberFormatException) {
                     null
                 }
 

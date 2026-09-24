@@ -53,7 +53,7 @@ class ClassTagFindUsagesHandler private constructor(element: PsiElement) : FindU
                 project, element, (options.searchScope as? GlobalSearchScope) ?: project.allScope()
             )
         )
-        
+
         usages?.forEach { usage ->
             processor.process(UsageInfo(usage))
         }

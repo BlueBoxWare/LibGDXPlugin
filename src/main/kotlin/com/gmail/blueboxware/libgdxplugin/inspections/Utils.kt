@@ -101,7 +101,7 @@ internal fun isValidProperty(element: PsiElement): Boolean {
             return true
         }
         references.forEach { reference ->
-            if (!reference.multiResolve(false).isEmpty()) {
+            if (reference.multiResolve(false).isNotEmpty()) {
                 return true
             }
         }

@@ -49,17 +49,14 @@ internal class SkinEditorNotificationProvider(project: Project) : FileTypeEditor
     override fun shouldShowNotification(
         currentLanguage: Language?, file: VirtualFile, fileEditor: TextEditor, settings: LibGDXPluginSettings
     ): Boolean =
+        @Suppress("RedundantIf")
         if (currentLanguage != PlainTextLanguage.INSTANCE && currentLanguage != JsonLanguage.INSTANCE && currentLanguage != LibGDXJsonLanuage) {
             false
         } else if (settings.neverAskAboutSkinFiles) {
             false
         } else {
             val nonSkinFiles = project.getService(LibGDXProjectNonSkinFiles::class.java)
-            if (nonSkinFiles.contains(file)) {
-                false
-            } else {
-                fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
-            }
+            !nonSkinFiles.contains(file) && fileEditor.editor.document.text.contains(SKIN_SIGNATURE)
         }
 
 

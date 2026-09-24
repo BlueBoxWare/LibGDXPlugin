@@ -31,6 +31,7 @@ import com.intellij.psi.util.findParentOfType
 import com.intellij.util.text.CharArrayUtil
 import org.jetbrains.kotlin.psi.psiUtil.prevSiblingOfSameType
 
+@Suppress("CanBeDumbAware")
 internal class TreeInspectionSuppressor : InspectionSuppressor {
     override fun isSuppressedFor(element: PsiElement, toolId: String): Boolean =
         isSuppressedForFile(element, toolId) ||

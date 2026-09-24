@@ -47,6 +47,7 @@ import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
 import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import java.io.File
+import kotlin.io.path.exists
 import kotlin.reflect.KClass
 
 /*
@@ -360,7 +361,7 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         assertIdeaHomePath()
         // Make sure Kotlin plugin is initialized
         // TODO: Remove
-        if (!KotlinPluginLayout.kotlinc.exists()) {
+        if (!KotlinPluginLayout.kotlincPath.exists()) {
             throw AssertionError()
         }
         super.setUp()

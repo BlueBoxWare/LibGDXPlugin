@@ -1,12 +1,11 @@
 package com.gmail.blueboxware.libgdxplugin
 
 import com.intellij.codeInspection.LocalInspectionEP
-import com.intellij.ide.plugins.PluginManager
+import com.intellij.ide.plugins.PluginDetailsService
 import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.openapi.application.ApplicationInfo
 import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.extensions.ExtensionPointName
-import org.jetbrains.kotlin.idea.base.plugin.useK2Plugin
 import java.io.File
 
 
@@ -33,13 +32,13 @@ class ShowInfo : LibGDXCodeInsightFixtureTestCase() {
         println("IntelliJ version: " + ApplicationInfo.getInstance().fullVersion)
         println("IntelliJ build: " + ApplicationInfo.getInstance().build)
         println("Kotlin version: " + KotlinVersion.CURRENT)
-        println("Use K2: $useK2Plugin")
         println()
 
         println("PLUGINS:")
-        PluginManager.getPlugins().sortedBy { it.name }.forEach { plugin ->
-            val enabled = !PluginManagerCore.isDisabled(plugin.pluginId)
-            val loaded = PluginManagerCore.isLoaded(plugin.pluginId)
+        @Suppress("UnstableApiUsage")
+        PluginDetailsService.getInstance().getActivePlugins().sortedBy { it.name }.forEach { plugin ->
+            val enabled = !PluginManagerCore.isDisabled(plugin.id)
+            val loaded = PluginManagerCore.isLoaded(plugin.id)
             println("\t${plugin.name}: ${plugin.version} (enabled: $enabled, loaded: $loaded)")
         }
 

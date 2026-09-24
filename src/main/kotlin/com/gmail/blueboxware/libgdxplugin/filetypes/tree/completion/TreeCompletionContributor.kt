@@ -33,6 +33,7 @@ import com.intellij.psi.search.ProjectAndLibrariesScope
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import com.intellij.util.ProcessingContext
 
+@Suppress("CanBeDumbAware")
 internal class TreeCompletionContributor : CompletionContributor() {
 
     init {

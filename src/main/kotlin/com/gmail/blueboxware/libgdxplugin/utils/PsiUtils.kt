@@ -18,7 +18,6 @@ import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.TypeConversionUtil
 import com.intellij.util.PathUtil
 import org.jetbrains.kotlin.analysis.api.javaInterop.namedClassSymbol
-import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.session.analyze
@@ -245,9 +244,6 @@ private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolv
 
 internal fun PsiClass.classId(): ClassId? = analyze(this) { namedClassSymbol?.classId }
 
-@OptIn(
-    KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class
-)
 internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 
     return getCachedValue(RESOLVED_CALL_KEY) {

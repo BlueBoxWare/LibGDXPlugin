@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection")
-
 package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
@@ -1689,6 +1687,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         val result = myFixture.complete(CompletionType.BASIC, 1)
         if (result == null) {
             // the only item was auto-completed?
+            @Suppress("KotlinMisorderedAssertEqualsArguments")
             assertEquals(
                 "Got only 1 result. Expected results: $expectedCompletionStrings. Content: \n'$content'",
                 expectedCompletionStrings.size, 1

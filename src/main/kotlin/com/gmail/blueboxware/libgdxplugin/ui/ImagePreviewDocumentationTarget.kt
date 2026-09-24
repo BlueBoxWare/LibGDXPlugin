@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-@file:Suppress("UnstableTypeUsedInSignature", "UnstableApiUsage")
-
 package com.gmail.blueboxware.libgdxplugin.ui
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.atlas2.psi.Atlas2Region

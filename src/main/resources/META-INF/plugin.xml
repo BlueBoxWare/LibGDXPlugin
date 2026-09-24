@@ -1031,10 +1031,6 @@
 
     </extensions>
 
-    <extensions defaultExtensionNs="org.jetbrains.kotlin">
-        <supportsKotlinPluginMode supportsK2="true"/>
-    </extensions>
-
     <actions>
         <action class="com.gmail.blueboxware.libgdxplugin.actions.CreateScreenAction" id="LibGDXPlugin.NewScreen">
             <add-to-group group-id="NewGroup" anchor="last"/>

@@ -178,6 +178,7 @@ class SkinFileImpl(
 
         for (classSpecification in getClassSpecifications()) {
             if (classSpecification.name == oldFqName) {
+                @Suppress("UsePropertyAccessSyntax")
                 classSpecification.setName(newFqName)
             } else if (classSpecification.name?.startsWith("$oldFqName$") == true) {
                 classSpecification.name?.replaceFirst(oldFqName, newFqName)?.let {

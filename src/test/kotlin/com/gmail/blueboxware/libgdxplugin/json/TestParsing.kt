@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection")
-
 package com.gmail.blueboxware.libgdxplugin.json
 
 import com.gmail.blueboxware.libgdxplugin.filetypes.json.GdxJsonParserDefinition

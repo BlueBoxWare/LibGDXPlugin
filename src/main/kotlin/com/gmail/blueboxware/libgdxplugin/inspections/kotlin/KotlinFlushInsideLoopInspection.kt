@@ -22,8 +22,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.analysis.api.analyze
-import org.jetbrains.kotlin.analysis.api.resolution.KaSimpleVariableAccess
-import org.jetbrains.kotlin.analysis.api.resolution.KaSimpleVariableAccessCall
+import org.jetbrains.kotlin.analysis.api.resolution.KaVariableAccessCall
 import org.jetbrains.kotlin.analysis.api.resolution.calls
 import org.jetbrains.kotlin.idea.references.KtInvokeFunctionReference
 import org.jetbrains.kotlin.psi.*
@@ -152,7 +151,7 @@ private class LoopBodyChecker(val holder: ProblemsHolder, session: LocalInspecti
             if (target is KtProperty) {
                 // Kotlin accessor
                 val isGetter = analyze(expression) {
-                    (expression.resolveToCall()?.calls?.firstOrNull() as? KaSimpleVariableAccessCall)?.simpleAccess is KaSimpleVariableAccess.Read
+                    (expression.resolveToCall()?.calls?.firstOrNull() as? KaVariableAccessCall)?.kind is KaVariableAccessCall.Kind.Read
                 }
                 val accessor = if (isGetter) target.getter else target.setter
                 if (accessor != null && allFlushingMethods.contains(accessor)) {

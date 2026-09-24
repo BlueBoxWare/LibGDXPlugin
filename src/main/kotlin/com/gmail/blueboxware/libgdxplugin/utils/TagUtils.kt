@@ -14,11 +14,11 @@ import com.intellij.psi.util.CachedValue
 import com.intellij.psi.util.PsiModificationTracker
 import org.jetbrains.kotlin.analysis.api.types.KaClassType
 import org.jetbrains.kotlin.asJava.elements.KtLightElement
+import org.jetbrains.kotlin.idea.base.psi.getOrCreateCallValueArgumentList
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
-import org.jetbrains.kotlin.psi.psiUtil.getOrCreateValueArgumentList
 import org.jetbrains.kotlin.psi.psiUtil.isPlain
 
 
@@ -136,7 +136,7 @@ private fun Project.collectCustomTags(): TagMap {
 
                     }
 
-                    (reference.element.context as? KtCallExpression)?.getOrCreateValueArgumentList()?.arguments?.let { arguments ->
+                    (reference.element.context as? KtCallExpression)?.getOrCreateCallValueArgumentList()?.arguments?.let { arguments ->
 
                         (arguments.getOrNull(0)
                             ?.getArgumentExpression() as? KtStringTemplateExpression)?.takeIf { it.isPlain() }

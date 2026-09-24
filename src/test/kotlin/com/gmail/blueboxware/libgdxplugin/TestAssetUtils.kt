@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection")
-
 package com.gmail.blueboxware.libgdxplugin
 
 import com.gmail.blueboxware.libgdxplugin.utils.getAssociatedAtlas
