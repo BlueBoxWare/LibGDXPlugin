@@ -242,7 +242,8 @@ internal fun PsiMethodCallExpression.resolveCallToStrings(): Pair<String, String
 
 private val RESOLVED_CALL_KEY = key<CachedValue<Pair<ClassId, String>?>>("resolved_call")
 
-internal fun PsiClass.classId(): ClassId? = analyze(this) { namedClassSymbol?.classId }
+@OptIn(KaAllowAnalysisOnEdt::class)
+internal fun PsiClass.classId(): ClassId? = allowAnalysisOnEdt { analyze(this) { namedClassSymbol?.classId } }
 
 internal fun KtQualifiedExpression.resolveCall(): Pair<ClassId, String>? {
 

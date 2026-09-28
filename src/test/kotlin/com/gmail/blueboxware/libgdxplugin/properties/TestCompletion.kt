@@ -59,7 +59,6 @@ class TestCompletion : PropertiesCodeInsightFixtureTestCase() {
         """
             i18NBundle.get("foo<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),
-
         """
             i18NBundle2.get("<caret>");
           """ to (listOf<String>() to listOf("something", "default", "spain", "french.Only", "noTranslation")),

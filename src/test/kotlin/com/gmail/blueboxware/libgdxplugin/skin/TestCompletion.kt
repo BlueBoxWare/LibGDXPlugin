@@ -2,6 +2,7 @@ package com.gmail.blueboxware.libgdxplugin.skin
 
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.intellij.codeInsight.completion.CompletionType
+import com.intellij.openapi.util.registry.Registry
 
 /*
  * Copyright 2017 Blue Box Ware
@@ -1684,6 +1685,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         notExpectedCompletionStrings: List<String> = listOf()
     ) {
         configureByText("ui.skin", content)
+        Registry.get("ide.completion.variant.limit").setValue(10000, getTestRootDisposable())
         val result = myFixture.complete(CompletionType.BASIC, 1)
         if (result == null) {
             // the only item was auto-completed?

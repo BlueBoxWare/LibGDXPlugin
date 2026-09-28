@@ -26,6 +26,7 @@ import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
 import com.intellij.refactoring.listeners.UndoRefactoringElementAdapter
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.psi.KtProperty
 
@@ -40,6 +41,8 @@ internal class TreeKtPropertyRefactoringElementListenerProvider : RefactoringEle
 
             if (references.isNotEmpty()) {
                 return object : UndoRefactoringElementAdapter() {
+                    @Suppress("UnstableApiUsage")
+                    @RequiresBlockingContext
                     override fun refactored(element: PsiElement, oldQualifiedName: String?) {
                         ApplicationManager.getApplication().runWriteAction {
                             references.forEach { reference ->

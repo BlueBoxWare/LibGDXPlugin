@@ -36,6 +36,7 @@ import com.intellij.platform.backend.documentation.DocumentationTarget
 import com.intellij.platform.backend.presentation.TargetPresentation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.createSmartPointer
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import com.intellij.util.ui.ImageUtil
 import java.awt.RenderingHints
 import java.awt.image.BufferedImage
@@ -45,6 +46,8 @@ import javax.imageio.ImageIO
 
 class ImagePreviewDocumentationTarget(private val targetElement: PsiElement?) : DocumentationTarget {
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     override fun computeDocumentationHint(): String? {
 
         (targetElement as? Atlas2Region)?.getImage()?.let { image ->

@@ -20,7 +20,7 @@ internal class JavaClass {
     fun m() {
         I18NBundle().get("newName2")
         i18NBundle.format("newName2", "", Any())
-        i18NBundle.format("newName2", "newName1", "")
+        i18NBundle.format("newName2", "newName2", "") // This is done by the properties plugin
         i18NBundle2.get("newName1")
         i18NBundle3.format("newName2")
         i18NBundle4.format("oldName")

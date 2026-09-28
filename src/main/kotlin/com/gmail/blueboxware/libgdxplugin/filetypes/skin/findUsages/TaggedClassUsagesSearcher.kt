@@ -15,6 +15,7 @@ import com.intellij.psi.search.FileTypeIndex
 import com.intellij.psi.search.LocalSearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.util.Processor
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.idea.base.util.allScope
 import org.jetbrains.kotlin.psi.KtClass
 
@@ -36,6 +37,8 @@ import org.jetbrains.kotlin.psi.KtClass
  */
 internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     override fun processQuery(
         queryParameters: ReferencesSearch.SearchParameters,
         consumer: Processor<in PsiReference>

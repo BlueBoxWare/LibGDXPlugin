@@ -41,8 +41,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "arg", listOf("")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               @MyAnnotation(arg = "4")
@@ -50,8 +49,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.char<caret>At(0);
             }
             """, "arg", listOf("4")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation
             String s;
@@ -60,8 +58,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "args", listOf("")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation
             String s;
@@ -70,8 +67,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               (s).ch<caret>arAt(3);
             }
             """, "args", listOf("")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation
             String s;
@@ -80,8 +76,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               ((String)s).ch<caret>arAt(3);
             }
             """, "args", listOf("")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation
             String s;
@@ -90,8 +85,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "argNoDefault", listOf()
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation
             String s;
@@ -100,8 +94,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "argsNoDefault", listOf()
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation(arg = "Foo")
             String s;
@@ -110,8 +103,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "arg", listOf("Foo")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation(args = {"Foo", "Bar"})
             String s;
@@ -120,8 +112,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "args", listOf("Foo", "Bar")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation(arg = {"Foo", "Bar"})
             String s;
@@ -130,8 +121,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               s.ch<caret>arAt(3);
             }
             """, "arg", listOf("Foo", "Bar")
-        ),
-        Test(
+        ), Test(
             """
             @MyAnnotation(args = {"Foo", "Bar"})
             String s;
@@ -140,64 +130,55 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               this.s.ch<caret>arAt(3);
             }
             """, "args", listOf("Foo", "Bar")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               JavaClass.INSTANCE.m<caret>();
             }
             """, "args", listOf("Foo", "Bar")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               JavaClass.INSTANCE.m<caret>();
             }
             """, "argNoDefault", listOf("")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new JavaClass().javaClass.m<caret>();
             }
             """, "argsNoDefault", listOf()
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new JavaClass().javaClass.m<caret>();
             }
             """, "args", listOf("one", "two")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               ((JavaClass)((JavaClass)new JavaClass().javaClass).javaClass).m<caret>();
             }
             """, "args", listOf("one", "two")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new JavaClass().annotated<caret>Method();
             }
             """, "args", null
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new JavaClass().annoSubClass.m<caret>();
             }
             """, "args", listOf("sub")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new JavaClass().f().t.charAt<caret>();
             }
             """, "arg", listOf("t")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               JavaClass.g().t.charAt<caret>();
@@ -214,15 +195,13 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               KotlinClassKt.getString().char<caret>At(1);
             }
             """, "argsNoDefault", listOf("foo", "oof")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinClassKt.getString().char<caret>At(1);
             }
             """, "arg", listOf("bar")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinClassKt.getString().char<caret>At(1);
@@ -256,43 +235,37 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               new KotlinClass().getString().char<caret>At(1);
             }
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new KotlinClass().getKotlinClass().m<caret>();
             }
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinClass.Companion.getS().char<caret>At(1);
             }
             """, "argsNoDefault", listOf("xyz")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinClass.Companion.f().getString().char<caret>At(0);
             }
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinObject.getS().char<caret>At(0);
             }
             """, "argNoDefault", null
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               KotlinObject.getT().char<caret>At(0);
             }
             """, "arg", listOf("xyz")
-        ),
-        Test(
+        ), Test(
             """
             void m() {
               new SubClass().getString().char<caret>At(0);
@@ -312,126 +285,103 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
               val s = ""
               s?.char<caret>At(0)
             """, "args", listOf("var")
-        ),
-        Test(
+        ), Test(
             """
               @MyAnnotation(args = ["var"])
               val s = ""
               s?.char<caret>At(0)
             """, "args", listOf("var")
-        ),
-        Test(
+        ), Test(
             """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               s.char<caret>At(0)
             """, "args", listOf("var")
-        ),
-        Test(
+        ), Test(
             """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               (s as String).char<caret>At(0)
             """, "args", listOf("var")
-        ),
-        Test(
+        ), Test(
             """
               @MyAnnotation(args = arrayOf("var"))
               val s = ""
               (((s) as String) as String).char<caret>At(0)
             """, "args", listOf("var")
-        ),
-        Test(
+        ), Test(
             """
               string.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")
-        ),
-        Test(
+        ), Test(
             """
               string?.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")
-        ),
-        Test(
+        ), Test(
             """
               string!!.co<caret>unt()
             """, "argsNoDefault", listOf("foo", "oof")
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject.m<caret>()
             """, "argNoDefault", null
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject.annotatedMethod<caret>()
             """, "argNoDefault", null
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject.s.char<caret>At(0)
             """, "argNoDefault", null
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject.t.char<caret>At(0)
             """, "arg", listOf("xyz")
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject?.t?.char<caret>At(0)
             """, "arg", listOf("xyz")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass().string.char<caret>At(0)
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinObject.f().string.char<caret>At(0)
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass.s.char<caret>At(0)
             """, "argsNoDefault", listOf("xyz")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass.f().string.char<caret>At(0)
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass.f().kotlinClass.m<caret>(0)
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass().kotlinClass.m<caret>(0)
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass().kotlinClass.kotlinClassNA.kotlinClass.kotlinClass.m<caret>()
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass().kotlinClass?.kotlinClassNA?.kotlinClass?.kotlinClass?.m<caret>()
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               KotlinClass()!!.kotlinClass!!.kotlinClassNA!!.kotlinClass!!.kotlinClass!!.m<caret>()
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               (((KotlinClass()!!.kotlinClass as? KotlinClass)!!.kotlinClassNA!!.kotlinClass!!) as (KotlinClass)).kotlinClass!!.m<caret>()
             """, "args", listOf("a", "b")
-        ),
-        Test(
+        ), Test(
             """
               SubClass().kotlinClass.m<caret>()
             """, "args", listOf("a", "b")
@@ -444,43 +394,35 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
             """
               JavaClass().javaClass.m<caret>()
             """, "args", listOf("one", "two")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.INSTANCE.m<caret>()
             """, "args", listOf("Foo", "Bar")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass().javaClass.annoSubClass.t.charAt<caret>()
             """, "arg", listOf("t")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass().f().t.charAt<caret>()
             """, "arg", listOf("t")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.INSTANCE.subClass.t.charAt<caret>()
             """, "arg", listOf("t")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.INSTANCE?.subClass?.t?.charAt<caret>()
             """, "arg", listOf("t")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.g().annoSubClass.m<caret>()
             """, "args", listOf("sub")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.g()?.annoSubClass?.m<caret>()
             """, "args", listOf("sub")
-        ),
-        Test(
+        ), Test(
             """
               JavaClass.g()!!.annoSubClass!!.m<caret>()
             """, "args", listOf("sub")
@@ -522,6 +464,7 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
         val annotationClass = project.findClass("MyAnnotation") ?: throw AssertionError()
         val annotation = (element as? PsiMethodCallExpression)?.getAnnotation(annotationClass)
             ?: (element as? KtCallExpression)?.getAnnotation(annotationClass)
+
         if (annotation == null) {
             if (expectedResult != null) {
                 fail("Annotation not found. $msg")

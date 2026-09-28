@@ -10,6 +10,7 @@ import com.intellij.psi.search.GlobalSearchScope
 import com.intellij.psi.search.searches.ReferencesSearch
 import com.intellij.refactoring.listeners.RefactoringElementListener
 import com.intellij.refactoring.listeners.RefactoringElementListenerProvider
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
@@ -79,6 +80,8 @@ internal class SkinRefactoringElementListenerProvider : RefactoringElementListen
 
         override fun elementMoved(newElement: PsiElement) = refactored()
 
+        @Suppress("UnstableApiUsage")
+        @RequiresBlockingContext
         private fun refactored() {
 
             ApplicationManager.getApplication().runWriteAction {

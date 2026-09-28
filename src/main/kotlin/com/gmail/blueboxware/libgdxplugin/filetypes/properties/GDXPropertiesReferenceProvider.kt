@@ -1,8 +1,9 @@
 package com.gmail.blueboxware.libgdxplugin.filetypes.properties
 
 import com.gmail.blueboxware.libgdxplugin.utils.*
-import com.intellij.lang.properties.psi.PropertiesFile
+import com.intellij.openapi.util.io.FileUtil
 import com.intellij.psi.*
+import com.intellij.util.PathUtil
 import com.intellij.util.ProcessingContext
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtStringTemplateExpression
@@ -98,10 +99,12 @@ class GDXPropertiesReferenceProvider : PsiReferenceProvider() {
         if (propertiesFiles.isEmpty()) {
             arrayOf(GDXPropertyReference(key, element, null))
         } else {
-            propertiesFiles.mapNotNull { propertiesFileName ->
-                (element.project.getPsiFile(propertiesFileName) as? PropertiesFile)?.let { propertiesFile ->
-                    GDXPropertyReference(key, element, propertiesFile.resourceBundle.baseName)
-                }
+            propertiesFiles.map { propertiesFileName ->
+                GDXPropertyReference(
+                    key,
+                    element,
+                    FileUtil.getNameWithoutExtension(PathUtil.getFileName(propertiesFileName))
+                )
             }.toTypedArray()
         }
 

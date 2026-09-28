@@ -8,7 +8,6 @@ import com.intellij.codeInsight.completion.CompletionType
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.formatting.FormatterTestUtils
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.application.PathManager
 import com.intellij.openapi.command.CommandProcessor
 import com.intellij.openapi.command.UndoConfirmationPolicy
 import com.intellij.openapi.command.WriteCommandAction
@@ -17,6 +16,7 @@ import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileTypes.FileType
+import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.roots.OrderRootType
 import com.intellij.openapi.roots.libraries.LibraryTablesRegistrar
 import com.intellij.openapi.util.io.FileUtil
@@ -27,10 +27,10 @@ import com.intellij.refactoring.BaseRefactoringProcessor
 import com.intellij.refactoring.PackageWrapper
 import com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesProcessor
 import com.intellij.refactoring.move.moveClassesOrPackages.SingleSourceRootMoveDestination
-import com.intellij.testFramework.EditorTestUtil
-import com.intellij.testFramework.PlatformTestUtil
-import com.intellij.testFramework.PsiTestUtil
+import com.intellij.testFramework.*
+import com.intellij.testFramework.fixtures.DefaultLightProjectDescriptor
 import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisFromWriteAction
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisFromWriteAction
@@ -71,6 +71,10 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
         FileUtil.toSystemDependentName(System.getProperty("user.dir") + "/src/test/testdata/")
 
     override fun getTestDataPath() = FileUtil.toSystemDependentName(getTestDataBasePath() + basePath)
+
+    override fun getProjectDescriptor(): LightProjectDescriptor = object : DefaultLightProjectDescriptor() {
+        override fun getSdk(): Sdk = IdeaTestUtil.getMockJdk21()
+    }
 
     fun addLibGDX() {
         removeLibGDX()
@@ -154,13 +158,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
             }
         })
 
-    }
-
-    private fun assertIdeaHomePath() {
-        val path = System.getProperty(PathManager.PROPERTY_HOME_PATH)
-        if (path == null || path == "") {
-            throw AssertionError("Set ${PathManager.PROPERTY_HOME_PATH} to point to the IntelliJ source directory")
-        }
     }
 
     private fun addLibrary(lib: String) {
@@ -293,6 +290,8 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
 
     }
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     @OptIn(KaAllowAnalysisOnEdt::class, KaAllowAnalysisFromWriteAction::class)
     fun moveKotlinFile(file: KtFile, newPackageName: String) {
 
@@ -358,7 +357,6 @@ abstract class LibGDXCodeInsightFixtureTestCase : LightJavaCodeInsightFixtureTes
     }
 
     override fun setUp() {
-        assertIdeaHomePath()
         // Make sure Kotlin plugin is initialized
         // TODO: Remove
         if (!KotlinPluginLayout.kotlincPath.exists()) {

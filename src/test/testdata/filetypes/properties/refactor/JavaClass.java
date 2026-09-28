@@ -17,7 +17,8 @@ class JavaClass {
   void m() {
     new I18NBundle().get("oldName");
     i18NBundle.format("oldName", "", new Object());
-    i18NBundle.format("oldName", "oldName", "");
+    i18NBundle.format("foo", "oldName", ""); // This is done by the properties plugin
+    i18NBundle.format("oldName", "oldName", ""); // This is done by the properties plugin
     i18NBundle2.get("oldName");
     i18NBundle3.format("oldName");
     i18NBundle4.format("oldName");

@@ -479,6 +479,7 @@
 
         <lang.psiStructureViewFactory language="LibGDXAiTree" implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.structureView.TreeStructureViewFactory" />
 
+        <!--region Inspections -->
         <!--Inspections-->
         <!--suppress PluginXmlCapitalization -->
         <localInspection
@@ -1027,6 +1028,7 @@
                 hasStaticDescription="true"
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections.TreeUnknownAttributeInspection"
         />
+        <!--endregion -->
 
 
     </extensions>

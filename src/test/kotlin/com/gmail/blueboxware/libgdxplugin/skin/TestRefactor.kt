@@ -5,6 +5,7 @@ import com.gmail.blueboxware.libgdxplugin.testname
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
 import com.gmail.blueboxware.libgdxplugin.utils.markFileAsSkin
 import com.intellij.psi.PsiClass
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.idea.core.moveCaret
 import org.jetbrains.kotlin.psi.KtClass
 import org.jetbrains.kotlin.psi.KtFile
@@ -186,6 +187,8 @@ class TestRefactor : LibGDXCodeInsightFixtureTestCase() {
         }
     }
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     fun testMoveKotlinFile() {
         copyDirectoryToProject("org", "org")
         val kotlinFile = configureByFile("KotlinClass.kt") as KtFile

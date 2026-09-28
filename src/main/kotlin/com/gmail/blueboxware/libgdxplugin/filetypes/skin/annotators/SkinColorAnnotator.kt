@@ -20,6 +20,7 @@ import com.intellij.openapi.components.service
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiEditorUtil
 import com.intellij.ui.ColorChooserService
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 
 /*
  * Copyright 2016 Blue Box Ware
@@ -57,6 +58,8 @@ internal class SkinColorAnnotator : Annotator {
 
                 val gutterIconRenderer = object : GutterColorRenderer(color) {
                     override fun getClickAction() = object : AnAction() {
+                        @Suppress("UnstableApiUsage")
+                        @RequiresBlockingContext
                         override fun actionPerformed(e: AnActionEvent) {
                             if (!element.isWritable) return
 

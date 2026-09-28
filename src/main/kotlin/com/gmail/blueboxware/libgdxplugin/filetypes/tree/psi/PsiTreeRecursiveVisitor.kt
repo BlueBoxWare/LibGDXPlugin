@@ -19,9 +19,12 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiRecursiveVisitor
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 
 open class PsiTreeRecursiveVisitor : PsiTreeElementVisitor(), PsiRecursiveVisitor {
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     override fun visitElement(element: PsiElement) {
         ProgressManager.checkCanceled()
         element.acceptChildren(this)

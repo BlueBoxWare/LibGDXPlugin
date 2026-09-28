@@ -66,7 +66,8 @@ class TestFindUsages : PropertiesCodeInsightFixtureTestCase() {
                     }
                 }
 
-        val usagesInfos = myFixture.findUsages(property)
+        val usagesInfos =
+            myFixture.findUsages(property).filter { it.referenceClass == GDXPropertyReference::class.java }
         assertEquals(nrOfUsages, usagesInfos.size)
 
         for (usageInfo in usagesInfos) {

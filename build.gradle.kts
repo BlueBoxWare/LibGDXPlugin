@@ -115,7 +115,6 @@ tasks {
     }
 
     test {
-        systemProperty("idea.home.path", System.getenv("LIBGDXPLUGIN_IDEA"))
         environment("NO_FS_ROOTS_ACCESS_CHECK", "1")
         jvmArgumentProviders += CommandLineArgumentProvider {
             listOf("-Didea.kotlin.plugin.use.k1=false")

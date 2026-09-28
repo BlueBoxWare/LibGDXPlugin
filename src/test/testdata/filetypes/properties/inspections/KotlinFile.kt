@@ -16,7 +16,7 @@ fun f() {
   I18NBundle().format("noTranslation", "", Any())
 
   i18NBundle.get("noTranslation")
-  i18NBundle2.get("noTranslation")
+  i18NBundle2.get(<error>"noTranslation"</error>)
   i18NBundle3.format("germanTranslation", "")
 
   i18NBundle4.format("spain", "spain")
@@ -25,7 +25,7 @@ fun f() {
   i18NBundle4.get(<error>"noTranslation"</error>)
   I18NBundle().format(<error>"not"</error>, "noTranslation", Any())
   i18NBundle3.format(<error>""</error>, "noTranslation")
-  i18NBundle2.get("")
+  i18NBundle2.get(<error>""</error>)
   I18NBundle().get(<error>"not"</error>)
 
 }

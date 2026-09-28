@@ -17,7 +17,7 @@ class JavaClass {
     new I18NBundle().format("noTranslation", "", new Object());
 
     i18NBundle.get("noTranslation");
-    i18NBundle2.get("noTranslation");
+    i18NBundle2.get(<error>"noTranslation"</error>);
     i18NBundle3.get("noTranslation");
     i18NBundle4.get("something");
 
@@ -28,7 +28,7 @@ class JavaClass {
     new I18NBundle().format(<error>"noT"</error>, "", "something", new Object());
 
     i18NBundle.get(<error>"nothing"</error>);
-    i18NBundle2.get("abc");
+    i18NBundle2.get(<error>"abc"</error>);
     i18NBundle3.get(<error>"default"</error>);
     i18NBundle3.format("french.Only", "");
     i18NBundle4.format(<error>""</error>, "something", "spain");

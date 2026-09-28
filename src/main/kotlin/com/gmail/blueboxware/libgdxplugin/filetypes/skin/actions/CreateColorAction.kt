@@ -12,6 +12,7 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.psi.PsiFile
 import com.intellij.ui.ColorChooserService
 import com.intellij.ui.JBColor
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 
 
 /*
@@ -41,6 +42,8 @@ class CreateColorAction : SimpleCodeInsightAction() {
         templatePresentation.icon = AllIcons.Gutter.Colors
     }
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     override fun invoke(project: Project, editor: Editor, file: PsiFile) {
 
         if (file !is SkinFileImpl) return
