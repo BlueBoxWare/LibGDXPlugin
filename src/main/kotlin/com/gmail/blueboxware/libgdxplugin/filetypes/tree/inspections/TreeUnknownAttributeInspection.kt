@@ -19,6 +19,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree.inspections
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeElementVisitor
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeImport
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeSubtree
 import com.gmail.blueboxware.libgdxplugin.message
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElementVisitor
@@ -31,7 +32,7 @@ internal class TreeUnknownAttributeInspection : TreeBaseInspection() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor =
         object : PsiTreeElementVisitor() {
             override fun visitAttributeName(o: PsiTreeAttributeName) {
-                if (o.parent.parent !is PsiTreeImport && o.reference?.resolve() == null) {
+                if (o.parent.parent !is PsiTreeImport && (o.parent.parent !is PsiTreeSubtree || o.name != "name") && o.reference?.resolve() == null) {
                     holder.registerProblem(o, message("tree.inspection.unknown.attribute.message", o.name ?: ""))
                 }
             }

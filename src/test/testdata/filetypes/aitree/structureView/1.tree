@@ -29,10 +29,13 @@ estt
 
 subtree
 
-import rest:"org.example.RestTask"
+subtree name:"foobar"
 
 import rest:"org.example.RestTask"
 
+import rest:"org.example.RestTask"
+
+$foobar
 
 # Tree definition (note that root is optional)
 root a:""

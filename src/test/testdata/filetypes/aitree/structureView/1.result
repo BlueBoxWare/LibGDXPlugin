@@ -14,9 +14,11 @@
    -bar
     test
    fdsfsd
- subtree
+ subtree 
+ subtree foobar
  import
  import
+ $foobar
  -root
   -selector
    parallel

@@ -21,10 +21,7 @@ package com.gmail.blueboxware.libgdxplugin.aitree
 import com.gmail.blueboxware.libgdxplugin.LibGDXCodeInsightFixtureTestCase
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeFileType
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.DefaultImportUsageSearcher
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeAttributeName
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElement
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeTaskName
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.*
 import com.intellij.find.findUsages.FindUsagesOptions
 import com.intellij.psi.JavaPsiFacade
 import com.intellij.psi.search.ProjectAndLibrariesScope
@@ -45,6 +42,26 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
         (a) (b) c
         (b?) b?
     """.trimIndent(), 5
+    )
+
+    fun testSubtree1() = doTestSubtree(
+        $$"""
+            subtr<caret>ee name:"foo"
+            
+            foo
+            $foo
+            (test)($foo)test
+        """.trimIndent(), 2
+    )
+
+    fun testSubtree2() = doTestSubtree(
+        $$"""
+            subtree name:"f<caret>oo"
+            
+            foo
+            $foo
+            (test)($foo)test
+        """.trimIndent(), 2
     )
 
     fun testClass1() = doTestClass("org.example.BarkTask", 7)
@@ -110,6 +127,17 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
         assertEquals(nrOfUsages, usages.size)
         for (usage in usages) {
             assertTrue((usage.element as TreeTaskName).reference!!.isReferenceTo(element))
+        }
+    }
+
+    private fun doTestSubtree(text: String, nrOfUsages: Int) {
+        myFixture.configureByText(TreeFileType, text)
+        val element =
+            file.findElementAt(myFixture.caretOffset)?.parentOfType<TreeSubtree>(true) ?: throw AssertionError()
+        val usages = myFixture.findUsages(element)
+        assertEquals(nrOfUsages, usages.size)
+        for (usage in usages) {
+            assertTrue((usage.element as TreeSubtreeref).reference!!.isReferenceTo(element))
         }
     }
 

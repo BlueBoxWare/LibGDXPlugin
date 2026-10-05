@@ -451,6 +451,8 @@
         <completion.contributor language="LibGDXAiTree"
                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.completion.TreeCompletionContributor"
                                 order="first"/>
+        <typedHandler
+                implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.completion.TreeTypedHandlerDelegate" />
 
         <lang.quoteHandler
                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeQuoteHandler"
@@ -459,7 +461,9 @@
                            implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.editor.TreeBraceMatcher"/>
 
         <lang.findUsagesProvider language="LibGDXAiTree"
-                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.TreeFindUsagesProvider"/>
+                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.TreeImportFindUsagesProvider"/>
+        <lang.findUsagesProvider language="LibGDXAiTree"
+                                 implementationClass="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.TreeSubtreeFindUsagesProvider"/>
         <customUsageSearcher
                 implementation="com.gmail.blueboxware.libgdxplugin.filetypes.tree.findUsages.DefaultImportUsageSearcher"/>
 

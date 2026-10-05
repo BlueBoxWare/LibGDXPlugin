@@ -39,7 +39,7 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
             TreeElementTypes.COMMENT -> COMMENT
             TreeElementTypes.ATTRNAME -> ATTRNAME
             TreeElementTypes.NULL -> NULL
-            TreeElementTypes.SUBTREEREF -> SUBTREEREF
+            TreeElementTypes.SUBTREEREFERENCE -> SUBTREEREF
             TreeElementTypes.QUESTION_MARK -> QUESTION_MARK
             TreeElementTypes.TIMPORT -> IMPORT
             TreeElementTypes.TROOT -> ROOT
@@ -57,7 +57,7 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
 
         val TASKNAME = createTextAttributesKey("TASKNAME", DefaultLanguageHighlighterColors.CLASS_NAME)
         val ATTRNAME = createTextAttributesKey("ATTRNAME", DefaultLanguageHighlighterColors.KEYWORD)
-        val SUBTREEREF = createTextAttributesKey("SUBTREEREF", DefaultLanguageHighlighterColors.CLASS_REFERENCE)
+        val SUBTREEREF = createTextAttributesKey("SUBTREEREF", DefaultLanguageHighlighterColors.STATIC_FIELD)
         val COMMENT = createTextAttributesKey("COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
 
         val NUMBER = createTextAttributesKey("NUMBER", DefaultLanguageHighlighterColors.NUMBER)

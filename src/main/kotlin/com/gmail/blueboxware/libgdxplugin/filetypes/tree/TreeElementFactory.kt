@@ -19,6 +19,7 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeIndent
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeLine
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeSubtreerefImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeTasknameImpl
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.impl.PsiTreeVstringImpl
 import com.gmail.blueboxware.libgdxplugin.utils.childOfType
@@ -62,5 +63,8 @@ object TreeElementFactory {
                 a $name:""
             """.trimIndent()
         ).childOfType<PsiTreeAttributeName>()
+
+    fun createSubtreeref(project: Project, newElementName: String): PsiTreeSubtreerefImpl? =
+        createFile(project, $$"$$$newElementName").childOfType<PsiTreeSubtreerefImpl>()
 
 }

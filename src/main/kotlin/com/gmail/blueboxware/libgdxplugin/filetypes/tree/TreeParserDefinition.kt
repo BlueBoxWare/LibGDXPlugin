@@ -28,7 +28,9 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
-val IDENTIFIERS = TokenSet.create(TreeElementTypes.ATTRNAME, TreeElementTypes.TASK_NAME)
+val IDENTIFIERS =
+    TokenSet.create(TreeElementTypes.ATTRNAME, TreeElementTypes.TASK_NAME, TreeElementTypes.SUBTREEREFERENCE)
+
 val LITERALS = TokenSet.create(
     TreeElementTypes.NUMBER, TreeElementTypes.NULL,
     TreeElementTypes.TRUE, TreeElementTypes.FALSE

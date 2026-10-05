@@ -19,8 +19,4 @@ package com.gmail.blueboxware.libgdxplugin.filetypes.tree
 import com.intellij.psi.tree.IElementType
 import org.jetbrains.annotations.NonNls
 
-class TreeTokenType(@NonNls debugName: String) : IElementType(debugName, TreeLanguage) {
-
-    override fun toString(): String = "TreeTokenType." + super.toString()
-
-}
+class TreeTokenType(@NonNls debugName: String) : IElementType(debugName, TreeLanguage)

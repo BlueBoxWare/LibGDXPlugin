@@ -164,6 +164,24 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         """.trimIndent()
     )
 
+    fun testSubtreeref1() = doTestSubtreeReference(
+        """
+            subtree a:"a" name:"foo" b:"b"
+                foo
+            
+            $<caret>foo
+        """.trimIndent()
+    )
+
+    fun testSubtreeref2() = doTestSubtreeReference(
+        """
+            subtree a:"a" name:"foo" b:"b"
+                foo
+            
+            (bar) ($<caret>foo) test
+        """.trimIndent()
+    )
+
     private fun doTestAttributeNameReference(text: String, expectedResult: Boolean = true) {
         myFixture.configureByText(TreeFileType, text)
         val element =
@@ -171,6 +189,18 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         element.references.filterIsInstance<TreeAttributeName>().any { ref ->
             ref.resolve().let { target ->
                 target is PsiField && target.name == element.name
+            }
+        }.let { assertEquals(expectedResult, it) }
+    }
+
+    private fun doTestSubtreeReference(text: String, expectedResult: Boolean = true) {
+        myFixture.configureByText(TreeFileType, text)
+        val element =
+            file.findElementAt(myFixture.caretOffset)?.parentOfType<TreeSubtreeref>(true) ?: throw AssertionError(
+            )
+        element.references.filterIsInstance<TreeSubtreeref>().any { ref ->
+            ref.resolve().let { target ->
+                target is PsiTreeSubtree && target.name == element.name
             }
         }.let { assertEquals(expectedResult, it) }
     }

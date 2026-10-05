@@ -35,13 +35,17 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         """
         <caret> a:"b"
     """.trimIndent(), listOf(
-            "import", "root", "org",
+            "import",
+            "root",
+            "org",
             "com",
             "org.example.CareTask",
             "org.example.WalkTask",
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
-            "include", "sequence", "wait"
+            "include",
+            "sequence",
+            "wait"
         ), listOf(
             "org.example.Dog",
             "java.lang.Object",
@@ -63,7 +67,9 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
             "org.example.Dog",
-            "include", "sequence", "wait",
+            "include",
+            "sequence",
+            "wait",
             "java.lang.Object",
             "com.badlogic.gdx.ai.btree.decorator.UntilSuccess",
             "com.badlogic.gdx.ai.btree.leaf.Wait",
@@ -93,13 +99,17 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         """
         <caret>? a:"b"
     """.trimIndent(), listOf(
-            "import", "root", "org",
+            "import",
+            "root",
+            "org",
             "com",
             "org.example.CareTask",
             "org.example.WalkTask",
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
-            "include", "sequence", "wait"
+            "include",
+            "sequence",
+            "wait"
         ), listOf(
             "org.example.Dog",
             "java.lang.Object",
@@ -134,13 +144,16 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "org.example.WalkTask",
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
-            "include", "sequence", "wait"
+            "include",
+            "sequence",
+            "wait"
         ), listOf(
             "org.example.Dog",
             "java.lang.Object",
             "com.badlogic.gdx.ai.btree.decorator.UntilSuccess",
             "com.badlogic.gdx.ai.btree.leaf.Wait",
-            "com.badlogic.gdx.ai.btree.BranchTask", "import"  // abstract
+            "com.badlogic.gdx.ai.btree.BranchTask",
+            "import"  // abstract
         )
     )
 
@@ -148,12 +161,15 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         """
         (<caret> a:2) t f:""
     """.trimIndent(), listOf(
-            "com", "org",
+            "com",
+            "org",
             "org.example.CareTask",
             "org.example.WalkTask",
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
-            "include", "sequence", "wait"
+            "include",
+            "sequence",
+            "wait"
         ), listOf(
             "org.example.Dog",
             "java.lang.Object",
@@ -174,7 +190,9 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "org.example.ThingDoer",
             "org.example.KotlinBarkTask",
         ), listOf(
-            "include", "sequence", "wait",
+            "include",
+            "sequence",
+            "wait",
             "org.example.Dog",
             "java.lang.Object",
             "com.badlogic.gdx.ai.btree.decorator.UntilSuccess",
@@ -208,8 +226,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             import abc:""
             <caret>
             import xyz:""
-        """.trimIndent(),
-        listOf("foo", "bar", "abc"), listOf("xyz")
+        """.trimIndent(), listOf("foo", "bar", "abc"), listOf("xyz")
     )
 
     fun testImportedAliases2() = doTestCompletion(
@@ -218,36 +235,31 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             import abc:""
             (a) (<caret>?) a
             import xyz:""
-        """.trimIndent(),
-        listOf("foo", "bar", "abc"), listOf("xyz")
+        """.trimIndent(), listOf("foo", "bar", "abc"), listOf("xyz")
     )
 
     fun testAttributeOfDefaultTask1() = doTestCompletion(
         """
             parallel <caret>
-        """.trimIndent(),
-        listOf("policy"), emptyList()
+        """.trimIndent(), listOf("policy"), emptyList()
     )
 
     fun testAttributeOfDefaultTask2() = doTestCompletion(
         """
             parallel <caret> a:""
-        """.trimIndent(),
-        listOf("policy"), emptyList()
+        """.trimIndent(), listOf("policy"), emptyList()
     )
 
     fun testAttributeOfDefaultTask3() = doTestCompletion(
         """
             parallel <caret> policy:""
-        """.trimIndent(),
-        emptyList(), listOf("policy")
+        """.trimIndent(), emptyList(), listOf("policy")
     )
 
     fun testAttributeOfDefaultTask4() = doTestCompletion(
         """
             (parallel? a:"" <caret> b:"") a
-        """.trimIndent(),
-        listOf("policy")
+        """.trimIndent(), listOf("policy")
     )
 
     fun testAttributeOfCustomTask1() = doTestCompletion(
@@ -280,6 +292,37 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
            a <caret>
         """.trimIndent(), listOf("times")
     )
+
+    fun testSubtrees1() = doTestSubtreeCompletion(
+        """<caret>""", listOf($$"$sub1", $$"$foobar"), listOf($$"$later")
+    )
+
+    fun testSubtrees2() = doTestSubtreeCompletion(
+        """$<caret>""", listOf($$"$sub1", $$"$foobar"), listOf($$"$later")
+    )
+
+    fun testSubtrees3() = doTestSubtreeCompletion(
+        """s<caret>""", listOf($$"$sub1"), listOf($$"$foobar")
+    )
+
+    fun testSubtrees4() = doTestSubtreeCompletion(
+        $$"""$s1<caret>""", listOf($$"$sub1"), listOf($$"$foobar")
+    )
+
+    private fun doTestSubtreeCompletion(
+        content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()
+    ) {
+        val fullContent = """
+            subtree name:"sub1"
+                foo
+            subtree name:"foobar"
+            
+        """.trimIndent() + content + """
+                    
+                    subtree name:"later"
+                """.trimIndent()
+        doTestCompletion(fullContent, expectedCompletionStrings, notExpectedCompletionStrings)
+    }
 
     private fun doTestCompletion(
         content: String, expectedCompletionStrings: List<String>, notExpectedCompletionStrings: List<String> = listOf()

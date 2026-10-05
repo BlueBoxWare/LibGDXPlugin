@@ -52,19 +52,24 @@ internal class TreeCompletionContributor : CompletionContributor() {
 
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement(TreeElementTypes.TASK_NAME),
+            PlatformPatterns.or(
+                PlatformPatterns.psiElement(TreeElementTypes.TASK_NAME),
+                PlatformPatterns.psiElement(TreeElementTypes.SUBTREEREFERENCE)
+            ),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet
                 ) {
                     addTaskSubclasses(parameters, result)
                     addAliases(parameters, result)
+                    addSubtrees(parameters, result)
                     if (parameters.position.parent?.parent?.parent is PsiTreeStatement) {
                         addStatements(result)
                     }
                 }
 
             })
+
     }
 
     private fun addStatements(result: CompletionResultSet) {
@@ -75,6 +80,21 @@ internal class TreeCompletionContributor : CompletionContributor() {
                     LookupElementBuilder.create(str).withLookupString(str).withBoldness(true), 100.0
                 )
             )
+        }
+
+    }
+
+    private fun addSubtrees(parameters: CompletionParameters, result: CompletionResultSet) {
+
+        (parameters.originalFile as? TreeFile)?.getSubtrees(parameters.position)?.forEach { subtree ->
+            subtree.name?.let { name ->
+                result.addElement(
+                    PrioritizedLookupElement.withPriority(
+                        LookupElementBuilder.create("$$name").withIcon(AllIcons.General.Tree),
+                        90.0
+                    )
+                )
+            }
         }
 
     }

@@ -26,103 +26,80 @@ import com.intellij.psi.search.ProjectAndLibrariesScope
 import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.psi.KtFile
 
+// TODO: Rename import
 class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
 
-    fun testRenameTaskJava1() =
-        doRenameTaskTest(
-            "org.example.BarkTask",
-            """
+    fun testRenameTaskJava1() = doRenameTaskTest(
+        "org.example.BarkTask", """
                import t:"org.example.BarkTask" u:"com.example.BarkTask" v:"org.example.BarkTask"
                org.example.BarkTask times:3
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                import t:"org.example.Foo" u:"com.example.BarkTask" v:"org.example.Foo"
                org.example.Foo times:3
             """.trimIndent()
-        )
+    )
 
-    fun testRenameTaskJava2() =
-        doRenameTaskTest(
-            "org.example.BarkTask",
-            """
+    fun testRenameTaskJava2() = doRenameTaskTest(
+        "org.example.BarkTask", """
                (org.example.BarkTask times:3) t
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                (org.example.Foo times:3) t
             """.trimIndent()
-        )
+    )
 
-    fun testRenameTaskJava3() =
-        doRenameTaskTest(
-            "org.example.BarkTask",
-            """
+    fun testRenameTaskJava3() = doRenameTaskTest(
+        "org.example.BarkTask", """
                (t t:"") org.example.BarkTask times:3
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                (t t:"") org.example.Foo times:3
             """.trimIndent()
-        )
+    )
 
-    fun testRenameTaskKotlin1() =
-        doRenameTaskTest(
-            "org.example.KotlinBarkTask",
-            """
+    fun testRenameTaskKotlin1() = doRenameTaskTest(
+        "org.example.KotlinBarkTask", """
                import t: " org.example.KotlinBarkTask "  u:"com.example.KotlinBarkTask" v:"org.example.KotlinBarkTask"
                org.example.KotlinBarkTask times:3
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                import t:" org.example.Foo " u:"com.example.KotlinBarkTask" v:"org.example.Foo"
                org.example.Foo times:3
             """.trimIndent()
-        )
+    )
 
-    fun testRenameTaskKotlin2() =
-        doRenameTaskTest(
-            "org.example.KotlinBarkTask",
-            """
+    fun testRenameTaskKotlin2() = doRenameTaskTest(
+        "org.example.KotlinBarkTask", """
                (org.example.KotlinBarkTask times:3) t
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                (org.example.Foo times:3) t
             """.trimIndent()
-        )
+    )
 
-    fun testRenameTaskKotlin3() =
-        doRenameTaskTest(
-            "org.example.KotlinBarkTask",
-            """
+    fun testRenameTaskKotlin3() = doRenameTaskTest(
+        "org.example.KotlinBarkTask", """
                (t t:"") org.example.KotlinBarkTask times:3
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                (t t:"") org.example.Foo times:3
             """.trimIndent()
-        )
+    )
 
-    fun testRenameAttributeJava1() =
-        doRenameAttributeTest(
-            "org.example.BarkTask", "times", "foo",
-            """
+    fun testRenameAttributeJava1() = doRenameAttributeTest(
+        "org.example.BarkTask", "times", "foo", """
                 org.example.BarkTask t:"" times:3
                 (t) (org.example.BarkTask t:"" times:3 a:"" times:"") t
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                 org.example.BarkTask t:"" foo:3
                 (t) (org.example.BarkTask t:"" foo:3 a:"" foo:"") t
             """.trimIndent()
-        )
+    )
 
-    fun testRenameAttributeKotlin1() =
-        doRenameAttributeTest(
-            "org.example.KotlinBarkTask", "times", "foo",
-            """
+    fun testRenameAttributeKotlin1() = doRenameAttributeTest(
+        "org.example.KotlinBarkTask", "times", "foo", """
                 org.example.KotlinBarkTask t:"" times:3
                 (t) (org.example.KotlinBarkTask t:"" times:3 a:"" times:"") t
-            """.trimIndent(),
-            """
+            """.trimIndent(), """
                 org.example.KotlinBarkTask t:"" foo:3
                 (t) (org.example.KotlinBarkTask t:"" foo:3 a:"" foo:"") t
             """.trimIndent()
-        )
+    )
 
     fun testMoveJavaClass() {
         val before = """
@@ -152,11 +129,9 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
            (t t) (org.example.KotlinBarkTask times:3) t
         """.trimIndent()
         configureByText(TreeFileType, before)
-        val file = JavaPsiFacade.getInstance(project)
-            .findClass(
-                "org.example.KotlinBarkTask",
-                project.projectScope()
-            )!!.containingFile.navigationElement as KtFile
+        val file = JavaPsiFacade.getInstance(project).findClass(
+            "org.example.KotlinBarkTask", project.projectScope()
+        )!!.containingFile.navigationElement as KtFile
         runCommand {
             moveKotlinFile(file, "src.main.kotlin.com.foo")
         }
@@ -171,13 +146,27 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
         myFixture.checkResult(before)
     }
 
+    fun testRenameSubtree() {
+        val before = $$"""
+            subtree name:"fo<caret>o"
+            (foo) $foo
+            ($foo) foo foo:"foo"
+        """.trimIndent()
+        val after = $$"""
+            subtree name:"bar"
+            (foo) $bar
+            ($bar) foo foo:"foo"
+        """.trimIndent()
+        configureByText(TreeFileType, before)
+        runCommand {
+            myFixture.renameElementAtCaretUsingHandler("bar")
+        }
+        myFixture.checkResult(after)
+    }
+
     @Suppress("SameParameterValue")
     private fun doRenameAttributeTest(
-        className: String,
-        attributeName: String,
-        newName: String,
-        treeBefore: String,
-        treeAfter: String
+        className: String, attributeName: String, newName: String, treeBefore: String, treeAfter: String
     ) {
         val clazz = JavaPsiFacade.getInstance(project).findClass(className, ProjectAndLibrariesScope(project))!!
         val field = clazz.findFieldByName(attributeName, false)!!.navigationElement
@@ -185,12 +174,9 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
     }
 
     private fun doRenameTaskTest(
-        className: String,
-        treeBefore: String,
-        treeAfter: String
+        className: String, treeBefore: String, treeAfter: String
     ) {
-        val clazz = JavaPsiFacade.getInstance(project)
-            .findClass(className, ProjectAndLibrariesScope(project))!!
+        val clazz = JavaPsiFacade.getInstance(project).findClass(className, ProjectAndLibrariesScope(project))!!
         doRenameTest(clazz, "Foo", treeBefore, treeAfter)
     }
 

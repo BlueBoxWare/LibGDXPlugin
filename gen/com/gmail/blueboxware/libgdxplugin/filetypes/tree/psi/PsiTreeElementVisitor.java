@@ -50,11 +50,14 @@ public class PsiTreeElementVisitor extends PsiElementVisitor {
   }
 
   public void visitSubtree(@NotNull PsiTreeSubtree o) {
-    visitTreeElement(o);
+    visitTreeSubtree(o);
+    // visitTreeElement(o);
+    // visitPsiNamedElement(o);
   }
 
   public void visitSubtreeref(@NotNull PsiTreeSubtreeref o) {
-    visitTreeElement(o);
+    visitTreeSubtreeref(o);
+    // visitTreeElement(o);
   }
 
   public void visitTask(@NotNull PsiTreeTask o) {
@@ -115,6 +118,14 @@ public class PsiTreeElementVisitor extends PsiElementVisitor {
   }
 
   public void visitTreeString(@NotNull TreeString o) {
+    visitElement(o);
+  }
+
+  public void visitTreeSubtree(@NotNull TreeSubtree o) {
+    visitElement(o);
+  }
+
+  public void visitTreeSubtreeref(@NotNull TreeSubtreeref o) {
     visitElement(o);
   }
 

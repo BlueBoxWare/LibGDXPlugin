@@ -77,6 +77,7 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
     }
 
+    // TODO: Cache
     fun getImports(upto: PsiElement): Map<String, Pair<Int, PsiTreeAttribute>> {
 
         val uptoLine = upto.getLineNumber()
@@ -92,6 +93,12 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
         return result
     }
+
+    // TODO: Cache
+    fun getSubtrees(upto: PsiElement): Sequence<PsiTreeSubtree> =
+        upto.getLineNumber().let { uptoLine ->
+            descendantsOfType<PsiTreeSubtree>().filter { it.getLineNumber() < uptoLine }
+        }
 
     fun getLevelsByElement(): Map<PsiTreeLine, Int> = CachedValuesManager.getCachedValue(this) {
         return@getCachedValue CachedValueProvider.Result.create(getTree().getLevelsByElement(), this)

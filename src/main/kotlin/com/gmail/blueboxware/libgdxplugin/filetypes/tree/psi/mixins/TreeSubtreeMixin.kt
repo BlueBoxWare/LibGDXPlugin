@@ -22,14 +22,28 @@ import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.openapi.util.NlsSafe
+import com.intellij.psi.PsiElement
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.SearchScope
+import com.intellij.util.IncorrectOperationException
 import javax.swing.Icon
 
 abstract class TreeSubtreeMixin(node: ASTNode) : PsiTreeSubtree, PsiTreeTaskImpl(node) {
 
-    override fun getName(): @NlsSafe String? = "subtree"
+    override fun getName(): @NlsSafe String? =
+        getAttributes("name").firstOrNull()?.value?.vstring?.getValue() ?: ""
+
+    override fun setName(name: @NlsSafe String): PsiElement? {
+        getAttributes("name").firstOrNull()?.setName(name)?.let {
+            return this
+        }
+        throw IncorrectOperationException()
+    }
+
+    override fun getUseScope(): SearchScope = GlobalSearchScope.fileScope(containingFile)
 
     override fun getPresentation(): ItemPresentation? = object : ItemPresentation {
-        override fun getPresentableText(): @NlsSafe String = "subtree"
+        override fun getPresentableText(): @NlsSafe String = "subtree $name"
 
         override fun getIcon(unused: Boolean): Icon = AllIcons.Nodes.Package
     }

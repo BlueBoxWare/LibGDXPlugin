@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 Blue Box Ware
+ * Copyright 2026 Blue Box Ware
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +20,40 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.IDENTIFIERS
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.LITERALS
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeElementTypes
 import com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeLexerAdapter
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttributeName
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeAttributeName
-import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeImport
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeAttribute
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.PsiTreeSubtree
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeString
+import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeSubtree
 import com.intellij.lang.cacheBuilder.DefaultWordsScanner
 import com.intellij.lang.cacheBuilder.WordsScanner
 import com.intellij.lang.findUsages.FindUsagesProvider
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.tree.TokenSet
-import com.intellij.psi.util.parentOfType
+import com.intellij.psi.util.findParentOfType
+import org.jetbrains.annotations.NonNls
 
-internal class TreeFindUsagesProvider : FindUsagesProvider {
-    override fun canFindUsagesFor(psiElement: PsiElement): Boolean =
-        psiElement is TreeAttributeName && psiElement.parentOfType<TreeImport>(false) != null
+internal class TreeSubtreeFindUsagesProvider : FindUsagesProvider {
 
-    override fun getHelpId(psiElement: PsiElement): String? = null
+    override fun canFindUsagesFor(psiElement: PsiElement): Boolean {
+        if (psiElement is TreeSubtree) {
+            return true
+        } else if (psiElement is TreeString) {
+            psiElement.findParentOfType<PsiTreeAttribute>()?.let { attribute ->
+                if (attribute.attributeName.name == "name") {
+                    return attribute.parent is PsiTreeSubtree
+                }
+            }
+        }
 
-    override fun getType(element: PsiElement): String = "task name"
+        return false
+    }
 
-    override fun getDescriptiveName(element: PsiElement): String = if (element is PsiTreeAttributeName) {
-        element.text
-    } else ""
+    override fun getHelpId(psiElement: PsiElement): @NonNls String? = null
+
+    override fun getType(element: PsiElement): String = "subtree"
+
+    override fun getDescriptiveName(element: PsiElement): String = (element as? PsiNamedElement)?.name ?: "subtree"
 
     override fun getNodeText(
         element: PsiElement, useFullName: Boolean
@@ -49,5 +62,4 @@ internal class TreeFindUsagesProvider : FindUsagesProvider {
     override fun getWordsScanner(): WordsScanner = DefaultWordsScanner(
         TreeLexerAdapter(), IDENTIFIERS, TokenSet.create(TreeElementTypes.COMMENT), LITERALS
     )
-
 }

@@ -20,6 +20,8 @@ import com.intellij.psi.PsiClass
 
 interface TreeTask : TreeElement {
 
+    fun getAttributes(name: String): Collection<PsiTreeAttribute>
+
     fun getUsedAttributesNames(): Collection<String>
 
     fun resolveToClass(): PsiClass?

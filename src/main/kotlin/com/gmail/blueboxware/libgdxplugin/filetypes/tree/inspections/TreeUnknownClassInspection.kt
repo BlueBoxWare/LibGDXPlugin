@@ -41,12 +41,19 @@ internal class TreeUnknownClassInspection : TreeBaseInspection() {
                 check(holder, o.references, o)
             }
 
+            override fun visitSubtreeref(o: PsiTreeSubtreeref) {
+                if (o.references.map { it?.resolve() }.none { it is PsiTreeSubtree }) {
+                    holder.registerProblem(o, message("tree.inspection.unknown.subtree.message", o.name ?: ""))
+                }
+            }
+
             private fun check(
                 holder: ProblemsHolder,
                 references: Array<out PsiReference?>,
                 element: NavigatablePsiElement
             ) {
-                if (references.map { it?.resolve() }.none { it is PsiClass || it is PsiTreeAttribute }) {
+                if (element.text.isNotEmpty() && references.map { it?.resolve() }
+                        .none { it is PsiClass || it is PsiTreeAttribute }) {
                     holder.registerProblem(
                         element,
                         message("tree.inspection.unknown.class.message", element.name ?: "")

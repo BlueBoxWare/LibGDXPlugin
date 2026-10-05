@@ -6,7 +6,9 @@
    -bar
     test
    fdsfsd
- subtree
+ subtree 
+ subtree foobar
+ $foobar
  -root
   -selector
    parallel

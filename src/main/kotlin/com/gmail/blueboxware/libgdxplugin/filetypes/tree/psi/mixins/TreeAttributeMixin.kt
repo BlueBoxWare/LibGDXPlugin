@@ -21,7 +21,6 @@ import com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.TreeElementImpl
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.NlsSafe
 import com.intellij.psi.PsiElement
-import com.intellij.util.IncorrectOperationException
 
 abstract class TreeAttributeMixin(node: ASTNode) : PsiTreeAttribute, TreeElementImpl(node) {
 
@@ -29,8 +28,6 @@ abstract class TreeAttributeMixin(node: ASTNode) : PsiTreeAttribute, TreeElement
 
     override fun getName(): String? = attributeName.name
 
-    override fun setName(name: @NlsSafe String): PsiElement? {
-        throw IncorrectOperationException()
-    }
+    override fun setName(name: @NlsSafe String): PsiElement? = attributeName.setName(name)
 
 }

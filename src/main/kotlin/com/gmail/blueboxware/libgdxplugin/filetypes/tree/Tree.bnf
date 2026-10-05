@@ -28,7 +28,7 @@
     tokenTypeClass = 'com.gmail.blueboxware.libgdxplugin.filetypes.tree.TreeTokenType'
 
     implements(".*") = 'TreeElement'
-    implements("attributeName|vstring") = "com.intellij.psi.PsiNamedElement"
+    implements("attributeName|vstring|subtree") = "com.intellij.psi.PsiNamedElement"
     implements("attribute") = "com.intellij.psi.PsiNameIdentifierOwner"
 
     psiVisitorName = "ElementVisitor"
@@ -114,6 +114,7 @@ import ::= TIMPORT attribute* {
 }
 subtree ::= TSUBTREE attribute* {
     pin=1
+    implements="TreeSubtree"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeSubtreeMixin"
 }
 root ::= TROOT attribute* {
@@ -121,7 +122,10 @@ root ::= TROOT attribute* {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeRootMixin"
 }
 
-subtreeref ::= SUBTREEREFERENCE QUESTION_MARK?
+subtreeref ::= SUBTREEREFERENCE QUESTION_MARK? {
+    implements="TreeSubtreeref"
+    mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeSubtreerefMixin"
+}
 
 taskname ::= (TASK_NAME | <<parseMissingTaskName>>) QUESTION_MARK? {
     implements="TreeTaskName"

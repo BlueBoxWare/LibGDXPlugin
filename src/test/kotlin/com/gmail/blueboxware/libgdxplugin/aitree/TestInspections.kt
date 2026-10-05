@@ -28,7 +28,7 @@ class TestInspections : LibGDXCodeInsightFixtureTestCase() {
 
     fun testUnknownClassInspection() =
         doTest(
-            TreeUnknownClassInspection::class, """
+            TreeUnknownClassInspection::class, $$"""
 import bark:<error>"org.example.Barktask"</error>
 import bark:<error>"com.example.BarkTask"</error>
 import bark:<error>"org.xample.BarkTask"</error>
@@ -40,8 +40,13 @@ import mark:"org.example.MarkTask"
 import walk:"org.example.WalkTask"
 import rest:"org.example.RestTask"
 
+subtree name:"subtree1"
+
 root
   <error>foo</error>
+  $subtree1
+  <error>$subtree2</error>
+  ($subtree1) (<error>$subtree2</error>) $subtree1
   selector
     <error>play</error>
     parallel
@@ -78,6 +83,8 @@ import bark:"org.example.BarkTask"
 import care:"org.example.CareTask"
 import play:"org.example.PlayTask"
 import mark:"org.example.MarkTask"
+
+subtree name:"subtree" <error>foo</error>:"bar"
 
 root
   selector

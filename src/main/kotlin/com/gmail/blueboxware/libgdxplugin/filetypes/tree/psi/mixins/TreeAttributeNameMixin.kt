@@ -28,6 +28,8 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiReference
+import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.SearchScope
 import com.intellij.psi.util.parentOfType
 import com.intellij.util.IncorrectOperationException
 import org.jetbrains.kotlin.psi.KtProperty
@@ -35,6 +37,9 @@ import org.jetbrains.kotlin.psi.KtProperty
 abstract class TreeAttributeNameMixin(node: ASTNode) : PsiTreeAttributeName, TreeElementImpl(node) {
 
     override fun setName(name: @NlsSafe String): PsiElement? {
+        TreeElementFactory.createAttributeName(project, name)?.let {
+            return replace(it)
+        }
         throw IncorrectOperationException()
     }
 
@@ -43,6 +48,8 @@ abstract class TreeAttributeNameMixin(node: ASTNode) : PsiTreeAttributeName, Tre
     override fun getReference(): PsiReference = this
 
     override fun getElement(): PsiElement = this
+
+    override fun getUseScope(): SearchScope = GlobalSearchScope.fileScope(containingFile)
 
     override fun getRangeInElement(): TextRange = TextRange(0, textLength)
 
