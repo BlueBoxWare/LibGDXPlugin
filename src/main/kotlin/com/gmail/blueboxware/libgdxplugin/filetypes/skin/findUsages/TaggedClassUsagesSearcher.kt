@@ -40,8 +40,7 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
     @Suppress("UnstableApiUsage")
     @RequiresBlockingContext
     override fun processQuery(
-        queryParameters: ReferencesSearch.SearchParameters,
-        consumer: Processor<in PsiReference>
+        queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<in PsiReference>
     ) {
 
         val element = queryParameters.elementToSearch
@@ -69,7 +68,9 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
         }
 
 
-        val tagsToFind = queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName) ?: return
+        val tagsToFind = ReadAction.computeBlocking<Set<String>, Throwable> {
+            queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)
+        } ?: return
 
         if (tagsToFind.isEmpty()) {
             return
@@ -78,20 +79,19 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
         val psiManager = PsiManager.getInstance(queryParameters.project)
 
         ReadAction.runBlocking<Throwable> {
-            FileTypeIndex.getFiles(LibGDXSkinFileType, queryParameters.project.allScope())
-                .forEach { virtualFile ->
-                    ProgressManager.checkCanceled()
-                    (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
-                        skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
-                            ProgressManager.checkCanceled()
-                            if (classSpec.className.stringLiteral.getValue() in tagsToFind) {
-                                classSpec.className.references.forEach { reference ->
-                                    consumer.process(reference)
-                                }
+            FileTypeIndex.getFiles(LibGDXSkinFileType, queryParameters.project.allScope()).forEach { virtualFile ->
+                ProgressManager.checkCanceled()
+                (psiManager.findFile(virtualFile) as? SkinFile)?.let { skinFile ->
+                    skinFile.getClassSpecifications(qualifiedName).forEach { classSpec ->
+                        ProgressManager.checkCanceled()
+                        if (classSpec.className.stringLiteral.getValue() in tagsToFind) {
+                            classSpec.className.references.forEach { reference ->
+                                consumer.process(reference)
                             }
                         }
                     }
                 }
+            }
         }
 
     }

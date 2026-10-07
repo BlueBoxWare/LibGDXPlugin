@@ -25,8 +25,7 @@ import com.gmail.blueboxware.libgdxplugin.utils.isLibGDXProject
 import com.gmail.blueboxware.libgdxplugin.utils.toPsiFile
 import com.intellij.find.findUsages.CustomUsageSearcher
 import com.intellij.find.findUsages.FindUsagesOptions
-import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.application.runReadAction
+import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -35,41 +34,41 @@ import com.intellij.usageView.UsageInfo
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageInfo2UsageAdapter
 import com.intellij.util.Processor
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 
 internal class DefaultImportUsageSearcher : CustomUsageSearcher() {
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     override fun processElementUsages(
         element: PsiElement,
         processor: Processor<in Usage>,
         options: FindUsagesOptions
     ) {
 
-        if (element !is PsiClass || element.name !in DEFAULT_AI_IMPORTS) return
+        ReadAction.nonBlocking<Unit> {
+            if (element !is PsiClass || element.name !in DEFAULT_AI_IMPORTS) return@nonBlocking
 
-        fun process() {
-            if (!element.isValid || !element.project.isLibGDXProject()) return
+            fun process() {
+                if (!element.isValid || !element.project.isLibGDXProject()) return
 
-            FileTypeIndex.processFiles(TreeFileType, { file ->
-                ProgressManager.checkCanceled()
-                file.toPsiFile(element.project)?.accept(object : PsiTreeRecursiveVisitor() {
-                    override fun visitTaskname(taskName: PsiTreeTaskname) {
-                        if (taskName.references.any { it.resolve() == element }) {
-                            processor.process(UsageInfo2UsageAdapter(UsageInfo(taskName as PsiElement)))
+                FileTypeIndex.processFiles(TreeFileType, { file ->
+                    ProgressManager.checkCanceled()
+                    file.toPsiFile(element.project)?.accept(object : PsiTreeRecursiveVisitor() {
+                        override fun visitTaskname(taskName: PsiTreeTaskname) {
+                            if (taskName.references.any { it.resolve() == element }) {
+                                processor.process(UsageInfo2UsageAdapter(UsageInfo(taskName as PsiElement)))
+                            }
+                            super.visitTaskname(taskName)
                         }
-                        super.visitTaskname(taskName)
-                    }
-                })
-                return@processFiles true
-            }, element.allScope())
+                    })
+                    return@processFiles true
+                }, element.allScope())
 
-        }
+            }
 
-        if (ApplicationManager.getApplication().isUnitTestMode) {
             process()
-        } else {
-            // TODO
-            runReadAction(::process)
-        }
+        }.inSmartMode(element.project).executeSynchronously()
     }
 
 }
