@@ -62,7 +62,9 @@ abstract class TreeSubtreerefMixin(node: ASTNode) : PsiTreeSubtreeref, TreeEleme
         throw IncorrectOperationException()
     }
 
-    override fun isReferenceTo(element: PsiElement): Boolean = resolve() == element.findParentOfType<TreeSubtree>(false)
+    override fun isReferenceTo(element: PsiElement): Boolean = element.findParentOfType<TreeSubtree>(false)?.let {
+        resolve() == it
+    } ?: false
 
     override fun getCanonicalText(): @NlsSafe String = name
 

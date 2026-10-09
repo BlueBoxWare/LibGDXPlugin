@@ -26,7 +26,6 @@ import com.intellij.psi.search.ProjectAndLibrariesScope
 import org.jetbrains.kotlin.idea.base.util.projectScope
 import org.jetbrains.kotlin.psi.KtFile
 
-// TODO: Rename import
 class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
 
     fun testRenameTaskJava1() = doRenameTaskTest(
@@ -148,11 +147,13 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
 
     fun testRenameSubtree() {
         val before = $$"""
+            $foo
             subtree name:"fo<caret>o"
             (foo) $foo
             ($foo) foo foo:"foo"
         """.trimIndent()
         val after = $$"""
+            $foo
             subtree name:"bar"
             (foo) $bar
             ($bar) foo foo:"foo"
@@ -160,6 +161,24 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
         configureByText(TreeFileType, before)
         runCommand {
             myFixture.renameElementAtCaretUsingHandler("bar")
+        }
+        myFixture.checkResult(after)
+    }
+
+    fun testRenameImport() {
+        val before = $$"""
+            u
+            import t:"org.example.BarkTask" <caret>u:"com.example.BarkTask" v:"org.example.BarkTask"
+            (u) ($u) u
+        """.trimIndent()
+        val after = $$"""
+            u
+            import t:"org.example.BarkTask" x:"com.example.BarkTask" v:"org.example.BarkTask"
+            (x) ($u) x
+        """.trimIndent()
+        configureByText(TreeFileType, before)
+        runCommand {
+            myFixture.renameElementAtCaretUsingHandler("x")
         }
         myFixture.checkResult(after)
     }

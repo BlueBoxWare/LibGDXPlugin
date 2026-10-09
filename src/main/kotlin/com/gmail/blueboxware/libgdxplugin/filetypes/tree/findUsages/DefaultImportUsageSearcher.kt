@@ -68,7 +68,7 @@ internal class DefaultImportUsageSearcher : CustomUsageSearcher() {
             }
 
             process()
-        }.inSmartMode(element.project).executeSynchronously()
+        }.executeSynchronously()
     }
 
 }

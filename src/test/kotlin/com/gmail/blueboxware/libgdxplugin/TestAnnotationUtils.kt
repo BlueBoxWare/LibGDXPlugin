@@ -208,12 +208,6 @@ class TestAnnotationUtils : LibGDXCodeInsightFixtureTestCase() {
             }
             """, "args", listOf()
         ),
-//          TODO: Make defaults available in Kotlin code
-//          Test("""
-//            void m() {
-//              KotlinClassKt.getString().char<caret>At(1);
-//            }
-//            """, "arg", listOf(""))
         Test(
             """
             void m() {

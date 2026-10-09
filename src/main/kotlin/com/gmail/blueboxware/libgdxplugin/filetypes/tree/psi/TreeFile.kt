@@ -77,7 +77,6 @@ class TreeFile(fileViewProvider: FileViewProvider) : PsiFileBase(fileViewProvide
 
     }
 
-    // TODO: Cache
     fun getImports(upto: PsiElement): Map<String, Pair<Int, PsiTreeAttribute>> {
 
         val uptoLine = upto.getLineNumber()

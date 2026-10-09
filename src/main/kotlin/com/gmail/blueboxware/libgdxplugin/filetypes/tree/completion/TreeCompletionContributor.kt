@@ -37,7 +37,7 @@ import com.intellij.util.ProcessingContext
 internal class TreeCompletionContributor : CompletionContributor() {
 
     init {
-        // TODO: Include etc
+
         extend(
             CompletionType.BASIC,
             PlatformPatterns.psiElement().withParent(TreeString::class.java).withSuperParent(4, TreeImport::class.java),
@@ -51,12 +51,10 @@ internal class TreeCompletionContributor : CompletionContributor() {
             })
 
         extend(
-            CompletionType.BASIC,
-            PlatformPatterns.or(
+            CompletionType.BASIC, PlatformPatterns.or(
                 PlatformPatterns.psiElement(TreeElementTypes.TASK_NAME),
                 PlatformPatterns.psiElement(TreeElementTypes.SUBTREEREFERENCE)
-            ),
-            object : CompletionProvider<CompletionParameters>() {
+            ), object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet
                 ) {
@@ -90,8 +88,7 @@ internal class TreeCompletionContributor : CompletionContributor() {
             subtree.name?.let { name ->
                 result.addElement(
                     PrioritizedLookupElement.withPriority(
-                        LookupElementBuilder.create("$$name").withIcon(AllIcons.General.Tree),
-                        90.0
+                        LookupElementBuilder.create("$$name").withIcon(AllIcons.General.Tree), 90.0
                     )
                 )
             }

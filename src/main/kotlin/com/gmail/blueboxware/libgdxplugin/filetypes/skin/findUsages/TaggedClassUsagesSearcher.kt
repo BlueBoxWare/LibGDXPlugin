@@ -58,8 +58,8 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
         }
 
         val qualifiedName = when (element) {
-            is PsiClass -> ReadAction.computeBlocking<String, Throwable> { element.qualifiedName }
-            is KtClass -> ReadAction.computeBlocking<String, Throwable> { element.fqName?.asString() }
+            is PsiClass -> ReadAction.nonBlocking<String?> { element.qualifiedName }.executeSynchronously()
+            is KtClass -> ReadAction.nonBlocking<String?> { element.fqName?.asString() }.executeSynchronously()
             else -> null
         }
 
@@ -68,9 +68,9 @@ internal class TaggedClassUsagesSearcher : QueryExecutorBase<PsiReference, Refer
         }
 
 
-        val tagsToFind = ReadAction.computeBlocking<Set<String>, Throwable> {
+        val tagsToFind = ReadAction.nonBlocking<Set<String>?> {
             queryParameters.project.getSkinTag2ClassMap()?.getTags(qualifiedName)
-        } ?: return
+        }.executeSynchronously() ?: return
 
         if (tagsToFind.isEmpty()) {
             return

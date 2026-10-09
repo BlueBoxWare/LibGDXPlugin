@@ -78,7 +78,6 @@ abstract class TreeAttributeNameMixin(node: ASTNode) : PsiTreeAttributeName, Tre
 
     override fun isReferenceTo(element: PsiElement): Boolean = resolve() == element
 
-    // TODO: Other statements
     override fun isSoft(): Boolean = parentOfType<PsiTreeImport>(false) != null
 
     override fun getVariants(): Array<out Any?> {
