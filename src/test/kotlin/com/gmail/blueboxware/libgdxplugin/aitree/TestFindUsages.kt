@@ -41,7 +41,19 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
         (a) b b:""
         (a) (b) c
         (b?) b?
-    """.trimIndent(), 5
+    """.trimIndent(), 3
+    )
+
+    fun testImportNameQuestionMark() = doTestImportName(
+        """
+        (b?) b?
+        import a:"" <caret>b?:""
+        (b) a b:""
+        (a) b? b:""
+        (a) (b?) c
+        (a) (b) c
+        (b?) b
+    """.trimIndent(), 3
     )
 
     fun testSubtree1() = doTestSubtree(
@@ -60,7 +72,22 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
             
             foo
             $foo
+            $foo?
             (test)($foo)test
+            (test)($foo?)test
+        """.trimIndent(), 2
+    )
+
+    fun testSubtreeQuestionMark() = doTestSubtree(
+        $$"""
+            subtr<caret>ee name:"foo?"
+            
+            foo
+            foo?
+            $foo
+            $foo?
+            (test)($foo)test
+            (test)($foo?)test
         """.trimIndent(), 2
     )
 

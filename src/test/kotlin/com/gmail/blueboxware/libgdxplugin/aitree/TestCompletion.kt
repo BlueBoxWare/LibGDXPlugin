@@ -95,30 +95,6 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
         )
     )
 
-    fun testTasknameQuestionMark1() = doTestCompletion(
-        """
-        <caret>? a:"b"
-    """.trimIndent(), listOf(
-            "import",
-            "root",
-            "org",
-            "com",
-            "org.example.CareTask",
-            "org.example.WalkTask",
-            "org.example.ThingDoer",
-            "org.example.KotlinBarkTask",
-            "include",
-            "sequence",
-            "wait"
-        ), listOf(
-            "org.example.Dog",
-            "java.lang.Object",
-            "com.badlogic.gdx.ai.btree.decorator.UntilSuccess",
-            "com.badlogic.gdx.ai.btree.leaf.Wait",
-            "com.badlogic.gdx.ai.btree.BranchTask"  // abstract
-        )
-    )
-
     fun testTasknameQuestionMark2() = doTestCompletion(
         """
         Care<caret>? a:"b"
@@ -131,29 +107,6 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             "com.badlogic.gdx.ai.btree.leaf.Wait",
             "com.badlogic.gdx.ai.btree.BranchTask", "import", "root", "org",
             "com", "org.example.WalkTask", // abstract
-        )
-    )
-
-    fun testTasknameQuestionMark3() = doTestCompletion(
-        """
-        (<caret>?)  t a:"b"
-    """.trimIndent(), listOf(
-            "org",
-            "com",
-            "org.example.CareTask",
-            "org.example.WalkTask",
-            "org.example.ThingDoer",
-            "org.example.KotlinBarkTask",
-            "include",
-            "sequence",
-            "wait"
-        ), listOf(
-            "org.example.Dog",
-            "java.lang.Object",
-            "com.badlogic.gdx.ai.btree.decorator.UntilSuccess",
-            "com.badlogic.gdx.ai.btree.leaf.Wait",
-            "com.badlogic.gdx.ai.btree.BranchTask",
-            "import"  // abstract
         )
     )
 
@@ -223,19 +176,19 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     fun testImportedAliases1() = doTestCompletion(
         """
             import foo:"" bar:""
-            import abc:""
+            import abc:"" qm?:""
             <caret>
             import xyz:""
-        """.trimIndent(), listOf("foo", "bar", "abc"), listOf("xyz")
+        """.trimIndent(), listOf("foo", "bar", "abc", "qm?"), listOf("xyz")
     )
 
     fun testImportedAliases2() = doTestCompletion(
         """
             import foo:"" bar:""
-            import abc:""
+            import abc:"" qm?:""
             (a) (<caret>?) a
             import xyz:""
-        """.trimIndent(), listOf("foo", "bar", "abc"), listOf("xyz")
+        """.trimIndent(), listOf("foo", "bar", "abc", "qm?"), listOf("xyz")
     )
 
     fun testAttributeOfDefaultTask1() = doTestCompletion(
@@ -258,7 +211,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
 
     fun testAttributeOfDefaultTask4() = doTestCompletion(
         """
-            (parallel? a:"" <caret> b:"") a
+            (parallel a:"" <caret> b:"") a
         """.trimIndent(), listOf("policy")
     )
 
@@ -294,19 +247,19 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
     )
 
     fun testSubtrees1() = doTestSubtreeCompletion(
-        """<caret>""", listOf($$"$sub1", $$"$foobar"), listOf($$"$later")
+        """<caret>""", listOf($$"$sub1", $$"$foobar", $$"$qm?"), listOf($$"$later")
     )
 
     fun testSubtrees2() = doTestSubtreeCompletion(
-        """$<caret>""", listOf($$"$sub1", $$"$foobar"), listOf($$"$later")
+        """$<caret>""", listOf($$"$sub1", $$"$foobar", $$"$qm?"), listOf($$"$later")
     )
 
     fun testSubtrees3() = doTestSubtreeCompletion(
-        """s<caret>""", listOf($$"$sub1"), listOf($$"$foobar")
+        """s<caret>""", listOf($$"$sub1"), listOf($$"$foobar", $$"$qm?")
     )
 
     fun testSubtrees4() = doTestSubtreeCompletion(
-        $$"""$s1<caret>""", listOf($$"$sub1"), listOf($$"$foobar")
+        $$"""$s1<caret>""", listOf($$"$sub1"), listOf($$"$foobar", $$"$qm?")
     )
 
     private fun doTestSubtreeCompletion(
@@ -316,6 +269,7 @@ class TestCompletion : LibGDXCodeInsightFixtureTestCase() {
             subtree name:"sub1"
                 foo
             subtree name:"foobar"
+            subtree name:"qm?"
             
         """.trimIndent() + content + """
                     

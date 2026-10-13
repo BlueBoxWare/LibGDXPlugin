@@ -30,7 +30,7 @@ import com.intellij.psi.PsiReference
 
 abstract class TreeStringMixin(node: ASTNode) : PsiTreeVstring, TreeElementImpl(node) {
 
-    override fun getValue(): String = text.trim('"').trimEnd('?', '\t', ' ')
+    override fun getValue(): String = text.trim('"').trimEnd('\t', ' ')
 
     override fun getName(): String? = getValue()
 

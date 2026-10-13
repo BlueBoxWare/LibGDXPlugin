@@ -81,7 +81,7 @@ fun PsiElement.findClass(fqn: String): PsiClass? =
 
 fun TreeElement.getClassReferences(string: String, startInElement: Int) =
     JavaClassReferenceSet(
-        string.removeSuffix("?"),
+        string,
         this,
         startInElement,
         false,

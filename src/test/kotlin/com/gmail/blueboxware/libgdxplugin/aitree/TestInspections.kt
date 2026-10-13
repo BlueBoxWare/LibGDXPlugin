@@ -35,34 +35,40 @@ import bark:<error>"org.xample.BarkTask"</error>
 import bark:"org.example.BarkTask" care:<error>"org.example.Caretask"</error> care:"org.example.CareTask"
 
 import bark:"org.example.BarkTask"
+import bark:<error>"org.example.BarkTask?"</error>
 import care:"org.example.CareTask"
-import mark:"org.example.MarkTask"
+import mark?:"org.example.MarkTask"
 import walk:"org.example.WalkTask"
 import rest:"org.example.RestTask"
 
 subtree name:"subtree1"
+subtree name:"subtree2?"
 
 root
   <error>foo</error>
   $subtree1
+  <error>$subtree1?</error>
   <error>$subtree2</error>
+  $subtree2?
   ($subtree1) (<error>$subtree2</error>) $subtree1
+  ($subtree1) (<error>$subtree1?</error>) $subtree2?
   selector
     <error>play</error>
     parallel
       care urgentProb:0.8
       org.example.PlayTask
+      <error>org.example.PlayTask?</error>
       (org.example.PlayTask) <error>foo</error>
       # noinspection GDXToplevel
       (org.example.PlayTask) <error>foo</error>
       (org.example.PlayTask) org.example.BarkTask
       (org.example.PlayTask) <error>org.example.barkTask</error>
       (org.example.PlayTask) walk 
-      (mark) walk 
-      (mark) <error>alk</error>
+      (<error>mark</error>) walk 
+      (mark?) <error>alk</error>
       (<error>foo</error>) walk
       (<error>org.example.layTask</error>) walk 
-      (mark) (walk) (<error>org.example.layTask</error>) walk 
+      (mark?) (walk) (<error>org.example.layTask</error>) walk 
       <error>org.example.playTask</error>
       <error>org.xample.PlayTask</error>
     randomSelector
@@ -70,7 +76,7 @@ root
         sequence
           bark times:"uniform,1,2"
           walk
-          mark
+          mark?
       parallel policy:"selector"
         wait seconds:"triangular,2.5,5.5"
         rest

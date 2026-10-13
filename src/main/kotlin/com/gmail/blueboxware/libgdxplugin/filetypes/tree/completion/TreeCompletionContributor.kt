@@ -106,7 +106,7 @@ internal class TreeCompletionContributor : CompletionContributor() {
                 PrioritizedLookupElement.withPriority(
                     LookupElementBuilder.create(name).withIcon(
                         AllIcons.Actions.ShowImportStatements
-                    ).withItemTextItalic(true), 75.0
+                    ).withItemTextItalic(true), 90.0
                 )
             )
         }
@@ -118,7 +118,7 @@ internal class TreeCompletionContributor : CompletionContributor() {
                 PrioritizedLookupElement.withPriority(
                     LookupElementBuilder.create(name).withTypeText(type).withIcon(
                         AllIcons.Actions.ShowImportStatements
-                    ), 70.0
+                    ), 90.0
                 )
             )
         }

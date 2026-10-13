@@ -40,7 +40,6 @@
         LPAREN='('
         RPAREN=')'
         COLON=':'
-        QUESTION_MARK='?'
 
         TASK_NAME='task name'
         SUBTREEREFERENCE='subtree ref'
@@ -122,12 +121,12 @@ root ::= TROOT attribute* {
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeRootMixin"
 }
 
-subtreeref ::= SUBTREEREFERENCE QUESTION_MARK? {
+subtreeref ::= SUBTREEREFERENCE {
     implements="TreeSubtreeref"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeSubtreerefMixin"
 }
 
-taskname ::= (TASK_NAME | <<parseMissingTaskName>>) QUESTION_MARK? {
+taskname ::= (TASK_NAME | <<parseMissingTaskName>>) {
     implements="TreeTaskName"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeTaskNameMixin"
 }
@@ -136,7 +135,7 @@ guard ::= LPAREN task? RPAREN {
     pin=1
 }
 
-attribute ::= attributeName QUESTION_MARK? COLON value {
+attribute ::= attributeName COLON value {
     pin=1
     implements="TreeAttribute"
     mixin="com.gmail.blueboxware.libgdxplugin.filetypes.tree.psi.mixins.TreeAttributeMixin"

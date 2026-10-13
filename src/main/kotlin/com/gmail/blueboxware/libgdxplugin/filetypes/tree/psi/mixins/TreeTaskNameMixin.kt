@@ -35,7 +35,7 @@ import org.jetbrains.kotlin.psi.KtClassOrObject
 
 abstract class TreeTaskNameMixin(node: ASTNode) : PsiTreeTaskname, TreeElementImpl(node) {
 
-    override fun getName(): @NlsSafe String = text.trimEnd('?', ' ', '\t')
+    override fun getName(): @NlsSafe String = text.trimEnd(' ', '\t')
 
     override fun isInImport(): Boolean = parentOfType<TreeImport>(false) != null
 

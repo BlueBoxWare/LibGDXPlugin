@@ -33,7 +33,6 @@ public interface TreeElementTypes {
   IElementType LPAREN = new TreeTokenType("(");
   IElementType NULL = new TreeTokenType("null");
   IElementType NUMBER = new TreeTokenType("number");
-  IElementType QUESTION_MARK = new TreeTokenType("?");
   IElementType RPAREN = new TreeTokenType(")");
   IElementType STRING = new TreeTokenType("string");
   IElementType SUBTREEREFERENCE = new TreeTokenType("subtree ref");

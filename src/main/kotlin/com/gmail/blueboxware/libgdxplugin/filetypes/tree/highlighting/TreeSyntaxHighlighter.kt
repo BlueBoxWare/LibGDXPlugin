@@ -40,7 +40,6 @@ class TreeSyntaxHighlighter : SyntaxHighlighterBase() {
             TreeElementTypes.ATTRNAME -> ATTRNAME
             TreeElementTypes.NULL -> NULL
             TreeElementTypes.SUBTREEREFERENCE -> SUBTREEREF
-            TreeElementTypes.QUESTION_MARK -> QUESTION_MARK
             TreeElementTypes.TIMPORT -> IMPORT
             TreeElementTypes.TROOT -> ROOT
             TreeElementTypes.TSUBTREE -> SUBTREE

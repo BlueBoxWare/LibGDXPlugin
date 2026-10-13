@@ -7,7 +7,7 @@ import bark:"org.example.BarkTask"
 import care:"org.example.CareTask"
 ###
 
-import play:"org.example.PlayTask"
+import play?:"org.example.PlayTask"
 import mark:"org.example.MarkTask"
   #fe
 import walk:"org.example.WalkTask"
@@ -56,6 +56,7 @@ care urgentProb:0.8
         bark times:"uniform,1,2"
         walk
         mark
+        play?
     parallel policy:"selector"  # sleep with random timeout
       wait seconds:"triangular,2.5,5.5"
       rest

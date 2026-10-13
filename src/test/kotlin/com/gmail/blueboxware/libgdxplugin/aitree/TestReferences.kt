@@ -42,9 +42,6 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
     fun testClassInImportKotlin() =
         doTestClassReference<TreeString>(""" import a:"org.example.Kotl<caret>inBarkTask" """)
 
-    fun testClassInImportQuestionMark() =
-        doTestClassReference<TreeString>(""" import a:"org.example.Care<caret>Task?" """)
-
     fun testClassAsTaskname1() =
         doTestClassReference<TreeTaskName>("""org.ex<caret>ample.BarkTask""")
 
@@ -55,7 +52,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         doTestClassReference<TreeTaskName>("""org.ex<caret>ample.ThingDoer""")
 
     fun testClassAsTasknameQuestionMark() =
-        doTestClassReference<TreeTaskName>("""org.ex<caret>ample.BarkTask ?""")
+        doTestClassReference<TreeTaskName>("""org.ex<caret>ample.BarkTask?""", expectedResult = false)
 
     fun testClassAsTaskNameInGuard1() =
         doTestClassReference<TreeTaskName>("""(org.ex<caret>ample.BarkTask) task""")
@@ -70,17 +67,17 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         doTestClassReference<TreeTaskName>("""(guard) (org.ex<caret>ample.KotlinBarkTask) task""")
 
     fun testClassAsTaskNameInGuardQuestionMark1() =
-        doTestClassReference<TreeTaskName>("""(org.example.Bark<caret>Task ?) task""")
+        doTestClassReference<TreeTaskName>("""(org.example.Bark<caret>Task?) task""", expectedResult = false)
 
     fun testClassAsTaskNameInGuardQuestionMark2() =
-        doTestClassReference<TreeTaskName>("""(org.ex<caret>ample.BarkTask?)""")
+        doTestClassReference<TreeTaskName>("""(org.ex<caret>ample.BarkTask?)""", expectedResult = false)
 
     fun testClassAsTaskNameInGuardQuestionMark3() =
-        doTestClassReference<TreeTaskName>("""(guard) (org.example.Ba<caret>rkTask?) task""")
+        doTestClassReference<TreeTaskName>("""(guard) (org.example.Ba<caret>rkTask?) task""", expectedResult = false)
 
     fun testDefaultAlias1() = doTestDefaultTaskReference("""inclu<caret>de""")
 
-    fun testDefaultAlias2() = doTestDefaultTaskReference("""(wai<caret>t?)""")
+    fun testDefaultAlias2() = doTestDefaultTaskReference("""(wai<caret>t?)""", expectedResult = false)
 
     fun testDefaultAlias3() = doTestDefaultTaskReference("""(Wai<caret>t?)""", false)
 
@@ -118,6 +115,41 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         import b:"" a:""
         <caret>a 
     """.trimIndent(), "a"
+    )
+
+    fun testImportNameQuestionMark1() = doTestImportNameReference(
+        """
+            import a?:""
+            <caret>a
+        """.trimIndent(), "a?", expectedResult = false
+    )
+
+    fun testImportNameQuestionMark2() = doTestImportNameReference(
+        """
+            import a?:""
+            <caret>a
+        """.trimIndent(), "a", expectedResult = false
+    )
+
+    fun testImportNameQuestionMark3() = doTestImportNameReference(
+        """
+            import a?:""
+            <caret>a?
+        """.trimIndent(), "a?"
+    )
+
+    fun testImportNameQuestionMark4() = doTestImportNameReference(
+        """
+            import b:"" a?:""
+            (b) (a<caret>?) b
+        """.trimIndent(), "a?"
+    )
+
+    fun testImportNameQuestionMark5() = doTestImportNameReference(
+        """
+            import a:"" a?:""
+            (b) (a<caret>?) b
+        """.trimIndent(), "a?"
     )
 
     fun testAttributeName1() = doTestAttributeNameReference(
@@ -182,6 +214,20 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         """.trimIndent()
     )
 
+    fun testSubtreeref3() = doTestSubtreeReference(
+        """
+            subtree name:"foo?"
+            $<caret>foo
+        """.trimIndent(), expectedResult = false
+    )
+
+    fun testSubtreeref4() = doTestSubtreeReference(
+        """
+            subtree name:"foo?"
+            $<caret>foo?
+        """.trimIndent()
+    )
+
     private fun doTestAttributeNameReference(text: String, expectedResult: Boolean = true) {
         myFixture.configureByText(TreeFileType, text)
         val element =
@@ -227,7 +273,10 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
         }.let { assertEquals(expectedResult, it) }
     }
 
-    private inline fun <reified Clazz : TreeElement> doTestClassReference(text: String) {
+    private inline fun <reified Clazz : TreeElement> doTestClassReference(
+        text: String,
+        expectedResult: Boolean = true
+    ) {
         myFixture.configureByText(TreeFileType, text)
         val element = file.findElementAt(myFixture.caretOffset)?.parentOfType<Clazz>(true) ?: throw AssertionError()
         element.references.filterIsInstance<JavaClassReference>().any { ref ->
@@ -235,7 +284,7 @@ class TestReferences : LibGDXCodeInsightFixtureTestCase() {
                 target is PsiClass && target.qualifiedName == ((element as? TreeString)?.getValue()
                     ?: (element as NavigationItem).name)
             }
-        }.let { assertTrue(it) }
+        }.let { assertEquals(expectedResult, it) }
     }
 
     override fun setUp() {

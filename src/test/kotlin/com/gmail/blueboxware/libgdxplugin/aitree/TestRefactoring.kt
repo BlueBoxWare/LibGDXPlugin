@@ -165,16 +165,54 @@ class TestRefactoring : LibGDXCodeInsightFixtureTestCase() {
         myFixture.checkResult(after)
     }
 
+    fun testRenameSubtreeQuestionMark() {
+        val before = $$"""
+            $foo?
+            subtree name:"fo<caret>o?"
+            (foo?) $foo?
+            ($foo?) foo? foo:"foo"
+        """.trimIndent()
+        val after = $$"""
+            $foo?
+            subtree name:"bar?"
+            (foo?) $bar?
+            ($bar?) foo? foo:"foo"
+        """.trimIndent()
+        configureByText(TreeFileType, before)
+        runCommand {
+            myFixture.renameElementAtCaretUsingHandler("bar?")
+        }
+        myFixture.checkResult(after)
+    }
+
     fun testRenameImport() {
         val before = $$"""
             u
             import t:"org.example.BarkTask" <caret>u:"com.example.BarkTask" v:"org.example.BarkTask"
-            (u) ($u) u
+            (u) ($u) (u?) u
         """.trimIndent()
         val after = $$"""
             u
             import t:"org.example.BarkTask" x:"com.example.BarkTask" v:"org.example.BarkTask"
-            (x) ($u) x
+            (x) ($u) (u?) x
+        """.trimIndent()
+        configureByText(TreeFileType, before)
+        runCommand {
+            myFixture.renameElementAtCaretUsingHandler("x")
+        }
+        myFixture.checkResult(after)
+    }
+
+    fun testRenameImportQuestionMark() {
+        val before = $$"""
+            u?
+            import t:"org.example.BarkTask" <caret>u?:"com.example.BarkTask" v:"org.example.BarkTask"
+            (u) ($u?) (u?) u?
+        """.trimIndent()
+        val after = $$"""
+            u?
+            import t:"org.example.BarkTask" x:"com.example.BarkTask" v:"org.example.BarkTask"
+            (u) ($u?) (x) x
         """.trimIndent()
         configureByText(TreeFileType, before)
         runCommand {

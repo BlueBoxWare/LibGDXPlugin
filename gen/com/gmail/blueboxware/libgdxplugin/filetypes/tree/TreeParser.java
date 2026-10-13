@@ -36,7 +36,7 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // attributeName QUESTION_MARK? COLON value
+  // attributeName COLON value
   public static boolean attribute(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "attribute")) return false;
     if (!nextTokenIs(builder_, ATTRNAME)) return false;
@@ -44,18 +44,10 @@ public class TreeParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_, level_, _NONE_, ATTRIBUTE, null);
     result_ = attributeName(builder_, level_ + 1);
     pinned_ = result_; // pin = 1
-    result_ = result_ && report_error_(builder_, attribute_1(builder_, level_ + 1));
-    result_ = pinned_ && report_error_(builder_, consumeToken(builder_, COLON)) && result_;
+    result_ = result_ && report_error_(builder_, consumeToken(builder_, COLON));
     result_ = pinned_ && value(builder_, level_ + 1) && result_;
     exit_section_(builder_, level_, marker_, result_, pinned_, null);
     return result_ || pinned_;
-  }
-
-  // QUESTION_MARK?
-  private static boolean attribute_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "attribute_1")) return false;
-    consumeToken(builder_, QUESTION_MARK);
-    return true;
   }
 
   /* ********************************************************** */
@@ -273,23 +265,15 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SUBTREEREFERENCE QUESTION_MARK?
+  // SUBTREEREFERENCE
   public static boolean subtreeref(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "subtreeref")) return false;
     if (!nextTokenIs(builder_, SUBTREEREFERENCE)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, SUBTREEREFERENCE);
-    result_ = result_ && subtreeref_1(builder_, level_ + 1);
     exit_section_(builder_, marker_, SUBTREEREF, result_);
     return result_;
-  }
-
-  // QUESTION_MARK?
-  private static boolean subtreeref_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "subtreeref_1")) return false;
-    consumeToken(builder_, QUESTION_MARK);
-    return true;
   }
 
   /* ********************************************************** */
@@ -327,33 +311,15 @@ public class TreeParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (TASK_NAME | <<parseMissingTaskName>>) QUESTION_MARK?
+  // TASK_NAME | <<parseMissingTaskName>>
   public static boolean taskname(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "taskname")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, TASKNAME, "<taskname>");
-    result_ = taskname_0(builder_, level_ + 1);
-    result_ = result_ && taskname_1(builder_, level_ + 1);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  // TASK_NAME | <<parseMissingTaskName>>
-  private static boolean taskname_0(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "taskname_0")) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, TASK_NAME);
     if (!result_) result_ = parseMissingTaskName(builder_, level_ + 1);
-    exit_section_(builder_, marker_, null, result_);
+    exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
-  }
-
-  // QUESTION_MARK?
-  private static boolean taskname_1(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "taskname_1")) return false;
-    consumeToken(builder_, QUESTION_MARK);
-    return true;
   }
 
   /* ********************************************************** */

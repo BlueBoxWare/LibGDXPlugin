@@ -20,9 +20,9 @@ TINDENT=[ \t]+
 NEWLINE=("\n" | "\r\n")
 SPACE=[ \t\r]+
 ID = [a-zA-Z_][a-zA-Z_0-9]*
-TASKNAME = {ID} ("." {ID})* ("$" {ID})*
-SUBTREEREFERENCE = "$" {ID}
-ATTRNAME = {ID}
+TASKNAME = {ID} ("." {ID})* ("$" {ID})* \??
+SUBTREEREFERENCE = "$" {ID} \??
+ATTRNAME = {ID} \??
 NUMBER = [0-9A-Fa-f._pPxXbBlL+InityN-]+
 COMMENT = "#" [^\n\r]*
 // TODO: Handle missing quote
@@ -86,7 +86,6 @@ NOT_AN_ATTRIBUTE=[ \t]*[^: \t]
 
     "("             { return TreeElementTypes.LPAREN; }
     ")"             { return TreeElementTypes.RPAREN; }
-    "?"             { return TreeElementTypes.QUESTION_MARK; }
 
     {COMMENT}       { return TreeElementTypes.COMMENT; }
 
@@ -102,7 +101,6 @@ NOT_AN_ATTRIBUTE=[ \t]*[^: \t]
 <ATTRIBUTES> {
 
     {ATTRNAME}      { return TreeElementTypes.ATTRNAME; }
-    "?"             { return TreeElementTypes.QUESTION_MARK; }
     ":"             { valueStarted = false; yybegin(VALUE); return TreeElementTypes.COLON; }
 
     {NEWLINE}       { yybegin(YYINITIAL); return TreeElementTypes.EOL; }
