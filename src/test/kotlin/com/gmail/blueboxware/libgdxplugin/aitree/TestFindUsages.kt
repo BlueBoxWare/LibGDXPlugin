@@ -28,6 +28,7 @@ import com.intellij.psi.search.ProjectAndLibrariesScope
 import com.intellij.psi.util.parentOfType
 import com.intellij.usages.Usage
 import com.intellij.usages.UsageInfo2UsageAdapter
+import com.intellij.util.concurrency.annotations.RequiresBlockingContext
 import org.jetbrains.kotlin.analysis.api.permissions.KaAllowAnalysisOnEdt
 import org.jetbrains.kotlin.analysis.api.permissions.allowAnalysisOnEdt
 
@@ -95,6 +96,8 @@ class TestFindUsages : LibGDXCodeInsightFixtureTestCase() {
 
     fun testKotlinClass() = doTestClass("org.example.KotlinBarkTask", 2)
 
+    @Suppress("UnstableApiUsage")
+    @RequiresBlockingContext
     fun testDefaultClass() {
         addAI()
         addLibGDX()

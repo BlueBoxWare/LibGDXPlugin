@@ -29,12 +29,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        gdxAI Behavior Trees:
         <ul>
-            <li>Inspections which warn about unknown classes and attributes</li>
-            <li>Folding support</li>
-            <li>Structure View</li>
-            <li>Improve formatting</li>
+            <li>Minimum IntelliJ version: 262.9437.185</li>
+            <li>gdxAI Behavior Trees: support for subtrees</li>
+            <li>gdxAI Behavior Trees: fix handling of question marks in task names</li>
+            <li>Misc. fixes</li>
         </ul>
         ]]>
     </change-notes>
@@ -1035,6 +1034,10 @@
         <!--endregion -->
 
 
+    </extensions>
+
+    <extensions defaultExtensionNs="org.jetbrains.kotlin">
+        <supportsKotlinPluginMode supportsK1="false" supportsK2="true"/>
     </extensions>
 
     <actions>

@@ -1,3 +1,9 @@
+### 1.30
+* Minimum IntelliJ version: 262.9437.185
+* gdxAI Behavior Trees: support for subtrees
+* gdxAI Behavior Trees: fix handling of question marks in task names
+* Misc. fixes
+
 ### 1.29
 gdxAI Behavior Trees:
 * Inspections which warn about unknown classes and attributes
